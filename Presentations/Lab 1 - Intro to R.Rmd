@@ -1,0 +1,799 @@
+---
+title: "R basics for Stata users"
+subtitle: "Field Coordinator Training - R Track"
+date: "June 2018"
+author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
+output:
+  beamer_presentation:
+    #theme: "Pittsburgh"
+    theme: "Madrid"
+    colortheme: "whale"
+    fonttheme: "default"
+    toc: true
+    includes:
+      in_header: header.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = F, eval=T}
+# Load the pacakge than contains ToothGrowth dataset
+library(datasets)
+
+# File paths
+
+if (Sys.getenv("USERNAME") == "WB501238"){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/R-Training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "Leonardo"){
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/R-Training"
+
+}
+
+if (Sys.getenv("USERNAME") == "WB519128"){
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/R-Training")
+}
+
+# File paths
+  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+
+  Data              <- file.path(dataWorkFolder,"DataSets")
+  finalData         <- file.path(Data,"Final")
+# Load CSV data
+lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
+                header = T)
+
+```
+
+
+# Introduction
+
+## Introduction
+
+These training sessions will offer a quick introduction to R, its amazing features and why it is so much better than Stata. 
+
+R is a powerful and flexible tool with a big and active community of users and developers that constantly posts in blogs and forums.
+
+
+## Introduction
+
+Why choose R over Stata?
+
+  * It is way cooler.
+  * It is less specialized:
+    + More flexibility when programming.
+    + Many other functionalities.
+  * Much broader network of users in general:
+    + Using google is a lot easier (you'll never want to see Statalist again in your life).
+    + Development of new features and bug fixes happens faster.
+  * It makes prettier graphs.
+
+## Introduction
+
+What are the possible disadvantages of R?
+
+  * Steeper learning curve (at least in the beginning).
+  * Stata is more specialized:
+    + Certain common tasks are simpler in Stata, especially when you're doing them for the first time in R.
+  * Stata has wider adoption among micro-econometricians.
+    + Network externalities in your work environment.
+    + Development of new specialized techniques and tools could happen faster (e.g. *ietoolkit*).
+
+## Introduction
+
+
+Here are some other advantages:
+
+* R is a free and open source software!
+
+* It allows you to have several data sets open simultaneously.
+
+* It can run complex Geographic Information System (GIS) analyses.
+
+* You can use it for web scrapping.
+
+* You can run machine learning algorithms with it.
+
+* You can create complex Markdown documents. This presentation, for example, is entirely done in RStudio.
+
+* You can create dashboards and online applications with the Shiny package.
+
+
+## Introduction
+
+This first session will present the basic concepts you will need to use R.
+
+The next sessions will include:
+
+* __Coding for reproducible research__ - Programming basics and best practices.
+* __Data processing__ - Data processing workflow and main functions.
+* __Descriptive analysis__ - Exploratory and publication tables.
+* __Data visualization__ - Exploratory and publication graphs.
+* __Spatial analysis__ - GIS basics in R.
+
+For the most recent versions of these trainings, visit the R-training GitHub repo at
+https://github.com/luizaandrade/R-Training
+
+# Getting started
+
+## Getting started
+
+This training requires that you have R installed in your computer:
+
+### Installation
+
+ * Please visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
+
+ * If you're in the US, you can directly visit the mirror at Berkley university at (https://cran.cnr.berkeley.edu).
+
+ * Although, not necessary, we also strongly suggest installing R studio. You can get it in (https://www.rstudio.com/), but you need to install R first.
+
+## Getting started
+
+### Exercise 1: Import data
+
+Let's start by loading the data set we'll be using:
+
+\begin{enumerate}
+  \item In RStudio, go to File > Import Dataset > From Text (Base) and open the \texttt{lwh\_clean.csv} file. Depending on your Rstudio version, it might be From CSV
+  \item The file should be in Session Materials/R Track/DataWork/DataSets/Final
+  \item Change the name to `lwh` on the import window
+\end{enumerate}
+
+## Getting started
+
+\begin{figure}
+\centering
+  \includegraphics[scale=0.45]{img/import_data1.png}
+\end{figure}
+
+## Getting started
+
+\begin{figure}
+\centering
+  \includegraphics[scale=0.25]{img/import_data3.png}
+\end{figure}
+
+# RStudio interface
+
+## RStudio interface
+
+```{r, out.width = "100%", echo=FALSE}
+knitr::include_graphics("img/interface2.png")
+#![](img/interface.png)
+```
+
+## RStudio interface
+
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/enviroment2.png}
+\end{figure}
+
+## RStudio interface
+
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/scritpt1.png}
+\end{figure}
+
+## RStudio interface
+
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/scritpt2.png}
+\end{figure}
+
+## RStudio interface
+
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/scritpt3.png}
+\end{figure}
+
+
+# Object-oriented language
+
+## Object-oriented language
+
+ * In Stata, you can open ONE dataset, and perform operations that can change this dataset.
+
+ * You can also have other objects, such as matrices, macros and tempfiles, but they are secondary, and most functions only use the main dataset.
+
+ * If you wish to do any non-permanent changes to your data, you'll need to preserve the original data to keep it intact.
+
+ * R works in a completely different way: you can have as many datasets (objects) as you wish (or your computer's memory allows) and operations will only have lasting effects if you store them.
+
+## Object-oriented language
+
+* Everything that exists in R's memory -- variables, datasets, functions -- is an object.
+
+* An object is a chunk of data stored in the memory that has a name by which you call it (exactly like macros in Stata).
+
+* If you create an object, it is going to be stored in memory until you delete it or quit R.
+
+* Whenever you run anything you intend to use in the future, you need to store it as an object.
+
+## Object-oriented language
+
+To better understand the idea, we're going to use the data from the Rwanda LWH project. First, let's take a look at the data.
+
+Type the following code to explore the data:
+```{r, include = T, results = "hide"}
+
+# We can use the function View() to browse the whole data
+View(lwh)
+
+# Alternatively we can print the first 5 obs. with head()
+head(lwh)
+
+```
+
+
+## Object-oriented language
+
+Now, let's try some simple manipulations. First, assume we're only interested in data of the year 2018.
+
+### Exercise 2: Subset the data 
+1. Subset the ``lwh`` data set, keeping only observations where variable `year` equals `2018`.
+
+```{r, eval=FALSE}
+# To do that we'll use the subset() function
+subset(lwh, year == 2018)
+
+```
+
+2. Then, look again at the first 5 observations
+```{r, include = T, results = "hide"}
+# Use the head() function again
+head(lwh)
+```
+
+## Object-oriented language
+\scriptsize
+
+```{r, eval = F}
+head(lwh)
+```
+
+```{r, echo = F}
+# Use the head() function again
+head(lwh[,1:15])
+```
+
+## Object-oriented language
+
+We can see that nothing happened to the original data. This happens because we didn't store the edit we made anywhere.
+
+### To store an object, we use the assignment operator (`<-`):
+
+```{r, include = T, results = "hide"}
+# Assign a value of the Answer to the Ultimate Question of
+# Life, the Universe, and Everything
+x <- 42
+```
+
+From now on, *x* is associated with the stored value (until you replace it delete it or close R).
+
+## Object-oriented language
+
+### Exercise 3: Create an object
+
+Create a new data set, called `lwh2018`, that is a subset of the ``lwh`` data set containing only data from the year 2018.
+
+```{r, include = T, results = "hide"}
+# Using the same function but now assigning it to an object
+lwh2018 <- subset(lwh, year == 2018)
+
+# Display the 5 first obs. of the new data
+head(lwh2018)
+
+# Notice that we still have the original data set intact
+head(lwh)
+
+```
+
+## Object-oriented language
+\scriptsize
+
+```{r, eval= F}
+head(lwh2018)
+```
+
+```{r, echo= F}
+# Use the head() function again
+head(lwh2018[,1:12])
+```
+
+
+
+<!-- ## Object-oriented language -->
+
+<!-- \begin{figure} -->
+<!-- \centering -->
+<!--   \includegraphics[scale=0.3]{img/enviroment_with_2.png} -->
+<!-- \end{figure} -->
+
+## Object-oriented language
+
+### Two an important concepts to take note:
+ 1. In R, if you want to change your data, you need to store it in an object. It is possible to simply replace the original data, but often, it's more practical to create a new dataset.
+
+ 2. Print (display) is built into R. If you execute an action and don't store it anywhere, R will simply print the results of that action but won't save anything in the memory.
+
+
+
+# R objects
+
+## R objects
+
+Objects can have different structures, that is, different ways to store data. Objects are the building blocks of R programming. You can create and manipulate them to explore your data and construct analytical outputs.
+
+There are several types of objects. Here are the ones we will cover:
+
+* __Vectors:__ an unidimensional object that stores a sequence of values
+* __Data frames:__ a combination of different vectors of the same length (the same as your data set in Stata)
+* __Lists:__ a multidimensional object that can store several objects of different dimension
+
+## R objects
+\framesubtitle{Vectors}
+
+A vector is an unidimensional object composed by one or more scalars of the same type.
+
+### Use the following code to create vectors in two different ways
+```{r}
+# Creating a vector with the c() function
+v1 <- c(1,1,2,3,5)
+
+# Alternative way to create an evenly spaced vector
+v2 <- 1:5
+
+```
+
+### You can use brackets for indexing
+```{r}
+# Print the 4th element of the vector
+v2[4]
+```
+
+## R objects
+\framesubtitle{Vectors}
+
+To R, each of the columns of `lwh` is a vector.
+
+### Calling a vector from a `data.frame` column
+We use the `$` to call vector (variables) by their names in a `data.frame`
+
+### Type the following code:
+```{r}
+# Create a vector with the values of `age_hhh` variable
+age_vec <- lwh$age_hhh
+
+# See the 13th element of the column
+lwh$age_hhh[67]
+
+```
+
+## R objects
+\framesubtitle{Data Frames}
+
+The `lwh` and `lwh2018` objects are both data frames. You can also construct a new data.frame from scratch by combining vectors.
+
+### Now, type the following code to create a new data frame
+```{r}
+# Dataframe created by biding vectors
+df1 <- data.frame(v1,v2)
+df1
+```
+
+## R objects
+\framesubtitle{Data Frames}
+
+Since a data frame has two dimensions, you can use indexing on both:
+
+### Numeric indexing
+```{r, eval = F}
+# The first column of lwh
+lwh[,1]
+
+# The 45th line of lwh
+lwh[45,]
+
+# Or the 45th element of the first line
+lwh[45,1]
+
+```
+
+## R objects
+\framesubtitle{Data Frames}
+
+Alternatively, you can use the column names for indexing, which is the same as using the `$` sign.
+
+### Names indexing
+```{r}
+# Or the 45th element of the hh_code column
+lwh[45,"hh_code"]
+```
+
+## R objects
+\framesubtitle{Data Frames}
+
+Lists are more complex objects that can contain many objects of different classes and dimensions.
+
+Lists are fancy and can have a lot of functionalities and attributes. They are the output of many functions and are used to construct complex objects.
+
+It would be beyond the scope of this introduction to go deep into them, but here's a quick example
+
+### Combine several objects of different types in a list
+```{r, include = T, results = "hide"}
+# Use the list() function
+lst <- list(v1, df1, 45)
+
+```
+Print the list yourself to see how it looks like.
+
+## R objects
+
+\framesubtitle{Lists}
+\scriptsize
+
+```{r}
+# Check the contents of lst
+print(lst)
+```
+
+
+# Basic types of data
+
+## Basic types of data
+
+R has different kinds of data that can be recorded inside objects. They are very similar to what you have in Stata, and the main types are string, integer, numeric, factor and boolean.
+
+Let's start with the simpler ones:
+
+### Strings
+A sequence of characters and are usually represented between double quotes. They can contain single letters, words, phrases or even some longer text.
+
+### Integer and numeric
+As in Stata, these are two different ways to store numbers. They are different because they use memory differently. As default, R stores numbers in the numeric format (double).
+
+
+## Basic types of data
+\framesubtitle{Strings}
+
+Now we'll use string data to practice some basic object manipulations in R.
+
+### Exercise 4: Create a vector of strings
+Create two string vector containing the names of commonly used statistical software in order of importance:
+```{r, include = T, results = "hide"}
+
+# Creating string vector
+str_vec <- c("R",
+             "Python",
+             "SAS",
+             "Microsoft Excel",
+             "Stata")
+```
+Now print them to check them out.
+
+
+## Basic types of data
+\framesubtitle{Strings}
+
+### Exercise 5: Concatenate strings
+ 1. Create a scalar (a vector of one element) containing the phrase "is better than" and cal it `str_scalar`.
+ 2. Use the function `paste()` with 3 arguments separated by commas:
+  + The first argument as the 1st element of `str_vec`.
+  + The second argument as the `str_scalar`.
+  + The third argument as the 5th element of `str_vec`.
+ 3. If you're not sure where to start, type:
+```{r, eval=FALSE}
+help(paste)
+```
+
+## Basic types of data
+\framesubtitle{Strings}
+
+```{r}
+### Using the paste function to combine strings
+
+# Scalar
+str_scalar <- "is better than"
+
+# Using the paste() function
+paste(str_vec[1], str_scalar, str_vec[5])
+```
+
+
+# Advanced types of data
+
+## Advanced types of data
+
+R also has other more complex ways of storing data. These are the most used:
+
+### Factors
+Factors are numeric categorical values with text label, equivalent to labelled variables in Stata. Turning strings into factors makes it easier to run different analyses on them and also uses less space in the memory, which is why data frames do that by default.
+
+### Booleans
+Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as values. They are automatically generated when performing logical operations
+
+## Advanced types of data
+\framesubtitle{Factors}
+
+You can see that in `lwh` the `wave`, `treatment_hh`, `treatment_site`, `site_code` and `gender_hhh` are factor variables. You can see in your enviroment panel the type of all your variables, and for factors the number of levels.
+
+<!-- ## Advanced types of data -->
+<!-- \framesubtitle{Factors} -->
+
+<!-- \begin{figure} -->
+<!-- \centering -->
+<!--   \includegraphics[scale=0.3]{img/factors.png} -->
+<!-- \end{figure} -->
+
+
+## Advanced types of data
+\framesubtitle{Factors}
+
+We'll learn how to deal with factors in detail on the next session, since they are very important for us. For now, here are two important things to keep in mind when using them:
+
+### Warning:
+Unlike Stata, in R
+
+  1. You use the labels to refer to factors
+  2. You cannot choose the underlying values
+
+
+## Advanced types of data
+\framesubtitle{Booleans}
+
+Boolean data is not normally used directly in data frames, but rather to express the results of a logical condition.
+
+### Exercise 6:
+Create boolean vector with the condition of annual income below average:
+```{r}
+# Create vector
+bool_vec <- (lwh$income_total_win < 
+               mean(lwh$income_total_win))
+
+# See the 5 first elements of the vector
+head(bool_vec)
+
+```
+
+## Advanced types of data
+\framesubtitle{Booleans}
+
+Let's use the boolean vector created to add a dummy variable in the `lwh` data set for the same condition.
+
+### Exercise 6:
+ 1. Create a column in `lwh` containing zeros and call it `income_low`. You can do this by typing:
+
+```{r,  eval = F}
+lwh$income_low <- 0
+```
+
+ 2. Use `bool_vec` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
+
+```{r,  eval = F}
+lwh$income_low[bool_vec] <- 1
+```
+
+## Advanced types of data
+\framesubtitle{Booleans}
+
+```{r}
+# Create column with zeros
+lwh$income_low <- 0
+
+# Replace with 1 those obs that meet the condition
+lwh$income_low[bool_vec] <- 1
+```
+
+```{r}
+# See the first 5. obs.
+head(lwh$income_low)
+
+```
+
+# Help, Google and Stackoverflow
+
+## Help, Google and Stackoverflow
+
+Help in R works very much like in Stata: the help files usually start with a brief description of the function, explain its syntax and arguments and list a few examples. There are two ways to access help files:
+
+
+### Exercise 7: Use help
+
+```{r, eval=FALSE}
+# The help() function
+help(summary)
+
+# and its abbreviation
+?summary
+
+```
+
+## Help, Google and Stackoverflow
+
+ * The biggest difference, however, is that R has a much wider user community and it has a lot more online resources.
+
+ * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550.[^4]
+
+ * The most powerful problem-solving tool in R, however, is Google. Searching the issue, you have or the error message displayed usually yields tons of results and will probably lead you to a Stack Overflow page where someone asked the same question and several people gave different answers.
+
+[^4]: Check http://r4stats.com/articles/popularity/ for more.
+
+# Useful resources
+
+## Useful resources
+
+\textcolor{myColor}{Blogs and online courses:}
+
+* Surviving graduate econometrics with R:
+https://thetarzan.wordpress.com/2011/05/24/surviving-graduate-econometrics-with-r-the-basics-1-of-8/
+
+* An Introduction to R at
+https://cran.r-project.org/
+
+* R programming in Coursera:
+https://www.coursera.org/learn/r-programming
+
+* Try R in Code School:
+http://tryr.codeschool.com/
+
+* R programming for dummies:
+http://www.dummies.com/programming/r/
+
+* R bloggers:
+https://www.r-bloggers.com/
+
+* R statistics blog:
+https://www.r-statistics.com/
+
+* The R graph gallery:
+https://www.r-graph-gallery.com/
+
+
+## Useful resources
+
+\textcolor{myColor}{Books:}
+
+* R for Stata Users - Robert A. Muenchen and Joseph Hilbe
+
+* R Graphics Cookbook - Winston Chang
+
+* R for Data Science - Hadley Wickha and Garrett Grolemund
+
+----
+
+\huge Thank you!
+
+# Appendix
+
+
+## Syntax
+
+R's syntax is a bit heavier than Stata's:
+
+ * Parentheses to separate function names from its arguments.
+ * Commas to separate arguments.
+ * For comments we use the `#` sign.
+ * You can have line breaks inside function statements.
+ * In R, functions can be treated much like any other object Therefore, they can be passed as arguments to other functions.
+
+Similarly to Stata:
+
+ * Square brackets are used for indexing.
+ * Curly braces are used for loops and if statements.
+ * Largely ignores white spaces.
+
+
+## RStudio interface
+
+### Script
+ Where you write your code. Just like a do file.
+
+### Console
+ Where your results and messages will be displayed. But you can also type commands directly into the console, as in Stata.
+
+### Environment
+ What's in R's memory.
+
+### The 4th pane
+ Can display different things, including plots you create, packages loaded and help files.
+
+
+## Matrices
+
+A matrix a bidimensional object composed by one or more vectors of the same type.
+
+### Type the following code to test two different ways of creating matrices
+```{r, include = T, results = "hide"}
+# Matrix created by joining two vectors:
+m1 <- cbind(v1,v1)
+
+# Matrix using the 
+m2 <- matrix(c(1,1,2,3,5,8), ncol = 2)
+
+```
+
+## Matrices
+
+### Now use the following code to check the elements of these matrices by indexing
+```{r, include = T, results = "hide"}
+# Matrix indexing: typing matrix[i,j] will give you
+# the element in the ith row and jth column of that matrix
+#m2[1,2]
+
+# Matrix indexing: typing matrix[i,] will give you the
+# ith row of that matrix
+m1[1,]
+
+# Matrix indexing: typing matrix[,j] will give you the
+# jth column of that matrix (as a vector)
+m1[,2]
+
+```
+
+## Advanced types of data - Factors
+\framesubtitle{Factors}
+
+
+### Create a factor verctor using the following code
+```{r, include = T, results = "hide"}
+# Basic factor vector
+num_vec <- c(1,2,2,3,1,2,3,3,1,2,3,3,1)
+fac_vec <- factor(num_vec)
+
+# A bit fancier factor vector
+fac_vec <- factor(num_vec,labels=c("A","B","C"))
+
+# Change labels
+levels(fac_vec) = c('One','Two','Three')
+
+```
+
+## Numbers and integers
+
+### Two scalars, one with a round number the other with a fractional part
+```{r}
+# a numeric scalar with an integer number
+int <- 13
+num <- 12.99
+```
+
+## Numbers and integers
+
+### Now we can see the objects classes with the *class()* function and test it with the *is.integer()* and *is.numeric()* functions.
+```{r}
+# you can see the number's format using the class function:
+class(int)
+class(num)
+
+# you can test the class with the is. method
+is.integer(int)
+is.numeric(int)
+```
+
+Did you notice anything strange? That happens because the default way R stores numbers is *numeric*, which is equivalent to *double* in Stata.
+
+## Numbers and integers
+\framesubtitle{Numbers and integers}
+
+We can, however, coerce objects into different classes. We just need to be carefull because the result might not be what we're expecting.
+
+### Use the *as.integer()* and *round()* functions on the *num* object to see the difference:
+```{r}
+as.integer(num)
+
+# and
+
+round(num)
+
+```
+
+

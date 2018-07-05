@@ -1,0 +1,17 @@
+*Data/*
+*.pdf
+*.do
+*.Rhistory
+*.xlsx
+*.log
+*.out
+*.snm
+*.nav
+*.tex
+*.toc
+*.md
+*.vrb
+*.aux
+*.png
+
+!Presentations/img/*
