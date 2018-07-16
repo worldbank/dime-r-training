@@ -20,24 +20,28 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, echo = F, eval=T}
 # Load the pacakge than contains ToothGrowth dataset
 library(datasets)
+library(readstata13)
+
 
 # File paths
 
 if (Sys.getenv("USERNAME") == "luiza"){
-  projectFolder  <- "C:/Users/luiza/Documents/GitHub/R-Training"
-  
+  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
+}
+
+if (Sys.getenv("USERNAME") == "WB501238"){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
 }
 
 if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/R-Training"
-  
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+
 }
 
 if (Sys.getenv("USERNAME") == "WB519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/R-Training")
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
-library(readstata13)
 # File paths
 dataWorkFolder    <- file.path(projectFolder,"DataWork")
 
