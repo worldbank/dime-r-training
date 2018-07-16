@@ -427,7 +427,8 @@ Create a new object, called ``lwh``, containing only the variables we selected f
   demographic_vars <- c("gender_hhh", "age_hhh", "num_dependents", "read_and_write")
   yield_vars       <- c("w_gross_yield_a", "w_gross_yield_b")
   food_vars        <- c("expend_food_yearly", "expend_food_lastweek", "wdds_score")
-  income_vars      <- names(panel)[28:37]
+  #income_vars      <- names(panel)[28:37]
+  income_vars      <- names(panel)[29:38]
   plot_area_vars   <- c("w_area_plots_a", "w_area_plots_b", "w_area_plots_c")
 
  # Subset data
