@@ -47,7 +47,7 @@ library(datasets)
 
   \begin{itemize}
     \item The exercises on this section will help us create a Master R script
-    \item To do them, go to the \textit{DataWork/Code} folder an open the file called \textit{Lab 2 - Coding for Reproducible Research.R}
+    \item To do them, go to the \textcolor{red}{Code} folder an open the file called \textit{Lab 2 - Coding for Reproducible Research.R}
   \end{itemize}
 
 ## Introduction
@@ -184,7 +184,7 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 * swirl - An interactive learning environment for R and statistics.
 * ggplot2 - beautiful and versatile graphics (the syntax is a pain, though)
 * stargazer - awesome latex regression and summary statistics tables
-* foreign - reads dtas and other formats from inferior statistical software
+* foreign - reads dtas and other formats from other statistical software
 * zoo - time series and panel data manipulation useful functions
 * data.table - some functions to deal with huge data sets
 * sp and rgeos - spatial analysis
@@ -349,7 +349,7 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 ## File paths
 
   * The next important part of a Master script are file paths
-  * We recommend always using **explicit** and **dynamic** file paths
+  * We suggest always using **explicit** and **dynamic** file paths
 
 ## File paths
 

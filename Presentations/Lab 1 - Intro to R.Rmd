@@ -54,7 +54,7 @@ lwh <- read.csv(file.path(finalData,"lwh_clean.csv"),
 
 ## Introduction
 
-These training sessions will offer a quick introduction to R, its amazing features and why it is so much better than Stata. 
+These training sessions will offer a quick introduction to R, its features and draw a comparisson with Stata. 
 
 R is a powerful and flexible tool with a big and active community of users and developers that constantly posts in blogs and forums.
 
@@ -109,11 +109,10 @@ This first session will present the basic concepts you will need to use R.
 
 The next sessions will include:
 
-* __Coding for reproducible research__ - Programming basics and best practices.
+* __Writing replicable code__ - Programming basics and best practices.
 * __Data processing__ - Data processing workflow and main functions.
-* __Descriptive analysis__ - Exploratory and publication tables.
-* __Data visualization__ - Exploratory and publication graphs.
-* __Spatial analysis__ - GIS basics in R.
+* __Descriptive analysis and data visualization__ - Exploratory and publication tables and graphs.
+* __Basic spatial analysis__ - GIS basics in R.
 
 For the most recent versions of these trainings, visit the R-training GitHub repo at
 https://github.com/luizaandrade/R-Training
@@ -140,7 +139,7 @@ Let's start by loading the data set we'll be using:
 
 \begin{enumerate}
   \item In RStudio, go to File > Import Dataset > From Text (Base) and open the \texttt{lwh\_clean.csv} file. Depending on your Rstudio version, it might be From CSV
-  \item The file should be in Session Materials/R Track/DataWork/DataSets/Final
+  \item The file should be in  \textcolor{red}{Session Materials/R Track/DataWork/DataSets/Final}
   \item Change the name to `lwh` on the import window
 \end{enumerate}
 

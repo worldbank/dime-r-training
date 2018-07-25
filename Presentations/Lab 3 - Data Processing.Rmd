@@ -70,11 +70,11 @@ rawData           <- file.path(Data,"Raw")
 
 Before we start, let's make sure we're all set:
 
-  \begin{enumerate}
-\item Make sure the packages \texttt{readstata13} and \texttt{dplyr} are listed in the \texttt{packages} vector of your Master script. If they are not installed (they should be!), install them.
-\item If you haven't yet in this session, run the Master script to load all the necessary packages and set file paths.
-\item Remeber to disable the \texttt{PACKAGES} switch in the Master if you already installed them. This will save you a lot of time.
-\item Open the script called \texttt{Lab 3} in DataWork > Code. We've provided you with some code to build upon that will save you some time during this session.
+\begin{enumerate}
+  \item Make sure the packages \texttt{readstata13} and \texttt{dplyr} are listed in the \texttt{packages} vector of your Master script. If they are not installed (they should be!), install them.
+  \item If you haven't yet in this session, run the Master script to load all the necessary packages and set file paths.
+  \item Remeber to disable the \texttt{PACKAGES} switch in the Master if you already installed them. This will save you a lot of time.
+  \item Open the script called \texttt{Lab 3} in \textcolor{red}{ DataWork > Code}. We've provided you with some code to build upon that will save you some time during this session.
 \end{enumerate}
 
 ## Introduction
@@ -116,7 +116,7 @@ Here's a shortcut if you missed the last session:
  * **file**: is the path to the file you want to open, including it's name and format (``.csv``)
  
 ### Exercise 1
-Load the ``lwh_panel.csv`` data set from DataWork > DataSets > Raw. Create an object called ``panel`` with this data set.
+Load the ``lwh_panel.csv`` data set from \textcolor{red}{DataWork > DataSets > Raw}. Create an object called ``panel`` with this data set.
 
  * TIP: use the ``file.path()`` function and the ``rawData`` object created in the master to simplify the folder path.
          
@@ -140,7 +140,7 @@ If you look at the ``Environment`` pane, you'll be able to see this data set. Cl
 ## Loading a data set from CSV
 
 * Note that R reads string variables as factors as default
-* This format saves memory, but can be tricky if you actually want to use the variables as strings (which is rarely the case)
+* This format saves memory, but can be tricky if you actually want to use the variables as strings
 * You can specify the option ``stringsAsFactors = FALSE`` to prevent R from turning strings into factors
 * You can also simply recast any variables you want to be strings (as they'll probably be just a few) using the ``as.character()`` function
 
@@ -150,7 +150,7 @@ If you look at the ``Environment`` pane, you'll be able to see this data set. Cl
 * This function takes exactly the same argument as the ``read.csv`` function
 
 ### Exercise 2
-Use the function ``read.dta13()`` to load the ``endline_data_raw.dta`` data set from DataWork > DataSets > Raw. Create an object called ``endline`` with this data set.
+Use the function ``read.dta13()`` to load the ``endline_data_raw.dta`` data set from \textcolor{red}{DataWork > DataSets > Raw}. Create an object called ``endline`` with this data set.
 
 
 ## Loading a Stata data set
@@ -619,16 +619,14 @@ Remove all of the raw income variables listed in the ``income_vars`` vector from
 
 ## Treating outliers
 
-* We all know outliers can bias analysis results
-* But most importantly, they make our plots ugly and out of scale
 * There are different ways to treat outliers and there's not a single best method for doing it
-* In the end, this is a research question and you should always discuss it with your PI before deciding what to do
-* The one thing you should never do is drop a whole observation from your data set because of an outlier in a single variable
-* There are a lot of 
+* In the end, this is an analysis question, it is good to avoid droping a whole observation from your data set because of an outlier in a single variable
 
 ## Winsorizing
 
 To winsorize a variable means to replace all observations with value above (or below) a given percentile by the value of that percentile, therefore capping the distribution of the resulting variable.
+
+There are a few different functions that perform winsorization in R, but we'll do it here by writing our own.
 
 As we've seen in session 2, you can create functions in R using a function called ``function()``. In the next slide, we'll give you some code to create a function that
 
@@ -701,7 +699,7 @@ Edit the ``winsor()`` function created earlier to create a new function that tri
 ## Saving a data set
 
 ### Exercise 17
-Save the ``lwh`` data set to DataWork > DataSets > Final.
+Save the ``lwh`` data set to \textcolor{red}{DataWork > DataSets > Final}.
 
 * TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
 

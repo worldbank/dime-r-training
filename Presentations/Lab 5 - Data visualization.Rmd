@@ -66,10 +66,6 @@ Before we start, let's make sure we're all set:
 \begin{enumerate}
 
   \item Make sure you the packages \texttt{ggplot2} and \texttt{plotly} are  installed and loaded.
-  
-  \begin{itemize}
-    \item Preferably, do this by adding them to \texttt{packages} vector of your Master script.
-  \end{itemize}
  
   \item Load the \texttt{lwh\_clean.csv} data set that were created in the last session.
     \begin{itemize}
@@ -104,14 +100,14 @@ Before we start, let's make sure we're all set:
 
 ## Introduction
 
-In our workflow there are usually two distinct uses for plots:
+There are usually two distinct uses for plots:
 
   \begin{enumerate}
     \item \textbf{Exploratory analysis:} Quickly visualize your data in an insightful way
       \begin{itemize}
         \item We'll do this using R's base plot, that allows you to quickly create some basic plots
       \end{itemize}
-    \item \textbf{Publication/Reporting:} Make pretty graphs for a presentation, a project report, or to just show your boss something other than the laziest graph you could come up with
+    \item \textbf{Publication/Reporting:} Make pretty graphs for a presentation, a report, a dashboard. or to just show your boss something other than the laziest graph you could come up with
       \begin{itemize}
         \item We'll do this using \texttt{ggplot}, a flexible and powerful tool to plot beautiful graphs
         \item \texttt{ggplot}'s syntax is more complicated, but it's easier to make your graphs look good with it
