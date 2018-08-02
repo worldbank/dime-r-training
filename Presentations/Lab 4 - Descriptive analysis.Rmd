@@ -135,19 +135,14 @@ First, let's load the data that is going to be used in the training. Paths shoul
   table(lwh$gender_hhh, lwh$year)
 ```
 
-
-# Descriptives tables
-
-## Descriptives tables
+## Quick summary statistics - Stargazer
 
 
  We can also use the \texttt{stargazer()} function to quickly display a nice-looking descriptives table.
 
   \textit{Stargazer} was originally developed to export beautiful regression tables to \LaTeX\ or html, but it also allows you to generate summary statistics.
 
- It can also be used to export any data frames you create to \LaTeX\ as a formatted table. To do that, you fist need to construct a data frame object combining vectors (of the same length) with the desired information.
- 
-## Descriptives tables
+## Quick summary statistics - Stargazer
 
  
 ### If you haven't yet done this in your master, install and load the ``stargazer`` package now!
@@ -163,7 +158,7 @@ First, let's load the data that is going to be used in the training. Paths shoul
 ```
 
 
-## Descriptives tables
+## Quick summary statistics - Stargazer
 
 \begin{block}{Exercise 3 - \texttt{stargazer()} summary statistics table}
   Use the \texttt{stargazer()} function  to display summary statistics for the variables in the \textit{lwh} data frame.
@@ -176,8 +171,8 @@ First, let's load the data that is going to be used in the training. Paths shoul
     \item \textbf{digits:} the number of decimal digits to be displayed
   \end{itemize}
 
-## Descriptives tables
-\tiny
+## Quick summary statistics - Stargazer
+  \tiny
 
 ```{r, eval = F}
 # A descriptive table with stargazer
@@ -196,12 +191,38 @@ stargazer(lwh[1:15],
 
 ```
 
-# Descriptives tables - Create tables from scratch
+# Descriptives tables
 
-## Descriptives tables - Create tables from scratch
+## Descriptives tables
 
 
-In R, it is relatively easy to construct any table you can think of by manipulating objects. To construct a table from scratch, we will use two functions:
+In R, it is relatively easy to construct any table you can think of by manipulating objects. You can either export an existing data frame or create others taylored to be exported.
+
+Than, it is possible to export them to a myriad of formats. Here, we will focus on exporting tables to Microsoft Excel.
+
+But we'll start by showing a few usefull ways to maniipulate data into exportable formats.
+
+## Descriptives tables
+\scriptsize
+
+```{r}
+t(
+  sapply(mtcars, 
+         function(x) {
+           data.frame(N=length(x), 
+                      Mean=mean(x), 
+                      StandDev=sd(x), 
+                      Min=min(x), 
+                      Max=max(x))
+           }
+         )
+  )
+```
+
+## Descriptives tables
+
+
+To construct a table from scratch, we will use two functions:
 
  * `aggregate()` - Similar to collapse in Stata, it can compute statistics of a variable based on the values of other variable
  * `reshape()` - Reshapes data sets from long to wide and vice-versa
@@ -376,13 +397,3 @@ write.table(year_inc_tab,
 
   * Jake Russ stargazer cheat sheet:
   https://www.jakeruss.com/cheatsheets/stargazer/
-
-## References and recommendations
-
-  Since we talked about \LaTeX\ so much...
-
-  * DIME \LaTeX\ templates and trainings:
-  https://github.com/worldbank/DIME-LaTeX-Templates
-
-  * All you need to know about \LaTeX\:
-  https://en.wikibooks.org/wiki/LaTeX
