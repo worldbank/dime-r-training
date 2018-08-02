@@ -378,6 +378,41 @@ lwh$age_hhh[67]
 ```
 
 ## R objects
+\framesubtitle{Matrices}
+
+A matrix a bidimensional object composed by one or more vectors of the same type.
+
+### Type the following code to test two different ways of creating matrices
+```{r, include = T, results = "hide"}
+# Matrix created by joining two vectors:
+m1 <- cbind(v1,v1)
+
+# Matrix using the 
+m2 <- matrix(c(1,1,2,3,5,8), ncol = 2)
+
+```
+
+## R objects
+\framesubtitle{Matrices}
+
+### Now use the following code to check the elements of these matrices by indexing
+```{r, include = T, results = "hide"}
+# Matrix indexing: typing matrix[i,j] will give you
+# the element in the ith row and jth column of that matrix
+#m2[1,2]
+
+# Matrix indexing: typing matrix[i,] will give you the
+# ith row of that matrix
+m1[1,]
+
+# Matrix indexing: typing matrix[,j] will give you the
+# jth column of that matrix (as a vector)
+m1[,2]
+
+```
+
+
+## R objects
 \framesubtitle{Data Frames}
 
 The `lwh` and `lwh2018` objects are both data frames. You can also construct a new data.frame from scratch by combining vectors.
@@ -706,37 +741,6 @@ Similarly to Stata:
  Can display different things, including plots you create, packages loaded and help files.
 
 
-## Matrices
-
-A matrix a bidimensional object composed by one or more vectors of the same type.
-
-### Type the following code to test two different ways of creating matrices
-```{r, include = T, results = "hide"}
-# Matrix created by joining two vectors:
-m1 <- cbind(v1,v1)
-
-# Matrix using the 
-m2 <- matrix(c(1,1,2,3,5,8), ncol = 2)
-
-```
-
-## Matrices
-
-### Now use the following code to check the elements of these matrices by indexing
-```{r, include = T, results = "hide"}
-# Matrix indexing: typing matrix[i,j] will give you
-# the element in the ith row and jth column of that matrix
-#m2[1,2]
-
-# Matrix indexing: typing matrix[i,] will give you the
-# ith row of that matrix
-m1[1,]
-
-# Matrix indexing: typing matrix[,j] will give you the
-# jth column of that matrix (as a vector)
-m1[,2]
-
-```
 
 ## Advanced types of data - Factors
 \framesubtitle{Factors}
