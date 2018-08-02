@@ -74,9 +74,6 @@
   Code              <- file.path(projectFolder,"Code")
   Doc               <- file.path(projectFolder,"Documentation")
   Output            <- file.path(projectFolder,"Output")
-  rawOutput         <- file.path(Output,"Raw")
-  finalOutput       <- file.path(Output,"Final")
-
  
 
 # PART 4: Run selected sections -----------------------------------------------
