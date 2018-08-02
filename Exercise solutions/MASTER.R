@@ -58,9 +58,9 @@
   
   # Add your username and folder path here (for Windows computers)
   # To find out what your username is, type Sys.getenv("USERNAME")
-  if (Sys.getenv("USERNAME") == "luiza") {
+  if (Sys.getenv("USERNAME") == "Leonardo") {
     
-    projectFolder  <- "C:/Users/luiza/Documents/GitHub/R-Training"
+    projectFolder  <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training"
     
   }
   
@@ -68,14 +68,12 @@
   # Project subfolders #
   #--------------------#
 
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-  Data              <- file.path(dataWorkFolder,"DataSets")
+  Data              <- file.path(projectFolder,"DataSets")
   rawData           <- file.path(Data,"Raw")
-  intData           <- file.path(Data,"Intermediate")
   finalData         <- file.path(Data,"Final")
-  Code              <- file.path(dataWorkFolder,"Code")
-  Doc               <- file.path(dataWorkFolder,"Documentation")
-  Output            <- file.path(dataWorkFolder,"Output")
+  Code              <- file.path(projectFolder,"Code")
+  Doc               <- file.path(projectFolder,"Documentation")
+  Output            <- file.path(projectFolder,"Output")
   rawOutput         <- file.path(Output,"Raw")
   finalOutput       <- file.path(Output,"Final")
 
