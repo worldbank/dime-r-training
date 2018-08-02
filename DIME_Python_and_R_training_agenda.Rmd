@@ -1,0 +1,57 @@
+---
+title: "DIME R & Pyhton training NISR"
+subtitle: "Agenda and instructions"
+output: pdf_document
+header-includes:
+ - \usepackage{float}
+ - \usepackage{colortbl}
+ - \definecolor{myColor}{rgb}{.05,.58,.71}
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The training will take place in World Bank Country office in Kigali, meeting room on 2nd floor, between the days of August 6th and 10th. 
+
+\textbf{We kindly ask all participants to bring a laptop with all the necessary software installed.}. Please, follow the instructions bellow to install them.
+
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{|m{2.8cm}| m{1cm}| m{8cm}|}
+  \hline
+  \rowcolor{myColor}
+  \multicolumn{1}{|c|}{\textcolor{white}{\textbf{Day}}}   &       \multicolumn{1}{|c|}{\textcolor{white}{\textbf{Software}}}  & \multicolumn{1}{|c|}{\textcolor{white}{\textbf{Session}}} \\
+  Day 1 - morning   & R       & Introduction to R for Stata users.   \\ \hline
+  Day 1 - afternoon & R       & Writing replicable code  \\ \hline
+  Day 2 - morning   & R       & Data processing   \\ \hline
+  Day 2 - afternoon & R       & Descriptive analysis and data visualization   \\ \hline
+  Day 3 - morning   & R       & Basic Visualizing Geo-spatial data   \\ \hline
+  Day 4 - afternoon & R       & Troubleshooting and questions  \\ \hline
+  Day 4 - full day  & Python  & We will use Jupyter Notebook to learn the basics of Python and also the use of Python to do data work. \\ \hline
+  Day 5 - morning   & Python  & APIs with Python Once everyone is a little comfortable with Python, we will start using API to get data, and to explore data in Python.  \\ \hline
+  Day 5 - afternoon & Python  & Reproducible research with Python. How to write reproducible code with Python and also integration of Python with Github.  \\ \hline
+  \end{tabular}
+\end{table}
+
+
+## R installation instructions
+
+The training will use RStudio, which depends on R to run, so you'll  need to install both.
+
+  1. Download and install R from https://cran.r-project.org/
+  2. Download and install RStudio from https://www.rstudio.com/products/rstudio/download/
+  
+Both softwares are free and opensource!  
+
+## Python installation instructions
+
+For the training, we will use Python 2.7 along with 2 softwares called Spyder and Jupyter Notebook. Both of them are open source and available under the Anaconda package for Windows
+
+  1. Go to https://www.anaconda.com/download/ and download the Anaconda version for your computer. Download from the button that says Python2.7 version
+  2. Please choose the right version for your computer i.e. 64-bit for 64 bit sys-tems and 32 bit for 32 bit systems. If you press the green button, it should automatically start downloading the right version for your computer.
+  3. Detailed installation steps are outlined here:https://docs.anaconda.com/anaconda/install/windows DO NOT install it as Administrator unless they ask for it.
+
