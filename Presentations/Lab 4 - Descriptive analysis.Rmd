@@ -20,6 +20,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, echo = F, eval=T, include=FALSE}
 library(stargazer)
+library(openxlsx)
+
 
 if (Sys.getenv("USERNAME") == "luiza"){
   projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
@@ -30,7 +32,7 @@ if (Sys.getenv("USERNAME") == "WB501238"){
 }
 
 if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+  projectFolder  <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training"
 
 }
 
@@ -39,11 +41,13 @@ if (Sys.getenv("USERNAME") == "WB519128"){
 }
 
   # File paths
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-
-  Data              <- file.path(dataWorkFolder,"DataSets")
+  Data              <- file.path(projectFolder,"Data")
+  rawData           <- file.path(Data,"Raw")
   finalData         <- file.path(Data,"Final")
-  rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
+  Code              <- file.path(projectFolder,"Code")
+  Doc               <- file.path(projectFolder,"Documentation")
+  Output            <- file.path(projectFolder,"Output")
+ 
 
   # Load CSV data
   lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
@@ -70,7 +74,7 @@ This session will cover two topics:
 
 ## Introduction
 
-First, let's load the data that is going to be used in the training. Paths should be set in your master file!
+First, let's load the data that is going to be used in the training. 
 
 #### Load the data
 ```{r, include = T, results = "hide", eval = F}
@@ -202,32 +206,141 @@ Than, it is possible to export them to a myriad of formats. Here, we will focus 
 
 But we'll start by showing a few usefull ways to maniipulate data into exportable formats.
 
+
+## Descriptives tables
+
+First, we'll construct a table by creating a data.frame 
+To construct a table from scratch, we will use two functions:
+
+ - `sapply():` loops through the elements of an object applying a function
+ - `data.frame():` creates a data frame object by combining vectors.
+
+
+## Descriptives tables - sapply()
+
+  ``sapply(X, FUN, ...)``: applies a function to all elements of an object and returns the result in a vector or matrix. Its arguments are:
+  
+ * *X:* a matrix (or data frame) the function will be applied to
+ * *FUN:* the function you want to apply
+ * **...:** possible function options
+
+## Descriptives tables - data.frame()
+
+ `data.frame(varName1 = vector1, varName2 = vector2, ...)`: The function `data.frame()` creates data frames, tightly coupled collections of variables which share many of the properties of matrices and of lists, used as the fundamental data structure by most of R's modeling software.
+ 
+ * *varName1:* first column name
+ * *vector1:* vector that will be first column 
+ * *varName2:*: second column name
+ * *vector2:* vector that will be second column 
+ 
+ \hspace{.3cm} . 
+ 
+ \hspace{.3cm} .
+ 
+ \hspace{.3cm} .
+
+
+## Descriptives tables
+
+Before doing an exercise, lets create a simpler version of the lwh data containg fewer columns:
+
+
+```{r}
+# Vector with covariates to be kept
+covariates <- c("age_hhh",
+                "num_dependents",
+                "income_total_win",
+                "expend_food_yearly")
+
+# subset lwh
+lwh_simp <- lwh[, covariates]
+
+```
+
+
+## Descriptives tables
+
+### Exercise 4
+
+ 1. Use the \texttt{sapply()} function to create a vector of means for the columns of the \textit{lwh\_simp} data frame.
+
+ 2. Create vectors with standard deviations, maximum value, minimum value for the same columns.
+    - TIP: set the `na.rm` argument as `TRUE`
+ 
+ 3. Use the \texttt{data.frame()} function to combine all 4 vectors chosing column names.
+
 ## Descriptives tables
 \scriptsize
 
 ```{r}
-t(
-  sapply(mtcars, 
-         function(x) {
-           data.frame(N=length(x), 
-                      Mean=mean(x), 
-                      StandDev=sd(x), 
-                      Min=min(x), 
-                      Max=max(x))
-           }
-         )
-  )
+# Create vectors containing descriptives
+  meanVec <- sapply(lwh_simp, mean, na.rm = T)
+  sdVec <- sapply(lwh_simp, sd, na.rm = T)
+  maxVec <- sapply(lwh_simp, max, na.rm = T)
+  minVec <- sapply(lwh_simp, min, na.rm = T)
+  
+  # Combine all created vectors into a dataframe
+  lwh_desc <- data.frame( Mean = meanVec,
+                          StdDev = sdVec,
+                          Max = maxVec,
+                          Min = minVec)
+  lwh_desc
+  
 ```
 
 ## Descriptives tables
 
+### Exercise 4 (Challenge/Bonus)
 
-To construct a table from scratch, we will use two functions:
+ 1. Now instead of using the `sapply()` function 4 times, use it only once.
+ 2. You can do this by definining your on function inside the `FUN` argument. Like this:
+```{r, eval = F}
+ FUN = function(x) { ... anythingYouLikeWith(x) ... }
+```
+ 3. Finally, transpose the result to make it nicer with the function `t()`
+
+
+## Descriptives tables
+\scriptsize
+
+```{r}
+lwh_desc2 <- 
+  t(
+    sapply(lwh_simp, 
+           function(x) {
+             data.frame(N=sum(!is.na(x)),  # Number of non missings
+                        Mean=mean(x, na.rm = T), 
+                        StandDev=sd(x, na.rm = T), 
+                        Min=min(x, na.rm = T), 
+                        Max=max(x, na.rm = T))
+             }
+           )
+    )
+
+lwh_desc2
+```
+
+## Descriptives tables
+\scriptsize
+
+One thing to notice is that the `lwh_desc2` object is not a data frame, but a matrix. The `sapply()` function outputs vectors or matrices. 
+
+```{r}
+class(lwh_desc2)
+row.names(lwh_desc2)
+colnames(lwh_desc2)
+```
+
+## Descriptives tables
+
+The `data.frame()` function is not the only way of creating data frames. There are several other functions that can process existing objects and output a data frame object.
+
+For the next exercises, we'll use two of them:
 
  * `aggregate()` - Similar to collapse in Stata, it can compute statistics of a variable based on the values of other variable
  * `reshape()` - Reshapes data sets from long to wide and vice-versa
 
-## Descriptives tables - Create tables from scratch
+## Descriptives tables - aggregate()
 
 `aggregate(X, by, FUN)`:
 
@@ -235,7 +348,7 @@ To construct a table from scratch, we will use two functions:
  * __by__: a list of grouping variables
  * __FUN__: a function to compute statistics
 
-## Descriptives tables - Create tables from scratch
+## Descriptives tables - aggregate()
 
 \begin{block}{Exercise 5}
  Use the \texttt{aggregate} function to create a data frame called \texttt{year\_inc\_tab} with the mean of the total income per year and treatment status. The syntax of the \texttt{aggregate} function is very similar to that of the \texttt{collapse} function in Stata.
@@ -252,7 +365,7 @@ year_inc_tab <-
 
 Note that the ``income_total_win`` variable is now named ``x`` in the ``income`` data frame
 
-## Descriptives tables - Create tables from scratch
+## Descriptives tables - aggregate()
 \scriptsize
 
 ```{r}
@@ -260,7 +373,7 @@ print(year_inc_tab)
 
 ```
 
-## Descriptives tables - Create tables from scratch
+## Descriptives tables - reshape()
 
 `reshape(data, varying, idvar, timevar, direction)`:
 
@@ -268,7 +381,7 @@ print(year_inc_tab)
  * __idvar__: the variables that identify the group in the wide data set
  * __timevar__: the variable in long format that differentiates multiple records from the same group or individual
 
-## Descriptives tables - Create tables from scratch
+## Descriptives tables - reshape()
 
 \begin{block}{Exercise 6}
  Use the \texttt{reshape} function to make the \texttt{year\_inc\_tab} data frame wide per treatment status.
@@ -285,10 +398,10 @@ year_inc_tab <- reshape(year_inc_tab,
 
 For comparison, here's how you'd do it in Stata:
 
-``reshape wide x, i(year) j(treatment_hh)``
+``reshape wide x, i(year) j(treatment)``
 
 
-## Descriptives tables - Create tables from scratch
+## Descriptives tables - reshape()
 \scriptsize
 
 ```{r}
@@ -296,85 +409,92 @@ print(year_inc_tab)
 
 ```
 
-## Descriptives tables - Create tables from scratch
-
-
-With a data frame as input, `stargazer` by default tries to summarize it. So, to export this table we must specify one additional argument: `summary = F`.
-
-### Exercise 7
-Print the ``year_inc_tab`` table you created in exercise 6 using ``stargazer``. If you want, you can also save it using the ``out`` option.
-
-
-## Descriptives tables - Create tables from scratch
-
+## Descriptives tables - names()
 \scriptsize
 
-```{r, results='asis'}
-# Label variables
-column_lab <- c("Treatment status", "2012", "2013", "2014", "2016", "2018")
+Before exporting a data frame, it is often usefull to rename its columns. This can be done using the `names()` function.
 
-# Create table
-stargazer(year_inc_tab,
-          summary = F,
-          # Some extra formatting:
-          covariate.labels = column_lab,
-          title = "Total income by treatment status and year",
-          header = F,
-          digits = 1,
-          rownames = F)
+The names function retrieves the column names of a data frame as a vector
+
+```{r}
+names(lwh_simp)
 ```
 
+But it can also be used to relaplace the existing names attribute with a new vector. Like this
+
+```{r, eval = F}
+names(lwh_simp) <- newNamesVector
+```
+
+
+## Descriptives tables - names()
+
+\begin{block}{Exercise 6}
+ Now, use the \texttt{names()} function to rename the columns of \texttt{year\_inc\_tab}.
+\end{block}
+
+## Descriptives tables - names()
+\scriptsize
+
+```{r}
+  names(year_inc_tab) <- c("Treatment Status", 2012, 2013, 2014, 2016, 2018)
+```
 
 # Export tables to Excel
 
 ## Export tables to Excel
 
+There are several ways to export R objects to Excel. We will use here the the `write.xslx()` function of the `openxlsx` package.
 
-To export a table to excel we'll use the `write.table()` function. It takes a data frame object as input and saves it as a ``.csv`` file
+ It takes a matrix or data frame object as input and saves it as a ``.xlsx`` file
 
-`write.table()` is the most basic function, but there are many other functions that allow you to export formatted tables to Microsoft Excel, Word or PowerPoint. Here are some examples:
+`write.xslx()` is one of the most commun functions, but there are many other functions that allow you to export formatted tables to Microsoft Excel, Word or PowerPoint. Here are some examples:
 
   * ReporteRs
   * Flextable
   * r2excel (only available in GitHub).
 
+
 ## Export tables to Excel
 
-`write.table(x, file = "", sep = " ", row.names = TRUE)`
+First, install and load the `openxlsx` package:
 
+``` {r, eval = F}
+  install.packages("openxlsx", dep = T)
+  library(openxlsx)
+
+```
+
+## Export tables to Excel
+
+  `write.xlsx(x, file, row.names = TRUE, col.names ...)` 
+  
  * __x__:	the object to be written
  * __file__: where to save the table, i.e., the file path including the file name
- * __sep__: the field separator of the csv, Excel's default is comma
- * __row.names__: either a logical value indicating whether the row names of x are to be written along with x, or a character vector of row names to be written
- * __row.names__: same as `row.names` for columns
+ * __row.names__: a logical value indicating whether the row names of x are to be written along with x
 
 ## Export tables to Excel
 
 ### Exercise 8
 
-Use the `write.table()` function to save the `year_inc_tab` you table created in Exercise 6 into a csv file.
+Use the `write.xlsx()` function to save the `year_inc_tab` you table created in Exercise 6 into a xlsx file.
 
 1. Set `x` arugment as *year_inc_tab*.
 2. Set `row.names` as `FALSE`
-3. Set `col.names` as a vector of labels
-4. Set `file` as the folder path to your output folder plus a name for a file plus ".csv"
-5. Set `sep` as `","`.
+4. Set `file` as the folder path to your output folder plus a name for a file plus ".xlsx"
 
  Tips:
 
-  * Make sure to save it in the *Raw Ouput* folder. You can you the function ``file.path`` to do it
+  * Make sure to save it in the *Ouput* folder. You can you the function ``file.path`` to do it
   * Use the help function to check syntax if needed
 
 ## Export tables to Excel
 \scriptsize
 
-```{r, include = T, eval = T}
-write.table(year_inc_tab,
-            sep = ",",
-            row.names = F,
-            col.names = c("Treatment status",
-                          "2012", "2013", "2014", "2016", "2018"),
-            file = file.path(rawOutput, "year_inc_tab.csv"))
+```{r, include = T, eval = F}
+  write.xlsx(year_inc_tab,
+              file = file.path(Output, "year_inc_tab.xlsx"),
+              row.names = F)
 
 ```
 

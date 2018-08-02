@@ -68,7 +68,7 @@
   # Project subfolders #
   #--------------------#
 
-  Data              <- file.path(projectFolder,"DataSets")
+  Data              <- file.path(projectFolder,"Data")
   rawData           <- file.path(Data,"Raw")
   finalData         <- file.path(Data,"Final")
   Code              <- file.path(projectFolder,"Code")

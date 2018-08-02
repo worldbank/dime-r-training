@@ -36,7 +36,7 @@
             digits = 1,
             type = "text")
   
-# EXERCISE 4: Export tables to LaTeX --------------------------------------------
+# EXERCISE 4:  ------------------------------------------------------------------
   
   # Vector with covariates to be kept
   covariates <- c("age_hhh",
@@ -46,16 +46,33 @@
   # subset lwh
   lwh_simp <- lwh[, covariates]
   
-  # Set labels
-  cov_labels <- c("Age of household head", "Number of dependents",
-                  "Anual income (winsorized)", "Yearly food expediture")
-  # Save table to latex
-  stargazer(lwh_simp,
-            covariate.labels = cov_labels,
-            summary.stat = c("n", "mean", "sd", "min", "max"),
-            digits = 1,
-            out = file.path(rawOutput,"desc_table.tex"))
+  # Create vectors containing descriptives
+  meanVec <- sapply(lwh_simp, mean, na.rm = T)
+  sdVec <- sapply(lwh_simp, sd, na.rm = T)
+  maxVec <- sapply(lwh_simp, max, na.rm = T)
+  minVec <- sapply(lwh_simp, min, na.rm = T)
   
+  # Combine all created vectors into a dataframe
+  lwh_desc <- data.frame( Mean = meanVec,
+                          StdDev = sdVec,
+                          Max = maxVec,
+                          Min = minVec)
+  
+  
+# EXERCISE 4 (BONUS): :  --------------------------------------------------------
+  
+  
+  t(
+    sapply(lwh_simp, 
+           function(x) {
+             data.frame(N=sum(!is.na(x)), 
+                        Mean= round(mean(x, na.rm = T), 2), 
+                        StandDev= round(sd(x, na.rm = T), 2), 
+                        Min= round(min(x, na.rm = T), 2), 
+                        Max= round(max(x, na.rm = T), 2))
+           }
+    )
+  )
   
 # EXERCISE 5: Aggregate ---------------------------------------------------------
   
@@ -75,46 +92,12 @@
                           timevar = "year",
                           direction = "wide")
   
-# EXERCISE 7: Create table from scratch -----------------------------------------
-  
-  # Label variables
-  column_lab <- c("Treatment status", "2012", "2013", "2014", "2016", "2018")
-  # Create table
-  stargazer(year_inc_tab,
-            summary = F,
-            # Some extra formatting:
-            covariate.labels = column_lab,
-            title = "Total income by treatment status and year",
-            header = F,
-            digits = 1,
-            rownames = F)
-  
+# EXERCISE 7: Names -------------------------------------------------------------
+  names(year_inc_tab) <- c("Treatment Status", 2012, 2013, 2014, 2016, 2018)
   
 # EXERCISE 8: Export table to Excel ---------------------------------------------
   
-  write.table(year_inc_tab,
-              sep = ",",
-              row.names = F,
-              col.names = c("Treatment status",
-                            "2012", "2013", "2014", "2016", "2018"),
-              file = file.path(rawOutput, "year_inc_tab.csv"))
+  write.xlsx(year_inc_tab,
+              file = file.path(Output, "year_inc_tab.xlsx"),
+              row.names = F)
   
-# BONUS: Export a regression table ----------------------------------------------
-  
-  # Run a Regression
-  reg1 <- lm(expend_food_yearly ~
-               income_total_win + num_dependents,
-             data = lwh)
-  
-  # Set labels
-  depvar_label <- "Yearly food expenditure (winsorized)"
-  covar_labels <- c("Total income (winsorized)",
-                    "Number of dependents")
-  
-  # Export regression table
-  stargazer(reg1,
-            title = "Regression table",
-            dep.var.labels = depvar_label,
-            covar_labels = covar_labels,
-            digits = 2,
-            header = F)
