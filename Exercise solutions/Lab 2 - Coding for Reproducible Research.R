@@ -35,7 +35,7 @@
                  "doBy", "broom", "dplyr",
                  "stargazer",
                  "ggplot2", "plotly", "ggrepel",
-                 "RColorBrewer",
+                 "RColorBrewer", "wesanderson",
                  "sp", "rgdal", "rgeos", "raster", "velox",
                  "ggmap", "rasterVis", "leaflet",
                  "htmlwidgets", "geosphere")

@@ -18,17 +18,16 @@
   #------------------------------------------------------------------------------#
   #### 2. Load packages ####
   
-  library(datasets)
-  library(readstata13)
-  library(ggplot2)
-  library(stargazer)
+  packages  <- c("readstata13","foreign",
+                 "doBy", "broom", "dplyr",
+                 "stargazer",
+                 "ggplot2", "plotly", "ggrepel",
+                 "RColorBrewer", "wesanderson",
+                 "sp", "rgdal", "rgeos", "raster", "velox",
+                 "ggmap", "rasterVis", "leaflet",
+                 "htmlwidgets", "geosphere")
   
-  # Spatial
-  library(sp)
-  library(rgdal)
-  library(rgeos)
-  library(raster)
-  library(ggmap)
+  invisible(sapply(packages, library, character.only = TRUE))
   
   
   
@@ -37,25 +36,15 @@
   
   # Macro paths
   if (Sys.getenv("USERNAME") == "luiza"){
-    # projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-    # Data           <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training/Data"  }
+    projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
+    Data           <- "C:/Users/luiza/Dropbox/WB/NISR R Training/Data"
   }
     
-  if (Sys.getenv("USERNAME") == "WB501238"){
-    # projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-    # Data           <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training/Data"  \
-    }
-  
   if (Sys.getenv("USERNAME") == "Leonardo"){
     projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
     Data           <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training/Data"
   }
-  
-  if (Sys.getenv("USERNAME") == "WB519128"){
-    # projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-    # Data           <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training/Data"
-    }  
-    
+
   # Micro paths
   rawData           <- file.path(Data,"Raw")
   finalData         <- file.path(Data,"Final")
