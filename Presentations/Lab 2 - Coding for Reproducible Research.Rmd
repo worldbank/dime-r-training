@@ -1,11 +1,9 @@
 ---
 title: "Coding for Reproducible Research"
-subtitle: "Field Coordinator Training - R Track"
-date: "June 2018"
-author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
+date: "August 2018"
+author: "Luiza Andrade & Leonardo Viotti"
 output:
   beamer_presentation:
-    #theme: "Pittsburgh"
     theme: "Madrid"
     colortheme: "whale"
     fonttheme: "default"
@@ -18,14 +16,9 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, echo = F, eval=FALSE}
-# Load the pacakge than contains ToothGrowth dataset
-library(datasets)
-```
-
 # Introduction
 
-## Introduction
+## Agenda
 
   \begin{block}{Objective}
 	  Create an R Master Script.
@@ -43,23 +36,64 @@ library(datasets)
       \item Loops
     \end{enumerate}
 
-## Introduction
+## Objectives
 
   \begin{itemize}
     \item The exercises on this section will help us create a Master R script
-    \item To do them, go to the \textcolor{red}{Code} folder an open the file called \textit{Lab 2 - Coding for Reproducible Research.R}
+    \item To do them, go to the \texttt{Code} folder an open the file called \textit{Lab 2 - Coding for Reproducible Research.R}
   \end{itemize}
 
-## Introduction
+## Master Script
 
   \begin{itemize}
-    \item Just like in Stata, a Master script must be a map of all data work
-    \item It should be possible to follow all data work in the data folder, from raw data to analysis output, by following the master script
-    \item It should also be possible to run all the code for the project by simply running the Master script
-    \item Finally, in Stata, the Master Script is where you create globals. You can do the same in R by just creating new objects
+    \item A Master script is the easiest way to guarantee the replicability of your data work
+    \item It has three main functions:
   \end{itemize}
 
+  \begin{enumerate}
+    \item Run all the scripts for your project
+    \begin{itemize}
+      \item Without a master script, you either need to have one extremely long script, or write instructions about the order in which they should be run
+    \end{itemize}
+\end{enumerate}
+
+## Master Script
+
+  \begin{enumerate}
+    \setcounter{enumi}{1}
+    \item Create a road map to all data work
+    \begin{itemize}
+      \item You should be able to reproduce all your work from raw data to all outputs by just running the master
+      \item Anyone should be able to follow and understand your work by reading the master
+    \end{itemize}
+  \end{enumerate}
+
+## Master Script
+
+  \begin{enumerate}
+  \setcounter{enumi}{2}
+    \item Allow easy collaboration
+    \begin{itemize}
+      \item If we share a project over DropBox or OneDrive all team member have the same folder structure
+      \item A master script allows multiple people to set their own file paths to the project folder
+      \item This way anyone sharing the project folder can easily run your codes
+    \end{itemize}
+  \end{enumerate}
+
 # Commenting
+
+## Commenting
+
+  \begin{itemize}
+    \item Comments is text that R will ignore when running your code
+    \item Comments are the difference between instructions that are easy to follow or impossible to understand
+    \item Comments are used to document two things:
+      \begin{enumerate}
+        \item What is being done in a given section of the code
+        \item Why it is being done
+      \end{enumerate}
+    \item Number 2 is what makes the difference between a well-commented code and a code that is just commented
+  \end{itemize}
 
 ## Commenting
 
@@ -71,7 +105,6 @@ library(datasets)
   \end{itemize}
 
 ## Commenting
-
 
    * To comment a line, write ``#`` as its first character
    * You can also add ``#`` half way through a line to comment whatever comes after it
@@ -147,7 +180,6 @@ library(datasets)
     \end{enumerate}
   \end{block}
 
-
 # Using packages
 
 ## Using packages
@@ -180,21 +212,24 @@ library(stargazer)
 
 Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
 
-* Rcmdr - Easy to use GUI
-* swirl - An interactive learning environment for R and statistics.
-* ggplot2 - beautiful and versatile graphics (the syntax is a pain, though)
-* stargazer - awesome latex regression and summary statistics tables
-* foreign - reads dtas and other formats from other statistical software
-* zoo - time series and panel data manipulation useful functions
-* data.table - some functions to deal with huge data sets
-* sp and rgeos - spatial analysis
-* multiwayvcov and sandwich - clustered and robust standard errors
-* RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
+* ``Rcmdr``: Easy to use GUI
+* ``swirl``: An interactive learning environment for R and statistics.
+* ``ggplot2``: beautiful and versatile graphics (the syntax is a pain, though)
+* ``stargazer``: awesome latex regression and summary statistics tables
+* ``foreign``: reads dtas and other formats from other statistical software
+* ``zoo``: time series and panel data manipulation useful functions
+* ``data.table``: some functions to deal with huge data sets
+* ``sp and rgeos``: spatial analysis
+* ``multiwayvcov`` and ``sandwich``: clustered and robust standard errors
+* ``RODBC``, ``RMySQL``, ``RPostgresSQL``, ``RSQLite``: for relational databases and using SQL in R.
 
 ## Using packages
 
   \begin{block}{Exercise 6}
     Install the \texttt{swirl} and \texttt{stargazer} packages, including packages necessary for them to run.
+    \begin{itemize}
+      \item TIP: use the helpfile to \texttt{install.packages} by typing \texttt{?install.packages} if you're not sure about how to do this.
+    \end{itemize}
   \end{block}
 
 ## Using packages
@@ -215,7 +250,7 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 
 ## Using packages
   \scriptsize
-  
+
 ```{r, eval = T}
 
   library(stargazer)
@@ -227,7 +262,18 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 
 ## Indenting
 
-  * Indenting can be pretty different from what it looks like in Stata
+  * R does not distinguish between one empty space and many empty spaces, or one line break or many line breaks
+  * However, white space makes a big difference to the human eye and we would never share a Word document, an Excel sheet or a PowerPoint presentation without thinking about white space - although we call it formatting
+
+## Indenting
+
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/whitespace.png", dpi = 220)
+```
+
+## Indenting
+
+  * Indenting in R can be pretty different from what it looks like in Stata
   * To indent a whole line, you can select that line and press ``Tab``
   * To unindent a whole line, you can select that line and press ``Shift + Tab``
   * However, this will not always work for different parts of a code in the same line
@@ -239,7 +285,7 @@ Once a package is loaded, you can use its features and functions. Here's a list 
   \begin{block}{Exercise 8}
     To see an example of how indenting works in RStudio, add a line between the two arguments of the \texttt{install.packages} function (the vector of package names and the dependents option). Then add a line between the two package names. Note that RStudio formats the different arguments of the function differently.
   \end{block}
-  
+
 ## Indenting
 
 ```{r, eval = F}
@@ -248,6 +294,16 @@ Once a package is loaded, you can use its features and functions. Here's a list 
                        "swirl"),
                      dependencies = TRUE)
 ```
+
+## Indenting
+
+```{r fig.align="left", echo=F}
+knitr::include_graphics("img/whitespace1.png", dpi = 170)
+```
+```{r fig.align="left", echo=F}
+knitr::include_graphics("img/whitespace2.png", dpi = 190)
+```
+
 
 # Functions inception
 
@@ -296,29 +352,44 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 ## Section switches
 
   * Now, installing packages can be time-consuming, especially as the number of packages grow, and each package only needs to be installed once
-  * What can we bring from our Stata Master do-files to avoid installing packages twice?
+  * Adding switches to select what parts of the code to run allows you to only install the packages when you're using a computer that doesn't have them installed yet
+  * Adding switches is more efficient than commenting parts of the code out, because you can see all switches before running the code, so that avoids the mistake of saving a code with a commented section and forgetting to uncomment it lates
+  * In Stata, section switches would be saved as locals. In R, the equivalent to that would be to create a new object
 
-## Section switches
+## If statements
 
-  * In Stata, section switches would be saved as locals
-  * In R, the equivalent to that would be to create a new object
-
-### Exercise 10
-  Create a dummy scalar object called PACKAGES.
-    
-  *  TIP: Section switches can also be Boolean objects.
-
-## Section switches
-
-  * Now we need to create an if statement using this switch
+  * To add a switch, you first create a dummy object with a self-explanatory name
+  * Then, you create an if statement that runs the code if that switch is on
   * If statements in R look like this:
 ```{r, eval = F}
 
     # Turn switch on
-    PACKAGES <- 1
+    PRINT_NAME <- 1
 
     # Install packages
-    if (PACKAGES == 1) {
+    if (PRINT_NAME == 1) {
+      print(Sys.getenv("USERNAME"))
+    }
+
+```
+
+
+## Section switches
+
+### Exercise 10
+  Create a switch called INSTALL_PACKAGES and an if statement that only runs the ``install.packages`` function if the switch is activated.
+
+  *  TIP: Section switches can also be Boolean objects.
+
+## Section switches
+
+```{r, eval = F}
+
+    # Turn switch on
+    INSTALL_PACKAGES <- 1
+
+    # Install packages
+    if (INSTALL_PACKAGES == 1) {
       install.packages(packages,
                        dependencies = TRUE)
     }
@@ -330,15 +401,15 @@ Once a package is loaded, you can use its features and functions. Here's a list 
   * Possible variations would include
 ```{r, eval = F}
     # Turn switch on
-    PACKAGES <- TRUE
+    INSTALL_PACKAGES <- TRUE
 
     # Using a Boolean object
-    if (PACKAGES == TRUE) {
+    if (INSTALL_PACKAGES == TRUE) {
       install.packages(packages, dep = T)
     }
 
     # Which is the same as
-    if (PACKAGES) {
+    if (INSTALL_PACKAGES) {
       install.packages(packages, dep = T)
     }
 
@@ -359,7 +430,7 @@ Once a package is loaded, you can use its features and functions. Here's a list 
   # Set working directory
   setwd("C:/Users/luiza/Documents/GitHub/R-Training/
         DataWork/DataSets/Final")
-  
+
   # Load data set
   read.csv("lwh_clean.csv",
             header = T)
@@ -384,12 +455,19 @@ Once a package is loaded, you can use its features and functions. Here's a list 
   # Define dynamic file path
   finalData <- "C:/Users/luiza/Documents/GitHub/R-Training/
                 DataWork/DataSets/Final"
-  
+
   # Load data set
   lwh <- read.csv(file.path(finalData,"lwh_clean.csv"),
                   header = T)
 
 ```
+
+## File paths
+
+  * Using dynamic file paths makes collaboration easier, since every user only needs to add their folder path once before running all the codes
+  * Using explicit file paths prevents mistakes. For example, when running just a few lines of code instead of the whole script, it's common to forget to run the line setting the directory and have output saved in the wrong folder
+
+
 ## File paths
 
   * File paths in R, as in Stata, are basically just strings
@@ -405,11 +483,11 @@ Once a package is loaded, you can use its features and functions. Here's a list 
   * This function concatenates strings using ``/`` as a separator to create file paths
 
 ## File paths
-  
+
 ```{r, eval = T}
 
   # Project folder
-  projectFolder  <- 
+  projectFolder  <-
     "C:/Users/luiza/Documents/GitHub/R-Training"
 
   # Data work folder
@@ -452,6 +530,15 @@ lwh <- read.csv(file.path(rawData,"lwh_panel.csv"),
     DONT REPEAT YOURSELF
 
 ```
+
+## Don't repeat yourself
+
+  * This is a rule borrow from computer science
+  * When coding, we often have to repeat the same operation multiple times
+  * If you do this by just copying and pasting a piece of code and changing a few arguments, it's easy to make mistakes such as forgetting to change the argument once or changing the wrong argument
+  * Copying and pasting a piece of code multiple times can also make your code really long and difficult to read
+  * Creating a loop may take more time to set up, but it's easier to read and reduces mistakes
+  * In particular, fixing bugs and adjusting the code is much quicker, since you only need to do it once
 
 ## Looping
   * In Stata, we'd usually use a ``foreach`` loop to go through a list of objects
@@ -496,6 +583,8 @@ lwh <- read.csv(file.path(rawData,"lwh_panel.csv"),
     # Load all listed packages
     sapply(packages,
            library, character.only = TRUE)
+    # it's necessary to use the character.only option because 
+    # originally the library function did not accept strings
 ```
 
 ## Looping
@@ -540,9 +629,9 @@ A more generic version is the `apply` function.
 ## That's all, folks
 
   \begin{block}{Homework}
-    In the next slide here's a list of all the packages we'll need to the next sessions. Installing them might take a while, so paste them to your Master script and run it again before the next session:
+    In the next slide here's a list of all the packages we'll need for the next sessions. Installing them might take a while, so paste them to your Master script and run it again before the next session:
   \end{block}
-  
+
 ```{r, eval = T}
  packages  <- c("readstata13","foreign",
                 "doBy", "broom",
