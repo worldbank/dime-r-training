@@ -1,19 +1,19 @@
-#------------------------------------------------------------------------------#
-#                                                                              #
-#                                     DIME                                     #
-#                        Introduction to R for Stata users                     #                                     
-#                               MASTER DO_FILE                                 #                           
-#                                                                              #
-#------------------------------------------------------------------------------#
-
-# PURPOSE:    Set-up configurations and run scripts that are part of DIME's R 
-#             Training
-
-# NOTES:      
+# ------------------------------------------------------------------------------ #
+#                                                                                #
+#                                     DIME                                       #
+#                        Introduction to R for Stata users                       #
+#                                MASTER SCRIPT                                   #
+#                                                                                #
+# ------------------------------------------------------------------------------ #
   
-# WRITTEN BY: Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Viotti
-
-#                                                     Last modified in May 2018
+  # PURPOSE:    Set-up configurations and run scripts that are part of DIME's R
+  #             Training
+  
+  # NOTES:      Version 2 - developed for NISR 
+  
+  # WRITTEN BY: Luiza Cardoso de Andrade, Leonardo Viotti
+  
+  #                                                     Last modified in Aug 2018
 
 # PART 0: Clear boiler plate --------------------------------------------------
   
@@ -21,7 +21,7 @@
 
 # PART 1: Select sections to run ----------------------------------------------
 
-  PACKAGES             <- 0
+  INSTALL_PACKAGES     <- 0
   Lab1                 <- 0
   Lab2                 <- 0
   Lab3                 <- 0
@@ -41,7 +41,7 @@
                  "htmlwidgets", "geosphere")
   
   # If you selected the option to install packages, install them
-  if (PACKAGES) {
+  if (INSTALL_PACKAGES) {
     install.packages(packages,
                      dependencies = TRUE)
   }
@@ -58,22 +58,22 @@
   
   # Add your username and folder path here (for Windows computers)
   # To find out what your username is, type Sys.getenv("USERNAME")
-  if (Sys.getenv("USERNAME") == "Leonardo") {
+  if (Sys.getenv("USERNAME") == "luiza") {
     
-    projectFolder  <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training"
+    projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
     
   }
+  
+  # If you're using Mac, just add your folder path, without the if statement
   
   #--------------------#
   # Project subfolders #
   #--------------------#
 
-  Data              <- file.path(projectFolder,"Data")
-  rawData           <- file.path(Data,"Raw")
-  finalData         <- file.path(Data,"Final")
-  Code              <- file.path(projectFolder,"Code")
-  Doc               <- file.path(projectFolder,"Documentation")
-  Output            <- file.path(projectFolder,"Output")
+  rawData           <- file.path(DataSets, "Raw")
+  finalData         <- file.path(DataSets, "Final")
+  Code              <- file.path(projectFolder ,"Code")
+  Output            <- file.path(projectFolder, "Output")
  
 
 # PART 4: Run selected sections -----------------------------------------------

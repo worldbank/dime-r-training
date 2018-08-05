@@ -2,18 +2,18 @@
                                                                                 #
                                      DIME                                       #
                         Introduction to R for Stata users                       #
-                               MASTER DO_FILE                                   #
+                                MASTER SCRIPT                                   #
                                                                                 #
  ------------------------------------------------------------------------------ #
 
 # PURPOSE:    Set-up configurations and run scripts that are part of DIME's R
 #             Training
 
-# NOTES:      Version 1
+# NOTES:      Version 2 - developed for NISR 
 
-# WRITTEN BY: Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Viotti
+# WRITTEN BY: Luiza Cardoso de Andrade, Leonardo Viotti
 
-#                                                     Last modified in May 2018
+#                                                     Last modified in Aug 2018
 
 # PART 0: Clear boiler plate
   
@@ -25,7 +25,7 @@
 # PART 2: Load packages   
 
   # If you selected the option to install packages, install them
-  install.packages(c("swirl","stargazer"), dep = TRUE)
+
   
   
   # Load all packages -- this is equivalent to using library(package) for each
@@ -40,23 +40,18 @@
   #-------------#
   
   # Add your username and folder path here
-  projectFolder  <- "C:/Users/luiza/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
 
   #--------------------#
   # Project subfolders #
   #--------------------#
 
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+  dataWorkFolder    <- file.path(projectFolder, "DataWork")
 
-  Data              <- file.path(dataWorkFolder,"DataSets")
-  rawData           <- file.path(Data,"Raw")
-  intData           <- file.path(Data,"Intermediate")
-  finalData         <- file.path(Data,"Final")
-  Code              <- file.path(dataWorkFolder,"Code")
-  Doc               <- file.path(dataWorkFolder,"Documentation")
-  Output            <- file.path(dataWorkFolder,"Output")
-  rawOutput         <- file.path(Output,"Raw")
-  finalOutput       <- file.path(Output,"Final")
+  rawData           <- file.path(dataWorkFolder, "DataSets", "Raw")
+  finalData         <- file.path(dataWorkFolder, "DataSets", "Final")
+  Code              <- file.path(dataWorkFolder, "Code")
+  Output            <- file.path(dataWorkFolder, "Output")
 
  
 
