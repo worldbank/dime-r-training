@@ -18,39 +18,14 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, echo = F, eval=T, include=FALSE}
-library(stargazer)
-library(openxlsx)
-
-
-if (Sys.getenv("USERNAME") == "luiza"){
-  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
-}
-
-if (Sys.getenv("USERNAME") == "WB501238"){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
-}
-
-if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training"
-
-}
-
-if (Sys.getenv("USERNAME") == "WB519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
-}
-
-  # File paths
-  Data              <- file.path(projectFolder,"Data")
-  rawData           <- file.path(Data,"Raw")
-  finalData         <- file.path(Data,"Final")
-  Code              <- file.path(projectFolder,"Code")
-  Doc               <- file.path(projectFolder,"Documentation")
-  Output            <- file.path(projectFolder,"Output")
+```{r, include=FALSE}
+# Run Master
+GitHub  <- "~/GitHub/dime-r-training"
+source(file.path(GitHub, "Presentations/presentations_master.R"))
  
 
-  # Load CSV data
-  lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
+# Load CSV data
+lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
                   header = T)
 ```
 
