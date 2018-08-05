@@ -1,7 +1,7 @@
 ---
 title: "Data Processing"
-subtitle: "Field Coordinator Training"
-date: "June 2018"
+subtitle: "R Training for NISR"
+date: "Aug. 2018"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -17,38 +17,10 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-```{r, echo = F, eval=T}
-# Load the pacakge than contains ToothGrowth dataset
-library(datasets)
-library(readstata13)
-
-
-# File paths
-
-if (Sys.getenv("USERNAME") == "luiza"){
-  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
-}
-
-if (Sys.getenv("USERNAME") == "WB501238"){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
-}
-
-if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-
-}
-
-if (Sys.getenv("USERNAME") == "WB519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
-}
-
-# File paths
-dataWorkFolder    <- file.path(projectFolder,"DataWork")
-
-Data              <- file.path(dataWorkFolder,"DataSets")
-finalData         <- file.path(Data,"Final")
-rawData           <- file.path(Data,"Raw")
-
+```{r, include=FALSE}
+# Run Master
+GitHub  <- "~/GitHub/dime-r-training"
+source(file.path(GitHub, "Presentations/presentations_master.R"))
 ```
 
 # Introduction
@@ -63,6 +35,9 @@ rawData           <- file.path(Data,"Raw")
     * Dropping variables
     * Subsetting a data set
     * Dealing with factor variables
+    * Aggregating variables
+    * \textcolor{red}{MERGING DATA}
+    * \textcolor{red}{RESHAPING DATA}
     * Treating outliers
 * There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session
 
@@ -74,7 +49,7 @@ Before we start, let's make sure we're all set:
   \item Make sure the packages \texttt{readstata13} and \texttt{dplyr} are listed in the \texttt{packages} vector of your Master script. If they are not installed (they should be!), install them.
   \item If you haven't yet in this session, run the Master script to load all the necessary packages and set file paths.
   \item Remeber to disable the \texttt{PACKAGES} switch in the Master if you already installed them. This will save you a lot of time.
-  \item Open the script called \texttt{Lab 3} in \textcolor{red}{ DataWork > Code}. We've provided you with some code to build upon that will save you some time during this session.
+  \item Open the script called \texttt{Lab 3} in NISR R Training/Codes. We've provided you with some code to build upon that will save you some time during this session.
 \end{enumerate}
 
 ## Introduction
@@ -104,8 +79,9 @@ Here's a shortcut if you missed the last session:
 ## Loading a data set from CSV
 
 * In R, we usually save data in CSV format
+* \textcolor{red}{The .Rdata format is also a nice alternative, but it still  isn't the standard}
 * CSV files can be a lot lighter than binary files
-* You can do version control of CSV files in .git
+* It is also possible to do version control of CSV files in .git
 * On the other hand, the data they store is in a much simpler format, and we'll see some  shortcomings of that soon
 * To load a data set, we use the ``read.csv()`` function
 
@@ -116,7 +92,7 @@ Here's a shortcut if you missed the last session:
  * **file**: is the path to the file you want to open, including it's name and format (``.csv``)
  
 ### Exercise 1
-Load the ``lwh_panel.csv`` data set from \textcolor{red}{DataWork > DataSets > Raw}. Create an object called ``panel`` with this data set.
+Load the ``lwh_panel.csv`` data set from NISR R Training/Data/Raw. Create an object called ``panel`` with this data set.
 
  * TIP: use the ``file.path()`` function and the ``rawData`` object created in the master to simplify the folder path.
          
@@ -150,7 +126,7 @@ If you look at the ``Environment`` pane, you'll be able to see this data set. Cl
 * This function takes exactly the same argument as the ``read.csv`` function
 
 ### Exercise 2
-Use the function ``read.dta13()`` to load the ``endline_data_raw.dta`` data set from \textcolor{red}{DataWork > DataSets > Raw}. Create an object called ``endline`` with this data set.
+Use the function ``read.dta13()`` to load the ``endline_data_raw.dta`` data set from NISR R Training/Data/Raw. Create an object called ``endline`` with this data set.
 
 
 ## Loading a Stata data set
@@ -585,6 +561,8 @@ lwh$income_total <-
           na.rm = TRUE)
 ```
 
+# Dropping Variables
+
 ## Dropping variables
 
 Now, let's remove the disaggregated income variables from data set, since we're using them anymore.
@@ -614,6 +592,48 @@ Remove all of the raw income variables listed in the ``income_vars`` vector from
   # Remove income variables
   lwh[, income_vars] <- NULL
 ```
+
+# Merge data
+
+## Merge data
+
+\textcolor{red}{ADD CONTENT}
+
+# Reshape data
+
+## Reshape data
+
+There are multiple ways to reshape data in R. We will use the `reshape()` function from the `stats` package.
+
+It works very much like `reshape` in Stata. Here's the basic syntax:
+
+`reshape(data, varying, idvar, timevar, direction)`:
+
+ * __data__: a data frame
+ * __idvar__: the variables that identify the group in the wide data set
+ * __timevar__: the variable in long format that differentiates multiple records from the same group or individual
+
+## Reshape data
+
+\textcolor{red}{FINISH THIS EXERCISE !!!!}
+
+\begin{block}{Exercise 6}
+ Use the \texttt{reshape} function to make the \texttt{year\_inc\_tab} data frame wide per treatment status.
+\end{block}
+
+
+```{r, eval = F, results = "hide"}
+# Aggregate income by year and treatment status
+year_inc_tab <- reshape(lwh,
+                        idvar = "hhid",
+                        timevar = "year",
+                        direction = "wide")
+```
+
+For comparison, here's how you'd do it in Stata:
+
+``reshape wide x, i(year) j(treatment)``
+
 
 # Treating outliers
 
@@ -699,7 +719,7 @@ Edit the ``winsor()`` function created earlier to create a new function that tri
 ## Saving a data set
 
 ### Exercise 17
-Save the ``lwh`` data set to \textcolor{red}{DataWork > DataSets > Final}.
+Save the ``lwh`` data set to NISR R Training/Data/Final.
 
 * TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
 
