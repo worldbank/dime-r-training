@@ -1,7 +1,7 @@
 ---
 title: "Coding for Reproducible Research"
-date: "August 2018"
-author: "Luiza Andrade & Leonardo Viotti"
+subtitle: "R Training for NISR"
+date: "Aug. 2018"
 output:
   beamer_presentation:
     theme: "Madrid"
