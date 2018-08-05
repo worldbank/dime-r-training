@@ -31,6 +31,7 @@ if (Sys.getenv("USERNAME") == "WB501238"){
 
 if (Sys.getenv("USERNAME") == "Leonardo"){
   projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+  Data <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training/Data"
 
 }
 
@@ -39,9 +40,9 @@ if (Sys.getenv("USERNAME") == "WB519128"){
 }
 
 # File paths
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+  #dataWorkFolder    <- file.path(projectFolder,"DataWork")
 
-  Data              <- file.path(dataWorkFolder,"DataSets")
+  #Data              <- file.path(dataWorkFolder,"DataSets")
   finalData         <- file.path(Data,"Final")
 # Load CSV data
 lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
@@ -139,7 +140,7 @@ Let's start by loading the data set we'll be using:
 
 \begin{enumerate}
   \item In RStudio, go to File > Import Dataset > From Text (Base) and open the \texttt{lwh\_clean.csv} file. Depending on your Rstudio version, it might be From CSV
-  \item The file should be in  \textcolor{red}{Session Materials/R Track/DataWork/DataSets/Final}
+  \item The file should be in NISR R Training/Data/Final
   \item Change the name to `lwh` on the import window
 \end{enumerate}
 
@@ -335,7 +336,8 @@ Objects can have different structures, that is, different ways to store data. Ob
 There are several types of objects. Here are the ones we will cover:
 
 * __Vectors:__ an unidimensional object that stores a sequence of values
-* __Data frames:__ a combination of different vectors of the same length (the same as your data set in Stata)
+* __Matrices:__ a combination of vectors of the same length and same type.
+* __Data frames:__ a combination of different vectors of different types of the same length (the same as your data set in Stata)
 * __Lists:__ a multidimensional object that can store several objects of different dimension
 
 ## R objects
@@ -395,22 +397,33 @@ m2 <- matrix(c(1,1,2,3,5,8), ncol = 2)
 ## R objects
 \framesubtitle{Matrices}
 
-### Now use the following code to check the elements of these matrices by indexing
-```{r, include = T, results = "hide"}
-# Matrix indexing: typing matrix[i,j] will give you
-# the element in the ith row and jth column of that matrix
-#m2[1,2]
+Since a matrix has two dimensions, you can use indexing on both:
 
-# Matrix indexing: typing matrix[i,] will give you the
+
+Matrix indexing: typing `matrix[i,j]` will give you the element in the ith line and jth column
+
+
+### Now use the following code to check the elements of the matrices we created by indexing
+```{r}
+# the element in the ith row and jth column of that matrix
+m2[1,2]
+
+```
+
+
+## R objects
+\framesubtitle{Matrices}
+
+### You can also use it do select only the lines or columns
+```{r}
+
 # ith row of that matrix
 m1[1,]
 
-# Matrix indexing: typing matrix[,j] will give you the
 # jth column of that matrix (as a vector)
 m1[,2]
 
 ```
-
 
 ## R objects
 \framesubtitle{Data Frames}
@@ -427,7 +440,7 @@ df1
 ## R objects
 \framesubtitle{Data Frames}
 
-Since a data frame has two dimensions, you can use indexing on both:
+You can also use indexing with data frames.
 
 ### Numeric indexing
 ```{r, eval = F}
@@ -449,16 +462,31 @@ Alternatively, you can use the column names for indexing, which is the same as u
 
 ### Names indexing
 ```{r}
-# Or the 45th element of the hh_code column
-lwh[45,"hh_code"]
+# Or the 42th element of the hh_code column
+lwh[42,"hh_code"]
 ```
 
 ## R objects
 \framesubtitle{Data Frames}
+\scriptsize
+
+Data frames also contain metadata stored in attributes. All objectes can have attributes, but data frame objects already come with a few. 
+
+### Attributes
+```{r}
+# Check all attributes of df1
+attributes(df1)
+
+# there are also specialized functions to check and manipulate specific attibutes
+names(df1)
+```
+
+## R objects
+\framesubtitle{Lists}
 
 Lists are more complex objects that can contain many objects of different classes and dimensions.
 
-Lists are fancy and can have a lot of functionalities and attributes. They are the output of many functions and are used to construct complex objects.
+Lists are fancy and can have a lot of functionalities. They are the output of many functions and are used to construct complex objects.
 
 It would be beyond the scope of this introduction to go deep into them, but here's a quick example
 
@@ -502,7 +530,8 @@ As in Stata, these are two different ways to store numbers. They are different b
 Now we'll use string data to practice some basic object manipulations in R.
 
 ### Exercise 4: Create a vector of strings
-Create two string vector containing the names of commonly used statistical software in order of importance:
+Create a string vector containing the names of commonly used statistical software:
+
 ```{r, include = T, results = "hide"}
 
 # Creating string vector
@@ -567,6 +596,26 @@ You can see that in `lwh` the `wave`, `treatment_hh`, `treatment_site`, `site_co
 <!-- \centering -->
 <!--   \includegraphics[scale=0.3]{img/factors.png} -->
 <!-- \end{figure} -->
+
+
+
+## Advanced types of data
+\framesubtitle{Factors}
+
+
+### Create a factor verctor using the following code
+```{r, include = T, results = "hide"}
+# Basic factor vector
+num_vec <- c(1,2,2,3,1,2,3,3,1,2,3,3,1)
+fac_vec <- factor(num_vec)
+
+# A bit fancier factor vector
+fac_vec <- factor(num_vec,labels=c("A","B","C"))
+
+# Change labels
+levels(fac_vec) = c('One','Two','Three')
+
+```
 
 
 ## Advanced types of data
@@ -740,25 +789,6 @@ Similarly to Stata:
 ### The 4th pane
  Can display different things, including plots you create, packages loaded and help files.
 
-
-
-## Advanced types of data - Factors
-\framesubtitle{Factors}
-
-
-### Create a factor verctor using the following code
-```{r, include = T, results = "hide"}
-# Basic factor vector
-num_vec <- c(1,2,2,3,1,2,3,3,1,2,3,3,1)
-fac_vec <- factor(num_vec)
-
-# A bit fancier factor vector
-fac_vec <- factor(num_vec,labels=c("A","B","C"))
-
-# Change labels
-levels(fac_vec) = c('One','Two','Three')
-
-```
 
 ## Numbers and integers
 
