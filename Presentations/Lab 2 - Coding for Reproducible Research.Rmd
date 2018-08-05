@@ -533,10 +533,12 @@ lwh <- read.csv(file.path(rawData,"lwh_panel.csv"),
 
 ## Don't repeat yourself
 
+  * This is a rule borrow from computer science
   * When coding, we often have to repeat the same operation multiple times
   * If you do this by just copying and pasting a piece of code and changing a few arguments, it's easy to make mistakes such as forgetting to change the argument once or changing the wrong argument
   * Copying and pasting a piece of code multiple times can also make your code really long and difficult to read
   * Creating a loop may take more time to set up, but it's easier to read and reduces mistakes
+  * In particular, fixing bugs and adjusting the code is much quicker, since you only need to do it once
 
 ## Looping
   * In Stata, we'd usually use a ``foreach`` loop to go through a list of objects
