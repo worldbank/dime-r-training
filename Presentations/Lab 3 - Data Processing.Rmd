@@ -68,9 +68,9 @@ Here's a shortcut if you missed the last session:
   library(readstata13)
 
   #  Set folder paths
-  projectFolder  <- "YOUR/FOLDER/PATH"
-  finalData <- file.path(projectFolder, "DataWork", "DataSets", "Final")
-  rawlData <- file.path(projectFolder, "DataWork", "DataSets", "Raw")
+  trainingFolder  <- "YOUR/FOLDER/PATH"
+  finalData       <- file.path(trainingFolder, "Data", "Final")
+  rawlData        <- file.path(projectFolder, "Data", "Raw")
 
 ```
 
@@ -79,20 +79,20 @@ Here's a shortcut if you missed the last session:
 ## Loading a data set from CSV
 
 * In R, we usually save data in CSV format
-* \textcolor{red}{The .Rdata format is also a nice alternative, but it still  isn't the standard}
+* The .Rdata format is also a nice alternative, which we will cover soon, but it isn't the standard
 * CSV files can be a lot lighter than binary files
 * It is also possible to do version control of CSV files in .git
 * On the other hand, the data they store is in a much simpler format, and we'll see some  shortcomings of that soon
-* To load a data set, we use the ``read.csv()`` function
+* To load a CSV data set, we use the ``read.csv()`` function
 
 ## Loading a data set from CSV
 
 ### ``read.csv(file)``
  
- * **file**: is the path to the file you want to open, including it's name and format (``.csv``)
+ * **file**: is the path to the file you want to open, including its name and format (``.csv``)
  
 ### Exercise 1
-Load the ``lwh_panel.csv`` data set from NISR R Training/Data/Raw. Create an object called ``panel`` with this data set.
+Load the ``lwh_panel.csv`` data set from "NISR R Training/Data/Raw". Create an object called ``panel`` with this data set.
 
  * TIP: use the ``file.path()`` function and the ``rawData`` object created in the master to simplify the folder path.
          
@@ -126,7 +126,7 @@ If you look at the ``Environment`` pane, you'll be able to see this data set. Cl
 * This function takes exactly the same argument as the ``read.csv`` function
 
 ### Exercise 2
-Use the function ``read.dta13()`` to load the ``endline_data_raw.dta`` data set from NISR R Training/Data/Raw. Create an object called ``endline`` with this data set.
+Use the function ``read.dta13()`` to load the ``endline_data_raw.dta`` data set from "NISR R Training/Data/Raw". Create an object called ``endline`` with this data set.
 
 
 ## Loading a Stata data set
@@ -160,7 +160,7 @@ Some useful functions:
 ### Exercise 3
 Use some of the functions listed in the previous slides to explor the ``endline`` and ``panel`` objects.
 
-* TIP: all functions take a single argument, which is the object to be described.
+* TIP: all of these functions take a single argument, which is the object to be described.
 
 ## Exploring a data set
 \scriptsize
@@ -314,7 +314,7 @@ Create new variable called ``id`` in the ``panel`` data set containing a uniquel
 
 ## Subsetting
 
-* The ``panel`` has a lot more variables than we'll actually use for analysis
+* The ``panel`` data set has a lot more variables than we'll actually use for analysis
 * Let's construct a new data set with only the variables we'll you
 * For starters, we'll subset the ``panel`` data set and keep only some variables of interest
 * These variables are already listed in the script we gave you
@@ -403,8 +403,7 @@ Create a new object, called ``lwh``, containing only the variables we selected f
   demographic_vars <- c("gender_hhh", "age_hhh", "num_dependents", "read_and_write")
   yield_vars       <- c("w_gross_yield_a", "w_gross_yield_b")
   food_vars        <- c("expend_food_yearly", "expend_food_lastweek", "wdds_score")
-  #income_vars      <- names(panel)[28:37]
-  income_vars      <- names(panel)[29:38]
+  income_vars      <- names(panel)[28:37]
   plot_area_vars   <- c("w_area_plots_a", "w_area_plots_b", "w_area_plots_c")
 
  # Subset data
@@ -436,7 +435,8 @@ This is supposed to be categorical variable, but for now it's just numeric.
 
 To create a factor variable, we use the ``factor`` function:
 
-``factor(x, levels, labels)`` : turns numeric or string vector ``x`` into a factor vector 
+``factor(x, levels, labels)``: turns numeric or string vector ``x`` into a factor vector 
+
 * **``x``:** the vector you want to turn into a factor
 * **``levels``:** a vector containing the possible values of ``x``
 * **``labels``:** a vector of strings containing the labels you want to apply to your factor variable
@@ -593,12 +593,6 @@ Remove all of the raw income variables listed in the ``income_vars`` vector from
   lwh[, income_vars] <- NULL
 ```
 
-# Merge data
-
-## Merge data
-
-\textcolor{red}{ADD CONTENT}
-
 # Reshape data
 
 ## Reshape data
@@ -719,6 +713,20 @@ Edit the ``winsor()`` function created earlier to create a new function that tri
 ## Saving a data set
 
 ### Exercise 17
+Save the ``lwh`` data set to NISR R Training/Data/Final.
+
+* TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
+
+## Saving a data set
+
+```{r, eval = F}
+# Save the lwh data set
+write.csv(lwh,
+          file.path(finalData,"lwh_clean.csv"),
+          row.names = F)
+```
+
+### Exercise 16
 Save the ``lwh`` data set to NISR R Training/Data/Final.
 
 * TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
