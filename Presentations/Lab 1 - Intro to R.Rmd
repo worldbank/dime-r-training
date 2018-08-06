@@ -95,7 +95,7 @@ The next sessions will include:
 * __Basic spatial analysis__ - GIS basics in R.
 
 For the most recent versions of these trainings, visit the R-training GitHub repo at
-https://github.com/luizaandrade/R-Training
+https://github.com/worldbank/dime-r-training
 
 # Getting started
 
