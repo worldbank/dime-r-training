@@ -95,7 +95,7 @@ The next sessions will include:
 * __Basic spatial analysis__ - GIS basics in R.
 
 For the most recent versions of these trainings, visit the R-training GitHub repo at
-https://github.com/luizaandrade/R-Training
+https://github.com/worldbank/dime-r-training
 
 # Getting started
 
@@ -353,7 +353,7 @@ We use the `$` to call vector (variables) by their names in a `data.frame`
 # Create a vector with the values of `age_hhh` variable
 age_vec <- lwh$age_hhh
 
-# See the 13th element of the column
+# See the 67th element of the column
 lwh$age_hhh[67]
 
 ```
