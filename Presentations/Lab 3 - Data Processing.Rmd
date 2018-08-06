@@ -79,7 +79,7 @@ Here's a shortcut if you missed the last session:
 ## Loading a data set from CSV
 
 * In R, we usually save data in CSV format
-* The .Rdata format is also a nice alternative, which we will cover soon, but it isn't the standard
+* The .rds format is also a nice alternative, which we will cover soon, but it isn't the standard
 * CSV files can be a lot lighter than binary files
 * It is also possible to do version control of CSV files in .git
 * On the other hand, the data they store is in a much simpler format, and we'll see some  shortcomings of that soon
@@ -160,7 +160,7 @@ Some useful functions:
 ### Exercise 3
 Use some of the functions listed in the previous slides to explor the ``endline`` and ``panel`` objects.
 
-* TIP: all of these functions take a single argument, which is the object to be described.
+* TIP: all of thesefunctions take a single argument, which is the object to be described.
 
 ## Exploring a data set
 \scriptsize
@@ -314,7 +314,7 @@ Create new variable called ``id`` in the ``panel`` data set containing a uniquel
 
 ## Subsetting
 
-* The ``panel`` data set has a lot more variables than we'll actually use for analysis
+* The ``panel`` has a lot more variables than we'll actually use for analysis
 * Let's construct a new data set with only the variables we'll you
 * For starters, we'll subset the ``panel`` data set and keep only some variables of interest
 * These variables are already listed in the script we gave you
@@ -435,8 +435,7 @@ This is supposed to be categorical variable, but for now it's just numeric.
 
 To create a factor variable, we use the ``factor`` function:
 
-``factor(x, levels, labels)``: turns numeric or string vector ``x`` into a factor vector 
-
+``factor(x, levels, labels)`` : turns numeric or string vector ``x`` into a factor vector 
 * **``x``:** the vector you want to turn into a factor
 * **``levels``:** a vector containing the possible values of ``x``
 * **``labels``:** a vector of strings containing the labels you want to apply to your factor variable
@@ -593,42 +592,6 @@ Remove all of the raw income variables listed in the ``income_vars`` vector from
   lwh[, income_vars] <- NULL
 ```
 
-# Reshape data
-
-## Reshape data
-
-There are multiple ways to reshape data in R. We will use the `reshape()` function from the `stats` package.
-
-It works very much like `reshape` in Stata. Here's the basic syntax:
-
-`reshape(data, varying, idvar, timevar, direction)`:
-
- * __data__: a data frame
- * __idvar__: the variables that identify the group in the wide data set
- * __timevar__: the variable in long format that differentiates multiple records from the same group or individual
-
-## Reshape data
-
-\textcolor{red}{FINISH THIS EXERCISE !!!!}
-
-\begin{block}{Exercise 6}
- Use the \texttt{reshape} function to make the \texttt{year\_inc\_tab} data frame wide per treatment status.
-\end{block}
-
-
-```{r, eval = F, results = "hide"}
-# Aggregate income by year and treatment status
-year_inc_tab <- reshape(lwh,
-                        idvar = "hhid",
-                        timevar = "year",
-                        direction = "wide")
-```
-
-For comparison, here's how you'd do it in Stata:
-
-``reshape wide x, i(year) j(treatment)``
-
-
 # Treating outliers
 
 ## Treating outliers
@@ -700,7 +663,7 @@ Edit the ``winsor()`` function created earlier to create a new function that tri
 
 # Saving a data set
 
-## Saving a data set
+## Saving a data set as CSV
 
 * As mentioned before, R data sets are usually save as CSVs
 * To save a data set, we use the ``write.csv()`` function:
@@ -710,14 +673,14 @@ Edit the ``winsor()`` function created earlier to create a new function that tri
 * **``file``:** the file path to where you want to save it, including the file name and the format (".csv")
 * **``row.names``**: by default, R adds a column to the CSV file with the names (or numbers) of the rows in the data frame. Set it to ``FALSE`` if you don't want that column to be exported
 
-## Saving a data set
+## Saving a data set as CSV
 
 ### Exercise 17
 Save the ``lwh`` data set to NISR R Training/Data/Final.
 
 * TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
 
-## Saving a data set
+## Saving a data set as CSV
 
 ```{r, eval = F}
 # Save the lwh data set
@@ -726,18 +689,15 @@ write.csv(lwh,
           row.names = F)
 ```
 
-### Exercise 16
-Save the ``lwh`` data set to NISR R Training/Data/Final.
+## Saving a data set in R format
 
-* TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
+* The main issue, at least fornow, of saving a data set as CSV is that when you open it again all strings and factors will be imported in the same format (either strings or factors, depending on how you set the ``stringsAsFactors`` option). 
+* One other issue is that factors will be labelled in alphabetical order, so any ordering of factors that you may have created will be lost 
 
-## Saving a data set
-
-```{r, eval = F}
-# Save the lwh data set
-write.csv(lwh,
-          file.path(finalData,"lwh_clean.csv"),
-          row.names = F)
+```{r, eval = T}
+# Save the lwh data set as .RDS
+save(lwh, 
+     file = file.path(finalData, "lwh_clean.rds"))
 ```
 
 # Running a script from the master
