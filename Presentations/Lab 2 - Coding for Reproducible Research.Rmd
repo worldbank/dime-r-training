@@ -41,11 +41,13 @@ knitr::opts_chunk$set(echo = TRUE)
   \begin{itemize}
     \item The exercises on this section will help us create a Master R script
     \item To do them, go to the \texttt{Code} folder an open the file called \textit{Lab 2 - Coding for Reproducible Research.R}
+    \item A master script It's not specific to R, it's just good programing practice Here we'll use it as an example to show you important features of R programing.
   \end{itemize}
 
 ## Master Script
 
   \begin{itemize}
+
     \item A Master script is the easiest way to guarantee the replicability of your data work
     \item It has three main functions:
   \end{itemize}
@@ -353,7 +355,7 @@ knitr::include_graphics("img/whitespace2.png", dpi = 190)
 
   * Now, installing packages can be time-consuming, especially as the number of packages grow, and each package only needs to be installed once
   * Adding switches to select what parts of the code to run allows you to only install the packages when you're using a computer that doesn't have them installed yet
-  * Adding switches is more efficient than commenting parts of the code out, because you can see all switches before running the code, so that avoids the mistake of saving a code with a commented section and forgetting to uncomment it lates
+  * Adding switches is more efficient than commenting parts of the code out, because you can see all switches before running the code, so that avoids the mistake of saving a code with a commented section and forgetting to uncomment it later
   * In Stata, section switches would be saved as locals. In R, the equivalent to that would be to create a new object
 
 ## If statements
@@ -575,6 +577,7 @@ lwh <- read.csv(file.path(rawData,"lwh_panel.csv"),
 
   \begin{block}{Exercise 13}
     Use the \texttt{sapply()} function to apply the \texttt{library()} function to all packages you have selected.
+    TIP: Set the  \texttt{character.only} argument equal to \texttt{TRUE}
   \end{block}
 
 ## Looping
