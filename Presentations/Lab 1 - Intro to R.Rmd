@@ -34,7 +34,7 @@ lwh <- read.csv(file.path(finalData,"lwh_clean.csv"),
 
 ## Introduction
 
-These training sessions will offer a quick introduction to R, its features and draw a comparisson with Stata. 
+These training sessions will offer a quick introduction to R, its features and draw a comparison with Stata. 
 
 R is a powerful and flexible tool with a big and active community of users and developers that constantly posts in blogs and forums.
 
@@ -449,14 +449,14 @@ lwh[42,"hh_code"]
 \framesubtitle{Data Frames}
 \scriptsize
 
-Data frames also contain metadata stored in attributes. All objectes can have attributes, but data frame objects already come with a few. 
+Data frames also contain metadata stored in attributes. All objects can have attributes, but data frame objects already come with a few. 
 
 ### Attributes
 ```{r}
 # Check all attributes of df1
 attributes(df1)
 
-# there are also specialized functions to check and manipulate specific attibutes
+# there are also specialized functions to check and manipulate specific attributes
 names(df1)
 ```
 
@@ -566,15 +566,15 @@ Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as val
 ## Advanced types of data
 \framesubtitle{Factors}
 
-You can see that in `lwh` the `wave`, `treatment_hh`, `treatment_site`, `site_code` and `gender_hhh` are factor variables. You can see in your enviroment panel the type of all your variables, and for factors the number of levels.
+You can see that in `lwh` the `wave`, `treatment_hh`, `treatment_site`, `site_code` and `gender_hhh` are factor variables. You can see in your environment panel the type of all your variables, and for factors the number of levels.
 
-<!-- ## Advanced types of data -->
-<!-- \framesubtitle{Factors} -->
+## Advanced types of data
+\framesubtitle{Factors}
 
-<!-- \begin{figure} -->
-<!-- \centering -->
-<!--   \includegraphics[scale=0.3]{img/factors.png} -->
-<!-- \end{figure} -->
+\begin{figure}
+\centering
+  \includegraphics[scale=0.36]{img/factors.png}
+\end{figure}
 
 
 
@@ -796,7 +796,7 @@ Did you notice anything strange? That happens because the default way R stores n
 ## Numbers and integers
 \framesubtitle{Numbers and integers}
 
-We can, however, coerce objects into different classes. We just need to be carefull because the result might not be what we're expecting.
+We can, however, coerce objects into different classes. We just need to be careful because the result might not be what we're expecting.
 
 ### Use the *as.integer()* and *round()* functions on the *num* object to see the difference:
 ```{r}

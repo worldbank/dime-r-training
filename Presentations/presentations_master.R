@@ -18,14 +18,27 @@
   #------------------------------------------------------------------------------#
   #### 2. Load packages ####
   
-  packages  <- c("readstata13","foreign",
-                 "doBy", "broom", "dplyr",
+  packages  <- c("readstata13",
+                 "foreign",
+                 "doBy", 
+                 "broom", 
+                 "dplyr",
                  "stargazer",
-                 "ggplot2", "plotly", "ggrepel",
-                 "RColorBrewer", "wesanderson",
-                 "sp", "rgdal", "rgeos", "raster", "velox",
-                 "ggmap", "rasterVis", "leaflet",
-                 "htmlwidgets", "geosphere")
+                 "ggplot2", 
+                 "plotly", 
+                 "ggrepel",
+                 "RColorBrewer", 
+                 "wesanderson",
+                 "sp", 
+                 "rgdal", 
+                 "rgeos", 
+                 "raster", 
+                 "velox",
+                 "ggmap", 
+                 "rasterVis", 
+                 "leaflet",
+                 "htmlwidgets", 
+                 "geosphere")
   
   invisible(sapply(packages, library, character.only = TRUE))
   
