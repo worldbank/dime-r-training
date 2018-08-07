@@ -592,7 +592,7 @@ fac_vec <- factor(num_vec)
 fac_vec <- factor(num_vec,labels=c("A","B","C"))
 
 # Change labels
-levels(fac_vec) = c('One','Two','Three')
+levels(fac_vec) <- c('One','Two','Three')
 
 ```
 

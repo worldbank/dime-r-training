@@ -2,6 +2,7 @@
 title: "Coding for Reproducible Research"
 subtitle: "R Training for NISR"
 date: "Aug. 2018"
+author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
     theme: "Madrid"
@@ -41,7 +42,7 @@ knitr::opts_chunk$set(echo = TRUE)
   \begin{itemize}
     \item The exercises on this section will help us create a Master R script
     \item To do them, go to the \texttt{Code} folder an open the file called \textit{Lab 2 - Coding for Reproducible Research.R}
-    \item A master script It's not specific to R, it's just good programing practice Here we'll use it as an example to show you important features of R programing.
+    \item A master script It's not specific to R, it's just good programing practice. Here we'll use it as an example to show you important features of R programing.
   \end{itemize}
 
 ## Master Script

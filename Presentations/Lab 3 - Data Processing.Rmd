@@ -36,8 +36,6 @@ source(file.path(GitHub, "Presentations/presentations_master.R"))
     * Subsetting a data set
     * Dealing with factor variables
     * Aggregating variables
-    * \textcolor{red}{MERGING DATA}
-    * \textcolor{red}{RESHAPING DATA}
     * Treating outliers
 * There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session
 
@@ -691,7 +689,7 @@ write.csv(lwh,
 
 ## Saving a data set in R format
 
-* The main issue, at least fornow, of saving a data set as CSV is that when you open it again all strings and factors will be imported in the same format (either strings or factors, depending on how you set the ``stringsAsFactors`` option). 
+* The main issue, at least for now, of saving a data set as CSV is that when you open it again all strings and factors will be imported in the same format (either strings or factors, depending on how you set the ``stringsAsFactors`` option). 
 * One other issue is that factors will be labelled in alphabetical order, so any ordering of factors that you may have created will be lost 
 
 ```{r, eval = T}
