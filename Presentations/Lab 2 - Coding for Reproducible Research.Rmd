@@ -160,7 +160,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{stata, eval = F}
     clear
-    set maxvar 120000
+    set maxvar 30000
     set more off
 ```
 
