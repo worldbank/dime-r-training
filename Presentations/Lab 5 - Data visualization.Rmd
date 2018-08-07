@@ -49,7 +49,7 @@ Before we start, let's make sure we're all set:
   \item Load the \texttt{lwh\_clean.csv} data set that were created in the last session.
     \begin{itemize}
       \item Run the Master script to load all the necessary packages and set file paths.
-      \item Remeber to disable the \texttt{PACKAGES} switch in the Master if you already installed them. This will save you a lot of time.
+      \item Remeber to disable the \texttt{INSTALL\_PACKAGES} switch in the Master if you already installed them. This will save you a lot of time.
     \end{itemize}
   
 \end{enumerate}
@@ -141,21 +141,6 @@ plot(lwh_simp)
 \scriptsize
 ```{r, eval = T, echo = T}
 hist(lwh_simp$w_area_plots_a, col = "green")
-```
-
-## Exploratory graphs - Base plot
-
-### Exercise 3
-Use the ``boxplot()`` function to see a description of the yearly food expenditure by number of dependents.
-
-- TIP: The syntax for this function is ``variable_to_be_plotted`` ~ ``variable_to_plot_over``.
-
-## Exploratory graphs - Base plot
-\scriptsize
-
-```{r}
-boxplot(lwh_simp$expend_food_yearly ~ lwh_simp$num_dependents)
-
 ```
 
 # ``ggplot`` - Introduction
@@ -252,8 +237,8 @@ We mapped our variables, but without a geometry ``ggplot`` doesn't know how to r
 ### Let's add a geometry
 ```{r, eval=FALSE}
 ggplot(data = lwh,
-       aes(y = w_area_plots_b,
-           x = w_gross_yield_b)) +
+       aes(y = w_area_plots_a,
+           x = income_total_trim)) +
   geom_point()
 ```
 
@@ -262,136 +247,9 @@ ggplot(data = lwh,
 \scriptsize
 
 ```{r, echo = F, warning = F}
-ggplot(lwh, aes(y = w_area_plots_b,
-                x = w_gross_yield_b)) +
+ggplot(lwh, aes(y = w_area_plots_a,
+                x = income_total_trim)) +
   geom_point()
-```
-
-# ``ggplot`` - Data structure
-
-## ``ggplot`` and ``aggregate()``
-
-* Since ``ggplot`` usually works better with data in a specific format, there are a few functions particularly useful to manipulate data
-* Here, we'll use the ``aggregate()`` function
-* ``aggregate()`` works similarly to ``collapse`` in Stata
-
-## ``ggplot`` and ``aggregate()``
-
-To create a line plot with ``ggplot``, we will create a new data set containing the average of the total house hold annual income by year.
-```{r, eval= T}
-# Aggregate anual income by year
-anualInc <-
-    aggregate(x   = lwh["income_total_trim"], # data.frame
-              by  = list(year = lwh$year), #list
-              FUN = mean, na.rm = T) # function
-```
-
-### Exercise 5
- 1. Use the ``ggplot()`` function with the ``anualInc`` as the ``data`` argument, ``income_total_trim`` as ``y`` and ``year`` as ``x`` in ``aes()``
- 2. This time add ``geom_line()``
-
-
-## ``ggplot`` and ``aggregate()``
-\scriptsize
-
-```{r,  eval= F}
-
-# Plot code with arguments in geom
-ggplot() +
-    geom_line(data = anualInc, 
-              aes(y = income_total_trim,
-                  x = year))
-
-
-```
-
-## ``ggplot`` and ``aggregate()``
-\scriptsize
-
-```{r, echo = F , eval= T}
-
-ggplot() +
-    geom_line(data = anualInc, 
-              aes(y = income_total_trim,
-                  x = year))
-
-
-
-```
-
-## ``ggplot`` and ``aggregate()``
-
-Ok, that worked, but was a really boring plot. Let's do a cooler one.
-
-### Exercise 6: Part 1
-
-Use the ``aggregate()`` function to average total house hold annual income, now, by two variables: `year` and `treatment_hh`.
-
-- TIP: add an argument to the `list()` function in the by argument. Like this:
-
-```{r, eval = F}
-  by = list(Year = lwh$year, 
-            Treatment = lwh$treatment_hh)
-```
-
-## ``ggplot`` and ``aggregate()``
-\scriptsize
-
-```{r}
-# Aggregate data set
-anualIncGen <- aggregate(x= lwh["income_total_win"],
-                         by = list(year = lwh$year,
-                                   treatment =  lwh$treatment_hh),
-                         FUN = mean, na.rm = T)
-
-anualIncGen
-
-```
-
-## ``ggplot`` and ``aggregate()``
-
-### Exercise 6: Part 2
- Now, use `ggplot` as in the previous exercise to plot the aggregated data frame.
- 
- 1. This time set the ``color`` and `group` arguments in the ``aes()`` function as the treatment variable.
- 2. Finally, add both line and point ``geoms``.
-
-## ``ggplot`` and ``aggregate()``
-\scriptsize
-
-```{r,  eval= F}
-# Aggregate data set
-anualIncGen <- aggregate(x= lwh["income_total_win"],
-                         by = list(year = lwh$year,
-                                   treatment =  lwh$treatment_hh),
-                         FUN = mean, na.rm = T)
-
-# Plot aggregated data set
-ggplot(anualIncGen, 
-       aes(y = income_total_win,
-           x = year,
-           color = treatment,
-           group = treatment)) +
-  geom_line() +
-  geom_point()
-
-```
-
-## ``ggplot`` and ``aggregate()``
-\scriptsize
-
-```{r, echo = F , eval= T, warning=FALSE}
-
-anualIncGen <- aggregate(x= lwh["income_total_win"],
-                         by = list(year = lwh$year,
-                                   treatment =  lwh$treatment_hh),
-                         FUN = mean, na.rm = T)
-
-ggplot(anualIncGen, aes(y = income_total_win, x = year, color = treatment, group = treatment)) +
-  geom_line() +
-  geom_point()
-
-
 ```
 
 # ``ggplot`` - Aesthetics
