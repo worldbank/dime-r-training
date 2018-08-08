@@ -85,7 +85,5 @@
                 ylim = c(-3,-1)) +
     theme_void() +                          # Remove ticks
     theme(legend.position = "none")         # Remove legend
-  Final adjustments
-  
-  
+
   
