@@ -71,7 +71,6 @@
   #--------------------#
 
   rawData           <- file.path(projectFolder, "Data", "Raw")
-  rawData           <- file.path(projectFolder, "Data","Raw")
   finalData         <- file.path(projectFolder, "Data", "Final")
   Code              <- file.path(projectFolder ,"Code")
   Output            <- file.path(projectFolder, "Output")
