@@ -224,11 +224,12 @@ Before doing an exercise, lets create a simpler version of the lwh data containg
 # Vector with covariates to be kept
 covariates <- c("age_hhh",
                 "num_dependents",
-                "income_total_win",
-                "expend_food_yearly")
+                "income_total_trim",
+                "expend_food_yearly",
+                "w_area_plots_a")
 
-# subset lwh
-lwh_simp <- lwh[, covariates]
+lwh_simp <- lwh[,covariates]
+
 
 ```
 
