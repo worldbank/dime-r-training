@@ -213,20 +213,19 @@ anualIncGen
 
 ### Exercise 4
 
-First, let's create a very simple plot with the yearly expenditure on food on the Y axis and age of the household head on the X axis.
+First, let's create a very simple plot with the total income on the Y axis and The plot area on the X axis.
 
 
- 1. Use the ``ggplot`` function to store your plot in an object called ``plot1``
+ 1. Use the ``ggplot`` function to print your plot
     - Since it's the first one, Here's the code:
 
 ```{r, eval=T}
-plot1 <- ggplot(data = lwh,
-                aes(y = w_area_plots_b,
-                    x = w_gross_yield_b))
+ggplot(data = lwh,
+       aes(y = w_area_plots_a,
+           x = income_total_trim))
 ```
 
- 2. Now, try to print your plot. What happens?
-    - You can do it by using the ``print()`` function or just typing the object name in the console
+ 2. Now, open yout ``Plots`` window. What does it show?
 
 ## ``ggplot`` - Introduction
 
