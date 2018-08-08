@@ -247,22 +247,30 @@ centroid <-  c(30.46586, -2.014172)
 basemap <- get_map(location = centroid,
                    zoom = 11,
                    maptype = "hybrid")
-
-
-# Take a look at the map
+```
+```{r, echo = F}
 plot(basemap)
 ```
 
-<!-- ## Add a Basemap -->
+## Add a Basemap
 
-<!-- ```{r, warning = F, message = F, eval = T, echo = F} -->
-<!-- par(mfrow=c(2,2)) -->
-<!-- plot(get_map(location = centroid, maptype = "roadmap"), main = "roadmap") -->
-<!-- plot(get_map(location = centroid, maptype = "satellite"), main = "satellite") -->
-<!-- plot(get_map(location = centroid, maptype = "watercolor"), main = "watercolor") -->
-<!-- plot(get_map(location = centroid, maptype = "toner"), main = "toner") -->
-<!-- ``` -->
-
+<div class="columns-2">
+  __maptype = "roadmap"__
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/roadmap.png", dpi = 300)
+```
+  __maptype = "satellite"__
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/satellite.png", dpi = 300)
+```
+  __maptype = "toner"__
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/tonar.png", dpi = 300)
+```
+  __maptype = "watercolor"__
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/watercolor.png", dpi = 300)
+```
 
 ## Add a basemap
 
