@@ -433,7 +433,8 @@ This is supposed to be categorical variable, but for now it's just numeric.
 
 To create a factor variable, we use the ``factor`` function:
 
-``factor(x, levels, labels)`` : turns numeric or string vector ``x`` into a factor vector 
+``factor(x, levels, labels)`` : turns numeric or string vector ``x`` into a factor vector
+
 * **``x``:** the vector you want to turn into a factor
 * **``levels``:** a vector containing the possible values of ``x``
 * **``labels``:** a vector of strings containing the labels you want to apply to your factor variable
