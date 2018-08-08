@@ -56,9 +56,9 @@ knitr::include_graphics("img/raster.png", dpi = 130)
 
 * __Coordinate reference systems__ map pairs of numbers to a location on the earth.
 * __Geographic Coordinate Systems__ live on a sphere; here, the units are in decimal degrees
-  + Using the WGS84 coordinate system the World Bank Rwanda is located at 38.89 degrees latitude and -77.04 degrees longitude.
+  + Using the WGS84 coordinate system the World Bank Rwanda is located at -1.951 degrees latitude and 30.061 degrees longitude.
 * __Projected Coordinate Systems__ project the earth onto a flat surface. Doing this [distorts](http://geoawesomeness.com/5-tools-will-let-master-map-projections/) the earth in some way (shape, area, distance or direction)
-  + Using to the World Mercator projection, the World Bank is located 4680364.64 north and -8576320.73 east.
+  + Using to the World Mercator projection, the World Bank is located 9783995.88 north and 173093.46 east.
 
 ```{r fig.align="center", echo=F}
 knitr::include_graphics("img/coordinate_systems.jpg", dpi = 120)
@@ -398,7 +398,7 @@ The resulting dataframe from `tidy`:
 ```
 
 ```{r, echo = F}
-head(rwanda_l2_df[, 1:6])
+head(rwanda_l2_df[, c(1,2,3,4,5,6,10,12,13)])
 ```
 
 ## Making nice-looking maps
