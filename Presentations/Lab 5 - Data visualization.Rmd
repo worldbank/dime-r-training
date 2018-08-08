@@ -72,8 +72,6 @@ Before we start, let's make sure we're all set:
                          "DataWork","DataSets","Final")
   lwh <- read.csv(file.path(finalData,"lwh_clean.csv"),
                   header = TRUE)
-  lwh_simp <- read.csv(file.path(finalData,"lwh_simp.csv"),
-                       header = TRUE)
 
 ```
 
