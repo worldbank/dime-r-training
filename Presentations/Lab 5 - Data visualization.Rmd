@@ -219,7 +219,7 @@ First, let's create a very simple plot with the total income on the Y axis and T
  1. Use the ``ggplot`` function to print your plot
     - Since it's the first one, Here's the code:
 
-```{r, eval=T}
+```{r, eval = F}
 ggplot(data = lwh,
        aes(y = w_area_plots_a,
            x = income_total_trim))
