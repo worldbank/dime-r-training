@@ -79,32 +79,106 @@ knitr::include_graphics("img/GISsystem.png", dpi = 110)
 ```
 
 
-# Displaying GPS data in a map
 
-## Load and Map HH-Level Data
+# Getting started
+
+## Getting started
+
+1. Run your master file to load packages and set folder paths
+2. Open a new script for the code in this session
+3. Load the data for this session
+
+
 ```{r, echo=T, warning=F, message=F}
+# Loading the data
 hh_data <- read.csv(file.path(finalData,"HH_data.csv"))
 
 str(hh_data)
 ```
 
-## Plot points
-```{r, fig.width=5, fig.height=4, fig.align="center"}
-library(ggplot2)
+# Displaying GPS data in a map
+
+## Displaying GPS data in a map
+* In this data set, we have coordinates for the location of each household in our sample
+* We can plot the longitude and latitude in a map as points, the same way we would with any other numeric variable
+* To do so, we'll keep using ggplot:
+
+```{r, eval = F}
+# Plot household coordinates from data set
 ggplot() +
-  geom_point(data=hh_data, 
-             aes(x=longitude_scramble, y=latitude_scramble),
-             size=.7)
+  geom_point(data = hh_data, 
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble),
+             size = .7)
+```
+
+## Displaying GPS data in a map
+```{r, fig.width=5, fig.height=4, fig.align="center"}
+# Plot household coordinates from data set
+ggplot() +
+  geom_point(data = hh_data, 
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble),
+             size = .7)
+```
+
+## Displaying GPS data in a map
+* In a regular plot we may want to adjust the scale to the data
+* In a map, however, it's important to avoid distortion so it can be recognized 
+* The option ``coord_map()`` creates an approximated projection of an area
+* ``coord_map()`` works best for smaller areas closer to the equator
+* A more precise (and less efficient) projection can be created by ``coord_map()``
+
+```{r, eval = F}
+# Plot undistorted household coordinates from data set
+ggplot() +
+  geom_point(data = hh_data, 
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble),
+             size = .7) +
+  coord_quickmap()
+```
+
+## Displaying GPS data in a map
+```{r}
+# Plot undistorted household coordinates from data set
+ggplot() +
+  geom_point(data = hh_data, 
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble),
+             size = .7) +
+  coord_quickmap()
 ```
 
 ## Use data in plot aesthetics
-```{r, fig.width=5, fig.height=4, fig.align="center"}
-library(ggplot2)
+
+* Because we have other information about the households, we can use the map to illustrate the
+geographic districution of the variables in the data set
+
+* This is done using the same arguments as we used for non-spatial data: 
+
+```{r, eval = F}
+# Plot undistorted household coordinates from data set
 ggplot() +
-  geom_point(data=hh_data, 
-             aes(x=longitude_scramble, y=latitude_scramble, 
-                 color=food_security),
-             size=.7)
+  geom_point(data = hh_data, 
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble,
+                 color = food_security),
+             size = .7) +
+  coord_quickmap()
+```
+
+## Use data in plot aesthetics
+
+```{r, echo = F}
+# Plot undistorted household coordinates from data set
+ggplot() +
+  geom_point(data = hh_data, 
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble,
+                 color = food_security),
+             size = .7) +
+  coord_quickmap()
 ```
 
 ## Customize plot
@@ -117,11 +191,11 @@ ggplot() +
                  y = latitude_scramble, 
                  color = food_security),
              size = .7) +
-  coord_quickmap() +                           # Make sure the map doesn't look distorted
+  coord_quickmap() +                           # Make sure the map isn't distorted
   theme_void() +                               # Remove gray color from background
-  theme(plot.title = element_text(hjust = 0.5, # Customize title appearance
-                                  face="bold")) +
-  scale_color_manual(values = c("green", "orange", "red")) +
+  scale_color_manual(values = c("green",       # USe more intuitive colors
+                                "orange",
+                                "red")) +
   labs(title="Household Food Security",        # Add titles
        color="Food Security") 
 ```
@@ -131,67 +205,88 @@ ggplot() +
 
 # Launch plot device
 ggplot() +
-
-  # Points
-  geom_point(data=hh_data, 
-             aes(x=longitude_scramble, y=latitude_scramble, 
-                 color=food_security),
-             size=.7) +
-  
-  # Other elements to improve map
-  coord_quickmap() + # make sure the map doesn't look distorted. Can also use
-                     # coord_map(), but sometimes makes the process slow
-  theme_void() +
-  scale_color_manual(values=c("green", "orange", "red")) +
-  theme(plot.title = element_text(hjust = 0.5, face="bold")) +
-  labs(title="Household Food Security", color="Food Security") 
+  geom_point(data = hh_data,                   # Add points
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble, 
+                 color = food_security),
+             size = .7) +
+  coord_quickmap() +                           # Make sure the map isn't distorted
+  theme_void() +                               # Remove gray color from background
+  scale_color_manual(values = c("green",       # Set colors so they're more intuitive
+                                "orange",
+                                "red")) +
+  labs(title="Household Food Security",        # Add titles
+       color="Food Security") 
 ```
 
 ## Add a Basemap
+
+* Ok, we know we are using spatial data, but this does not look like a map
+* Let's add a basemap on the background
+* To do so, we will use a function called ``get_map``, that loads into R a map from a server such as Google Maps
+
+### ``get_map``: 
+* **``location``**: an address, longitude/latitude pair (in that order), or left/bottom/right/top bounding box
+* **``zoom``**: from 3 (continent) to 21 (building)
+* **``maptype``**: the map look
+
+## Add a Basemap
+
 ```{r, warning = F, message = F, eval = T}
-area <- bbox(as.matrix(hh_data[, c("longitude_scramble", "latitude_scramble")]))
+# Create a bounding box that encompasses all of our coordinates
+centroid <-  c(30.46586, -2.014172)
 
-basemap <- 
-  get_map(location = area,
-          zoom = 11,
-          maptype = "hybrid") # roadmap, satellite, etc. See help(get_map)
+
+# Get map
+basemap <- get_map(location = centroid,
+                   zoom = 11,
+                   maptype = "hybrid")
 
 ```
-```{r, warning = F, message = F, eval = T, echo = F}
-plot(basemap)
-```
+
+<!-- ## Add a Basemap -->
+
+<!-- ```{r, warning = F, message = F, eval = T, echo = F} -->
+<!-- par(mfrow=c(2,2)) -->
+<!-- plot(get_map(location = centroid, maptype = "roadmap"), main = "roadmap") -->
+<!-- plot(get_map(location = centroid, maptype = "satellite"), main = "satellite") -->
+<!-- plot(get_map(location = centroid, maptype = "watercolor"), main = "watercolor") -->
+<!-- plot(get_map(location = centroid, maptype = "toner"), main = "toner") -->
+<!-- ``` -->
 
 
 ## Add a basemap
 ```{r, eval = F}
 ggmap(basemap) +
-  geom_point(data=hh_data,
-             aes(x=longitude_scramble,
-                 y=latitude_scramble,
-                 color=food_security),
-             size=.7) +
-  coord_quickmap() + # make sure the map doesn't look distorted. Can also use
-                     # coord_map(), but sometimes makes the process slow
-  theme_void() +
-  labs(title="Household Food Security", color="Food Security") +
-  theme(plot.title = element_text(hjust = 0.5, face="bold")) +
-  scale_color_manual(values=c("green", "orange", "red"))
+  geom_point(data = hh_data,                   # Add points
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble, 
+                 color = food_security),
+             size = .7) +
+  coord_quickmap() +                           # Make sure the map isn't distorted
+  theme_void() +                               # Remove gray color from background
+  scale_color_manual(values = c("green",       # Set colors so they're more intuitive
+                                "orange",
+                                "red")) +
+  labs(title="Household Food Security",        # Add titles
+       color="Food Security") 
 ```
 
 ## Add a basemap
 ```{r, eval = T, echo = F}
 ggmap(basemap) +
-  geom_point(data=hh_data,
-             aes(x=longitude_scramble,
-                 y=latitude_scramble,
-                 color=food_security),
-             size=.7) +
-  coord_quickmap() + # make sure the map is not distorted. Can also use
-                     # coord_map(), but sometimes makes the process slow
-  theme_void() +
-  labs(title="Household Food Security", color="Food Security") +
-  theme(plot.title = element_text(hjust = 0.5, face="bold")) +
-  scale_color_manual(values=c("green", "orange", "red"))
+  geom_point(data = hh_data,                   # Add points
+             aes(x = longitude_scramble, 
+                 y = latitude_scramble, 
+                 color = food_security),
+             size = .7) +
+  coord_quickmap() +                           # Make sure the map isn't distorted
+  theme_void() +                               # Remove gray color from background
+  scale_color_manual(values = c("green",       # Set colors so they're more intuitive
+                                "orange",
+                                "red")) +
+  labs(title="Household Food Security",        # Add titles
+       color="Food Security") 
 ```
 
 
@@ -202,18 +297,21 @@ ggmap(basemap) +
 The data we used until now is a data set like any other, with GPS coordinates as variables. We're using the GPS coordinates to create a plot with the same command we used before. However, that's not how spatial data is more commonly organized.
 
 Spatial data usually takes the format of a shapefile. A shapefile has three basic components:
+
 1. A shape format, that contains the features' geometry
 2. An attribute, that is, a database with information about each shape
 3. An index that links the feature geometry to the database
 
 ## Loading a shapefile into R
 
-The `get_data` function from the `raster` package allows us to download data from [GADM](https://gadm.org/) (the Database of Global Administrative Areas). Let's download the third administrative division for Rwanda.
+The `get_data` function from the `raster` package allows us to download data from [GADM](https://gadm.org/) (the Database of Global Administrative Areas). Let's download the first an second administrative division for Rwanda:
 
 ```{r}
+# First administrative division
 rwanda_l1 <- getData('GADM', country='RWA', level=1)
 rwanda_l1
 
+# Second administrative division
 rwanda_l2 <- getData('GADM', country='RWA', level=2)
 ```
 
@@ -234,9 +332,10 @@ str(rwanda_l1@data)
 
 
 ## Quickly Plot Spatial Data
-We can quickly plot spatial dataframes.
+We can quickly plot spatial dataframes using base plot. Note that now the map is not distorted even though we didn't tell it to project the data.
 
 ```{r, warning=F, message=F}
+# Quick plot of Rwanda's first administrative division
 plot(rwanda_l1)
 ```
 
@@ -244,6 +343,7 @@ plot(rwanda_l1)
 We can quickly plot spatial dataframes.
 
 ```{r, warning=F, message=F}
+# Quick plot of Rwanda's first and second administrative divisions
 plot(rwanda_l1, lwd = 2)
 plot(rwanda_l2, add = TRUE)
 ```
@@ -251,9 +351,10 @@ plot(rwanda_l2, add = TRUE)
 ## Making nice-looking maps
 As discussed earlier, base plot is useful to create quick visualizations, but not so much for nice presentations.
 
-However, ggplot can't interpret spatial dataframes. Consequently, we need to transform the data into a format that ggplot can understand. Here, we make a dataframe where each vertice of the polygon is an observation.
+However, `ggplot` can't interpret spatial dataframes. Consequently, we need to transform the data into a format that ggplot can understand. Here, we make a dataframe where each vertice of the polygon is an observation.
 
 ```{r, warning=F, message=F}
+# Transform the sshapefile into a data set
 rwanda_l1_df <- tidy(rwanda_l1, region = "ID_1")
 rwanda_l2_df <- tidy(rwanda_l2, region = "ID_2")
 head(rwanda_l2_df)
@@ -264,13 +365,16 @@ head(rwanda_l2_df)
 The resulting dataframe from `tidy`:
 
 * Has the variable `id`, which is taken from the the variable in the `region` argument.
-* Has
 * Doesn't have any of our other variables (e.g., food security).
 * We can merge our other variables from the original database into this dataframe using the correspondence in ID variables
 
 ```{r}
-rwanda_l1_df <- merge(rwanda_l1_df, rwanda_l1, by.x="id", by.y="ID_1")
-rwanda_l2_df <- merge(rwanda_l2_df, rwanda_l2, by.x="id", by.y="ID_2")
+  # Merging spatial data and original data set
+  rwanda_l1_df <- merge(rwanda_l1_df, rwanda_l1, 
+                        by.x="id", by.y="ID_1")
+  
+  rwanda_l2_df <- merge(rwanda_l2_df, rwanda_l2, 
+                        by.x="id", by.y="ID_2")
 ```
 
 ```{r, echo = F}
@@ -281,12 +385,13 @@ head(rwanda_l2_df[, 1:6])
 
 Now, let's make a map
 ```{r, echo=T, eval = F}
+# Map first administrative division
 ggplot() + 
   geom_polygon(data = rwanda_l1_df, 
                aes(x = long, 
                    y = lat,
                    group = group),
-               colour = "black")
+               colour = "black")      # Set color of line
 ```
 
 ## Making nice-looking maps
@@ -303,20 +408,21 @@ ggplot() +
 
 ## Making nice-looking maps
 
-Now, let's make a map
+* The argument `alpha` determines the transparency of the map's fill:
+
 ```{r, eval = F}
 ggplot() + 
-  geom_polygon(data = rwanda_l1_df, 
+  geom_polygon(data = rwanda_l1_df,   ## Map first administrative division
                aes(x = long, 
                    y = lat,
                    group = group),
-               colour = "black",
-               alpha = 0)
+               colour = "black",       # Set color of line
+               alpha = 0)              # Set transparency of fill
 ```
 
 ## Making nice-looking maps
 
-Now, let's make a map
+* The argument `alpha` determines the transparence of the map's fill:
 ```{r, echo = F}
 ggplot() + 
   geom_polygon(data = rwanda_l1_df, 
@@ -327,29 +433,27 @@ ggplot() +
                alpha = 0)
 ```
 
-## Making nice-looking maps
+## Using two shapefiles in a single map
 
-Now, let's make a map
 ```{r, echo=T, eval = F}
-ggplot() + 
-  geom_polygon(data = rwanda_l2_df, 
+ggplot() +                             ## Open graph device
+  geom_polygon(data = rwanda_l2_df,    ## Map second administrative division
                aes(x = long, 
                    y = lat,
                    group = group, 
-                   fill = id)) +
-  geom_polygon(data = rwanda_l1_df, 
+                   fill = id),          # One color fill per id
+               alpha = .3) +            # Set transparence of fill
+  geom_polygon(data = rwanda_l1_df,    ## Map first administrative division
                aes(x = long, 
                    y = lat,
                    group = group),
-               colour = "black",
-               alpha = 0,
-               lwd = 1.2)
+               colour = "black",         # Set color of line
+               alpha = 0)                # Set transparence of fill
   
 ```
 
-## Making nice-looking maps
+## Using two shapefiles in a single map
 
-Now, let's make a map
 ```{r, echo = F}
 ggplot() + 
   geom_polygon(data = rwanda_l2_df, 
@@ -362,150 +466,104 @@ ggplot() +
                    y = lat,
                    group = group),
                colour = "black",
-               alpha = 0,
-               lwd = 1.2)
+               alpha = 0)
   
 ```
 
-## Making nice-looking maps
 
+## Adding a basemap
 
-## Making nice-looking maps
-
-```{r, echo = F, warning = F, message = F}
+```{r, eval = F, warning = F, message = F}
+# Create a bounding box around Rwanda
 area <- bbox(rwanda_l1)
 
+# Get the basemap from Google Maps
 basemap <- 
   get_map(location = area,
           zoom = 8,
-          maptype = "satellite") # roadmap, satellite, etc. See help(get_map)
+          maptype = "satellite")
 
 ggmap(basemap) + 
-  geom_polygon(data = rwanda_l2_df, 
+  geom_polygon(data = rwanda_l2_df,    ## Map second administrative division
                aes(x = long, 
                    y = lat,
                    group = group, 
-                   fill = id)) +
-  geom_polygon(data = rwanda_l1_df, 
+                   fill = id),          # One color fill per id
+               alpha = .3) +            # Set transparence of fill
+  geom_polygon(data = rwanda_l1_df,    ## Map first administrative division
                aes(x = long, 
                    y = lat,
                    group = group),
-               colour = "black",
-               alpha = 0,
-               lwd = 1.2)
+               colour = "black",         # Set color of line
+               alpha = 0)                # Set transparence of fill
   
 ```
 
-
-## Making nice-looking maps
+## Adding a basemap
 
 ```{r, echo = F, warning = F, message = F}
-ggmap(basemap) + 
-  geom_polygon(data = rwanda_l2_df, 
-               aes(x = long, 
-                   y = lat,
-                   group = group),
-               colour = "black") +
-  geom_polygon(data = rwanda_l2_df, 
+# Create a bounding box around Rwanda
+area <- bbox(rwanda_l1)
+
+# Get the basemap from Google Maps
+basemap <- 
+  get_map(location = area,
+          zoom = 8,
+          maptype = "satellite")
+
+# Create map
+ggmap(basemap) +                       ## Add basemap
+  geom_polygon(data = rwanda_l2_df,    ## Map second administrative division
                aes(x = long, 
                    y = lat,
                    group = group, 
-                   fill = id),
-               alpha = .4) +
-  geom_polygon(data = rwanda_l1_df, 
+                   fill = id),          # One color fill per id
+               alpha = .3) +            # Set transparence of fill
+  geom_polygon(data = rwanda_l1_df,    ## Map first administrative division
                aes(x = long, 
                    y = lat,
                    group = group),
-               colour = "black",
-               alpha = 0,
-               lwd = 2) +
-  theme_void() + 
-  scale_fill_manual(values =  wes_palette(30, name = "Cavalcanti1", type = "continuous"))
+               colour = "black",         # Set color of line
+               alpha = 0)                # Set transparence of fill
   
 ```
 
-<!-- ## Interactive Maps -->
-<!-- So far, we've been making static maps. But those are boring. Let's make an interactive map using [Leaflet](https://rstudio.github.io/leaflet/). There's a bunch of different basemaps to choose from; from the list [here](http://leaflet-extras.github.io/leaflet-providers/preview/), enter the name of the basemap in quotes in the `addProviderTiles` function. -->
+## Final adjustments
 
-<!-- ```{r, eval=T, warning=F, message=F} -->
-<!-- library(leaflet) -->
-<!-- library(dplyr) -->
+```{r, eval = F, warning = F, message = F}
+ggmap(basemap) +                       ## Add basemap
+  geom_polygon(data = rwanda_l2_df,    ## Map second administrative division
+               aes(x = long, 
+                   y = lat,
+                   group = group, 
+                   fill = id),          # One color fill per id
+               alpha = .3) +             # Set transparence of fill
+  geom_polygon(data = rwanda_l1_df,    ## Map first administrative division
+               aes(x = long, 
+                   y = lat,
+                   group = group),
+               colour = "black",         # Set color of line
+               alpha = 0) +              # Set transparence of fill
+  theme_void                             # Remove ticks
+  
+```
 
-<!-- imap_1 <- leaflet() %>% -->
-<!--   addProviderTiles("OpenStreetMap") %>% -->
-<!--   addCircles(data=hh_data_sdf) -->
+<!-- ## Final adjustments -->
+
+<!-- ```{r, echo = F, warning = F, message = F} -->
+<!-- ggmap(basemap) +                       ## Add basemap -->
+<!--   geom_polygon(data = rwanda_l2_df,    ## Map second administrative division -->
+<!--                aes(x = long,  -->
+<!--                    y = lat, -->
+<!--                    group = group,  -->
+<!--                    fill = id),           # One color fill per id -->
+<!--                alpha = .3) +             # Set transparence of fill -->
+<!--   geom_polygon(data = rwanda_l1_df,    ## Map first administrative division -->
+<!--                aes(x = long,  -->
+<!--                    y = lat, -->
+<!--                    group = group), -->
+<!--                colour = "black",         # Set color of line -->
+<!--                alpha = 0) +              # Set transparence of fill -->
+<!--   theme_void +                           # Remove ticks -->
+<!--   theme(legend.position = "none")        # Remove legend -->
 <!-- ``` -->
-
-<!-- _NOTE:_ `leaflet` assumes you are using the following coordinate reference system: -->
-<!-- ```{r, eval=F} -->
-<!-- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" -->
-<!-- ``` -->
-
-<!-- ## -->
-<!-- ```{r} -->
-<!-- imap_1 -->
-<!-- ``` -->
-
-<!-- ## -->
-<!-- We can save our interactive map outside of R. Here, we use `saveWidget` from the `htmlwidgets` package. Doubleclicking the html file will open the file in any browser. -->
-<!-- ```{r, eval=T, warning=F, message=F} -->
-<!-- library(htmlwidgets) -->
-<!-- saveWidget(imap_1, file=file.path(Output,"interactive_map.html")) -->
-<!-- ``` -->
-
-<!-- ## Lets make a better interactive map -->
-<!-- ```{r} -->
-<!-- # Define Palette -->
-<!-- pal <- colorFactor( -->
-<!--   palette = c("Green","Yellow","Red"), -->
-<!--   domain = hh_data_sdf$food_security) -->
-
-<!-- imap_2 <- leaflet() %>% -->
-<!--   addProviderTiles("Stamen.Terrain") %>% -->
-<!--   addCircleMarkers(data=hh_data_sdf, -->
-<!--                  radius=3, -->
-<!--                  fillOpacity=1, -->
-<!--                  color=~pal(food_security), -->
-<!--                  stroke=F, # remove outer-circle around circle -->
-<!--                  popup=~food_security) %>% # variable to display when click feature -->
-<!--   # Add legend for points layer -->
-<!--   addLegend(pal = pal, -->
-<!--           values = hh_data_sdf$food_security, -->
-<!--           title = "Food Security") -->
-<!-- ``` -->
-
-<!-- ## -->
-<!-- ```{r} -->
-<!-- imap_2 -->
-<!-- ``` -->
-
-
-<!-- ## -->
-<!-- ggplot can't interpret spatial dataframes. 
-
-<!-- ## Add Polygon to Interactive Map -->
-<!-- ```{r} -->
-<!-- leaflet() %>% -->
-<!--   addProviderTiles("OpenStreetMap") %>% -->
-<!--   addPolygons(data=ag_fields) -->
-<!-- ``` -->
-
-<!-- ## -->
-<!-- ```{r} -->
-<!-- pal_foodexpend <- colorNumeric("RdYlGn", ag_fields$expend_food_yearly_mean) -->
-
-<!-- imap_3 <- leaflet() %>% -->
-<!--   addProviderTiles("OpenStreetMap") %>% -->
-<!--   addPolygons(data=ag_fields, -->
-<!--             fillColor = ~pal_foodexpend(expend_food_yearly_mean), -->
-<!--             fillOpacity = 0.6, -->
-<!--             color="black", # color of line around polygons -->
-<!--             weight=1, # width of line around polygons -->
-<!--             popup=~site) -->
-<!-- ``` -->
-
-<!-- ## -->
-<!-- ```{r} -->
-<!-- imap_3 -->
-<!-- ``` -->
-
