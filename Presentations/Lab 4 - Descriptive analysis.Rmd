@@ -49,7 +49,11 @@ This session will cover two topics:
 
 ## Introduction
 
-First, let's load the data that is going to be used in the training. 
+Let's get started:
+
+1. Run your master script to load the packages and set folder paths. Don't forget to deactivate the ``INSTALL_PACKAGES`` switch!
+2. Open a new R script to write the code from this session
+3. Load the data that we'll use for this session 
 
 #### Load the data
 ```{r, include = T, results = "hide", eval = F}
@@ -65,13 +69,12 @@ First, let's load the data that is going to be used in the training.
 ## Quick summary statistics
 
 
-`summary(x, digits)` - equivalent to Stata's *summarize*, displays summary statistics. Its arguments are:
+`summary(x)` - equivalent to Stata's *summarize*, displays summary statistics. Its arguments are:
 
  * **x:** the object you want to summarize, usually a vector or data frame
- * **digits:** the number of decimal digits to be displayed
-    
+
 \begin{block}{Exercise 1}
-  Use the \texttt{summary()} function to display summary statistics for the \textit{lwh} data frame.
+  Use the \texttt{summary()} function to display summary statistics for the entire \textit{lwh} data frame.
 \end{block}
 
 ## Quick summary statistics
@@ -121,21 +124,6 @@ First, let's load the data that is going to be used in the training.
 
   \textit{Stargazer} was originally developed to export beautiful regression tables to \LaTeX\ or html, but it also allows you to generate summary statistics.
 
-## Quick summary statistics - Stargazer
-
- 
-### If you haven't yet done this in your master, install and load the ``stargazer`` package now!
- 
-```{r, eval = F}
-
-  # Install stargazer
-  install.packages("stargazer",
-                   dependencies = TRUE)
-
-  # Load stargazer
-  library(stargazer)
-```
-
 
 ## Quick summary statistics - Stargazer
 
@@ -175,7 +163,7 @@ stargazer(lwh[1:15],
 ## Descriptives tables
 
 
-In R, it is relatively easy to construct any table you can think of by manipulating objects. You can either export an existing data frame or create others taylored to be exported.
+In R, it is relatively easy to construct any table you can think of by manipulating objects. You can either export an existing data frame or create others tailored to be exported.
 
 Than, it is possible to export them to a myriad of formats. Here, we will focus on exporting tables to Microsoft Excel.
 
@@ -264,48 +252,6 @@ lwh_simp <- lwh[,covariates]
   
 ```
 
-## Descriptives tables
-
-### Exercise 4 (Challenge/Bonus)
-
- 1. Now instead of using the `sapply()` function 4 times, use it only once.
- 2. You can do this by definining your on function inside the `FUN` argument. Like this:
-```{r, eval = F}
- FUN = function(x) { ... anythingYouLikeWith(x) ... }
-```
- 3. Finally, transpose the result to make it nicer with the function `t()`
-
-
-## Descriptives tables
-\scriptsize
-
-```{r}
-lwh_desc2 <- 
-  t(
-    sapply(lwh_simp, 
-           function(x) {
-             data.frame(N=sum(!is.na(x)),  # Number of non missings
-                        Mean=mean(x, na.rm = T), 
-                        StandDev=sd(x, na.rm = T), 
-                        Min=min(x, na.rm = T), 
-                        Max=max(x, na.rm = T))
-             }
-           )
-    )
-
-lwh_desc2
-```
-
-## Descriptives tables
-\scriptsize
-
-One thing to notice is that the `lwh_desc2` object is not a data frame, but a matrix. The `sapply()` function outputs vectors or matrices. 
-
-```{r}
-class(lwh_desc2)
-row.names(lwh_desc2)
-colnames(lwh_desc2)
-```
 
 ## Descriptives tables
 
@@ -330,8 +276,17 @@ For the next exercises, we'll use two of them:
  Use the \texttt{aggregate} function to create a data frame called \texttt{year\_inc\_tab} with the mean of the total income per year and treatment status. The syntax of the \texttt{aggregate} function is very similar to that of the \texttt{collapse} function in Stata.
 \end{block}
 
+## Descriptives tables - aggregate()
+
+```{stata, eval = F}
+* Aggregate income by year and treatment status in stata
+collapse  (mean) income_total_win, ///
+          by     (year treatment_hh)
+```
+
+
 ```{r, eval = T, results = "hide"}
-# Aggregate income by year and treatment status
+# Aggregate income by year and treatment status in R
 year_inc_tab <-
   aggregate(x = lwh$income_total_win, # data.frame
             by = list(year = lwh$year, # list
@@ -374,7 +329,7 @@ year_inc_tab <- reshape(year_inc_tab,
 
 For comparison, here's how you'd do it in Stata:
 
-``reshape wide x, i(year) j(treatment)``
+``reshape wide varlist, i(year) j(treatment)``
 
 
 ## Descriptives tables - reshape()
@@ -455,7 +410,7 @@ First, install and load the `openxlsx` package:
 
 Use the `write.xlsx()` function to save the `year_inc_tab` you table created in Exercise 6 into a xlsx file.
 
-1. Set `x` arugment as *year_inc_tab*.
+1. Set `x` argument as *year_inc_tab*.
 2. Set `row.names` as `FALSE`
 4. Set `file` as the folder path to your output folder plus a name for a file plus ".xlsx"
 
