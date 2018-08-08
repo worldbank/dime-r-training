@@ -60,7 +60,7 @@
   food_vars        <- c("expend_food_yearly", "expend_food_lastweek", "wdds_score")
   
   head(names(panel), 40)
-  income_vars      <- income_vars <- names(panel)[28:37]
+  income_vars      <- names(panel)[28:37]
     
   names(panel)[grep("area", names(panel))]
   plot_area_vars   <- c("w_gross_yield_a", "w_gross_yield_b", "w_gross_yield_c")
