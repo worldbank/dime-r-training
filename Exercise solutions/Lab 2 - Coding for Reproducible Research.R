@@ -15,7 +15,7 @@
   
   #                                                     Last modified in Aug 2018
 
-# PART 0: Clear boiler plate --------------------------------------------------
+# PART 0: Clear memory --------------------------------------------------
   
   rm(list=ls())
 
@@ -70,7 +70,7 @@
   # Project subfolders #
   #--------------------#
 
-  rawData           <- file.path(projectFolder, "Data","Raw")
+  rawData           <- file.path(projectFolder, "Data", "Raw")
   finalData         <- file.path(projectFolder, "Data", "Final")
   Code              <- file.path(projectFolder ,"Code")
   Output            <- file.path(projectFolder, "Output")

@@ -182,6 +182,12 @@ ggplot() +
 ```
 
 ## Customize plot
+Now let's make a few adjustments to make it better-looking:
+
+1. Remove the ticks and axis titles
+2. Show little hunger in green, moderate in yellow and severe in red
+3. Add a title to the map and to the legend
+
 ```{r, eval=F, echo=T, warning=F, message=F}
 
 # Launch plot device
@@ -193,7 +199,7 @@ ggplot() +
              size = .7) +
   coord_quickmap() +                           # Make sure the map isn't distorted
   theme_void() +                               # Remove gray color from background
-  scale_color_manual(values = c("green",       # USe more intuitive colors
+  scale_color_manual(values = c("green",       # Use more intuitive colors
                                 "orange",
                                 "red")) +
   labs(title="Household Food Security",        # Add titles
@@ -233,7 +239,7 @@ ggplot() +
 ## Add a Basemap
 
 ```{r, warning = F, message = F, eval = T}
-# Create a bounding box that encompasses all of our coordinates
+# Choose a point to center the map on
 centroid <-  c(30.46586, -2.014172)
 
 
@@ -242,6 +248,9 @@ basemap <- get_map(location = centroid,
                    zoom = 11,
                    maptype = "hybrid")
 
+
+# Take a look at the map
+plot(basemap)
 ```
 
 <!-- ## Add a Basemap -->
@@ -256,8 +265,11 @@ basemap <- get_map(location = centroid,
 
 
 ## Add a basemap
+
+To use the basemap on the background of our map, we replace the `ggplot()` expression in the regular graph with `ggmap()`:
+
 ```{r, eval = F}
-ggmap(basemap) +
+ggmap(basemap) +                               # Load basemap 
   geom_point(data = hh_data,                   # Add points
              aes(x = longitude_scramble, 
                  y = latitude_scramble, 
@@ -435,6 +447,8 @@ ggplot() +
 
 ## Using two shapefiles in a single map
 
+To make it more interesting, let's also show the second administrative division. We do this by adding a second shapefile to the same plot:
+
 ```{r, echo=T, eval = F}
 ggplot() +                             ## Open graph device
   geom_polygon(data = rwanda_l2_df,    ## Map second administrative division
@@ -473,16 +487,17 @@ ggplot() +
 
 ## Adding a basemap
 
+Now let's add another basemap 
 ```{r, eval = F, warning = F, message = F}
 # Create a bounding box around Rwanda
-area <- bbox(rwanda_l1)
+area <- bbox(rwanda_l1)                 # bbox() only works with spatial data
 
 # Get the basemap from Google Maps
-basemap <- 
-  get_map(location = area,
-          zoom = 8,
-          maptype = "satellite")
+basemap <- get_map(location = area,
+                   zoom = 8,
+                   maptype = "satellite")
 
+# Create the map
 ggmap(basemap) + 
   geom_polygon(data = rwanda_l2_df,    ## Map second administrative division
                aes(x = long, 
@@ -530,40 +545,45 @@ ggmap(basemap) +                       ## Add basemap
 
 ## Final adjustments
 
+Some final touches to make it prettier:
 ```{r, eval = F, warning = F, message = F}
-ggmap(basemap) +                       ## Add basemap
-  geom_polygon(data = rwanda_l2_df,    ## Map second administrative division
-               aes(x = long, 
+ggmap(basemap) +                         ## Add basemap
+  geom_polygon(data = rwanda_l2_df,      ## Map second administrative division
+               aes(x = long,
                    y = lat,
-                   group = group, 
-                   fill = id),          # One color fill per id
-               alpha = .3) +             # Set transparence of fill
-  geom_polygon(data = rwanda_l1_df,    ## Map first administrative division
-               aes(x = long, 
+                   group = group,
+                   fill = id),            # One color fill per id
+               alpha = .2) +              # Set transparence of fill
+  geom_polygon(data = rwanda_l1_df,      ## Map first administrative division
+               aes(x = long,
                    y = lat,
                    group = group),
-               colour = "black",         # Set color of line
-               alpha = 0) +              # Set transparence of fill
-  theme_void                             # Remove ticks
-  
+               colour = "black",          # Set color of line
+               alpha = 0) +               # Set transparence of fill
+  coord_fixed(xlim = c(28.8, 31), 
+              ylim = c(-3,-1)) +
+  theme_void() +                          # Remove ticks
+  theme(legend.position = "none")         # Remove legend
 ```
 
-<!-- ## Final adjustments -->
+## Final adjustments
 
-<!-- ```{r, echo = F, warning = F, message = F} -->
-<!-- ggmap(basemap) +                       ## Add basemap -->
-<!--   geom_polygon(data = rwanda_l2_df,    ## Map second administrative division -->
-<!--                aes(x = long,  -->
-<!--                    y = lat, -->
-<!--                    group = group,  -->
-<!--                    fill = id),           # One color fill per id -->
-<!--                alpha = .3) +             # Set transparence of fill -->
-<!--   geom_polygon(data = rwanda_l1_df,    ## Map first administrative division -->
-<!--                aes(x = long,  -->
-<!--                    y = lat, -->
-<!--                    group = group), -->
-<!--                colour = "black",         # Set color of line -->
-<!--                alpha = 0) +              # Set transparence of fill -->
-<!--   theme_void +                           # Remove ticks -->
-<!--   theme(legend.position = "none")        # Remove legend -->
-<!-- ``` -->
+```{r, echo = F, warning = F, message = F}
+ggmap(basemap) +                         ## Add basemap
+  geom_polygon(data = rwanda_l2_df,      ## Map second administrative division
+               aes(x = long,
+                   y = lat,
+                   group = group,
+                   fill = id),            # One color fill per id
+               alpha = .2) +              # Set transparence of fill
+  geom_polygon(data = rwanda_l1_df,      ## Map first administrative division
+               aes(x = long,
+                   y = lat,
+                   group = group),
+               colour = "black",          # Set color of line
+               alpha = 0) +               # Set transparence of fill
+  coord_fixed(xlim = c(28.8, 31), 
+              ylim = c(-3,-1)) +
+  theme_void() +                          # Remove ticks
+  theme(legend.position = "none")         # Remove legend
+```
