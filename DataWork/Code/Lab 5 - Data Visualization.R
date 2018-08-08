@@ -27,19 +27,12 @@
   
 # EXERCISE 4: ggpplot -------------------------------------------------------------
   
-  plot1 <- ggplot(data = lwh,
-                  aes(y = w_area_plots_b,
-                      x = w_gross_yield_b))
+  ggplot(data = lwh,
+         aes(y = w_area_plots_b,
+             x = w_gross_yield_b))
   
-# EXERCISE 5: Plot an aggregated data set -----------------------------------------
-  
-  # Aggregate anual income by year
-  anualInc <-
-    aggregate(x = lwh["income_total_trim"], # data.frame
-              by = list(year = lwh$year), #list
-              FUN = mean, na.rm = T) # function
-  
-# EXERCISE 6: ggplot aesthectics ---------------------------------------------------
+
+# EXERCISE 5: ggplot aesthectics ---------------------------------------------------
   
   # Subset lwh to 2018 and Rwamangana 35
   lwh_s <- lwh[lwh$year == 2018 & lwh$site_code == "Rwamangana 35", ]
