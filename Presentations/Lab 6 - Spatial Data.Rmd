@@ -56,7 +56,7 @@ knitr::include_graphics("img/raster.png", dpi = 130)
 
 * __Coordinate reference systems__ map pairs of numbers to a location on the earth.
 * __Geographic Coordinate Systems__ live on a sphere; here, the units are in decimal degrees
-  + Using the WGS84 coordinate system the World Bank MC building is located at 38.89 degrees latitude and -77.04 degrees longitude.
+  + Using the WGS84 coordinate system the World Bank Rwanda is located at 38.89 degrees latitude and -77.04 degrees longitude.
 * __Projected Coordinate Systems__ project the earth onto a flat surface. Doing this [distorts](http://geoawesomeness.com/5-tools-will-let-master-map-projections/) the earth in some way (shape, area, distance or direction)
   + Using to the World Mercator projection, the World Bank is located 4680364.64 north and -8576320.73 east.
 
@@ -411,7 +411,8 @@ ggplot() +
                aes(x = long, 
                    y = lat,
                    group = group),
-               colour = "black")      # Set color of line
+               colour = "black")    # Set color of line
+   
 ```
 
 ## Making nice-looking maps
@@ -423,7 +424,7 @@ ggplot() +
                aes(x = long, 
                    y = lat,
                    group = group),
-               colour = "black")
+               colour = "black") 
 ```
 
 ## Making nice-looking maps
@@ -568,7 +569,7 @@ ggmap(basemap) +                         ## Add basemap
                    group = group),
                colour = "black",          # Set color of line
                alpha = 0) +               # Set transparence of fill
-  coord_fixed(xlim = c(28.8, 31), 
+  coord_fixed(xlim = c(28.8, 31),         # Crop map to remove unnecessary borders
               ylim = c(-3,-1)) +
   theme_void() +                          # Remove ticks
   theme(legend.position = "none")         # Remove legend

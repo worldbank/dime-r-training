@@ -38,7 +38,8 @@
                  "rasterVis", 
                  "leaflet",
                  "htmlwidgets", 
-                 "geosphere")
+                 "geosphere",
+                 "tidyr")
   
   invisible(sapply(packages, library, character.only = TRUE))
   
