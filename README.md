@@ -1,7 +1,9 @@
 # Introduction to R for advanced Stata users
 
+## Background
 This material was developed by the [DIME Analytics](https://worldbank.github.io/dimeanalytics/) team as an introduction to R Statistical Package for its staff. It builds upon knowledge of Stata to explore features of R with impact evaluation applications in mind. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices).
 
+## Content
 It currently includes the following content:
 1. Intro to R: introduction to RStudio, R syntax, objects and classes. Designed for a 3h session.
 1. Coding Best Practices in R: uses and R master script to explore code organization, loops, custom functions and if statements. Designed for a 1h30 session.
@@ -9,3 +11,12 @@ It currently includes the following content:
 1. Descriptive Statistics: how to create and export descriptive statistics table in R. Designed for a 1h30 session.
 1. Data Visualization: an introduction to creating and export graphs in ggplot2. Designed for a 1h30 session.
 1. Geopatial Data: an overview of R resources on GIS. Desined for a 3h session.
+
+## License
+This material is developed under MIT license. See http://adampritchard.mit-license.org/ or see [the `LICENSE` file](https://github.com/worldbank/ietoolkit/blob/master/LICENSE) for details.
+
+## Main Contact
+Luiza Cardoso de Andrade (lcardosodeandrad@worldbank.org)
+
+## Authors
+Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Teixeira Viotti
