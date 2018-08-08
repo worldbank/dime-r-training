@@ -1,0 +1,27 @@
+\AtBeginSection[]
+{
+ \begin{frame}<beamer>
+ \frametitle{Outline}
+ \tableofcontents[currentsection]
+ \end{frame}
+}
+
+\titlegraphic{
+        \begin{figure}
+        	\begin{minipage}[b]{0.3\textwidth}
+            \includegraphics[width=0.7\linewidth]{img/DIME_logo.png}
+          \end{minipage}
+          \hspace{1cm}
+        	  \begin{minipage}[b]{0.3\textwidth}
+            \includegraphics[width=0.9\linewidth]{img/wbg.png}
+            \vspace{0.5cm}
+            \end{minipage}
+        \end{figure}
+        }
+
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage{colortbl}
+   
+\definecolor{myColor}{rgb}{.05,.58,.71}
+\usecolortheme[named=myColor]{structure}
