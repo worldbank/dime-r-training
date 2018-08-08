@@ -21,7 +21,6 @@
 
 # PART 1: Select sections to run ----------------------------------------------
 
-  Lab1                 <- 0
   Lab2                 <- 0
   Lab3                 <- 0
   Lab4                 <- 0
@@ -73,9 +72,24 @@
 
   rawData           <- file.path(projectFolder, "Data", "Raw")
   finalData         <- file.path(projectFolder, "Data", "Final")
-  Code              <- file.path(projectFolder ,"Code")
+  Code              <- file.path(projectFolder ,"Codes")
   Output            <- file.path(projectFolder, "Output")
  
 
 # PART 4: Run selected sections -----------------------------------------------
   
+  if (Lab2 == 1) {
+    source(file.path(Code, "Lab 2 - Coding for Reproducible Research"))
+  }
+  if (Lab3 == 1) {
+    source(file.path(Code, "Lab 3 - Data Processing"))
+  }
+  if (Lab4 == 1) {
+    source(file.path(Code, "Lab 4 - Descriptive Analysis"))
+  }
+  if (Lab5 == 1) {
+    source(file.path(Code, "Lab 5 - Data Visualization"))
+  }
+  if (Lab6 == 1) {
+    source(file.path(Code, "Lab 6 - Spatial Data"))
+  }
