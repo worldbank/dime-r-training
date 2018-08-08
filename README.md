@@ -1,6 +1,6 @@
 # Introduction to R for advanced Stata users
 
-This material was developed by the (DIME Analytics)[https://worldbank.github.io/dimeanalytics/] team as an introduction to R Statistical Package for its staff. It builds upon knowledge of Stata to explore features of R with impact evaluation applications in mind. It also assumes some degree of familiarity with DIME's (coding practices)[https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices].
+This material was developed by the [DIME Analytics](https://worldbank.github.io/dimeanalytics/) team as an introduction to R Statistical Package for its staff. It builds upon knowledge of Stata to explore features of R with impact evaluation applications in mind. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices).
 
 It currently includes the following content:
 1. Intro to R: introduction to RStudio, R syntax, objects and classes. Designed for a 3h session.
