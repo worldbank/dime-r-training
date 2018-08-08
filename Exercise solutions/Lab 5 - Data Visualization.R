@@ -52,37 +52,7 @@
              x = w_gross_yield_b)) +
     geom_point()
   
-# EXERCISE 5: Plot an aggregated data set -----------------------------------------
-  
-  # Aggregate anual income by year
-  anualInc <-
-    aggregate(x = lwh["income_total_trim"], # data.frame
-              by = list(year = lwh$year), #list
-              FUN = mean, na.rm = T) # function
-  
-  # Plot income by year
-  ggplot(data = anualInc,
-         aes(y = income_total_trim,
-             x = year)) +
-    geom_line()
-  
-  # Aggregate anual income by year and treatment status
-  anualInc <-
-    aggregate(x = lwh["income_total_trim"], 
-              by = list(Year = lwh$year,
-                        Treatment = lwh$treatment_hh),
-              FUN = mean, na.rm = T) 
-  
-  # Plot income by year and treatment status
-  ggplot(anualIncGen,
-         aes(y = income_total_win,
-             x = year,
-             color = treatment,
-             group = treatment)) +
-    geom_line() +
-    geom_point()
-  
-# EXERCISE 6: ggplot aesthectics ---------------------------------------------------
+# EXERCISE 5: ggplot aesthectics ---------------------------------------------------
   
   # Subset lwh to 2018 and Rwamangana 35
   lwh_s <- lwh[lwh$year == 2018 & lwh$site_code == "Rwamangana 35", ]
@@ -115,7 +85,7 @@
              size = expend_food_lastweek)) +
     geom_point()
   
-# EXERCISE 7: Labelling in ggplot ----------------------------------------------------
+# EXERCISE 6: Labelling in ggplot ----------------------------------------------------
   
   # A properly labelled plot
   ggplot(lwh_s, aes(y = w_area_plots_a,
@@ -129,7 +99,7 @@
     scale_color_discrete(name = "Women's dietary diversity score") +
     scale_size_continuous(name = "Food exp. last week")
   
-# EXERCISE 8: Saving a plot ----------------------------------------------------------
+# EXERCISE 7: Saving a plot ----------------------------------------------------------
   
   # Open PDF graphics device
   pdf(file = file.path(rawOutput, "Example plot.pdf"))
