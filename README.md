@@ -3,6 +3,9 @@
 ## Background
 This material was developed by the [DIME Analytics](https://worldbank.github.io/dimeanalytics/) team as an introduction to R Statistical Package for its staff. It builds upon knowledge of Stata to explore features of R with impact evaluation applications in mind. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices).
 
+## Version
+The master branch version was adopted in DIME's [Field Coordinator Training] (http://www.worldbank.org/en/events/2018/04/09/manage-successful-impact-evaluations) in June 18. 
+
 ## Content
 It currently includes the following content:
 1. Intro to R: introduction to RStudio, R syntax, objects and classes. Designed for a 3h session.
