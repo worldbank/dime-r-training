@@ -15,3 +15,4 @@
 *.png
 
 !Presentations/img/*
+*.pdf
