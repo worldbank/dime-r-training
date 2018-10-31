@@ -65,9 +65,9 @@ Why choose R over Stata?
 
   * It is way cooler.
   * It is less specialized:
-    + More flexibility when programming.
+    + More flexibility when programming. It is easier to do 
     + Many other functionalities.
-  * Much broader network of users in general:
+  * Much broader network of users:
     + Using google is a lot easier (you'll never want to see Statalist again in your life).
     + Development of new features and bug fixes happens faster.
   * It makes prettier graphs.
@@ -76,12 +76,24 @@ Why choose R over Stata?
 
 What are the possible disadvantages of R?
 
-  * Steeper learning curve (at least in the beginning).
+  * Higher cost of entry than Stata.
   * Stata is more specialized:
-    + Certain common tasks are simpler in Stata, especially when you're doing them for the first time in R.
+    + Certain common tasks are simpler in Stata.
   * Stata has wider adoption among micro-econometricians.
     + Network externalities in your work environment.
     + Development of new specialized techniques and tools could happen faster (e.g. *ietoolkit*).
+
+
+## Introduction
+
+What about Python?
+
+  * R and Python are very similar, specially if your background is in Stata.
+  * Python is even more flexible and has more users than R. So, why should I bother to learn R?
+  * Despite being super popular for data science, Python has fewer libraries developed for econometrics.
+  * Python still cannot do everything Stata does without some trouble, R can.
+
+
 
 ## Introduction
 
