@@ -25,17 +25,17 @@ library(datasets)
 # File paths
 
 if (Sys.getenv("USERNAME") == "WB501238"){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
   
 }
 
 if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
 
 }
 
 if (Sys.getenv("USERNAME") == "WB519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/R-Training")
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
 # File paths
