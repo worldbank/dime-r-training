@@ -44,10 +44,13 @@ if (Sys.getenv("USERNAME") == "WB519128"){
   Data              <- file.path(dataWorkFolder,"DataSets")
   finalData         <- file.path(Data,"Final")
 # Load CSV data
-lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
+# lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
+#                 header = T)
+
+whr <- read.csv(file.path(Data,"AirplanesVsBirds.csv"), 
                 header = T)
 
-bvp <- read.csv(file.path(Data,"AirplanesVsBirds.csv"), 
+whr <- read.csv(file.path(Data,"whr_panel.csv"), 
                 header = T)
 
 ```
@@ -159,7 +162,7 @@ Let's start by loading the data set we'll be using:
 \begin{enumerate}
   \item In RStudio, go to File > Import Dataset > From Text (Base) and \textcolor{red}{open the \texttt{lwh\_clean.csv}} file. Depending on your Rstudio version, it might be From CSV
   \item The file should be in Session Materials/R Track/DataWork/DataSets
-  \item Change the name to `bvp` on the import window
+  \item Change the name to `whr` on the import window
 \end{enumerate}
 
 
@@ -253,10 +256,10 @@ Type the following code to explore the data:
 ```{r, include = T, results = "hide"}
 
 # We can use the function View() to browse the whole data
-View(bvp)
+View(whr)
 
 # Alternatively we can print the first 6 obs. with head()
-head(bvp)
+head(whr)
 
 ```
 
@@ -274,26 +277,26 @@ Now, let's try some simple manipulations. First, assume we're only interested in
 
 ```{r, eval=FALSE}
 # To do that we'll use the subset() function
-subset(bvp, year == 2015)
+subset(whr, year == 2015)
 
 ```
 
 2. Then, look again at the first 6 observations
 ```{r, include = T, results = "hide"}
 # Use the head() function again
-head(bvp)
+head(whr)
 ```
 
 ## Object-oriented language
 \scriptsize
 
 ```{r, eval = F}
-head(bvp)
+head(whr)
 ```
 
 ```{r, echo = F}
 # Use the head() function again
-head(bvp[,1:16])
+head(whr[,1:12])
 ```
 
 ## Object-oriented language
@@ -314,17 +317,17 @@ From now on, *x* is associated with the stored value (until you replace it delet
 
 ### Exercise 3: Create an object
 
-Create a new data set, called `bvp2015`, that is a subset of the `bvp` data set containing only data from the year 2015.
+Create a new data set, called `whr2017`, that is a subset of the `whr` data set containing only data from the year 2015.
 
 ```{r, include = T, results = "hide"}
 # Using the same function but now assigning it to an object
-bvp2015 <- subset(bvp, year == 2015)
+whr2015 <- subset(whr, year == 2015)
 
 # Display the 5 first obs. of the new data
-head(bvp2015)
+head(whr2015)
 
 # Notice that we still have the original data set intact
-head(bvp)
+head(whr)
 
 ```
 
@@ -332,12 +335,12 @@ head(bvp)
 \scriptsize
 
 ```{r, eval= F}
-head(bvp2015)
+head(whr2015)
 ```
 
 ```{r, echo= F}
 # Use the head() function again
-head(bvp2015[,1:16])
+head(whr2015[,1:12])
 ```
 
 
@@ -345,12 +348,12 @@ head(bvp2015[,1:16])
 \scriptsize
 
 ```{r, eval= F}
-head(bvp)
+head(whr)
 ```
 
 ```{r, echo= F}
 # Use the head() function again
-head(bvp[,1:16])
+head(whr[,1:12])
 ```
 
 
@@ -411,7 +414,7 @@ v2[4]
 ## R objects
 \framesubtitle{Vectors}
 
-To R, each of the columns of `bvp` is a vector.
+To R, each of the columns of `whr` is a vector.
 
 ### Calling a vector from a `data.frame` column
 We use the `$` to call vector (variables) by their names in a `data.frame`
@@ -419,17 +422,17 @@ We use the `$` to call vector (variables) by their names in a `data.frame`
 ### Type the following code:
 ```{r}
 # Create a vector with the values of `age_hhh` variable
-year_vec <- bvp$year
+year_vec <- whr$year
 
 # See the 13th element of the column
-bvp$year[13]
+whr$year[13]
 
 ```
 
 ## R objects
 \framesubtitle{Data Frames}
 
-The `bvp` and `bvp2015` objects are both data frames. You can also construct a new data.frame from scratch by combining vectors.
+The `whr` and `whr2015` objects are both data frames. You can also construct a new data.frame from scratch by combining vectors.
 
 ### Now, type the following code to create a new data frame
 ```{r}
@@ -445,14 +448,14 @@ Since a data frame has two dimensions, you can use indexing on both:
 
 ### Numeric indexing
 ```{r, eval = F}
-# The first column of bvp
-bvp[,1]
+# The first column of whr
+whr[,1]
 
-# The 45th line of bvp
-bvp[45,]
+# The 45th line of whr
+whr[45,]
 
 # Or the 45th element of the first line
-bvp[45,1]
+whr[45,1]
 
 ```
 
@@ -463,8 +466,8 @@ Alternatively, you can use the column names for indexing, which is the same as u
 
 ### Names indexing
 ```{r}
-# Or the 4120th element of the Operator column
-bvp[4120,"operator"]
+# Or the 22th element of the country column
+whr[22,"country"]
 ```
 
 ## R objects
@@ -574,7 +577,7 @@ Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as val
 
 \textcolor{red}{UPDATE vars}
 
-You can see that in `bvp` the `wave`, `treatment_hh`, `treatment_site`, `site_code` and `gender_hhh` are factor variables. You can see in your enviroment panel the type of all your variables, and for factors the number of levels.
+In `whr`, we can see that `country` and `region` are factor variables. In your enviroment panel, there is the information of the type of all variables, and for factors the number of levels.
 
 <!-- ## Advanced types of data -->
 <!-- \framesubtitle{Factors} -->
@@ -600,14 +603,16 @@ Unlike Stata, in R
 ## Advanced types of data
 \framesubtitle{Booleans}
 
+\textcolor{red}{UPDATE}
+
 Boolean data is not normally used directly in data frames, but rather to express the results of a logical condition.
 
 ### Exercise 6:
 Create boolean vector with the condition of annual income below average:
 ```{r}
 # Create vector
-bool_vec <- (lwh$income_total_win < 
-               mean(lwh$income_total_win))
+bool_vec <- (whr$happy_rank <
+               mean(whr$happy_rank))
 
 # See the 5 first elements of the vector
 head(bool_vec)
@@ -623,13 +628,13 @@ Let's use the boolean vector created to add a dummy variable in the `lwh` data s
  1. Create a column in `lwh` containing zeros and call it `income_low`. You can do this by typing:
 
 ```{r,  eval = F}
-lwh$income_low <- 0
+whr$rank_low <- 0
 ```
 
  2. Use `bool_vec` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
 
 ```{r,  eval = F}
-lwh$income_low[bool_vec] <- 1
+whr$rank_low [bool_vec] <- 1
 ```
 
 ## Advanced types of data
@@ -637,15 +642,16 @@ lwh$income_low[bool_vec] <- 1
 
 ```{r}
 # Create column with zeros
-lwh$income_low <- 0
+whr$rank_low  <- 0
 
 # Replace with 1 those obs that meet the condition
-lwh$income_low[bool_vec] <- 1
+whr$rank_low [bool_vec] <- 1
+
 ```
 
 ```{r}
 # See the first 5. obs.
-head(lwh$income_low)
+head(whr$rank_low)
 
 ```
 
