@@ -382,6 +382,10 @@ head(whr[,1:12])
 
 ## R objects
 
+\textcolor{red}{Building blocks of R, bla bla bla}
+
+## R objects
+
 Objects can have different structures, that is, different ways to store data. Objects are the building blocks of R programming. You can create and manipulate them to explore your data and construct analytical outputs.
 
 There are several types of objects. Here are the ones we will cover:
@@ -575,7 +579,7 @@ Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as val
 ## Advanced types of data
 \framesubtitle{Factors}
 
-\textcolor{red}{UPDATE vars}
+\textcolor{red}{add screenshot}
 
 In `whr`, we can see that `country` and `region` are factor variables. In your enviroment panel, there is the information of the type of all variables, and for factors the number of levels.
 
@@ -603,9 +607,15 @@ Unlike Stata, in R
 ## Advanced types of data
 \framesubtitle{Booleans}
 
-\textcolor{red}{UPDATE}
+ * Boolean data is the result of a logical conditions and it assumes the values `TRUE` or `FALSE`.
+ * Whenever you're using an `if` statment in Stata, you're implicitly using boolean data. The difference is that in R, this can be done in 2 steps.
+ * Boolean data is not normally used directly in data frames.
 
-Boolean data is not normally used directly in data frames, but rather to express the results of a logical condition.
+###
+Whenever you're using an `if` statment in Stata, you're implicitly using boolean data. The difference is that in R, this can be done in 2 steps.
+
+## Advanced types of data
+\framesubtitle{Booleans}
 
 ### Exercise 6:
 Create boolean vector with the condition of annual income below average:
