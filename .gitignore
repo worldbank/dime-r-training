@@ -7,7 +7,6 @@
 *.out
 *.snm
 *.nav
-*.tex
 *.toc
 *.md
 *.vrb
