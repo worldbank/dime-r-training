@@ -58,6 +58,12 @@
     projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
     Data           <- "C:/Users/Leonardo/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training/Data"
   }
+  
+  if (Sys.getenv("USERNAME") == "WB519128"){
+    projectFolder  <- "C:/Users/WB519128/Documents/GitHub/dime-r-training"
+    Data           <- "C:/Users/WB519128/Dropbox/Work/WB/Mission/Aug. 2018 Rwanda/NISR R Training/Data"
+  }
+  
 
   # Micro paths
   rawData           <- file.path(Data,"Raw")
