@@ -23,6 +23,7 @@
                  "doBy", 
                  "broom", 
                  "dplyr",
+                 "swirl",
                  "stargazer",
                  "ggplot2", 
                  "plotly", 
