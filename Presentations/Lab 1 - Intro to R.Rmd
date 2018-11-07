@@ -250,7 +250,7 @@ knitr::include_graphics("img/interface2.png")
 
 ## Object-oriented language
 
-\textcolor{red}{To better understand the idea, we're going to use the data from the Rwanda LWH project. First, let's take a look at the data.}
+To better understand the idea, we're going to use the data from the United Nations' World Happiness Report. First, let's take a look at the data.
 
 Type the following code to explore the data:
 ```{r, include = T, results = "hide"}
@@ -266,6 +266,16 @@ head(whr)
 ## Object-oriented language
 
 \textcolor{red}{ADD SCREEN SHOOTS AND OUTPUT}
+
+
+## Object-oriented language
+\scriptsize
+
+```{r, include = T}
+
+head(whr)
+
+```
 
 ## Object-oriented language
 
@@ -382,13 +392,9 @@ head(whr[,1:12])
 
 ## R objects
 
-\textcolor{red}{Building blocks of R, bla bla bla}
+This section will explore the most commun types of objects we use. Objects are the building blocks of R programming. You can create and manipulate them to explore your data and construct analytical outputs.
 
-## R objects
-
-Objects can have different structures, that is, different ways to store data. Objects are the building blocks of R programming. You can create and manipulate them to explore your data and construct analytical outputs.
-
-There are several types of objects. Here are the ones we will cover:
+Objects can have different structures, that is, different ways to store data. Here are the ones we will cover today:
 
 * __Vectors:__ an unidimensional object that stores a sequence of values
 * __Data frames:__ a combination of different vectors of the same length (the same as your data set in Stata)
@@ -425,7 +431,7 @@ We use the `$` to call vector (variables) by their names in a `data.frame`
 
 ### Type the following code:
 ```{r}
-# Create a vector with the values of `age_hhh` variable
+# Create a vector with the values of the `year` variable
 year_vec <- whr$year
 
 # See the 13th element of the column
@@ -632,10 +638,10 @@ head(bool_vec)
 ## Advanced types of data
 \framesubtitle{Booleans}
 
-Let's use the boolean vector created to add a dummy variable in the `lwh` data set for the same condition.
+Let's use the boolean vector created to add a dummy variable in the `whr` data set for the same condition.
 
 ### Exercise 6:
- 1. Create a column in `lwh` containing zeros and call it `income_low`. You can do this by typing:
+ 1. Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
 ```{r,  eval = F}
 whr$rank_low <- 0
@@ -651,19 +657,20 @@ whr$rank_low [bool_vec] <- 1
 \framesubtitle{Booleans}
 
 ```{r}
-# Create column with zeros
-whr$rank_low  <- 0
 
 # Replace with 1 those obs that meet the condition
-whr$rank_low [bool_vec] <- 1
+whr$rank_low [bool_vec] <- 1 
+# is the same as
+whr$rank_low [whr$happy_rank < mean(whr$happy_rank)] <- 1 
+# This in stata would be 
+# replace rank_low = 1 if (...)
+
+
+# We can use the summary function to get descriptives
+summary(whr$rank_low)
 
 ```
 
-```{r}
-# See the first 5. obs.
-head(whr$rank_low)
-
-```
 
 # Help, Google and Stackoverflow
 
@@ -689,7 +696,11 @@ help(summary)
 
  * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550.[^4]
 
- * The most powerful problem-solving tool in R, however, is Google. Searching the issue, you have or the error message displayed usually yields tons of results and will probably lead you to a Stack Overflow page where someone asked the same question and several people gave different answers.
+ * The most powerful problem-solving tool in R, however, is Google. Searching the something yields tons of results.
+ 
+ * Often that means a Stack Overflow page where someone asked the same question and several people gave different answers. Here's a typical example:
+ https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group
+ 
 
 [^4]: Check http://r4stats.com/articles/popularity/ for more.
 
