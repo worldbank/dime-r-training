@@ -47,9 +47,6 @@ if (Sys.getenv("USERNAME") == "WB519128"){
 # lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
 #                 header = T)
 
-whr <- read.csv(file.path(Data,"AirplanesVsBirds.csv"), 
-                header = T)
-
 whr <- read.csv(file.path(Data,"whr_panel.csv"), 
                 header = T)
 
@@ -265,7 +262,7 @@ head(whr)
 
 ## Object-oriented language
 
-\textcolor{red}{ADD SCREEN SHOOTS AND OUTPUT}
+\textcolor{red}{ADD SCREEN SHOTS OF VIEW(WHR)}
 
 
 ## Object-oriented language
@@ -585,7 +582,7 @@ Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as val
 ## Advanced types of data
 \framesubtitle{Factors}
 
-\textcolor{red}{add screenshot}
+\textcolor{red}{add screenshot of enviroment pane}
 
 In `whr`, we can see that `country` and `region` are factor variables. In your enviroment panel, there is the information of the type of all variables, and for factors the number of levels.
 
@@ -643,14 +640,14 @@ Let's use the boolean vector created to add a dummy variable in the `whr` data s
 ### Exercise 6:
  1. Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
-```{r,  eval = F}
+```{r,  eval = T}
 whr$rank_low <- 0
 ```
 
  2. Use `bool_vec` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
 
 ```{r,  eval = F}
-whr$rank_low [bool_vec] <- 1
+whr$rank_low[bool_vec] <- 1
 ```
 
 ## Advanced types of data
@@ -661,7 +658,7 @@ whr$rank_low [bool_vec] <- 1
 # Replace with 1 those obs that meet the condition
 whr$rank_low [bool_vec] <- 1 
 # is the same as
-whr$rank_low [whr$happy_rank < mean(whr$happy_rank)] <- 1 
+whr$rank_low[whr$happy_rank < mean(whr$happy_rank)] <- 1 
 # This in stata would be 
 # replace rank_low = 1 if (...)
 
