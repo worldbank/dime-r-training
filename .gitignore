@@ -13,6 +13,11 @@
 *.vrb
 *.aux
 *.png
+*.csv
+*.dbf
+*.cpg
+*.prj
+*.shp
 
 !Presentations/img/*
 *.pdf
