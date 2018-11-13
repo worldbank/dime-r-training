@@ -9,7 +9,7 @@ The master branch version is being adopted in DIME's R training in November and 
 Updated presentations:
 1. Intro to R: introduction to RStudio, R syntax, objects and classes. Designed for a 1h30 session.
 
-Presentation that have not taken happened yet will be the one adopted in DIME's [Field Coordinator Training](http://www.worldbank.org/en/events/2018/04/09/manage-successful-impact-evaluations) in June 18.  
+Other presentations were adopted in DIME's [Field Coordinator Training](http://www.worldbank.org/en/events/2018/04/09/manage-successful-impact-evaluations) in June 18.  
 
 ## FC training content
 1. Intro to R: introduction to RStudio, R syntax, objects and classes. Designed for a 3h session.
