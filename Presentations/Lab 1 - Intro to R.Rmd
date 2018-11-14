@@ -323,7 +323,7 @@ From now on, *x* is associated with the stored value (until you replace it delet
 
 ### Exercise 3: Create an object
 
-Create a new data set, called `whr2017`, that is a subset of the `whr` data set containing only data from the year 2015.
+Create a new data set, called `whr2015`, that is a subset of the `whr` data set containing only data from the year 2015.
 
 ```{r, include = T, results = "hide"}
 # Using the same function but now assigning it to an object
@@ -374,7 +374,7 @@ You can also see that your environment pane now has two objects:
 
 ## Object-oriented language
 
-### Two an important concepts to take note:
+### Two important concepts to take note:
  1. In R, if you want to change your data, you need to store it in an object.
  2.  It is possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
  3. Print (display) is built into R. If you execute any action without storing it, R will simply print the results of that action but won't save anything in the memory.
@@ -423,7 +423,7 @@ v2[4]
 To R, each of the columns of `whr` is a vector.
 
 ### Calling a vector from a `data.frame` column
-We use the `$` to call vector (variables) by their names in a `data.frame`
+We use the `$` to call vectors (variables) by their names in a `data.frame`
 
 ### Type the following code:
 ```{r}
@@ -438,7 +438,7 @@ whr$year[13]
 ## R objects
 \framesubtitle{Data Frames}
 
-The `whr` and `whr2015` objects are both data frames. You can also construct a new data.frame from scratch by combining vectors with the same number of elements  .
+The `whr` and `whr2015` objects are both data frames. You can also construct a new data frame from scratch by combining vectors with the same number of elements  .
 
 ### Now, type the following code to create a new data frame
 ```{r}
