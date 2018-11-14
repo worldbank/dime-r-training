@@ -47,7 +47,7 @@ if (Sys.getenv("USERNAME") == "WB519128"){
 # lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
 #                 header = T)
 
-whr <- read.csv(file.path(Data,"whr_panel.csv"), 
+whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
                 header = T)
 
 ```
@@ -59,13 +59,6 @@ whr <- read.csv(file.path(Data,"whr_panel.csv"),
 
 These training sessions will offer a quick introduction to R, its amazing features and why it is so much better than Stata. 
 
-But I'm very good with Stata. Why should I learn R?
-
- * R does much more than Stata.
- * R will save you time.
-    + It offers a much better framework for dealing with complex data structures.
- * You don't have to swtich completely, but I'll probably want to.
-
 
 ## Introduction
 
@@ -75,7 +68,7 @@ Some advantages of R over Stata:
     + More flexibility when programming.
     + Many more functionalities.
   * Much broader network of users:
-    + More resources online, which makes using google a lot easier. You'll never want to see Statalist again in your life.
+    + More resources online, which makes using Google a lot easier. You'll never want to see Statalist again in your life.
     + Development of new features and bug fixes happens faster.
   * It is way cooler.
 
@@ -124,19 +117,18 @@ What about Python?
 
 ## Introduction
 
-\textcolor{red}{UPDATE}
-
 This first session will present the basic concepts you will need to use R.
 
 The next sessions will include:
 
-* __Coding for reproducible research__ - Programming basics and best practices.
-* __Data processing__ - Data processing workflow and main functions.
-* __Descriptive analysis__ - Exploratory and publication tables.
-* __Data visualization__ - Exploratory and publication graphs.
-* __Spatial analysis__ - GIS basics in R.
+ * __Exporting summary statistics and regression tables__ (Nov 20)
+ * __Creating awesome-looking plots__ (Nov 29)
+ * __Writing reproducible and readable code__ (Dec 6)
+ * __Creating awesome-looking maps__ (Dec 13)
+ * __Cleaning data__ (Dec 20)
 
-For the most recent versions of these trainings, visit the R-training GitHub repo at
+
+For the most recent versions of these trainings, visit the R-training Git Hub repo at
 https://github.com/worldbank/dime-r-training
 
 # Getting started
@@ -153,26 +145,16 @@ This training requires that you have R installed in your computer:
 
  * we also strongly suggest installing R studio. You can get it in (https://www.rstudio.com/), but you need to install R first.
 
+
 ## Getting started
-
-\textcolor{red}{UPDATE}
-
-### Exercise 1: Import data
 
 Let's start by loading the data set we'll be using:
 
-\begin{enumerate}
-  \item In RStudio, go to File > Import Dataset > From Text (Base) and \textcolor{red}{open the \texttt{lwh\_clean.csv}} file. Depending on your Rstudio version, it might be From CSV
-  \item The file should be in Session Materials/R Track/DataWork/DataSets
-  \item Change the name to `whr` on the import window
-\end{enumerate}
+### Exercise 1: Import data
 
-
-## Getting started
-
-FOO
-
-\textcolor{red}{UPDATE SCREEN SHOTS}
+ 1. In RStudio, go to File > Import Dataset > From Text (Base) and open the whr_panel.csv file. Depending on your Rstudio version, it might be File > Import Dataset > From CSV
+ 2. The file should be in GitHub/dime-r-training/DataWork/DataSets/Final
+ 3. Change the name to `whr` on the import window
 
 
 
@@ -180,53 +162,61 @@ FOO
 
 \begin{figure}
 \centering
-  \includegraphics[scale=0.45]{img/import_data1.png}
+  \includegraphics[scale=0.45]{img/new/import_data1.png}
 \end{figure}
 
 ## Getting started
 
 \begin{figure}
 \centering
-  \includegraphics[scale=0.25]{img/import_data3.png}
+  \includegraphics[scale=0.5]{img/new/import_data2.png}
 \end{figure}
 
 # RStudio interface
 
 ## RStudio interface
 
-```{r, out.width = "100%", echo=FALSE}
-knitr::include_graphics("img/interface2.png")
-#![](img/interface.png)
-```
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/new/interface.png}
+\end{figure}
+
+
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/enviroment2.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/new/enviroment.png}
 \end{figure}
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/scritpt1.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/new/scritpt1.png}
 \end{figure}
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/scritpt2.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/new/scritpt2.png}
 \end{figure}
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/scritpt3.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/new/scritpt3.png}
 \end{figure}
 
+## RStudio interface
+
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/new/scritpt4.png}
+\end{figure}
 
 # Object-oriented language
 
@@ -250,6 +240,8 @@ knitr::include_graphics("img/interface2.png")
 
 * Whenever you run anything you intend to use in the future, you need to store it as an object.
 
+
+
 ## Object-oriented language
 
 To better understand the idea, we're going to use the data from the United Nations' World Happiness Report. First, let's take a look at the data.
@@ -267,8 +259,10 @@ head(whr)
 
 ## Object-oriented language
 
-\textcolor{red}{ADD SCREEN SHOTS OF VIEW(WHR)}
-
+\begin{figure}
+\centering
+  \includegraphics[scale=0.4]{img/new/View.png}
+\end{figure}
 
 ## Object-oriented language
 \scriptsize
@@ -371,41 +365,41 @@ head(whr[,1:12])
 
 ## Object-oriented language
 
+You can also see that your environment pane now has two objects:
 
-\textcolor{red}{add snapshot of enviroment with two values}
-
-<!-- ## Object-oriented language -->
-
-<!-- \begin{figure} -->
-<!-- \centering -->
-<!--   \includegraphics[scale=0.3]{img/enviroment_with_2.png} -->
-<!-- \end{figure} -->
+\begin{figure}
+\centering
+  \includegraphics[scale=0.5]{img/new/enviroment_2vars.png}
+\end{figure}
 
 ## Object-oriented language
 
 ### Two an important concepts to take note:
- 1. In R, if you want to change your data, you need to store it in an object. It is possible to simply replace the original data, but often, it's more practical to create a new dataset.
-
- 2. Print (display) is built into R. If you execute any action without storing it, R will simply print the results of that action but won't save anything in the memory.
-
+ 1. In R, if you want to change your data, you need to store it in an object.
+ 2.  It is possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
+ 3. Print (display) is built into R. If you execute any action without storing it, R will simply print the results of that action but won't save anything in the memory.
 
 
 # R objects
 
 ## R objects
 
-This section will explore the most commun types of objects we use. Objects are the building blocks of R programming. You can create and manipulate them to explore your data and construct analytical outputs.
+Since objects are the building blocks of R programming, this section will explore some of the most common.
 
-Objects can have different structures, that is, different ways to store data. Here are the ones we will cover today:
+This will give you the foundation to explore your data and construct analytical outputs.
 
-* __Vectors:__ an unidimensional object that stores a sequence of values
+## R objects
+
+Here are the types of object we will cover today:
+
+* __Vectors:__ an uni-dimensional object that stores a sequence of values
 * __Data frames:__ a combination of different vectors of the same length (the same as your data set in Stata)
 * __Lists:__ a multidimensional object that can store several objects of different dimension
 
 ## R objects
 \framesubtitle{Vectors}
 
-A vector is an unidimensional object composed by one or more scalars of the same type.
+A vector is an uni-dimensional object composed by one or more scalars of the same type.
 
 ### Use the following code to create vectors in two different ways
 ```{r}
@@ -479,7 +473,8 @@ Alternatively, you can use the column names for indexing, which is the same as u
 ### Names indexing
 ```{r}
 # Or the 22th element of the country column
-whr[22,"country"]
+whr[22,"country"] # The same as whr$country[22]
+
 ```
 
 ## R objects
@@ -538,7 +533,7 @@ Create two string vector containing the names of commonly used statistical softw
 str_vec <- c("R",
              "Python",
              "SAS",
-             "Microsoft Excel",
+             "Excel",
              "Stata")
 ```
 Now print them to check them out.
@@ -587,17 +582,12 @@ Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as val
 ## Advanced types of data
 \framesubtitle{Factors}
 
-\textcolor{red}{add screenshot of enviroment pane}
+In `whr`, we can see that `country` and `region` are factor variables. In your environment panel, there is the information of the type of all variables, and for factors the number of levels.
 
-In `whr`, we can see that `country` and `region` are factor variables. In your enviroment panel, there is the information of the type of all variables, and for factors the number of levels.
-
-<!-- ## Advanced types of data -->
-<!-- \framesubtitle{Factors} -->
-
-<!-- \begin{figure} -->
-<!-- \centering -->
-<!--   \includegraphics[scale=0.3]{img/factors.png} -->
-<!-- \end{figure} -->
+\begin{figure}
+\centering
+  \includegraphics[scale=0.46]{img/new/enviroment_factors.png}
+\end{figure}
 
 
 ## Advanced types of data
@@ -615,12 +605,10 @@ Unlike Stata, in R
 ## Advanced types of data
 \framesubtitle{Booleans}
 
- * Boolean data is the result of a logical conditions and it assumes the values `TRUE` or `FALSE`.
- * Whenever you're using an `if` statment in Stata, you're implicitly using boolean data. The difference is that in R, this can be done in 2 steps.
- * Boolean data is not normally used directly in data frames.
+Boolean data is the result of logical conditions 
 
-###
-Whenever you're using an `if` statment in Stata, you're implicitly using boolean data. The difference is that in R, this can be done in 2 steps.
+  * Whenever you're using an `if` statement in Stata, you're implicitly using boolean data. 
+  * The difference is that in R, this can be done in 2 steps.
 
 ## Advanced types of data
 \framesubtitle{Booleans}
@@ -788,7 +776,7 @@ Similarly to Stata:
 
 ## Appendix -  Matrices
 
-A matrix a bidimensional object composed by one or more vectors of the same type.
+A matrix a bi-dimensional object composed by one or more vectors of the same type.
 
 ### Type the following code to test two different ways of creating matrices
 ```{r, include = T, results = "hide"}
@@ -863,7 +851,7 @@ Did you notice anything strange? That happens because the default way R stores n
 ## Appendix - Numbers and integers
 \framesubtitle{Numbers and integers}
 
-We can, however, coerce objects into different classes. We just need to be carefull because the result might not be what we're expecting.
+We can, however, coerce objects into different classes. We just need to be careful because the result might not be what we're expecting.
 
 ### Use the *as.integer()* and *round()* functions on the *num* object to see the difference:
 ```{r}
