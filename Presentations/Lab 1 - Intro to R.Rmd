@@ -741,6 +741,79 @@ https://www.r-graph-gallery.com/
 
 # Appendix
 
+## Appendix - Using packages
+
+  * Since there is a lot of people developing for R, it can have many different functionalities
+  * To make it simpler, these functionalities are bundled into packages
+  * A package is the fundamental unit of shareable code
+  * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
+  * They can be shared through R's official repository - CRAN (10,000+ packages reviewed and tested) and many other online sources
+ * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN
+
+## Appendix - Using packages
+
+* To install and use packages you can either do it with the user interface or by the command prompt.
+```{r, eval = F}
+# Installing a package
+install.packages("stargazer",
+                 dependencies = T)
+# the dependencies argument also installs all other packages
+# that it may depend upon
+```
+
+* You only have to install a package once, but you have to load it every new session. To load a package type:
+```{r, eval = F}
+library(stargazer)
+
+```
+
+## Appendix - Using packages
+
+Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
+
+* Rcmdr - Easy to use GUI
+* swirl - An interactive learning environment for R and statistics.
+* ggplot2 - beautiful and versatile graphics (the syntax is a pain, though)
+* stargazer - awesome latex regression and summary statistics tables
+* foreign - reads dtas and other formats from inferior statistical software
+* zoo - time series and panel data manipulation useful functions
+* data.table - some functions to deal with huge data sets
+* sp and rgeos - spatial analysis
+* multiwayvcov and sandwich - clustered and robust standard errors
+* RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
+
+## Appendix - Using packages
+
+  \begin{block}{Exercise 6}
+    Install the \texttt{swirl} and \texttt{stargazer} packages, including packages necessary for them to run.
+  \end{block}
+
+## Appendix - Using packages
+
+```{r, eval = F}
+
+  # Install stargazer and swirl
+  install.packages(c("stargazer", "swirl"),
+                   dependencies = TRUE)
+
+```
+
+## Appendix - Using packages
+
+  \begin{block}{Exercise 7}
+    Call the packages you just installed. Note that the \texttt{library} function only accepts one argument, so you will need to load each of them separately.
+  \end{block}
+
+## Appendix - Using packages
+  \scriptsize
+  
+```{r, eval = T}
+
+  library(stargazer)
+  library(swirl)
+
+```
+
 
 ## Appendix - Syntax
 
