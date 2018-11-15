@@ -52,12 +52,29 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 ```
 
-
 # Introduction
 
 ## Introduction
 
 These training sessions will offer a quick introduction to R, its amazing features and why it is so much better than Stata. 
+
+## Introduction
+
+This first session will present the basic concepts you will need to use R.
+
+The next sessions will include:
+
+ * __Exporting summary statistics and regression tables__ (Nov 20)
+ * __Creating awesome-looking plots__ (Nov 29)
+ * __Writing reproducible and readable code__ (Dec 6)
+ * __Creating awesome-looking maps__ (Dec 13)
+ * __Cleaning data__ (Dec 20)
+
+
+For the most recent versions of these trainings, visit the R-training GitHub repo at
+https://github.com/worldbank/dime-r-training
+
+(currently under the 'development' branch)
 
 
 ## Introduction
@@ -88,7 +105,6 @@ Some possible disadvantages of R:
 
 ## Introduction
 
-
 Here are some other advantages:
 
 * R is a free and open source software!
@@ -115,22 +131,6 @@ What about Python?
   * R and Python are very similar, specially if your background is in Stata.
 
 
-## Introduction
-
-This first session will present the basic concepts you will need to use R.
-
-The next sessions will include:
-
- * __Exporting summary statistics and regression tables__ (Nov 20)
- * __Creating awesome-looking plots__ (Nov 29)
- * __Writing reproducible and readable code__ (Dec 6)
- * __Creating awesome-looking maps__ (Dec 13)
- * __Cleaning data__ (Dec 20)
-
-
-For the most recent versions of these trainings, visit the R-training Git Hub repo at
-https://github.com/worldbank/dime-r-training
-
 # Getting started
 
 ## Getting started
@@ -152,8 +152,11 @@ Let's start by loading the data set we'll be using:
 
 ### Exercise 1: Import data
 
- 1. In RStudio, go to File > Import Dataset > From Text (Base) and open the whr_panel.csv file. Depending on your Rstudio version, it might be File > Import Dataset > From CSV
+ 1. In RStudio, go to File > Import Dataset > From Text (Base) and open the whr_panel.csv file. 
+    + Depending on your Rstudio version, it might be File > Import Dataset > From CSV
+    
  2. The file should be in GitHub/dime-r-training/DataWork/DataSets/Final
+ 
  3. Change the name to `whr` on the import window
 
 
@@ -384,7 +387,7 @@ You can also see that your environment pane now has two objects:
 
 ## R objects
 
-Since objects are the building blocks of R programming, this section will explore some of the most common.
+Objects are the building blocks of R programming. T his section will explore some of the most common.
 
 This will give you the foundation to explore your data and construct analytical outputs.
 
@@ -430,8 +433,8 @@ We use the `$` to call vectors (variables) by their names in a `data.frame`
 # Create a vector with the values of the `year` variable
 year_vec <- whr$year
 
-# See the 13th element of the column
-whr$year[13]
+# See the 3 first elements of the year column
+whr$year[1:3]
 
 ```
 
@@ -574,7 +577,7 @@ paste(str_vec[1], str_scalar, str_vec[5])
 R also has other more complex ways of storing data. These are the most used:
 
 ### Factors
-Factors are numeric categorical values with text label, equivalent to labelled variables in Stata. Turning strings into factors makes it easier to run different analyses on them and also uses less space in the memory, which is why data frames do that by default.
+Factors are numeric categorical values with text label, equivalent to labelled variables in Stata. Turning strings into factors makes it easier to run different analyses on them and also uses less space in your memory.
 
 ### Booleans
 Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as values. They are automatically generated when performing logical operations
