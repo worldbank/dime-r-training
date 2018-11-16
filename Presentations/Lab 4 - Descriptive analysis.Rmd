@@ -20,26 +20,27 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, echo = F, eval=T, include=FALSE}
 library(stargazer)
+library(tidyverse)
 
 # File paths
 
 if (Sys.getenv("USERNAME") == "luiza"){
-  projectFolder  <- "C:/Users/luiza/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
   
 }
 
 if (Sys.getenv("USERNAME") == "WB501238"){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
   
 }
 
 if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
 
 }
 
 if (Sys.getenv("USERNAME") == "WB519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/R-Training")
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
   # File paths
@@ -50,8 +51,9 @@ if (Sys.getenv("USERNAME") == "WB519128"){
   rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
 
   # Load CSV data
-  lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
-                  header = T)
+  whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
+                header = T)
+  
 ```
 
 # Introduction
@@ -79,8 +81,93 @@ First, let's load the data that is going to be used in the training. Paths shoul
 #### Load the data
 ```{r, include = T, results = "hide", eval = F}
   # Load CSV data
-  lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
+
+  FolderPath <- file.path("YOUR FOLDER PATH HERE")
+
+  whr <- read.csv(file.path(FolderPath,"whr_panel.csv"), 
                   header = T)
+
+```
+
+
+# Using packages
+
+## Using packages
+
+  * Since there is a lot of people developing for R, it can have many different functionalities
+  * To make it simpler, these functionalities are bundled into packages
+  * A package is the fundamental unit of shareable code
+
+
+## Using packages
+
+  * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
+  * They can be shared through R's official repository - CRAN (10,000+ packages reviewed and tested) and many other online sources
+ * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN
+
+## Using packages
+
+* To install and use packages you can either do it with the user interface or by the command prompt.
+```{r, eval = F}
+# Installing a package
+install.packages("stargazer",
+                 dependencies = T)
+# the dependencies argument also installs all other packages
+# that it may depend upon to run
+```
+
+## Using packages
+
+* You only have to install a package once, but you have to load it every new session. To load a package type:
+```{r, eval = F}
+library(stargazer)
+
+```
+
+## Using packages
+
+Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
+
+* Rcmdr - Easy to use GUI
+* swirl - An interactive learning environment for R and statistics.
+* ggplot2 - beautiful and versatile graphics (the syntax is a pain, though)
+* stargazer - awesome latex regression and summary statistics tables
+* foreign - reads dtas and other formats from inferior statistical software
+* zoo - time series and panel data manipulation useful functions
+* data.table - some functions to deal with huge data sets
+* sp and rgeos - spatial analysis
+* multiwayvcov and sandwich - clustered and robust standard errors
+* RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
+
+## Using packages
+
+  \begin{block}{Exercise 1}
+    Install the \texttt{swirl} and \texttt{stargazer} packages, including packages necessary for them to run.
+  \end{block}
+
+## Using packages
+
+```{r, eval = F}
+
+  # Install stargazer and swirl
+  install.packages(c("stargazer", "swirl"),
+                   dependencies = TRUE)
+
+```
+
+## Using packages
+
+  \begin{block}{Exercise 1}
+    Nopw load the packages you just installed. Note that the \texttt{library} function only accepts one argument, so you will need to load each of them separately.
+  \end{block}
+
+## Using packages
+  \scriptsize
+  
+```{r, eval = T}
+
+  library(stargazer)
+  library(swirl)
 
 ```
 
@@ -96,7 +183,7 @@ First, let's load the data that is going to be used in the training. Paths shoul
  * **digits:** the number of decimal digits to be displayed
     
 \begin{block}{Exercise 1}
-  Use the \texttt{summary()} function to display summary statistics for the \textit{lwh} data frame.
+  Use the \texttt{summary()} function to display summary statistics for the \textit{whr} data frame.
 \end{block}
 
 ## Quick summary statistics
@@ -105,12 +192,12 @@ First, let's load the data that is going to be used in the training. Paths shoul
 
 ```{r, eval = F}
   # Summary statistics
-  summary(lwh)
+  summary(whr)
 ```
 
 ```{r, eval = T, echo = F}
   # Summary statistics
-  summary(lwh[,1:8])
+  summary(whr[,1:7])
 ```
  
 ## Quick summary statistics
@@ -121,8 +208,8 @@ First, let's load the data that is going to be used in the training. Paths shoul
 \begin{block}{Exercise 2}
   Use the \texttt{table()} function to display frequency tables for:
     \begin{enumerate}
-      \item The variable \textit{year} in the \textit{lwh} data frame
-      \item The variables \textit{gender\_hhh} and \textit{year} in the \textit{lwh} data frame, simultaneously
+      \item The variable \textit{year} in the \textit{whr} data frame
+      \item The variables \textit{region} and \textit{year} in the \textit{whr} data frame, simultaneously
     \end{enumerate}
 \end{block}
 
@@ -130,13 +217,16 @@ First, let's load the data that is going to be used in the training. Paths shoul
 ## Quick summary statistics
 ```{r, eval = T}
   # Year of data collection
-  table(lwh$year)
+  table(whr$year)
 ```
 
 ## Quick summary statistics
+\scriptsize
+
+
 ```{r, eval = T}
   # Gender of household head per year
-  table(lwh$gender_hhh, lwh$year)
+  table(whr$region, whr$year)
 ```
 
 
@@ -149,28 +239,26 @@ First, let's load the data that is going to be used in the training. Paths shoul
 
   \textit{Stargazer} was originally developed to export beautiful regression tables to \LaTeX\ or html, but it also allows you to generate summary statistics.
 
- It can also be used to export any data frames you create to \LaTeX\ as a formatted table. To do that, you fist need to construct a data frame object combining vectors (of the same length) with the desired information.
  
-## Descriptives tables
+<!-- ## Descriptives tables -->
 
- 
-### If you haven't yet done this in your master, install and load the ``stargazer`` package now!
- 
-```{r, eval = F}
+<!-- ### If you haven't yet done this in your master, install and load the ``stargazer`` package now! -->
 
-  # Install stargazer
-  install.packages("stargazer",
-                   dependencies = TRUE)
+<!-- ```{r, eval = F} -->
 
-  # Load stargazer
-  library(stargazer)
-```
+<!--   # Install stargazer -->
+<!--   install.packages("stargazer", -->
+<!--                    dependencies = TRUE) -->
+
+<!--   # Load stargazer -->
+<!--   library(stargazer) -->
+<!-- ``` -->
 
 
 ## Descriptives tables
 
 \begin{block}{Exercise 3 - \texttt{stargazer()} summary statistics table}
-  Use the \texttt{stargazer()} function  to display summary statistics for the variables in the \textit{lwh} data frame.
+  Use the \texttt{stargazer()} function  to display summary statistics for the variables in the \textit{whr} data frame.
 \end{block}
 
   The \texttt{stargazer()} function accepts \textbf{a lot} of arguments, most of which are beyond the scope of this session. Here are the arguments you'll need for this specific table:
@@ -183,9 +271,9 @@ First, let's load the data that is going to be used in the training. Paths shoul
 ## Descriptives tables
 \tiny
 
-```{r, eval = F}
+```{r, eval = T}
 # A descriptive table with stargazer
-stargazer(lwh, 
+stargazer(whr, 
           digits = 1, 
           type = "text")
 
@@ -194,15 +282,16 @@ stargazer(lwh,
 
 
 ```{r, include = T, echo = F}
-stargazer(lwh[1:15], 
-          digits = 1, 
-          type = "text")
+# stargazer(whr[1:15], 
+#           digits = 1, 
+#           type = "text")
 
 ```
 
 
 
 # Export tables to \LaTeX
+
 
 ## Export tables to \LaTeX\
 
@@ -216,25 +305,29 @@ To export the table to \LaTeX\, we will use a couple of additional arguments of 
 
 ## Export tables to \LaTeX\
 
-But first, let's pick a few variables of interest in the `lwh` data set so the table fits in these slides.
+But first, let's pick a few variables of interest in the `whr` data set so the table fits in these slides.
 
 ### Exercise 4
- 1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `age_hhh`, `num_dependents`, `income_total_win`, and `expend_food_yearly`.
- 2. Use this vector to subset the lwh dataset to contain only these variables. Call the new data frame `lwh_simp`.
+
+\textcolor{red}{UPDATE}
+
+ 1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
+ 2. Use this vector to subset the whr dataset to contain only these variables. Call the new data frame `whr_simp`.
 
 
 ## Export tables to \LaTeX\
 \scriptsize
 
+
 ```{r}
 # Vector with covariates to be kept
-covariates <- c("age_hhh",
-                "num_dependents",
-                "income_total_win",
-                "expend_food_yearly")
+covariates <- c("happy_score",
+                "gdp_pc",
+                "family",
+                "trust_gov_corr")
 
-# subset lwh
-lwh_simp <- lwh[, covariates]
+# subset whr
+whr_simp <- whr[, covariates]
 
 ```
 
@@ -245,7 +338,7 @@ lwh_simp <- lwh[, covariates]
  1. Create a vector called ``cov_labels`` containing the labels to the covariates, in the same order as in the ``covariates`` vector.
 
  2. Now use the stargazer function as in the previous exercise:
-  + Set ``lwh_simp`` as the `x` argument this time
+  + Set ``whr_simp`` as the `x` argument this time
   + Set the `covariate.labels` argument as the vector you just created
 
 ## Export tables to \LaTeX\
@@ -255,14 +348,14 @@ lwh_simp <- lwh[, covariates]
 ``` {r, eval = T, results = "hide"}
 
   # Set labels
-  cov_labels <- c("Age of household head", "Number of dependents",
-                  "Anual income (winsorized)", "Yearly food expediture")
+  cov_labels <- c("Happy score", "GDP per capita",
+                  "Family", "Trust in gornment and currption")
 
   # Save table to latex
-  stargazer(lwh_simp,
+  stargazer(whr_simp,
             covariate.labels = cov_labels,
             #summary.stat = c("n", "mean", "sd", "min", "max"),
-            digits = 1,
+            digits = 2,
             out = file.path(rawOutput,"desc_table.tex"))
 
 ```
@@ -273,6 +366,7 @@ lwh_simp <- lwh[, covariates]
 
 ## Descriptives tables - Create tables from scratch
 
+\textcolor{red}{UPDATE}
 
 In R, it is relatively easy to construct any table you can think of by manipulating objects. To construct a table from scratch, we will use two functions:
 
@@ -289,30 +383,34 @@ In R, it is relatively easy to construct any table you can think of by manipulat
 
 ## Descriptives tables - Create tables from scratch
 
+\textcolor{red}{UPDATE}
+
 \begin{block}{Exercise 5}
  Use the \texttt{aggregate} function to create a data frame called \texttt{year\_inc\_tab} with the mean of the total income per year and treatment status. The syntax of the \texttt{aggregate} function is very similar to that of the \texttt{collapse} function in Stata.
 \end{block}
 
 ```{r, eval = T, results = "hide"}
 # Aggregate income by year and treatment status
-year_inc_tab <-
-  aggregate(x = lwh$income_total_win, # data.frame
-            by = list(year = lwh$year, # list
-                      treatment = lwh$treatment_hh),
-            FUN = mean) # function
+happy_table <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
 ```
 
-Note that the ``income_total_win`` variable is now named ``x`` in the ``income`` data frame
 
 ## Descriptives tables - Create tables from scratch
 \scriptsize
 
 ```{r}
-print(year_inc_tab)
+print(happy_table)
 
 ```
 
 ## Descriptives tables - Create tables from scratch
+
+
+\textcolor{red}{UPDATE}
+
 
 `reshape(data, varying, idvar, timevar, direction)`:
 
@@ -329,10 +427,10 @@ print(year_inc_tab)
 
 ```{r, eval = T, results = "hide"}
 # Aggregate income by year and treatment status
-year_inc_tab <- reshape(year_inc_tab,
-                        idvar = "treatment",
-                        timevar = "year",
-                        direction = "wide")
+happy_table <- 
+  spread(happy_table, 
+         key = year, 
+         value = happy_score)
 ```
 
 For comparison, here's how you'd do it in Stata:
@@ -344,7 +442,7 @@ For comparison, here's how you'd do it in Stata:
 \scriptsize
 
 ```{r}
-print(year_inc_tab)
+print(happy_table)
 
 ```
 
@@ -358,19 +456,22 @@ Print the ``year_inc_tab`` table you created in exercise 6 using ``stargazer``. 
 
 
 ## Descriptives tables - Create tables from scratch
+\tiny
 
-\scriptsize
+
+\textcolor{red}{UPDATE}
+
 
 ```{r, results='asis'}
 # Label variables
 column_lab <- c("Treatment status", "2012", "2013", "2014", "2016", "2018")
 
 # Create table
-stargazer(year_inc_tab,
+stargazer(happy_table,
           summary = F,
           # Some extra formatting:
-          covariate.labels = column_lab,
-          title = "Total income by treatment status and year",
+          #covariate.labels = column_lab,
+          #title = "Total income by treatment status and year",
           header = F,
           digits = 1,
           rownames = F)
@@ -380,6 +481,8 @@ stargazer(year_inc_tab,
 # Export tables to Excel
 
 ## Export tables to Excel
+
+\textcolor{red}{UPDATE}
 
 
 To export a table to excel we'll use the `write.table()` function. It takes a data frame object as input and saves it as a ``.csv`` file
@@ -421,12 +524,12 @@ Use the `write.table()` function to save the `year_inc_tab` you table created in
 \scriptsize
 
 ```{r, include = T, eval = T}
-write.table(year_inc_tab,
-            sep = ",",
-            row.names = F,
-            col.names = c("Treatment status",
-                          "2012", "2013", "2014", "2016", "2018"),
-            file = file.path(rawOutput, "year_inc_tab.csv"))
+# write.table(year_inc_tab,
+#             sep = ",",
+#             row.names = F,
+#             col.names = c("Treatment status",
+#                           "2012", "2013", "2014", "2016", "2018"),
+#             file = file.path(rawOutput, "year_inc_tab.csv"))
 
 ```
 
@@ -444,9 +547,9 @@ This is a session on *descriptive* analysis, so regressions are beyond its scope
 
 ```{r}
 # Run a Regression
-reg1 <- lm(expend_food_yearly ~
-           income_total_win + num_dependents,
-           data = lwh)
+# reg1 <- lm(expend_food_yearly ~
+#            income_total_win + num_dependents,
+#            data = whr)
 
 ```
 
@@ -461,12 +564,12 @@ depvar_label <- "Yearly food expenditure (winsorized)"
 covar_labels <- c("Total income (winsorized)",
                   "Number of dependents")
 
-stargazer(reg1,
-          title = "Regression table",
-          dep.var.labels = depvar_label,
-          covar_labels = covar_labels,
-          digits = 2,
-          header = F)
+# stargazer(reg1,
+#           title = "Regression table",
+#           dep.var.labels = depvar_label,
+#           covar_labels = covar_labels,
+#           digits = 2,
+#           header = F)
 
 ```
 
@@ -480,12 +583,12 @@ stargazer(reg1,
 depvar_label <- "Yearly food expenditure (winsorized)"
 covar_labels <- c("Total income (winsorized)", "Number of dependents")
 
-stargazer(reg1,
-          title = "Regression table",
-          dep.var.labels = depvar_label,
-          covariate.labels = covar_labels,
-          digits = 2,
-          header = F)
+# stargazer(reg1,
+#           title = "Regression table",
+#           dep.var.labels = depvar_label,
+#           covariate.labels = covar_labels,
+#           digits = 2,
+#           header = F)
 ```
 
 ## Export regression table
@@ -495,19 +598,19 @@ stargazer(reg1,
 
  
 # Regression 1 
-reg1 <- lm(expend_food_yearly ~
-           income_total_win + num_dependents,
-           data = lwh)
-
-# Reg with year FE
-reg2 <- lm(expend_food_yearly ~
-           income_total_win + num_dependents + factor(year),
-           data = lwh)
-
-# Reg with year and site FE
-reg3 <- lm(expend_food_yearly ~
-           income_total_win + num_dependents + factor(year) + factor(site_code),
-           data = lwh)
+# reg1 <- lm(expend_food_yearly ~
+#            income_total_win + num_dependents,
+#            data = whr)
+# 
+# # Reg with year FE
+# reg2 <- lm(expend_food_yearly ~
+#            income_total_win + num_dependents + factor(year),
+#            data = whr)
+# 
+# # Reg with year and site FE
+# reg3 <- lm(expend_food_yearly ~
+#            income_total_win + num_dependents + factor(year) + factor(site_code),
+#            data = whr)
 
 ```
 
@@ -520,19 +623,19 @@ depvar_label <- "Yearly food expenditure (winsorized)"
 covar_labels <- c("Total income (winsorized)", "Number of dependents")
 
 # Table
-stargazer(reg1,
-          reg2,
-          reg3,
-          font.size = "tiny",
-          title = "Regression table",
-          keep = c("ncome_total_win","num_dependents"),
-          dep.var.labels = depvar_label,
-          covariate.labels = covar_labels,
-          add.lines = list(c("Year FE", "No", "Yes", "Yes"),
-                           c("Site FE", "No", "No", "Yes")),
-          omit.stat = c("ser"),
-          digits = 2,
-          header = F)
+# stargazer(reg1,
+#           reg2,
+#           reg3,
+#           font.size = "tiny",
+#           title = "Regression table",
+#           keep = c("ncome_total_win","num_dependents"),
+#           dep.var.labels = depvar_label,
+#           covariate.labels = covar_labels,
+#           add.lines = list(c("Year FE", "No", "Yes", "Yes"),
+#                            c("Site FE", "No", "No", "Yes")),
+#           omit.stat = c("ser"),
+#           digits = 2,
+#           header = F)
 ```
 
 ## Export regression table
@@ -542,36 +645,36 @@ stargazer(reg1,
 
 
 # Run a Regression
-reg1 <- lm(expend_food_yearly ~
-           income_total_win + num_dependents,
-           data = lwh)
-
-# Run a Regression
-reg2 <- lm(expend_food_yearly ~
-           income_total_win + num_dependents + factor(year),
-           data = lwh)
-
-# Run a Regression
-reg3 <- lm(expend_food_yearly ~
-           income_total_win + num_dependents + factor(year) + factor(site_code),
-           data = lwh)
-
-depvar_label <- "Yearly food expenditure (winsorized)"
-covar_labels <- c("Total income (winsorized)", "Number of dependents")
-
-stargazer(reg1,
-          reg2,
-          reg3,
-          font.size = "tiny",
-          title = "Regression table",
-          keep = c("ncome_total_win","num_dependents"),
-          dep.var.labels = depvar_label,
-          covariate.labels = covar_labels,
-          add.lines = list(c("Year FE", "No", "Yes", "Yes"),
-                           c("Site FE", "No", "No", "Yes")),
-          digits = 2,
-          omit.stat = c("ser"),
-          header = F)
+# reg1 <- lm(expend_food_yearly ~
+#            income_total_win + num_dependents,
+#            data = whr)
+# 
+# # Run a Regression
+# reg2 <- lm(expend_food_yearly ~
+#            income_total_win + num_dependents + factor(year),
+#            data = whr)
+# 
+# # Run a Regression
+# reg3 <- lm(expend_food_yearly ~
+#            income_total_win + num_dependents + factor(year) + factor(site_code),
+#            data = whr)
+# 
+# depvar_label <- "Yearly food expenditure (winsorized)"
+# covar_labels <- c("Total income (winsorized)", "Number of dependents")
+# 
+# stargazer(reg1,
+#           reg2,
+#           reg3,
+#           font.size = "tiny",
+#           title = "Regression table",
+#           keep = c("ncome_total_win","num_dependents"),
+#           dep.var.labels = depvar_label,
+#           covariate.labels = covar_labels,
+#           add.lines = list(c("Year FE", "No", "Yes", "Yes"),
+#                            c("Site FE", "No", "No", "Yes")),
+#           digits = 2,
+#           omit.stat = c("ser"),
+#           header = F)
 ```
 
 # References and recommendations

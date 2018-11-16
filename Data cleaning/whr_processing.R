@@ -33,14 +33,15 @@ finalData         <- file.path(Data,"Final")
 
 #------------------------------------------------------------------------------#  
 # Load CSV data
-whr15 <- read.csv(file.path(Data,"World/Raw/WHR2015.csv"), header = T)
-whr16 <- read.csv(file.path(Data,"World/Raw/WHR2016.csv"), header = T)
-whr17 <- read.csv(file.path(Data,"World/Raw/WHR2017.csv"), header = T)
+whr15 <- read.csv(file.path(Data,"Raw/WHR2015.csv"), header = T)
+whr16 <- read.csv(file.path(Data,"Raw/WHR2016.csv"), header = T)
+whr17 <- read.csv(file.path(Data,"Raw/WHR2017.csv"), header = T)
 
 
 #### Fix countries and regions in 2017
-whr17$Region <- NA
+whr17$Region <- ""
 
+whr17$Country <- as.character(whr17$Country)
 whr17$Country[whr17$Country == "Taiwan Province of China"] <- "Taiwan" 
 whr17$Country[whr17$Country == "Hong Kong S.A.R., China"] <- "Hong Kong" 
 
