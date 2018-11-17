@@ -1,7 +1,7 @@
 ---
 title: "Descriptive analysis"
-subtitle: "Field Coordinator Training - R Track"
-date: "June 2018"
+subtitle: "R for Stata Users"
+date: "November-December 2018"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -74,14 +74,16 @@ This session will cover two topics:
   \end{enumerate}
   
 
-## Introduction
+# Getting started
 
-First, let's load the data that is going to be used in the training. Paths should be set in your master file!
+## Getting started
+First, let's load the data that is going to be used in the training.
 
-#### Load the data
+### Load the data
 ```{r, include = T, results = "hide", eval = F}
-  # Load CSV data
+  #### Load CSV data
 
+  # Replace with where your data is
   FolderPath <- file.path("YOUR FOLDER PATH HERE")
 
   whr <- read.csv(file.path(FolderPath,"whr_panel.csv"), 
@@ -89,6 +91,21 @@ First, let's load the data that is going to be used in the training. Paths shoul
 
 ```
 
+## Getting started
+
+Before starting, let's install the packages we'll use in this session since it might take a while.
+
+We'll get into what packages are in a momment.
+
+### Install packages
+
+```{r, include = T, results = "hide", eval = F}
+  install.packages(c("stargazer", 
+                     "tidyverse"), 
+                   dependencies = T) # dependencies argument 
+#installs all other packages that it may depend upon to run
+
+```
 
 # Using packages
 
@@ -106,6 +123,7 @@ First, let's load the data that is going to be used in the training. Paths shoul
  * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN
 
 ## Using packages
+
 
 * To install and use packages you can either do it with the user interface or by the command prompt.
 ```{r, eval = F}
@@ -139,26 +157,11 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 * multiwayvcov and sandwich - clustered and robust standard errors
 * RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
 
-## Using packages
-
-  \begin{block}{Exercise 1}
-    Install the \texttt{swirl} and \texttt{stargazer} packages, including packages necessary for them to run.
-  \end{block}
-
-## Using packages
-
-```{r, eval = F}
-
-  # Install stargazer and swirl
-  install.packages(c("stargazer", "swirl"),
-                   dependencies = TRUE)
-
-```
 
 ## Using packages
 
   \begin{block}{Exercise 1}
-    Nopw load the packages you just installed. Note that the \texttt{library} function only accepts one argument, so you will need to load each of them separately.
+    Now load the packages we just installed. Note that the \texttt{library} function only accepts one argument, so you will need to load each of them separately.
   \end{block}
 
 ## Using packages
@@ -167,9 +170,14 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 ```{r, eval = T}
 
   library(stargazer)
-  library(swirl)
+  library(tidyverse)
 
 ```
+
+## Warinings vs Errors
+
+
+\textcolor{red}{update}
 
 # Quick summary statistics
 
@@ -700,3 +708,10 @@ covar_labels <- c("Total income (winsorized)", "Number of dependents")
 
   * All you need to know about \LaTeX\:
   https://en.wikibooks.org/wiki/LaTeX
+  
+  
+# Appendix
+
+## Appendix - Formulas
+
+\textcolor{red}{update}
