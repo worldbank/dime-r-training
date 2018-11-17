@@ -101,7 +101,8 @@ We'll get into what packages are in a momment.
 
 ```{r, include = T, results = "hide", eval = F}
   install.packages(c("stargazer", 
-                     "tidyverse"), 
+                     "tidyverse",
+                     "openxlsx"), 
                    dependencies = T)
 
 ```
@@ -161,6 +162,7 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 
   library(stargazer)
   library(tidyverse)
+  library(openxlsx)
 
 ```
 
@@ -238,21 +240,6 @@ Once a package is loaded, you can use its features and functions. Here's a list 
   \textit{Stargazer} was originally developed to export beautiful regression tables to \LaTeX\ or html, but it also allows you to generate summary statistics.
 
  
-<!-- ## Descriptives tables -->
-
-<!-- ### If you haven't yet done this in your master, install and load the ``stargazer`` package now! -->
-
-<!-- ```{r, eval = F} -->
-
-<!--   # Install stargazer -->
-<!--   install.packages("stargazer", -->
-<!--                    dependencies = TRUE) -->
-
-<!--   # Load stargazer -->
-<!--   library(stargazer) -->
-<!-- ``` -->
-
-
 ## Descriptives tables
 
 \begin{block}{Exercise 3 - \texttt{stargazer()} summary statistics table}
@@ -307,8 +294,6 @@ But first, let's pick a few variables of interest in the `whr` data set so the t
 
 ### Exercise 4
 
-\textcolor{red}{UPDATE}
-
  1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
  2. Use this vector to subset the whr dataset to contain only these variables. Call the new data frame `whr_simp`.
 
@@ -321,7 +306,7 @@ But first, let's pick a few variables of interest in the `whr` data set so the t
 # Vector with covariates to be kept
 covariates <- c("happy_score",
                 "gdp_pc",
-                "family",
+                "freedom",
                 "trust_gov_corr")
 
 # subset whr
@@ -347,13 +332,15 @@ whr_simp <- whr[, covariates]
 
   # Set labels
   cov_labels <- c("Happy score", "GDP per capita",
-                  "Family", "Trust in gornment and currption")
+                  "Freedom", "Trust in gornment and currption")
 
   # Save table to latex
   stargazer(whr_simp,
             covariate.labels = cov_labels,
-            #summary.stat = c("n", "mean", "sd", "min", "max"),
+            # Formatting
+            summary.stat = c("n", "mean", "sd", "min", "max"),
             digits = 2,
+            # export
             out = file.path(rawOutput,"desc_table.tex"))
 
 ```
@@ -368,8 +355,10 @@ whr_simp <- whr[, covariates]
 
 In R, it is relatively easy to construct any table you can think of by manipulating objects. To construct a table from scratch, we will use two functions:
 
- * `aggregate()` - Similar to collapse in Stata, it can compute statistics of a variable based on the values of other variable
- * `reshape()` - Reshapes data sets from long to wide and vice-versa
+ * `aggregate()` - Similar to collapse in Stata, it can compute statistics of a variable based on the values of other variable.
+ * `spread()` - Reshapes data sets from long to wide. [^1] 
+
+[^1]: `gather()` Reshapes data sets from wide to long, both are from `tidyverse`. There are other ways to reshape data, but these are becoming the standard in R.
 
 ## Descriptives tables - Create tables from scratch
 
@@ -381,11 +370,8 @@ In R, it is relatively easy to construct any table you can think of by manipulat
 
 ## Descriptives tables - Create tables from scratch
 
-\textcolor{red}{UPDATE}
-
-\begin{block}{Exercise 5}
- Use the \texttt{aggregate} function to create a data frame called \texttt{year\_inc\_tab} with the mean of the total income per year and treatment status. The syntax of the \texttt{aggregate} function is very similar to that of the \texttt{collapse} function in Stata.
-\end{block}
+### Exercise 5
+ Use the `aggregate()` function to create a data frame called `happy_table` with the mean of `happy_score` per year and region. 
 
 ```{r, eval = T, results = "hide"}
 # Aggregate income by year and treatment status
@@ -412,21 +398,16 @@ print(happy_table[1:19,])
 
 ## Descriptives tables - Create tables from scratch
 
-
-\textcolor{red}{UPDATE}
-
-
-`reshape(data, varying, idvar, timevar, direction)`:
-
+`spread(data, key, value)`:
+ 
  * __data__: a data frame
- * __idvar__: the variables that identify the group in the wide data set
- * __timevar__: the variable in long format that differentiates multiple records from the same group or individual
+ * __key__: the variables that identify the group in the wide data set
+ * __value__: the variable in long format that has multiple records from the same group or individual
 
 ## Descriptives tables - Create tables from scratch
 
-\begin{block}{Exercise 6}
- Use the \texttt{reshape} function to make the \texttt{year\_inc\_tab} data frame wide per treatment status.
-\end{block}
+### Exercise ?
+ Use the `spread` function to make the `happy_table` data frame wide in the `year` variable.
 
 
 ```{r, eval = T, results = "hide"}
@@ -438,8 +419,9 @@ happy_table <-
 ```
 
 For comparison, here's how you'd do it in Stata:
+\textcolor{red}{CHECCK}
 
-``reshape wide x, i(year) j(treatment_hh)``
+``reshape wide x, i(year) j(region)``
 
 
 ## Descriptives tables - Create tables from scratch
@@ -456,27 +438,36 @@ print(happy_table)
 With a data frame as input, `stargazer` by default tries to summarize it. So, to export this table we must specify one additional argument: `summary = F`.
 
 ### Exercise 7
-Print the ``year_inc_tab`` table you created in exercise 6 using ``stargazer``. If you want, you can also save it using the ``out`` option.
+Print the ``happy_table`` table you created in exercise 6 using ``stargazer``. If you want, you can also save it using the ``out`` option.
 
 
 ## Descriptives tables - Create tables from scratch
-\tiny
+\scriptsize
 
-
-\textcolor{red}{UPDATE}
-
-
-```{r, results='asis'}
-# Label variables
-column_lab <- c("Treatment status", "2012", "2013", "2014", "2016", "2018")
+```{r, eval = F}
 
 # Create table
 stargazer(happy_table,
           summary = F,
-          # Some extra formatting:
-          #covariate.labels = column_lab,
-          #title = "Total income by treatment status and year",
+          # Exporting
+          out = file.path(...),
+          # Formatting:
+          title = "Happy table",
+          digits = 1,
+          rownames = F)
+```
+
+
+## Descriptives tables - Create tables from scratch
+\scriptsize
+
+```{r, echo = F, results='asis'}
+
+# Create table
+stargazer(happy_table,
+          summary = F,
           header = F,
+          title = "Happy table",
           digits = 1,
           rownames = F)
 ```
@@ -486,12 +477,12 @@ stargazer(happy_table,
 
 ## Export tables to Excel
 
-\textcolor{red}{UPDATE}
 
+There are several ways to export R objects to Excel. We will use here the the `write.xslx()` function of the `openxlsx` package.
 
-To export a table to excel we'll use the `write.table()` function. It takes a data frame object as input and saves it as a ``.csv`` file
+ It takes a matrix or data frame object as input and saves it as a `.xlsx` file.
 
-`write.table()` is the most basic function, but there are many other functions that allow you to export formatted tables to Microsoft Excel, Word or PowerPoint. Here are some examples:
+`write.xslx()` is one of the most commun functions, but there are many other functions that allow you to export formatted tables to Microsoft Excel, Word or PowerPoint. Here are some examples:
 
   * ReporteRs
   * Flextable
@@ -499,47 +490,38 @@ To export a table to excel we'll use the `write.table()` function. It takes a da
 
 ## Export tables to Excel
 
-`write.table(x, file = "", sep = " ", row.names = TRUE)`
-
+  `write.xlsx(x, file, row.names = TRUE, col.names ...)` 
+  
  * __x__:	the object to be written
  * __file__: where to save the table, i.e., the file path including the file name
- * __sep__: the field separator of the csv, Excel's default is comma
- * __row.names__: either a logical value indicating whether the row names of x are to be written along with x, or a character vector of row names to be written
- * __row.names__: same as `row.names` for columns
+ * __row.names__: a logical value indicating whether the row names of x are to be written along with x
 
 ## Export tables to Excel
 
-### Exercise 8
+### Exercise ?
 
-Use the `write.table()` function to save the `year_inc_tab` you table created in Exercise 6 into a csv file.
+Use the `write.xlsx()` function to save the `happy_table` you table created in Exercise \textcolor{red}{XXX} into a xlsx file.
 
-1. Set `x` arugment as *year_inc_tab*.
-2. Set `row.names` as `FALSE`
-3. Set `col.names` as a vector of labels
-4. Set `file` as the folder path to your output folder plus a name for a file plus ".csv"
-5. Set `sep` as `","`.
+1. Set `x` argument as *happy_table*.
+2. Set `file` as the folder path to your output folder including a name for the file plus ".xlsx"
 
  Tips:
-
-  * Make sure to save it in the *Raw Ouput* folder. You can you the function ``file.path`` to do it
-  * Use the help function to check syntax if needed
+ 
+ * Use the help function to check syntax if needed
 
 ## Export tables to Excel
 \scriptsize
 
-```{r, include = T, eval = T}
-# write.table(year_inc_tab,
-#             sep = ",",
-#             row.names = F,
-#             col.names = c("Treatment status",
-#                           "2012", "2013", "2014", "2016", "2018"),
-#             file = file.path(rawOutput, "year_inc_tab.csv"))
+```{r, include = T, eval = F}
+write.xlsx(happy_table,
+           file = file.path(rawOutput, "happy_table.xlsx"))
 
 ```
 
+
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=.8]{img/year_inc_tab_csv.png}
+  \includegraphics[scale=.7]{img/happy_table_xlsx.png}
 \end{figure}
 
 
@@ -552,7 +534,7 @@ This is a session on *descriptive* analysis, so regressions are beyond its scope
 ```{r}
 # Run a Regression
 reg1 <- lm(happy_score ~
-           gdp_pc + trust_gov_corr,
+           gdp_pc + freedom + trust_gov_corr,
            data = whr)
 
 ```
@@ -566,6 +548,7 @@ reg1 <- lm(happy_score ~
 
 depvar_label <- "Happiness Score"
 covar_labels <- c("GDP per capita",
+                  "Freedom",
                   "Trust in government")
 
 stargazer(reg1,
@@ -573,6 +556,7 @@ stargazer(reg1,
           dep.var.labels = depvar_label,
           covar_labels = covar_labels,
           digits = 2,
+          # out = "..."
           header = F)
 
 ```
@@ -580,14 +564,14 @@ stargazer(reg1,
 
 
 ## Export regression table
-\scriptsize
+\tiny
 
 ```{r, results ='asis', echo = F}
 # Export a regression table
 depvar_label <- "Happiness Score"
 covar_labels <- c("GDP per capita",
+                  "Freedom",
                   "Trust in government")
-
 stargazer(reg1,
           title = "Regression table",
           dep.var.labels = depvar_label,
@@ -603,17 +587,17 @@ stargazer(reg1,
 
 # Regression 1
 reg1 <- lm(happy_score ~
-           gdp_pc + trust_gov_corr,
+           gdp_pc + freedom + trust_gov_corr,
            data = whr)
 
 # Reg with year FE
 reg2 <- lm(happy_score ~
-            gdp_pc + trust_gov_corr + factor(year),
+           gdp_pc + freedom + trust_gov_corr + factor(year),
            data = whr)
 
 # Reg with year and region FE
 reg3 <- lm(happy_score ~
-           gdp_pc + trust_gov_corr + factor(year) + factor(region),
+           gdp_pc + freedom + trust_gov_corr + factor(year) + factor(region),
            data = whr)
 
 ```
@@ -625,8 +609,8 @@ reg3 <- lm(happy_score ~
 # Labels
 depvar_label <- "Happiness Score"
 covar_labels <- c("GDP per capita",
+                  "Freedom",
                   "Trust in government")
-
 
 Table
 stargazer(reg1,
@@ -634,7 +618,7 @@ stargazer(reg1,
           reg3,
           font.size = "tiny",
           title = "Regression table",
-          keep = c("gdp_pc", "trust_gov_corr"),
+          keep = c("gdp_pc", "freedom", "trust_gov_corr"),
           dep.var.labels = depvar_label,
           covariate.labels = covar_labels,
           add.lines = list(c("Year FE", "No", "Yes", "Yes"),
@@ -650,15 +634,15 @@ stargazer(reg1,
 ```{r, results ='asis', echo = F}
 depvar_label <- "Happiness Score"
 covar_labels <- c("GDP per capita",
+                  "Freedom",
                   "Trust in government")
-
 #Table
 stargazer(reg1,
           reg2,
           reg3,
           font.size = "tiny",
           title = "Regression table",
-          keep = c("gdp_pc", "trust_gov_corr"),
+          keep = c("gdp_pc", "freedom", "trust_gov_corr"),
           dep.var.labels = depvar_label,
           covariate.labels = covar_labels,
           add.lines = list(c("Year FE", "No", "Yes", "Yes"),
@@ -694,6 +678,41 @@ stargazer(reg1,
   
   
 # Appendix
+
+## Appendix - Comments and shortcuts
+
+ * There is only one characterto comment out code in R, `#`.
+ * It can be used both by itself or after a command:
+```{r}
+# This is a comment
+foo <- 42 # This is also a comment
+
+```
+ 
+ * `Ctrl + Shift + c` is a shortcut to comment out a larger chunk of code. Simmilar to `/*` and `*/` in Stata.
+ 
+ * `Ctrl + Enter` is a shortcut to run the currently select code.
+
+## Appendix - Save your data to .csv
+
+\textcolor{red}{update}
+
+`write.csv(x, file = "", sep = ",", row.names = TRUE)`
+
+ * __x__:	the object to be written
+ * __file__: where to save the table, i.e., the file path including the file name
+ * __sep__: the field separator of the csv, Excel's default is comma
+ * __row.names__: either a logical value indicating whether the row names of x are to be written along with x, or a character vector of row names to be written
+
+
+## Appendix - Save your data to .csv
+```{r, eval = F}
+
+  write.csv(whr,
+            file = file.path(...,"whr.csv"),
+            row.names = F)
+
+```
 
 ## Appendix - Formulas
 
