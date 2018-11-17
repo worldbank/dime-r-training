@@ -9,7 +9,7 @@ output:
     theme: "Madrid"
     colortheme: "whale"
     fonttheme: "default"
-    toc: true
+    #toc: true
     includes:
       in_header: header.tex
 ---
@@ -97,13 +97,12 @@ Before starting, let's install the packages we'll use in this session since it m
 
 We'll get into what packages are in a momment.
 
-### Install packages
+### Install today's packages
 
 ```{r, include = T, results = "hide", eval = F}
   install.packages(c("stargazer", 
                      "tidyverse"), 
-                   dependencies = T) # dependencies argument 
-#installs all other packages that it may depend upon to run
+                   dependencies = T)
 
 ```
 
@@ -111,16 +110,16 @@ We'll get into what packages are in a momment.
 
 ## Using packages
 
-  * Since there is a lot of people developing for R, it can have many different functionalities
-  * To make it simpler, these functionalities are bundled into packages
-  * A package is the fundamental unit of shareable code
+  * Since there is a lot of people developing for R, it can have many different functionalities.
+  * To make it simpler, these functionalities are bundled into packages.
+  * A package is the fundamental unit of shareable code.
 
 
 ## Using packages
 
-  * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
-  * They can be shared through R's official repository - CRAN (10,000+ packages reviewed and tested) and many other online sources
- * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN
+  * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
+  * They can be shared through R's official repository - CRAN (13,000+ packages reviewed and tested) and many other online sources.
+ * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
 
 ## Using packages
 
@@ -134,39 +133,30 @@ install.packages("stargazer",
 # that it may depend upon to run
 ```
 
-## Using packages
 
-* You only have to install a package once, but you have to load it every new session. To load a package type:
-```{r, eval = F}
-library(stargazer)
+* You only have to install a package once, but you have to load it every new session. 
 
-```
 
 ## Using packages
 
 Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
 
-* Rcmdr - Easy to use GUI
 * swirl - An interactive learning environment for R and statistics.
-* ggplot2 - beautiful and versatile graphics (the syntax is a pain, though)
-* stargazer - awesome latex regression and summary statistics tables
-* foreign - reads dtas and other formats from inferior statistical software
-* zoo - time series and panel data manipulation useful functions
-* data.table - some functions to deal with huge data sets
-* sp and rgeos - spatial analysis
-* multiwayvcov and sandwich - clustered and robust standard errors
+* tidyverse - a collection of R packages designed for data science.
+    + ggplot2 - beautiful and versatile graphics. The syntax is a bit of pain, but it can fufill all of graphics dreams.
+* Rcmdr - Easy to use GUI. 
+* stargazer - awesome latex regression and summary statistics tables.
+* foreign - reads dtas and other formats from inferior statistical software.
+* sp, sf, rgeos, raster, rgdal - spatial analysis.
 * RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
 
 
 ## Using packages
 
-  \begin{block}{Exercise 1}
-    Now load the packages we just installed. Note that the \texttt{library} function only accepts one argument, so you will need to load each of them separately.
-  \end{block}
+### Exercise 1
+ 1. Now load the packages we just installed. Use the `library()` function to do it.
+    + Note that the `library` function only accepts one argument, so you will need to load each of them separately.
 
-## Using packages
-  \scriptsize
-  
 ```{r, eval = T}
 
   library(stargazer)
@@ -409,8 +399,14 @@ happy_table <-
 ## Descriptives tables - Create tables from scratch
 \scriptsize
 
-```{r}
+```{r, eval = F}
 print(happy_table)
+
+```
+
+
+```{r, echo= F}
+print(happy_table[1:19,])
 
 ```
 
@@ -555,9 +551,9 @@ This is a session on *descriptive* analysis, so regressions are beyond its scope
 
 ```{r}
 # Run a Regression
-# reg1 <- lm(expend_food_yearly ~
-#            income_total_win + num_dependents,
-#            data = whr)
+reg1 <- lm(happy_score ~
+           gdp_pc + trust_gov_corr,
+           data = whr)
 
 ```
 
@@ -568,16 +564,16 @@ This is a session on *descriptive* analysis, so regressions are beyond its scope
 ```{r, eval = F}
 # Export a regression table
 
-depvar_label <- "Yearly food expenditure (winsorized)"
-covar_labels <- c("Total income (winsorized)",
-                  "Number of dependents")
+depvar_label <- "Happiness Score"
+covar_labels <- c("GDP per capita",
+                  "Trust in government")
 
-# stargazer(reg1,
-#           title = "Regression table",
-#           dep.var.labels = depvar_label,
-#           covar_labels = covar_labels,
-#           digits = 2,
-#           header = F)
+stargazer(reg1,
+          title = "Regression table",
+          dep.var.labels = depvar_label,
+          covar_labels = covar_labels,
+          digits = 2,
+          header = F)
 
 ```
 
@@ -588,37 +584,37 @@ covar_labels <- c("Total income (winsorized)",
 
 ```{r, results ='asis', echo = F}
 # Export a regression table
-depvar_label <- "Yearly food expenditure (winsorized)"
-covar_labels <- c("Total income (winsorized)", "Number of dependents")
+depvar_label <- "Happiness Score"
+covar_labels <- c("GDP per capita",
+                  "Trust in government")
 
-# stargazer(reg1,
-#           title = "Regression table",
-#           dep.var.labels = depvar_label,
-#           covariate.labels = covar_labels,
-#           digits = 2,
-#           header = F)
+stargazer(reg1,
+          title = "Regression table",
+          dep.var.labels = depvar_label,
+          covariate.labels = covar_labels,
+          digits = 2,
+          header = F)
 ```
 
 ## Export regression table
 \scriptsize
 
-```{r, eval = F}
+```{r}
 
- 
-# Regression 1 
-# reg1 <- lm(expend_food_yearly ~
-#            income_total_win + num_dependents,
-#            data = whr)
-# 
-# # Reg with year FE
-# reg2 <- lm(expend_food_yearly ~
-#            income_total_win + num_dependents + factor(year),
-#            data = whr)
-# 
-# # Reg with year and site FE
-# reg3 <- lm(expend_food_yearly ~
-#            income_total_win + num_dependents + factor(year) + factor(site_code),
-#            data = whr)
+# Regression 1
+reg1 <- lm(happy_score ~
+           gdp_pc + trust_gov_corr,
+           data = whr)
+
+# Reg with year FE
+reg2 <- lm(happy_score ~
+            gdp_pc + trust_gov_corr + factor(year),
+           data = whr)
+
+# Reg with year and region FE
+reg3 <- lm(happy_score ~
+           gdp_pc + trust_gov_corr + factor(year) + factor(region),
+           data = whr)
 
 ```
 
@@ -627,62 +623,49 @@ covar_labels <- c("Total income (winsorized)", "Number of dependents")
 
 ```{r, eval = F}
 # Labels
-depvar_label <- "Yearly food expenditure (winsorized)"
-covar_labels <- c("Total income (winsorized)", "Number of dependents")
+depvar_label <- "Happiness Score"
+covar_labels <- c("GDP per capita",
+                  "Trust in government")
 
-# Table
-# stargazer(reg1,
-#           reg2,
-#           reg3,
-#           font.size = "tiny",
-#           title = "Regression table",
-#           keep = c("ncome_total_win","num_dependents"),
-#           dep.var.labels = depvar_label,
-#           covariate.labels = covar_labels,
-#           add.lines = list(c("Year FE", "No", "Yes", "Yes"),
-#                            c("Site FE", "No", "No", "Yes")),
-#           omit.stat = c("ser"),
-#           digits = 2,
-#           header = F)
+
+Table
+stargazer(reg1,
+          reg2,
+          reg3,
+          font.size = "tiny",
+          title = "Regression table",
+          keep = c("gdp_pc", "trust_gov_corr"),
+          dep.var.labels = depvar_label,
+          covariate.labels = covar_labels,
+          add.lines = list(c("Year FE", "No", "Yes", "Yes"),
+                           c("Region FE", "No", "No", "Yes")),
+          omit.stat = c("ser"),
+          digits = 2,
+          header = F)
 ```
 
 ## Export regression table
 \scriptsize
 
 ```{r, results ='asis', echo = F}
+depvar_label <- "Happiness Score"
+covar_labels <- c("GDP per capita",
+                  "Trust in government")
 
-
-# Run a Regression
-# reg1 <- lm(expend_food_yearly ~
-#            income_total_win + num_dependents,
-#            data = whr)
-# 
-# # Run a Regression
-# reg2 <- lm(expend_food_yearly ~
-#            income_total_win + num_dependents + factor(year),
-#            data = whr)
-# 
-# # Run a Regression
-# reg3 <- lm(expend_food_yearly ~
-#            income_total_win + num_dependents + factor(year) + factor(site_code),
-#            data = whr)
-# 
-# depvar_label <- "Yearly food expenditure (winsorized)"
-# covar_labels <- c("Total income (winsorized)", "Number of dependents")
-# 
-# stargazer(reg1,
-#           reg2,
-#           reg3,
-#           font.size = "tiny",
-#           title = "Regression table",
-#           keep = c("ncome_total_win","num_dependents"),
-#           dep.var.labels = depvar_label,
-#           covariate.labels = covar_labels,
-#           add.lines = list(c("Year FE", "No", "Yes", "Yes"),
-#                            c("Site FE", "No", "No", "Yes")),
-#           digits = 2,
-#           omit.stat = c("ser"),
-#           header = F)
+#Table
+stargazer(reg1,
+          reg2,
+          reg3,
+          font.size = "tiny",
+          title = "Regression table",
+          keep = c("gdp_pc", "trust_gov_corr"),
+          dep.var.labels = depvar_label,
+          covariate.labels = covar_labels,
+          add.lines = list(c("Year FE", "No", "Yes", "Yes"),
+                           c("Region FE", "No", "No", "Yes")),
+          omit.stat = c("ser"),
+          digits = 2,
+          header = F)
 ```
 
 # References and recommendations
@@ -713,5 +696,10 @@ covar_labels <- c("Total income (winsorized)", "Number of dependents")
 # Appendix
 
 ## Appendix - Formulas
+
+\textcolor{red}{update}
+
+
+## Appendix - tidyverse
 
 \textcolor{red}{update}
