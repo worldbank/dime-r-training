@@ -77,7 +77,7 @@ This session will cover two topics:
 # Getting started
 
 ## Getting started
-First, let's load the data that is going to be used in the training.
+First, lets load the data that is going to be used in the training.
 
 ### Load the data
 ```{r, include = T, results = "hide", eval = F}
@@ -95,7 +95,7 @@ First, let's load the data that is going to be used in the training.
 
 Before starting, let's install the packages we'll use in this session since it might take a while.
 
-We'll get into what packages are in a momment.
+We'll get into what packages are in a moment.
 
 ### Install today's packages
 
@@ -120,7 +120,7 @@ We'll get into what packages are in a momment.
 
   * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
   * They can be shared through R's official repository - CRAN (13,000+ packages reviewed and tested) and many other online sources.
- * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
+ * There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
 
 ## Using packages
 
