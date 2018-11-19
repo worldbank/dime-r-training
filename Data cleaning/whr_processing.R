@@ -37,6 +37,8 @@ whr15 <- read.csv(file.path(Data,"Raw/WHR2015.csv"), header = T)
 whr16 <- read.csv(file.path(Data,"Raw/WHR2016.csv"), header = T)
 whr17 <- read.csv(file.path(Data,"Raw/WHR2017.csv"), header = T)
 
+codes <- read.csv(file.path(Data,"Raw/country_codes.csv"), header = T)
+
 
 #### Fix countries and regions in 2017
 whr17$Region <- ""
@@ -44,6 +46,10 @@ whr17$Region <- ""
 whr17$Country <- as.character(whr17$Country)
 whr17$Country[whr17$Country == "Taiwan Province of China"] <- "Taiwan" 
 whr17$Country[whr17$Country == "Hong Kong S.A.R., China"] <- "Hong Kong" 
+
+
+
+
 
 whr17$Region <- whr16$Region[match(whr17$Country, whr16$Country)]
 
@@ -104,13 +110,18 @@ newVar_names <-   c("country",
 names(whr) <- newVar_names
                 
 #------------------------------------------------------------------------------#  
+#### Match codes ####
+
+whr$Country[whr$country == "Somaliland region"] <- "Somaliland Region" 
+
+whr$coutry_code <- codes$code[match(whr$country, codes$country)]
+
+whr <- whr %>% select(coutry_code, country, everything())
+
+#------------------------------------------------------------------------------#  
 #### Export ####
 
 write.csv(whr,
           file.path(Data, "whr_panel.csv"),
           na = "",
           row.names = F)
-ggplot(data = whr,
-       aes(x = trust_gov_corr,
-           y = happy_score,
-           col = region)) + geom_point()

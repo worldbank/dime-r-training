@@ -113,13 +113,13 @@ We'll get into what packages are in a momment.
 
   * Since there is a lot of people developing for R, it can have many different functionalities.
   * To make it simpler, these functionalities are bundled into packages.
-  * A package is the fundamental unit of shareable code.
+  * A package is just a unit of shareable code.
 
 
 ## Using packages
 
   * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
-  * They can be shared through R's official repository - CRAN (13,000+ packages reviewed and tested) and many other online sources.
+  * They can be shared through R's official repository - CRAN (13,000+ packages reviewed and tested).
  * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
 
 ## Using packages
@@ -168,8 +168,24 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 
 ## Warinings vs Errors
 
+What if this happens?
 
-\textcolor{red}{update}
+\begin{figure}
+  \includegraphics[scale=0.5]{img/Warning.png}
+\end{figure}
+
+
+## Warinings vs Errors
+
+ 
+R has two types of "erros", `warnings` and actual `erros`:
+
+  * `Errors` - break your code from running.
+  * `Warnings` - are printed, but don't break your code.
+  
+But these are the standards, you can configure R to stop if you want.  
+  
+Warnings usally mean that nothing went wrong yet, but you should be careful. 
 
 # Quick summary statistics
 
@@ -292,7 +308,7 @@ To export the table to \LaTeX\, we will use a couple of additional arguments of 
 
 But first, let's pick a few variables of interest in the `whr` data set so the table fits in these slides.
 
-### Exercise 4
+### Exercise 2
 
  1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
  2. Use this vector to subset the whr dataset to contain only these variables. Call the new data frame `whr_simp`.
@@ -317,12 +333,11 @@ whr_simp <- whr[, covariates]
 
 ## Export tables to \LaTeX\
 
-### Exercise 4
- 1. Create a vector called ``cov_labels`` containing the labels to the covariates, in the same order as in the ``covariates`` vector.
+### Exercise 3: Now use the stargazer function to export the `whr_simp`:
 
- 2. Now use the stargazer function as in the previous exercise:
-  + Set ``whr_simp`` as the `x` argument this time
-  + Set the `covariate.labels` argument as the vector you just created
+ 1. Create a vector `cov_labels` containing labels for the `happy_score`, `gdp_pc`, `freedom` and `trust_gov_corr` variables.
+ 2. Set ``whr_simp`` as the `x` argument this time
+ 3. Set the `covariate.labels` argument as the vector you just created
 
 ## Export tables to \LaTeX\
 
@@ -336,11 +351,11 @@ whr_simp <- whr[, covariates]
 
   # Save table to latex
   stargazer(whr_simp,
-            covariate.labels = cov_labels,
             # Formatting
-            summary.stat = c("n", "mean", "sd", "min", "max"),
+            covariate.labels = cov_labels,
+            summary.stat = c("n", "mean", "sd", "min", "max"), # Chose which stats to comopute
             digits = 2,
-            # export
+            # You can directly export with the out argument
             out = file.path(rawOutput,"desc_table.tex"))
 
 ```
@@ -350,8 +365,6 @@ whr_simp <- whr[, covariates]
 # Descriptives tables - Create tables from scratch
 
 ## Descriptives tables - Create tables from scratch
-
-\textcolor{red}{UPDATE}
 
 In R, it is relatively easy to construct any table you can think of by manipulating objects. To construct a table from scratch, we will use two functions:
 
@@ -370,7 +383,7 @@ In R, it is relatively easy to construct any table you can think of by manipulat
 
 ## Descriptives tables - Create tables from scratch
 
-### Exercise 5
+### Exercise 3
  Use the `aggregate()` function to create a data frame called `happy_table` with the mean of `happy_score` per year and region. 
 
 ```{r, eval = T, results = "hide"}
@@ -406,7 +419,7 @@ print(happy_table[1:19,])
 
 ## Descriptives tables - Create tables from scratch
 
-### Exercise ?
+### Exercise 4
  Use the `spread` function to make the `happy_table` data frame wide in the `year` variable.
 
 
@@ -437,7 +450,7 @@ print(happy_table)
 
 With a data frame as input, `stargazer` by default tries to summarize it. So, to export this table we must specify one additional argument: `summary = F`.
 
-### Exercise 7
+### Exercise 4
 Print the ``happy_table`` table you created in exercise 6 using ``stargazer``. If you want, you can also save it using the ``out`` option.
 
 
@@ -498,9 +511,9 @@ There are several ways to export R objects to Excel. We will use here the the `w
 
 ## Export tables to Excel
 
-### Exercise ?
+### Exercise 5
 
-Use the `write.xlsx()` function to save the `happy_table` you table created in Exercise \textcolor{red}{XXX} into a xlsx file.
+Use the `write.xlsx()` function to save the `happy_table` you table created in Exercise 4 into a xlsx file.
 
 1. Set `x` argument as *happy_table*.
 2. Set `file` as the folder path to your output folder including a name for the file plus ".xlsx"
@@ -529,15 +542,20 @@ write.xlsx(happy_table,
 
 ## Export regression table
 
-This is a session on *descriptive* analysis, so regressions are beyond its scope. But since you'll probably ask, here's how you run a regression and how you export a very simple regression table to \LaTeX\ using ``stargazer``:
+\begin{block}{Warning:}
+This is a session on \textbf{descriptive} analysis, so regressions are beyond its scope.
+\end{block}
+
+But since you'll probably ask, here's how you run a regression and how you export a very simple regression table to \LaTeX\ using `stargazer` and the `iris`[^2] dataset:
 
 ```{r}
 # Run a Regression
-reg1 <- lm(happy_score ~
-           gdp_pc + freedom + trust_gov_corr,
-           data = whr)
+reg1 <- lm(Sepal.Length ~ Sepal.Width,
+           data = iris)
 
 ```
+
+[^2]: `iris` is a built in data set in R with some morphology information for the flowers of 3 iris species.
 
 ## Export regression table
 \scriptsize
@@ -546,15 +564,13 @@ reg1 <- lm(happy_score ~
 ```{r, eval = F}
 # Export a regression table
 
-depvar_label <- "Happiness Score"
-covar_labels <- c("GDP per capita",
-                  "Freedom",
-                  "Trust in government")
+depvar_label <- "Sepal Length"
+covar_labels <- "Sepal Width"
 
 stargazer(reg1,
           title = "Regression table",
           dep.var.labels = depvar_label,
-          covar_labels = covar_labels,
+          covariate.labels = covar_labels,
           digits = 2,
           # out = "..."
           header = F)
@@ -568,17 +584,19 @@ stargazer(reg1,
 
 ```{r, results ='asis', echo = F}
 # Export a regression table
-depvar_label <- "Happiness Score"
-covar_labels <- c("GDP per capita",
-                  "Freedom",
-                  "Trust in government")
+depvar_label <- "Sepal Length"
+covar_labels <- "Sepal Width"
+
 stargazer(reg1,
           title = "Regression table",
           dep.var.labels = depvar_label,
           covariate.labels = covar_labels,
           digits = 2,
           header = F)
+
 ```
+
+
 
 ## Export regression table
 \scriptsize
@@ -586,19 +604,16 @@ stargazer(reg1,
 ```{r}
 
 # Regression 1
-reg1 <- lm(happy_score ~
-           gdp_pc + freedom + trust_gov_corr,
-           data = whr)
+reg1 <- lm(Sepal.Length ~ Sepal.Width,
+           data = iris)
 
 # Reg with year FE
-reg2 <- lm(happy_score ~
-           gdp_pc + freedom + trust_gov_corr + factor(year),
-           data = whr)
+reg2 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length,
+           data = iris)
 
 # Reg with year and region FE
-reg3 <- lm(happy_score ~
-           gdp_pc + freedom + trust_gov_corr + factor(year) + factor(region),
-           data = whr)
+reg3 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length + factor(Species),
+           data = iris)
 
 ```
 
@@ -606,23 +621,19 @@ reg3 <- lm(happy_score ~
 \scriptsize
 
 ```{r, eval = F}
-# Labels
-depvar_label <- "Happiness Score"
-covar_labels <- c("GDP per capita",
-                  "Freedom",
-                  "Trust in government")
-
-Table
+depvar_label <- "Sepal Length"
+covar_labels <- c("Sepal Width",
+                  "Petal Length")
+#Table
 stargazer(reg1,
           reg2,
           reg3,
           font.size = "tiny",
           title = "Regression table",
-          keep = c("gdp_pc", "freedom", "trust_gov_corr"),
+          keep = c("Sepal.Width",  "Petal.Length"),
           dep.var.labels = depvar_label,
           covariate.labels = covar_labels,
-          add.lines = list(c("Year FE", "No", "Yes", "Yes"),
-                           c("Region FE", "No", "No", "Yes")),
+          add.lines = list(c("Species FE", "No", "No", "Yes")),
           omit.stat = c("ser"),
           digits = 2,
           header = F)
@@ -632,21 +643,19 @@ stargazer(reg1,
 \scriptsize
 
 ```{r, results ='asis', echo = F}
-depvar_label <- "Happiness Score"
-covar_labels <- c("GDP per capita",
-                  "Freedom",
-                  "Trust in government")
+depvar_label <- "Sepal Length"
+covar_labels <- c("Sepal Width",
+                  "Petal Length")
 #Table
 stargazer(reg1,
           reg2,
           reg3,
           font.size = "tiny",
           title = "Regression table",
-          keep = c("gdp_pc", "freedom", "trust_gov_corr"),
+          keep = c("Sepal.Width",  "Petal.Length"),
           dep.var.labels = depvar_label,
           covariate.labels = covar_labels,
-          add.lines = list(c("Year FE", "No", "Yes", "Yes"),
-                           c("Region FE", "No", "No", "Yes")),
+          add.lines = list(c("Species FE", "No", "No", "Yes")),
           omit.stat = c("ser"),
           digits = 2,
           header = F)
@@ -716,9 +725,40 @@ foo <- 42 # This is also a comment
 
 ## Appendix - Formulas
 
-\textcolor{red}{update}
+Formulas are a way of describing a relationship between variables or objects. They work as inputs for several functions, notably regression functions.
 
 
-## Appendix - tidyverse
+### We can create formulas by using the formula function
+```{r}
+# or Formula function yield same results
+formula1 <- formula(y ~ x1 + x2)
+formula1
+```
 
-\textcolor{red}{update}
+
+
+## Appendix - Formulas
+
+The mont basic structure of a formula is actually just the tilde symbol ~ and at least one right-hand variable.
+
+### You can also covert strings to create formulas
+```{r}
+# or Formula function yield same results
+formula2 <- as.formula("~ x1")
+formula2
+```
+
+## Appendix - Formulas
+
+Note that values that assigned to the symbols in the formula are not accessed when the formula is created.
+
+Alternatively, if you write an expression containing a tilde R already understands it as a formula.
+
+### Just using the tilde
+```{r}
+
+formula3 <- y ~ x1 + z1
+formula3
+```
+
+
