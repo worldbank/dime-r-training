@@ -144,7 +144,7 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 
 * swirl - An interactive learning environment for R and statistics.
 * tidyverse - a collection of R packages designed for data science.
-    + ggplot2 - beautiful and versatile graphics. The syntax is a bit of pain, but it can fufill all of graphics dreams.
+    + ggplot2 - beautiful and versatile graphics. The syntax is a bit of pain, but it can fulfill all of graphics dreams.
 * Rcmdr - Easy to use GUI. 
 * stargazer - awesome latex regression and summary statistics tables.
 * foreign - reads dtas and other formats from inferior statistical software.
@@ -310,7 +310,7 @@ But first, let's pick a few variables of interest in the `whr` data set so the t
 ### Exercise 2
 
  1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
- 2. Use this vector to subset the whr dataset to contain only these variables. Call the new data frame `whr_simp`.
+ 2. Use this vector to subset the whr data-set to contain only these variables. Call the new data frame `whr_simp`.
 
 
 ## Export tables to \LaTeX\
@@ -394,6 +394,9 @@ happy_table <-
 ```
 
 
+For comparison, here's how you'd do it in Stata:
+`collapse (mean) happy_score, by(region)`
+
 ## Descriptives tables - Create tables from scratch
 \scriptsize
 
@@ -431,9 +434,7 @@ happy_table <-
 ```
 
 For comparison, here's how you'd do it in Stata:
-\textcolor{red}{CHECCK}
-
-``reshape wide x, i(year) j(region)``
+`reshape wide happy_score, i(region) j(year)`
 
 
 ## Descriptives tables - Create tables from scratch
@@ -445,7 +446,6 @@ print(happy_table)
 ```
 
 ## Descriptives tables - Create tables from scratch
-
 
 With a data frame as input, `stargazer` by default tries to summarize it. So, to export this table we must specify one additional argument: `summary = F`.
 
@@ -545,7 +545,7 @@ write.xlsx(happy_table,
 This is a session on \textbf{descriptive} analysis, so regressions are beyond its scope.
 \end{block}
 
-But since you'll probably ask, here's how you run a regression and how you export a very simple regression table to \LaTeX\ using `stargazer` and the `iris`[^2] dataset:
+But since you'll probably ask, here's how you run a regression and how you export a very simple regression table to \LaTeX\ using `stargazer` and the `iris`[^2] data-set:
 
 ```{r}
 # Run a Regression
@@ -689,7 +689,7 @@ stargazer(reg1,
 
 ## Appendix - Comments and shortcuts
 
- * There is only one characterto comment out code in R, `#`.
+ * There is only one character to comment out code in R, `#`.
  * It can be used both by itself or after a command:
 ```{r}
 # This is a comment
@@ -697,13 +697,15 @@ foo <- 42 # This is also a comment
 
 ```
  
- * `Ctrl + Shift + c` is a shortcut to comment out a larger chunk of code. Simmilar to `/*` and `*/` in Stata.
+ * `Ctrl + Shift + c` is a shortcut to comment out a larger chunk of code. Similar to `/*` and `*/` in Stata.
  
  * `Ctrl + Enter` is a shortcut to run the currently select code.
 
 ## Appendix - Save your data to .csv
 
-\textcolor{red}{update}
+To export our data in .csv format we can use the `write.csv()` function. There other ways, but this is often the most straightforward. 
+
+Here's the basic syntax:
 
 `write.csv(x, file = "", sep = ",", row.names = TRUE)`
 
@@ -714,13 +716,17 @@ foo <- 42 # This is also a comment
 
 
 ## Appendix - Save your data to .csv
-```{r, eval = F}
 
+You can write the following code:
+
+```{r, eval = F}
   write.csv(whr,
             file = file.path(...,"whr.csv"),
             row.names = F)
 
 ```
+
+It is important to specify the `row.names` as `FALSE` since the function default is `TRUE`. There are situations when saving row names might make sense, but normally that's nor the case for data.frames.
 
 ## Appendix - Formulas
 
@@ -738,7 +744,7 @@ formula1
 
 ## Appendix - Formulas
 
-The mont basic structure of a formula is actually just the tilde symbol ~ and at least one right-hand variable.
+The most basic structure of a formula is actually just the tilde symbol ~ and at least one right-hand variable.
 
 ### You can also covert strings to create formulas
 ```{r}
