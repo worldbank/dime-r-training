@@ -93,9 +93,9 @@ First, let's load the data that is going to be used in the training.
 
 ## Getting started
 
-Before starting, let's install the packages we'll use in this session since it might take a while.
+Before starting, lets install the packages we'll use in this session since it might take a while.
 
-We'll get into what packages are in a momment.
+We'll get into what packages are in a moment.
 
 ### Install today's packages
 
@@ -120,7 +120,7 @@ We'll get into what packages are in a momment.
 
   * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
   * They can be shared through R's official repository - CRAN (13,000+ packages reviewed and tested).
- * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
+ * There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
 
 ## Using packages
 
@@ -178,14 +178,13 @@ What if this happens?
 ## Warinings vs Errors
 
  
-R has two types of "erros", `warnings` and actual `erros`:
+R has two types of error messages, `warnings` and actual `erros`:
 
-  * `Errors` - break your code from running.
-  * `Warnings` - are printed, but don't break your code.
+  * `Errors` - break your code, i.e., prevent it from running.
+  * `Warnings` - usually mean that nothing went wrong yet, but you should be careful. 
   
-But these are the standards, you can configure R to stop if you want.  
+RStudio's default is to print warning messages, but not stop the code at the lines where they occur. You can configure R to stop at warnings if you want.  
   
-Warnings usally mean that nothing went wrong yet, but you should be careful. 
 
 # Quick summary statistics
 
@@ -495,7 +494,7 @@ There are several ways to export R objects to Excel. We will use here the the `w
 
  It takes a matrix or data frame object as input and saves it as a `.xlsx` file.
 
-`write.xslx()` is one of the most commun functions, but there are many other functions that allow you to export formatted tables to Microsoft Excel, Word or PowerPoint. Here are some examples:
+`write.xslx()` is one of the most common functions, but there are many other functions that allow you to export formatted tables to Microsoft Excel, Word or PowerPoint. Here are some examples:
 
   * ReporteRs
   * Flextable
@@ -513,7 +512,7 @@ There are several ways to export R objects to Excel. We will use here the the `w
 
 ### Exercise 5
 
-Use the `write.xlsx()` function to save the `happy_table` you table created in Exercise 4 into a xlsx file.
+Use the `write.xlsx()` function to save the `happy_table` you table created in Exercise 4 into an xlsx file.
 
 1. Set `x` argument as *happy_table*.
 2. Set `file` as the folder path to your output folder including a name for the file plus ".xlsx"
