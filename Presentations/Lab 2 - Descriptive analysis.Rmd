@@ -51,8 +51,11 @@ if (Sys.getenv("USERNAME") == "WB519128"){
   rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
 
   # Load CSV data
-  whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
-                header = T)
+  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
+                header = T,
+                stringsAsFactors = F)
+  
+  #whr <- read_csv(file.path(finalData,"whr_panel.csv"))
   
 ```
 
@@ -60,17 +63,19 @@ if (Sys.getenv("USERNAME") == "WB519128"){
   
 ## Introduction
   
-Descriptive statistics are used to represent the basic features of data. When we talk about descriptive analysis, it usually means that we're not making any assumptions, and we're not using probability theory to infer anything beyond the immediate data.
+ * Descriptive statistics are used to represent the basic features of data. When we talk about descriptive analysis, it usually means that we're not making any assumptions, and we're not using probability theory to infer anything beyond the immediate data.
 
-This session is mostly focused on how to implement descriptive analysis in R. We will not go in depth into these concepts, but you can find some useful references at the end of this presentation.
+ * This session is mostly focused on how to implement descriptive analysis in R. 
+ 
+ * We will not go in depth into these concepts, but you can find some useful references at the end of this presentation.
 
 ## Introduction
 
 This session will cover two topics:
   
   \begin{enumerate}
-    \item Quick ways to extract summary information from your data
-    \item How to use this information to create and export tables
+    \item Quick ways to extract summary information from your data.
+    \item How to use this information to create and export tables.
   \end{enumerate}
   
 
@@ -87,7 +92,8 @@ First, let's load the data that is going to be used in the training.
   FolderPath <- file.path("YOUR FOLDER PATH HERE")
 
   whr <- read.csv(file.path(FolderPath,"whr_panel.csv"), 
-                  header = T)
+                  header = T,
+                  stringsAsFactors = F)
 
 ```
 
@@ -218,7 +224,7 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 ## Quick summary statistics
  
  
-``table()`` - equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments are the objects to be tabulated.
+``table()`` - equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments are vectors to be tabulated.
 
 \begin{block}{Exercise 2}
   Use the \texttt{table()} function to display frequency tables for:
@@ -240,10 +246,33 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 
 
 ```{r, eval = T}
-  # Gender of household head per year
+  # Number of countries per region per year
   table(whr$region, whr$year)
 ```
 
+
+## Quick summary statistics
+
+### Bonus Exercise: 
+  Use the `table()` function to display a frequency table for the number of countries above the average happiness per region in 2017.
+  
+ 1. Create another data.frame called `whr17` with only 2017 observations
+ 2. Use the `table()` function to tabulate a the `region` variable and a boolean vector.
+ 
+ TIP: Using the condition directly in the function or creating a separate vector will yield the exact same results.
+
+## Quick summary statistics
+\scriptsize
+
+
+```{r, eval = T}
+  # Restrict to only 2017 obs
+  whr17 <- whr[whr$year == 2017, ]
+
+  # table with a bolean vector
+  table(whr17$region, 
+        whr17$happy_rank > mean(whr17$happy_rank)) # Who is above average
+```
 
 # Descriptives tables
 
@@ -276,15 +305,6 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 stargazer(whr, 
           digits = 1, 
           type = "text")
-
-```
-
-
-
-```{r, include = T, echo = F}
-# stargazer(whr[1:15], 
-#           digits = 1, 
-#           type = "text")
 
 ```
 
@@ -365,7 +385,9 @@ whr_simp <- whr[, covariates]
 
 ## Descriptives tables - Create tables from scratch
 
-In R, it is relatively easy to construct any table you can think of by manipulating objects. To construct a table from scratch, we will use two functions:
+In R, it is relatively straightforward to construct any table you can think of by manipulating objects. 
+
+There are multiple ways to do this, but We will construct a simple table using two functions:
 
  * `aggregate()` - Similar to collapse in Stata, it can compute statistics of a variable based on the values of other variable.
  * `spread()` - Reshapes data sets from long to wide. [^1] 
@@ -386,7 +408,7 @@ In R, it is relatively easy to construct any table you can think of by manipulat
  Use the `aggregate()` function to create a data frame called `happy_table` with the mean of `happy_score` per year and region. 
 
 ```{r, eval = T, results = "hide"}
-# Aggregate income by year and treatment status
+# Aggregate happy_score by year and region
 happy_table <-
   aggregate(happy_score ~ year + region,
             data = whr,
@@ -426,7 +448,7 @@ print(happy_table[1:19,])
 
 
 ```{r, eval = T, results = "hide"}
-# Aggregate income by year and treatment status
+# Reshape into wide on year
 happy_table <- 
   spread(happy_table, 
          key = year, 
@@ -485,6 +507,101 @@ stargazer(happy_table,
 ```
 
 
+## Descriptives tables - Create tables from scratch
+\framesubtitle{Challenge exercise}
+
+Ok, but what if we want to create something very specific, different from the output of those two functions? Something like this:
+
+## Descriptives tables - Create tables from scratch 
+\framesubtitle{Challenge exercise}
+\scriptsize
+
+
+```{r, echo = F}
+#### Creacte duplicated dfs with a stat identifier
+x1 <- whr
+x1$stat <- "Mean"
+
+x2 <- whr
+x2$stat <- "N"
+
+# Combine them
+x12 <- rbind(x1,x2)
+
+#### Collapse also by that stat id to have duplicated rows
+happy_table2 <-
+  aggregate(happy_score ~ stat +  region + year,
+            data = x12,
+            FUN = mean)
+
+happy_table2 <-
+  rename(happy_table2, value = happy_score)
+
+#### Create a frequencies df
+
+freqdf <- 
+  as.data.frame(table(whr$region, whr$year))
+
+#### Replace values for ne N rows
+happy_table2$value[happy_table2$stat == "N"] <- freqdf$Freq
+
+#### Reshape
+
+# Re order columns so the reshape will give us the righ order
+happy_table2 <- 
+  select(happy_table2, region, year, stat, value)
+
+# Reshape
+ht_wd <- 
+  spread(happy_table2, 
+         key = year, 
+         value = value)
+
+
+#### Cosmetics 
+
+# Remove duplicated region names
+ht_wd$region[as.integer(row.names(ht_wd)) %% 2 == 0] <- ""
+
+# Rename columns
+names(ht_wd) <- c("Region",
+                  "",
+                  "2015",
+                  "2016",
+                  "2017")
+
+```
+
+
+
+```{r,  echo = F, results='asis'}
+
+stargazer(ht_wd, 
+          font.size = "tiny",
+          title = "Happiness score by world region",
+          column.labels = c("foo", "bar", "bar", "Good", "Better"),
+          summary = F,
+          rownames = F,
+          header = F)
+
+```
+
+
+## Descriptives tables - Create tables from scratch
+\framesubtitle{Challenge exercise}
+
+### Exercise -  Try to replicate the table in the previous slide:
+
+There are multiple ways to do this. Here are two painful but straightforward approaches that you get extra points if you avoid:
+
+ 1. Write string objects with latex code and combine them.
+ 2. Appending vectors of with the desired stats for each region.
+
+Here are a few tips if you chose to use `aggregate()` and `spread()`:
+
+ 1. When using `aggregate`, the order of the right-hand-side variables affects the order of the columns.
+ 2. The order of the columns affects the order of observations after you reshape.
+
 # Export tables to Excel
 
 ## Export tables to Excel
@@ -517,7 +634,7 @@ Use the `write.xlsx()` function to save the `happy_table` you table created in E
 1. Set `x` argument as *happy_table*.
 2. Set `file` as the folder path to your output folder including a name for the file plus ".xlsx"
 
- Tips:
+ TIP:
  
  * Use the help function to check syntax if needed
 
@@ -606,11 +723,11 @@ stargazer(reg1,
 reg1 <- lm(Sepal.Length ~ Sepal.Width,
            data = iris)
 
-# Reg with year FE
+# Reg with two indep vars
 reg2 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length,
            data = iris)
 
-# Reg with year and region FE
+# Reg with two indep vars and species FE
 reg3 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length + factor(Species),
            data = iris)
 
