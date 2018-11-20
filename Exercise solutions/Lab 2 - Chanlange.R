@@ -34,11 +34,6 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
                 header = T,
                 stringsAsFactors = F)
 
-
-
-
-
-
 #### Construct a duplicated df
 x1 <- whr
 x1$stat <- "mean"
@@ -46,8 +41,8 @@ x1$stat <- "mean"
 x2 <- whr
 x2$stat <- "N"
 
-x12 <- rbind(x1,x2)
 
+x12 <- rbind(x1,x2)
 
 #### Collapse
 happy_table2 <-
@@ -63,14 +58,11 @@ happy_table2 <-
 freqdf <- 
   as.data.frame(table(whr$region, whr$year))
 
-
-
 #### replace values
 happy_table2$value[happy_table2$stat == "N"] <- freqdf$Freq
 
 happy_table2 <- 
   select(happy_table2, region, year, stat, value)
-
 
 #### Reshape
 ht_wd <- 
@@ -82,5 +74,7 @@ ht_wd <-
 
 ht_wd$region[as.integer(row.names(ht_wd)) %% 2 == 0] <- ""
 
-stargazer(ht_wd, summary = F, type = "text")
+stargazer(ht_wd, 
+          summary = F,
+          rownames = F)
 
