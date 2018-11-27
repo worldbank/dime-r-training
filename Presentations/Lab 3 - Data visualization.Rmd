@@ -25,17 +25,17 @@ library(ggplot2)
 # File paths
 
 if (Sys.getenv("USERNAME") == "luiza"){
-  projectFolder  <- "C:/Users/luiza/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
   
 }
 
 if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
 
 }
 
 if (Sys.getenv("USERNAME") == "WB519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/R-Training")
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
 # File paths
@@ -43,9 +43,23 @@ if (Sys.getenv("USERNAME") == "WB519128"){
 
   Data              <- file.path(dataWorkFolder,"DataSets")
   finalData         <- file.path(Data,"Final")
+  rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
+
 # Load CSV data
 lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
                 header = T)
+
+whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
+                header = T)
+
+
+covariates <- c("age_hhh",
+                "num_dependents",
+                "income_total_trim",
+                "expend_food_yearly",
+                "w_area_plots_a")
+
+lwh_simp <- lwh[,covariates]
 
 ```
 
@@ -89,15 +103,15 @@ Before we start, let's make sure we're all set:
   # Load packages
   library(ggplot2)
   library(plotly)
-  
-  # Load CSV data
-  projectFolder  <- "YOUR/FOLDER/PATH"
-  finalData <- file.path(projectFolder,
-                         "DataWork","DataSets","Final")
-  lwh <- read.csv(file.path(finalData,"lwh_clean.csv"),
-                  header = TRUE)
-  lwh_simp <- read.csv(file.path(finalData,"lwh_simp.csv"),
-                       header = TRUE)
+
+  #### Load CSV data
+
+  # Replace with where your data is
+  FolderPath <- file.path("YOUR/FOLDER/PATH")
+
+  whr <- read.csv(file.path(FolderPath,"whr_panel.csv"), 
+                  header = T,
+                  stringsAsFactors = F)  
 
 ```
 
@@ -127,19 +141,20 @@ In our workflow there are usually two distinct uses for plots:
 ## Exploratory graphs - Base plot
 
 ### Exercise 1:
-Plot the ``lwh_simp`` data set you constructed in the previous session using the ``plot()`` function.
+Plot the ``whr_simp`` data set you constructed in the previous session using the ``plot()`` function.
 
  1. If you don't have the code from the previous session. Here it is:
 
 ```{r, eval = T}
+# Vector with covariates to be kept
+covariates <- c("happy_score",
+                "gdp_pc",
+                "freedom",
+                "trust_gov_corr")
 
-covariates <- c("age_hhh",
-                "num_dependents",
-                "income_total_trim",
-                "expend_food_yearly",
-                "w_area_plots_a")
+# subset whr
+whr_simp <- whr[, covariates]
 
-lwh_simp <- lwh[,covariates]
 ```
  2. Now, pass the name of the data set as the only argument for the plot function
 
@@ -148,7 +163,7 @@ lwh_simp <- lwh[,covariates]
 \scriptsize
 
 ```{r}
-plot(lwh_simp)
+plot(whr_simp)
 ```
 
 ## Exploratory graphs - Base plot
@@ -164,7 +179,7 @@ plot(lwh_simp)
 ## Exploratory graphs - Base plot
 \scriptsize
 ```{r, eval = T, echo = T}
-hist(lwh_simp$w_area_plots_a, col = "green")
+hist(whr_simp$happy_score, col = "green")
 ```
 
 ## Exploratory graphs - Base plot
@@ -174,12 +189,21 @@ Use the ``boxplot()`` function to see a description of the yearly food expenditu
 
 - TIP: The syntax for this function is ``variable_to_be_plotted`` ~ ``variable_to_plot_over``.
 
+
 ## Exploratory graphs - Base plot
-\scriptsize
 
-```{r}
-boxplot(lwh_simp$expend_food_yearly ~ lwh_simp$num_dependents)
+```{r, eval = F}
+boxplot(whr$happy_score ~ whr$region, las = 2)
+```
 
+
+
+## Exploratory graphs - Base plot
+\tiny
+
+```{r, echo = F}
+par(mar=c(14,2,2,2))
+boxplot(whr$happy_score ~ whr$region, las = 2)
 ```
 
 # ``ggplot`` - Introduction
@@ -240,11 +264,11 @@ Here's an example of how an aggregated (collapsed) data set should look like:
 
 
 ```{r, include = T, echo = F, warning=FALSE}
-anualIncGen <- aggregate(x= lwh["income_total_trim"],
-                         by = list(year = lwh$year,
-                                   gender =  lwh$gender_hhh),
-                         FUN = mean, na.rm = T)
-anualIncGen
+happy_table <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
+happy_table[1:11,]
 
 ```
 
@@ -261,9 +285,10 @@ First, let's create a very simple plot with the yearly expenditure on food on th
     - Since it's the first one, Here's the code:
 
 ```{r, eval=T}
-plot1 <- ggplot(data = lwh,
-                aes(y = w_area_plots_b,
-                    x = w_gross_yield_b))
+plot1 <- ggplot(whr, 
+                aes(y = happy_score,
+                    x = freedom))
+  
 ```
 
  2. Now, try to print your plot. What happens?
@@ -275,9 +300,9 @@ We mapped our variables, but without a geometry ``ggplot`` doesn't know how to r
 
 ### Let's add a geometry
 ```{r, eval=FALSE}
-ggplot(data = lwh,
-       aes(y = w_area_plots_b,
-           x = w_gross_yield_b)) +
+ggplot(whr, 
+       aes(y = happy_score,
+           x = freedom)) +
   geom_point()
 ```
 
@@ -286,8 +311,8 @@ ggplot(data = lwh,
 \scriptsize
 
 ```{r, echo = F, warning = F}
-ggplot(lwh, aes(y = w_area_plots_b,
-                x = w_gross_yield_b)) +
+ggplot(whr, aes(y = happy_score,
+                x = freedom)) +
   geom_point()
 ```
 
@@ -304,10 +329,10 @@ ggplot(lwh, aes(y = w_area_plots_b,
 To create a line plot with ``ggplot``, we will create a new data set containing the average of the total house hold annual income by year.
 ```{r, eval= T}
 # Aggregate anual income by year
-anualInc <-
-    aggregate(x   = lwh["income_total_trim"], # data.frame
-              by  = list(year = lwh$year), #list
-              FUN = mean, na.rm = T) # function
+anualHappy<-
+  aggregate(happy_score ~ year,
+            data = whr,
+            FUN = mean)
 ```
 
 ### Exercise 5
@@ -322,8 +347,8 @@ anualInc <-
 
 # Plot code with arguments in geom
 ggplot() +
-    geom_line(data = anualInc, 
-              aes(y = income_total_trim,
+    geom_line(data = anualHappy, 
+              aes(y = happy_score,
                   x = year))
 
 
@@ -335,8 +360,8 @@ ggplot() +
 ```{r, echo = F , eval= T}
 
 ggplot() +
-    geom_line(data = anualInc, 
-              aes(y = income_total_trim,
+    geom_line(data = anualHappy, 
+              aes(y = happy_score,
                   x = year))
 
 
@@ -363,12 +388,12 @@ Use the ``aggregate()`` function to average total house hold annual income, now,
 
 ```{r}
 # Aggregate data set
-anualIncGen <- aggregate(x= lwh["income_total_win"],
-                         by = list(year = lwh$year,
-                                   treatment =  lwh$treatment_hh),
-                         FUN = mean, na.rm = T)
+anualHappy_reg <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
 
-anualIncGen
+anualHappy_reg[1:10,]
 
 ```
 
@@ -406,12 +431,16 @@ ggplot(anualIncGen,
 
 ```{r, echo = F , eval= T, warning=FALSE}
 
-anualIncGen <- aggregate(x= lwh["income_total_win"],
-                         by = list(year = lwh$year,
-                                   treatment =  lwh$treatment_hh),
-                         FUN = mean, na.rm = T)
+anualHappy_reg <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
 
-ggplot(anualIncGen, aes(y = income_total_win, x = year, color = treatment, group = treatment)) +
+ggplot(anualHappy_reg, 
+       aes(y = happy_score,
+           x = year, 
+           color = region, 
+           group = region)) +
   geom_line() +
   geom_point()
 
@@ -440,11 +469,11 @@ In ``ggplot`` , the aesthetic element defines how data is represented in the aes
 
 ```{r,  eval= F}
 # Subset lwh to 2018 and Rwamangana 35
-lwh_s <- lwh[lwh$year == 2018 & lwh$site_code == "Rwamangana 35", ]
+whr17 <- whr[whr$year == 2017, ]
 
 # Plot
-ggplot(lwh_s, aes(x = w_area_plots_a,
-                  y = income_total_trim)) +
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score)) +
     geom_point()
 
 ```
@@ -454,11 +483,13 @@ ggplot(lwh_s, aes(x = w_area_plots_a,
 
 ```{r, echo = F , eval= T , warning=FALSE}
 # Subset lwh to 2018 and Rwamangana 35
-lwh_s <- lwh[lwh$year == 2018 & (lwh$site_code == "Rwamangana 35"), ]
+whr17 <- whr[whr$year == 2017, ]
 
 # Plot
-ggplot(lwh_s, aes(x = w_area_plots_a, y = income_total_trim)) +
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score)) +
     geom_point()
+
 
 ```
 
@@ -484,11 +515,11 @@ Women's dietary diversity score is based on the questions asked specifically to 
 
 ```{r,  eval= F}
 # Plot code
-ggplot(data = lwh_s,
-       aes(y = w_area_plots_a,
-           x = income_total_trim,
-           color = factor(wdds_score))) +
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = factor(region))) +
     geom_point()
+
 
 ```
 
@@ -497,8 +528,9 @@ ggplot(data = lwh_s,
 
 ```{r, echo = F , eval= T, warning=FALSE}
 
-ggplot(data = lwh_s,
-       aes(y = w_area_plots_a, x = income_total_trim, color = factor(wdds_score))) +
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = factor(region))) +
     geom_point()
 
 ```
@@ -516,12 +548,12 @@ Now we will combine different arguments of ``aes()``
 
 ```{r,  eval= F}
 # Plot code
-ggplot(data = lwh_s,
-       aes(y = w_area_plots_a,
-           x = income_total_trim,
-           color = factor(wdds_score),
-           size = expend_food_lastweek)) +
-    geom_point()
+# ggplot(data = lwh_s,
+#        aes(y = w_area_plots_a,
+#            x = income_total_trim,
+#            color = factor(wdds_score),
+#            size = expend_food_lastweek)) +
+#     geom_point()
 ```
 
 ## ``ggplot`` - Aesthetics
@@ -529,7 +561,10 @@ ggplot(data = lwh_s,
 
 ```{r, echo = F , eval= T, warning=FALSE}
 
-ggplot(lwh_s, aes(y = w_area_plots_a, x = income_total_trim, color = factor(wdds_score), size = expend_food_lastweek)) +
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = factor(region),
+                  size = gdp_pc)) +
     geom_point()
 
 ```
@@ -542,12 +577,12 @@ ggplot(lwh_s, aes(y = w_area_plots_a, x = income_total_trim, color = factor(wdds
 
 ```{r,  eval= F}
 # Plot code
-ggplot(data = lwh_s,
-       aes(y = w_area_plots_a,
-           x = income_total_trim,
-           color = w_gross_yield_a,
-           size = expend_food_lastweek)) +
-    geom_point()
+# ggplot(data = lwh_s,
+#        aes(y = w_area_plots_a,
+#            x = income_total_trim,
+#            color = w_gross_yield_a,
+#            size = expend_food_lastweek)) +
+#     geom_point()
 ```
 
 ## ``ggplot`` - Aesthetics
@@ -555,7 +590,10 @@ ggplot(data = lwh_s,
 
 ```{r, echo = F , eval= T, warning=FALSE}
 
-ggplot(lwh_s, aes(y = w_area_plots_a, x = income_total_trim, color = w_gross_yield_a, size = expend_food_lastweek)) +
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = generosity,
+                  size = gdp_pc)) +
     geom_point()
 
 ```
@@ -593,33 +631,32 @@ To add legend titles, we will use two functions that control the formatting of t
 
 ```{r, eval= F}
 # A properly labelled plot
-ggplot(lwh_s, aes(y = w_area_plots_a,
-                  x = income_total_trim,
-                  size  = expend_food_lastweek,
-                  color = factor(wdds_score))) +
-  geom_point() +
-  ggtitle("My pretty plot") +
-  xlab("Total Income (Wins.)") +
-  ylab("Plot area in season A (Wins.)") +
-  scale_color_discrete(name = "Women's dietary diversity score") +
-  scale_size_continuous(name = "Food exp. last week")
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = factor(region),
+                  size = gdp_pc)) +
+    geom_point()
+    ggtitle("My pretty plot") +
+    xlab("Freedom") +
+    ylab("Happyness") +
+    scale_color_discrete(name = "World Region") +
+    scale_size_continuous(name = "GDP per capita")
 ```
 
 ## ``ggplot`` - Titles and labels
 \scriptsize
 
 ```{r, echo = F , eval= T,  warning=FALSE}
-ggplot(data = lwh_s,
-       aes(y = w_area_plots_a,
-           x = income_total_trim,
-           color = factor(wdds_score),
-           size = expend_food_lastweek)) +
-  geom_point() +
-  ggtitle("My pretty plot") +
-  xlab("Total Income (Wins.)") +
-  ylab("Plot area in season A (Wins.)") +
-  scale_color_discrete(name = "Women's dietary diversity score") +
-  scale_size_continuous(name = "Food exp. last week")
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = factor(region),
+                  size = gdp_pc)) +
+    geom_point() +
+    ggtitle("My pretty plot") +
+    xlab("Freedom") +
+    ylab("Happyness") +
+    scale_color_discrete(name = "World Region") +
+    scale_size_continuous(name = "GDP per capita")
 ```
 
 # Saving a plot
@@ -638,23 +675,25 @@ Let's save the previous plot using the PDF graphics device
 \scriptsize
 
 ```{r, eval= F}
-  # Open PDF graphics device
-  pdf(file = file.path(rawOutput, "plot1.pdf"))
 
-   # Plot
-   ggplot(data = lwh_s,
-       aes(y = w_area_plots_a,
-           x = income_total_trim,
-           color = factor(wdds_score),
-           size = expend_food_lastweek)) +
-     geom_point() +
-     ggtitle("My pretty plot") +
-     xlab("Total Income (Wins.)") +
-     ylab("Plot area in season A (Wins.)") +
-     scale_color_discrete(name = "Women's dietary diversity score") +
-     scale_size_continuous(name = "Food exp. last week")
+ Output <- "YOUR/PATH/HERE"
 
-  # Close PDF graphics device
+ # Open PDF graphics device
+ pdf(file = file.path(Output, "plot1.pdf"))
+
+ # Plot
+ ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = factor(region),
+                  size = gdp_pc)) +
+    geom_point() +
+    ggtitle("My pretty plot") +
+    xlab("Freedom") +
+    ylab("Happyness") +
+    scale_color_discrete(name = "World Region") +
+    scale_size_continuous(name = "GDP per capita") 
+
+ # Close PDF graphics device
   dev.off()
 ```
 
@@ -677,15 +716,21 @@ Now we'll use ggplotly() to create an interactive graph!
 # Load package
 library(plotly)
 
-# Store graph in plot1
-plot1 <- ggplot(data = lwh_s,
-                aes(y = w_area_plots_a,
-                    x = income_total_trim,
-                    color = factor(wdds_score))) +
-    geom_point()
-
-# Use ggplotly to create an interactive plot
-ggplotly(plot1)
+# # Store graph in plot1
+plot1 <- 
+  ggplot(whr17) +
+      geom_point(aes(x = freedom,
+                    y = happy_score,
+                    color = factor(region),
+                    size = gdp_pc),
+                 country = "name") +
+      ggtitle("My pretty plot") +
+      xlab("Freedom") +
+      ylab("Happyness") +
+      scale_color_discrete(name = "World Region") +
+      scale_size_continuous(name = "GDP per capita")
+ # Use ggplotly to create an interactive plot
+ ggplotly(plot1)
 ```
 
 # References and recommendations
