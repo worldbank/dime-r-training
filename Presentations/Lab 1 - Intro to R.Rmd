@@ -165,14 +165,14 @@ Let's start by loading the data set we'll be using:
 
 \begin{figure}
 \centering
-  \includegraphics[scale=0.45]{img/new/import_data1.png}
+  \includegraphics[scale=0.45]{img/import_data1.png}
 \end{figure}
 
 ## Getting started
 
 \begin{figure}
 \centering
-  \includegraphics[scale=0.5]{img/new/import_data2.png}
+  \includegraphics[scale=0.5]{img/import_data2.png}
 \end{figure}
 
 # RStudio interface
@@ -181,7 +181,7 @@ Let's start by loading the data set we'll be using:
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/new/interface.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/interface.png}
 \end{figure}
 
 
@@ -190,35 +190,35 @@ Let's start by loading the data set we'll be using:
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/new/enviroment.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/enviroment.png}
 \end{figure}
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/new/scritpt1.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/scritpt1.png}
 \end{figure}
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/new/scritpt2.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/scritpt2.png}
 \end{figure}
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/new/scritpt3.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/scritpt3.png}
 \end{figure}
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/new/scritpt4.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/scritpt4.png}
 \end{figure}
 
 # Object-oriented language
@@ -264,7 +264,7 @@ head(whr)
 
 \begin{figure}
 \centering
-  \includegraphics[scale=0.4]{img/new/View.png}
+  \includegraphics[scale=0.4]{img/View.png}
 \end{figure}
 
 ## Object-oriented language
@@ -372,7 +372,7 @@ You can also see that your environment pane now has two objects:
 
 \begin{figure}
 \centering
-  \includegraphics[scale=0.5]{img/new/enviroment_2vars.png}
+  \includegraphics[scale=0.5]{img/enviroment_2vars.png}
 \end{figure}
 
 ## Object-oriented language
@@ -589,7 +589,7 @@ In `whr`, we can see that `country` and `region` are factor variables. In your e
 
 \begin{figure}
 \centering
-  \includegraphics[scale=0.46]{img/new/enviroment_factors.png}
+  \includegraphics[scale=0.46]{img/enviroment_factors.png}
 \end{figure}
 
 
