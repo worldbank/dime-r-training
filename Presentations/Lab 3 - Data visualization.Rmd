@@ -1,7 +1,7 @@
 ---
 title: "Data Visualization"
-subtitle: "Field Coordinator Training - R Track"
-date: "June 2018"
+subtitle: "R for Stata Users"
+date: "November-December 2018"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -46,20 +46,10 @@ if (Sys.getenv("USERNAME") == "WB519128"){
   rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
 
 # Load CSV data
-lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
-                header = T)
 
 whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
                 header = T)
 
-
-covariates <- c("age_hhh",
-                "num_dependents",
-                "income_total_trim",
-                "expend_food_yearly",
-                "w_area_plots_a")
-
-lwh_simp <- lwh[,covariates]
 
 ```
 
@@ -78,18 +68,10 @@ Before we start, let's make sure we're all set:
 
 \begin{enumerate}
 
-  \item Make sure you the packages \texttt{ggplot2} and \texttt{plotly} are  installed and loaded.
-  
-  \begin{itemize}
-    \item Preferably, do this by adding them to \texttt{packages} vector of your Master script.
-  \end{itemize}
- 
-  \item Load the \texttt{lwh\_clean.csv} data set that were created in the last session.
-    \begin{itemize}
-      \item Run the Master script to load all the necessary packages and set file paths.
-      \item Remeber to disable the \texttt{PACKAGES} switch in the Master if you already installed them. This will save you a lot of time.
-    \end{itemize}
-  
+  \item Make sure you the packages \texttt{ggplot2} and \texttt{plotly} are installed and loaded.
+
+  \item Load the \texttt{whr\_panel.csv} data set that were created in the last session.
+
 \end{enumerate}
 
 ## Introduction
@@ -170,7 +152,7 @@ plot(whr_simp)
 
 \begin{block}{Exercise 2}
   \begin{enumerate}
-    \item Create a histogram of variable \texttt{w\_area\_plots\_a} in data frame \texttt{lwh\_simp}. Use the \texttt{hist()} function for that.
+    \item Create a histogram of variable \texttt{w\_area\_plots\_a} in data frame \texttt{whr\_simp}. Use the \texttt{hist()} function for that.
     \item Try to set the color as \texttt{"green"}. Use the help if you are not sure how to do it.
   \end{enumerate}
 \end{block}
@@ -191,6 +173,9 @@ Use the ``boxplot()`` function to see a description of the yearly food expenditu
 
 
 ## Exploratory graphs - Base plot
+
+
+Since these region labels are too long, I'm using an extra argument so we can actually read the x axis.
 
 ```{r, eval = F}
 boxplot(whr$happy_score ~ whr$region, las = 2)
@@ -220,7 +205,7 @@ It is a powerful and easy to use tool (once you understand its logic) that produ
 There are a few reasons why we use ggplot:
 
  * It is generally easier to customize and tailor plots to your needs.
- * It works great with almost any kind of plot, including maps, with little variation in syntax. The notable exception is 3D plotting, which can be done, but it's not as straightforward.
+ * It works great with almost any kind of plot, including maps, with little variation in syntax.
  * It looks good.
 
 ## ``ggplot`` - Grammar
@@ -278,7 +263,7 @@ happy_table[1:11,]
 
 ### Exercise 4
 
-First, let's create a very simple plot with the yearly expenditure on food on the Y axis and age of the household head on the X axis.
+First, let's create a very simple plot with the happiness score on the Y axis and afreedom on the X axis.
 
 
  1. Use the ``ggplot`` function to store your plot in an object called ``plot1``
@@ -318,15 +303,15 @@ ggplot(whr, aes(y = happy_score,
 
 # ``ggplot`` - Data structure
 
-## ``ggplot`` and ``aggregate()``
+## ``ggplot`` - Data structure
 
 * Since ``ggplot`` usually works better with data in a specific format, there are a few functions particularly useful to manipulate data
 * Here, we'll use the ``aggregate()`` function
 * ``aggregate()`` works similarly to ``collapse`` in Stata
 
-## ``ggplot`` and ``aggregate()``
+## ``ggplot`` - Data structure
 
-To create a line plot with ``ggplot``, we will create a new data set containing the average of the total house hold annual income by year.
+To create a line plot with ``ggplot``, we will create a new data set containing the average of happiness score by year.
 ```{r, eval= T}
 # Aggregate anual income by year
 anualHappy<-
@@ -336,11 +321,11 @@ anualHappy<-
 ```
 
 ### Exercise 5
- 1. Use the ``ggplot()`` function with the ``anualInc`` as the ``data`` argument, ``income_total_trim`` as ``y`` and ``year`` as ``x`` in ``aes()``
- 2. This time add ``geom_line()``
+ 1. Use the ``ggplot()`` function with the ``anualHappy`` as the ``data`` argument, ``happy_score`` as ``y`` and ``year`` as ``x`` in ``aes()``
+ 2. This time, add ``geom_line()``
 
 
-## ``ggplot`` and ``aggregate()``
+## ``ggplot`` - Data structure
 \scriptsize
 
 ```{r,  eval= F}
@@ -354,7 +339,7 @@ ggplot() +
 
 ```
 
-## ``ggplot`` and ``aggregate()``
+## ``ggplot`` - Data structure
 \scriptsize
 
 ```{r, echo = F , eval= T}
@@ -368,22 +353,23 @@ ggplot() +
 
 ```
 
-## ``ggplot`` and ``aggregate()``
 
-Ok, that worked, but was a really boring plot. Let's do a cooler one.
+## ``ggplot`` - Data structure
+
+Ok, that worked, but was a really boring plot. Let's do a better one.
 
 ### Exercise 6: Part 1
 
-Use the ``aggregate()`` function to average total house hold annual income, now, by two variables: `year` and `treatment_hh`.
-
-- TIP: add an argument to the `list()` function in the by argument. Like this:
+Use the ``aggregate()`` function to average total house hold annual income, now, by two variables: `year` and `region`.
 
 ```{r, eval = F}
-  by = list(Year = lwh$year, 
-            Treatment = lwh$treatment_hh)
+anualHappy_reg <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
 ```
 
-## ``ggplot`` and ``aggregate()``
+## ``ggplot`` - Data structure
 \scriptsize
 
 ```{r}
@@ -397,7 +383,7 @@ anualHappy_reg[1:10,]
 
 ```
 
-## ``ggplot`` and ``aggregate()``
+## ``ggplot`` - Data structure
 
 ### Exercise 6: Part 2
  Now, use `ggplot` as in the previous exercise to plot the aggregated data frame.
@@ -405,28 +391,30 @@ anualHappy_reg[1:10,]
  1. This time set the ``color`` and `group` arguments in the ``aes()`` function as the treatment variable.
  2. Finally, add both line and point ``geoms``.
 
-## ``ggplot`` and ``aggregate()``
+## ``ggplot`` - Data structure
 \scriptsize
 
 ```{r,  eval= F}
 # Aggregate data set
-anualIncGen <- aggregate(x= lwh["income_total_win"],
-                         by = list(year = lwh$year,
-                                   treatment =  lwh$treatment_hh),
-                         FUN = mean, na.rm = T)
+anualHappy_reg <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
 
-# Plot aggregated data set
-ggplot(anualIncGen, 
-       aes(y = income_total_win,
-           x = year,
-           color = treatment,
-           group = treatment)) +
+
+
+# Plot aggregated data
+ggplot(data = anualHappy_reg, 
+       aes(y = happy_score,
+           x = year, 
+           color = region, 
+           group = region)) +
   geom_line() +
   geom_point()
 
 ```
 
-## ``ggplot`` and ``aggregate()``
+## ``ggplot`` - Data structure
 \scriptsize
 
 ```{r, echo = F , eval= T, warning=FALSE}
@@ -447,6 +435,85 @@ ggplot(anualHappy_reg,
 
 ```
 
+
+## ``ggplot`` - Data structure
+
+FOOOOOOO
+
+\textcolor{red}{UPDTATE}
+
+You can also use `ggplot` to combine different data frames in the same plot.
+
+ * Everything inside the `ggplot()` function will be shared by all geometries added (e.g. the line and point geometries added to the previous exercise)
+ 
+ * But you can also pass different arguments to different geometries.
+ 
+In the following example, to showcase just 3 regions, instead of restricting the data to only the interest regions, we are adding 3 separeate line geometries.
+
+
+## ``ggplot`` - Data structure
+\tiny
+
+```{r, echo = T , eval= F}
+# Separate datasets
+sea <- anualHappy_reg[anualHappy_reg$region == "Southeastern Asia", ]
+mena <- anualHappy_reg[anualHappy_reg$region == "Middle East and Northern Africa", ]
+cee <- anualHappy_reg[anualHappy_reg$region == "Central and Eastern Europe", ]
+
+# plot with 3 line geometries 
+ggplot() +
+  geom_line(data = sea,  # Southeastern Asia
+       aes(y = happy_score,
+           x = year, 
+           color = region, 
+           group = region)) + 
+    geom_line(data = mena, # Middle East and Northern Africa
+       aes(y = happy_score,
+           x = year, 
+           color = region, 
+           group = region)) + 
+    geom_line(data = cee, # Central and Eastern Europe
+       aes(y = happy_score,
+           x = year, 
+           color = region, 
+           group = region))
+
+
+
+
+```
+
+
+## ``ggplot`` and ``aggregate()``
+
+```{r, echo = F , eval= T, warning=FALSE}
+
+sea <- anualHappy_reg[anualHappy_reg$region == "Southeastern Asia", ]
+mena <- anualHappy_reg[anualHappy_reg$region == "Middle East and Northern Africa", ]
+cee <- anualHappy_reg[anualHappy_reg$region == "Central and Eastern Europe", ]
+
+ggplot() +
+  geom_line(data = sea, 
+       aes(y = happy_score,
+           x = year, 
+           color = region, 
+           group = region)) + 
+    geom_line(data = mena, 
+       aes(y = happy_score,
+           x = year, 
+           color = region, 
+           group = region)) + 
+    geom_line(data = cee, 
+       aes(y = happy_score,
+           x = year, 
+           color = region, 
+           group = region))
+
+
+
+```
+
+
 # ``ggplot`` - Aesthetics
 
 ## ``ggplot`` - Aesthetics
@@ -455,20 +522,20 @@ In ``ggplot`` , the aesthetic element defines how data is represented in the aes
 
 ### Exercise 7: Part 1
 
- 1. Create a data frame containing only 2018 observations of ``lwh`` in the Rwamangana 35 site.
+ 1. Create a data frame containing only 2017 observations of `whr`.
 
   - TIP: This time we want to keep only observations (lines) that meet a certain condition. Use the left argument of the brackets operators. Like this: 
 ```{r, eval = F}
-    lwh[CONDITION,]
+    whr[CONDITION,]
 ```
 
- 2. Use ``ggplot()`` to scatter plot area in season A and total annual income
+ 2. Use ``ggplot()`` to scatter happiness score and freedom.
 
 ## ``ggplot`` - Aesthetics
 \scriptsize
 
 ```{r,  eval= F}
-# Subset lwh to 2018 and Rwamangana 35
+# Subset whr to 2017 and Rwamangana 35
 whr17 <- whr[whr$year == 2017, ]
 
 # Plot
@@ -482,7 +549,7 @@ ggplot(whr17, aes(x = freedom,
 \scriptsize
 
 ```{r, echo = F , eval= T , warning=FALSE}
-# Subset lwh to 2018 and Rwamangana 35
+# Subset lwh to 2017
 whr17 <- whr[whr$year == 2017, ]
 
 # Plot
@@ -494,21 +561,18 @@ ggplot(whr17, aes(x = freedom,
 ```
 
 
-## ``ggplot`` - Aesthetics
+## `ggplot` - Aesthetics
 
-Now add the women's dietary diversity score[^1] to ``aes()``.
-
+Now add the region to `aes()`.
 
 ### Exercise 7: Part 2
 
- 1. Use the ``wdds_score`` varaible as color in ``aes()``.
-    - TIP: this is is a categorical variable, but it is stored in numeric format.  Use the ``factor()`` function. Like this:
+ 1. Use the `region` varaible as color in ``aes()``.
+    - TIP: this is is a categorical variable, but it is stored in string format.  Use the ``factor()`` function. Like this:
 ```{r, echo = T , eval= F}
-    color = factor(wdds_score)
+    color = factor(region)
 ```
 
-[^1]:
-Women's dietary diversity score is based on the questions asked specifically to an adult female respondent about her food consumption. We ask if she ate 16 food items categorized into 9 groups. Each group get 1 if any of the food belonging to the group is consumed. The final score is a simply sum of the categories.
 
 ## ``ggplot`` - Aesthetics
 \scriptsize
@@ -541,19 +605,19 @@ Now we will combine different arguments of ``aes()``
 
 ### Exercise 7: Part 3
 
- 1. Add expenditure on food last week variable, ``expend_food_lastweek`` to the ``size`` argument of ``aes()`` in your last graph.
+ 1. Add `gdp_pc` to the ``size`` argument of ``aes()`` in your last graph.
 
 ## ``ggplot`` - Aesthetics
 \scriptsize
 
 ```{r,  eval= F}
 # Plot code
-# ggplot(data = lwh_s,
-#        aes(y = w_area_plots_a,
-#            x = income_total_trim,
-#            color = factor(wdds_score),
-#            size = expend_food_lastweek)) +
-#     geom_point()
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = factor(region),
+                  size = gdp_pc)) +
+    geom_point()
+
 ```
 
 ## ``ggplot`` - Aesthetics
@@ -577,12 +641,12 @@ ggplot(whr17, aes(x = freedom,
 
 ```{r,  eval= F}
 # Plot code
-# ggplot(data = lwh_s,
-#        aes(y = w_area_plots_a,
-#            x = income_total_trim,
-#            color = w_gross_yield_a,
-#            size = expend_food_lastweek)) +
-#     geom_point()
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = trust_gov_corr,
+                  size = gdp_pc)) +
+    geom_point()
+
 ```
 
 ## ``ggplot`` - Aesthetics
@@ -592,7 +656,7 @@ ggplot(whr17, aes(x = freedom,
 
 ggplot(whr17, aes(x = freedom,
                   y = happy_score,
-                  color = generosity,
+                  color = dystopia_res,
                   size = gdp_pc)) +
     geom_point()
 
@@ -683,9 +747,9 @@ Let's save the previous plot using the PDF graphics device
 
  # Plot
  ggplot(whr17, aes(x = freedom,
-                  y = happy_score,
-                  color = factor(region),
-                  size = gdp_pc)) +
+                   y = happy_score,
+                   color = factor(region),
+                   size = gdp_pc)) +
     geom_point() +
     ggtitle("My pretty plot") +
     xlab("Freedom") +
@@ -698,18 +762,31 @@ Let's save the previous plot using the PDF graphics device
 ```
 
 
-# Interactive graph
+# Interactive graphs
 
-## Interactive graph
 
-Now we'll use ggplotly() to create an interactive graph!
+## Interactive graphs
+
+There are several packages to create interactive or dynamic data vizualizations with R. Here are a few:
+
+ * `leaflet` - R integration tp one of the most popular open-source libraries for interactive maps.
+ * `highcharter` - cool interactive graphs.
+ * `plotly` - interactive graphs with integration to ggplot.
+ * `gganimate` - ggplot GIFs.
+ * `DT` - Interactive table
+
+These are generally, html widgets that can be incorporated in to an html document and websites.
+
+## Interactive graphs
+
+Now we'll use the `ggplotly()` function from the `plotly` package to create an interactive graph!
 
 ### Bonus exercise - ggplotly
   1. Load the ``plotly`` package
   2. Store one the plots produced in the previous ``ggplot`` exercises in an object.
   3. Pass that object as argument for the ``ggplotly()`` function
 
-## Interactive graph
+## Interactive graphs
 \scriptsize
 
 ```{r,  eval= F}
@@ -720,24 +797,83 @@ library(plotly)
 plot1 <- 
   ggplot(whr17) +
       geom_point(aes(x = freedom,
-                    y = happy_score,
-                    color = factor(region),
-                    size = gdp_pc),
+                     y = happy_score,
+                     color = factor(region),
+                     size = gdp_pc),
                  country = "name") +
       ggtitle("My pretty plot") +
       xlab("Freedom") +
       ylab("Happyness") +
       scale_color_discrete(name = "World Region") +
       scale_size_continuous(name = "GDP per capita")
+
+
  # Use ggplotly to create an interactive plot
  ggplotly(plot1)
 ```
+
+## Interactive graphs
+
+(Sorry, this is a .pdf presentation so this is just a screenshot.)
+
+\begin{figure}
+\centering
+  \includegraphics[scale = 0.7]{img/ggplotly1.png}
+\end{figure}
+
+
+
+## Interactive graphs
+
+We can add pop-up information by adding another argument to the `aes()` function. 
+
+### Bonus exercise - ggplotly
+  1. Add a `text` argument to the`geom_point` `aes()` function and assign it to the `country` variable.
+
+This argument won't be recognized by `ggplot()`, but will be by `ggplotly()`.
+
+## Interactive graphs
+\scriptsize
+
+```{r,  eval= F}
+# Load package
+library(plotly)
+
+# # Store graph in plot1
+plot2 <- 
+  ggplot(whr17) +
+      geom_point(aes(text=country,
+                     x = freedom,
+                     y = happy_score,
+                     color = factor(region),
+                     size = gdp_pc)) +
+      ggtitle("My pretty plot") +
+      xlab("Freedom") +
+      ylab("Happyness") +
+      scale_color_discrete(name = "World Region") +
+      scale_size_continuous(name = "GDP per capita")
+
+
+ # Use ggplotly to create an interactive plot
+ ggplotly(plot2)
+```
+
+## Interactive graphs
+
+
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/ggplotly2.png}
+\end{figure}
 
 # References and recommendations
 
 ## References and recommendations
 
 Websites:
+
+  * Interactive stuff :
+  http://www.htmlwidgets.org/
 
   * The R Graph Gallery:
   https://www.r-graph-gallery.com/
@@ -763,9 +899,6 @@ Books:
 
 # Appendix
 
-## Appendix
-
-\large Slides that didn't make the cut
 
 ## R common graphic devices
 
