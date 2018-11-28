@@ -70,7 +70,7 @@ Before we start, let's make sure we're all set:
 
   \item Make sure you the packages \texttt{ggplot2} and \texttt{plotly} are installed and loaded.
 
-  \item Load the \texttt{whr\_panel.csv} data set that were created in the last session.
+  \item Load the \texttt{whr\_panel.csv} data set.
 
 \end{enumerate}
 
@@ -79,7 +79,7 @@ Before we start, let's make sure we're all set:
 
 ```{r, eval= F}
   # Install packages
-  install.packages(c("ggplot2","plotly"),
+  install.packages("plotly", # We already installed ggplot2
                    dependencies = TRUE)
   
   # Load packages
@@ -269,10 +269,10 @@ First, let's create a very simple plot with the happiness score on the Y axis an
  1. Use the ``ggplot`` function to store your plot in an object called ``plot1``
     - Since it's the first one, Here's the code:
 
-```{r, eval=T}
-plot1 <- ggplot(whr, 
-                aes(y = happy_score,
-                    x = freedom))
+```{r, eval=F}
+ggplot(whr,
+       aes(y = happy_score,
+           x = freedom))
   
 ```
 
@@ -331,10 +331,10 @@ anualHappy<-
 ```{r,  eval= F}
 
 # Plot code with arguments in geom
-ggplot() +
-    geom_line(data = anualHappy, 
-              aes(y = happy_score,
-                  x = year))
+ggplot(data = anualHappy, 
+       aes(y = happy_score,
+           x = year)) +
+    geom_line()
 
 
 ```
@@ -344,10 +344,10 @@ ggplot() +
 
 ```{r, echo = F , eval= T}
 
-ggplot() +
-    geom_line(data = anualHappy, 
-              aes(y = happy_score,
-                  x = year))
+ggplot(data = anualHappy, 
+       aes(y = happy_score,
+           x = year)) +
+    geom_line()
 
 
 
@@ -360,7 +360,7 @@ Ok, that worked, but was a really boring plot. Let's do a better one.
 
 ### Exercise 6: Part 1
 
-Use the ``aggregate()`` function to average total house hold annual income, now, by two variables: `year` and `region`.
+Use the ``aggregate()`` function to average happiness score, now, by two variables: `year` and `region`.
 
 ```{r, eval = F}
 anualHappy_reg <-
@@ -437,10 +437,6 @@ ggplot(anualHappy_reg,
 
 
 ## ``ggplot`` - Data structure
-
-FOOOOOOO
-
-\textcolor{red}{UPDTATE}
 
 You can also use `ggplot` to combine different data frames in the same plot.
 
@@ -567,7 +563,7 @@ Now add the region to `aes()`.
 
 ### Exercise 7: Part 2
 
- 1. Use the `region` varaible as color in ``aes()``.
+ 1. Use the `region` variable as color in ``aes()``.
     - TIP: this is is a categorical variable, but it is stored in string format.  Use the ``factor()`` function. Like this:
 ```{r, echo = T , eval= F}
     color = factor(region)
@@ -818,7 +814,7 @@ plot1 <-
 
 \begin{figure}
 \centering
-  \includegraphics[scale = 0.7]{img/ggplotly1.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/ggplotly1.png}
 \end{figure}
 
 
@@ -860,6 +856,7 @@ plot2 <-
 
 ## Interactive graphs
 
+(Sorry, this is a .pdf presentation so this is just a screenshot.)
 
 \begin{figure}
 \centering
