@@ -516,7 +516,7 @@ In ``ggplot`` , the aesthetic element defines how data is represented in the aes
 \scriptsize
 
 ```{r,  eval= T}
-# Subset whr to 2017 and Rwamangana 35
+# Subset whr to 2017
 whr17 <- whr[whr$year == 2017, ]
 
 # Plot
@@ -664,7 +664,7 @@ To add legend titles, we will use two functions that control the formatting of t
 ## ``ggplot`` - Titles and labels
 \scriptsize
 
-```{r, eval= F}
+```{r, eval= T}
 # A properly labelled plot
 p6_happyfree17reg <-
   p6_happyfree17reg +
