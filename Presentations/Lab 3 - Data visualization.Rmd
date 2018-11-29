@@ -29,6 +29,11 @@ if (Sys.getenv("USERNAME") == "luiza"){
   
 }
 
+if (Sys.getenv("USERNAME") == "WB501238"){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
+  
+}
+
 if (Sys.getenv("USERNAME") == "Leonardo"){
   projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
 
