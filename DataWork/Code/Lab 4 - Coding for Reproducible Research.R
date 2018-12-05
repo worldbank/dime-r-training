@@ -2,20 +2,20 @@
                                                                                 #
                                      DIME                                       #
                         Introduction to R for Stata users                       #
-                               MASTER DO_FILE                                   #
+                                MASTER SCRIPT                                   #
                                                                                 #
  ------------------------------------------------------------------------------ #
 
 # PURPOSE:    Set-up configurations and run scripts that are part of DIME's R
 #             Training
 
-# NOTES:      Version 1
+# NOTES:      Version 3
 
 # WRITTEN BY: Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Viotti
 
-#                                                     Last modified in May 2018
+#                                                     Last modified in Dec 2018
 
-# PART 0: Clear boiler plate
+# PART 0: Clear memory
   
   rm(list=ls())
 
@@ -25,13 +25,12 @@
 # PART 2: Load packages   
 
   # If you selected the option to install packages, install them
-  install.packages(c("swirl","stargazer"), dep = TRUE)
+  install.packages(c("stargazer", "swirl"), dependencies = TRUE)
   
   
   # Load all packages -- this is equivalent to using library(package) for each
   # package listed before
   library(swirl)
-  library(stargazer)
   
 # PART 3: Set folder folder paths 
 
