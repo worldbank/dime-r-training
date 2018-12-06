@@ -722,9 +722,9 @@ As we discussed earlier, one of the main objectives of a Master script is to be 
 
 To run an R script from another, we use a function called `source`:
 
-* ``source(file, echo, verbose)``: reads and evaluates the expressions in `file`. Its arguments are
+* `source(file, echo, verbose)`: reads and evaluates the expressions in `file`. Its arguments are:
 
-    * **file:** a pathname or URL to read from
+    * **file: ** a pathname or URL to read from
     
     * **echo:** if TRUE, each expression is printed after parsing, before evaluation
     
