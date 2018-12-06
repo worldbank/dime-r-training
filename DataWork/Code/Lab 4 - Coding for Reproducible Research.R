@@ -15,10 +15,6 @@
 
 #                                                     Last modified in Dec 2018
 
-# PART 0: Clear memory
-  
-  rm(list=ls())
-
 # PART 1: Select sections to run 
 
  
@@ -58,5 +54,6 @@
   finalOutput       <- file.path(Output,"Final")
 
  
-
-# PART 4: Run selected sections 
+# PART 4: Load data
+  
+# PART 5: Run selected sections 
