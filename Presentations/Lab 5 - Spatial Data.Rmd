@@ -53,7 +53,9 @@ knitr::include_graphics("img/coordinate_systems.jpg", dpi = 220)
 
 ```{r, eval=T, echo=F}
 #finalData <- "C:/Users/wb521633/Dropbox/World Bank/dime-r-training/DataWork/DataSets/Final"
-finalData <- "~/Dropbox/World Bank/dime-r-training/DataWork/DataSets/Final"
+#finalData <- "~/Dropbox/World Bank/dime-r-training/DataWork/DataSets/Final"
+finalData <- "~/Documents/GitHub/dime-r-training/DataWork/DataSets/Final"
+setwd(finalData)
 ```
 
 ```{r, eval=F, echo=F}
@@ -757,6 +759,7 @@ plot(ken_adm1)
 ```{r, echo=F, warning=FALSE, message=F, results='hide'}
 library(raster)
 
+setwd(finalData)
 ken_adm1 <- getData('GADM', country='KEN', level=1)
 plot(ken_adm1)
 ```
