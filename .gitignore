@@ -14,5 +14,4 @@
 *.png
 
 !Presentations/img/*
-*.pdf
 *.csv
