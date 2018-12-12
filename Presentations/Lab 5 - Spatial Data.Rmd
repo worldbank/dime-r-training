@@ -102,6 +102,7 @@ worldmap <- readOGR(dsn=finalData, layer="worldmap")
 
 # Sometimes the above doesn't work. In this case, try setting your working 
 # directory to the folder where the shpefile is:
+
 #   setwd(finalData)
 #   worldmap <- readOGR(dsn=".", layer="worldmap")
 ```
@@ -180,13 +181,13 @@ ggplot() +
 ```
 
 ## Converting Spatial Object into Dataframe for ggplot
-\scriptsize
 To use our variables when mapping a spatial object with ggplot, we need to convert the spatial object into a dataframe and add our variables ourselves.  
 
 \begin{itemize}
 \item We use the tidy function from the broom package to convert our shapefile into a dataframe. 
 \item The \texttt{tidy()} function will create an "id" variable where values are the row.names from the shapefile. So we can later merge data from the shapefile to the new dataframe, we create an id variable in the shapefile that are the row.names.
 \end{itemize}
+\scriptsize
 ```{r, eval=TRUE, warning=FALSE, message=F, results='hide'}
 library(broom)
 worldmap$id <- row.names(worldmap)
@@ -194,12 +195,14 @@ worldmap_tidy <- tidy(worldmap)
 ```
 
 ```{r}
-head(worldmap_tidy)
+head(worldmap_tidy, 3)
 ```
 
 ## Merge data back to object
 Now, merge the "tidy" dataframe with the data from the shapefile by the id variable. Now we have a dataframe that ggplot can understand with our data!
+
 \scriptsize
+
 ```{r}
 worldmap_tidy <- merge(worldmap_tidy, worldmap@data, by="id")
 head(worldmap_tidy, 3)
@@ -238,7 +241,7 @@ ggplot() +
                                        fill = hppy_sc)) +
   theme_void() +
   coord_quickmap() + # Removes distortions
-  labs(fill="Population") +
+  labs(fill="Happiness\nScore") +
   scale_colour_gradient(low = "firebrick4",
                         high = "chartreuse2")
 ```
@@ -298,7 +301,7 @@ ggplot() +
 # Mapping with ggplot: Points
 
 ## Add Points to Map: Does the WB allocate projects to happy or sad countries?
-We have data on the locations of [World Bank projects from AidData](https://www.aiddata.org/data/world-bank-geocoded-research-release-level-1-v1-4-2) Let's plot projects on our map to see if the World Bank tends to allocate projects to happy or sad countries.
+We have data on the locations of [World Bank projects from AidData](https://www.aiddata.org/data/world-bank-geocoded-research-release-level-1-v1-4-2). Let's plot projects on our map to see if the World Bank tends to allocate projects to happy or sad countries.
 \scriptsize
 ```{r}
 wb_projects <- read.csv(file.path(finalData, "wb_projects.csv"))
@@ -307,6 +310,19 @@ names(wb_projects)
 
 ## Add Points to Map
 For ggplot, we don't need to convert the dataframe to a spatial object. ggplot wants a dataframe, and that's what we have.
+
+\begin{block}{Exercise 2}
+Add World Bank project locations to the previous map.
+
+Hints:
+\begin{enumerate}
+\item Use geom\_points() to add points data
+\item Set data=wb\_projects
+\item In aes(), set x=longitude and y=latitude
+\end{enumerate}
+\end{block}
+
+## Add Points to Map
 ```{r, eval=F}
 ggplot() +
   geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
@@ -342,7 +358,7 @@ ggplot() +
 
 ## Add trunk roads to map
 
-\begin{block}{Exercise 2}
+\begin{block}{Exercise 3}
 Let's add roads to our map. In the final data folder, there's a file called troads.shp, which is a shapefile of trunk roads in Africa. 
 
 Hints:
@@ -414,7 +430,12 @@ trunk_roads@proj4string
 ## Reproject Data
 We can use the \texttt{spTransform()} function to reproject the data. 
 
-The below code shows two different ways of specifying the projection. The first way writes out the full projection. The second way uses a shorter way of writing the projection using an \textit{epsg code}. EPSG codes reference commonly used projections.
+The below code shows two different ways of specifying the same projection. 
+\begin{enumerate}
+\item The first way writes out the full projection, explicitly defining parameters such as proj, datum, etc.
+\item The second way uses an epsg code. EPSG codes reference commonly used projections and provide a shorthand to referencing a projection.
+\end{enumerate}
+
 \scriptsize
 ```{r, eval=F}
 # Way 1
@@ -483,10 +504,10 @@ ggplot() +
   theme_void() +
   coord_quickmap() + # Removes distortions
   labs(fill="Happiness\nScore",
-       color="") +
+       color="") + # REMOVE TITLE ABOVE TRUNK ROAD IN LEGEND
   scale_fill_gradient(low = "firebrick4",
                       high = "chartreuse2") +
-  scale_color_manual(values=c("blue"))
+  scale_color_manual(values=c("blue")) # MANUALY DEFINE COLOR HERE
 ```
 
 ## Add Roads to Legend
@@ -540,36 +561,63 @@ ggmap(nairobi_map)
 ```
 
 ## Basemap
-We can add layers to basemap. The code is the same as ggplot, except here we start the code with \textit{ggmap()} instead of \textit{ggplot()}.
+
+We can add layers to basemap. The code is the same as ggplot, except here we start the code with ggmap() instead of gplot().
+
+\begin{block}{Exercise 4}
+Plot projects in Narobi on top of a basemap. As a challenge, make the size of the points correspond to the size of aid commitments.
+
+Hint: Use size in the aesthetics.
+\end{block}
+
+```{r, eval=F}
+# Code where size does not correspond to aid commitments
+ggmap(nairobi_map) + 
+    geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+               color="orange") +
+  theme_void()
+```
+
+## Basemap
+
+Here's the code to make point size correspond with commitments.
 
 ```{r, eval=F}
 ggmap(nairobi_map) + 
     geom_point(data=wb_projects, aes(x=longitude,
-                                    y=latitude),
-               color="orange",
-               size=3)
+                                    y=latitude,
+                                    size=commitments),
+               color="orange") +
+  labs(size = "Aid\nCommitment") +
+  theme_void()
 ```
 
 ## Basemap
 ```{r, echo=F, warning=FALSE, message=F, results='hide'}
 ggmap(nairobi_map) + 
     geom_point(data=wb_projects, aes(x=longitude,
-                                    y=latitude),
-               color="orange",
-               size=3) +
+                                    y=latitude,
+                                    size=commitments),
+               color="orange") +
+  labs(size = "Aid\nCommitment") +
   theme_void()
 ```
 
 # Interactive Map
 
 ## Convert dataframe to spatialdataframe
-\scriptsize
-Before making an interactive map, let's convert out dataframe of World Bank projects to a spatialdataframe. We don't necessarily need to do this, but it'll make our code simplier later on.
+
+So far we've been using points as a dataframe. However, we can also define points as a spatial points dataframe. Here, we explicitly define which variables are the latitude and longitude and can define a projection.
+
+We don't necessarily need to do this for interactive maps, but it'll make our code simplier later on.
 
 \begin{enumerate}
 \item We first define which variables our the latitude and longitude variables using the \texttt{coordinates()} function.
 \item Then, we define our coordinate reference system using the crs function.
 \end{enumerate}
+
+\scriptsize
 
 ```{r, warning=FALSE, message=F, results='hide'}
 library(raster)
@@ -585,9 +633,9 @@ crs(wb_projects) <- CRS("+init=epsg:4326")
 ```
 
 ## Convert dataframe to spatialdataframe
-We can directly plot spatialdataframes
+We can directly plot spatialdataframes. ( [pch](http://www.sthda.com/english/wiki/r-plot-pch-symbols-the-different-point-shapes-available-in-r) is symbol and cex is size). 
 ```{r}
-plot(wb_projects)
+plot(wb_projects, pch=16, cex=.5)
 ```
 
 ## Interactive Map
@@ -642,18 +690,19 @@ leaflet() %>%
 ```
 
 ## Two layers on map
-\begin{block}{Exercise 3}
+\begin{block}{Exercise 5}
 Add two layers to the interactive map, differentiating between two types of projects: "Transport and storage" and "Water supply and sanitation." Make sure to color the layers differently. 
 
 Hints:
+
 \begin{enumerate}
-\item Use the "ad\_sector\_names" variable and the subset function to subset the dataset. For  example: subset(kenya\_projects, ad\_sector\_names == "Transport and storage")
+\item Use the "ad\_sector\_names" variable and the subset function to subset kenya\_projects.
 \item To add multiple layers, just add another addCircles() layer.
 \end{enumerate}
 \end{block}
 
 ## Two layers on map
-
+\scriptsize
 ```{r, eval=F, warning=FALSE, message=F, results='hide'}
 leaflet() %>%
   addCircles(data=subset(kenya_projects, 
@@ -690,7 +739,7 @@ leaflet() %>%
   addProviderTiles(providers$Stamen.Terrain)
 ```
 
-## Add Layers to Interactive Map
+## Add Layers and Buttons to Interactive Map
 \scriptsize
 We can add buttons that cause layers to appear or dissappear in two steps:
 
@@ -720,7 +769,7 @@ leaflet() %>%
                    options = layersControlOptions(collapsed = FALSE))
 ```
 
-## Add Layers to Interactive Map
+## Add Layers and Buttons to Interactive Map
 ```{r, echo=F, warning=FALSE, message=F, results='hide'}
 leaflet() %>%
   addCircles(data=subset(kenya_projects, 
@@ -765,9 +814,12 @@ plot(ken_adm1)
 ```
 
 ## Cropping
-Let's trim an object based on the spatial extent of another object. Let's say we only wanted trunk roads in Kenya We can use \texttt{crop()} from the \textit{sp} package.
+Let's trim an object based on the spatial extent of another object. Let's say we only wanted trunk roads in Kenya. We can use gIntersection() from the \textit{rgeos} package. The function converts the "SpatialLineDataFrame" to a "SpatialLine." We'll plot this later, and ggplot only works with "SpatialLineDataFrame" -- so to convert the object back, we just add a variable -- here, id.
 ```{r, eval=F, warning=FALSE, message=F, results='hide'}
-trunk_roads_kenya <- crop(trunk_roads, extent(ken_adm1))
+library(rgeos)
+trunk_roads_kenya <- gIntersection(trunk_roads_reprj, 
+                                   ken_adm1)
+trunk_roads_kenya$id <- 1:length(trunk_roads_kenya)
 
 plot(ken_adm1)
 plot(trunk_roads_kenya, add=T, col="red")
@@ -775,16 +827,18 @@ plot(trunk_roads_kenya, add=T, col="red")
 
 ## Cropping
 ```{r, echo=F, warning=FALSE, message=F, results='hide'}
-trunk_roads_kenya <- crop(trunk_roads, extent(ken_adm1))
+library(rgeos)
+trunk_roads_kenya <- gIntersection(trunk_roads_reprj, ken_adm1)
+trunk_roads_kenya$id <- 1:length(trunk_roads_kenya)
 
-#plot(ken_adm1)
-#plot(trunk_roads_kenya, add=T, col="red")
+plot(ken_adm1)
+plot(trunk_roads_kenya, add=T, col="red")
 ```
 
 ## Distance Calculation
 Let's calculate the distance of projects to trunk roads. gDistance calculates the distance in the units of the projection (here, decimal degrees)
 \scriptsize
-```{r, warning=FALSE, message=F, results='hide', eval=F}
+```{r, warning=FALSE, message=F, results='hide', eval=T}
 library(rgeos)
 # rows = roads; columns = projects
 distance_matrix <- gDistance(kenya_projects, trunk_roads_kenya, byid=T)
@@ -793,7 +847,84 @@ distance_matrix <- gDistance(kenya_projects, trunk_roads_kenya, byid=T)
 kenya_projects$dist_road <- apply(distance_matrix, 2, min)
 ```
 
+## Homework: Map of World Bank Projects Near Roads
+\scriptsize
+\begin{block}{Exercise 6}
+Now that we've calculated the distance, make a map that includes the following characteristics:
+
+\begin{enumerate}
+\item Includes World Bank projects in Kenya that are within 10km of a trunk road (about 0.1 decimal degrees)
+\item Includes trunk roads
+\item Includes a legend item for both the projects and map
+\item The size if the WB project points should correspond to aid commitments.
+\item Includes the border of Kenya around the map (hint: use the getData() function from the raster package to get GADM data for ADM 0).
+\end{enumerate}
+\end{block}
+
+A tip:
+
+ggplot() can't handle spatial points dataframes, so we have to convert back to a dataframe. But tidy doesn't work with spatial points dataframes either. 
+
+So we: (1) grab the data part of the spatial object, and (2) add coordinates back in (when converting a dataframe to a spatial dataframe, we loose the coordinates as variables)
+
+```{r}
+kenya_projects_df <- kenya_projects@data
+kenya_projects_df$long <- kenya_projects@coords[,1]
+kenya_projects_df$lat <- kenya_projects@coords[,2]
+```
+
+## Homework : Map of World Bank Projects Near Roads
+\scriptsize
+Code in Appendix!
+```{r, echo=F, , warning=FALSE, message=F, results='hide'}
+kenya_adm0 <- getData('GADM', country='KEN', level=0)
+
+ggplot() +
+  geom_polygon(data=kenya_adm0, aes(x=long, y=lat, group=group),
+               fill="ivory", color="black") + 
+  geom_point(data=subset(kenya_projects_df, dist_road < 0.1), 
+                                      aes(x=long, y=lat,
+                                      size=commitments/1000000),
+             fill="orange",
+             color="black",
+             pch=21) + # Adds border around points
+  geom_path(data=trunk_roads_kenya, aes(x=long, y=lat, 
+                                        group=group,
+                                        color="Trunk Road")) +
+  scale_color_manual(values="brown") +
+  labs(color="", size="World Bank\nCommitments\n(Millions)", 
+       title = "World Bank Projects Near Trunk Roads") +
+  coord_quickmap() +
+  theme_void() +
+  theme(plot.title = element_text(hjust = 0.5)) # Center Title
+```
+
 # Appendix
+
+## Homework Solution
+\scriptsize
+```{r, eval=F}
+kenya_adm0 <- getData('GADM', country='KEN', level=0)
+
+ggplot() +
+  geom_polygon(data=kenya_adm0, aes(x=long, y=lat, group=group),
+               fill="ivory", color="black") + 
+  geom_point(data=subset(kenya_projects_df, dist_road < 0.1), 
+                                      aes(x=long, y=lat,
+                                      size=commitments/1000000),
+             pch=21, # Adds border around points
+             fill="orange",
+             color="black") + 
+  geom_path(data=trunk_roads_kenya, aes(x=long, y=lat, 
+                                        group=group,
+                                        color="Trunk Road")) +
+  scale_color_manual(values="brown") +
+  labs(color="", size="World Bank\nCommitments\n(Millions)", 
+       title = "World Bank Projects Near Trunk Roads") +
+  coord_quickmap() +
+  theme_void() +
+  theme(plot.title = element_text(hjust = 0.5)) # Center Title
+```
 
 ## Distance Calculation: More Accurate
 \scriptsize
