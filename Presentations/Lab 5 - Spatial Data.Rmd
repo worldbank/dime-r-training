@@ -96,15 +96,26 @@ writeOGR(obj=worldmap, dsn=finalData, layer="worldmap", driver="ESRI Shapefile",
 
 ## Load a Shapefile
 We'll load the map  data using the the readOGR function from the rgdal package. The argument for dsn is the folder where the shapefile is and layer is the name of the shapefile.
+
+The code also shows alternative ways of loading the shapefile, in case the first way doesn't work.  
+
+\scriptsize
 ```{r, eval=F, warning=FALSE, message=F, results='hide'}
 library(rgdal)
 worldmap <- readOGR(dsn=finalData, layer="worldmap")
 
-# Sometimes the above doesn't work. In this case, try setting your working 
-# directory to the folder where the shpefile is:
+# POTENTIAL ISSUE 1: Can't find file.
+#   In this case, try setting the working directory
+#   to the folder where the shapefile is
+#     setwd(finalData)
+#     worldmap <- readOGR(dsn=".", layer="worldmap")
 
-#   setwd(finalData)
-#   worldmap <- readOGR(dsn=".", layer="worldmap")
+# POTENTIAL ISSUE 2: Can't find gdal
+#   In this case, use the following code
+#     library(maptools)
+#     worldmap <- readShapeSpatial(file.path(finalData,"worldmap.shp"))
+#     prj <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+#     crs(worldmap) <- CRS(prj)
 ```
 
 ```{r, echo=F, warning=FALSE, message=F, results='hide'}
@@ -128,14 +139,16 @@ plot(worldmap[1:42,])
 ## Spatial Data Frame
 Here, we've loaded a SpatialPolygonsDataFrame. (There's equivalent object types for points and lines). A spatial dataframe is comprised of a list that includes different parts of the shapefile. We access these parts using the @ symbol. 
 
-```{r, eval=F}
+\scriptsize
+
+```{r, eval=T}
 # Coordinate Repference System
 worldmap@proj4string
 ```
 
-```{r, eval=F}
+```{r, eval=T}
 # Dataframe
-worldmap@data
+head(worldmap@data, 3)
 ```
 
 # Mapping with ggplot: Polygons
@@ -146,8 +159,7 @@ worldmap@data
 Basics of mapping with ggplot
 \begin{enumerate}
 \item ggplot has methods for mapping spatial objects. We use geom\_polgyon for polygons and geom\_path for lines.
-\item In aes() for spatial objects, we always put x=lon, y=lat and group=group, even though our spatial object may not have these variables. 
-\item ggplot converts the spatial object into a dataframe that has these variables -- ggplot can't directly use shapefiles, but converts them into a dataframe that it can interpret. 
+\item In aes() for spatial objects, we always put x=lon, y=lat and group=group, even though our spatial object may not have these variables. We do this because ggplot converts the spatial object into a dataframe that has these variables. ggplot can't directly use shapefiles, but converts them into a dataframe that it can interpret. 
 \end{enumerate}
 
 ```{r, eval=F}
@@ -565,7 +577,7 @@ ggmap(nairobi_map)
 We can add layers to basemap. The code is the same as ggplot, except here we start the code with ggmap() instead of gplot().
 
 \begin{block}{Exercise 4}
-Plot projects in Narobi on top of a basemap. As a challenge, make the size AND the color of the points correspond to the size of aid commitments.
+Plot projects in Narobi on top of a basemap. As a challenge, make the size AND the color of the points correspond to aid commitments.
 
 Hint: Set size and color to "commitments" in the aesthetics.
 \end{block}
@@ -635,13 +647,13 @@ We don't necessarily need to do this for interactive maps, but it'll make our co
 library(raster)
 
 # Create Spatial Points Dataframe
+#    ~longitude+latitude is a formular, where ~ tells R to  
+#    reference those variables in the associated datasets;
+#    in this case, kenya_projects
 coordinates(kenya_projects) <- ~longitude+latitude
 
 # Define Projection
 crs(kenya_projects) <- CRS("+init=epsg:4326")
-
-# +init=epsg:4326 is short for:
-# +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0
 ```
 
 ## Convert dataframe to spatialdataframe

@@ -1,6 +1,7 @@
 # Spatial Data Analysis with R
 
 # Setup ------------------------------------------------------------------------
+library(maptools)
 library(rgdal)
 library(ggplot2)
 library(broom)
@@ -10,9 +11,15 @@ library(leaflet)
 
 # Define the filepath to the Final data folder
 finalData <- "~/Desktop/dime-r-training/DataWork/DataSets/Final"
+finalData <- "~/Documents/GitHub/dime-r-training/DataWork/DataSets/Final"
 
 # *** Load a Shapefile ---------------------------------------------------------
 worldmap <- readOGR(dsn=finalData, layer="worldmap")
+
+# If the above line doesn't work, try this:
+# library(maptools)
+# worldmap <- readShapeSpatial(file.path(finalData,"worldmap.shp"))
+# crs(worldmap) <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
 
 #### Plot Shapefile
 plot(worldmap)
@@ -84,6 +91,11 @@ wb_projects <- read.csv(file.path(finalData, "wb_projects.csv"))
 
 ##### Exercise 3: Add trunk roads to map #####
 trunk_roads <- readOGR(dsn=finalData, layer="troads")
+
+# If the above line doesn't work, try this:
+# library(maptools)
+# trunk_roads <- readShapeSpatial(file.path(finalData,"troads.shp"))
+# crs(worldmap) <- CRS("+proj=utm +zone=30 +a=6378249.145 +b=6356514.96582849 +units=m +no_defs")
 
 # WRITE YOUR CODE HERE! 
 
