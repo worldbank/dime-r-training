@@ -565,15 +565,17 @@ ggmap(nairobi_map)
 We can add layers to basemap. The code is the same as ggplot, except here we start the code with ggmap() instead of gplot().
 
 \begin{block}{Exercise 4}
-Plot projects in Narobi on top of a basemap. As a challenge, make the size of the points correspond to the size of aid commitments.
+Plot projects in Narobi on top of a basemap. As a challenge, make the size AND the color of the points correspond to the size of aid commitments.
 
-Hint: Use size in the aesthetics.
+Hint: Set size and color to "commitments" in the aesthetics.
 \end{block}
 
 ```{r, eval=F}
-# Code where size does not correspond to aid commitments
+# Code where size/color does not correspond to commitments
+kenya_projects <- subset(wb_projects, recipients == "Kenya")
+
 ggmap(nairobi_map) + 
-    geom_point(data=wb_projects, aes(x=longitude,
+    geom_point(data=kenya_projects, aes(x=longitude,
                                     y=latitude),
                color="orange") +
   theme_void()
@@ -581,26 +583,36 @@ ggmap(nairobi_map) +
 
 ## Basemap
 
-Here's the code to make point size correspond with commitments.
+Here's the code to make point size and color correspond with commitments. To combine size and color to one legend item, add "guide=legend" to both scale_color_continuous and scale_size_continuous.
 
 ```{r, eval=F}
 ggmap(nairobi_map) + 
-    geom_point(data=wb_projects, aes(x=longitude,
+    geom_point(data=kenya_projects, aes(x=longitude,
                                     y=latitude,
-                                    size=commitments),
-               color="orange") +
-  labs(size = "Aid\nCommitment") +
+                                    size=commitments,
+                                    color=commitments)) +
+  scale_color_continuous(guide = "legend", 
+                         low="orange", high="green2") +
+  scale_size_continuous(guide = "legend") +
+  labs(size = "Aid\nCommitment",
+       color = "Aid\nCommitment") +
   theme_void()
 ```
 
 ## Basemap
 ```{r, echo=F, warning=FALSE, message=F, results='hide'}
+kenya_projects <- subset(wb_projects, recipients == "Kenya")
+
 ggmap(nairobi_map) + 
-    geom_point(data=wb_projects, aes(x=longitude,
+    geom_point(data=kenya_projects, aes(x=longitude,
                                     y=latitude,
-                                    size=commitments),
-               color="orange") +
-  labs(size = "Aid\nCommitment") +
+                                    size=commitments,
+                                    color=commitments)) +
+  scale_color_continuous(guide = "legend", 
+                         low="orange", high="green2") +
+  scale_size_continuous(guide = "legend") +
+  labs(size = "Aid\nCommitment",
+       color = "Aid\nCommitment") +
   theme_void()
 ```
 
@@ -623,10 +635,10 @@ We don't necessarily need to do this for interactive maps, but it'll make our co
 library(raster)
 
 # Create Spatial Points Dataframe
-coordinates(wb_projects) <- ~longitude+latitude
+coordinates(kenya_projects) <- ~longitude+latitude
 
 # Define Projection
-crs(wb_projects) <- CRS("+init=epsg:4326")
+crs(kenya_projects) <- CRS("+init=epsg:4326")
 
 # +init=epsg:4326 is short for:
 # +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0
@@ -635,19 +647,17 @@ crs(wb_projects) <- CRS("+init=epsg:4326")
 ## Convert dataframe to spatialdataframe
 We can directly plot spatialdataframes. ( [pch](http://www.sthda.com/english/wiki/r-plot-pch-symbols-the-different-point-shapes-available-in-r) is symbol and cex is size). 
 ```{r}
-plot(wb_projects, pch=16, cex=.5)
+plot(kenya_projects, pch=16, cex=.5)
 ```
 
 ## Interactive Map
 We'll use leaflet to make an interactive map. Leaflet is a javascript library for interactive maps. The leaflet R package allows one to interact with this library in R.
 
-To make things simpler, subset the data to projects in Kenya. Leaflet works similarly to ggplot where you sequentially define different elements. However, instead of using + between elements, we use a pipe: %>%
+Leaflet works similarly to ggplot where you sequentially define different elements. However, instead of using + between elements, we use a pipe: %>%
 
 ```{r, eval=F}
 library(leaflet)
 
-kenya_projects <- subset(wb_projects, recipients == "Kenya")
-  
 leaflet() %>%
   addCircles(data=kenya_projects) %>% 
   addTiles()
@@ -656,8 +666,6 @@ leaflet() %>%
 ## Interactive Map
 ```{r, echo=F, warning=FALSE, message=F, results='hide'}
 library(leaflet)
-
-kenya_projects <- wb_projects[wb_projects$recipients == "Kenya",]
 
 leaflet() %>%
   addCircles(data=kenya_projects) %>%
@@ -971,19 +979,29 @@ writeOGR(obj=roads_trunk_rpj,     # Spatial object
 ```
 
 ## Over Function
-We have World Bank projects and the Africa polygon dataset. Let's say we want to add variables to the World Bank projects from the Africa polygon dataset. 
-
-For this, we can use the \texttt{over()} function. We can use this to extract data from the polygons to each point.
+Let's say we want to add variables to the World Bank projects from the Africa polygon dataset. For this, we can use the \texttt{over()} function. We can use this to extract data from the polygons to each point.
 \scriptsize
 ```{r, eval=F}
+# Spatially define wb_projects
+coordinates(wb_projects) <- ~longitude+latitude
+crs(wb_projects) <- CRS("+init=epsg:4326")
+
 # This yields a dataframe that has the same number of rows as wb_projects,
 # but has data from worldmap.
 wb_projects_OVER_worldmap <- over(wb_projects, worldmap)
 
+# Add variables from worldmap to wb_projects
 wb_projects$POP_EST <- wb_projects_OVER_worldmap$POP_EST
 wb_projects$GDP <- wb_projects_OVER_worldmap$GDP_MD_
 wb_projects$hppy_sc <- wb_projects_OVER_worldmap$hppy_sc
 ```
+
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+# Spatially define wb_projects
+coordinates(wb_projects) <- ~longitude+latitude
+crs(wb_projects) <- CRS("+init=epsg:4326")
+```
+
 
 ## Buffer Spatial Objects
 We can create buffers around spatial objects using \texttt{gBuffer()} from \textit{rgeos}. This function works with points, lines or polygons. The width is in the units of your coordinate reference system. Consequently, units here are in decimal degrees. However, you could project your data so that units are in meters.

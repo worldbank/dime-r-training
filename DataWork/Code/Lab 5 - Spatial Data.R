@@ -11,7 +11,7 @@ library(leaflet)
 # Define the filepath to the Final data folder
 finalData <- "~/Desktop/dime-r-training/DataWork/DataSets/Final"
 
-# Load a Shapefile -------------------------------------------------------------
+# *** Load a Shapefile ---------------------------------------------------------
 worldmap <- readOGR(dsn=finalData, layer="worldmap")
 
 #### Plot Shapefile
@@ -28,7 +28,7 @@ worldmap@proj4string
 # Dataframe
 worldmap@data
 
-# Mapping with ggplot: Polygons ------------------------------------------------
+# *** Mapping with ggplot: Polygons --------------------------------------------
 
 #### Make map of the world
 ggplot() +
@@ -68,7 +68,7 @@ ggplot() +
 
 
 
-# Mapping with ggplot: Points --------------------------------------------------
+# *** Mapping with ggplot: Points ----------------------------------------------
 #### Load World Bank data
 wb_projects <- read.csv(file.path(finalData, "wb_projects.csv"))
 
@@ -80,7 +80,7 @@ wb_projects <- read.csv(file.path(finalData, "wb_projects.csv"))
 
 
 
-# Mapping with ggplot: Lines ---------------------------------------------------
+# *** Mapping with ggplot: Lines -----------------------------------------------
 
 ##### Exercise 3: Add trunk roads to map #####
 trunk_roads <- readOGR(dsn=finalData, layer="troads")
@@ -136,7 +136,7 @@ ggplot() +
                       high = "chartreuse2") +
   scale_color_manual(values=c("blue")) # MANUALY DEFINE COLOR HERE
 
-# Basemap ----------------------------------------------------------------------
+# *** Basemap ------------------------------------------------------------------
 #### Basemap of Nairobi
 nairobi <- c(left = 36.66, 
              bottom = -1.44, 
@@ -149,6 +149,8 @@ nairobi_map <- get_stamenmap(nairobi,
 ggmap(nairobi_map)
 
 #### World Bank Projects in Nairobi
+kenya_projects <- subset(wb_projects, recipients == "Kenya")
+
 ggmap(nairobi_map) + 
   geom_point(data=wb_projects, aes(x=longitude,
                                    y=latitude),
@@ -159,22 +161,20 @@ ggmap(nairobi_map) +
 
 # WRITE YOUR CODE HERE! 
 
-# Interactive Map --------------------------------------------------------------
+# *** Interactive Map ----------------------------------------------------------
 
 #### Create Spatial Points Dataframe
 
 # Create Spatial Points Dataframe
-coordinates(wb_projects) <- ~longitude+latitude
+coordinates(kenya_projects) <- ~longitude+latitude
 
 # Define Projection
-crs(wb_projects) <- CRS("+init=epsg:4326")
+crs(kenya_projects) <- CRS("+init=epsg:4326")
 
 # Plot 
-plot(wb_projects, pch=16, cex=.5)
+plot(kenya_projects, pch=16, cex=.5)
 
 #### Interactive Map
-kenya_projects <- subset(wb_projects, recipients == "Kenya")
-
 leaflet() %>%
   addCircles(data=kenya_projects) %>% 
   addTiles()
@@ -212,7 +212,7 @@ leaflet() %>%
   addLayersControl(overlayGroups = c("Transport", "Water"),
                    options = layersControlOptions(collapsed = FALSE))
 
-# Spatial Operations -----------------------------------------------------------
+# *** Spatial Operations -------------------------------------------------------
 #### GADM Data
 ken_adm1 <- getData('GADM', country='KEN', level=1)
 
