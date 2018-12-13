@@ -10,7 +10,6 @@ library(raster)
 library(leaflet)
 
 # Define the filepath to the Final data folder
-finalData <- "~/Desktop/dime-r-training/DataWork/DataSets/Final"
 finalData <- "~/Documents/GitHub/dime-r-training/DataWork/DataSets/Final"
 
 # *** Load a Shapefile ---------------------------------------------------------
