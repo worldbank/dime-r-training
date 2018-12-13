@@ -46,6 +46,10 @@ __Coordinate reference systems__ map pairs of numbers to a location.
 * __Projected Coordinate Systems__ project the earth onto a flat surface. This [distorts](http://geoawesomeness.com/5-tools-will-let-master-map-projections/) the earth in some way (shape, area, distance or direction)
 
     + Using to the World Mercator projection, the World Bank is located 4680364.64 north and -8576320.73 east.
+    
+## Coordinate Reference Systems
+
+To see why projections matter, watch this video from the West Wing: click [here](https://www.youtube.com/watch?v=vVX-PrBRtTY).
 
 ```{r fig.align="center", echo=F}
 knitr::include_graphics("img/coordinate_systems.jpg", dpi = 220)
@@ -1123,10 +1127,11 @@ display.brewer.all()
 ```
 
 ## Useful Resources
-\scriptsize
-\begin{enumerate}
-\item - [Rspatial](http://rspatial.org/) provides tutorials for many topics in GIS.
-\item - [Nick Eubank Tutorials](http://www.nickeubank.com/gis-in-r/) -- another great set of tutorials.
-\item - [Spatial Features](https://r-spatial.github.io/sf/articles/sf1.html). There's an entirely different way of defining spatial objects in R that we didn't cover, so see this website for an overview of "spatial features" that treat spatial objects more similarly to dataframes. 
-\item - [Here](https://gist.github.com/sboysel/fc661f26ef51eae6377b) Provides useful links to a bunch of other resources.
-\end{enumerate}
+* [Rspatial](http://rspatial.org/) provides tutorials for many topics in GIS. 
+
+* [Nick Eubank Tutorials](http://www.nickeubank.com/gis-in-r/) -- another great set of tutorials. 
+
+* [Spatial Features](https://r-spatial.github.io/sf/articles/sf1.html). There's an entirely different way of defining spatial objects in R that we didn't cover, so see this website for an overview of "spatial features" that treat spatial objects more similarly to dataframes.
+
+* [This](https://gist.github.com/sboysel/fc661f26ef51eae6377b) provides useful links to a bunch of other resources.
+
