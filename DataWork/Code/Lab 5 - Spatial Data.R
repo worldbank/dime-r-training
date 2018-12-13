@@ -20,6 +20,9 @@ worldmap <- readOGR(dsn=finalData, layer="worldmap")
 # worldmap <- readShapeSpatial(file.path(finalData,"worldmap.shp"))
 # crs(worldmap) <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
 
+# If this fails, try running this:
+# load(file.path(finalData, "spatialdata.Rda"))
+
 #### Plot Shapefile
 plot(worldmap)
 
