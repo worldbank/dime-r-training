@@ -63,7 +63,7 @@ ggplot() +
   theme_void() +
   coord_quickmap() + # Removes distortions
   labs(fill="Happiness\nScore") +
-  scale_colour_gradient(low = "firebrick4",
+  scale_fill_gradient(low = "firebrick4",
                         high = "chartreuse2")
 
 ##### Exercise 1: Make of map of just Africa #####

@@ -47,13 +47,14 @@ __Coordinate reference systems__ map pairs of numbers to a location.
 
     + Using to the World Mercator projection, the World Bank is located 4680364.64 north and -8576320.73 east.
     
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/coordinate_systems.jpg", dpi = 220)
+```
+
 ## Coordinate Reference Systems
 
 To see why projections matter, watch this video from the West Wing: click [here](https://www.youtube.com/watch?v=vVX-PrBRtTY).
 
-```{r fig.align="center", echo=F}
-knitr::include_graphics("img/coordinate_systems.jpg", dpi = 220)
-```
 
 ```{r, eval=T, echo=F}
 #finalData <- "C:/Users/wb521633/Dropbox/World Bank/dime-r-training/DataWork/DataSets/Final"
@@ -258,7 +259,7 @@ ggplot() +
   theme_void() +
   coord_quickmap() + # Removes distortions
   labs(fill="Happiness\nScore") +
-  scale_colour_gradient(low = "firebrick4",
+  scale_fill_gradient(low = "firebrick4",
                         high = "chartreuse2")
 ```
 
@@ -641,7 +642,7 @@ So far we've been using points as a dataframe. However, we can also define point
 We don't necessarily need to do this for interactive maps, but it'll make our code simplier later on.
 
 \begin{enumerate}
-\item We first define which variables our the latitude and longitude variables using the \texttt{coordinates()} function.
+\item We first define which variables are the latitude and longitude variables using the \texttt{coordinates()} function.
 \item Then, we define our coordinate reference system using the crs function.
 \end{enumerate}
 
@@ -651,9 +652,8 @@ We don't necessarily need to do this for interactive maps, but it'll make our co
 library(raster)
 
 # Create Spatial Points Dataframe
-#    ~longitude+latitude is a formular, where ~ tells R to  
-#    reference those variables in the associated datasets;
-#    in this case, kenya_projects
+#    ~longitude+latitude is a formular, where ~ tells R to reference those 
+#    variables in the associated datasets; in this case, kenya_projects
 coordinates(kenya_projects) <- ~longitude+latitude
 
 # Define Projection
