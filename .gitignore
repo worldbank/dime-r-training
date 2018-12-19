@@ -11,6 +11,7 @@
 *.vrb
 *.aux
 *.png
+*.DS_Store
 
 !Presentations/img/*
 *.csv
