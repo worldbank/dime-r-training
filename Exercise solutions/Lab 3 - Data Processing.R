@@ -5,8 +5,21 @@
 #                                                                                #
 # ------------------------------------------------------------------------------ #
 
-# PART 1: Load data --------------------------------------------------------------
+# PART 1: Set up -----------------------------------------------------------------
 
+  # Install packages
+  install.packages(c("readstata13","dplyr"),
+                   dependencies = TRUE)
+  
+  # Load packages
+  library(dplyr)
+  library(readstata13)
+  
+  #  Set folder paths
+  projectFolder  <- "YOUR/FOLDER/PATH"
+  finalData <- file.path(projectFolder, "DataWork", "DataSets", "Final")
+  rawlData <- file.path(projectFolder, "DataWork", "DataSets", "Raw")
+  
   # Load panel data
   panel <- read.csv(file.path(rawData,"lwh_panel.csv"))
 

@@ -1,7 +1,7 @@
 ---
 title: "Data Processing"
-subtitle: "Field Coordinator Training"
-date: "June 2018"
+subtitle: "R for Stata Users"
+date: "November-December 2018"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -54,24 +54,21 @@ rawData           <- file.path(Data,"Raw")
 * In this session, you'll be introduced to some basic concepts of data cleaning in R. The contents covered are:
     * Importing data
     * Exploring a data set
-    * Uniquely and fully indentifiable ID variables
     * Creating new variables
-    * Dropping variables
-    * Subsetting a data set
+    * Filtering and subsetting data sets
     * Dealing with factor variables
-    * Treating outliers
+    * Saving data
 * There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session
 
 ## Introduction
 
 Before we start, let's make sure we're all set:
 
-  \begin{enumerate}
-\item Make sure the packages \texttt{readstata13} and \texttt{dplyr} are listed in the \texttt{packages} vector of your Master script. If they are not installed (they should be!), install them.
-\item If you haven't yet in this session, run the Master script to load all the necessary packages and set file paths.
-\item Remeber to disable the \texttt{PACKAGES} switch in the Master if you already installed them. This will save you a lot of time.
-\item Open the script called \texttt{Lab 3} in DataWork > Code. We've provided you with some code to build upon that will save you some time during this session.
-\end{enumerate}
+  1. Make sure the packages `readstata13` and `dplyr` are listed in the `packages` vector of your Master script. If they are not installed, install them.
+  2. If you haven't yet in this session, run the Master script to load all the necessary packages and set file paths.
+  3. Remember to disable the `PACKAGES` switch in the Master script if you already installed the necessary packages. This will save you a lot of time.
+  4. Open the script called `Lab 6` in `DataWork > Code`. We've provided you with some code to build upon that will save you some time during this session.
+
 
 ## Introduction
 
@@ -174,6 +171,11 @@ Some useful functions:
 * **``dim()``:** reports the size of each one of an object's dimension
 * **``names()``:** returns the variable names of a data set
 * **``str()``:** general information on a R object, similar to ``codebook`` in Stata
+head
+summary
+table
+- any(is.na(variable))
+- sum(is.na(variable)) =
 
 ## Exploring a data set
 
