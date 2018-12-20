@@ -718,22 +718,94 @@ table(whr_panel$happy_ord)
 
 ## `spread` and `gather`
 
-These are the tidyverse functions to reshape
-```{r}
-whr_happy_wide <- spread(whr_panel,
-                         key = year,
-                         value = happy_high)
+  * These are the `tidyverse` functions to reshape data
+  * We've `spread` in Lab 2 to create a table of the happy score by year
+  
+```{r, size = "footnotesize"}
+# Spread data
+happy_table <- 
+  spread(select(whr_panel, country, year, happy_score), # data
+         key = year,  # column to be used as column headings 
+         value = happy_score) # column to populate the cells
 
-whr_happy_long <- gather(whr_happy_wide,
-                         key = year,
-                         value = happy_high,
-                         `2015`, `2016`, `2017`)
+# See result
+head(happy_table)
+```
+
+## `spread` and `gather`
+
+If we wanted to make the resulting data set long again, we'd use `gather`:
+```{r,  size = "footnotesize"}
+# Gather the happy_table
+happy_table_long <- 
+  gather(happy_table,
+         key = year,
+         value = happy_score,
+         `2015`, `2016`, `2017`) # name of columns that will be gathered
+
+# See result
+head(happy_table_long)
 
 ```
+## Reshaping
+
+  * The problem with the `gather` and `spread` commands is that they only reshape one column at a time
+  * If you wanted to reshape multiple columns using these functions, you'd have to reshape them separate and merge back
+  * The `reshape` function is a lot more similar to what we would do in Stata
 
 ## `reshape`
 
+### `reshape(data, idvar, timevar, direction)`:
+
+ * __data__: a data frame
+ * __idvar__: the variables that identify the group in the wide data set
+ * __timevar__: the variable in long format that differentiates multiple records from the same group or individual
 This is more similar to Stata
+
+## `reshape`: long to wide
+
+```{stata, eval = F, size = "tiny"}
+* Reshaping in stata
+reshape wide  happy_score happy_rank, ///
+              i(country) ///
+              j(year)
+```
+
+```{r, size = "tiny"}
+# Reshaping with reshape
+happy_wide <-
+  reshape(select(whr_panel, 
+                 country, year, happy_score, happy_rank),
+          direction = "wide",
+          idvar = "country",
+          timevar = "year")
+  
+# See result
+head(happy_wide)
+```
+## `reshape`: wide to long
+
+```{stata, eval = F, size = "tiny"}
+* Reshaping in stata
+reshape long  happy_score happy_rank, ///
+              i(country) ///
+              j(year)
+```
+
+```{r, size = "tiny"}
+# Reshaping with reshape
+happy_long <-
+  reshape(select(happy_wide),
+          direction = "long",
+          idvar = "country",
+          timevar = "year",
+          varying = list(2:6),
+          v.names = c("happy_score", "happy_rank"),
+          sep = ".") 
+  
+# See result
+head(happy_wide)
+```
 
 # Saving a data set
 
