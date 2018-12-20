@@ -545,18 +545,68 @@ names(whr17) <-  newnames
 whr_panel <- rbind(whr15, whr16, whr17)
 ```
 
-# Factor variables
+# Adding variables
 
-## Creating a factor
 
-Let's take a look at the variable ``region`` in the ``whr_panel`` data set:
+## Creating variables based on a formula
+
+  * When we created the `year` variable, we just assigned a value to a column in the data frames using `$`
+  * This is great for simple variables, but can get tricky if it takes more complex values
+  * For example, to create a dummy variable that shows if the happy score is above the median, we would write the following
+  
+```{r, eval = F}
+# Using $
+whr_panel$happy_high <- 
+  whr_panel$happy_score > median(whr_panel$happy_score)
+```
+  
+  * The `tidyverse` function `mutate` make this process simpler
+  
+## Creating variables base on a formula
+
+### `mutate(.data, ...)`
+Adds new variables and preserves existing
+
+  * ** .data: ** the data set you want to add a variable to
+  * **...:** name-value pairs of expressions. Use NULL to drop a variable
+  
+
+## Creating variables base on a formula
+
+### Exercise 10: Create a variable based on a formula
+Use the `mutate` function to create a variable called `happy_high` in the `whr_panel` data set indicating whether the `happy_score` is above the median.
+
+- TIP: as usual in `tidyverse`, you can refer to variables by their names, without quotes or `$`
+
+## Creating variables based on a formula
 
 ```{r}
+# Adding a new variable
+whr_panel <- 
+  mutate(whr_panel, 
+         happy_high = happy_score > median(happy_score))
+```
+
+## Creating variables based on a formula
+
+```{r}
+# You can do this for multiple variables at a time
+whr_panel <- mutate(whr_panel, 
+                    happy_high = happy_score > median(happy_score),
+                    happy_low = happy_score < median(happy_score),
+                    dystopia_res = NULL) # NULL drop the variable
+```
+
+## Creating factor variables
+
+  * When we imported this data set, we told R explicitly to not read strings as factor
+  * We did that because we knew that we'd have to fix the country names
+  * The region variable, however, should be a factor:
+
+```{r, size = "tiny"}
 str(whr_panel$region)
 unique(whr_panel$region)
 ```
-
-This is supposed to be categorical variable, but for now it's a string.
 
 ## Creating a factor
 
@@ -566,118 +616,80 @@ To create a factor variable, we use the ``factor`` function:
 * **``x``:** the vector you want to turn into a factor
 * **``levels``:** a vector containing the possible values of ``x``
 * **``labels``:** a vector of strings containing the labels you want to apply to your factor variable
+* **``ordered``:** logical flag to determine if the levels should be regarded as ordered (in the order given).
 
-# Creating new variables
+## Converting strings into factors
 
-## Creating a variables from other values
+### Exercise 11: turn a variable into a factor
+Use the `mutate` function to create a variable called `region_cat` containing a categorical version of the `region` variable.
 
+- TIP: to do this, you only need the first argument of the `factor` function
+
+## Converting strings into factors
 ```{r}
-whr_panel <- mutate(whr_panel, happy_high = happy_score > median(happy_score))
+# Create categorical region
+whr_panel <- 
+  mutate(whr_panel,
+         region_cat = factor(region))
+
+
+class(whr_panel$region_cat)
+levels(whr_panel$region_cat)
 ```
 
-## Creating a factor
+## Labelling values
 
-### Exercise: Create a factor
-Use the `factor` fanction to create a variable in the `whr_panel` data set called `region_cat`. This should be a categorical version of the `region` variable.
-
-- TIP: for now, you'll only need the first argument of this function.
-
-## Creating a factor
+The `labels` argument of the `factor` function can be used to assign labels to specific values
 
 ```{r}
-whr_panel$happy <- factor(whr_panel$happy_high,
-                         levels = c(FALSE, TRUE),
-                         labels = c("Not so happy", "Happy"))
+# Assign 'not so happy'  and 'happy' as labels
+# for above of below median happy score, respectively
+whr_panel <- 
+  mutate(whr_panel,
+         happy_cat = factor(happy_high,
+                            levels = c(FALSE, TRUE),
+                            labels = c("Not so happy", "Happy")))
 
-str(whr_panel$happy_high)
-str(whr_panel$happy)
+table(whr_panel$happy_cat)
 ```
-<!-- ### Exercise 9 -->
-<!-- Replace the variable ``gender_hhh`` in the ``lwh`` data set by a factor. Label the factor so that 0 is "Female" and 1 is "Male". -->
 
-<!-- * TIP: the first string in the ``labels`` argument will be applied to the first value in the ``levels`` argument, the second to the second and so on. -->
+## Ordering factors
 
+The `ordered` argument of the `factor` function can be used tell R to always display the categories in a certain order.
 
-<!-- ## Creating a factor -->
-<!-- \scriptsize -->
-<!-- ```{r} -->
-<!--   # The numeric variable -->
-<!--   table(lwh$gender_hhh) -->
-
-<!--   # Turn numeric variable into factor -->
-<!--   lwh$gender_hhh <- factor(lwh$gender_hhh, -->
-<!--                            levels = c(0, 1), -->
-<!--                            labels = c("Female", "Male")) -->
-
-<!--   # The factor variable -->
-<!--   table(lwh$gender_hhh) -->
-<!-- ``` -->
-
-<!-- ## Exploring factors -->
-
-<!-- Here are a few useful functions to explore factors: -->
-
-<!--  * **``str()``:** we've already seen this function. When using it with factors is that is shows the number and some variable labels -->
-<!--  * **``levels()``:** displays the different values of a factor variable -->
-<!--  * **``table()``:** displays a frequency table per level of a factor variable -->
-
-<!-- ### Exercise 10 -->
-
-<!-- 1. Use the functions listed above to explore the ``wave`` variable in the ``lwh`` data set. -->
-<!-- 2. (challenge) Use the ``table()`` function to see the year of each wave. Use the help if necessary. -->
-
-<!-- ## Exploring factors -->
-<!-- \tiny -->
-<!-- ```{r} -->
-<!--   # First look at the variable -->
-<!--   str(lwh$save) -->
-
-<!--   # List all levels -->
-<!--   levels(lwh$wave) -->
-
-<!--   # Observations per level -->
-<!--   table(lwh$wave) -->
-
-<!--   # Year of each wave -->
-<!--   table(lwh$wave, lwh$year) -->
-<!-- ``` -->
-
-<!-- ## Ordering factors -->
-
-<!-- * The ``wave`` variable's levels are not ordered correctly -->
-<!-- * That's because R creates the number underlying a factor in alphabetical order -->
-<!-- * However, that can be misleading, specially if we're using this variable for tables and graphs -->
-<!-- * If we want the levels of a factor to be in an specific order, we need to set the argument ``ordered`` of the ``factor()`` function to ``TRUE`` -->
-<!-- * This will tell R that the order of the levels is exactly the same as the one specified in the ``levels`` argument -->
-
-
-<!-- ## Ordering factors -->
-
-<!-- ### Exercise 11 -->
-<!-- Make the ``wave`` variable in the ``lwh`` dataset an ordered factor, ordering them by the year in which they happened -->
-
-<!-- ## Ordering factors -->
-
-<!-- \scriptsize -->
-
-<!-- ```{r} -->
-<!--   # Order variable -->
-<!--   panel$wave <- factor(panel$wave, -->
-<!--                        levels = c("Baseline", "FUP1&2", "FUP3", "FUP4", "Endline"), -->
-<!--                        ordered = T) -->
-
-<!--   # Check new order -->
-<!--   levels(panel$wave) -->
-<!--   table(panel$wave, panel$year) -->
-<!-- ``` -->
-
-# Dropping variables
-
-## Dropping variables
 ```{r}
-  # Remove income variables
-  whr_panel$happy_high <- NULL
+# Assign 'not so happy'  and 'happy' as labels
+# for above of below median happy score, respectively
+whr_panel <- 
+  mutate(whr_panel,
+         happy_ord = factor(happy_high,
+                            levels = c(FALSE, TRUE),
+                            labels = c("Not so happy", "Happy"),
+                            ordered = TRUE))
+
+table(whr_panel$happy_ord)
 ```
+
+# Reshaping
+
+## `spread` and `gather`
+
+These are the tidyverse functions to reshape
+```{r}
+whr_happy_wide <- spread(whr_happy,
+                         key = year,
+                         value = happy)
+
+whr_happy_long <- gather(whr_happy_wide,
+                         key = year,
+                         value = happy,
+                         `2015`, `2016`, `2017`)
+
+```
+
+## `reshape`
+
+This is more similar to Stata
 
 # Saving a data set
 
@@ -686,51 +698,58 @@ str(whr_panel$happy)
 * As mentioned before, R data sets are often save as CSVs
 * To save a data set, we use the ``write.csv()`` function:
 
-<!-- ### ``write.csv(x, file, row.names = TRUE)`` -->
-<!-- * **``x``:** the object (usually a data frame) you want to export to CSV -->
-<!-- * **``file``:** the file path to where you want to save it, including the file name and the format (".csv") -->
-<!-- * **``row.names``**: by default, R adds a column to the CSV file with the names (or numbers) of the rows in the data frame. Set it to ``FALSE`` if you don't want that column to be exported -->
+### ``write.csv(x, file, row.names = TRUE)``
+* **``x``:** the object (usually a data frame) you want to export to CSV
+* **``file``:** the file path to where you want to save it, including the file name and the format (".csv")
+* **``row.names``**: by default, R adds a column to the CSV file with the names (or numbers) of the rows in the data frame. Set it to ``FALSE`` if you don't want that column to be exported
 
 
-<!-- ## Saving a data set -->
+## Saving a data set
 
-<!-- ### Exercise 17 -->
-<!-- Save the ``lwh`` data set to DataWork > DataSets > Final. -->
+### Exercise 12: save the data set
 
-<!-- * TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path. -->
+Save the ``whr_panel`` data set to DataWork > DataSets > Final.
 
-<!-- ## Saving a data set -->
+* TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
 
-<!-- ```{r, eval = F} -->
-<!-- # Save the lwh data set -->
-<!-- write.csv(lwh, -->
-<!--           file.path(finalData,"lwh_clean.csv"), -->
-<!--           row.names = F) -->
-<!-- ``` -->
+## Saving a data set
+
+```{r, eval = F}
+# Save the lwh data set
+write.csv(whr_panel,
+          file.path(finalData,"whr_panel.csv"),
+          row.names = F)
+```
 
 ## Saving a data set to .Rdata
 
-* The problem with CSVs is that they cannot differentiate between strings and factors, and you loose orderred factors and attributes if they were created
+* The problem with CSVs is that they cannot differentiate between strings and factors
+* They also don't save factor orders
+* Data attributes are also lost in csv data
 
 
 # Appendix
 
 ## Saving a data set to Stata
 
-``write.dta13``
+### ``write.dta13(data, file)``
+Writes a Stata dta-file bytewise and saves the data into a dta-file.
+
+* **data:** A data frame
+* **file:** Path to the dta file you want to export
 
 ## Loading a Stata data set
 \scriptsize
 
 ```{r}
-  # Load the raw data from LWH endline
- endline <- read.dta13(file.path(rawData,
-                                 "endline_data_raw.dta"))
+# Export it 
+save.dta13(whr_panel,
+           file.path(finalData,
+                     "whr_panel.dta"))
+
+# Load it again
+whr_panel <- read.dta13(file.path(finalData,
+                                 "whr_panel.dta"))
 ```
 
-## Loading a Stata data set
-
-* In Stata, you can have different levels of a labelled variable with the same value label. That's not true for R factors, which is why all those warnings were created
-* If you go to the ``Environment`` pane and click on the blue arrow, you'll see that string variables were imported as strings, and only labelled values were imported as factors
-* If you scroll down on the variables list, you can also find some metadata such as variable labels, value labels and Stata formats saved as variables' attributes
 
