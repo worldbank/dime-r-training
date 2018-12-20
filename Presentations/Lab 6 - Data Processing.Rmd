@@ -46,7 +46,7 @@ if (Sys.getenv("USERNAME") == "WB519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
-library(tidyverse)
+library(tidyverse, verbose = F)
 library(readstata13)
 
 # File paths
@@ -73,8 +73,8 @@ rawData           <- file.path(Data,"Raw")
     * Exploring a data set
     * Creating new variables
     * Filtering and subsetting data sets
-    * Dealing with factor variables
     * Merging and reshaping data sets
+    * Dealing with factor variables
     * Saving data
 * There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session
 
@@ -85,7 +85,7 @@ rawData           <- file.path(Data,"Raw")
 Before we start, let's make sure we're all set:
 
   1. Start a fresh session.
-  2. Make sure the `tidyverse` package is listed in the `packages` vector of your Master script. If it's are not installed, install it.
+  2. Make sure the `tidyverse` package is listed in the `packages` vector of your Master script. If it's not installed, install it.
   3. Run the Master script to load all the necessary packages and set file paths.
   4. Remember to disable the `PACKAGES` switch in the Master script if you already installed the necessary packages. This will save you a lot of time.
 
@@ -111,12 +111,28 @@ Here's a shortcut if you missed the last session:
 
 ```
 
-## Loading the data
+## Loading a data set from CSV
+
+### ``read.csv(file, header = FALSE)``
+ 
+ * **file**: is the path to the file you want to open, including it's name and format (``.csv``)
+ * **header**: if `TRUE`, will read the first row as variable names
+ * **stringsAsFactors:** logical. See next slide for more.
+
+## Loading a data set from CSV
+
+* R reads string variables as factors as default
+* This format saves memory, but can be tricky if you actually want to use the variables as strings (which is rarely the case)
+* You can specify the option ``stringsAsFactors = FALSE`` to prevent R from turning strings into factors
+* You can also simply recast any variables you want to be strings (as they'll probably be just a few) using the ``as.character()`` function
+
+## Loading a data set from CSV
 
 ### Exercise 1: Load data
-Load the three `WHR` data sets from `DataWork > DataSets > Raw`. Create an object called `whrYY` with each data set.
+Use the `read.csv` function to load the three `WHR` data sets from `DataWork > DataSets > Raw`. Create an object called `whrYY` with each data set.
 
- * TIP: use the ``file.path()`` function and the ``rawData`` object created in the master to simplify the folder path.
+ * TIP 1: use the ``file.path()`` function and the ``rawData`` object created in the master to simplify the folder path.
+ * TIP 2: for this data set, we want to read strings as strings, not factors.
 
 
 ## Loading a data set from CSV
@@ -137,14 +153,6 @@ whr17 <- read.csv(file.path(Data,"Raw/WHR2017.csv"),
                   stringsAsFactors = FALSE)
   
 ```
-
-## Loading a data set from CSV
-
-* R reads string variables as factors as default
-* This format saves memory, but can be tricky if you actually want to use the variables as strings (which is rarely the case)
-* You can specify the option ``stringsAsFactors = FALSE`` to prevent R from turning strings into factors
-* You can also simply recast any variables you want to be strings (as they'll probably be just a few) using the ``as.character()`` function
-
 
 # Exploring a data set
 
@@ -245,7 +253,8 @@ n_distinct(whr15$Country, na.rm = TRUE)
 
 ## ID variables
 
-```{r}
+We did the same for the other two data sets:
+```{r, size = "footnotesize"}
 n_distinct(whr16$Country, na.rm = TRUE) == nrow(whr16)
 
 n_distinct(whr17$Country, na.rm = TRUE) == nrow(whr17)
@@ -319,7 +328,7 @@ whr17$Country[whr17$Country == "Taiwan Province of China"] <- "Taiwan"
   * So let's add a `year` variable so we can tell them apart
 
 ### Exercise 6: creating variables
-Create a variable called `year` in each WHR data set identifying what year it refers to,
+Create a variable called `year` in each WHR data set identifying what year it refers to.
 
 ## Creating variables
 
@@ -340,7 +349,7 @@ whr17$year <- 2017
 ### ``rbind(...)``
 Take a sequence of vector, matrix or data-frame arguments and combine by rows.
 
-* **...:** vectors or matrices to be combined
+* **...:** vectors or matrices to be combined (separated by comma)
 
 ## Appending and merging
 
@@ -391,8 +400,8 @@ To fix the first issue, we will merge the region variable from 2016 to the 2017 
 ### ``select(.data, ...)``
 Keeps only the variables you mention.
 
-* **.data:** a data set
-* **...:** one or more unquoted expressions separated by commas indicating the names of the variables you want to keep
+  * **.data: ** a data set
+  * **...:** one or more unquoted expressions separated by commas indicating the names of the variables you want to keep
 
 ## Subsetting
 
@@ -545,6 +554,37 @@ names(whr17) <-  newnames
 whr_panel <- rbind(whr15, whr16, whr17)
 ```
 
+# Saving a data set
+
+## Saving a data set to csv
+
+* The data set you have now is the same data set we've been using for earlier sessions, so we can save it now
+* As mentioned before, R data sets are often save as csv
+* To save a data set, we use the ``write.csv()`` function:
+
+### ``write.csv(x, file, row.names = TRUE)``
+* **``x``:** the object (usually a data frame) you want to export to CSV
+* **``file``:** the file path to where you want to save it, including the file name and the format (".csv")
+* **``row.names``**: by default, R adds a column to the CSV file with the names (or numbers) of the rows in the data frame. Set it to ``FALSE`` if you don't want that column to be exported
+
+
+## Saving a data set to csv
+
+### Exercise 12: save the data set
+
+Save the ``whr_panel`` data set to DataWork > DataSets > Final.
+
+* TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
+
+## Saving a data set to csv
+
+```{r, eval = F}
+# Save the lwh data set
+write.csv(whr_panel,
+          file.path(finalData,"whr_panel.csv"),
+          row.names = F)
+```
+
 # Adding variables
 
 
@@ -565,10 +605,11 @@ whr_panel$happy_high <-
 ## Creating variables base on a formula
 
 ### `mutate(.data, ...)`
+
 Adds new variables and preserves existing
 
-  * ** .data: ** the data set you want to add a variable to
-  * **...:** name-value pairs of expressions. Use NULL to drop a variable
+  * **.data: ** the data set you want to add a variable to
+  * **...:**    name-value pairs of expressions. Use NULL to drop a variable
   
 
 ## Creating variables base on a formula
@@ -591,10 +632,11 @@ whr_panel <-
 
 ```{r}
 # You can do this for multiple variables at a time
-whr_panel <- mutate(whr_panel, 
-                    happy_high = happy_score > median(happy_score),
-                    happy_low = happy_score < median(happy_score),
-                    dystopia_res = NULL) # NULL drop the variable
+whr_panel <- 
+  mutate(whr_panel, 
+         happy_high = happy_score > median(happy_score),
+         happy_low = happy_score < median(happy_score),
+         dystopia_res = NULL) # NULL drops the variable
 ```
 
 ## Creating factor variables
@@ -626,7 +668,7 @@ Use the `mutate` function to create a variable called `region_cat` containing a 
 - TIP: to do this, you only need the first argument of the `factor` function
 
 ## Converting strings into factors
-```{r}
+```{r, size = "footnotesize"}
 # Create categorical region
 whr_panel <- 
   mutate(whr_panel,
@@ -641,14 +683,15 @@ levels(whr_panel$region_cat)
 
 The `labels` argument of the `factor` function can be used to assign labels to specific values
 
-```{r}
+```{r, size = "footnotesize"}
 # Assign 'not so happy'  and 'happy' as labels
 # for above of below median happy score, respectively
 whr_panel <- 
   mutate(whr_panel,
          happy_cat = factor(happy_high,
                             levels = c(FALSE, TRUE),
-                            labels = c("Not so happy", "Happy")))
+                            labels = c("Not so happy",
+                                       "Happy")))
 
 table(whr_panel$happy_cat)
 ```
@@ -657,14 +700,15 @@ table(whr_panel$happy_cat)
 
 The `ordered` argument of the `factor` function can be used tell R to always display the categories in a certain order.
 
-```{r}
+```{r, size = "footnotesize"}
 # Assign 'not so happy'  and 'happy' as labels
 # for above of below median happy score, respectively
 whr_panel <- 
   mutate(whr_panel,
          happy_ord = factor(happy_high,
                             levels = c(FALSE, TRUE),
-                            labels = c("Not so happy", "Happy"),
+                            labels = c("Not so happy", 
+                                       "Happy"),
                             ordered = TRUE))
 
 table(whr_panel$happy_ord)
@@ -736,12 +780,12 @@ The R equivalent of a `.dta` file is a `.Rda` file. It can be saved and loaded u
 Writes a single R object to a file.
 
 * **object:** the R object to be save
-* **file:** the file path to where it should be saved
+* **file: ** the file path to where it should be saved
 
 ### `readRDS(file)`
 Load a single R object from a file.
 
-* **file:** the file path to the data set
+* **file: ** the file path to the data set
 
 
 ## Saving a data set as R data
@@ -759,26 +803,65 @@ whr_panel <-
 
 # Appendix
 
+## Saving a data set as R data
+
+* The problem with CSVs is that they cannot differentiate between strings and factors
+* They also don't save factor orders
+* Data attributes (which are beyong the scope of this training, but also useful to document data sets) are also lost in csv data
+
+
+## Saving a data set as R data
+
+The R equivalent of a `.dta` file is a `.Rda` file. It can be saved and loaded using the following commands:
+
+### `saveRDS(object, file = "")`
+Writes a single R object to a file.
+
+* **object:** the R object to be save
+* **file: ** the file path to where it should be saved
+
+### `readRDS(file)`
+Load a single R object from a file.
+
+* **file: ** the file path to the data set
+
+
+## Saving a data set as R data
+
+```{r}
+# Save the data set
+saveRDS(whr_panel,
+        file = file.path(finalData, 
+                         "whr_panel.Rda"))
+
+# And load it again
+whr_panel <- 
+  readRDS(file.path(finalData, 
+                    "whr_panel.Rda"))
+
+```
 ## Saving a data set to Stata
 
 ### ``write.dta13(data, file)``
 Writes a Stata dta-file bytewise and saves the data into a dta-file.
 
-* **data:** A data frame
-* **file:** Path to the dta file you want to export
+* **data: ** A data frame
+* **file: ** Path to the dta file you want to export
 
-## Loading a Stata data set
-\scriptsize
+## Saving a data set to Stata
 
 ```{r}
+# This command doesn't handle ordered factors well
+whr_panel$happy_ord <- NULL
+
 # Export it 
 save.dta13(whr_panel,
-           finalData,
-           "whr_panel.dta")
+           file = file.path(finalData, 
+                            "whr_panel.dta"))
 
 # Load it again
-whr_panel <- read.dta13(file.path(finalData,
-                                 "whr_panel.dta"))
+whr_panel <- read.dta13(file.path(finalData, 
+                                  "whr_panel.dta"))
 ```
 
 
