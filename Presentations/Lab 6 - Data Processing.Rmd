@@ -676,13 +676,13 @@ table(whr_panel$happy_ord)
 
 These are the tidyverse functions to reshape
 ```{r}
-whr_happy_wide <- spread(whr_happy,
+whr_happy_wide <- spread(whr_panel,
                          key = year,
-                         value = happy)
+                         value = happy_high)
 
 whr_happy_long <- gather(whr_happy_wide,
                          key = year,
-                         value = happy,
+                         value = happy_high,
                          `2015`, `2016`, `2017`)
 
 ```
@@ -704,7 +704,7 @@ This is more similar to Stata
 * **``row.names``**: by default, R adds a column to the CSV file with the names (or numbers) of the rows in the data frame. Set it to ``FALSE`` if you don't want that column to be exported
 
 
-## Saving a data set
+## Saving a data set to csv
 
 ### Exercise 12: save the data set
 
@@ -712,7 +712,7 @@ Save the ``whr_panel`` data set to DataWork > DataSets > Final.
 
 * TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
 
-## Saving a data set
+## Saving a data set to csv
 
 ```{r, eval = F}
 # Save the lwh data set
@@ -721,12 +721,41 @@ write.csv(whr_panel,
           row.names = F)
 ```
 
-## Saving a data set to .Rdata
+## Saving a data set as R data
 
 * The problem with CSVs is that they cannot differentiate between strings and factors
 * They also don't save factor orders
-* Data attributes are also lost in csv data
+* Data attributes (which are beyong the scope of this training, but also useful to document data sets) are also lost in csv data
 
+
+## Saving a data set as R data
+
+The R equivalent of a `.dta` file is a `.Rda` file. It can be saved and loaded using the following commands:
+
+### `saveRDS(object, file = "")`
+Writes a single R object to a file.
+
+* **object:** the R object to be save
+* **file:** the file path to where it should be saved
+
+### `readRDS(file)`
+Load a single R object from a file.
+
+* **file:** the file path to the data set
+
+
+## Saving a data set as R data
+
+```{r}
+# Save the data set
+saveRDS(whr_panel,
+        file = file.path(finalData, "whr_panel.Rda"))
+
+# And load it again
+whr_panel <- 
+  readRDS(file.path(finalData, "whr_panel.Rda"))
+
+```
 
 # Appendix
 
@@ -744,8 +773,8 @@ Writes a Stata dta-file bytewise and saves the data into a dta-file.
 ```{r}
 # Export it 
 save.dta13(whr_panel,
-           file.path(finalData,
-                     "whr_panel.dta"))
+           finalData,
+           "whr_panel.dta")
 
 # Load it again
 whr_panel <- read.dta13(file.path(finalData,
