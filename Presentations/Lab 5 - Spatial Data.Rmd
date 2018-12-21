@@ -19,6 +19,79 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, echo = F, eval=T}
+# File paths
+
+if (Sys.getenv("USERNAME") == "luiza"){
+  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "WB501238"){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "Leonardo"){
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "WB519128"){
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
+}
+
+library(tidyverse, verbose = F)
+library(readstata13)
+library(data.table)
+
+# File paths
+dataWorkFolder    <- file.path(projectFolder,"DataWork")
+
+Data              <- file.path(dataWorkFolder,"DataSets")
+finalData         <- file.path(Data,"Final")
+rawData           <- file.path(Data,"Raw")
+
+```
+
+## Introduction
+
+Before we start, let's make sure we're all set:
+
+  1. Start a fresh session.
+  2. Make sure the `tidyverse` package is listed in the `packages` vector of your Master script. If it's not installed, install it.
+  3. Run the Master script to load all the necessary packages and set file paths.
+  4. Remember to disable the `PACKAGES` switch in the Master script if you already installed the necessary packages. This will save you a lot of time.
+
+
+## Introduction
+
+Here's a shortcut if you missed the last session:
+
+\scriptsize
+
+```{r, eval= F}
+  # Install packages
+  install.packages(c("rgdal", "broom", "ggplot2",
+                     "ggmap", "raster", "leaflet",
+                     "rgeos"))
+  
+  # Load packages
+  library(tidyverse)
+  library(rworldmap)
+  library(rgdal)
+  library(ggmap)
+  library(ggplot2)
+  library(broom)
+  library(ggrepel)
+
+  #  Set folder paths
+  projectFolder <- "YOUR/FOLDER/PATH"
+  finalData     <- file.path(projectFolder, 
+                             "DataWork", "DataSets", "Final")
+
+```
+
 # GIS Overview
 
 ## GIS Overview
@@ -57,9 +130,6 @@ To see why projections matter, watch this video from the West Wing: click [here]
 
 
 ```{r, eval=T, echo=F}
-#finalData <- "C:/Users/wb521633/Dropbox/World Bank/dime-r-training/DataWork/DataSets/Final"
-#finalData <- "~/Dropbox/World Bank/dime-r-training/DataWork/DataSets/Final"
-finalData <- "~/Documents/GitHub/dime-r-training/DataWork/DataSets/Final"
 setwd(finalData)
 ```
 
