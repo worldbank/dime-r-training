@@ -380,11 +380,12 @@ There are multiple ways to do this, but We will construct a simple table using t
 
 ## Descriptives tables - Create tables from scratch
 
-`aggregate(X, by, FUN)`:
+### `aggregate(formula, data, FUN, ...,)`:
 
- * __x__: a data frame or column
- * __by__: a list of grouping variables
- * __FUN__: a function to compute statistics
+ * **formula:** a formula, such as y ~ x or cbind(y1, y2) ~ x1 + x2, where the y variables are numeric data to be split into groups according to the grouping x variables
+ * **data: ** a data frame (or list) from which the variables in formula should be take
+ * **FUN:** a function to compute statistics
+ * **...:** further arguments passed to or used by FUN
 
 ## Descriptives tables - Create tables from scratch
 
