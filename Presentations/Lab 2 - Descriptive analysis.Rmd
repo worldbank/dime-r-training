@@ -86,8 +86,6 @@ First, let's load the data that is going to be used in the training.
 
 ### Load the data
 ```{r, include = T, results = "hide", eval = F}
-  #### Load CSV data
-
   # Replace with where your data is
   FolderPath <- file.path("YOUR FOLDER PATH HERE")
 
@@ -183,7 +181,7 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 ## Quick summary statistics
 
 
-`summary(x, digits)` - equivalent to Stata's *summarize*, displays summary statistics. Its arguments are:
+### `summary(x, digits)` - equivalent to Stata's *summarize*, displays summary statistics. Its arguments are:
 
  * **x:** the object you want to summarize, usually a vector or data frame
  * **digits:** the number of decimal digits to be displayed
@@ -209,15 +207,15 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 ## Quick summary statistics
  
  
-``table()`` - equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments are vectors to be tabulated.
+### ``table()`` 
 
-\begin{block}{Exercise 2}
-  Use the \texttt{table()} function to display frequency tables for:
-    \begin{enumerate}
-      \item The variable \textit{year} in the \textit{whr} data frame
-      \item The variables \textit{region} and \textit{year} in the \textit{whr} data frame, simultaneously
-    \end{enumerate}
-\end{block}
+Equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments are vectors to be tabulated.
+
+### Exercise 2
+Use the `table()` function to display frequency tables for:
+    
+1. The variable `year` in the `whr` data frame
+2. The variables `region` and `year` in the `whr` data frame, simultaneously
 
 
 ## Quick summary statistics
@@ -244,7 +242,7 @@ RStudio's default is to print warning messages, but not stop the code at the lin
  1. Create another data.frame called `whr17` with only 2017 observations
  2. Use the `table()` function to tabulate a the `region` variable and a boolean vector.
  
- TIP: Using the condition directly in the function or creating a separate vector will yield the exact same results.
+ - TIP: Using the condition directly in the function or creating a separate vector will yield the exact same results.
 
 ## Quick summary statistics
 \scriptsize
@@ -312,7 +310,7 @@ To export the table to \LaTeX\, we will use a couple of additional arguments of 
 
 But first, let's pick a few variables of interest in the `whr` data set so the table fits in these slides.
 
-### Exercise 2
+### Exercise 3
 
  1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
  2. Use this vector to subset the whr data-set to contain only these variables. Call the new data frame `whr_simp`.
@@ -337,7 +335,8 @@ whr_simp <- whr[, covariates]
 
 ## Export tables to \LaTeX\
 
-### Exercise 3: Now use the stargazer function to export the `whr_simp`:
+### Exercise 4
+Now use the stargazer function to export the `whr_simp`:
 
  1. Create a vector `cov_labels` containing labels for the `happy_score`, `gdp_pc`, `freedom` and `trust_gov_corr` variables.
  2. Set ``whr_simp`` as the `x` argument this time
@@ -389,7 +388,7 @@ There are multiple ways to do this, but We will construct a simple table using t
 
 ## Descriptives tables - Create tables from scratch
 
-### Exercise 3
+### Exercise 5
  Use the `aggregate()` function to create a data frame called `happy_table` with the mean of `happy_score` per year and region. 
 
 ```{r, eval = T, results = "hide"}
@@ -428,7 +427,7 @@ print(happy_table[1:19,])
 
 ## Descriptives tables - Create tables from scratch
 
-### Exercise 4
+### Exercise 6
  Use the `spread` function to make the `happy_table` data frame wide in the `year` variable.
 
 
@@ -456,7 +455,7 @@ print(happy_table)
 
 With a data frame as input, `stargazer` by default tries to summarize it. So, to export this table we must specify one additional argument: `summary = F`.
 
-### Exercise 4
+### Exercise 7
 Print the ``happy_table`` table you created in exercise 6 using ``stargazer``. If you want, you can also save it using the ``out`` option.
 
 
@@ -575,7 +574,7 @@ stargazer(ht_wd,
 ## Descriptives tables - Create tables from scratch
 \framesubtitle{Challenge exercise}
 
-### Exercise -  Try to replicate the table in the previous slide:
+### Exercise 8: Try to replicate the table in the previous slide
 
 There are multiple ways to do this. Here are two painful but straightforward approaches that you get extra points if you avoid:
 
@@ -612,7 +611,7 @@ There are several ways to export R objects to Excel. We will use here the the `w
 
 ## Export tables to Excel
 
-### Exercise 5
+### Exercise 9
 
 Use the `write.xlsx()` function to save the `happy_table` you table created in Exercise 4 into an xlsx file.
 
