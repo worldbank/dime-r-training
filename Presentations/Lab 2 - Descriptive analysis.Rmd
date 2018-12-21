@@ -143,21 +143,6 @@ install.packages("stargazer",
 
 * You only have to install a package once, but you have to load it every new session. 
 
-
-## Using packages
-
-Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
-
-* swirl - An interactive learning environment for R and statistics.
-* tidyverse - a collection of R packages designed for data science.
-    + ggplot2 - beautiful and versatile graphics. The syntax is a bit of pain, but it can fulfill all of graphics dreams.
-* Rcmdr - Easy to use GUI. 
-* stargazer - awesome latex regression and summary statistics tables.
-* foreign - reads dtas and other formats from inferior statistical software.
-* sp, sf, rgeos, raster, rgdal - spatial analysis.
-* RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
-
-
 ## Using packages
 
 ### Exercise 1
@@ -803,6 +788,19 @@ stargazer(reg1,
   
   
 # Appendix
+
+## Appendix - Packages
+
+Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
+
+* swirl - An interactive learning environment for R and statistics.
+* tidyverse - a collection of R packages designed for data science.
+    + ggplot2 - beautiful and versatile graphics. The syntax is a bit of pain, but it can fulfill all of graphics dreams.
+* Rcmdr - Easy to use GUI. 
+* stargazer - awesome latex regression and summary statistics tables.
+* foreign - reads dtas and other formats from inferior statistical software.
+* sp, sf, rgeos, raster, rgdal - spatial analysis.
+* RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
 
 ## Appendix - Comments and shortcuts
 
