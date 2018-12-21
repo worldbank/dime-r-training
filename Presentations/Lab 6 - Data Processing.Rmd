@@ -108,7 +108,7 @@ Here's a shortcut if you missed the last session:
   #  Set folder paths
   projectFolder <- "YOUR/FOLDER/PATH"
   finalData     <- file.path(projectFolder, "DataWork", "DataSets", "Final")
-  rawlData      <- file.path(projectFolder, "DataWork", "DataSets", "Raw")
+  rawData       <- file.path(projectFolder, "DataWork", "DataSets", "Raw")
 
 ```
 
@@ -140,15 +140,15 @@ Use the `read.csv` function to load the three `WHR` data sets from `DataWork > D
 ```{r}
 # Load the data sets (we'll discuss why the 
 # stringsAsFactors argument is necessary soon)
-whr15 <- read.csv(file.path(Data,"Raw/WHR2015.csv"),
+whr15 <- read.csv(file.path(rawData,"WHR2015.csv"),
                   header = TRUE,
                   stringsAsFactors = FALSE)
 
-whr16 <- read.csv(file.path(Data,"Raw/WHR2016.csv"),
+whr16 <- read.csv(file.path(rawData,"WHR2016.csv"),
                   header = TRUE,
                   stringsAsFactors = FALSE)
 
-whr17 <- read.csv(file.path(Data,"Raw/WHR2017.csv"),
+whr17 <- read.csv(file.path(rawData,"WHR2017.csv"),
                   header = TRUE,
                   stringsAsFactors = FALSE)
   
