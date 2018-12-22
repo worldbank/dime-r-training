@@ -12,6 +12,10 @@
 *.aux
 *.png
 *.DS_Store
+*.csv
+*.dbf
+*.cpg
+*.prj
+*.shp
 
 !Presentations/img/*
-*.csv
