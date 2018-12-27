@@ -2,7 +2,7 @@
 #                                                                              #
 #                                     DIME                                     #
 #                        Introduction to R for Stata users                     #                                     
-#                               MASTER DO_FILE                                 #                           
+#                                    MASTER                                    #                           
 #                                                                              #
 #------------------------------------------------------------------------------#
 
@@ -13,7 +13,7 @@
   
 # WRITTEN BY: Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Viotti
 
-#                                                     Last modified in May 2018
+#                                                     Last modified in Nov 2018
 
 # PART 0: Clear boiler plate --------------------------------------------------
   

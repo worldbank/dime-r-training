@@ -1,7 +1,7 @@
 ---
-title: "R basics for Stata users"
-subtitle: "Field Coordinator Training - R Track"
-date: "June 2018"
+title: "R basics"
+subtitle: "R for Stata Users"
+date: "November-December 2018"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -9,7 +9,7 @@ output:
     theme: "Madrid"
     colortheme: "whale"
     fonttheme: "default"
-    toc: true
+    toc: false
     includes:
       in_header: header.tex
 ---
@@ -25,17 +25,17 @@ library(datasets)
 # File paths
 
 if (Sys.getenv("USERNAME") == "WB501238"){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
   
 }
 
 if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
 
 }
 
 if (Sys.getenv("USERNAME") == "WB519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/R-Training")
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
 # File paths
@@ -44,11 +44,13 @@ if (Sys.getenv("USERNAME") == "WB519128"){
   Data              <- file.path(dataWorkFolder,"DataSets")
   finalData         <- file.path(Data,"Final")
 # Load CSV data
-lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
+# lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
+#                 header = T)
+
+whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
                 header = T)
 
 ```
-
 
 # Introduction
 
@@ -56,35 +58,52 @@ lwh <- read.csv(file.path(finalData,"lwh_clean.csv"),
 
 These training sessions will offer a quick introduction to R, its amazing features and why it is so much better than Stata. 
 
-R is a powerful and flexible tool with a big and active community of users and developers that constantly posts in blogs and forums.
+## Introduction
+
+This first session will present the basic concepts you will need to use R.
+
+The next sessions will include:
+
+ * __Exporting summary statistics and regression tables__ (Nov 20)
+ * __Creating awesome-looking plots__ (Nov 29)
+ * __Writing reproducible and readable code__ (Dec 6)
+ * __Creating awesome-looking maps__ (Dec 13)
+ * __Cleaning data__ (Dec 20)
+
+
+For the most recent versions of these trainings, visit the R-training GitHub repo at
+https://github.com/worldbank/dime-r-training
+
+(currently under the 'development' branch)
 
 
 ## Introduction
 
-Why choose R over Stata?
+Some advantages of R over Stata:
 
-  * It is way cooler.
   * It is less specialized:
     + More flexibility when programming.
-    + Many other functionalities.
-  * Much broader network of users in general:
-    + Using google is a lot easier (you'll never want to see Statalist again in your life).
+    + Many more functionalities.
+  * Much broader network of users:
+    + More resources online, which makes using Google a lot easier. You'll never want to see Statalist again in your life.
     + Development of new features and bug fixes happens faster.
-  * It makes prettier graphs.
+  * It is way cooler.
+
 
 ## Introduction
 
-What are the possible disadvantages of R?
+Some possible disadvantages of R:
 
-  * Steeper learning curve (at least in the beginning).
+  * Higher cost of entry than Stata.
+    + That doesn't mean that the learning curve is steeper all the way up!
   * Stata is more specialized:
-    + Certain common tasks are simpler in Stata, especially when you're doing them for the first time in R.
+    + Certain common tasks are simpler in Stata.
   * Stata has wider adoption among micro-econometricians.
     + Network externalities in your work environment.
     + Development of new specialized techniques and tools could happen faster (e.g. *ietoolkit*).
 
-## Introduction
 
+## Introduction
 
 Here are some other advantages:
 
@@ -100,23 +119,17 @@ Here are some other advantages:
 
 * You can create complex Markdown documents. This presentation, for example, is entirely done in RStudio.
 
-* You can create dashboards and online applications with the Shiny package.
-
+* You can create interactive dashboards and online applications with the Shiny package.
 
 ## Introduction
 
-This first session will present the basic concepts you will need to use R.
+What about Python?
 
-The next sessions will include:
+  * Python is even more flexible and has more users than R. So, why should I bother to learn   R?
+  * Despite being super popular for data science, Python has fewer libraries developed for econometrics.
+  * Python still cannot do everything Stata does without some trouble, R can.
+  * R and Python are very similar, specially if your background is in Stata.
 
-* __Coding for reproducible research__ - Programming basics and best practices.
-* __Data processing__ - Data processing workflow and main functions.
-* __Descriptive analysis__ - Exploratory and publication tables.
-* __Data visualization__ - Exploratory and publication graphs.
-* __Spatial analysis__ - GIS basics in R.
-
-For the most recent versions of these trainings, visit the R-training GitHub repo at
-https://github.com/luizaandrade/R-Training
 
 # Getting started
 
@@ -130,19 +143,23 @@ This training requires that you have R installed in your computer:
 
  * If you're in the US, you can directly visit the mirror at Berkley university at (https://cran.cnr.berkeley.edu).
 
- * Although, not necessary, we also strongly suggest installing R studio. You can get it in (https://www.rstudio.com/), but you need to install R first.
+ * we also strongly suggest installing R studio. You can get it in (https://www.rstudio.com/), but you need to install R first.
+
 
 ## Getting started
 
-### Exercise 1: Import data
-
 Let's start by loading the data set we'll be using:
 
-\begin{enumerate}
-  \item In RStudio, go to File > Import Dataset > From Text (Base) and open the \texttt{lwh\_clean.csv} file. Depending on your Rstudio version, it might be From CSV
-  \item The file should be in Session Materials/R Track/DataWork/DataSets/Final
-  \item Change the name to `lwh` on the import window
-\end{enumerate}
+### Exercise 1: Import data
+
+ 1. In RStudio, go to File > Import Dataset > From Text (Base) and open the whr_panel.csv file. 
+    + Depending on your Rstudio version, it might be File > Import Dataset > From CSV
+    
+ 2. The file should be in GitHub/dime-r-training/DataWork/DataSets/Final
+ 
+ 3. Change the name to `whr` on the import window
+
+
 
 ## Getting started
 
@@ -155,23 +172,25 @@ Let's start by loading the data set we'll be using:
 
 \begin{figure}
 \centering
-  \includegraphics[scale=0.25]{img/import_data3.png}
+  \includegraphics[scale=0.5]{img/import_data2.png}
 \end{figure}
 
 # RStudio interface
 
 ## RStudio interface
 
-```{r, out.width = "100%", echo=FALSE}
-knitr::include_graphics("img/interface2.png")
-#![](img/interface.png)
-```
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/interface.png}
+\end{figure}
+
+
 
 ## RStudio interface
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/enviroment2.png}
+  \includegraphics[width=12cm,height=7.7cm]{img/enviroment.png}
 \end{figure}
 
 ## RStudio interface
@@ -195,6 +214,12 @@ knitr::include_graphics("img/interface2.png")
   \includegraphics[width=12cm,height=7.7cm]{img/scritpt3.png}
 \end{figure}
 
+## RStudio interface
+
+\begin{figure}
+\centering
+  \includegraphics[width=12cm,height=7.7cm]{img/scritpt4.png}
+\end{figure}
 
 # Object-oriented language
 
@@ -218,51 +243,69 @@ knitr::include_graphics("img/interface2.png")
 
 * Whenever you run anything you intend to use in the future, you need to store it as an object.
 
+
+
 ## Object-oriented language
 
-To better understand the idea, we're going to use the data from the Rwanda LWH project. First, let's take a look at the data.
+To better understand the idea, we're going to use the data from the United Nations' World Happiness Report. First, let's take a look at the data.
 
 Type the following code to explore the data:
 ```{r, include = T, results = "hide"}
 
 # We can use the function View() to browse the whole data
-View(lwh)
+View(whr)
 
-# Alternatively we can print the first 5 obs. with head()
-head(lwh)
+# Alternatively we can print the first 6 obs. with head()
+head(whr)
 
 ```
-
 
 ## Object-oriented language
 
-Now, let's try some simple manipulations. First, assume we're only interested in data of the year 2018.
+\begin{figure}
+\centering
+  \includegraphics[scale=0.4]{img/View.png}
+\end{figure}
 
-### Exercise 2: Subset the data 
-1. Subset the ``lwh`` data set, keeping only observations where variable `year` equals `2018`.
+## Object-oriented language
+\scriptsize
 
-```{r, eval=FALSE}
-# To do that we'll use the subset() function
-subset(lwh, year == 2018)
+```{r, include = T}
+
+head(whr)
 
 ```
 
-2. Then, look again at the first 5 observations
+## Object-oriented language
+
+Now, let's try some simple manipulations. First, assume we're only interested in data of the year 2015.
+
+### Exercise 2: Subset the data 
+
+1. Subset the data set, keeping only observations where variable `year` equals `2015`.
+
+```{r, eval=FALSE}
+# To do that we'll use the subset() function
+subset(whr, year == 2015)
+
+```
+
+2. Then, look again at the first 6 observations
 ```{r, include = T, results = "hide"}
 # Use the head() function again
-head(lwh)
+head(whr)
 ```
 
 ## Object-oriented language
 \scriptsize
 
 ```{r, eval = F}
-head(lwh)
+head(whr)
 ```
 
 ```{r, echo = F}
 # Use the head() function again
-head(lwh[,1:15])
+head(whr[,1:12])
 ```
 
 ## Object-oriented language
@@ -272,8 +315,8 @@ We can see that nothing happened to the original data. This happens because we d
 ### To store an object, we use the assignment operator (`<-`):
 
 ```{r, include = T, results = "hide"}
-# Assign a value of the Answer to the Ultimate Question of
-# Life, the Universe, and Everything
+# Assign the Answer to the Ultimate Question of Life, 
+# the Universe, and Everything
 x <- 42
 ```
 
@@ -283,17 +326,17 @@ From now on, *x* is associated with the stored value (until you replace it delet
 
 ### Exercise 3: Create an object
 
-Create a new data set, called `lwh2018`, that is a subset of the ``lwh`` data set containing only data from the year 2018.
+Create a new data set, called `whr2015`, that is a subset of the `whr` data set containing only data from the year 2015.
 
 ```{r, include = T, results = "hide"}
 # Using the same function but now assigning it to an object
-lwh2018 <- subset(lwh, year == 2018)
+whr2015 <- subset(whr, year == 2015)
 
 # Display the 5 first obs. of the new data
-head(lwh2018)
+head(whr2015)
 
 # Notice that we still have the original data set intact
-head(lwh)
+head(whr)
 
 ```
 
@@ -301,48 +344,65 @@ head(lwh)
 \scriptsize
 
 ```{r, eval= F}
-head(lwh2018)
+head(whr2015)
 ```
 
 ```{r, echo= F}
 # Use the head() function again
-head(lwh2018[,1:12])
+head(whr2015[,1:12])
 ```
 
 
+## Object-oriented language
+\scriptsize
 
-<!-- ## Object-oriented language -->
+```{r, eval= F}
+head(whr)
+```
 
-<!-- \begin{figure} -->
-<!-- \centering -->
-<!--   \includegraphics[scale=0.3]{img/enviroment_with_2.png} -->
-<!-- \end{figure} -->
+```{r, echo= F}
+# Use the head() function again
+head(whr[,1:12])
+```
+
 
 ## Object-oriented language
 
-### Two an important concepts to take note:
- 1. In R, if you want to change your data, you need to store it in an object. It is possible to simply replace the original data, but often, it's more practical to create a new dataset.
+You can also see that your environment pane now has two objects:
 
- 2. Print (display) is built into R. If you execute an action and don't store it anywhere, R will simply print the results of that action but won't save anything in the memory.
+\begin{figure}
+\centering
+  \includegraphics[scale=0.5]{img/enviroment_2vars.png}
+\end{figure}
 
+## Object-oriented language
+
+### Two important concepts to take note:
+ 1. In R, if you want to change your data, you need to store it in an object.
+ 2.  It is possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
+ 3. Print (display) is built into R. If you execute any action without storing it, R will simply print the results of that action but won't save anything in the memory.
 
 
 # R objects
 
 ## R objects
 
-Objects can have different structures, that is, different ways to store data. Objects are the building blocks of R programming. You can create and manipulate them to explore your data and construct analytical outputs.
+Objects are the building blocks of R programming. T his section will explore some of the most common.
 
-There are several types of objects. Here are the ones we will cover:
+This will give you the foundation to explore your data and construct analytical outputs.
 
-* __Vectors:__ an unidimensional object that stores a sequence of values
+## R objects
+
+Here are the types of object we will cover today:
+
+* __Vectors:__ an uni-dimensional object that stores a sequence of values
 * __Data frames:__ a combination of different vectors of the same length (the same as your data set in Stata)
 * __Lists:__ a multidimensional object that can store several objects of different dimension
 
 ## R objects
 \framesubtitle{Vectors}
 
-A vector is an unidimensional object composed by one or more scalars of the same type.
+A vector is an uni-dimensional object composed by one or more scalars of the same type.
 
 ### Use the following code to create vectors in two different ways
 ```{r}
@@ -363,25 +423,25 @@ v2[4]
 ## R objects
 \framesubtitle{Vectors}
 
-To R, each of the columns of `lwh` is a vector.
+To R, each of the columns of `whr` is a vector.
 
 ### Calling a vector from a `data.frame` column
-We use the `$` to call vector (variables) by their names in a `data.frame`
+We use the `$` to call vectors (variables) by their names in a `data.frame`
 
 ### Type the following code:
 ```{r}
-# Create a vector with the values of `age_hhh` variable
-age_vec <- lwh$age_hhh
+# Create a vector with the values of the `year` variable
+year_vec <- whr$year
 
-# See the 13th element of the column
-lwh$age_hhh[67]
+# See the 3 first elements of the year column
+whr$year[1:3]
 
 ```
 
 ## R objects
 \framesubtitle{Data Frames}
 
-The `lwh` and `lwh2018` objects are both data frames. You can also construct a new data.frame from scratch by combining vectors.
+The `whr` and `whr2015` objects are both data frames. You can also construct a new data frame from scratch by combining vectors with the same number of elements  .
 
 ### Now, type the following code to create a new data frame
 ```{r}
@@ -397,14 +457,14 @@ Since a data frame has two dimensions, you can use indexing on both:
 
 ### Numeric indexing
 ```{r, eval = F}
-# The first column of lwh
-lwh[,1]
+# The first column of whr
+whr[,1]
 
-# The 45th line of lwh
-lwh[45,]
+# The 45th line of whr
+whr[45,]
 
 # Or the 45th element of the first line
-lwh[45,1]
+whr[45,1]
 
 ```
 
@@ -415,8 +475,9 @@ Alternatively, you can use the column names for indexing, which is the same as u
 
 ### Names indexing
 ```{r}
-# Or the 45th element of the hh_code column
-lwh[45,"hh_code"]
+# Or the 22th element of the country column
+whr[22,"country"] # The same as whr$country[22]
+
 ```
 
 ## R objects
@@ -475,7 +536,7 @@ Create two string vector containing the names of commonly used statistical softw
 str_vec <- c("R",
              "Python",
              "SAS",
-             "Microsoft Excel",
+             "Excel",
              "Stata")
 ```
 Now print them to check them out.
@@ -516,7 +577,7 @@ paste(str_vec[1], str_scalar, str_vec[5])
 R also has other more complex ways of storing data. These are the most used:
 
 ### Factors
-Factors are numeric categorical values with text label, equivalent to labelled variables in Stata. Turning strings into factors makes it easier to run different analyses on them and also uses less space in the memory, which is why data frames do that by default.
+Factors are numeric categorical values with text label, equivalent to labelled variables in Stata. Turning strings into factors makes it easier to run different analyses on them and also uses less space in your memory.
 
 ### Booleans
 Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as values. They are automatically generated when performing logical operations
@@ -524,15 +585,12 @@ Booleans are logical binary variables, accepting either `TRUE` or `FALSE` as val
 ## Advanced types of data
 \framesubtitle{Factors}
 
-You can see that in `lwh` the `wave`, `treatment_hh`, `treatment_site`, `site_code` and `gender_hhh` are factor variables. You can see in your enviroment panel the type of all your variables, and for factors the number of levels.
+In `whr`, we can see that `country` and `region` are factor variables. In your environment panel, there is the information of the type of all variables, and for factors the number of levels.
 
-<!-- ## Advanced types of data -->
-<!-- \framesubtitle{Factors} -->
-
-<!-- \begin{figure} -->
-<!-- \centering -->
-<!--   \includegraphics[scale=0.3]{img/factors.png} -->
-<!-- \end{figure} -->
+\begin{figure}
+\centering
+  \includegraphics[scale=0.46]{img/enviroment_factors.png}
+\end{figure}
 
 
 ## Advanced types of data
@@ -550,14 +608,20 @@ Unlike Stata, in R
 ## Advanced types of data
 \framesubtitle{Booleans}
 
-Boolean data is not normally used directly in data frames, but rather to express the results of a logical condition.
+Boolean data is the result of logical conditions 
+
+  * Whenever you're using an `if` statement in Stata, you're implicitly using boolean data. 
+  * The difference is that in R, this can be done in 2 steps.
+
+## Advanced types of data
+\framesubtitle{Booleans}
 
 ### Exercise 6:
 Create boolean vector with the condition of annual income below average:
 ```{r}
 # Create vector
-bool_vec <- (lwh$income_total_win < 
-               mean(lwh$income_total_win))
+bool_vec <- (whr$happy_rank <
+               mean(whr$happy_rank))
 
 # See the 5 first elements of the vector
 head(bool_vec)
@@ -567,37 +631,39 @@ head(bool_vec)
 ## Advanced types of data
 \framesubtitle{Booleans}
 
-Let's use the boolean vector created to add a dummy variable in the `lwh` data set for the same condition.
+Let's use the boolean vector created to add a dummy variable in the `whr` data set for the same condition.
 
 ### Exercise 6:
- 1. Create a column in `lwh` containing zeros and call it `income_low`. You can do this by typing:
+ 1. Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
-```{r,  eval = F}
-lwh$income_low <- 0
+```{r,  eval = T}
+whr$rank_low <- 0
 ```
 
  2. Use `bool_vec` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
 
 ```{r,  eval = F}
-lwh$income_low[bool_vec] <- 1
+whr$rank_low[bool_vec] <- 1
 ```
 
 ## Advanced types of data
 \framesubtitle{Booleans}
 
 ```{r}
-# Create column with zeros
-lwh$income_low <- 0
 
 # Replace with 1 those obs that meet the condition
-lwh$income_low[bool_vec] <- 1
+whr$rank_low [bool_vec] <- 1 
+# is the same as
+whr$rank_low[whr$happy_rank < mean(whr$happy_rank)] <- 1 
+# This in stata would be 
+# replace rank_low = 1 if (...)
+
+
+# We can use the summary function to get descriptives
+summary(whr$rank_low)
+
 ```
 
-```{r}
-# See the first 5. obs.
-head(lwh$income_low)
-
-```
 
 # Help, Google and Stackoverflow
 
@@ -623,7 +689,11 @@ help(summary)
 
  * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550.[^4]
 
- * The most powerful problem-solving tool in R, however, is Google. Searching the issue, you have or the error message displayed usually yields tons of results and will probably lead you to a Stack Overflow page where someone asked the same question and several people gave different answers.
+ * The most powerful problem-solving tool in R, however, is Google. Searching the something yields tons of results.
+ 
+ * Often that means a Stack Overflow page where someone asked the same question and several people gave different answers. Here's a typical example:
+ https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group
+ 
 
 [^4]: Check http://r4stats.com/articles/popularity/ for more.
 
@@ -674,8 +744,7 @@ https://www.r-graph-gallery.com/
 
 # Appendix
 
-
-## Syntax
+## Appendix - Syntax
 
 R's syntax is a bit heavier than Stata's:
 
@@ -692,7 +761,7 @@ Similarly to Stata:
  * Largely ignores white spaces.
 
 
-## RStudio interface
+## Appendix - RStudio interface
 
 ### Script
  Where you write your code. Just like a do file.
@@ -707,9 +776,9 @@ Similarly to Stata:
  Can display different things, including plots you create, packages loaded and help files.
 
 
-## Matrices
+## Appendix -  Matrices
 
-A matrix a bidimensional object composed by one or more vectors of the same type.
+A matrix a bi-dimensional object composed by one or more vectors of the same type.
 
 ### Type the following code to test two different ways of creating matrices
 ```{r, include = T, results = "hide"}
@@ -721,7 +790,7 @@ m2 <- matrix(c(1,1,2,3,5,8), ncol = 2)
 
 ```
 
-## Matrices
+## Appendix - Matrices
 
 ### Now use the following code to check the elements of these matrices by indexing
 ```{r, include = T, results = "hide"}
@@ -739,7 +808,7 @@ m1[,2]
 
 ```
 
-## Advanced types of data - Factors
+## Appendix - Advanced types of data - Factors
 \framesubtitle{Factors}
 
 
@@ -757,7 +826,7 @@ levels(fac_vec) = c('One','Two','Three')
 
 ```
 
-## Numbers and integers
+## Appendix - Numbers and integers
 
 ### Two scalars, one with a round number the other with a fractional part
 ```{r}
@@ -766,7 +835,7 @@ int <- 13
 num <- 12.99
 ```
 
-## Numbers and integers
+## Appendix - Numbers and integers
 
 ### Now we can see the objects classes with the *class()* function and test it with the *is.integer()* and *is.numeric()* functions.
 ```{r}
@@ -781,10 +850,10 @@ is.numeric(int)
 
 Did you notice anything strange? That happens because the default way R stores numbers is *numeric*, which is equivalent to *double* in Stata.
 
-## Numbers and integers
+## Appendix - Numbers and integers
 \framesubtitle{Numbers and integers}
 
-We can, however, coerce objects into different classes. We just need to be carefull because the result might not be what we're expecting.
+We can, however, coerce objects into different classes. We just need to be careful because the result might not be what we're expecting.
 
 ### Use the *as.integer()* and *round()* functions on the *num* object to see the difference:
 ```{r}

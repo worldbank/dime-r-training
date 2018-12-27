@@ -1,5 +1,4 @@
 *Data/*
-*.pdf
 *.do
 *.Rhistory
 *.xlsx
@@ -7,12 +6,12 @@
 *.out
 *.snm
 *.nav
-*.tex
 *.toc
 *.md
 *.vrb
 *.aux
 *.png
+*.DS_Store
 *.csv
 *.dbf
 *.cpg
@@ -20,4 +19,3 @@
 *.shp
 
 !Presentations/img/*
-*.pdf
