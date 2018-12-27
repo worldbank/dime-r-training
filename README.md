@@ -20,7 +20,7 @@ Other presentations were adopted in DIME's [Field Coordinator Training](http://w
 This material is developed under MIT license. See http://adampritchard.mit-license.org/ or see [the `LICENSE` file](https://github.com/worldbank/ietoolkit/blob/master/LICENSE) for details.
 
 ## Main Contact
-Luiza Cardoso de Andrade (lcardosodeandrad@worldbank.org)
+Luiza Cardoso de Andrade (lcardoso@worldbank.org)
 
 ## Authors
 Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Teixeira Viotti
