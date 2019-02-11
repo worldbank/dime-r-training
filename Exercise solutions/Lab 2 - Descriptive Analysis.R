@@ -11,6 +11,7 @@
   # Install stargazer
   install.packages("stargazer",
                    dependencies = TRUE)
+
   # Load stargazer
   library(stargazer)
 
@@ -118,3 +119,6 @@
             covar_labels = covar_labels,
             digits = 2,
             header = F)
+  
+  
+#=============================== The end ======================================#
