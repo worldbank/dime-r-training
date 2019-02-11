@@ -1,4 +1,5 @@
 *Data/*
+*.dta
 *.do
 *.Rhistory
 *.xlsx
@@ -17,5 +18,8 @@
 *.cpg
 *.prj
 *.shp
+*.shx
+*.Rda
+*.rds
 
 !Presentations/img/*
