@@ -1,8 +1,8 @@
 # ------------------------------------------------------------------------------ #
 #                                                                                #
 #                                     DIME                                       #
-#                          Data Visualization in R                               #
-#                                                                                #
+#                            Data Visualization in R                             #
+#                              Exercise Solutions                                #
 # ------------------------------------------------------------------------------ #
 
 # Set up -------------------------------------------------------------------------
@@ -47,18 +47,18 @@
   
   hist(whr_simp$happy_score, col = "green")
   
-  ### Exercise 3
+### Exercise 3 ----------------------------------------------------------------
   boxplot(whr$happy_score ~ whr$region, las = 2)
   
-  ### exercise 4
-  p1_happyfree <- 
+### exercise 4 ----------------------------------------------------------------
+  p1_happyfree <-  # save the plot, so next time we can easily add more features to the plot
     ggplot(whr,
            aes(y = happy_score,
                x = freedom)) +
     geom_point()
   print(p1_happyfree)
   
-  ### exercise 5
+### exercise 5 ----------------------------------------------------------------
   annualHappy<-
     aggregate(happy_score ~ year,
               data = whr,
@@ -72,14 +72,14 @@
   
   print(p2_happyyear)
   
-  ### exercise 6 - 1
+### exercise 6 - 1 -------------------------------------------------------------
   annualHappy_reg <-
     aggregate(happy_score ~ year + region,
               data = whr,
               FUN = mean)
   annualHappy_reg[1:10,]
   
-  ### exercise 6 - 2
+### exercise 6 - 2 -------------------------------------------------------------
   annualHappy_reg <-
     aggregate(happy_score ~ year + region,
               data = whr,
@@ -94,7 +94,7 @@
     geom_point()
   print(p3_happyreg)
   
-  ### exercise 7 - 1
+### exercise 7 - 1 -------------------------------------------------------------
   whr17 <- whr[whr$year == 2017, ]
   
   p5_happyfree17 <-
@@ -104,7 +104,7 @@
   
   print(p5_happyfree17)
   
-  ### exercise 7 - 2
+### exercise 7 - 2 -------------------------------------------------------------
   p6_happyfree17reg <- 
     ggplot(whr17, 
            aes(x = freedom,
@@ -113,7 +113,7 @@
   
   print(p6_happyfree17reg)
   
-  ### exercise 7 - 3
+### exercise 7 - 3 -------------------------------------------------------------
   p6_happyfree17reg <-
     ggplot(whr17, 
            aes(x = freedom,
@@ -122,7 +122,7 @@
                    size = gdp_pc))
   print(p6_happyfree17reg)
   
-  ### exercise 8
+### exercise 8 -----------------------------------------------------------------
   p6_happyfree17reg <-
     p6_happyfree17reg +
     ggtitle("My pretty plot") +
@@ -133,7 +133,7 @@
   
   print(p6_happyfree17reg)
   
-  ### exercise 9
+### exercise 9 ------------------------------------------------------------------
   Output <- "~/GitHub/dime-r-training/DataWork/Output"
   pdf(file = file.path(Output, "plot1.pdf"))
   
@@ -141,7 +141,7 @@
   
   dev.off()
   
-  ### exercise 10
+### exercise 10 -----------------------------------------------------------------
   library(plotly)
   ggplotly(p6_happyfree17reg, tooltip = c("country", "gdp_pc", "freedom", "happy_score"))
     
