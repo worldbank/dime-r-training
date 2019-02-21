@@ -21,7 +21,7 @@ for (year in 2015:2017) {
                 destfile = file.path(Data,paste0("Raw/WHR", year, ".csv")),
                 method = "curl")
 }
-#### the website requires registration to download the data set, so this link might not work
+#### the website requires registration to download the data set, so you probably have to log in and download the files manually
 
 dateDownloaded <- date()
 
@@ -98,8 +98,8 @@ whr17$year <- 2017
 ### Appending and merging data sets ------------------------------------------------
 
 ### Exercise 7: append data sets ---------------------------------------------------
-whr_panel <- rbind(whr15, whr16, whr17) # this one doesnt run
-whr_panel <- bind_rows(whr15, whr16, whr17)
+whr_panel <- rbind(whr15, whr16, whr17) # this one doesnt run, but we can fix it in the following steps
+whr_panel <- bind_rows(whr15, whr16, whr17) # this one will run, it did exactly the same job as rbind did.
 
 # checking for variables again
 setdiff(names(whr15), names(whr16))
@@ -163,7 +163,7 @@ names(whr16) <- newnames
 names(whr17) <- newnames
 
 ## Append the data
-whr_panel <- rbind(whr15, whr16, whr17) # the rbind works now!
+whr_panel <- rbind(whr15, whr16, whr17) # the rbind works now!In the same way "bind_rows" does.
 
 ### Saving a data set -----------------------------------------------------------
 
@@ -177,12 +177,12 @@ write.csv(whr_panel,
 ### Exercise 11: Create a variable based on a formula ---------------------------
 whr_panel <- 
   mutate(whr_panel,
-         happy_high = happy_score > median(happy_score))
+         happy_high = happy_score > median(happy_score)) # set happy score above median
 
 whr_panel <- 
   mutate(whr_panel,
          happy_high = happy_score > median(happy_score),
-         happy_low = happy_score < median(happy_score),
+         happy_low = happy_score < median(happy_score), # set happy score below median
          dystopia_res = NULL)
 
 ### Exercise 12: turn a variable into a factor ----------------------------------
