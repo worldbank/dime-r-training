@@ -310,7 +310,7 @@ To export the table to \LaTeX\, we will use a couple of additional arguments of 
 
 But first, let's pick a few variables of interest in the `whr` data set so the table fits in these slides.
 
-### Exercise 3
+### Exercise 4
 
  1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
  2. Use this vector to subset the whr data-set to contain only these variables. Call the new data frame `whr_simp`.
@@ -335,7 +335,7 @@ whr_simp <- whr[, covariates]
 
 ## Export tables to \LaTeX\
 
-### Exercise 4
+### Exercise 5
 Now use the stargazer function to export the `whr_simp`:
 
  1. Create a vector `cov_labels` containing labels for the `happy_score`, `gdp_pc`, `freedom` and `trust_gov_corr` variables.
@@ -356,7 +356,7 @@ Now use the stargazer function to export the `whr_simp`:
   stargazer(whr_simp,
             # Formatting
             covariate.labels = cov_labels,
-            summary.stat = c("n", "mean", "sd", "min", "max"), # Chose which stats to comopute
+            summary.stat = c("n", "mean", "sd", "min", "max"), # Chose which stats to compute
             digits = 2,
             # You can directly export with the out argument
             out = file.path(rawOutput,"desc_table.tex"))
@@ -389,7 +389,7 @@ There are multiple ways to do this, but We will construct a simple table using t
 
 ## Descriptives tables - Create tables from scratch
 
-### Exercise 5
+### Exercise 6
  Use the `aggregate()` function to create a data frame called `happy_table` with the mean of `happy_score` per year and region. 
 
 ```{r, eval = T, results = "hide"}
@@ -428,7 +428,7 @@ print(happy_table[1:19,])
 
 ## Descriptives tables - Create tables from scratch
 
-### Exercise 6
+### Exercise 7
  Use the `spread` function to make the `happy_table` data frame wide in the `year` variable.
 
 
@@ -456,7 +456,7 @@ print(happy_table)
 
 With a data frame as input, `stargazer` by default tries to summarize it. So, to export this table we must specify one additional argument: `summary = F`.
 
-### Exercise 7
+### Exercise 8
 Print the ``happy_table`` table you created in exercise 6 using ``stargazer``. If you want, you can also save it using the ``out`` option.
 
 
@@ -575,7 +575,7 @@ stargazer(ht_wd,
 ## Descriptives tables - Create tables from scratch
 \framesubtitle{Challenge exercise}
 
-### Exercise 8: Try to replicate the table in the previous slide
+### Exercise 9: Try to replicate the table in the previous slide
 
 There are multiple ways to do this. Here are two painful but straightforward approaches that you get extra points if you avoid:
 
@@ -612,7 +612,7 @@ There are several ways to export R objects to Excel. We will use here the the `w
 
 ## Export tables to Excel
 
-### Exercise 9
+### Exercise 10
 
 Use the `write.xlsx()` function to save the `happy_table` you table created in Exercise 4 into an xlsx file.
 
