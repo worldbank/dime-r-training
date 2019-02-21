@@ -143,5 +143,7 @@
   
 ### exercise 10 -----------------------------------------------------------------
   library(plotly)
-  ggplotly(p6_happyfree17reg, tooltip = c("country", "gdp_pc", "freedom", "happy_score"))
+  ggplotly(p6_happyfree17reg, tooltip = c("country", "gdp_pc", # configuring the information of pop-up here
+                                          "freedom", "happy_score"))
+
     

@@ -80,11 +80,11 @@ ggplot() +
   coord_quickmap() + # Removes distortions
   labs(fill="Happiness\nScore") +
   scale_fill_gradient(low = "firebrick4",
-                        high = "chartreuse2")
+                        high = "chartreuse2") # Manually define prefered colors here
 
 ### Exercise 1: Make of map of just Africa -------------------------------------
 
-africaonly <- subset(worldmap_tidy, REGION == "Africa")
+africaonly <- subset(worldmap_tidy, REGION == "Africa") # set the observations to africa only
 
 ggplot() +
   geom_polygon(data=africaonly, aes(x=long, y=lat,
@@ -109,8 +109,8 @@ ggplot() +
                                     group = group,
                                     fill = hppy_sc)) +
   geom_point(data=wb_projects, aes(x=longitude, y=latitude),
-                                   size=0.1)+
-  theme_void() +
+                                   size=0.1) + # manually define the point size here
+  theme_void() + # set the background color to white
   coord_quickmap() +
   labs(fill = "Happiness\nScore") +
   scale_fill_gradient(low = "rosybrown2",
