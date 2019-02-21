@@ -71,7 +71,7 @@ covariates <- c("happy_score",
 # subset whr
 whr_simp <- whr[, covariates]
 
-# EXERCISE 5: EXPORT TABLES TO LATEX
+# EXERCISE 5: EXPORT TABLES TO LATEX --------------------------------------------
 
 # Set labels
 cov_labels <- c("Happy score", "GDP per capita",
@@ -110,7 +110,7 @@ stargazer(happy_table,
           digits = 1,
           rownames = F)
 
-# CHALLENGE EXERCISE ------------------------------------------------------------
+# EXERCISE 9: replicate the table ------------------------------------------------------------
 
 #### Construct a duplicated df
 x1 <- whr
@@ -156,7 +156,7 @@ stargazer(ht_wd,
           summary = F,
           rownames = F) 
 
-# EXERCISE 9: Save data frame in xlsx format -----------------------------------------
+# EXERCISE 10: Save data frame in xlsx format -----------------------------------------
 
 write.xlsx(happy_table,
            file = file.path(rawOutput,"happy_table.xlsx"))
