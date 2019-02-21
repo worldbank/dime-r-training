@@ -16,13 +16,15 @@
 #                                                     Last modified in Dec 2018
 
 
-### PART 1: Select sections to run ----------------------------------------------
-# Exercise 1 
+### PART 1: Select sections to run 
+
+# Exercise 1 --------------------------------------------------------------------
+
 foo <- "beginner"
 ls(foo)
 rm(foo)
  
-### PART 2: Load packages -------------------------------------------------------
+### PART 2: Load packages 
 
   # If you selected the option to install packages, install them
   install.packages(c("stargazer", "swirl"), dependencies = TRUE)
@@ -32,7 +34,7 @@ rm(foo)
   # package listed before
   library(swirl)
 
-# Exercise 6 - Load all packages
+# Exercise 6 - Load all packages ------------------------------------------------
 library(stargazer)
 library(swirl)
 library(tidyverse)
@@ -40,16 +42,16 @@ library(openxlsx)
 library(ggplot2)
 library(plotly)
 
-# Exercise 7 - Using loop to load all packages
+# Exercise 7 - Using loop to load all packages ----------------------------------
 packages <- c("swirl", "stargazer", "tidyverse", "openxlsx", "ggplot2", "plotly")
 sapply(packages, library, character.only = TRUE)
 
-# Exercise 8 - indentation
+# Exercise 8 - indentation ------------------------------------------------------
 sapply(c(1.2, 
          2.5), 
        round)
 
-# Exercise 9 - Use if statement to create section switch
+# Exercise 9 - Use if statement to create section switch ------------------------
 # Variation 1
 PACKAGES <- 1
 if (PACKAGES == 1) {
@@ -66,7 +68,7 @@ if (PACKAGES) {
   install.packages(packages,dependencies = T)
 }
 
-### PART 3: Set folder folder paths ---------------------------------------------
+### PART 3: Set folder folder paths
 
   #-------------#
   # Root folder #
@@ -92,13 +94,15 @@ if (PACKAGES) {
   finalOutput       <- file.path(Output,"Final")
 
  
-### PART 4: Load data ---------------------------------------------------------
-# Exercise 11 - load data
+### PART 4: Load data 
+  
+# Exercise 11 - load data -----------------------------------------------------
 whr <- read.csv(file.path(finalData,"whr_panel.csv"),
                   header = T)
   
-### PART 5: Run selected sections ---------------------------------------------
-# Exercise 12 
+### PART 5: Run selected sections 
+  
+# Exercise 12 -----------------------------------------------------------------
 source(file.path(Code, "Lab 2"),
          verbose = T,
          echo = T)
