@@ -570,7 +570,7 @@ whr_panel <- rbind(whr15, whr16, whr17)
 
 ## Saving a data set to csv
 
-### Exercise 12: save the data set
+### Exercise 10: save the data set
 
 Save the ``whr_panel`` data set to DataWork > DataSets > Final.
 
@@ -614,7 +614,7 @@ Adds new variables and preserves existing
 
 ## Creating variables base on a formula
 
-### Exercise 10: Create a variable based on a formula
+### Exercise 11: Create a variable based on a formula
 Use the `mutate` function to create a variable called `happy_high` in the `whr_panel` data set indicating whether the `happy_score` is above the median.
 
 - TIP: as usual in `tidyverse`, you can refer to variables by their names, without quotes or `$`
@@ -662,7 +662,7 @@ To create a factor variable, we use the ``factor`` function:
 
 ## Converting strings into factors
 
-### Exercise 11: turn a variable into a factor
+### Exercise 12: turn a variable into a factor
 Use the `mutate` function to create a variable called `region_cat` containing a categorical version of the `region` variable.
 
 - TIP: to do this, you only need the first argument of the `factor` function
