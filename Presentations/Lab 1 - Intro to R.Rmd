@@ -1,5 +1,5 @@
 ---
-title: "R basics"
+title: "Introduction I - R basics"
 subtitle: "R for Stata Users"
 date: "April 18"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
@@ -119,11 +119,12 @@ Here are some other advantages:
 
 ## Introduction
 
-What about Python?
-
-  * Python is even more flexible and has more users than R. So, why should I bother to learn   R?
+Python is even more flexible and has more users than R. So, why should I bother to learn R?
+  
   * Despite being super popular for data science, Python has fewer libraries developed for econometrics.
+  
   * Python still cannot do everything Stata does without some trouble, R can.
+  
   * R and Python are very similar, specially if your background is in Stata.
 
 
@@ -383,7 +384,7 @@ You can also see that your environment pane now has two objects:
 
 ## R objects
 
-Objects are the building blocks of R programming. This section will explore some of the most common data classes.
+Objects are the building blocks of R programming. This section will explore some of the most common classes, focused on data structures.
 
 This will give you the foundation to explore your data and construct analytical outputs.
 
@@ -625,8 +626,7 @@ Boolean data is the result of logical conditions
 Create boolean vector with the condition of annual income below average:
 ```{r}
 # Create vector
-bool_vec <- (whr$happy_rank <
-               mean(whr$happy_rank))
+bool_vec <- whr$happy_rank < mean(whr$happy_rank)
 
 # See the 5 first elements of the vector
 head(bool_vec)
@@ -717,9 +717,6 @@ https://cran.r-project.org/
 * R programming in Coursera:
 https://www.coursera.org/learn/r-programming
 
-* Try R in Code School:
-http://tryr.codeschool.com/
-
 * R programming for dummies:
 http://www.dummies.com/programming/r/
 
@@ -745,7 +742,7 @@ https://www.r-graph-gallery.com/
 
 ----
 
-\huge Thank you!
+\center \huge Thank you!
 
 # Appendix
 
