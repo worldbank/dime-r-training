@@ -628,7 +628,7 @@ Create boolean vector with the condition of annual income below average:
 # Create vector
 bool_vec <- whr$happy_rank < mean(whr$happy_rank)
 
-# See the 5 first elements of the vector
+# See the 6 first elements of the vector
 head(bool_vec)
 
 ```
