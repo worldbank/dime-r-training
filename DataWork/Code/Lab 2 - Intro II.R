@@ -1,6 +1,6 @@
  ------------------------------------------------------------------------------ #
                                                                                 #
-                                     DIME                                       #
+                                DIME Analytics                                  #
                         Introduction to R for Stata users                       #
                                 MASTER SCRIPT                                   #
                                                                                 #
@@ -9,24 +9,17 @@
 # PURPOSE:    Set-up configurations and run scripts that are part of DIME's R
 #             Training
 
-# NOTES:      Version 3
+# NOTES:      Version 4
 
 # WRITTEN BY: Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Viotti
 
-#                                                     Last modified in Dec 2018
+#                                                   Last modified in April 2019
 
 # PART 1: Select sections to run 
 
  
 # PART 2: Load packages   
 
-  # If you selected the option to install packages, install them
-  install.packages(c("stargazer", "swirl"), dependencies = TRUE)
-  
-  
-  # Load all packages -- this is equivalent to using library(package) for each
-  # package listed before
-  library(swirl)
   
 # PART 3: Set folder folder paths 
 
@@ -35,7 +28,7 @@
   #-------------#
   
   # Add your username and folder path here
-  projectFolder  <- "C:/Users/luiza/Documents/GitHub/R-Training"
+  projectFolder  <- "C:/Users/wb501238/Documents/GitHub/dime-r-training"
 
   #--------------------#
   # Project subfolders #
@@ -56,4 +49,5 @@
  
 # PART 4: Load data
   
-# PART 5: Run selected sections 
+ whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
+                 header = T)

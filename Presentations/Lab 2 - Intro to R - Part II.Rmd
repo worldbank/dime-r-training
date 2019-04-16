@@ -1,7 +1,7 @@
 ---
-title: "Coding for Reproducible Research"
+title: "Intro to R -- Part II"
 subtitle: "R for Stata Users"
-date: "November-December 2018"
+date: "April, 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -23,13 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 
 # File paths
-
-if (Sys.getenv("USERNAME") == "luiza"){
-  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "WB501238"){
+if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
   projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
   
 }
@@ -62,51 +56,24 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 ## Why are we here today?
 
-### Code is a research output
-We often think of code as a mean to an end, but code is an end in itself.
-  
-## Reproducibility
-
-  \begin{block}{Can other people...}
-	  \begin{itemize}
-	    \item run your code?
-      \item recreate your results?
-      \item understand what you are doing and why?
-      \item make changes to your code if necessary?
-    \end{itemize}
-  \end{block} 
+  * In the last session, you learned the basic concepts to work in R
+  * You could probably start doing some work in R by now, and you would figure out *what* should be in your code for it to work
+  * But you would probably not know right away *how* to write that, so that in the end you might have code that is only intelligible for yourself -- and not for a very long time
+  * In this session, we will cover common coding practices in R so that you can make the most efficient use for it
+  * We will also discuss some styling conventions to make your code readable and reproducible
+  * This will give you a solid foundation to code in R
 
 ## Introduction
 
-  \begin{block}{Objective}
-	  Create an R Master Script.
-  \end{block} 
-  
-  \textbf{Content}
-    \begin{enumerate}
-      \item Comments
-      \item Using R Studio to create a code index
-      \item Indenting
-      \item File paths
-      \item If statements
-      \item Using functions within functions
-      \item Packages
-      \item Loops
-    \end{enumerate}
+  _Content_
     
 ## Introduction
 
   * For the purpose of this training, we will assume that you are dealing with a specific folder structure
   * Folder organization, though an important part of data work, is outside the scope of this course
-  * You can find resources about it in the appendix, and we have sent you a folder that is organized as we want it to be
-  * To follow today's session, go to the ``DataWork/Code`` folder and open the file called ``Lab 4 - Coding for Reproducible Research.R``
-
-## Master scripts
-
-  * Just like in Stata, a Master script must be a map of all data work
-  * It should be possible to follow all data work in the data folder, from raw data to analysis output, by following the master script
-  * It should also be possible to run all the code for the project by simply running the Master script
-  * Finally, in Stata, the Master Script is where you create globals. You can do the same in R by just creating new objects
+  * You can find resources about it in the appendix, and we have shared with you a folder that is organized as we want it to be
+  * To follow today's session, go to the ``DataWork/Code`` folder and open the file called ``Lab 2 - Intro II.R``
+  * We will use this script as a basis for the exercises, and you should modify it during this session to complete them
 
 # Initial Settings
 
@@ -168,29 +135,11 @@ Here's how you change these settings
   \includegraphics[width=12cm,height=7.7cm]{img/Options3.png}
 \end{figure}
 
+
+
 # Commenting
 
-## Why comment?
-
-  Comments have two purposes:
-  \begin{enumerate}
-    \item Tell the reader what you are doing
-    \item Tell the reader why you do what you do
-  \end{enumerate}
-  
-  If you have ever read code with no comments, you probably understand why they are necessary.
-  
 ## Commenting
-
-  \begin{itemize}
-    \item Let's take a look at the script we just opened
-    \item You can see that the first few lines in the script are the header, but they're not commented out
-    \item In R, errors will not always break your code, so you should still be able to run this script
-    \item However, not commenting out comments is still bad practice, as it makes the code harder to read
-  \end{itemize}
-
-## Commenting
-
 
    * To comment a line, write ``#`` as its first character
    * You can also add ``#`` half way through a line to comment whatever comes after it
@@ -201,9 +150,11 @@ Here's how you change these settings
 
 ### Exercise 3: Commenting
 
-1. Use the keyboard shortcut to comment the header of the script.
+1. Go the `Lab 2 - Intro II.R` script. You can see that the first few lines in the script are the header, but they're not commented out.
 
-2. Use the keyboard shortcut to comment the header of the script again. What happened?
+2. Use the keyboard shortcut to comment the header of the script.
+
+3. Use the keyboard shortcut to comment the header of the script again. What happened?
 
 
 # Creating a document outline in RStudio
@@ -225,48 +176,179 @@ Here's how you change these settings
 * The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
 * You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
 
+
+# Using packages
+
+## Using packages
+
+  * Since there is a lot of people developing for R, it can have many different functionalities.
+  * To make it simpler, these functionalities are bundled into packages.
+  * A package is just a unit of shareable code.
+
+
+## Using packages
+
+  * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
+  * They can be shared through R's official repository - CRAN (13,000+ packages reviewed and tested).
+ * There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
+
+## Using packages
+
+
+* To install and use packages you can either do it with the user interface or by the command prompt.
+```{r, eval = F}
+# Installing a package
+install.packages("tidyverse",
+                 dependencies = T)
+# the dependencies argument also installs all other packages
+# that it may depend upon to run
+```
+
+
+* You only have to install a package once, but you have to load it every new session. 
+
+## Using packages
+
+### Exercise 1
+ 1. Now load the packages we just installed. Use the `library()` function to do it.
+    + Note that the `library` function only accepts one argument, so you will need to load each of them separately.
+
+```{r, eval = T}
+  library(tidyverse)
+```
+
+## Warnings vs Errors
+
+What if this happens?
+
+\begin{figure}
+  \includegraphics[scale=0.5]{img/Warning.png}
+\end{figure}
+
+
+## Warinings vs Errors
+
+ 
+R has two types of error messages, `warnings` and actual `erros`:
+
+  * `Errors` - break your code, i.e., prevent it from running.
+  * `Warnings` - usually mean that nothing went wrong yet, but you should be careful. 
+  
+RStudio's default is to print warning messages, but not stop the code at the lines where they occur. You can configure R to stop at warnings if you want.  
+
+# File paths
+
+## File paths
+
+  * The next important part of a Master script are file paths
+  * We recommend always using **explicit** and **dynamic** file paths
+  * File paths in R, as in Stata, are basically just strings
+  * Note, however, that in R we can only use forward slashes (``/``) to separate folder names
+
+
+
+## File paths
+
+  * Explicit and dynamic file path:
+
+```{r, eval = F}
+  # Define dynamic file path
+  finalData <- "C:/Users/luiza/Documents/GitHub/
+                dime-r-training/
+                DataWork/DataSets/Final"
+  
+  # Load data set
+  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
+                  header = T)
+
+```
+
+### Exercise 10: File path to your folder
+Let's start by adding the folder path to the training's folder in your computer to the beginning of `PART 3`
+
+## File paths
+
+  * You can set file paths in your master using the ``file.path()`` function
+  * This function concatenates strings using ``/`` as a separator to create file paths
+
+## File paths
+  
+```{r, eval = T}
+
+  # Project folder
+  projectFolder  <- 
+    "C:/Users/luiza/Documents/GitHub/dime-r-training"
+
+  # Data work folder
+  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+
+  # Print data work folder
+  dataWorkFolder
+
+```
+
+## File paths
+
+Let's test if that worked:
+
+### Exercise 11: Test file paths
+
+1. Save your code.
+
+2. Start a new R session: go to `Session > New Session`. This session should be completely blank.
+
+3. Open your Master code and turn off the switch that installs packages in your Master script
+
+4. Add a line opening the data set in `PART 5` of your Master script
+```{r, eval = F}
+# Load data set
+whr <- read.csv(file.path(finalData,"whr_panel.csv"),
+                header = T)
+
+```
+
+5. Run the whole script. If it worked, your environment should include only the `whr` data set.
+
 # Functions inception
 
 ## Functions inception
 
-  * In R, you can use the output of one function as the input of another, as long as they have the same format
-  * In fact, that's exactly what we just did when installing the packages
+  * In R, you can write one function inside another
+  * In fact, you have already done this a few times in this course
+  * Here's an example:
+  
+```{r}
+  # 
+  log_score <- log(whr$happy_score)
+  summary(log_score)
+  
+  summary(log(whr$happy_score))
+  
+  whr$happy_score %>%
+    log %>%
+    summary
+```
+
+  * This is a simple example of metaprogramming (that's the real name of this technique) and may seem trivial, but it's not
+  * For starters, you can't do it in Stata!
+  * When do you use each of these things?
+
+  * It can also get quite tricky
+  * Which is why we sometimes use pipes
+
+  * You don't need to worry about piping for now, just know that it exists, and laugh if you see this sticker in some tidyverse nerd computer
+
+```{r}
+  # Piping
+  whr$year %>% log %>% summary
+```
+
+
+  * The output of one function can only be used as the input of another if they have the same format
+  * To understand that, look at the first line of code in ``Lab 2 - Intro II.R``
   * To see that, select just the first argument of the ``install.packages`` function and press ``Ctrl + Enter``
   * The ``c()`` function, as we know, creates a vector with its arguments
-
-
-```{r, eval = T}
-
-  c("stargazer", "swirl")
-
-```
-
-## Functions inception
-
-  * The resulting vector is used as an input to the ``install.packages`` function
-  * We could also have stored this vector in the memory as an object and used that object as the input
-  * In fact, that's exactly what we are going to do next, so the code doesn't get too polluted as we add new packages
-
-## Functions inception
-
-```{r, eval = T, echo = F}
-  packages <- c("stargazer",
-                "swirl")
-
-```
-
-```{r, eval = F}
-
-  # Create packages object
-  packages <- c("stargazer",
-                "swirl")
-
-  # Use it as an input to the install.packageS() function
-  install.packages(packages,
-                   dependencies = TRUE)
-
-```
-
+  
 ## Using packages
 
 ### Exercise 6: Load packages
@@ -403,6 +485,90 @@ A more general version is the `apply` function.
   * To explore it to its full potential, we combine it with customized functions
   * This is beyond today's session, and we will come back to it in our last day, but you can give it a try on this session's assignment
 
+# If statements
+
+## If statements
+
+  * Now, installing packages can be time-consuming, especially as the number of packages you're using grows, and each package only needs to be installed once
+  * What can we bring from our Stata Master do-files to avoid installing packages twice?
+
+## If statements
+
+  * In Stata, section switches would be saved as locals
+  * In R, the equivalent to that would be to create a new object
+
+### Exercise 9: Creating an if statement
+  Create a dummy scalar object called PACKAGES.
+    
+  -  TIP: Section switches can also be Boolean objects.
+
+## If statements
+
+  * Now we need to create an if statement using this switch
+  * If statements in R look like this:
+```{r, eval = F}
+
+    # Turn switch on
+    PACKAGES <- 1
+
+    # Install packages
+    if (PACKAGES == 1) {
+      install.packages(packages,
+                       dependencies = TRUE)
+    }
+
+```
+
+## If statements
+
+  * Possible variations would include
+```{r, eval = F}
+    # Turn switch on
+    PACKAGES <- TRUE
+
+    # Using a Boolean object
+    if (PACKAGES == TRUE) {
+      install.packages(packages, dep = T)
+    }
+
+    # Which is the same as
+    if (PACKAGES) {
+      install.packages(packages, dep = T)
+    }
+
+```
+
+## Assignment
+
+  * You can customize your loops in R by defining your own function
+  * This is done using a function conveniently called ``function()``
+  * For example, if instead of just printing a number we want to print it's square, we could create a function that does both:
+
+
+```{r, eval = T}
+    # A much more elegant for loop in R
+    sapply(c(1,2), function(x) x^2)
+```
+
+## Assignment
+
+Create a function that
+
+  1. Loops through the packages listed in the `packages` vector
+  
+  2. Tests if a package is already installed
+  
+  3. Only installs packages that are not yet installed
+
+  - TIP: to test if a package is already installed, use the following code:
+```{r, eval = F}
+    # Test if object x is contained in
+    # the vector of installed packages
+    x %in% installed.packages()
+```
+
+
+
 # Indentation
 
 ## Why indent?
@@ -507,257 +673,10 @@ sapply(c(1.2,
        round)
 ```
 
-# If statements
 
-## If statements
-
-  * Now, installing packages can be time-consuming, especially as the number of packages you're using grows, and each package only needs to be installed once
-  * What can we bring from our Stata Master do-files to avoid installing packages twice?
-
-## If statements
-
-  * In Stata, section switches would be saved as locals
-  * In R, the equivalent to that would be to create a new object
-
-### Exercise 9: Creating an if statement
-  Create a dummy scalar object called PACKAGES.
-    
-  -  TIP: Section switches can also be Boolean objects.
-
-## If statements
-
-  * Now we need to create an if statement using this switch
-  * If statements in R look like this:
-```{r, eval = F}
-
-    # Turn switch on
-    PACKAGES <- 1
-
-    # Install packages
-    if (PACKAGES == 1) {
-      install.packages(packages,
-                       dependencies = TRUE)
-    }
-
-```
-
-## If statements
-
-  * Possible variations would include
-```{r, eval = F}
-    # Turn switch on
-    PACKAGES <- TRUE
-
-    # Using a Boolean object
-    if (PACKAGES == TRUE) {
-      install.packages(packages, dep = T)
-    }
-
-    # Which is the same as
-    if (PACKAGES) {
-      install.packages(packages, dep = T)
-    }
-
-```
-
-# File paths
-
-## File paths
-
-  * The next important part of a Master script are file paths
-  * We recommend always using **explicit** and **dynamic** file paths
-
-## File paths
-
-  * Implicit and static file path:
-
-```{r, eval = F}
-  # Set working directory
-  setwd("C:/Users/luiza/Documents/GitHub/dime-r-training/
-        DataWork/DataSets/Final")
-  
-  # Load data set
-  read.csv("whr_panel.csv",
-            header = T)
-```
-
-## File paths
-
-  * Explicit and static file path:
-
-```{r, eval = F}
-  # Load data set
-  read.csv("C:/Users/luiza/Documents/GitHub/dime-r-training/
-           DataWork/DataSets/Final/whr_panel.csv",
-            header = T)
-```
-
-## File paths
-
-  * Explicit and dynamic file path:
-
-```{r, eval = F}
-  # Define dynamic file path
-  finalData <- "C:/Users/luiza/Documents/GitHub/
-                dime-r-training/
-                DataWork/DataSets/Final"
-  
-  # Load data set
-  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                  header = T)
-
-```
-## File paths
-
-  * File paths in R, as in Stata, are basically just strings
-  * Note, however, that in R we can only use forward slashes (``/``) to separate folder names
-
-### Exercise 10: File path to your folder
-Let's start by adding the folder path to the training's folder in your computer to the beginning of `PART 3`
-
-## File paths
-
-  * You can set file paths in your master using the ``file.path()`` function
-  * This function concatenates strings using ``/`` as a separator to create file paths
-
-## File paths
-  
-```{r, eval = T}
-
-  # Project folder
-  projectFolder  <- 
-    "C:/Users/luiza/Documents/GitHub/dime-r-training"
-
-  # Data work folder
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-
-  # Print data work folder
-  dataWorkFolder
-
-```
-
-## File paths
-
-Let's test if that worked:
-
-### Exercise 11: Test file paths
-
-1. Save your code.
-
-2. Start a new R session: go to `Session > New Session`. This session should be completely blank.
-
-3. Open your Master code and turn off the switch that installs packages in your Master script
-
-4. Add a line opening the data set in `PART 5` of your Master script
-```{r, eval = F}
-# Load data set
-whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                header = T)
-
-```
-
-5. Run the whole script. If it worked, your environment should include only the `whr` data set.
-
-
-## Sourcing scripts
-
-As we discussed earlier, one of the main objectives of a Master script is to be able to run all codes from a project from it.
-
-To run an R script from another, we use a function called `source`:
-
-* `source(file, echo, verbose)`: reads and evaluates the expressions in `file`. Its arguments are:
-
-    * **file: ** a pathname or URL to read from
-    
-    * **echo:** if TRUE, each expression is printed after parsing, before evaluation
-    
-    * **verbose:** if TRUE, more diagnostics (than just echo = TRUE) are printed during parsing and evaluation of input, including extra info for each expression
-
-## Sourcing scripts
-
-### Exercise 12: Run scripts from the master
-1. Add your scripts from sessions 2 and 3 to the `Code` folder inside your `DataWork` folder.
-
-2. Add two lines to your Master script, each one sourcing one of your session scripts
-
-3. Run your master script.
-
-## Sourcing scripts
-
-```{r, eval = F}
-# PART 5: Run selected sections ==========================
-source(file.path(Code, "Lab 2"),
-       verbose = T,
-       echo = T)
-
-source(file.path(Code, "Lab 3"),
-       verbose = T,
-       echo = T)
-```
-
-## That's all, folks
-
-  * Now you have a template master script to use across this training's sessions
-  * Save the script that you created during this session in the *DataWork* folder. Call it *MASTER.R*
-  * You can also create switches for each of the sessions, and only run selected pieces of code from you Master Script
-
-
-## Assignment
-
-  * You can customize your loops in R by defining your own function
-  * This is done using a function conveniently called ``function()``
-  * For example, if instead of just printing a number we want to print it's square, we could create a function that does both:
-
-
-```{r, eval = T}
-    # A much more elegant for loop in R
-    sapply(c(1,2), function(x) x^2)
-```
-
-## Assignment
-
-Create a function that
-
-  1. Loops through the packages listed in the `packages` vector
-  
-  2. Tests if a package is already installed
-  
-  3. Only installs packages that are not yet installed
-
-  - TIP: to test if a package is already installed, use the following code:
-```{r, eval = F}
-    # Test if object x is contained in
-    # the vector of installed packages
-    x %in% installed.packages()
-```
+#Save your script!
 
 # Appendix
-
-## Using packages
-
-  * Since there is a lot of people developing for R, it can have many different functionalities
-  * To make it simpler, these functionalities are bundled into packages
-  * A package is the fundamental unit of shareable code
-  * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
-  * They can be shared through R's official repository - CRAN (10,000+ packages reviewed and tested) and many other online sources
- * There are many other online sources such as Github, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN
-
-## Using packages
-
-* To install and use packages you can either do it with the user interface or by the command prompt.
-```{r, eval = F}
-# Installing a package
-install.packages("stargazer",
-                 dependencies = T)
-# the dependencies argument also installs all other packages
-# that it may depend upon
-```
-
-* You only have to install a package once, but you have to load it every new session. To load a package type:
-```{r, eval = F}
-library(stargazer)
-
-```
 
 ## Using packages
 
@@ -774,19 +693,6 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 * multiwayvcov and sandwich - clustered and robust standard errors
 * RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
 
-## Using packages
-
-### Exercise 5: Installing packages
-Install the `swirl` and `stargazer` packages, including packages necessary for them to run.
-
-## Using packages
-\scriptsize
-```{r, eval = F}
-
-  # Install stargazer and swirl
-  install.packages(c("stargazer", "swirl"), dependencies = TRUE)
-
-```
 
 ## Resources
 
