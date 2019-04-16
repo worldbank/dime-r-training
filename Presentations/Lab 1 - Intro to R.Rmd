@@ -535,7 +535,7 @@ As in Stata, these are two different ways to store numbers. They are different b
 Now we'll use string data to practice some basic object manipulations in R.
 
 ### Exercise 4: Create a vector of strings
-Create two string vector containing the names of commonly used statistical software in order of importance:
+Create a string vector containing the names of commonly used statistical software in order of importance:
 ```{r, include = T, results = "hide"}
 
 # Creating string vector
