@@ -469,7 +469,7 @@ whr[,1]
 # The 45th line of whr
 whr[45,]
 
-# Or the 45th element of the first line
+# Or the 45th element of the first column
 whr[45,1]
 
 ```
