@@ -1,5 +1,6 @@
 Before a session:
 - [ ] Print and bring list of participants
+    - Prepare flash drives
 - [ ] Send an email to participants
     - Share the presentation and data with participants
     - Remind eveyone to bring a computer with R and RStudio attached
