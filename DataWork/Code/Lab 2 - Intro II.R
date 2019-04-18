@@ -15,20 +15,18 @@
 
 #                                                   Last modified in April 2019
 
-# PART 1: Select sections to run 
 
- 
-# PART 2: Load packages   
+# PART 1: Load packages   
 
   
-# PART 3: Set folder folder paths 
+# PART 2: Set folder folder paths 
 
   #-------------#
   # Root folder #
   #-------------#
   
   # Add your username and folder path here
-  projectFolder  <- "C:/Users/wb501238/Documents/GitHub/dime-r-training"
+  projectFolder  <- "YOUR/FOLDER/PATH/HERE"
 
   #--------------------#
   # Project subfolders #
@@ -47,7 +45,5 @@
   finalOutput       <- file.path(Output,"Final")
 
  
-# PART 4: Load data
+# PART 3: Load data
   
- whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
-                 header = T)

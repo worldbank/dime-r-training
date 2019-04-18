@@ -19,9 +19,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r, echo = F, eval= T, include=FALSE}
-# Packages
-library(ggplot2)
-
 # File paths
 if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
   projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
@@ -49,6 +46,8 @@ if (Sys.getenv("USERNAME") == "WB519128"){
 whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
                 header = T)
 
+library(tidyverse)
+
 
 ```
 
@@ -57,56 +56,49 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 ## Why are we here today?
 
   * In the last session, you learned the basic concepts to work in R
-  * You could probably start doing some work in R by now, and you would figure out *what* should be in your code for it to work
+  * You are probably eager to get your hands into some data using R by now, and you would figure out *what* should be in your code for it to work
   * But you would probably not know right away *how* to write that, so that in the end you might have code that is only intelligible for yourself -- and not for a very long time
   * In this session, we will cover common coding practices in R so that you can make the most efficient use for it
   * We will also discuss some styling conventions to make your code readable and reproducible
-  * This will give you a solid foundation to code in R
-
-## Introduction
-
-  _Content_
-    
-## Introduction
-
-  * For the purpose of this training, we will assume that you are dealing with a specific folder structure
-  * Folder organization, though an important part of data work, is outside the scope of this course
-  * You can find resources about it in the appendix, and we have shared with you a folder that is organized as we want it to be
-  * To follow today's session, go to the ``DataWork/Code`` folder and open the file called ``Lab 2 - Intro II.R``
-  * We will use this script as a basis for the exercises, and you should modify it during this session to complete them
+  * This will give you a solid foundation to code in R, and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
 
 # Initial Settings
 
 ## Initial Settings
 
-A Stata do-file typically starts with a few settings:
+  * Ok, let's start by opening RStudio
+  * What do you see in your environment?
+  * If you saved the last RStudio session in ``.Rhistory`` (and that is the default), the objects that were in RStudio's memory last time you closed it will still be there whenever you open it again
 
-```{stata, eval = F}
-    clear
-    set maxvar 120000
-    set more off
-```
+## Initial Settings
+
+Raise your hand if you have ever seen these lines of code before:
+
+\begin{figure}
+\centering
+  \includegraphics[width=7cm,height=4cm]{img/stataheader.jpg}
+\end{figure}
 
 ## Initial Settings
 
   * We don't need to set the memory or the maximum number of variables in R, and the equivalent of ``more`` is the default in R
-  * However, if you saved the last RStudio session in ``.Rhistory``, the objects that were in RStudio's memory last time you closed it will still be there whenever you open it again
   * You can see all the objects currently in you memory in the *Environment* pane
 
 ## Initial Settings
 
 ### Exercise 1: Clear workspace
+
   * Make sure the `Environment` window is open. Is anything there?
   * Create an object called `foo` with any content you pick
+  * Type `rm(foo)` to remove the `foo` object from you memory
   * Type `ls()` to print the names of the object in memory
-  * Type `rm(foo)` to remove the `foo` object from you memory 
   * To remove all objects, use `rm(list=ls())`
 
 ## Initial Settings
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/rm.png}
+  \includegraphics[width = .6\textwidth]{img/rm.png}
 \end{figure}
 
 ## Initial Settings
@@ -118,23 +110,180 @@ Here's how you change these settings
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/Options1.png}
+  \includegraphics[width = 12cm, height = 7.7cm]{img/Options1.png}
 \end{figure}
 
 ## Initial Settings
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/Options2.png}
+  \includegraphics[width = .6\textwidth]{img/Options2.png}
 \end{figure}
 
 ## Initial Settings
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/Options3.png}
+  \includegraphics[width = .6\textwidth]{img/Options3.png}
 \end{figure}
 
+## File paths
+
+  * For the purpose of this training, we will assume that you are dealing with a specific folder structure
+  * Folder organization, though an important part of data work, is outside the scope of this course
+  * You can find resources about it in the appendix, and we have shared with you a folder that is organized as we want it to be
+  * To follow today's session, go to the ``DataWork/Code`` folder and open the file called ``Lab 2 - Intro II.R``
+  * We will use this script as a basis for the exercises, and you should modify it during this session to complete them
+
+# File paths
+
+## File paths
+
+  * In the last session, we used the menu bar to load a data set into R
+  * Today, we will do that using code and referring a file's path
+  * File paths in R, as in Stata, are basically just strings
+  * Note, however, that in R we can only use forward slashes (``/``) to separate folder names
+  * We recommend always using **explicit** and **dynamic** file paths
+
+## File paths
+
+  * Explicit and dynamic file path:
+
+```{r, eval = F}
+  # Define dynamic file path
+  finalData <- "C:/Users/luiza/Documents/GitHub/
+                dime-r-training/
+                DataWork/DataSets/Final"
+
+  # Load data set
+  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
+                  header = T)
+
+```
+
+### Exercise 3: File path to your folder
+Let's start by adding the folder path to the training's folder in your computer to the beginning of `PART 2`
+
+## File paths
+
+  * You can set file paths in your script using the ``file.path()`` function
+  * This function concatenates strings using ``/`` as a separator to create file paths
+
+## File paths
+
+\scriptsize
+Let's test if that worked:
+```{r, eval = T}
+
+  # Project folder
+  projectFolder  <-
+    "C:/Users/luiza/Documents/GitHub/dime-r-training"
+
+  # Data work folder
+  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+
+  # Print data work folder
+  dataWorkFolder
+
+```
+
+## Loading a data set from CSV
+
+### ``read.csv(file, header = FALSE)``
+
+ * **file**: is the path to the file you want to open, including it's name and format (``.csv``)
+ * **header**: if `TRUE`, will read the first row as variable names
+ * **stringsAsFactors:** logical. See next slide for more.
+
+## Loading a data set from CSV
+
+  * R reads string variables as factors as default
+  * This format saves memory, but can be tricky if you actually want to use the variables as strings
+  * You can specify the option ``stringsAsFactors = FALSE`` to prevent R from turning strings into factors
+
+## Loading a data set from CSV
+
+
+### Exercise 4: Test file paths
+
+1. Save your code.
+
+2. Start a new R session: go to `Session > New Session`. This session should be completely blank.
+
+3. Open the code you just saved.
+
+4. Add a line opening the data set in `PART 5` of your Master script
+```{r, eval = F}
+# Load data set
+whr <- read.csv(file.path(finalData,"whr_panel.csv"),
+                header = T)
+
+```
+
+5. Run the whole script. If it worked, your environment should include only the `whr` data set.
+
+# Exploring a data set
+
+## Exploring a data set
+
+Some useful functions:
+
+* **``View()``:** open the data set
+* **``class()``:** reports object type or type of data stored
+* **``dim()``:** reports the size of each one of an object's dimension
+* **``names()``:** returns the variable names of a data set
+* **``str()``:** general information on an R object
+* **``summary()``:** summary information about the variables in a data frame
+* **``head()``:** shows the first few observations in the dataset
+* **``tail()``:** shows the last few observations in the dataset
+
+## Exploring a data set
+
+### Exercise 5: Explore a data set
+
+Use some of the functions listed above to explore the `whr` data set.
+
+## Exploring a data set
+
+\footnotesize
+```{r, eval = F}
+# View the data set (same as clickin on it in the Environment pane)
+View(whr)
+```
+
+## Exploring a data set
+
+\footnotesize
+```{r}
+class(whr)
+dim(whr)
+```
+
+## Exploring a data set
+
+\footnotesize
+```{r}
+str(whr)
+```
+
+## Exploring a data set
+
+\tiny
+```{r}
+summary(whr)
+```
+
+## Exploring a data set
+
+\tiny
+```{r}
+head(whr)
+```
+
+## Exploring a data set
+
+Didn't get all of those? 
+Don't worry, you'll see them again soon.
 
 
 # Commenting
@@ -148,7 +297,7 @@ Here's how you change these settings
 
 ## Commenting
 
-### Exercise 3: Commenting
+### Exercise 6: Commenting
 
 1. Go the `Lab 2 - Intro II.R` script. You can see that the first few lines in the script are the header, but they're not commented out.
 
@@ -164,7 +313,7 @@ Here's how you change these settings
   * RStudio also allows you to create an interactive index for your scripts
   * To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes, pound signs or equal signs after it
 
-### Exercise 4: headers
+### Exercise 7: Headers
 
 1. Open the script index and make `PART 1` a section header. Do the same for parts 2 and 3.
 
@@ -194,7 +343,6 @@ Here's how you change these settings
 
 ## Using packages
 
-
 * To install and use packages you can either do it with the user interface or by the command prompt.
 ```{r, eval = F}
 # Installing a package
@@ -204,16 +352,16 @@ install.packages("tidyverse",
 # that it may depend upon to run
 ```
 
-
-* You only have to install a package once, but you have to load it every new session. 
+* You only have to install a package once, but you have to load it every new session.
 
 ## Using packages
 
-### Exercise 1
- 1. Now load the packages we just installed. Use the `library()` function to do it.
-    + Note that the `library` function only accepts one argument, so you will need to load each of them separately.
+### Exercise 8
+ 1. Now load the package we just installed. Use the `library()` function to do it.
 
-```{r, eval = T}
+## Using packages
+
+```{r, eval = F}
   library(tidyverse)
 ```
 
@@ -222,92 +370,18 @@ install.packages("tidyverse",
 What if this happens?
 
 \begin{figure}
-  \includegraphics[scale=0.5]{img/Warning.png}
+  \includegraphics[width = 0.7\textwidth]{img/Warning.PNG}
 \end{figure}
 
 
 ## Warinings vs Errors
 
- 
-R has two types of error messages, `warnings` and actual `erros`:
+R has two types of error messages, `warnings` and actual `errors`:
 
   * `Errors` - break your code, i.e., prevent it from running.
-  * `Warnings` - usually mean that nothing went wrong yet, but you should be careful. 
-  
-RStudio's default is to print warning messages, but not stop the code at the lines where they occur. You can configure R to stop at warnings if you want.  
+  * `Warnings` - usually mean that nothing went wrong yet, but you should be careful.
 
-# File paths
-
-## File paths
-
-  * The next important part of a Master script are file paths
-  * We recommend always using **explicit** and **dynamic** file paths
-  * File paths in R, as in Stata, are basically just strings
-  * Note, however, that in R we can only use forward slashes (``/``) to separate folder names
-
-
-
-## File paths
-
-  * Explicit and dynamic file path:
-
-```{r, eval = F}
-  # Define dynamic file path
-  finalData <- "C:/Users/luiza/Documents/GitHub/
-                dime-r-training/
-                DataWork/DataSets/Final"
-  
-  # Load data set
-  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                  header = T)
-
-```
-
-### Exercise 10: File path to your folder
-Let's start by adding the folder path to the training's folder in your computer to the beginning of `PART 3`
-
-## File paths
-
-  * You can set file paths in your master using the ``file.path()`` function
-  * This function concatenates strings using ``/`` as a separator to create file paths
-
-## File paths
-  
-```{r, eval = T}
-
-  # Project folder
-  projectFolder  <- 
-    "C:/Users/luiza/Documents/GitHub/dime-r-training"
-
-  # Data work folder
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-
-  # Print data work folder
-  dataWorkFolder
-
-```
-
-## File paths
-
-Let's test if that worked:
-
-### Exercise 11: Test file paths
-
-1. Save your code.
-
-2. Start a new R session: go to `Session > New Session`. This session should be completely blank.
-
-3. Open your Master code and turn off the switch that installs packages in your Master script
-
-4. Add a line opening the data set in `PART 5` of your Master script
-```{r, eval = F}
-# Load data set
-whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                header = T)
-
-```
-
-5. Run the whole script. If it worked, your environment should include only the `whr` data set.
+RStudio's default is to print warning messages, but not stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
 
 # Functions inception
 
@@ -316,93 +390,88 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
   * In R, you can write one function inside another
   * In fact, you have already done this a few times in this course
   * Here's an example:
-  
+
+## Functions inception
+
 ```{r}
-  # 
+  # Doing it the long way -----------------------------
+  # Create a vector with the log of the happiness score
   log_score <- log(whr$happy_score)
-  summary(log_score)
-  
-  summary(log(whr$happy_score))
-  
-  whr$happy_score %>%
-    log %>%
-    summary
+
+  # Get descriptive statistics for the log vector
+  mean(log_score)
+
+  # Shortcut to get to the same place ----------------
+  mean(log(whr$happy_score))
 ```
+
+## Functions inception
 
   * This is a simple example of metaprogramming (that's the real name of this technique) and may seem trivial, but it's not
   * For starters, you can't do it in Stata!
-  * When do you use each of these things?
 
+## Functions inception
+
+  \begin{figure}
+    \includegraphics[width = .9\textwidth]{img/statalog.png}
+  \end{figure}
+
+## Functions inception  
+  
+  * This is a very powerful technique, as you will soon see
+  * It's also a common source of error, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
   * It can also get quite tricky
   * Which is why we sometimes use pipes
 
-  * You don't need to worry about piping for now, just know that it exists, and laugh if you see this sticker in some tidyverse nerd computer
+## Functions inception  
 
-```{r}
-  # Piping
-  whr$year %>% log %>% summary
-```
-
-
-  * The output of one function can only be used as the input of another if they have the same format
-  * To understand that, look at the first line of code in ``Lab 2 - Intro II.R``
-  * To see that, select just the first argument of the ``install.packages`` function and press ``Ctrl + Enter``
-  * The ``c()`` function, as we know, creates a vector with its arguments
-  
-## Using packages
-
-### Exercise 6: Load packages
-Load the packages you just installed, as well as the other packages used in previous sessions.
-
-- Note that the `library` function only accepts one argument. This means that you cannot use function inception with the `packages` object here, as its output format does not match the function input. In fact, you will need to load each of them separately.
-
-## Using packages
-  
 ```{r, eval = F}
+  # Doing it the long way -----------------------------
+  # Create a vector with the log of the happiness score
+  log_score <- log(whr$happy_score)
 
-  library(swirl)
-  library(stargazer)
-  library(tidyverse)
-  library(openxlsx)
-  library(ggplot2)
-  library(plotly)
+  # Get descriptive statistics for the log vector
+  mean(log_score)
 
+  # Shortcut to get to the same place -----------------
+  mean(log(whr$happy_score))
+
+  # Now with pipes ------------------------------------
+  whr$happy_score %>%
+  log %>%
+  mean
 ```
+  
+## Functions inception  
+  
+  You don't need to worry about piping for now, just know that it exists, and laugh if you see this sticker in some tidyverse nerd computer
+
+  \begin{figure}
+    \includegraphics[width = .9\textwidth]{img/pipe.jpg}
+  \end{figure}
+
 
 # Looping
 
 ## Looping
 
-  * If you're thinking what happens as I add more packages here, you're going in the right direction
-  * Repetition makes the code harder to read and to maintain
-
-```{r, eval = F}
-    # The DRY rule:
-    DONT REPEAT YOURSELF
-
-```
-
-## Looping
-  * In Stata, we'd usually use a ``foreach`` loop to go through a list of objects
-  * If you are a Stata coder, you are probably thinking of writing something like
-  
-```{stata, eval = F}
-  * Looping through packages
-  foreach package in  swirl stargazer tidyverse ///
-                      openxlsx ggplot2 plotly {
-    library `package'
-  }
-```
-  
-## Looping  
-  
-  * The equivalent to that in R would be to write a for loop like this (this code won't run, so don't try it yet)
-
+  * One thing that usually gives people away as Stata users writing R code are loops
+  * In Stata, we use for loops quite a lot
+  * The equivalent to that in R would be to write a for loop like this
 
 ```{r, eval = F}
     # A for loop in R
-    for (package in packages) {
-        library(package)
+    for (number in 1:5) {
+        print(number)
+    }
+```
+
+## Looping
+
+```{r}
+    # A for loop in R
+    for (number in 1:5) {
+        print(number)
     }
 ```
 
@@ -430,20 +499,6 @@ Load the packages you just installed, as well as the other packages used in prev
 
     # A much more elegant loop in R
     sapply(c(1.2,2.5), round)
-```
-
-## Looping
-
-### Exercise 7: Looping in R
-Use the `sapply()` function to apply the `library()` function to all packages you have selected.
-
-- TIP: to do this without creating errors, you will need to use that `...` argument and make the `character.only` argument of the `library()` function equal to `TRUE`
-
-## Looping
-
-```{r, eval = F}
-    # Load all listed packages
-    sapply(packages, library, character.only = TRUE)
 ```
 
 ## Looping
@@ -479,27 +534,179 @@ A more general version is the `apply` function.
     apply(matrix, 2, mean)
 ```
 
-## Looping
+# Custom functions
 
-  * The `apply()` function is a very powerful tool in R programming
-  * To explore it to its full potential, we combine it with customized functions
-  * This is beyond today's session, and we will come back to it in our last day, but you can give it a try on this session's assignment
+## Custom functions
 
-# If statements
+  * As you have said several times, R is super flexible
+  * One example of that is that it's super easy and quick to create custom functions
+  * Here's how:
+
+## Custom functions
+
+```{r}
+  square <- function(x) {
+    
+    y <- x^2
+    
+    return(y)
+    
+  }
+
+  square(2)
+```  
+
+## Custom functions
+
+### Exercise 9: Create a function 
+
+  Create a function that calculates the z-score of a variable.
+  
+## Custom functions
+
+```{r}
+  zscore <- function(x) {
+    
+    mean <- mean(x, na.rm = T)
+    sd   <- sd(x, na.rm = T)
+    z    <- (x - mean)/sd
+    
+    return(z)
+    
+  }
+
+  summary(zscore(whr$happy_score))
+  
+```
+
+# Indentation
+
+## Why indent?
+\scriptsize
+```{r, eval = F}
+# Here's some code
+annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
+plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region,
+group = region)) + geom_line() + geom_point()
+print(plot)
+```
+
+## Why indent?
+
+```{r, eval = T, echo = F}
+annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
+plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region)) +
+geom_line() + geom_point()
+print(plot)
+```
+
+## Why indent?
+
+```{r, eval = F}
+# Here's the same code
+annualHappy_reg <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
+
+plot <-
+  ggplot(annualHappy_reg,
+         aes(y = happy_score,
+             x = year,
+             color = region,
+             group = region)) +
+  geom_line() +
+  geom_point()
+
+print(plot)
+```
+
+## Why indent?
+
+```{r, echo = F}
+annualHappy_reg <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
+
+plot <-
+  ggplot(annualHappy_reg,
+         aes(y = happy_score,
+             x = year,
+             color = region,
+             group = region)) +
+  geom_line() +
+  geom_point()
+
+print(plot)
+```
+
+## Why indent?
+ * Even though R understands what unindented code says, it can be quite difficult for a human being to read it
+ * On the other hand, white space does not have a special meaning for R, so it will understand code that is more readable for a human being
+
+## Indentation
+
+  \begin{itemize}
+    \item Indentation in R looks different than in Stata:
+    \begin{itemize}
+      \item To indent a whole line, you can select that line and press \texttt{Tab}
+      \item To unindent a whole line, you can select that line and press \texttt{Shift + Tab}
+      \item However, this will not always work for different parts of a code in the same line
+    \end{itemize}
+    \item In R, we typically don't introduce white space manually
+    \item It's rather introduced by RStudio for us
+  \end{itemize}
+
+## Indentation
+
+### Exercise 8: Indentation in R
+To see an example of how indenting works in RStudio, go back to our first example with `sapply`:
+
+```{r, eval = F}
+# A much more elegant loop in R
+sapply(c(1.2,2.5), round)
+```
+
+1. Add a line between the two arguments of the function (the vector of numbers and the round function)
+
+2. Now add a line between the numbers in the vector.
+
+
+## Indentation
+Note that RStudio formats the different arguments of the function differently:
+
+```{r, eval = F}
+# A much more elegant loop in R
+sapply(c(1.2,
+         2.5),
+       round)
+```
+
+## The end
+
+  Thank you!
+
+## Assignment
+
+Create a function that
+
+  1. Takes as argument a vector of packages names
+  2. Loops through the packages listed in the input vector
+  3. Install the packages
+  4. Loads the packages
+
+# Appendix
 
 ## If statements
 
-  * Now, installing packages can be time-consuming, especially as the number of packages you're using grows, and each package only needs to be installed once
-  * What can we bring from our Stata Master do-files to avoid installing packages twice?
-
-## If statements
-
-  * In Stata, section switches would be saved as locals
+  * Installing packages can be time-consuming, especially as the number of packages you're using grows, and each package only needs to be installed once
+  * in the same way we use locals in Stata to create In Stata, section switches would be saved as locals
   * In R, the equivalent to that would be to create a new object
 
 ### Exercise 9: Creating an if statement
   Create a dummy scalar object called PACKAGES.
-    
+
   -  TIP: Section switches can also be Boolean objects.
 
 ## If statements
@@ -538,27 +745,14 @@ A more general version is the `apply` function.
 
 ```
 
-## Assignment
-
-  * You can customize your loops in R by defining your own function
-  * This is done using a function conveniently called ``function()``
-  * For example, if instead of just printing a number we want to print it's square, we could create a function that does both:
-
-
-```{r, eval = T}
-    # A much more elegant for loop in R
-    sapply(c(1,2), function(x) x^2)
-```
-
-## Assignment
-
+## Extra assignment
 Create a function that
 
-  1. Loops through the packages listed in the `packages` vector
-  
-  2. Tests if a package is already installed
-  
-  3. Only installs packages that are not yet installed
+  1. Takes as argument a vector of packages names
+  2. Loops through the packages listed in the input vector
+  3. Tests if a package is already installed
+  4. Only installs packages that are not yet installed
+  5. Loads the packages
 
   - TIP: to test if a package is already installed, use the following code:
 ```{r, eval = F}
@@ -566,118 +760,6 @@ Create a function that
     # the vector of installed packages
     x %in% installed.packages()
 ```
-
-
-
-# Indentation
-
-## Why indent?
-\scriptsize
-```{r, eval = F}
-# Here's some code
-annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, 
-group = region)) + geom_line() + geom_point()
-print(plot)
-```
-
-## Why indent?
-
-```{r, eval = T, echo = F}
-annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region)) +
-geom_line() + geom_point()
-print(plot)
-```
-
-## Why indent?
-
-```{r, eval = F}
-# Here's the same code
-annualHappy_reg <- 
-  aggregate(happy_score ~ year + region,
-            data = whr,
-            FUN = mean)
-
-plot <-  
-  ggplot(annualHappy_reg,
-         aes(y = happy_score,
-             x = year, 
-             color = region, 
-             group = region)) +
-  geom_line() + 
-  geom_point()
-
-print(plot)
-```
-
-## Why indent?
-
-```{r, echo = F}
-annualHappy_reg <- 
-  aggregate(happy_score ~ year + region,
-            data = whr,
-            FUN = mean)
-
-plot <-  
-  ggplot(annualHappy_reg,
-         aes(y = happy_score,
-             x = year, 
-             color = region, 
-             group = region)) +
-  geom_line() + 
-  geom_point()
-
-print(plot)
-```
-
-## Why indent?
- * Even though R understands what unindented code says, it can be quite difficult for a human being to read it
- * On the other hand, white space does not have a special meaning for R, so it will understand code that is more readable for a human being
-
-## Indentation
-
-  \begin{itemize}
-    \item Indentation in R looks different than in Stata:
-    \begin{itemize}
-      \item To indent a whole line, you can select that line and press \texttt{Tab}
-      \item To unindent a whole line, you can select that line and press \texttt{Shift + Tab}
-      \item However, this will not always work for different parts of a code in the same line
-    \end{itemize}
-    \item In R, we typically don't introduce white space manually
-    \item It's rather introduced by RStudio for us
-  \end{itemize}
-
-## Indentation
-
-### Exercise 8: Indentation in R
-To see an example of how indenting works in RStudio, go back to our first example with `sapply`:
-
-```{r, eval = F}
-# A much more elegant loop in R
-sapply(c(1.2,2.5), round)
-```
-
-1. Add a line between the two arguments of the function (the vector of numbers and the round function)
-
-2. Now add a line between the numbers in the vector.
-
-  
-## Indentation
-Note that RStudio formats the different arguments of the function differently:
-
-```{r, eval = F}
-# A much more elegant loop in R
-sapply(c(1.2,
-         2.5),
-       round)
-```
-
-
-#Save your script!
-
-# Appendix
-
 ## Using packages
 
 Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
@@ -698,26 +780,26 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 
   * A discussion of folder strucutre and data managament can be found here:
   https://dimewiki.worldbank.org/wiki/DataWork_Folder
-  * For a broader discussion of data management, go to 
+  * For a broader discussion of data management, go to
   https://dimewiki.worldbank.org/wiki/Data_Management
-  
+
 ## Git
 
-  Git is a version-control system for tracking changes in code and other text files. It is a great resource to include in your work flow. 
-  
+  Git is a version-control system for tracking changes in code and other text files. It is a great resource to include in your work flow.
+
   We didn't cover it here because of time constraints, but below are some useful links, and DIME Analytics provides trainings on Git and GitHub, so keep an eye out for them.
-  
+
   * **DIME Analytics git page:** https://worldbank.github.io/dimeanalytics/git/
-  * **A Quick Introduction to Version Control with Git and GitHub:** https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004668 
+  * **A Quick Introduction to Version Control with Git and GitHub:** https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004668
 
 ## R projects
 
   If you have used R before, you may have heard of RStudio Projects. It's RStudio suggested tool for workflow management. DIME Analytics has found that it is not the best fit for our needs, because
-  
+
   1. In DIME, we mainly use Stata, and we prefer to keep a similar structure in R (Stata 15 also has a projects feature, but it is not yet widely adopted)
-  
+
   2. We need to keep our code and data in separate folders, as we store code in GitHub and data in DropBox
-  
-  However, if you want to learn more about it, we recommend starting here: 
+
+  However, if you want to learn more about it, we recommend starting here:
   https://r4ds.had.co.nz/workflow-projects.html
-  
+

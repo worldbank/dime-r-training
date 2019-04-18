@@ -725,33 +725,6 @@ stargazer(reg1,
   
 # Appendix
 
-## Appendix - Packages
-
-Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
-
-* swirl - An interactive learning environment for R and statistics.
-* tidyverse - a collection of R packages designed for data science.
-    + ggplot2 - beautiful and versatile graphics. The syntax is a bit of pain, but it can fulfill all of graphics dreams.
-* Rcmdr - Easy to use GUI. 
-* stargazer - awesome latex regression and summary statistics tables.
-* foreign - reads dtas and other formats from inferior statistical software.
-* sp, sf, rgeos, raster, rgdal - spatial analysis.
-* RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
-
-## Appendix - Comments and shortcuts
-
- * There is only one character to comment out code in R, `#`.
- * It can be used both by itself or after a command:
-```{r}
-# This is a comment
-foo <- 42 # This is also a comment
-
-```
- 
- * `Ctrl + Shift + c` is a shortcut to comment out a larger chunk of code. Similar to `/*` and `*/` in Stata.
- 
- * `Ctrl + Enter` is a shortcut to run the currently select code.
-
 ## Appendix - Save your data to .csv
 
 To export our data in .csv format we can use the `write.csv()` function. There other ways, but this is often the most straightforward. 
