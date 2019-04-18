@@ -58,6 +58,10 @@ library(tidyverse)
   * In the last session, you learned the basic concepts to work in R
   * You are probably eager to get your hands into some data using R by now, and you would figure out *what* should be in your code for it to work
   * But you would probably not know right away *how* to write that, so that in the end you might have code that is only intelligible for yourself -- and not for a very long time
+
+
+## Why are we here today?
+
   * In this session, we will cover common coding practices in R so that you can make the most efficient use for it
   * We will also discuss some styling conventions to make your code readable and reproducible
   * This will give you a solid foundation to code in R, and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
@@ -399,10 +403,10 @@ RStudio's default is to print warning messages, but not stop the code at the lin
   log_score <- log(whr$happy_score)
 
   # Get descriptive statistics for the log vector
-  mean(log_score)
+  summary(log_score)
 
   # Shortcut to get to the same place ----------------
-  mean(log(whr$happy_score))
+  summary(log(whr$happy_score))
 ```
 
 ## Functions inception
@@ -438,8 +442,8 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 
   # Now with pipes ------------------------------------
   whr$happy_score %>%
-  log %>%
-  mean
+    log() %>%
+    mean()
 ```
   
 ## Functions inception  
