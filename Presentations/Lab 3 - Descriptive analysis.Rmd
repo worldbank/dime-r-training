@@ -39,7 +39,7 @@ if (Sys.getenv("USERNAME") == "Leonardo"){
 
 }
 
-if (Sys.getenv("USERNAME") == "WB519128"){
+if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
