@@ -5,7 +5,14 @@
 #------------------------------------------------------------------------------#  
 
 
-# Load the pacakge than contains ToothGrowth dataset
+
+#------------------------------------------------------------------------------#  
+# Switches
+
+EXPORT_DATA = T
+
+#------------------------------------------------------------------------------#  
+# Settings
 library(datasets)
 
 # File paths
@@ -20,7 +27,7 @@ if (Sys.getenv("USERNAME") == "Leonardo"){
   
 }
 
-if (Sys.getenv("USERNAME") == "WB519128"){
+if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
@@ -58,8 +65,6 @@ whr17$Region <- whr16$Region[match(whr17$Country, whr16$Country)]
 whr17$Region[whr17$Country == "Mozambique"] <- "Sub-Saharan Africa"
 whr17$Region[whr17$Country == "Lesotho"] <- "Sub-Saharan Africa"
 whr17$Region[whr17$Country == "Central African Republic"] <- "Sub-Saharan Africa"
-
-
 
 
 #### Standardize varibles
@@ -112,16 +117,20 @@ names(whr) <- newVar_names
 #------------------------------------------------------------------------------#  
 #### Match codes ####
 
-whr$Country[whr$country == "Somaliland region"] <- "Somaliland Region" 
+whr$country[whr$country == "Somaliland region"] <- "Somaliland Region" 
 
-whr$coutry_code <- codes$code[match(whr$country, codes$country)]
+whr$country_code <- codes$code[match(whr$country, codes$country)]
 
-whr <- whr %>% select(coutry_code, country, everything())
+whr <- whr %>% select(country_code, country, everything())
 
 #------------------------------------------------------------------------------#  
 #### Export ####
 
-write.csv(whr,
-          file.path(Data, "whr_panel.csv"),
-          na = "",
-          row.names = F)
+if(EXPORT_DATA){
+  write.csv(whr,
+            file.path(Data, "whr_panel.csv"),
+            na = "",
+            row.names = F)
+}
+
+

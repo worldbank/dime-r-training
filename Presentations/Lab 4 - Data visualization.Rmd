@@ -1,7 +1,7 @@
 ---
 title: "Data Visualization"
 subtitle: "R for Stata Users"
-date: "November-December 2018"
+date: "April 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -39,7 +39,7 @@ if (Sys.getenv("USERNAME") == "Leonardo"){
 
 }
 
-if (Sys.getenv("USERNAME") == "WB519128"){
+if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 

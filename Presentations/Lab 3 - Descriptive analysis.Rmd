@@ -1,7 +1,7 @@
 ---
 title: "Descriptive analysis"
 subtitle: "R for Stata Users"
-date: "November-December 2018"
+date: "April 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -55,8 +55,6 @@ if (Sys.getenv("USERNAME") == "wb519128"){
                 header = T,
                 stringsAsFactors = F)
   
-  #whr <- read_csv(file.path(finalData,"whr_panel.csv"))
-  
 ```
 
 # Introduction
@@ -87,7 +85,7 @@ First, let's load the data that is going to be used in the training.
 ### Load the data
 ```{r, include = T, results = "hide", eval = F}
   # Replace with where your data is
-  FolderPath <- file.path("YOUR FOLDER PATH HERE")
+  FolderPath <- file.path("YOUR/FOLDER/PATH/HERE")
 
   whr <- read.csv(file.path(FolderPath,"whr_panel.csv"), 
                   header = T,
@@ -99,7 +97,6 @@ First, let's load the data that is going to be used in the training.
 
 Before starting, lets install the packages we'll use in this session since it might take a while.
 
-We'll get into what packages are in a moment.
 
 ### Install today's packages
 
@@ -173,7 +170,7 @@ Use the `table()` function to display frequency tables for:
 ## Quick summary statistics
 
 ### Bonus Exercise: 
-  Use the `table()` function to display a frequency table for the number of countries above the average happiness per region in 2017.
+  Use the `table()` function to display a frequency table for the number of countries __above the average happiness__ per region in 2017.
   
  1. Create another data.frame called `whr17` with only 2017 observations
  2. Use the `table()` function to tabulate a the `region` variable and a boolean vector.
@@ -202,19 +199,24 @@ Use the `table()` function to display frequency tables for:
 
   \textit{Stargazer} was originally developed to export beautiful regression tables to \LaTeX\ or html, but it also allows you to generate summary statistics.
 
- 
 ## Descriptives tables
-
-\begin{block}{Exercise 3 - \texttt{stargazer()} summary statistics table}
-  Use the \texttt{stargazer()} function  to display summary statistics for the variables in the \textit{whr} data frame.
-\end{block}
-
+ 
   The \texttt{stargazer()} function accepts \textbf{a lot} of arguments, most of which are beyond the scope of this session. Here are the arguments you'll need for this specific table:
   \begin{itemize}
     \item \textbf{x:} the object you want to summarize -- in this case a vector or data frame
     \item \textbf{type:} the output format -- "text" to just display, "latex" (the default) to save as a \LaTeX\ table, and "html" for, yes, html
     \item \textbf{digits:} the number of decimal digits to be displayed
-  \end{itemize}
+  \end{itemize} 
+ 
+ 
+## Descriptives tables
+
+### Exercise 3 - \texttt{stargazer()} summary statistics table
+  Use the \texttt{stargazer()} function  to display (on your R console) summary statistics for the variables in the \textit{whr} data frame.
+  
+  - TIP: Set the type argument to "text".
+
+
 
 ## Descriptives tables
 \tiny
@@ -238,7 +240,7 @@ stargazer(whr,
 To export the table to \LaTeX\, we will use a couple of additional arguments of the `stargazer()` function:
 
   \begin{itemize}
-    \item \textbf{out:} where to save the table, i.e., the file path, including the file name
+    \item \textbf{out:} where to save the table, i.e. the file path including the file name
     \item \textbf{covariate.labels:} a vector of variable labels
   \end{itemize}
 
@@ -251,6 +253,7 @@ But first, let's pick a few variables of interest in the `whr` data set so the t
  1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
  2. Use this vector to subset the whr data-set to contain only these variables. Call the new data frame `whr_simp`.
 
+ - TIP: You can use column names indexing or the `select()` function of the `dplyr` package
 
 ## Export tables to \LaTeX\
 \scriptsize
@@ -433,7 +436,7 @@ stargazer(happy_table,
 
 Ok, but what if we want to create something very specific, different from the output of those two functions? Something like this:
 
-## Descriptives tables - Create tables from scratch 
+## Descriptives tables - Create tables from scratch
 \framesubtitle{Challenge exercise}
 \scriptsize
 
@@ -460,7 +463,7 @@ happy_table2 <-
 
 #### Create a frequencies df
 
-freqdf <- 
+freqdf <-
   as.data.frame(table(whr$region, whr$year))
 
 #### Replace values for ne N rows
@@ -469,17 +472,17 @@ happy_table2$value[happy_table2$stat == "N"] <- freqdf$Freq
 #### Reshape
 
 # Re order columns so the reshape will give us the righ order
-happy_table2 <- 
+happy_table2 <-
   select(happy_table2, region, year, stat, value)
 
 # Reshape
-ht_wd <- 
-  spread(happy_table2, 
-         key = year, 
+ht_wd <-
+  spread(happy_table2,
+         key = year,
          value = value)
 
 
-#### Cosmetics 
+#### Cosmetics
 
 # Remove duplicated region names
 ht_wd$region[as.integer(row.names(ht_wd)) %% 2 == 0] <- ""
@@ -497,7 +500,7 @@ names(ht_wd) <- c("Region",
 
 ```{r,  echo = F, results='asis'}
 
-stargazer(ht_wd, 
+stargazer(ht_wd,
           font.size = "tiny",
           title = "Happiness score by world region",
           column.labels = c("foo", "bar", "bar", "Good", "Better"),
@@ -670,7 +673,9 @@ stargazer(reg1,
           keep = c("Sepal.Width",  "Petal.Length"),
           dep.var.labels = depvar_label,
           covariate.labels = covar_labels,
-          add.lines = list(c("Species FE", "No", "No", "Yes")),
+          add.lines = list(
+            c("Species FE", "No", "No", "Yes")
+            ),
           omit.stat = c("ser"),
           digits = 2,
           header = F)
