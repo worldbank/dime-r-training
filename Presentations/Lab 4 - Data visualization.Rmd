@@ -241,10 +241,10 @@ Here is a list of ``ggplot2`` most commonly used "grammar" elements:
 
 ### Exercise 4
 
-First, let's create a very simple plot with the happiness score on the Y axis and afreedom on the X axis.
+First, let's create a very simple plot with the happiness score on the Y axis and freedom on the X axis.
 
 
- 1. Use the ``ggplot`` function to store your plot in an object called ``plot1``
+ 1. Use the ``ggplot`` function to store your plot in an object called ``p1_happyfree``
     - Since it's the first one, Here's the code:
 
 ```{r, eval=F}
@@ -650,7 +650,7 @@ To add a title and legend to the X and Y axis, we use the functions listed below
 To add legend titles, we will use two functions that control the formatting of the aesthetic. As they can take many different arguments, we use ``name`` argument sets legend title:
 
  * ``scale_color_discrete() `` - formatting of the color aesthetic.
- * ``scale_size_continuous()`` - formatting of the color aesthetic.
+ * ``scale_size_continuous()`` - formatting of the size aesthetic.
 
 ## ``ggplot`` - Titles and labels
 
