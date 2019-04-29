@@ -1,7 +1,7 @@
 ---
 title: "Spatial Data in R"
 subtitle: "R for Stata Users"
-date: "November-December 2018"
+date: "April 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -19,12 +19,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, echo = F, eval=T}
+```{r, echo = F, eval=T, warning=FALSE, message=F, results='hide'}
 # File paths
 
 if (Sys.getenv("USERNAME") == "luiza"){
   projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
-  
 }
 
 if (Sys.getenv("USERNAME") == "WB501238"){
@@ -41,9 +40,18 @@ if (Sys.getenv("USERNAME") == "WB519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
+if (Sys.info()["user"] == "robmarty"){
+  projectFolder  <- "/Users/robmarty/Desktop/dime-r-training"
+}
+
 library(tidyverse, verbose = F)
 library(readstata13)
 library(data.table)
+library(ggplot2)
+library(ggmap)
+library(rgdal)
+library(rgeos)
+library(raster)
 
 # File paths
 dataWorkFolder    <- file.path(projectFolder,"DataWork")
@@ -51,8 +59,12 @@ dataWorkFolder    <- file.path(projectFolder,"DataWork")
 Data              <- file.path(dataWorkFolder,"DataSets")
 finalData         <- file.path(Data,"Final")
 rawData           <- file.path(Data,"Raw")
-
 ```
+
+## Introduction
+In this section we'll introduce handling spatial datasets in R. We'll cover how to make (1) maps using `ggplot()`, (2) maps with basemaps using `ggmap()` and (3) interactive maps with `leaflet()`. In addition, we'll introduce some operations that can be done on spatial objects, such as calculating distances. We'll rely on the `rgdal()`, `rgeos()` and `raster()` packages for loading and manipulating spatial data.
+
+Note: An alternative (and newer) way of working with spatial data in R is to use the `sf()` package. We won't be using this today, but when googling around you may notice this package being used.
 
 ## Introduction
 
@@ -94,11 +106,64 @@ Here's a shortcut if you missed the last session:
 
 # GIS Overview
 
-## GIS Overview
+## Load Spatial Object
+We'll load the map  data using the the readOGR function from the rgdal package. The argument for dsn is the folder where the shapefile is and layer is the name of the shapefile.
+
+The code also shows alternative ways of loading the shapefile, in case the first way doesn't work.  
+
+\scriptsize
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+library(rgdal)
+worldmap <- readOGR(dsn=finalData, layer="worldmap")
+
+# POTENTIAL ISSUE 1: Can't find file.
+#   In this case, try setting the working directory
+#   to the folder where the shapefile is
+#     setwd(finalData)
+#     worldmap <- readOGR(dsn=".", layer="worldmap")
+
+# POTENTIAL ISSUE 2: Can't find gdal
+#   In this case, use the following code
+#     library(maptools)
+#     worldmap <- readShapeSpatial(file.path(finalData,"worldmap.shp"))
+#     prj <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+#     crs(worldmap) <- CRS(prj)
+```
+
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(rgdal)
+
+setwd(finalData)
+worldmap <- readOGR(dsn=".", layer="worldmap")
+```
+
+## Plot Spatial Object
+```{r, eval=T}
+plot(worldmap)
+```
+
+## Plot Spatial Object
+We can subset the the spatial object just like any other dataframe.
+```{r, eval=T}
+plot(worldmap[1:42,])
+```
+
+## GIS Data: Shapefiles
 One of the main GIS data types is vector data. Vectors (also called shapefiles) consist of points, lines and polygons. These shapes are attached to a dataframe, where each row corresponds to a different spatial element.
 
 ```{r fig.align="center", echo=F}
 knitr::include_graphics("img/Attribute_Table.png", dpi = 400)
+```
+
+## GIS Data: Shapefiles
+
+Let's look at the data in our shapefile.
+
+\scriptsize
+
+```{r, eval=T}
+# Dataframe
+head(worldmap@data)
 ```
 
 ## GIS Data: Raster Data
@@ -112,11 +177,11 @@ knitr::include_graphics("img/raster_r_example.png", dpi = 400)
 
 __Coordinate reference systems__ map pairs of numbers to a location.
 
-* __Geographic Coordinate Systems__ live on a sphere; here, the units are in decimal degrees
+* __Geographic Coordinate Systems__ live on a sphere; here, the units are in decimal degrees (latitude = angle from equator; longitude = angle from prime meridian)
 
     + Using the WGS84 coordinate system the World Bank MC building is located at 38.89 degrees latitude and -77.04 degrees longitude.
     
-* __Projected Coordinate Systems__ project the earth onto a flat surface. This [distorts](http://geoawesomeness.com/5-tools-will-let-master-map-projections/) the earth in some way (shape, area, distance or direction)
+* __Projected Coordinate Systems__ project the earth onto a flat surface (units here are typically in meters from some reference point). 
 
     + Using to the World Mercator projection, the World Bank is located 4680364.64 north and -8576320.73 east.
     
@@ -126,8 +191,11 @@ knitr::include_graphics("img/coordinate_systems.jpg", dpi = 220)
 
 ## Coordinate Reference Systems
 
-To see why projections matter, watch this video from the West Wing: click [here](https://www.youtube.com/watch?v=vVX-PrBRtTY).
+Projecting the earth onto a flat surface distorts [distorts](http://geoawesomeness.com/5-tools-will-let-master-map-projections/) the earth in some way (shape, area, distance or direction). 
 
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/mercator_12.jpg", dpi = 220)
+```
 
 ```{r, eval=T, echo=F}
 setwd(finalData)
@@ -167,63 +235,48 @@ worldmap <- merge(worldmap, whr, by.x="ADMIN", by.y="country")
 writeOGR(obj=worldmap, dsn=finalData, layer="worldmap", driver="ESRI Shapefile",overwrite_layer=T)
 ```
 
-# Load and Plot Spatial Object
-
-## Load a Shapefile
-We'll load the map  data using the the readOGR function from the rgdal package. The argument for dsn is the folder where the shapefile is and layer is the name of the shapefile.
-
-The code also shows alternative ways of loading the shapefile, in case the first way doesn't work.  
-
+## Coordinate Reference Systems
 \scriptsize
-```{r, eval=F, warning=FALSE, message=F, results='hide'}
-library(rgdal)
-worldmap <- readOGR(dsn=finalData, layer="worldmap")
 
-# POTENTIAL ISSUE 1: Can't find file.
-#   In this case, try setting the working directory
-#   to the folder where the shapefile is
-#     setwd(finalData)
-#     worldmap <- readOGR(dsn=".", layer="worldmap")
+Let's check the coordinate reference system of our shapefile
 
-# POTENTIAL ISSUE 2: Can't find gdal
-#   In this case, use the following code
-#     library(maptools)
-#     worldmap <- readShapeSpatial(file.path(finalData,"worldmap.shp"))
-#     prj <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-#     crs(worldmap) <- CRS(prj)
-```
-
-```{r, echo=F, warning=FALSE, message=F, results='hide'}
-library(rgdal)
-
-setwd(finalData)
-worldmap <- readOGR(dsn=".", layer="worldmap")
-```
-
-## Plot Shapefile
-```{r, eval=T}
-plot(worldmap)
-```
-
-## Plot Shapefile
-We can subset the spatialdataframe just like any other dataframe.
-```{r, eval=T}
-plot(worldmap[1:42,])
-```
-
-## Spatial Data Frame
-Here, we've loaded a SpatialPolygonsDataFrame. (There's equivalent object types for points and lines). A spatial dataframe is comprised of a list that includes different parts of the shapefile. We access these parts using the @ symbol. 
-
-\scriptsize
 
 ```{r, eval=T}
 # Coordinate Repference System
 worldmap@proj4string
 ```
 
+And lets look at the values of the coordinates for the center points of each country.
+
 ```{r, eval=T}
-# Dataframe
-head(worldmap@data, 3)
+# Grab center of polygons
+worldmap_center <- coordinates(worldmap)
+head(worldmap_center)
+```
+
+## Coordinate Reference Systems
+\scriptsize
+We can change the projection using \texttt{spTransform()}. Lets change to the mercator projection, which preserves angles and directions (distorting distance and area).
+
+EPSG codes reference commonly used projections and provide a shorthand to referencing a projection. epsg:3857 is a shorthand for the mercator projection.
+
+```{r, eval=T}
+# Reproject
+worldmap_reproj <- spTransform(worldmap, crs("+init=epsg:3857"))
+```
+
+And lets look at some coordinates. These look very different than before!
+```{r, eval=T}
+# Look at some coordinates
+worldmap_reproj_center <- coordinates(worldmap_reproj)
+head(worldmap_reproj_center)
+```
+
+## Coordinate Reference Systems
+\scriptsize
+When plotting, the map now looks different too.
+```{r, eval=T}
+plot(worldmap_reproj[!(worldmap_reproj$REGION %in% "Antarctica"),])
 ```
 
 # Mapping with ggplot: Polygons
@@ -268,13 +321,14 @@ ggplot() +
 ```
 
 ## Converting Spatial Object into Dataframe for ggplot
+\scriptsize
 To use our variables when mapping a spatial object with ggplot, we need to convert the spatial object into a dataframe and add our variables ourselves.  
 
 \begin{itemize}
 \item We use the tidy function from the broom package to convert our shapefile into a dataframe. 
 \item The \texttt{tidy()} function will create an "id" variable where values are the row.names from the shapefile. So we can later merge data from the shapefile to the new dataframe, we create an id variable in the shapefile that are the row.names.
 \end{itemize}
-\scriptsize
+
 ```{r, eval=TRUE, warning=FALSE, message=F, results='hide'}
 library(broom)
 worldmap$id <- row.names(worldmap)
@@ -515,7 +569,7 @@ trunk_roads@proj4string
 ```
 
 ## Reproject Data
-We can use the \texttt{spTransform()} function to reproject the data. 
+We use the \texttt{spTransform()} function to reproject the data. 
 
 The below code shows two different ways of specifying the same projection. 
 \begin{enumerate}
@@ -631,7 +685,7 @@ nairobi <- c(left = 36.66,
              right = 37.10, 
              top = -1.15)
 nairobi_map <- get_stamenmap(nairobi, 
-                             zoom = 12, 
+                             zoom = 11, 
                              maptype = "toner-lite")
 
 ggmap(nairobi_map)
@@ -707,7 +761,7 @@ ggmap(nairobi_map) +
 
 ## Convert dataframe to spatialdataframe
 
-So far we've been using points as a dataframe. However, we can also define points as a spatial points dataframe. Here, we explicitly define which variables are the latitude and longitude and can define a projection.
+So far we've been using points as a dataframe. However, we can also define points as a spatial points dataframe. Here we explicitly define which variables are the latitude and longitude and can define a projection.
 
 We don't necessarily need to do this for interactive maps, but it'll make our code simplier later on.
 
@@ -993,6 +1047,12 @@ ggplot() +
   theme(plot.title = element_text(hjust = 0.5)) # Center Title
 ```
 
+## Thank You!
+
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/werner_projection.jpg", dpi = 220)
+```
+
 # Appendix
 
 ## Homework Solution
@@ -1065,7 +1125,7 @@ writeOGR(obj=roads_trunk_rpj,     # Spatial object
 ```
 
 ## Over Function
-Let's say we want to add variables to the World Bank projects from the Africa polygon dataset. For this, we can use the \texttt{over()} function. We can use this to extract data from the polygons to each point.
+Let's say we want to add variables to the World Bank projects from the Africa polygon dataset (e.g, the name of the country each project is in). For this, we can use the \texttt{over()} function. We can use this to extract data from the polygons to each point.
 \scriptsize
 ```{r, eval=F}
 # Spatially define wb_projects
