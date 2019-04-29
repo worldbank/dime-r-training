@@ -36,7 +36,7 @@ if (Sys.getenv("USERNAME") == "Leonardo"){
   
 }
 
-if (Sys.getenv("USERNAME") == "WB519128"){
+if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
@@ -71,11 +71,8 @@ Note: An alternative (and newer) way of working with spatial data in R is to use
 Before we start, let's make sure we're all set:
 
   1. Start a fresh session.
-  2. Make sure the `tidyverse` package is listed in the `packages` vector of your Master script. If it's not installed, install it.
-  3. Run the Master script to load all the necessary packages and set file paths.
-  4. Remember to disable the `PACKAGES` switch in the Master script if you already installed the necessary packages. This will save you a lot of time.
-
-
+  2. Make sure to load `rgdal`, `broom`, `ggmap`, `raster`, `leaflet`, `rworldmap`, `rgeos`, `tidyverse` and `ggrepel` packages. If they are not installed, install them.
+  
 ## Introduction
 
 Here's a shortcut if you missed the last session:
@@ -84,16 +81,15 @@ Here's a shortcut if you missed the last session:
 
 ```{r, eval= F}
   # Install packages
-  install.packages(c("rgdal", "broom", "ggplot2",
-                     "ggmap", "raster", "leaflet",
-                     "rgeos"))
+  install.packages(c("rgdal", "broom", "ggmap", 
+                     "raster", "leaflet", "rworldmap",
+                     "rgeos", "tidyverse", "ggrepel"))
   
   # Load packages
-  library(tidyverse)
   library(rworldmap)
+  library(tidyverse)
   library(rgdal)
   library(ggmap)
-  library(ggplot2)
   library(broom)
   library(ggrepel)
 
