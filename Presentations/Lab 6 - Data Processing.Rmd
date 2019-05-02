@@ -17,7 +17,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-```{r, echo = F, eval=T}
+```{r, echo = F, eval=T, warning=FALSE}
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
@@ -42,13 +42,12 @@ if (Sys.getenv("USERNAME") == "Leonardo"){
   
 }
 
-if (Sys.getenv("USERNAME") == "WB519128"){
+
+if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
-library(tidyverse, verbose = F)
-library(readstata13)
-library(data.table)
+
 
 # File paths
 dataWorkFolder    <- file.path(projectFolder,"DataWork")
@@ -56,6 +55,14 @@ dataWorkFolder    <- file.path(projectFolder,"DataWork")
 Data              <- file.path(dataWorkFolder,"DataSets")
 finalData         <- file.path(Data,"Final")
 rawData           <- file.path(Data,"Raw")
+
+```
+
+
+```{r, echo = F, eval=T, warning=FALSE, message=F, results='hide'}
+library(tidyverse, verbose = F)
+library(readstata13)
+library(data.table)
 
 ```
 
