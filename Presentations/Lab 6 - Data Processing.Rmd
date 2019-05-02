@@ -1,8 +1,8 @@
 ---
 title: "Data Processing"
 subtitle: "R for Stata Users"
-date: "November-December 2018"
-author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
+date: "May 2019"
+author: "Luiza Andrade, Leonardo Viotti & Rob Marty"
 output:
   beamer_presentation:
     #theme: "Pittsburgh"
@@ -32,7 +32,7 @@ if (Sys.getenv("USERNAME") == "luiza"){
   
 }
 
-if (Sys.getenv("USERNAME") == "WB501238"){
+if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
   projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
   
 }
@@ -74,7 +74,7 @@ rawData           <- file.path(Data,"Raw")
     * Exploring a data set
     * Creating new variables
     * Filtering and subsetting data sets
-    * Merging and reshaping data sets
+    * Merging data sets
     * Dealing with factor variables
     * Saving data
 * There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session
@@ -86,14 +86,12 @@ rawData           <- file.path(Data,"Raw")
 Before we start, let's make sure we're all set:
 
   1. Start a fresh session.
-  2. Make sure the `tidyverse` package is listed in the `packages` vector of your Master script. If it's not installed, install it.
-  3. Run the Master script to load all the necessary packages and set file paths.
-  4. Remember to disable the `PACKAGES` switch in the Master script if you already installed the necessary packages. This will save you a lot of time.
-
+  2. Load the `tidyverse` package.
+  3. Set your file paths.
 
 ## Introduction
 
-Here's a shortcut if you missed the last session:
+Here's a how you can do that:
 
 \scriptsize
 
@@ -107,8 +105,10 @@ Here's a shortcut if you missed the last session:
 
   #  Set folder paths
   projectFolder <- "YOUR/FOLDER/PATH"
-  finalData     <- file.path(projectFolder, "DataWork", "DataSets", "Final")
-  rawData       <- file.path(projectFolder, "DataWork", "DataSets", "Raw")
+  finalData     <- file.path(projectFolder, 
+                             "DataWork", "DataSets", "Final")
+  rawData       <- file.path(projectFolder, 
+                             "DataWork", "DataSets", "Raw")
 
 ```
 
@@ -169,51 +169,6 @@ Some useful functions:
 * **``head()``:** shows the first few observations in the dataset
 * **``tail()``:** shows the last few observations in the dataset
 
-## Exploring a data set
-
-### Exercise 2: Explore a data set
-
-Use some of the functions listed above to explore the `whr15` data set.
-
-## Exploring a data set
-
-\footnotesize
-```{r, eval = F}
-# View the data set (same as clickin on it in the Environment pane)
-View(whr15)
-```
-\begin{figure}
-\centering
-  \includegraphics[scale=0.4]{img/View.png}
-\end{figure}
-
-## Exploring a data set
-
-\footnotesize
-```{r}
-class(whr15)
-dim(whr15)
-```
-
-## Exploring a data set
-
-\footnotesize
-```{r}
-str(whr15)
-```
-
-## Exploring a data set
-
-```{r, size = "tiny"}
-summary(whr15)
-```
-
-## Exploring a data set
-
-\footnotesize
-```{r, size = "tiny"}
-head(whr15)
-```
 
 # ID variables
 
@@ -236,7 +191,7 @@ Counts the number of unique values of a variablelength of a vector
  * **...**: a vector of values
  * **na.rm**: if `TRUE`, missing values don't count
  
-### Exercise 3: identify the ID
+### Exercise 2: identify the ID
 
 Using the `n_distinct` function, can you tell if the following variables are IDs of the `whr15` data set?
 
@@ -276,7 +231,7 @@ Prints all the elements of the `first` object that are not in the `second` objec
 
 ## Comparing vectors
 
-### Exercise 4: compare vectors
+### Exercise 3: compare vectors
 Use the `setdiff()` function to see which countries are coming in and out of the WHR data set between 2015 and 2016.
 
 ## Comparing vectors
@@ -293,7 +248,7 @@ setdiff(whr16$Country, whr15$Country)
 
 Wait, "Somaliland region" and "Somaliland Region" are not the same?!
 
-### Exercise 5: replacing values
+### Exercise 4: replacing values
 Replace the occurrences of "Somaliland region" in whr15 with "Somaliland **R**egion".
 
 - TIP: use indexing to select only the observations of whr15$Country that are equal to "Somaliland region"
@@ -307,27 +262,13 @@ whr15$Country[whr15$Country == "Somaliland region"] <-
   "Somaliland Region"
 ```
 
-## Replacing values
-
-We also did the same for 2017:
-
-```{r, size = "footnotesize"}
-# Compare countries
-setdiff(whr16$Country, whr17$Country)
-setdiff(whr17$Country, whr16$Country)
-
-# Fix names
-whr17$Country[whr17$Country == "Hong Kong S.A.R., China"]  <- "Hong Kong" 
-whr17$Country[whr17$Country == "Taiwan Province of China"] <- "Taiwan" 
-```
-
 ## Creating variables
   
   * Ok, the ID variables are consistent now
   * But once we merge the data sets, we need to still be able to identify them
   * So let's add a `year` variable so we can tell them apart
 
-### Exercise 6: creating variables
+### Exercise 5: creating variables
 Create a variable called `year` in each WHR data set identifying what year it refers to.
 
 ## Creating variables
@@ -353,7 +294,7 @@ Take a sequence of vector, matrix or data-frame arguments and combine by rows.
 
 ## Appending and merging
 
-### Exercise 7: append data sets
+### Exercise 6: append data sets
 Use the `rbind` function to append the three WHR datasets into a data set called `whr_panel`.
 
 ## Appending and merging data sets
@@ -405,7 +346,7 @@ Keeps only the variables you mention.
 
 ## Subsetting
 
-### Exercise 8: subset the data
+### Exercise 7: subset the data
 Create a new object called `regions` containing only the columns `Country` and `Region` of the `whr16` data set.
 
 ## Subsetting
@@ -437,12 +378,6 @@ keepVars <-   c("Country",
 whr15 <- whr15[, keepVars]
 whr16 <- select(whr16, keepVars)
 ```
-```{r, eval = FALSE, size = "footnotesize"}
-whr17 <- select(whr17, keepVars)
-```
-\footnotesize
-\textcolor{red}{\texttt{Error: Unkown column `Region`}}
-
 
 ## Tidyverse
 
@@ -468,7 +403,7 @@ Return all rows from x, and all columns from x and y. Rows in x with no match in
 
 ## Merging 
 
-### Exercise 9: Merge
+### Exercise 8: Merge
 Merge the `regions` data set into the `whr17` data set.
 
 ## Merging
@@ -541,7 +476,7 @@ names(whr15) <-  newnames
 
 ## Ordering variables
 
-Fortunately, `select` also does that for you
+Fortunately, `select` also reorders variables
 ```{r}
 # Subset the 2017 data set and order variables
 whr17 <- select(whr17, keepVars)
@@ -570,7 +505,7 @@ whr_panel <- rbind(whr15, whr16, whr17)
 
 ## Saving a data set to csv
 
-### Exercise 12: save the data set
+### Exercise 9: save the data set
 
 Save the ``whr_panel`` data set to DataWork > DataSets > Final.
 
@@ -583,6 +518,67 @@ Save the ``whr_panel`` data set to DataWork > DataSets > Final.
 write.csv(whr_panel,
           file.path(finalData,"whr_panel.csv"),
           row.names = F)
+```
+
+## Saving a data set as R data
+
+* The problem with CSVs is that they cannot differentiate between strings and factors
+* They also don't save factor orders
+* Data attributes (which are beyong the scope of this training, but also useful to document data sets) are also lost in csv data
+
+
+## Saving a data set as R data
+
+The R equivalent of a `.dta` file is a `.Rda` file. It can be saved and loaded using the following commands:
+
+### `saveRDS(object, file = "")`
+Writes a single R object to a file.
+
+* **object:** the R object to be save
+* **file: ** the file path to where it should be saved
+
+### `readRDS(file)`
+Load a single R object from a file.
+
+* **file: ** the file path to the data set
+
+
+## Saving a data set as R data
+
+```{r}
+# Save the data set
+saveRDS(whr_panel,
+        file = file.path(finalData, 
+                         "whr_panel.Rda"))
+
+# And load it again
+whr_panel <- 
+  readRDS(file.path(finalData, 
+                    "whr_panel.Rda"))
+
+```
+## Saving a data set to Stata
+
+### ``write.dta13(data, file)``
+Writes a Stata dta-file bytewise and saves the data into a dta-file.
+
+* **data: ** A data frame
+* **file: ** Path to the dta file you want to export
+
+## Saving a data set to Stata
+
+```{r}
+# This command doesn't handle ordered factors well
+whr_panel$region_ord <- NULL
+
+# Export it 
+save.dta13(whr_panel,
+           file = file.path(finalData, 
+                            "whr_panel.dta"))
+
+# Load it again
+whr_panel <- read.dta13(file.path(finalData, 
+                                  "whr_panel.dta"))
 ```
 
 # Adding variables
@@ -662,13 +658,15 @@ To create a factor variable, we use the ``factor`` function:
 
 ## Converting strings into factors
 
-### Exercise 11: turn a variable into a factor
+If your categorical variable does not need to be ordered, and your string variable already has the label you want, making the conversion is quite easy.
+
+### Exercise 11: turn a string variable into a factor
 Use the `mutate` function to create a variable called `region_cat` containing a categorical version of the `region` variable.
 
 - TIP: to do this, you only need the first argument of the `factor` function
 
 ## Converting strings into factors
-```{r, size = "footnotesize"}
+```{r, size = "scriptsize"}
 # Create categorical region
 whr_panel <- 
   mutate(whr_panel,
@@ -676,7 +674,30 @@ whr_panel <-
 
 
 class(whr_panel$region_cat)
-levels(whr_panel$region_cat)
+table(whr_panel$region_cat)
+```
+
+## Ordering factors
+
+```{r, size = "tiny"}
+# If you want your levels to be shown in a particular order, you need to order them
+whr_panel <- 
+  mutate(whr_panel,
+         region_ord = factor(region,
+                             levels = c("Latin America and Caribbean",
+                                        "North America",
+                                        "Western Europe",
+                                        "Central and Eastern Europe",
+                                        "Middle East and Northern Africa",
+                                        "Sub-Saharan Africa",
+                                        "Eastern Asia",
+                                        "Southeastern Asia",
+                                        "Southern Asia",
+                                        "Australia and New Zealand"),
+                             ordered = TRUE))
+
+class(whr_panel$region_ord)
+table(whr_panel$region_ord)
 ```
 
 ## Labelling values
@@ -689,29 +710,12 @@ The `labels` argument of the `factor` function can be used to assign labels to s
 whr_panel <- 
   mutate(whr_panel,
          happy_cat = factor(happy_high,
-                            levels = c(FALSE, TRUE),
-                            labels = c("Not so happy",
-                                       "Happy")))
+                            levels = c(TRUE,
+                                       FALSE),
+                            labels = c("Happy",
+                                       "Not so happy")))
 
 table(whr_panel$happy_cat)
-```
-
-## Ordering factors
-
-The `ordered` argument of the `factor` function can be used tell R to always display the categories in a certain order.
-
-```{r, size = "footnotesize"}
-# Assign 'not so happy'  and 'happy' as labels
-# for above of below median happy score, respectively
-whr_panel <- 
-  mutate(whr_panel,
-         happy_ord = factor(happy_high,
-                            levels = c(FALSE, TRUE),
-                            labels = c("Not so happy", 
-                                       "Happy"),
-                            ordered = TRUE))
-
-table(whr_panel$happy_ord)
 ```
 
 # Appendix
@@ -726,9 +730,10 @@ table(whr_panel$happy_ord)
 ```{r, size = "footnotesize"}
 # Spread data
 happy_table <- 
-  spread(select(whr_panel, country, year, happy_score), # data
-         key = year,  # column to be used as column headings 
-         value = happy_score) # column to populate the cells
+  spread(select(whr_panel, 
+                country, year, happy_score), # data
+         key = year,                         # new variables' names 
+         value = happy_score)                # var to populate the cells
 
 # See result
 head(happy_table)
@@ -800,65 +805,5 @@ happy_wide <-
 head(happy_wide)
 ```
 
-## Saving a data set as R data
-
-* The problem with CSVs is that they cannot differentiate between strings and factors
-* They also don't save factor orders
-* Data attributes (which are beyong the scope of this training, but also useful to document data sets) are also lost in csv data
-
-
-## Saving a data set as R data
-
-The R equivalent of a `.dta` file is a `.Rda` file. It can be saved and loaded using the following commands:
-
-### `saveRDS(object, file = "")`
-Writes a single R object to a file.
-
-* **object:** the R object to be save
-* **file: ** the file path to where it should be saved
-
-### `readRDS(file)`
-Load a single R object from a file.
-
-* **file: ** the file path to the data set
-
-
-## Saving a data set as R data
-
-```{r}
-# Save the data set
-saveRDS(whr_panel,
-        file = file.path(finalData, 
-                         "whr_panel.Rda"))
-
-# And load it again
-whr_panel <- 
-  readRDS(file.path(finalData, 
-                    "whr_panel.Rda"))
-
-```
-## Saving a data set to Stata
-
-### ``write.dta13(data, file)``
-Writes a Stata dta-file bytewise and saves the data into a dta-file.
-
-* **data: ** A data frame
-* **file: ** Path to the dta file you want to export
-
-## Saving a data set to Stata
-
-```{r}
-# This command doesn't handle ordered factors well
-whr_panel$happy_ord <- NULL
-
-# Export it 
-save.dta13(whr_panel,
-           file = file.path(finalData, 
-                            "whr_panel.dta"))
-
-# Load it again
-whr_panel <- read.dta13(file.path(finalData, 
-                                  "whr_panel.dta"))
-```
 
 
