@@ -1,10 +1,10 @@
- ------------------------------------------------------------------------------ #
-                                                                                #
-                                DIME Analytics                                  #
-                        Introduction to R for Stata users                       #
-                                MASTER SCRIPT                                   #
-                                                                                #
- ------------------------------------------------------------------------------ #
+ # ------------------------------------------------------------------------------ #
+ #                                                                                #
+ #                                DIME Analytics                                  #
+ #                        Introduction to R for Stata users                       #
+ #                                MASTER SCRIPT                                   #
+ #                                                                                #
+ # ------------------------------------------------------------------------------ #
 
 # PURPOSE:    Set-up configurations and run scripts that are part of DIME's R
 #             Training
@@ -24,7 +24,7 @@
   #-------------#
   # Root folder #
   #-------------#
-  
+
   # Add your username and folder path here
   projectFolder  <- "YOUR/FOLDER/PATH/HERE"
 

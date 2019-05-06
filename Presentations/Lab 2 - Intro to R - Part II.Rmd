@@ -147,23 +147,6 @@ Here's how you change these settings
   * Today, we will do that using code and referring a file's path
   * File paths in R, as in Stata, are basically just strings
   * Note, however, that in R we can only use forward slashes (``/``) to separate folder names
-  * We recommend always using **explicit** and **dynamic** file paths
-
-## File paths
-
-  * Explicit and dynamic file path:
-
-```{r, eval = F}
-  # Define dynamic file path
-  finalData <- "C:/Users/luiza/Documents/GitHub/
-                dime-r-training/
-                DataWork/DataSets/Final"
-
-  # Load data set
-  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                  header = T)
-
-```
 
 ### Exercise 3: File path to your folder
 Let's start by adding the folder path to the training's folder in your computer to the beginning of `PART 2`
@@ -172,6 +155,7 @@ Let's start by adding the folder path to the training's folder in your computer 
 
   * You can set file paths in your script using the ``file.path()`` function
   * This function concatenates strings using ``/`` as a separator to create file paths
+  * This is similar to using globals to define folder paths in Stata
 
 ## File paths
 
@@ -303,11 +287,11 @@ Don't worry, you'll see them again soon.
 
 ### Exercise 6: Commenting
 
-1. Go the `Lab 2 - Intro II.R` script. You can see that the first few lines in the script are the header, but they're not commented out.
+1. Go the `Lab 2 - Intro II.R` script. Select the lines under `PART 2: Set folder pahts`.
 
-2. Use the keyboard shortcut to comment the header of the script.
+2. Use the keyboard shortcut to comment these lines.
 
-3. Use the keyboard shortcut to comment the header of the script again. What happened?
+3. Use the keyboard shortcut to comment these lines again. What happened?
 
 
 # Creating a document outline in RStudio
@@ -350,7 +334,7 @@ Don't worry, you'll see them again soon.
 * To install and use packages you can either do it with the user interface or by the command prompt.
 ```{r, eval = F}
 # Installing a package
-install.packages("tidyverse",
+install.packages("stargazer",
                  dependencies = T)
 # the dependencies argument also installs all other packages
 # that it may depend upon to run
@@ -366,7 +350,7 @@ install.packages("tidyverse",
 ## Using packages
 
 ```{r, eval = F}
-  library(tidyverse)
+  library(stargazer)
 ```
 
 ## Warnings vs Errors
@@ -374,7 +358,7 @@ install.packages("tidyverse",
 What if this happens?
 
 \begin{figure}
-  \includegraphics[width = 0.7\textwidth]{img/Warning.PNG}
+  \includegraphics[width = \textwidth]{img/Warning.PNG}
 \end{figure}
 
 
@@ -763,6 +747,28 @@ Create a function that
     # Test if object x is contained in
     # the vector of installed packages
     x %in% installed.packages()
+```
+
+## File paths best practices
+
+  * We at DIME Analytics recommend always using **explicit** and **dynamic** file paths
+  * **Explicit** means your explicitly stating where the file will be saved -- instead of setting the working directory, for example
+  * **Dynamic** means that you don't need to adjust every file path in the script when you change from one machine to another -- they're updated based on a single line of code to be changed  
+
+## File paths
+
+  * Explicit and dynamic file path:
+
+```{r, eval = F}
+  # Define dynamic file path
+  finalData <- "C:/Users/luiza/Documents/GitHub/
+                dime-r-training/
+                DataWork/DataSets/Final"
+
+  # Load data set
+  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
+                  header = T)
+
 ```
 ## Using packages
 
