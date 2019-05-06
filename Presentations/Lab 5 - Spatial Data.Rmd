@@ -86,11 +86,14 @@ Here's a shortcut if you missed the last session:
                      "rgeos", "tidyverse", "ggrepel"))
   
   # Load packages
-  library(rworldmap)
   library(tidyverse)
   library(rgdal)
-  library(ggmap)
   library(broom)
+  library(ggmap)
+  library(raster)
+  library(leaflet)
+  library(rworldmap)
+  library(rgeos)
   library(ggrepel)
 
   #  Set folder paths
@@ -103,27 +106,42 @@ Here's a shortcut if you missed the last session:
 # GIS Overview
 
 ## Load Spatial Object
+
 We'll load the map  data using the the readOGR function from the rgdal package. The argument for dsn is the folder where the shapefile is and layer is the name of the shapefile.
 
-The code also shows alternative ways of loading the shapefile, in case the first way doesn't work.  
+### `readOGR()`
+
+* __dsn__: data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder)
+* __layer__: layer name (varies by driver, may be a file name without extension)
+
+
+## Load Spatial Object
 
 \scriptsize
 ```{r, eval=F, warning=FALSE, message=F, results='hide'}
 library(rgdal)
-worldmap <- readOGR(dsn=finalData, layer="worldmap")
+worldmap <-  readOGR(dsn = finalData, layer = "worldmap")
+```
 
-# POTENTIAL ISSUE 1: Can't find file.
-#   In this case, try setting the working directory
-#   to the folder where the shapefile is
-#     setwd(finalData)
-#     worldmap <- readOGR(dsn=".", layer="worldmap")
+__Potentital issues__
 
-# POTENTIAL ISSUE 2: Can't find gdal
-#   In this case, use the following code
-#     library(maptools)
-#     worldmap <- readShapeSpatial(file.path(finalData,"worldmap.shp"))
-#     prj <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-#     crs(worldmap) <- CRS(prj)
+1. Can't find file? Try
+```{r, eval=F}
+ worldmap <- readOGR(file.path(finalData, "worldmap.shp"))
+```
+
+If it doesn't work, try setting the working directory to the folder where the shapefile is (usually works better with Macs)
+```{r, eval=F}
+setwd(finalData)
+worldmap <- readOGR(dsn = ".", layer = "worldmap")
+```
+
+2. Can't find gdal? Use the following code
+```{r, eval = F}
+library(maptools)
+worldmap <- readShapeSpatial(file.path(finalData,"worldmap.shp"))
+prj <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+crs(worldmap) <- CRS(prj)
 ```
 
 ```{r, echo=F, warning=FALSE, message=F, results='hide'}
@@ -465,7 +483,7 @@ ggplot() +
   geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
                                        group=group, 
                                        fill = hppy_sc)) +
-  geom_points(data=wb_projects, aes(x=longitude,
+  geom_point(data=wb_projects, aes(x=longitude,
                                     y=latitude),
               size=.1) +
   theme_void() +
