@@ -567,7 +567,7 @@ whr_panel <-
 ## Saving a data set to Stata
 
 ### ``write.dta13(data, file)``
-Writes a Stata dta-file bytewise and saves the data into a dta-file.
+Part of the `readstata13` package. Writes a Stata dta-file bytewise and saves the data into a dta-file.
 
 * **data: ** A data frame
 * **file: ** Path to the dta file you want to export
@@ -760,6 +760,15 @@ happy_table_long <-
 # See result
 head(happy_table_long)
 
+```
+
+## `dcast` and `melt`
+
+* These are functions from the `reshape2` package
+
+```{r, eval = F}
+install.packages("reshape2")
+library(reshape2)
 ```
 
 ## `dcast`: reshape from long to wide
