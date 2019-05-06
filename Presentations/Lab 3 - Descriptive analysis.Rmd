@@ -1,0 +1,815 @@
+---
+title: "Descriptive analysis"
+subtitle: "R for Stata Users"
+date: "April 2019"
+author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
+output:
+  beamer_presentation:
+    #theme: "Pittsburgh"
+    theme: "Madrid"
+    colortheme: "whale"
+    fonttheme: "default"
+    #toc: true
+    includes:
+      in_header: header.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = F, eval=T, include=FALSE}
+library(stargazer)
+library(tidyverse)
+
+# File paths
+
+if (Sys.getenv("USERNAME") == "luiza"){
+  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "WB501238"){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "Leonardo"){
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+
+}
+
+if (Sys.getenv("USERNAME") == "wb519128"){
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
+}
+
+  # File paths
+  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+
+  Data              <- file.path(dataWorkFolder,"DataSets")
+  finalData         <- file.path(Data,"Final")
+  rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
+
+  # Load CSV data
+  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
+                header = T,
+                stringsAsFactors = F)
+  
+```
+
+# Introduction
+  
+## Introduction
+  
+ * Descriptive statistics are used to represent the basic features of data. When we talk about descriptive analysis, it usually means that we're not making any assumptions, and we're not using probability theory to infer anything beyond the immediate data.
+
+ * This session is mostly focused on how to implement descriptive analysis in R. 
+ 
+ * We will not go in depth into these concepts, but you can find some useful references at the end of this presentation.
+
+## Introduction
+
+This session will cover two topics:
+  
+  \begin{enumerate}
+    \item Quick ways to extract summary information from your data.
+    \item How to use this information to create tables.
+    \item How to export these tables to {\LaTeX} and Excel.
+  \end{enumerate}
+  
+
+# Getting started
+
+## Getting started
+First, let's load the data that is going to be used in the training.
+
+### Load the data
+```{r, include = T, results = "hide", eval = F}
+  # Replace with the path to your dime-r-training folder
+  projectFolder <- file.path("YOUR/FOLDER/PATH/HERE")
+
+  dataWorkFolder    <- file.path(projectFolder,
+                                 "DataWork")
+  finalData         <- file.path(dataWorkFolder, 
+                                 "DataSets", "Final")
+  rawOutput         <- file.path(dataWorkFolder, 
+                                 "Output","Raw")
+
+  whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
+                  header = T,
+                  stringsAsFactors = F)
+
+```
+
+## Getting started
+
+Before starting, lets install the packages we'll use in this session since it might take a while.
+
+
+### Install today's packages
+
+```{r, include = T, results = "hide", eval = F}
+  install.packages(c("stargazer", 
+                     "tidyverse",
+                     "openxlsx"), 
+                   dependencies = T)
+
+```
+
+# Quick summary statistics
+
+
+## Quick summary statistics
+
+
+### `summary(x, digits)`
+Equivalent to Stata's `summarize`, displays summary statistics. Its arguments are:
+
+ * **x:** the object you want to summarize, usually a vector or data frame
+ * **digits:** the number of decimal digits to be displayed
+    
+### Exercise 1
+  Use the `summary()` function to display summary statistics for the `whr` data frame.
+
+## Quick summary statistics
+
+\scriptsize
+
+```{r, eval = F}
+  # Summary statistics
+  summary(whr)
+```
+
+```{r, eval = T, echo = F}
+  # Summary statistics
+  summary(whr[,1:7])
+```
+ 
+## Quick summary statistics
+ 
+ 
+### ``table()`` 
+
+Equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments are vectors to be tabulated.
+
+### Exercise 2
+Use the `table()` function to display frequency tables for:
+    
+1. The variable `year` in the `whr` data frame
+2. The variables `region` and `year` in the `whr` data frame, simultaneously
+
+
+## Quick summary statistics
+```{r, eval = T}
+  # Year of data collection
+  table(whr$year)
+```
+
+## Quick summary statistics
+\scriptsize
+
+
+```{r, eval = T}
+  # Number of countries per region per year
+  table(whr$region, whr$year)
+```
+
+
+## Quick summary statistics
+
+### Bonus Exercise: 
+  Use the `table()` function to display a frequency table for the number of countries __above the average happiness__ per region in 2017.
+  
+ 1. Create another data.frame called `whr17` with only 2017 observations
+ 2. Use the `table()` function to tabulate a the `region` variable and a boolean vector.
+ 
+ - TIP: Using the condition directly in the function or creating a separate vector will yield the exact same results.
+
+## Quick summary statistics
+\scriptsize
+
+
+```{r, eval = T}
+  # Restrict to only 2017 obs
+  whr17 <- whr[whr$year == 2017, ]
+
+  # table with a bolean vector
+  table(whr17$region, 
+        whr17$happy_rank > mean(whr17$happy_rank)) # Who is above average
+```
+
+# Descriptives tables
+
+## Descriptives tables
+
+
+ We can also use the \texttt{stargazer()} function to quickly display a nice-looking descriptives table.
+
+  \textit{Stargazer} was originally developed to export beautiful regression tables to \LaTeX\ or html, but it also allows you to generate summary statistics.
+
+## Descriptives tables
+ 
+  The \texttt{stargazer()} function accepts \textbf{a lot} of arguments, most of which are beyond the scope of this session. Here are the arguments you'll need for this specific table
+  
+\begin{block}{\texttt{stargazer()}}
+  \begin{itemize}
+    \item \textbf{x:} the object you want to summarize -- in this case a vector or data frame
+    \item \textbf{type:} the output format -- "text" to just display, "latex" (the default) to save as a \LaTeX\ table, and "html" for, yes, html
+    \item \textbf{digits:} the number of decimal digits to be displayed
+  \end{itemize} 
+\end{block}
+ 
+ 
+## Descriptives tables
+
+### Exercise 3 - \texttt{stargazer()} summary statistics table
+  Use the \texttt{stargazer()} function  to display (on your R console) summary statistics for the variables in the \textit{whr} data frame.
+  
+  - TIP: Set the type argument to "text".
+
+
+
+## Descriptives tables
+\tiny
+
+```{r, eval = T}
+# A descriptive table with stargazer
+stargazer(whr, 
+          digits = 1, 
+          type = "text")
+
+```
+
+
+
+# Export tables to \LaTeX
+
+
+## Export tables to \LaTeX\
+
+
+To export the table to \LaTeX\, we will use a couple of additional arguments of the `stargazer()` function:
+
+  \begin{itemize}
+    \item \textbf{out:} where to save the table, i.e. the file path including the file name
+    \item \textbf{covariate.labels:} a vector of variable labels
+  \end{itemize}
+
+## Export tables to \LaTeX\
+
+But first, let's pick a few variables of interest in the `whr` data set so the table fits in these slides.
+
+### Exercise 3
+
+ 1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
+ 2. Use this vector to subset the whr data-set to contain only these variables. Call the new data frame `whr_simp`.
+
+ - TIP: You can use column names indexing or the `select()` function of the `dplyr` package
+
+## Export tables to \LaTeX\
+\scriptsize
+
+
+```{r}
+# Vector with covariates to be kept
+covariates <- c("happy_score",
+                "gdp_pc",
+                "freedom",
+                "trust_gov_corr")
+
+# subset whr
+whr_simp <- whr[, covariates]
+
+```
+
+
+## Export tables to \LaTeX\
+
+### Exercise 4
+Now use the stargazer function to export the `whr_simp`:
+
+ 1. Create a vector `cov_labels` containing labels for the `happy_score`, `gdp_pc`, `freedom` and `trust_gov_corr` variables.
+ 2. Set ``whr_simp`` as the `x` argument this time
+ 3. Set the `covariate.labels` argument as the vector you just created
+ 4. Set the `out` argument to save the table in the `rawOutput` folder we defined 
+
+## Export tables to \LaTeX\
+
+\tiny
+
+``` {r, eval = T, results = "hide"}
+
+  # Set labels
+  cov_labels <- c("Happy score", "GDP per capita",
+                  "Freedom", "Trust in gornment and currption")
+
+  # Save table to latex
+  stargazer(whr_simp,
+            # Formatting
+            covariate.labels = cov_labels,
+            summary.stat = c("n", "mean", "sd", "min", "max"), # Chose which stats to comopute
+            digits = 2,
+            # You can directly export with the out argument
+            out = file.path(rawOutput,"desc_table.tex"))
+
+```
+
+\input{"../DataWork/Output/Raw/desc_table.tex"}
+
+# Descriptives tables - Create tables from scratch
+
+## Descriptives tables - Create tables from scratch
+
+In R, it is relatively straightforward to construct any table you can think of by manipulating objects. 
+
+There are multiple ways to do this, but We will construct a simple table using two functions:
+
+ * `aggregate()` - Similar to collapse in Stata, it can compute statistics of a variable based on the values of other variable.
+ * `spread()` - Reshapes data sets from long to wide. [^1] 
+
+[^1]: `gather()` Reshapes data sets from wide to long, both are from `tidyverse`. There are other ways to reshape data, but these are becoming the standard in R.
+
+## Descriptives tables - Create tables from scratch
+
+### `aggregate(formula, data, FUN, ...,)`:
+
+ * **formula:** a formula, such as y ~ x or cbind(y1, y2) ~ x1 + x2, where the y variables are numeric data to be split into groups according to the grouping x variables
+ * **data: ** a data frame (or list) from which the variables in formula should be take
+ * **FUN:** a function to compute statistics
+ * **...:** further arguments passed to or used by FUN
+
+## Descriptives tables - Create tables from scratch
+
+### Exercise 5
+ Use the `aggregate()` function to create a data frame called `happy_table` with the mean of `happy_score` per year and region. 
+
+```{r, eval = T, results = "hide"}
+# Aggregate happy_score by year and region
+happy_table <-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
+```
+
+
+For comparison, here's how you'd do it in Stata:
+`collapse (mean) happy_score, by(region year)`
+
+## Descriptives tables - Create tables from scratch
+\scriptsize
+
+```{r, eval = F}
+print(happy_table)
+
+```
+
+
+```{r, echo= F}
+print(happy_table[1:19,])
+
+```
+
+## Descriptives tables - Create tables from scratch
+
+`spread(data, key, value)`:
+ 
+ * __data__: a data frame
+ * __key__: the variables that identify the group in the wide data set
+ * __value__: the variable in long format that has multiple records from the same group or individual
+
+## Descriptives tables - Create tables from scratch
+
+### Exercise 6
+ Use the `spread` function to make the `happy_table` data frame wide in the `year` variable.
+
+
+```{r, eval = T, results = "hide"}
+# Reshape into wide on year
+happy_table <- 
+  spread(happy_table, 
+         key = year, 
+         value = happy_score)
+```
+
+For comparison, here's how you'd do it in Stata:
+`reshape wide happy_score, i(region) j(year)`
+
+
+## Descriptives tables - Create tables from scratch
+\scriptsize
+
+```{r}
+print(happy_table)
+
+```
+
+## Descriptives tables - Create tables from scratch
+
+With a data frame as input, `stargazer` by default tries to summarize it. So, to export this table we must specify one additional argument: `summary = F`.
+
+### Exercise 7
+Print the ``happy_table`` table you created in exercise 6 using ``stargazer``. If you want, you can also save it using the ``out`` option.
+
+
+## Descriptives tables - Create tables from scratch
+\scriptsize
+
+```{r, eval = F}
+
+# Create table
+stargazer(happy_table,
+          summary = F,
+          # Exporting
+          out = file.path(...),
+          # Formatting:
+          title = "Happy table",
+          digits = 1,
+          rownames = F)
+```
+
+
+## Descriptives tables - Create tables from scratch
+\scriptsize
+
+```{r, echo = F, results='asis'}
+
+# Create table
+stargazer(happy_table,
+          summary = F,
+          header = F,
+          title = "Happy table",
+          digits = 1,
+          rownames = F)
+```
+
+
+## Descriptives tables - Create tables from scratch
+\framesubtitle{Challenge exercise}
+
+Ok, but what if we want to create something very specific, different from the output of those two functions? Something like this:
+
+## Descriptives tables - Create tables from scratch
+\framesubtitle{Challenge exercise}
+\scriptsize
+
+
+```{r, echo = F}
+#### Creacte duplicated dfs with a stat identifier
+x1 <- whr
+x1$stat <- "Mean"
+
+x2 <- whr
+x2$stat <- "N"
+
+# Combine them
+x12 <- rbind(x1,x2)
+
+#### Collapse also by that stat id to have duplicated rows
+happy_table2 <-
+  aggregate(happy_score ~ stat +  region + year,
+            data = x12,
+            FUN = mean)
+
+happy_table2 <-
+  rename(happy_table2, value = happy_score)
+
+#### Create a frequencies df
+
+freqdf <-
+  as.data.frame(table(whr$region, whr$year))
+
+#### Replace values for ne N rows
+happy_table2$value[happy_table2$stat == "N"] <- freqdf$Freq
+
+#### Reshape
+
+# Re order columns so the reshape will give us the righ order
+happy_table2 <-
+  select(happy_table2, region, year, stat, value)
+
+# Reshape
+ht_wd <-
+  spread(happy_table2,
+         key = year,
+         value = value)
+
+
+#### Cosmetics
+
+# Remove duplicated region names
+ht_wd$region[as.integer(row.names(ht_wd)) %% 2 == 0] <- ""
+
+# Rename columns
+names(ht_wd) <- c("Region",
+                  "",
+                  "2015",
+                  "2016",
+                  "2017")
+
+```
+
+
+
+```{r,  echo = F, results='asis'}
+
+stargazer(ht_wd,
+          font.size = "tiny",
+          title = "Happiness score by world region",
+          column.labels = c("foo", "bar", "bar", "Good", "Better"),
+          summary = F,
+          rownames = F,
+          header = F)
+
+```
+
+
+## Descriptives tables - Create tables from scratch
+\framesubtitle{Challenge exercise}
+
+### Exercise 8: Try to replicate the table in the previous slide
+
+There are multiple ways to do this. Here are two painful but straightforward approaches that you get extra points if you avoid:
+
+ 1. Write string objects with latex code and combine them.
+ 2. Appending vectors of with the desired stats for each region.
+
+Here are a few tips if you chose to use `aggregate()` and `spread()`:
+
+ 1. When using `aggregate`, the order of the right-hand-side variables affects the order of the columns.
+ 2. The order of the columns affects the order of observations after you reshape.
+
+# Export tables to Excel
+
+## Export tables to Excel
+
+
+There are several ways to export R objects to Excel. We will use here the the `write.xslx()` function of the `openxlsx` package.
+
+ It takes a matrix or data frame object as input and saves it as a `.xlsx` file.
+
+`write.xslx()` is one of the most common functions, but there are many other functions that allow you to export formatted tables to Microsoft Excel, Word or PowerPoint. Here are some examples:
+
+  * ReporteRs
+  * Flextable
+  * r2excel (only available in GitHub).
+
+## Export tables to Excel
+
+### `write.xlsx(x, file, row.names = TRUE, col.names ...)` 
+  
+ * __x__:	the object to be written
+ * __file__: where to save the table, i.e., the file path including the file name
+ * __row.names__: a logical value indicating whether the row names of x are to be written along with x
+
+## Export tables to Excel
+
+### Exercise 9
+
+Use the `write.xlsx()` function to save the `happy_table` you table created in Exercise 4 into an xlsx file.
+
+1. Set `x` argument as *happy_table*.
+2. Set `file` as the folder path to your output folder including a name for the file plus ".xlsx"
+
+ TIP:
+ 
+ * Use the help function to check syntax if needed
+
+## Export tables to Excel
+\scriptsize
+
+```{r, include = T, eval = F}
+write.xlsx(happy_table,
+           file = file.path(rawOutput, "happy_table.xlsx"))
+
+```
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=.7]{img/happy_table_xlsx.png}
+\end{figure}
+
+
+# Export regression table
+
+## Export regression table
+
+\begin{block}{Warning:}
+This is a session on \textbf{descriptive} analysis, so regressions are beyond its scope.
+\end{block}
+
+But since you'll probably ask, here's how you 
+
+```{r}
+# Run a Regression
+reg1 <- lm(Sepal.Length ~ Sepal.Width,
+           data = iris)
+
+```
+
+[^2]: `iris` is a built in data set in R with some morphology information for the flowers of 3 iris species.
+
+## Export regression table
+\scriptsize
+
+
+```{r, eval = F}
+# Export a regression table
+
+depvar_label <- "Sepal Length"
+covar_labels <- "Sepal Width"
+
+stargazer(reg1,
+          title = "Regression table",
+          dep.var.labels = depvar_label,
+          covariate.labels = covar_labels,
+          digits = 2,
+          # out = "..."
+          header = F)
+
+```
+
+
+
+## Export regression table
+\tiny
+
+```{r, results ='asis', echo = F}
+# Export a regression table
+depvar_label <- "Sepal Length"
+covar_labels <- "Sepal Width"
+
+stargazer(reg1,
+          title = "Regression table",
+          dep.var.labels = depvar_label,
+          covariate.labels = covar_labels,
+          digits = 2,
+          header = F)
+
+```
+
+
+
+## Export regression table
+\scriptsize
+
+```{r}
+
+# Regression 1
+reg1 <- lm(Sepal.Length ~ Sepal.Width,
+           data = iris)
+
+# Reg with two indep vars
+reg2 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length,
+           data = iris)
+
+# Reg with two indep vars and species FE
+reg3 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length + factor(Species),
+           data = iris)
+
+```
+
+## Export regression table
+\scriptsize
+
+```{r, eval = F}
+depvar_label <- "Sepal Length"
+covar_labels <- c("Sepal Width",
+                  "Petal Length")
+#Table
+stargazer(reg1,
+          reg2,
+          reg3,
+          font.size = "tiny",
+          title = "Regression table",
+          keep = c("Sepal.Width",  "Petal.Length"),
+          dep.var.labels = depvar_label,
+          covariate.labels = covar_labels,
+          add.lines = list(
+            c("Species FE", "No", "No", "Yes")
+            ),
+          omit.stat = c("ser"),
+          digits = 2,
+          header = F)
+```
+
+## Export regression table
+\scriptsize
+
+```{r, results ='asis', echo = F}
+depvar_label <- "Sepal Length"
+covar_labels <- c("Sepal Width",
+                  "Petal Length")
+#Table
+stargazer(reg1,
+          reg2,
+          reg3,
+          font.size = "tiny",
+          title = "Regression table",
+          keep = c("Sepal.Width",  "Petal.Length"),
+          dep.var.labels = depvar_label,
+          covariate.labels = covar_labels,
+          add.lines = list(c("Species FE", "No", "No", "Yes")),
+          omit.stat = c("ser"),
+          digits = 2,
+          header = F)
+```
+
+
+## The end
+
+  Thank you!
+  
+# References and recommendations
+
+## References and recommendations
+
+
+  * Johns Hopkins Exploratory Data Analysis at Coursera:
+  https://www.coursera.org/learn/exploratory-data-analysis
+
+  * Udacity's Data Analysis with R:
+  https://www.udacity.com/course/data-analysis-with-r--ud651
+
+  * Jake Russ stargazer cheat sheet:
+  https://www.jakeruss.com/cheatsheets/stargazer/
+
+## References and recommendations
+
+  Since we talked about \LaTeX\ so much...
+
+  * DIME \LaTeX\ templates and trainings:
+  https://github.com/worldbank/DIME-LaTeX-Templates
+
+  * All you need to know about \LaTeX\:
+  https://en.wikibooks.org/wiki/LaTeX
+  
+  
+# Appendix
+
+## Appendix - Save your data to .csv
+
+To export our data in .csv format we can use the `write.csv()` function. There other ways, but this is often the most straightforward. 
+
+Here's the basic syntax:
+
+`write.csv(x, file = "", sep = ",", row.names = TRUE)`
+
+ * __x__:	the object to be written
+ * __file__: where to save the table, i.e., the file path including the file name
+ * __sep__: the field separator of the csv, Excel's default is comma
+ * __row.names__: either a logical value indicating whether the row names of x are to be written along with x, or a character vector of row names to be written
+
+
+## Appendix - Save your data to .csv
+
+You can write the following code:
+
+```{r, eval = F}
+  write.csv(whr,
+            file = file.path(...,"whr.csv"),
+            row.names = F)
+
+```
+
+It is important to specify the `row.names` as `FALSE` since the function default is `TRUE`. There are situations when saving row names might make sense, but normally that's nor the case for data.frames.
+
+## Appendix - Formulas
+
+Formulas are a way of describing a relationship between variables or objects. They work as inputs for several functions, notably regression functions.
+
+
+### We can create formulas by using the formula function
+```{r}
+# or Formula function yield same results
+formula1 <- formula(y ~ x1 + x2)
+formula1
+```
+
+
+
+## Appendix - Formulas
+
+The most basic structure of a formula is actually just the tilde symbol ~ and at least one right-hand variable.
+
+### You can also covert strings to create formulas
+```{r}
+# or Formula function yield same results
+formula2 <- as.formula("~ x1")
+formula2
+```
+
+## Appendix - Formulas
+
+Note that values that assigned to the symbols in the formula are not accessed when the formula is created.
+
+Alternatively, if you write an expression containing a tilde R already understands it as a formula.
+
+### Just using the tilde
+```{r}
+
+formula3 <- y ~ x1 + z1
+formula3
+```
+
+

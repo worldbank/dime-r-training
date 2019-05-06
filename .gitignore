@@ -17,5 +17,7 @@
 *.cpg
 *.prj
 *.shp
+*.pdf
 
 !Presentations/img/*
+*.pdf
