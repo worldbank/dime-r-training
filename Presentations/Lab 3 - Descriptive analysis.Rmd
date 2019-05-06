@@ -73,7 +73,8 @@ This session will cover two topics:
   
   \begin{enumerate}
     \item Quick ways to extract summary information from your data.
-    \item How to use this information to create and export tables.
+    \item How to use this information to create tables.
+    \item How to export these tables to {\LaTeX} and Excel.
   \end{enumerate}
   
 
@@ -84,10 +85,17 @@ First, let's load the data that is going to be used in the training.
 
 ### Load the data
 ```{r, include = T, results = "hide", eval = F}
-  # Replace with where your data is
-  FolderPath <- file.path("YOUR/FOLDER/PATH/HERE")
+  # Replace with the path to your dime-r-training folder
+  projectFolder <- file.path("YOUR/FOLDER/PATH/HERE")
 
-  whr <- read.csv(file.path(FolderPath,"whr_panel.csv"), 
+  dataWorkFolder    <- file.path(projectFolder,
+                                 "DataWork")
+  finalData         <- file.path(dataWorkFolder, 
+                                 "DataSets", "Final")
+  rawOutput         <- file.path(dataWorkFolder, 
+                                 "Output","Raw")
+
+  whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
                   header = T,
                   stringsAsFactors = F)
 
@@ -114,14 +122,14 @@ Before starting, lets install the packages we'll use in this session since it mi
 ## Quick summary statistics
 
 
-### `summary(x, digits)` - equivalent to Stata's *summarize*, displays summary statistics. Its arguments are:
+### `summary(x, digits)`
+Equivalent to Stata's `summarize`, displays summary statistics. Its arguments are:
 
  * **x:** the object you want to summarize, usually a vector or data frame
  * **digits:** the number of decimal digits to be displayed
     
-\begin{block}{Exercise 1}
-  Use the \texttt{summary()} function to display summary statistics for the \textit{whr} data frame.
-\end{block}
+### Exercise 1
+  Use the `summary()` function to display summary statistics for the `whr` data frame.
 
 ## Quick summary statistics
 
@@ -201,12 +209,15 @@ Use the `table()` function to display frequency tables for:
 
 ## Descriptives tables
  
-  The \texttt{stargazer()} function accepts \textbf{a lot} of arguments, most of which are beyond the scope of this session. Here are the arguments you'll need for this specific table:
+  The \texttt{stargazer()} function accepts \textbf{a lot} of arguments, most of which are beyond the scope of this session. Here are the arguments you'll need for this specific table
+  
+\begin{block}{\texttt{stargazer()}}
   \begin{itemize}
     \item \textbf{x:} the object you want to summarize -- in this case a vector or data frame
     \item \textbf{type:} the output format -- "text" to just display, "latex" (the default) to save as a \LaTeX\ table, and "html" for, yes, html
     \item \textbf{digits:} the number of decimal digits to be displayed
   \end{itemize} 
+\end{block}
  
  
 ## Descriptives tables
@@ -280,6 +291,7 @@ Now use the stargazer function to export the `whr_simp`:
  1. Create a vector `cov_labels` containing labels for the `happy_score`, `gdp_pc`, `freedom` and `trust_gov_corr` variables.
  2. Set ``whr_simp`` as the `x` argument this time
  3. Set the `covariate.labels` argument as the vector you just created
+ 4. Set the `out` argument to save the table in the `rawOutput` folder we defined 
 
 ## Export tables to \LaTeX\
 
@@ -341,7 +353,7 @@ happy_table <-
 
 
 For comparison, here's how you'd do it in Stata:
-`collapse (mean) happy_score, by(region)`
+`collapse (mean) happy_score, by(region year)`
 
 ## Descriptives tables - Create tables from scratch
 \scriptsize
@@ -543,7 +555,7 @@ There are several ways to export R objects to Excel. We will use here the the `w
 
 ## Export tables to Excel
 
-  `write.xlsx(x, file, row.names = TRUE, col.names ...)` 
+### `write.xlsx(x, file, row.names = TRUE, col.names ...)` 
   
  * __x__:	the object to be written
  * __file__: where to save the table, i.e., the file path including the file name
@@ -586,7 +598,7 @@ write.xlsx(happy_table,
 This is a session on \textbf{descriptive} analysis, so regressions are beyond its scope.
 \end{block}
 
-But since you'll probably ask, here's how you run a regression and how you export a very simple regression table to \LaTeX\ using `stargazer` and the `iris`[^2] data-set:
+But since you'll probably ask, here's how you 
 
 ```{r}
 # Run a Regression
@@ -703,6 +715,11 @@ stargazer(reg1,
           header = F)
 ```
 
+
+## The end
+
+  Thank you!
+  
 # References and recommendations
 
 ## References and recommendations
