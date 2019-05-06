@@ -245,11 +245,11 @@ First, let's create a very simple plot with the happiness score on the Y axis an
 
 
  1. Use the ``ggplot`` function to store your plot in an object called ``p1_happyfree``
-    - Since it's the first one, Here's the code:
+    - Since it's the first one, here's the code:
 
 ```{r, eval=F}
 p1_happyfree <- 
-  ggplot(whr,
+  ggplot(data = whr,
          aes(y = happy_score,
              x = freedom))
   
@@ -323,7 +323,11 @@ annualHappy<-
   aggregate(happy_score ~ year,
             data = whr,
             FUN = mean)
+
+head(annualHappy)
 ```
+
+## ``ggplot`` - Data structure
 
 ### Exercise 5
  1. Use the ``ggplot()`` function with the ``annualHappy`` as the ``data`` argument, ``happy_score`` as ``y`` and ``year`` as ``x`` in ``aes()``
@@ -455,32 +459,19 @@ In the following example, to showcase just 3 regions, instead of restricting the
 
 ```{r, echo = T , eval= T}
 # Separate datasets
-sea <- annualHappy_reg[annualHappy_reg$region == "Southeastern Asia", ]
+sea  <- annualHappy_reg[annualHappy_reg$region == "Southeastern Asia", ]
 mena <- annualHappy_reg[annualHappy_reg$region == "Middle East and Northern Africa", ]
-cee <- annualHappy_reg[annualHappy_reg$region == "Central and Eastern Europe", ]
+cee  <- annualHappy_reg[annualHappy_reg$region == "Central and Eastern Europe", ]
 
 # plot with 3 line geometries 
 p4_happy3reg <-
-  ggplot() +
-    geom_line(data = sea,  # Southeastern Asia
-         aes(y = happy_score,
-             x = year, 
-             color = region, 
-             group = region)) + 
-      geom_line(data = mena, # Middle East and Northern Africa
-         aes(y = happy_score,
-             x = year, 
-             color = region, 
-             group = region)) + 
-      geom_line(data = cee, # Central and Eastern Europe
-         aes(y = happy_score,
-             x = year, 
-             color = region, 
-             group = region))
-
-
-
-
+  ggplot(mapping = aes(y = happy_score,
+                       x = year, 
+                       color = region, 
+                       group = region)) +
+    geom_line(data = sea) +  # Southeastern Asia
+    geom_line(data = mena) + # Middle East and Northern Africa
+    geom_line(data = cee) # Central and Eastern Europe
 ```
 
 
@@ -490,8 +481,6 @@ p4_happy3reg <-
 
 ```{r, eval= T, warning=FALSE}
 print(p4_happy3reg)
-
-
 ```
 
 
