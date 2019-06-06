@@ -138,7 +138,7 @@ Here's a how you can do that:
 ### Exercise 1: Load data
 Use the `read.csv` function to load the three `WHR` data sets from `DataWork > DataSets > Raw`. Create an object called `whrYY` with each data set.
 
- * TIP 1: use the ``file.path()`` function and the ``rawData`` object created in the master to simplify the folder path.
+ * TIP 1: use the ``file.path()`` function to simplify the folder path.
  * TIP 2: for this data set, we want to read strings as strings, not factors.
 
 
@@ -442,6 +442,15 @@ whr17$Region[whr17$Country %in% c("Mozambique",
 # That's better
 any(is.na(whr17$Region))
 ```
+
+## Missing values
+
+Unlike in Stata, R never\footnote{Of course, there might be an obscure package with a function that does this or you can write your on function. But base R and all the major packages don't and we never came across any function on CRAN that does.} treats missings as zeros by default in any function.
+
+ * If your vector (column or row in your dataset) has at least one `NA`, any function that takes it as an argument will return `NA`.
+ * If you wish to treat missings as zeros or ignore them, you need to explicitly do it.
+ * E.g. `mean(myVector, na.rm = T)` or `rowSums(myDataFrame, na.rm = T)`
+
 
 ## Renaming variables
 

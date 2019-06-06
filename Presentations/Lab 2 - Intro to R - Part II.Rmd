@@ -174,14 +174,29 @@ Let's test if that worked:
   dataWorkFolder
 
 ```
-
+ 
 ## Loading a data set from CSV
+\begin{block}{\texttt{read.csv(file, header = FALSE)}}
 
-### ``read.csv(file, header = FALSE)``
+  \begin{itemize}
+    \item \textbf{file:} is the path to the file you want to open, including it's name and format (\texttt{.csv}).
+    \item \textbf{header:} if \texttt{TRUE}, will read the first row as variable names.
+    \item \textbf{stringsAsFactors:} logical. See next slide for more.
+  
+  \end{itemize}
+\end{block}
 
- * **file**: is the path to the file you want to open, including it's name and format (``.csv``)
- * **header**: if `TRUE`, will read the first row as variable names
- * **stringsAsFactors:** logical. See next slide for more.
+
+
+*Quick note:* `read.csv()` is a function!
+
+  * Functions in R take named arguments (unlike in Stata that you have arguments and options)
+  * Functions usually returns values that you may want to store in an object, in this case the value is the dataset.
+
+
+
+
+ 
 
 ## Loading a data set from CSV
 
@@ -200,7 +215,7 @@ Let's test if that worked:
 
 3. Open the code you just saved.
 
-4. Add a line opening the data set in `PART 5` of your Master script
+4. Add a line opening the data set in your code
 ```{r, eval = F}
 # Load data set
 whr <- read.csv(file.path(finalData,"whr_panel.csv"),
