@@ -766,7 +766,7 @@ Here's what we've done:
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/ggplotly2.png}
+  \includegraphics[width=11cm,height=7cm]{img/ggplotly2.png}
 \end{figure}
 
 
@@ -776,7 +776,7 @@ Here's what we've done:
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/ggplotly2.png}
+  \includegraphics[width=11cm,height=7cm]{img/ggplotly2.png}
 \end{figure}
 
 # References and recommendations
