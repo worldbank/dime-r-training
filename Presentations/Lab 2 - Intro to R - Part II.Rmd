@@ -187,17 +187,6 @@ Let's test if that worked:
 \end{block}
 
 
-
-*Quick note:* `read.csv()` is a function!
-
-  * Functions in R take named arguments (unlike in Stata that you have arguments and options)
-  * Functions usually returns values that you may want to store in an object, in this case the value is the dataset.
-
-
-
-
- 
-
 ## Loading a data set from CSV
 
   * R reads string variables as factors as default
