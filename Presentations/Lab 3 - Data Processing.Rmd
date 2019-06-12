@@ -614,7 +614,7 @@ whr_panel$happy_high <-
   
   * The `tidyverse` function `mutate` make this process simpler
   
-## Creating variables base on a formula
+## Creating variables based on a formula
 
 ### `mutate(.data, ...)`
 
@@ -624,7 +624,7 @@ Adds new variables and preserves existing
   * **...:**    name-value pairs of expressions. Use NULL to drop a variable
   
 
-## Creating variables base on a formula
+## Creating variables based on a formula
 
 ### Exercise 10: Create a variable based on a formula
 Use the `mutate` function to create a variable called `happy_high` in the `whr_panel` data set indicating whether the `happy_score` is above the median.
@@ -808,7 +808,7 @@ head(happy_long)
 
 ## `melt`: reshape from wide to long
 
-### `melt(data, id.vars, measure.vars)
+### `melt(data, id.vars, measure.vars)`
 
   * **data: ** a **data.table** object to melt
   * **id.vars:** a vector of unique IDs in `data`
