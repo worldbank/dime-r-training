@@ -239,7 +239,7 @@ Use some of the functions listed above to explore the `whr` data set.
 
 \footnotesize
 ```{r, eval = F}
-# View the data set (same as clickin on it in the Environment pane)
+# View the data set (same as clicking on it in the Environment pane)
 View(whr)
 ```
 
@@ -476,10 +476,10 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 
 ## Looping
 
-  * ``sapply(X, FUN, ...)``: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are
-    * **X:** a matrix (or data frame) the function will be applied to
-    * **FUN:** the function you want to apply
-    * **...:** possible function options
+### ``sapply(X, FUN, ...)``: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are
+* **X:** a matrix (or data frame) the function will be applied to
+* **FUN:** the function you want to apply
+* **...:** possible function options
 
 ## Looping
 
@@ -497,11 +497,11 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 
 A more general version is the `apply` function.
 
-  * ``apply(X, MARGIN, FUN, ...)``: applies a function to all columns or rows of matrix. Its arguments are
-    * **X:** a matrix (or data frame) the function will be applied to
-    * **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
-    * **FUN:** the function you want to apply
-    * **...:** possible function options
+### ``apply(X, MARGIN, FUN, ...)``: applies a function to all columns or rows of matrix. Its arguments are
+* **X:** a matrix (or data frame) the function will be applied to
+* **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
+* **FUN:** the function you want to apply
+* **...:** possible function options
 
 ## Looping
 

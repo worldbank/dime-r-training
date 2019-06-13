@@ -294,7 +294,7 @@ As almost everything in R, ``ggplot`` is very flexible and can be used in differ
 This is very similar to Stata, with the advantage of not needing to
 preserve and restore anything.
 
-##``ggplot`` - Data structure
+## ``ggplot`` - Data structure
 
 Here's an example of how an aggregated (collapsed) data set should look like:
 
