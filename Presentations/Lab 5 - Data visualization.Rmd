@@ -9,7 +9,7 @@ output:
     theme: "Madrid"
     colortheme: "whale"
     fonttheme: "default"
-    toc: true
+    #toc: true
     includes:
       in_header: header.tex
 ---
@@ -636,10 +636,9 @@ To add a title and legend to the X and Y axis, we use the functions listed below
 
 ## ``ggplot`` - Titles and labels
 
-To add legend titles, we will use two functions that control the formatting of the aesthetic. As they can take many different arguments, we use ``name`` argument sets legend title:
+To add legend titles, we will change the formatting of the aesthetic. We will use `labs()` function specifying wich aesthetic elements we will modify.
 
- * ``scale_color_discrete() `` - formatting of the color aesthetic.
- * ``scale_size_continuous()`` - formatting of the size aesthetic.
+ ``labs(color = "Color lab", fill = "Fill lab", ...) ``
 
 ## ``ggplot`` - Titles and labels
 
@@ -648,7 +647,7 @@ To add legend titles, we will use two functions that control the formatting of t
  1. Copy the code for the graph produced in the previous exercise.
  2. Use the ``+`` symbol to add the layer.
  3. ``ggtitle()``, ``xlab()`` and ``ylab()`` take simple strings as inputs.
- 4. For ``scale_color_continuous()`` and ``scale_size_continuous()`` you need to specify ``name`` argument as the desired string.
+ 4. For labelling the legends use `color` and `size` arguments of the `labs()` function.
 
 ## ``ggplot`` - Titles and labels
 \scriptsize
@@ -660,8 +659,8 @@ p6_happyfree17reg <-
       ggtitle("My pretty plot") +
       xlab("Freedom") +
       ylab("Happiness") +
-      scale_color_discrete(name = "World Region") +
-      scale_size_continuous(name = "Score of GDP per capita")
+      labs(color = "World Region",
+           size = "Score of GDP per capita")
 ```
 
 
@@ -683,6 +682,9 @@ Let's save the previous plot
   1. "Add" the `ggsave()` function to the `p6_happyfree17reg` object you created.
   2. Set the ``filename`` argument as your outputs path with the file name (including ".png")
   4. Specify the `width` and `height` arguments. The default unit is inches, but you can use the `units` arguments to specify diferently.
+
+#### TIP:
+If you don't specify the `width` and `height`, `ggsave()` will use the size of Rstudio's graphics device window.
 
 
 
