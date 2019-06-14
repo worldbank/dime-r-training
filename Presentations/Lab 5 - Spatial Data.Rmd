@@ -204,6 +204,13 @@ knitr::include_graphics("img/coordinate_systems.jpg", dpi = 220)
 ```
 
 ## Coordinate Reference Systems
+Making The Earth Flat 
+
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/projection_unravel.png", dpi = 220)
+```
+
+## Coordinate Reference Systems
 
 Projecting the earth onto a flat surface distorts [distorts](http://geoawesomeness.com/5-tools-will-let-master-map-projections/) the earth in some way (shape, area, distance or direction). 
 
