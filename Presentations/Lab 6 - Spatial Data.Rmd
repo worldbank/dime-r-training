@@ -1,0 +1,1281 @@
+---
+title: "Spatial Data in R"
+subtitle: "R for Stata Users"
+date: "April 2019"
+author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
+output:
+  beamer_presentation:
+    #theme: "Pittsburgh"
+    theme: "Madrid"
+    colortheme: "whale"
+    fonttheme: "default"
+    slide_level: 2
+    toc: true
+    includes:
+      in_header: header.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = F, eval=T, warning=FALSE, message=F, results='hide'}
+# File paths
+
+if (Sys.getenv("USERNAME") == "luiza"){
+  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
+}
+
+if (Sys.getenv("USERNAME") == "WB501238"){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "Leonardo"){
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "wb519128"){
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
+}
+
+if (Sys.info()["user"] == "robmarty"){
+  projectFolder  <- "/Users/robmarty/Desktop/dime-r-training"
+}
+
+library(tidyverse, verbose = F)
+library(readstata13)
+library(data.table)
+library(ggplot2)
+library(ggmap)
+library(rgdal)
+library(rgeos)
+library(raster)
+
+# File paths
+dataWorkFolder    <- file.path(projectFolder,"DataWork")
+
+Data              <- file.path(dataWorkFolder,"DataSets")
+finalData         <- file.path(Data,"Final")
+rawData           <- file.path(Data,"Raw")
+```
+
+## Introduction
+In this section we'll introduce handling spatial datasets in R. We'll cover how to make (1) maps using `ggplot()`, (2) maps with basemaps using `ggmap()` and (3) interactive maps with `leaflet()`. In addition, we'll introduce some operations that can be done on spatial objects, such as calculating distances. We'll rely on the `rgdal()`, `rgeos()` and `raster()` packages for loading and manipulating spatial data.
+
+Note: An alternative (and newer) way of working with spatial data in R is to use the `sf()` package. We won't be using this today, but when googling around you may notice this package being used.
+
+## Introduction
+
+Before we start, let's make sure we're all set:
+
+  1. Start a fresh session.
+  2. Make sure to load `rgdal`, `broom`, `ggmap`, `raster`, `leaflet`, `rworldmap`, `rgeos`, `tidyverse` and `ggrepel` packages. If they are not installed, install them.
+  
+## Introduction
+
+Here's a shortcut if you missed the last session:
+
+\scriptsize
+
+```{r, eval= F}
+  # Install packages
+  install.packages(c("rgdal", "broom", "ggmap", 
+                     "raster", "leaflet", "rworldmap",
+                     "rgeos", "tidyverse", "ggrepel"))
+  
+  # Load packages
+  library(tidyverse)
+  library(rgdal)
+  library(broom)
+  library(ggmap)
+  library(raster)
+  library(leaflet)
+  library(rworldmap)
+  library(rgeos)
+  library(ggrepel)
+
+  #  Set folder paths
+  projectFolder <- "YOUR/FOLDER/PATH"
+  finalData     <- file.path(projectFolder, 
+                             "DataWork", "DataSets", "Final")
+
+```
+
+# GIS Overview
+
+## Load Spatial Object
+
+We'll load the map  data using the the readOGR function from the rgdal package. The argument for dsn is the folder where the shapefile is and layer is the name of the shapefile.
+
+### `readOGR()`
+
+* __dsn__: data source name (interpretation varies by driver - for some drivers, dsn is a file name, but may also be a folder)
+* __layer__: layer name (varies by driver, may be a file name without extension)
+
+
+## Load Spatial Object
+
+\scriptsize
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+library(rgdal)
+worldmap <-  readOGR(dsn = finalData, layer = "worldmap")
+```
+
+__Potentital issues__
+
+1. Can't find file? Try
+```{r, eval=F}
+ worldmap <- readOGR(file.path(finalData, "worldmap.shp"))
+```
+
+If it doesn't work, try setting the working directory to the folder where the shapefile is (usually works better with Macs)
+```{r, eval=F}
+setwd(finalData)
+worldmap <- readOGR(dsn = ".", layer = "worldmap")
+```
+
+2. Can't find gdal? Use the following code
+```{r, eval = F}
+library(maptools)
+worldmap <- readShapeSpatial(file.path(finalData,"worldmap.shp"))
+prj <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+crs(worldmap) <- CRS(prj)
+```
+
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(rgdal)
+
+setwd(finalData)
+worldmap <- readOGR(dsn=".", layer="worldmap")
+```
+
+## Plot Spatial Object
+```{r, eval=T}
+plot(worldmap)
+```
+
+## Plot Spatial Object
+We can subset the the spatial object just like any other dataframe.
+```{r, eval=T}
+plot(worldmap[1:42,])
+```
+
+## GIS Data: Shapefiles
+One of the main GIS data types is vector data. Vectors (also called shapefiles) consist of points, lines and polygons. These shapes are attached to a dataframe, where each row corresponds to a different spatial element.
+
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/Attribute_Table.png", dpi = 400)
+```
+
+## GIS Data: Shapefiles
+
+Let's look at the data in our shapefile.
+
+\scriptsize
+
+```{r, eval=T}
+# Dataframe
+head(worldmap@data)
+```
+
+## GIS Data: Raster Data
+The second main GIS data type is raster data. Rasters are spatially-referenced grids, where each grid has a value associated with it.
+
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/raster_r_example.png", dpi = 400)
+```
+
+## Coordinate Reference Systems
+
+__Coordinate reference systems__ map pairs of numbers to a location.
+
+* __Geographic Coordinate Systems__ live on a sphere; here, the units are in decimal degrees (latitude = angle from equator; longitude = angle from prime meridian)
+
+    + Using the WGS84 coordinate system the World Bank MC building is located at 38.89 degrees latitude and -77.04 degrees longitude.
+    
+* __Projected Coordinate Systems__ project the earth onto a flat surface (units here are typically in meters from some reference point). 
+
+    + Using to the World Mercator projection, the World Bank is located 4680364.64 north and -8576320.73 east.
+    
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/coordinate_systems.jpg", dpi = 220)
+```
+
+## Coordinate Reference Systems
+
+Projecting the earth onto a flat surface distorts [distorts](http://geoawesomeness.com/5-tools-will-let-master-map-projections/) the earth in some way (shape, area, distance or direction). 
+
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/mercator_12.jpg", dpi = 220)
+```
+
+```{r, eval=T, echo=F}
+setwd(finalData)
+```
+
+```{r, eval=F, echo=F}
+# webshot::install_phantomjs()
+library(rworldmap)
+library(rgdal)
+
+finalData <- "C:/Users/wb521633/Documents/GitHub/dime-r-training/DataWork/DataSets/Final"
+whr <- read.csv(file.path(finalData,"whr_panel.csv"), header = T)
+whr <- subset(whr, year == 2015)
+worldmap <- getMap(resolution="low")
+worldmap <- subset(worldmap, select=c(ADMIN, REGION, POP_EST, GDP_MD_EST))
+
+whr$country[!whr$country %in% worldmap$ADMIN]
+
+worldmap$ADMIN <- as.character(worldmap$ADMIN)
+worldmap$ADMIN[worldmap$ADMIN %in% "United States of America"] <- "United States"
+worldmap$ADMIN[worldmap$ADMIN %in% "Northern Cyprus"] <- "North Cyprus"
+worldmap$ADMIN[worldmap$ADMIN %in% "Hong Kong S.A.R."] <- "Hong Kong"
+worldmap$ADMIN[worldmap$ADMIN %in% "Republic of Serbia"] <- "Serbia"
+worldmap$ADMIN[worldmap$ADMIN %in% "Somaliland"] <- "Somaliland Region"
+worldmap$ADMIN[worldmap$ADMIN %in% "West Bank"] <- "Palestinian Territories"
+worldmap$ADMIN[worldmap$ADMIN %in% "Democratic Republic of the Congo"] <- "Congo (Kinshasa)"
+worldmap$ADMIN[worldmap$ADMIN %in% "Republic of the Congo"] <- "Congo (Brazzaville)"
+worldmap$ADMIN[worldmap$ADMIN %in% "United Republic of Tanzania"] <- "Tanzania"
+
+# Merge in Happiness Data
+whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
+                header = T)
+whr <- subset(whr, year == 2015)
+
+worldmap <- merge(worldmap, whr, by.x="ADMIN", by.y="country")
+
+writeOGR(obj=worldmap, dsn=finalData, layer="worldmap", driver="ESRI Shapefile",overwrite_layer=T)
+```
+
+## Coordinate Reference Systems
+\scriptsize
+
+Let's check the coordinate reference system of our shapefile
+
+
+```{r, eval=T}
+# Coordinate Repference System
+worldmap@proj4string
+```
+
+And lets look at the values of the coordinates for the center points of each country.
+
+```{r, eval=T}
+# Grab center of polygons
+worldmap_center <- coordinates(worldmap)
+head(worldmap_center)
+```
+
+## Coordinate Reference Systems
+\scriptsize
+We can change the projection using \texttt{spTransform()}. Lets change to the mercator projection, which preserves angles and directions (distorting distance and area).
+
+EPSG codes reference commonly used projections and provide a shorthand to referencing a projection. epsg:3857 is a shorthand for the mercator projection.
+
+```{r, eval=T}
+# Reproject
+worldmap_reproj <- spTransform(worldmap, crs("+init=epsg:3857"))
+```
+
+And lets look at some coordinates. These look very different than before!
+```{r, eval=T}
+# Look at some coordinates
+worldmap_reproj_center <- coordinates(worldmap_reproj)
+head(worldmap_reproj_center)
+```
+
+## Coordinate Reference Systems
+\scriptsize
+When plotting, the map now looks different too.
+```{r, eval=T}
+plot(worldmap_reproj[!(worldmap_reproj$REGION %in% "Antarctica"),])
+```
+
+# Mapping with ggplot: Polygons
+
+## Making a Map with ggplot
+\scriptsize
+
+Basics of mapping with ggplot
+\begin{enumerate}
+\item ggplot has methods for mapping spatial objects. We use geom\_polgyon for polygons and geom\_path for lines.
+\item In aes() for spatial objects, we always put x=lon, y=lat and group=group, even though our spatial object may not have these variables. We do this because ggplot converts the spatial object into a dataframe that has these variables. ggplot can't directly use shapefiles, but converts them into a dataframe that it can interpret. 
+\end{enumerate}
+
+```{r, eval=F}
+library(ggplot2)
+ggplot() +
+  geom_polygon(data=worldmap, aes(x=long, y=lat, group=group))
+```
+
+## Making a Map with ggplot
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(ggplot2)
+ggplot() +
+  geom_polygon(data=worldmap, aes(x=long, 
+                                  y=lat, 
+                                  group=group))
+```
+
+## Making a Map with ggplot
+Now, let's color the map by a variable in the dataset. 
+\begin{itemize}
+\item We may be tempted to use the below code, but it won't work. 
+\item When ggplot converts the spatial object into a dataframe, it doesn't keep any of our variables -- it only keeps spatial information. 
+\end{itemize}
+
+```{r, eval=F}
+# THIS CODE WILL NOT WORK :'(
+ggplot() +
+  geom_polygon(data=worldmap, aes(x = long, y = lat, 
+                                  group = group,
+                                  fill = hppy_sc))
+```
+
+## Converting Spatial Object into Dataframe for ggplot
+\scriptsize
+To use our variables when mapping a spatial object with ggplot, we need to convert the spatial object into a dataframe and add our variables ourselves.  
+
+\begin{itemize}
+\item We use the tidy function from the broom package to convert our shapefile into a dataframe. 
+\item The \texttt{tidy()} function will create an "id" variable where values are the row.names from the shapefile. So we can later merge data from the shapefile to the new dataframe, we create an id variable in the shapefile that are the row.names.
+\end{itemize}
+
+```{r, eval=TRUE, warning=FALSE, message=F, results='hide'}
+library(broom)
+worldmap$id <- row.names(worldmap)
+worldmap_tidy <- tidy(worldmap)
+```
+
+```{r}
+head(worldmap_tidy, 3)
+```
+
+## Merge data back to object
+Now, merge the "tidy" dataframe with the data from the shapefile by the id variable. Now we have a dataframe that ggplot can understand with our data!
+
+\scriptsize
+
+```{r}
+worldmap_tidy <- merge(worldmap_tidy, worldmap@data, by="id")
+head(worldmap_tidy, 3)
+```
+
+## Making a Map with ggplot
+Now, using this tidy dataframe, we can make a map.
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+library(ggplot2)
+
+ggplot() +
+  geom_polygon(data=worldmap_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  theme_void()
+```
+
+## Making a Map with ggplot
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(ggplot2)
+
+ggplot() +
+  geom_polygon(data=worldmap_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  theme_void()
+```
+
+## Making a Prettier Map with ggplot
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+library(ggplot2)
+
+ggplot() +
+  geom_polygon(data=worldmap_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                        high = "chartreuse2")
+```
+
+## Making a Prettier Map with ggplot
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(ggplot2)
+
+ggplot() +
+  geom_polygon(data=worldmap_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+## Map of Africa
+
+\begin{block}{Exercise 1}
+Make a map just of Africa.
+Hint: Subset world\_tidy using the \textit{REGION} variable. You can use the \texttt{subset()} function to subset a dataframe. Forget how the function works? Type \texttt{help(subset)} or \texttt{?subset} for the help file.
+\end{block}
+
+## Map of Africa
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+africa_tidy <- subset(worldmap_tidy, REGION == "Africa")
+
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+## Map of Africa
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+africa_tidy <- worldmap_tidy[worldmap_tidy$REGION == "Africa",]
+
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+# Mapping with ggplot: Points
+
+## Add Points to Map: Does the WB allocate projects to happy or sad countries?
+We have data on the locations of [World Bank projects from AidData](https://www.aiddata.org/data/world-bank-geocoded-research-release-level-1-v1-4-2). Let's plot projects on our map to see if the World Bank tends to allocate projects to happy or sad countries.
+\scriptsize
+```{r}
+wb_projects <- read.csv(file.path(finalData, "wb_projects.csv"))
+names(wb_projects)
+```
+
+## Add Points to Map
+For ggplot, we don't need to convert the dataframe to a spatial object. ggplot wants a dataframe, and that's what we have.
+
+\begin{block}{Exercise 2}
+Add World Bank project locations to the previous map.
+
+Hints:
+\begin{enumerate}
+\item Use geom\_points() to add points data
+\item Set data=wb\_projects
+\item In aes(), set x=longitude and y=latitude
+\end{enumerate}
+\end{block}
+
+## Add Points to Map
+```{r, eval=F}
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+              size=.1) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+## Add Points to Map
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+             size=.1) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+# Mapping with ggplot: Lines
+
+## Add trunk roads to map
+
+\begin{block}{Exercise 3}
+Let's add roads to our map. In the final data folder, there's a file called troads.shp, which is a shapefile of trunk roads in Africa. 
+
+Hints:
+\begin{enumerate}
+\item Load the data using readOGR. readOGR has two arguments: dsn (the file path to the shapefile) and layer (the name of the shapefile)
+\item To add roads to the map, do we need to use the tidy function to convert the spatial object to a dataframe?
+\item In ggplot, geom\_path is used to handle spatial lines. Remember, in aesthetics (aes) we need to add x=long, y=lat, and group=group.
+\end{enumerate}
+\end{block}
+
+## Add trunk roads to map
+\scriptsize
+Lets load the data and add it to our map.
+```{r, eval=F}
+trunk_roads <- readOGR(dsn=finalData, layer="troads")
+
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  geom_path(data=trunk_roads, aes(x=long, y=lat, 
+                                group=group)) +
+  geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+             size=.1) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+## Add trunk roads to map
+\scriptsize
+We see the roads, but where did the rest of the map go?
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+setwd(finalData)
+trunk_roads <- readOGR(dsn=".", layer="troads")
+
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  geom_path(data=trunk_roads, aes(x=long, y=lat, 
+                                group=group)) +
+  geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+             size=.1) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+## Check Projections: They Don't Match
+Let's check the projections of the worldmap data and our trunk roads.
+\scriptsize
+```{r}
+# World Map Projection
+worldmap@proj4string
+```
+
+```{r}
+# Trunk Roads Projection
+trunk_roads@proj4string
+```
+
+## Reproject Data
+We use the \texttt{spTransform()} function to reproject the data. 
+
+The below code shows two different ways of specifying the same projection. 
+\begin{enumerate}
+\item The first way writes out the full projection, explicitly defining parameters such as proj, datum, etc.
+\item The second way uses an epsg code. EPSG codes reference commonly used projections and provide a shorthand to referencing a projection.
+\end{enumerate}
+
+\scriptsize
+```{r, eval=F}
+# Way 1
+prj <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+trunk_roads_reprj <- spTransform(trunk_roads, CRS(prj))
+
+# Way 2
+trunk_roads_reprj <- spTransform(trunk_roads, CRS("+init=epsg:4326"))
+```
+
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+trunk_roads_reprj <- spTransform(trunk_roads, CRS("+init=epsg:4326"))
+```
+
+## Add trunk roads to map
+Now, plot the map using the reprojected version of the trunk roads.
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  geom_path(data=trunk_roads_reprj, aes(x=long, y=lat, 
+                                group=group)) +
+  geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+             size=.1) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+## Add trunk roads to map
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  geom_path(data=trunk_roads_reprj, aes(x=long, y=lat, 
+                                group=group)) +
+  geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+             size=.1) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2")
+```
+
+## Add Roads to Legend
+\scriptsize
+ggplot only puts objects in the legend where some element is in the aesthetics. To add "trunk roads" in the legend, add a color element in the aesthetics then manually define the color.
+```{r, eval=F}
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+             size=.1) +
+  geom_path(data=trunk_roads_reprj, aes(x=long, y=lat, 
+                                  group=group,
+                                  color="Trunk Roads")) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore",
+       color="") + # REMOVE TITLE ABOVE TRUNK ROAD IN LEGEND
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2") +
+  scale_color_manual(values=c("blue")) # MANUALY DEFINE COLOR HERE
+```
+
+## Add Roads to Legend
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+ggplot() +
+  geom_polygon(data=africa_tidy, aes(x=long, y=lat, 
+                                       group=group, 
+                                       fill = hppy_sc)) +
+  geom_point(data=wb_projects, aes(x=longitude,
+                                    y=latitude),
+             size=.1) +
+  geom_path(data=trunk_roads_reprj, aes(x=long, y=lat, 
+                                  group=group,
+                                  color="Trunk Roads")) +
+  theme_void() +
+  coord_quickmap() + # Removes distortions
+  labs(fill="Happiness\nScore",
+       color="") +
+  scale_fill_gradient(low = "firebrick4",
+                      high = "chartreuse2") +
+  scale_color_manual(values=c("blue"))
+```
+
+# Basemap
+
+## Basemap
+We can also plot our spatial data on basemaps. One of the packages that enables use to do this is the \texttt{ggmap} package. In the function, \textit{maptype} changes the type of basemap we use. Check the helpfile to see what other basemaps can be used help(get\_stamenmap). 
+
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+library(ggmap)
+
+nairobi <- c(left = 36.66, 
+             bottom = -1.44, 
+             right = 37.10, 
+             top = -1.15)
+nairobi_map <- get_stamenmap(nairobi, 
+                             zoom = 11, 
+                             maptype = "toner-lite")
+
+ggmap(nairobi_map)
+```
+
+## Basemap
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(ggmap)
+
+nairobi <- c(left = 36.66, bottom = -1.44, right = 37.10, top = -1.15)
+nairobi_map <- get_stamenmap(nairobi, zoom = 12, maptype = "toner-lite")
+
+ggmap(nairobi_map)
+```
+
+## Basemap
+
+We can add layers to basemap. The code is the same as ggplot, except here we start the code with ggmap() instead of gplot().
+
+\begin{block}{Exercise 4}
+Plot projects in Narobi on top of a basemap. As a challenge, make the size AND the color of the points correspond to aid commitments.
+
+Hint: Set size and color to "commitments" in the aesthetics.
+\end{block}
+
+```{r, eval=F}
+# Code where size/color does not correspond to commitments
+kenya_projects <- subset(wb_projects, recipients == "Kenya")
+
+ggmap(nairobi_map) + 
+    geom_point(data=kenya_projects, aes(x=longitude,
+                                    y=latitude),
+               color="orange") +
+  theme_void()
+```
+
+## Basemap
+
+Here's the code to make point size and color correspond with commitments. To combine size and color to one legend item, add "guide=legend" to both scale_color_continuous and scale_size_continuous.
+
+```{r, eval=F}
+ggmap(nairobi_map) + 
+    geom_point(data=kenya_projects, aes(x=longitude,
+                                    y=latitude,
+                                    size=commitments,
+                                    color=commitments)) +
+  scale_color_continuous(guide = "legend", 
+                         low="orange", high="green2") +
+  scale_size_continuous(guide = "legend") +
+  labs(size = "Aid\nCommitment",
+       color = "Aid\nCommitment") +
+  theme_void()
+```
+
+## Basemap
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+kenya_projects <- subset(wb_projects, recipients == "Kenya")
+
+ggmap(nairobi_map) + 
+    geom_point(data=kenya_projects, aes(x=longitude,
+                                    y=latitude,
+                                    size=commitments,
+                                    color=commitments)) +
+  scale_color_continuous(guide = "legend", 
+                         low="orange", high="green2") +
+  scale_size_continuous(guide = "legend") +
+  labs(size = "Aid\nCommitment",
+       color = "Aid\nCommitment") +
+  theme_void()
+```
+
+# Interactive Map
+
+## Convert dataframe to spatialdataframe
+
+So far we've been using points as a dataframe. However, we can also define points as a spatial points dataframe. Here we explicitly define which variables are the latitude and longitude and can define a projection.
+
+We don't necessarily need to do this for interactive maps, but it'll make our code simplier later on.
+
+\begin{enumerate}
+\item We first define which variables are the latitude and longitude variables using the \texttt{coordinates()} function.
+\item Then, we define our coordinate reference system using the crs function.
+\end{enumerate}
+
+\scriptsize
+
+```{r, warning=FALSE, message=F, results='hide'}
+library(raster)
+
+# Create Spatial Points Dataframe
+#    ~longitude+latitude is a formular, where ~ tells R to reference those 
+#    variables in the associated datasets; in this case, kenya_projects
+coordinates(kenya_projects) <- ~longitude+latitude
+
+# Define Projection
+crs(kenya_projects) <- CRS("+init=epsg:4326")
+```
+
+## Convert dataframe to spatialdataframe
+We can directly plot spatialdataframes. ( [pch](http://www.sthda.com/english/wiki/r-plot-pch-symbols-the-different-point-shapes-available-in-r) is symbol and cex is size). 
+```{r}
+plot(kenya_projects, pch=16, cex=.5)
+```
+
+## Interactive Map
+We'll use leaflet to make an interactive map. Leaflet is a javascript library for interactive maps. The leaflet R package allows one to interact with this library in R.
+
+Leaflet works similarly to ggplot where you sequentially define different elements. However, instead of using + between elements, we use a pipe: %>%
+
+```{r, eval=F}
+library(leaflet)
+
+leaflet() %>%
+  addCircles(data=kenya_projects) %>% 
+  addTiles()
+```
+
+## Interactive Map
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(leaflet)
+
+leaflet() %>%
+  addCircles(data=kenya_projects) %>%
+  addProviderTiles(providers$OpenStreetMap)
+
+# https://leaflet-extras.github.io/leaflet-providers/preview/
+```
+
+## Better Interactive Map
+Now, let's make text appear when we click a point, change the radius, change the basemap ([click here for options](https://leaflet-extras.github.io/leaflet-providers/preview/)) and change the color. 
+```{r, eval=F}
+leaflet() %>%
+  addCircles(data=kenya_projects,
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 1,
+             color = "orange") %>%
+  addProviderTiles(providers$Stamen.Terrain)
+```
+
+## Better Interactive Map
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+leaflet() %>%
+  addCircles(data=kenya_projects,
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 1,
+             color = "orange") %>%
+  addProviderTiles(providers$Stamen.Terrain)
+```
+
+## Two layers on map
+\begin{block}{Exercise 5}
+Add two layers to the interactive map, differentiating between two types of projects: "Transport and storage" and "Water supply and sanitation." Make sure to color the layers differently. 
+
+Hints:
+
+\begin{enumerate}
+\item Use the "ad\_sector\_names" variable and the subset function to subset kenya\_projects.
+\item To add multiple layers, just add another addCircles() layer.
+\end{enumerate}
+\end{block}
+
+## Two layers on map
+\scriptsize
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+leaflet() %>%
+  addCircles(data=subset(kenya_projects, 
+                         ad_sector_names == "Transport and storage"),
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 2.5,
+             color = "orange") %>%
+    addCircles(data=subset(kenya_projects, 
+                           ad_sector_names == "Water supply and sanitation"),
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 2.5,
+             color = "blue") %>%
+  addProviderTiles(providers$Stamen.Terrain)
+```
+
+## Two layers on map
+
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+leaflet() %>%
+  addCircles(data=subset(kenya_projects, 
+                         ad_sector_names == "Transport and storage"),
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 2.5,
+             color = "orange") %>%
+    addCircles(data=subset(kenya_projects, 
+                           ad_sector_names == "Water supply and sanitation"),
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 2.5,
+             color = "blue") %>%
+  addProviderTiles(providers$Stamen.Terrain)
+```
+
+## Add Layers and Buttons to Interactive Map
+\scriptsize
+We can add buttons that cause layers to appear or dissappear in two steps:
+
+\begin{enumerate}
+\item When defining the layer (eg, in addCircles), add "group=" and give the group a name.
+\item Add "addLayersControl", and as a parameter add "overlayGroups" with a list of the above groups.
+\end{enumerate}
+
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+leaflet() %>%
+  addCircles(data=subset(kenya_projects, 
+                         ad_sector_names == "Transport and storage"),
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 2.5,
+             color = "orange",
+             group = "Transport") %>%
+    addCircles(data=subset(kenya_projects, 
+                           ad_sector_names == "Water supply and sanitation"),
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 2.5,
+             color = "blue",
+             group = "Water") %>%
+  addProviderTiles(providers$Stamen.Terrain) %>%
+  addLayersControl(overlayGroups = c("Transport", "Water"),
+                   options = layersControlOptions(collapsed = FALSE))
+```
+
+## Add Layers and Buttons to Interactive Map
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+leaflet() %>%
+  addCircles(data=subset(kenya_projects, 
+                         ad_sector_names == "Transport and storage"),
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 2.5,
+             color = "orange",
+             group = "Transport") %>%
+    addCircles(data=subset(kenya_projects,
+                           ad_sector_names == "Water supply and sanitation"),
+             popup = ~project_title,
+             radius = ~sqrt(commitments)*5,
+             weight = 2.5,
+             color = "blue",
+             group = "Water") %>%
+  addProviderTiles(providers$Stamen.Terrain) %>%
+  addLayersControl(
+    overlayGroups = c("Transport", "Water"),
+    options = layersControlOptions(collapsed = FALSE)
+)
+```
+
+# Spatial Operations
+
+## Grabbing Administrative Data
+We can grab administrative layers from [GADM (Database of Global Administrative Areas)](https://gadm.org/) using the getData function from the raster package.
+```{r, eval=F}
+library(raster)
+
+ken_adm1 <- getData('GADM', country='KEN', level=1)
+plot(ken_adm1)
+```
+
+## Grabbing Administrative Data
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(raster)
+
+setwd(finalData)
+ken_adm1 <- getData('GADM', country='KEN', level=1)
+plot(ken_adm1)
+```
+
+## Cropping
+Let's trim an object based on the spatial extent of another object. Let's say we only wanted trunk roads in Kenya. We can use gIntersection() from the \textit{rgeos} package. The function converts the "SpatialLineDataFrame" to a "SpatialLine." We'll plot this later, and ggplot only works with "SpatialLineDataFrame" -- so to convert the object back, we just add a variable -- here, id.
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+library(rgeos)
+trunk_roads_kenya <- gIntersection(trunk_roads_reprj, 
+                                   ken_adm1)
+trunk_roads_kenya$id <- 1:length(trunk_roads_kenya)
+
+plot(ken_adm1)
+plot(trunk_roads_kenya, add=T, col="red")
+```
+
+## Cropping
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(rgeos)
+trunk_roads_kenya <- gIntersection(trunk_roads_reprj, ken_adm1)
+trunk_roads_kenya$id <- 1:length(trunk_roads_kenya)
+
+plot(ken_adm1)
+plot(trunk_roads_kenya, add=T, col="red")
+```
+
+## Distance Calculation
+Let's calculate the distance of projects to trunk roads. gDistance calculates the distance in the units of the projection (here, decimal degrees)
+\scriptsize
+```{r, warning=FALSE, message=F, results='hide', eval=T}
+library(rgeos)
+# rows = roads; columns = projects
+distance_matrix <- gDistance(kenya_projects, trunk_roads_kenya, byid=T)
+
+# Min values of columns (projects)
+kenya_projects$dist_road <- apply(distance_matrix, 2, min)
+```
+
+## Homework: Map of World Bank Projects Near Roads
+\scriptsize
+\begin{block}{Exercise 6}
+Now that we've calculated the distance, make a map that includes the following characteristics:
+
+\begin{enumerate}
+\item Includes World Bank projects in Kenya that are within 10km of a trunk road (about 0.1 decimal degrees)
+\item Includes trunk roads
+\item Includes a legend item for both the projects and map
+\item The size if the WB project points should correspond to aid commitments.
+\item Includes the border of Kenya around the map (hint: use the getData() function from the raster package to get GADM data for ADM 0).
+\end{enumerate}
+\end{block}
+
+A tip:
+
+ggplot() can't handle spatial points dataframes, so we have to convert back to a dataframe. But tidy doesn't work with spatial points dataframes either. 
+
+So we: (1) grab the data part of the spatial object, and (2) add coordinates back in (when converting a dataframe to a spatial dataframe, we loose the coordinates as variables)
+
+```{r}
+kenya_projects_df <- kenya_projects@data
+kenya_projects_df$long <- kenya_projects@coords[,1]
+kenya_projects_df$lat <- kenya_projects@coords[,2]
+```
+
+## Homework : Map of World Bank Projects Near Roads
+\scriptsize
+Code in Appendix!
+```{r, echo=F, , warning=FALSE, message=F, results='hide'}
+kenya_adm0 <- getData('GADM', country='KEN', level=0)
+
+ggplot() +
+  geom_polygon(data=kenya_adm0, aes(x=long, y=lat, group=group),
+               fill="ivory", color="black") + 
+  geom_point(data=subset(kenya_projects_df, dist_road < 0.1), 
+                                      aes(x=long, y=lat,
+                                      size=commitments/1000000),
+             fill="orange",
+             color="black",
+             pch=21) + # Adds border around points
+  geom_path(data=trunk_roads_kenya, aes(x=long, y=lat, 
+                                        group=group,
+                                        color="Trunk Road")) +
+  scale_color_manual(values="brown") +
+  labs(color="", size="World Bank\nCommitments\n(Millions)", 
+       title = "World Bank Projects Near Trunk Roads") +
+  coord_quickmap() +
+  theme_void() +
+  theme(plot.title = element_text(hjust = 0.5)) # Center Title
+```
+
+## Thank You!
+
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/werner_projection.jpg", dpi = 220)
+```
+
+# Appendix
+
+## Homework Solution
+\scriptsize
+```{r, eval=F}
+kenya_adm0 <- getData('GADM', country='KEN', level=0)
+
+ggplot() +
+  geom_polygon(data=kenya_adm0, aes(x=long, y=lat, group=group),
+               fill="ivory", color="black") + 
+  geom_point(data=subset(kenya_projects_df, dist_road < 0.1), 
+                                      aes(x=long, y=lat,
+                                      size=commitments/1000000),
+             pch=21, # Adds border around points
+             fill="orange",
+             color="black") + 
+  geom_path(data=trunk_roads_kenya, aes(x=long, y=lat, 
+                                        group=group,
+                                        color="Trunk Road")) +
+  scale_color_manual(values="brown") +
+  labs(color="", size="World Bank\nCommitments\n(Millions)", 
+       title = "World Bank Projects Near Trunk Roads") +
+  coord_quickmap() +
+  theme_void() +
+  theme(plot.title = element_text(hjust = 0.5)) # Center Title
+```
+
+## Distance Calculation: More Accurate
+\scriptsize
+To get a more accurate distance we can use the geosphere package. geosphere uses algorithms that take into account the fact that the earth isn't flat, and that distances between decimal degrees changes depending on location.
+```{r, eval=F}
+library(geosphere)
+
+# Returns dataframe that includes shortest distance from each point to the road
+# NOTE: This may take a few minutes to run, so I'm only running on first 10 
+#       observations. Use the commented out version to run on all projects
+# distance_df <- dist2Line(kenya_projects, trunk_roads_kenya)
+
+distance_df <- dist2Line(kenya_projects[1:10,], trunk_roads_kenya)
+
+head(distance_df, 5)
+```
+
+## Calculate Areas
+To calculate the area of a polygon, we can use:
+\begin{enumerate}
+\item gArea() from the rgeos package. Here, units will be in units of your coordinate system (eg., decimal degrees of meters).
+\item areaPolygon from the geosphere package. This calculation takes into account the curvature of the earth and units will be in meters.
+\end{enumerate}
+
+```{r, eval=F}
+library(rgeos)
+worldmap_area_v1 <- gArea(worldmap, byid=T)
+
+library(geosphere)
+worldmap_area_v2 <- areaPolygon(worldmap)
+
+```
+
+
+## Export Spatial Object as Shapefile
+Below shows code to export a spatial object as a shapefile
+\scriptsize
+```{r, eval=F}
+writeOGR(obj=roads_trunk_rpj,     # Spatial object
+         dsn="~/Desktop",         # Folder to save shapefile
+         layer="trunkroads",      # Name of shapefile
+         driver="ESRI Shapefile", # Use ESRI shapefile format (.shp)
+         overwrite_layer=T)       # Overwrite shapefile with same name
+```
+
+## Over Function
+Let's say we want to add variables to the World Bank projects from the Africa polygon dataset (e.g, the name of the country each project is in). For this, we can use the \texttt{over()} function. We can use this to extract data from the polygons to each point.
+\scriptsize
+```{r, eval=F}
+# Spatially define wb_projects
+coordinates(wb_projects) <- ~longitude+latitude
+crs(wb_projects) <- CRS("+init=epsg:4326")
+
+# This yields a dataframe that has the same number of rows as wb_projects,
+# but has data from worldmap.
+wb_projects_OVER_worldmap <- over(wb_projects, worldmap)
+
+# Add variables from worldmap to wb_projects
+wb_projects$POP_EST <- wb_projects_OVER_worldmap$POP_EST
+wb_projects$GDP <- wb_projects_OVER_worldmap$GDP_MD_
+wb_projects$hppy_sc <- wb_projects_OVER_worldmap$hppy_sc
+```
+
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+# Spatially define wb_projects
+coordinates(wb_projects) <- ~longitude+latitude
+crs(wb_projects) <- CRS("+init=epsg:4326")
+```
+
+
+## Buffer Spatial Objects
+We can create buffers around spatial objects using \texttt{gBuffer()} from \textit{rgeos}. This function works with points, lines or polygons. The width is in the units of your coordinate reference system. Consequently, units here are in decimal degrees. However, you could project your data so that units are in meters.
+```{r, eval=F}
+library(rgeos)
+wb_projects_buff <- gBuffer(wb_projects, width=0.1, byid=T)
+plot(wb_projects_buff[1:20,])
+```
+
+## Buffer Spatial Objects
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(rgeos)
+wb_projects_buff <- gBuffer(wb_projects, width=0.1, byid=T)
+plot(wb_projects_buff[1:20,])
+```
+
+## Add Text to Map
+\scriptsize
+We can also add text to maps. Let's say we wanted to add the project start date to the maps-- this comes from the start\_actual\_isodate variable, where data is stored as a string. To map text values, we use geom\_text\_repel() from the ggrepel package. You can also use geom\_label\_repel(), which will add a border around the text, or the "non-repel" versions: geom\_text() or geom\_label.
+
+```{r, eval=F, warning=FALSE, message=F, results='hide'}
+library(ggrepel)
+
+wb_projects <- read.csv(file.path(finalData, "wb_projects.csv"))
+
+ggplot() + 
+    geom_point(data=wb_projects[1:10,], aes(x=longitude,
+                                    y=latitude)) +
+    geom_text_repel(data=wb_projects[1:10,], aes(x=longitude,
+                                           y=latitude,
+                                           label=start_actual_isodate)) +
+  theme_void()
+```
+
+## Add Text to Map
+```{r, echo=F, warning=FALSE, message=F, results='hide'}
+library(ggrepel)
+
+wb_projects <- read.csv(file.path(finalData, "wb_projects.csv"))
+
+ggplot() + 
+    geom_point(data=wb_projects[1:10,], aes(x=longitude,
+                                    y=latitude)) +
+    geom_text_repel(data=wb_projects[1:10,], aes(x=longitude,
+                                           y=latitude,
+                                           label=start_actual_isodate)) +
+  theme_void()
+```
+
+## Extract Centroid of Spatial Object
+To obtain the centroid of a spatial object, such as the centroid of a polygon or line, use \texttt{gCentroid} from \textit{rgeos}.
+
+```{r, warning=FALSE, message=F, results='hide'}
+worldmap_centroids <- gCentroid(worldmap)
+head(worldmap_centroids)
+```
+
+## Useful Projections
+\scriptsize
+### Geographic Coordinate System
+The most common geographic coordinate system is the [World Geodetic System (WGS84)](https://en.wikipedia.org/wiki/World_Geodetic_System).
+```{r, , eval=F}
+"+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+```
+
+### Projected Coordinate Systems
+Below are projections for equal area and equal distance. Replace [LATITUDE VALUE] and [LONGITUDE VALUE] with the center of the area that you're working with.
+
+Equal Area: [Lambert Azimuthal Equal Area](https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection)
+```{r, eval=F}
+"+proj=laea +lat_0=[LATITUDE VALUE] +lon_0=[LONGITUDE VALUE]"
+```
+
+
+Equal Distance: [Azimuthal Equidistant Projection](https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection)
+```{r, eval=F}
+"+proj=aeqd +lat_0=[LATITUDE VALUE] +lon_0=[LONGITUDE VALUE]"
+```
+
+## ggplot Colors Scale Summary
+Below summarizes defining color scales or palettes in ggplot, with either continuous or discrete data. These are elements that will be included in your ggplot code.
+\scriptsize
+
+[Defining own color scale](https://ggplot2.tidyverse.org/reference/scale_gradient.html)
+
+\begin{enumerate}
+\item scale\_*\_gradient(low, high): [For continuous variable] Manually define low/high colors
+\item scale\_*\_gradientn(colors): [For continuous variable] Use a defined list of colors (e.g., c("purple","blue","yellow","white"))
+\item scale\_*\_manual(colors): [For discrete variable] Use a defined list of colors, where the list is equal to the number of unique observations in the discrete variable.
+\end{enumerate}
+
+[Using pre-defined palettes](https://ggplot2.tidyverse.org/reference/scale_brewer.html)
+
+\begin{enumerate}
+\item scale\_*\_distiller(palette): [For contiuous variables]
+\item scale\_*\_brewer(palette): [For discrete variables]
+\end{enumerate}
+
+Where * is either color or fill. Discrete variables = factor variables.
+
+## ggplot Colors Cale Summary
+RColorBrewer provides a number of palettes to use.
+\scriptsize
+```{r}
+library(RColorBrewer)
+display.brewer.all()
+```
+
+## Useful Resources
+* [Rspatial](http://rspatial.org/) provides tutorials for many topics in GIS. 
+
+* [Nick Eubank Tutorials](http://www.nickeubank.com/gis-in-r/) -- another great set of tutorials. 
+
+* [Spatial Features](https://r-spatial.github.io/sf/articles/sf1.html). There's an entirely different way of defining spatial objects in R that we didn't cover, so see this website for an overview of "spatial features" that treat spatial objects more similarly to dataframes.
+
+* [This](https://gist.github.com/sboysel/fc661f26ef51eae6377b) provides useful links to a bunch of other resources.
+

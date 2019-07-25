@@ -1,7 +1,7 @@
 ---
-title: "Descriptive analysis"
+title: "Descriptive Analysis"
 subtitle: "R for Stata Users"
-date: "April 2019"
+date: "June 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -57,6 +57,27 @@ if (Sys.getenv("USERNAME") == "wb519128"){
   
 ```
 
+
+## Packages for this session
+
+Before starting, lets install the packages we'll use in this session since it might take a while.
+
+
+### Install today's packages
+
+```{r, include = T, results = "hide", eval = F}
+install.packages(c("stargazer", 
+                   "tidyverse",
+                   "openxlsx"), 
+                 dependencies = T)
+
+# Load them as well
+library(stargazer)
+library(tidyverse)
+library(openxlsx)
+
+```
+
 # Introduction
   
 ## Introduction
@@ -69,14 +90,39 @@ if (Sys.getenv("USERNAME") == "wb519128"){
 
 ## Introduction
 
-This session will cover two topics:
+This session will cover three topics:
   
   \begin{enumerate}
     \item Quick ways to extract summary information from your data.
     \item How to use this information to create tables.
-    \item How to export these tables to {\LaTeX} and Excel.
+    \item How to export data and tables to {\LaTeX} and Excel.
   \end{enumerate}
+
+## Introduction
+\framesubtitle{Exporting for Publication/Reporting}
+
+
+\begin{block}{Reproducible}
+
+  \begin{itemize}
+    \item Markdown - Very useful for programming trainings presentations and quick documents that do not require lots of formatting.
+    \item Latex - A pain to learn, but a fully featured document preparation system.
+  \end{itemize}
+
+\end{block}
+
+
+\begin{block}{Not reproducible!}
+
+Anything that requires: 
   
+\begin{itemize}
+    \item Copy-and-pasting
+    \item Formatting after exporting.
+  \end{itemize}
+  
+\end{block}
+
 
 # Getting started
 
@@ -101,20 +147,7 @@ First, let's load the data that is going to be used in the training.
 
 ```
 
-## Getting started
 
-Before starting, lets install the packages we'll use in this session since it might take a while.
-
-
-### Install today's packages
-
-```{r, include = T, results = "hide", eval = F}
-  install.packages(c("stargazer", 
-                     "tidyverse",
-                     "openxlsx"), 
-                   dependencies = T)
-
-```
 
 # Quick summary statistics
 
@@ -195,7 +228,7 @@ Use the `table()` function to display frequency tables for:
 
   # table with a bolean vector
   table(whr17$region, 
-        whr17$happy_rank > mean(whr17$happy_rank)) # Who is above average
+        whr17$happy_score > mean(whr17$happy_score)) # Who is above average
 ```
 
 # Descriptives tables
@@ -259,7 +292,7 @@ To export the table to \LaTeX\, we will use a couple of additional arguments of 
 
 But first, let's pick a few variables of interest in the `whr` data set so the table fits in these slides.
 
-### Exercise 3
+### Exercise 4
 
  1. Create a vector called ``covariates`` containing the string names of the variables you want to keep: `happy_score`, `gdp_pc`, `family`, and `trust_gov_corr`.
  2. Use this vector to subset the whr data-set to contain only these variables. Call the new data frame `whr_simp`.
@@ -285,7 +318,7 @@ whr_simp <- whr[, covariates]
 
 ## Export tables to \LaTeX\
 
-### Exercise 4
+### Exercise 5
 Now use the stargazer function to export the `whr_simp`:
 
  1. Create a vector `cov_labels` containing labels for the `happy_score`, `gdp_pc`, `freedom` and `trust_gov_corr` variables.
@@ -340,7 +373,7 @@ There are multiple ways to do this, but We will construct a simple table using t
 
 ## Descriptives tables - Create tables from scratch
 
-### Exercise 5
+### Exercise 6
  Use the `aggregate()` function to create a data frame called `happy_table` with the mean of `happy_score` per year and region. 
 
 ```{r, eval = T, results = "hide"}
@@ -379,7 +412,7 @@ print(happy_table[1:19,])
 
 ## Descriptives tables - Create tables from scratch
 
-### Exercise 6
+### Exercise 7
  Use the `spread` function to make the `happy_table` data frame wide in the `year` variable.
 
 
@@ -407,7 +440,7 @@ print(happy_table)
 
 With a data frame as input, `stargazer` by default tries to summarize it. So, to export this table we must specify one additional argument: `summary = F`.
 
-### Exercise 7
+### Exercise 8
 Print the ``happy_table`` table you created in exercise 6 using ``stargazer``. If you want, you can also save it using the ``out`` option.
 
 
@@ -526,9 +559,11 @@ stargazer(ht_wd,
 ## Descriptives tables - Create tables from scratch
 \framesubtitle{Challenge exercise}
 
-### Exercise 8: Try to replicate the table in the previous slide
+### Bonus exercise: Try to replicate the table in the previous slide
 
-There are multiple ways to do this. Here are two painful but straightforward approaches that you get extra points if you avoid:
+There are multiple ways to do this. 
+
+Here are two painful but straightforward approaches that you get extra points if you avoid:
 
  1. Write string objects with latex code and combine them.
  2. Appending vectors of with the desired stats for each region.
@@ -549,6 +584,7 @@ There are several ways to export R objects to Excel. We will use here the the `w
 
 `write.xslx()` is one of the most common functions, but there are many other functions that allow you to export formatted tables to Microsoft Excel, Word or PowerPoint. Here are some examples:
 
+  * huxtable and jtools
   * ReporteRs
   * Flextable
   * r2excel (only available in GitHub).
@@ -579,7 +615,7 @@ Use the `write.xlsx()` function to save the `happy_table` you table created in E
 
 ```{r, include = T, eval = F}
 write.xlsx(happy_table,
-           file = file.path(rawOutput, "happy_table.xlsx"))
+           file = file.path(YourFilePathObject, "happy_table.xlsx"))
 
 ```
 
@@ -715,11 +751,6 @@ stargazer(reg1,
           header = F)
 ```
 
-
-## The end
-
-  Thank you!
-  
 # References and recommendations
 
 ## References and recommendations
@@ -743,7 +774,10 @@ stargazer(reg1,
 
   * All you need to know about \LaTeX\:
   https://en.wikibooks.org/wiki/LaTeX
-  
+
+----
+
+\center \huge Thank you!  
   
 # Appendix
 

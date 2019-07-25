@@ -1,7 +1,7 @@
 ---
 title: "Introduction I - R basics"
 subtitle: "R for Stata Users"
-date: "April 18"
+date: "June 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -52,7 +52,23 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 ```
 
+# Installation
+
+## Installation
+
+This training requires that you have R installed in your computer:
+
+### Instructions
+
+ * Please visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
+
+ * If you're in the US, you can directly visit the mirror at Berkley university at (https://cran.cnr.berkeley.edu).
+
+ * we also strongly suggest installing R studio. You can get it in (https://www.rstudio.com/), but you need to install R first.
+
+
 # Introduction
+
 
 ## Introduction
 
@@ -65,10 +81,10 @@ This first session will present the basic concepts you will need to use R.
 The next sessions will include:
 
  * __Introduction to R part II__
+ * __Data Processing__
  * __Descriptive Analysis__
  * __Data Visualization__
- * __Geospatial__
- * __Data Processing__
+ * __Geospatial__ (Hands on session on Friday)
 
 For the most recent versions of these trainings, visit the R-training GitHub repo at
 https://github.com/worldbank/dime-r-training
@@ -91,7 +107,6 @@ Some advantages of R over Stata:
 Some possible disadvantages of R:
 
   * Higher cost of entry than Stata.
-    + That doesn't mean that the learning curve is steeper all the way up!
   * Stata is more specialized:
     + Certain common tasks are simpler in Stata.
   * Stata has wider adoption among micro-econometricians.
@@ -123,24 +138,11 @@ Python is even more flexible and has more users than R. So, why should I bother 
   
   * Despite being super popular for data science, Python has fewer libraries developed for econometrics.
   
-  * Python still cannot do everything Stata does without some trouble, R can.
+  * Python is a bit harder to set up and get started.
   
-  * R and Python are very similar, specially if your background is in Stata.
-
+  * It can be a harder to find help only for statistics and econometrics especially for beginners.
 
 # Getting started
-
-## Getting started
-
-This training requires that you have R installed in your computer:
-
-### Installation
-
- * Please visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
-
- * If you're in the US, you can directly visit the mirror at Berkley university at (https://cran.cnr.berkeley.edu).
-
- * we also strongly suggest installing R studio. You can get it in (https://www.rstudio.com/), but you need to install R first.
 
 
 ## Getting started
@@ -228,23 +230,29 @@ Let's start by loading the data set we'll be using:
 
  * If you wish to do any non-permanent changes to your data, you'll need to preserve the original data to keep it intact.
 
- * R works in a completely different way: you can have as many datasets (objects) as you wish (or your computer's memory allows) and operations will only have lasting effects if you store them.
+
+## Data in R
+
+ R works in a completely different way: 
+ 
+ * You can have as many datasets (objects) as you wish or your computer's memory allows.
+ 
+ * Operations will only have lasting effects if you store them.
 
 ## Data in R
 
 * Everything that exists in R's memory -- variables, datasets, functions -- is an object.
 
-* You could think of an object like a chunk of data stored in the memory that has a name by which you call it (exactly like macros in Stata).
+* You could think of an object like a chunk of data with some properties that has a name by which you call it.
 
 * If you create an object, it is going to be stored in memory until you delete it or quit R.
 
 * Whenever you run anything you intend to use in the future, you need to store it as an object.
 
 
-
 ## Data in R
 
-To better understand the idea, we're going to use the data from the United Nations' World Happiness Report. First, let's take a look at the data.
+To better understand the idea, we're going to use the data we opened from the United Nations' World Happiness Report. First, let's take a look at the data.
 
 Type the following code to explore the data:
 ```{r, include = T, results = "hide"}
@@ -317,7 +325,7 @@ We can see that nothing happened to the original data. This happens because we d
 x <- 42
 ```
 
-From now on, *x* is associated with the stored value (until you replace it delete it or close R).
+From now on, *x* is associated with the stored value (until you replace it, delete it, or quit the R session).
 
 ## Data in R
 
@@ -378,6 +386,20 @@ You can also see that your environment pane now has two objects:
  1. In R, if you want to change your data, you need to store it in an object.
  2.  It is possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
  3. Print (display) is built into R. If you execute any action without storing it, R will simply print the results of that action but won't save anything in the memory.
+
+
+# Functions
+
+## Quick intro to functions
+
+
+`head()`, `View()`, `subset()` and`read.csv()` are functions!
+
+  * Functions in R take named arguments (unlike in Stata that you have arguments and options).
+  * Usually the first argument is the obeject you want to use the function on, e.g. `subset(whr, ...)`
+  * Functions usually return values that you can store in an object, print or use directly as an argumet of another function.
+
+We will explore this ideas in depth in the next session.
 
 
 # R objects
@@ -491,7 +513,7 @@ whr[22,"country"] # The same as whr$country[22]
 
 Lists are more complex objects that can contain many objects of different classes and dimensions.
 
-Lists are fancy and can have a lot of functionalities and attributes. They are the output of many functions and are used to construct complex objects.
+The outputs of many functions, a regression for example, are simmilar to lists.
 
 It would be beyond the scope of this introduction to go deep into them, but here's a quick example
 
@@ -711,8 +733,8 @@ help(summary)
 * Surviving graduate econometrics with R:
 https://thetarzan.wordpress.com/2011/05/24/surviving-graduate-econometrics-with-r-the-basics-1-of-8/
 
-* An Introduction to R at
-https://cran.r-project.org/
+* CRAN's manuals:
+https://cran.r-project.org/manuals.html
 
 * R programming in Coursera:
 https://www.coursera.org/learn/r-programming
@@ -738,7 +760,7 @@ https://www.r-graph-gallery.com/
 
 * R Graphics Cookbook - Winston Chang
 
-* R for Data Science - Hadley Wickha and Garrett Grolemund
+* R for Data Science - Hadley Wickham and Garrett Grolemund
 
 ----
 

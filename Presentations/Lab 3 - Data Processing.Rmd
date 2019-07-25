@@ -1,7 +1,7 @@
 ---
 title: "Data Processing"
 subtitle: "R for Stata Users"
-date: "May 2019"
+date: "June 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty"
 output:
   beamer_presentation:
@@ -138,7 +138,7 @@ Here's a how you can do that:
 ### Exercise 1: Load data
 Use the `read.csv` function to load the three `WHR` data sets from `DataWork > DataSets > Raw`. Create an object called `whrYY` with each data set.
 
- * TIP 1: use the ``file.path()`` function and the ``rawData`` object created in the master to simplify the folder path.
+ * TIP 1: use the ``file.path()`` function to simplify the folder path.
  * TIP 2: for this data set, we want to read strings as strings, not factors.
 
 
@@ -443,6 +443,15 @@ whr17$Region[whr17$Country %in% c("Mozambique",
 any(is.na(whr17$Region))
 ```
 
+## Missing values
+
+Unlike in Stata, R never\footnote{Of course, there might be an obscure package with a function that does this or you can write your on function. But base R and all the major packages don't and we never came across any function on CRAN that does.} treats missings as zeros by default in any function.
+
+ * If your vector (column or row in your dataset) has at least one `NA`, any function that takes it as an argument will return `NA`.
+ * If you wish to treat missings as zeros or ignore them, you need to explicitly do it.
+ * E.g. `mean(myVector, na.rm = T)` or `rowSums(myDataFrame, na.rm = T)`
+
+
 ## Renaming variables
 
 The second problem we found, of different names for the same variable in different data sets, can be easily fixed with the rename function:
@@ -605,7 +614,7 @@ whr_panel$happy_high <-
   
   * The `tidyverse` function `mutate` make this process simpler
   
-## Creating variables base on a formula
+## Creating variables based on a formula
 
 ### `mutate(.data, ...)`
 
@@ -615,7 +624,7 @@ Adds new variables and preserves existing
   * **...:**    name-value pairs of expressions. Use NULL to drop a variable
   
 
-## Creating variables base on a formula
+## Creating variables based on a formula
 
 ### Exercise 10: Create a variable based on a formula
 Use the `mutate` function to create a variable called `happy_high` in the `whr_panel` data set indicating whether the `happy_score` is above the median.
@@ -799,7 +808,7 @@ head(happy_long)
 
 ## `melt`: reshape from wide to long
 
-### `melt(data, id.vars, measure.vars)
+### `melt(data, id.vars, measure.vars)`
 
   * **data: ** a **data.table** object to melt
   * **id.vars:** a vector of unique IDs in `data`

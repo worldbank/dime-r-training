@@ -1,7 +1,7 @@
 ---
 title: "Data Visualization"
 subtitle: "R for Stata Users"
-date: "April 2019"
+date: "June 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -9,7 +9,7 @@ output:
     theme: "Madrid"
     colortheme: "whale"
     fonttheme: "default"
-    toc: true
+    #toc: true
     includes:
       in_header: header.tex
 ---
@@ -149,7 +149,7 @@ whr_simp <- whr[, covariates]
 
 \scriptsize
 
-```{r}
+```{r, out.width = "85%"}
 plot(whr_simp)
 ```
 
@@ -165,7 +165,7 @@ plot(whr_simp)
 
 ## Exploratory graphs - Base plot
 \scriptsize
-```{r, eval = T, echo = T}
+```{r, eval = T, echo = T, out.width = "85%"}
 hist(whr_simp$happy_score, col = "green")
 ```
 
@@ -191,7 +191,7 @@ boxplot(whr$happy_score ~ whr$region, las = 2)
 ## Exploratory graphs - Base plot
 \tiny
 
-```{r, echo = F}
+```{r, echo = F, out.width = "95%"}
 par(mar=c(14,2,2,2))
 boxplot(whr$happy_score ~ whr$region, las = 2)
 ```
@@ -275,7 +275,7 @@ p1_happyfree <-
 ## ``ggplot`` - Introduction
 \scriptsize
 
-```{r, echo = T, warning = F}
+```{r, echo = T, warning = F, out.width = "88%"}
 print(p1_happyfree)
 ```
 
@@ -294,7 +294,7 @@ As almost everything in R, ``ggplot`` is very flexible and can be used in differ
 This is very similar to Stata, with the advantage of not needing to
 preserve and restore anything.
 
-##``ggplot`` - Data structure
+## ``ggplot`` - Data structure
 
 Here's an example of how an aggregated (collapsed) data set should look like:
 
@@ -350,7 +350,7 @@ p2_happyyear <-
 ## ``ggplot`` - Data structure
 \scriptsize
 
-```{r, echo = T , eval= T}
+```{r, echo = T , eval= T, out.width = "88%"}
 
 print(p2_happyyear)
 
@@ -424,7 +424,7 @@ print(p3_happyreg)
 ## ``ggplot`` - Data structure
 \scriptsize
 
-```{r, echo = F , eval= T, warning=FALSE}
+```{r, echo = F , eval= T, warning=FALSE, out.width = "88%"}
 
 annualHappy_reg <-
   aggregate(happy_score ~ year + region,
@@ -479,7 +479,7 @@ p4_happy3reg <-
 
 \scriptsize
 
-```{r, eval= T, warning=FALSE}
+```{r, eval= T, warning=FALSE, out.width = "88%"}
 print(p4_happy3reg)
 ```
 
@@ -519,7 +519,7 @@ p5_happyfree17 <-
 ## ``ggplot`` - Aesthetics
 \scriptsize
 
-```{r, echo = T , eval= T , warning=FALSE}
+```{r, echo = T , eval= T , warning=FALSE, out.width = "88%"}
 print(p5_happyfree17)
 
 
@@ -556,7 +556,7 @@ p6_happyfree17reg <-
 ## ``ggplot`` - Aesthetics
 \scriptsize
 
-```{r, echo = F , eval= T, warning=FALSE}
+```{r, echo = F , eval= T, warning=FALSE, out.width = "88%"}
 
 print(p6_happyfree17reg)
 
@@ -587,7 +587,7 @@ p6_happyfree17reg <-
 ## ``ggplot`` - Aesthetics
 \scriptsize
 
-```{r, echo = T , eval= T, warning=FALSE}
+```{r, echo = T , eval= T, warning=FALSE, out.width = "88%"}
 
 print(p6_happyfree17reg)
 
@@ -612,7 +612,7 @@ ggplot(whr17, aes(x = freedom,
 ## ``ggplot`` - Aesthetics
 \scriptsize
 
-```{r, echo = F , eval= T, warning=FALSE}
+```{r, echo = F , eval= T, warning=FALSE, out.width = "88%"}
 
 ggplot(whr17, aes(x = freedom,
                   y = happy_score,
@@ -636,10 +636,9 @@ To add a title and legend to the X and Y axis, we use the functions listed below
 
 ## ``ggplot`` - Titles and labels
 
-To add legend titles, we will use two functions that control the formatting of the aesthetic. As they can take many different arguments, we use ``name`` argument sets legend title:
+To add legend titles, we will change the formatting of the aesthetic. We will use `labs()` function specifying wich aesthetic elements we will modify.
 
- * ``scale_color_discrete() `` - formatting of the color aesthetic.
- * ``scale_size_continuous()`` - formatting of the size aesthetic.
+ ``labs(color = "Color lab", fill = "Fill lab", ...) ``
 
 ## ``ggplot`` - Titles and labels
 
@@ -648,7 +647,7 @@ To add legend titles, we will use two functions that control the formatting of t
  1. Copy the code for the graph produced in the previous exercise.
  2. Use the ``+`` symbol to add the layer.
  3. ``ggtitle()``, ``xlab()`` and ``ylab()`` take simple strings as inputs.
- 4. For ``scale_color_continuous()`` and ``scale_size_continuous()`` you need to specify ``name`` argument as the desired string.
+ 4. For labelling the legends use `color` and `size` arguments of the `labs()` function.
 
 ## ``ggplot`` - Titles and labels
 \scriptsize
@@ -660,45 +659,50 @@ p6_happyfree17reg <-
       ggtitle("My pretty plot") +
       xlab("Freedom") +
       ylab("Happiness") +
-      scale_color_discrete(name = "World Region") +
-      scale_size_continuous(name = "Score of GDP per capita")
+      labs(color = "World Region",
+           size = "Score of GDP per capita")
 ```
+
 
 ## ``ggplot`` - Titles and labels
 \scriptsize
 
-```{r, echo = T , eval= T,  warning=FALSE}
-print(p6_happyfree17reg)
+```{r, echo = T , eval= T,  warning=FALSE, out.width = "88%"}
+p6_happyfree17reg
 ```
+
 
 # Saving a plot
 
 ## Saving a plot
 
-Let's save the previous plot using the PDF graphics device
+Let's save the previous plot
 
-#### Exercise 9:
-  1. Open the PDF graphics device by using the ``pdf()`` function.
-  2. Set the ``file`` argument as your outputs path with the file name (including ".pdf")
-  3. Paste the code of the previous plot bellow the ``pdf()`` function.
-  4. Finally, use the ``dev.off()`` to close the device, i.e. tell R that you're finished plotting.
+#### Exercise 9: We will use the `ggsave()` function to save a .png image
+  1. "Add" the `ggsave()` function to the `p6_happyfree17reg` object you created.
+  2. Set the ``filename`` argument as your outputs path with the file name (including ".png")
+  4. Specify the `width` and `height` arguments. The default unit is inches, but you can use the `units` arguments to specify diferently.
+
+#### TIP:
+If you don't specify the `width` and `height`, `ggsave()` will use the size of Rstudio's graphics device window.
+
+
 
 ## Saving a plot
 \scriptsize
 
 ```{r, eval= F}
 
- Output <- "YOUR/PATH/HERE"
+Output <- "YOUR/PATH/HERE"
 
-# Open PDF graphics device
- pdf(file = file.path(Output, "plot1.pdf"))
+p6_happyfree17reg + 
+  ggsave(filename = file.path(Output, "myPrettyGraph.png"), 
+         width = 9, 
+         height = 6)
 
-  # Plot
-  print(p6_happyfree17reg) 
-
-# Close PDF graphics device
-dev.off()
 ```
+
+
 
 
 # Interactive graphs
@@ -764,7 +768,7 @@ Here's what we've done:
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/ggplotly2.png}
+  \includegraphics[width=11cm,height=7cm]{img/ggplotly2.png}
 \end{figure}
 
 
@@ -774,7 +778,7 @@ Here's what we've done:
 
 \begin{figure}
 \centering
-  \includegraphics[width=12cm,height=7.7cm]{img/ggplotly2.png}
+  \includegraphics[width=11cm,height=7cm]{img/ggplotly2.png}
 \end{figure}
 
 # References and recommendations

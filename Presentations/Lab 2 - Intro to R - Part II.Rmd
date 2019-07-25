@@ -1,7 +1,7 @@
 ---
 title: "Intro to R -- Part II"
 subtitle: "R for Stata Users"
-date: "April, 2019"
+date: "June 2019"
 author: "Luiza Andrade, Leonardo Viotti & Rob Marty "
 output:
   beamer_presentation:
@@ -174,14 +174,18 @@ Let's test if that worked:
   dataWorkFolder
 
 ```
-
+ 
 ## Loading a data set from CSV
+\begin{block}{\texttt{read.csv(file, header = FALSE)}}
 
-### ``read.csv(file, header = FALSE)``
+  \begin{itemize}
+    \item \textbf{file:} is the path to the file you want to open, including it's name and format (\texttt{.csv}).
+    \item \textbf{header:} if \texttt{TRUE}, will read the first row as variable names.
+    \item \textbf{stringsAsFactors:} logical. See next slide for more.
+  
+  \end{itemize}
+\end{block}
 
- * **file**: is the path to the file you want to open, including it's name and format (``.csv``)
- * **header**: if `TRUE`, will read the first row as variable names
- * **stringsAsFactors:** logical. See next slide for more.
 
 ## Loading a data set from CSV
 
@@ -200,7 +204,7 @@ Let's test if that worked:
 
 3. Open the code you just saved.
 
-4. Add a line opening the data set in `PART 5` of your Master script
+4. Add a line opening the data set in your code
 ```{r, eval = F}
 # Load data set
 whr <- read.csv(file.path(finalData,"whr_panel.csv"),
@@ -235,7 +239,7 @@ Use some of the functions listed above to explore the `whr` data set.
 
 \footnotesize
 ```{r, eval = F}
-# View the data set (same as clickin on it in the Environment pane)
+# View the data set (same as clicking on it in the Environment pane)
 View(whr)
 ```
 
@@ -472,10 +476,10 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 
 ## Looping
 
-  * ``sapply(X, FUN, ...)``: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are
-    * **X:** a matrix (or data frame) the function will be applied to
-    * **FUN:** the function you want to apply
-    * **...:** possible function options
+### ``sapply(X, FUN, ...)``: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are
+* **X:** a matrix (or data frame) the function will be applied to
+* **FUN:** the function you want to apply
+* **...:** possible function options
 
 ## Looping
 
@@ -493,11 +497,11 @@ RStudio's default is to print warning messages, but not stop the code at the lin
 
 A more general version is the `apply` function.
 
-  * ``apply(X, MARGIN, FUN, ...)``: applies a function to all columns or rows of matrix. Its arguments are
-    * **X:** a matrix (or data frame) the function will be applied to
-    * **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
-    * **FUN:** the function you want to apply
-    * **...:** possible function options
+### ``apply(X, MARGIN, FUN, ...)``: applies a function to all columns or rows of matrix. Its arguments are
+* **X:** a matrix (or data frame) the function will be applied to
+* **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
+* **FUN:** the function you want to apply
+* **...:** possible function options
 
 ## Looping
 
