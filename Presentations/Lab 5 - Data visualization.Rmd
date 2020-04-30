@@ -814,6 +814,51 @@ Books:
 
 # Appendix
 
+## Tpyes of plots and themes
+
+### Choose your plot 
+ - Based on your data and what you want to show choose a type of plot, `geom_density()`, `geom_boxplot`, `geom_point`, etc.
+ - You can find a list of plots in https://ggplot2.tidyverse.org/reference/
+
+Themes:
+\scriptsize
+```{r,  eval= F}
+# Install and load package
+install.packages("ggthemes") #as the scheme in Stata
+library(ggthemes)
+
+ # Use theme with ggplot
+ggplot(whr17, aes(x = freedom,
+                  y = happy_score,
+                  color = dystopia_res,
+                  size = gdp_pc)) +
+    geom_point()+
+    theme_light()
+```
+## Color palettes
+
+### Customize the color of your plot
+There are several color palettes in R
+- RColorBrewer https://rdrr.io/cran/RColorBrewer/man/ColorBrewer.html 
+- Viridis https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
+- Wesanderson https://rdrr.io/cran/wesanderson/src/R/colors.R
+
+```{r,  eval= F}
+# Load package
+library(RColorBrewer)
+par(mar=c(3,4,2,2))
+#Print palettes
+display.brewer.all()
+
+#Load package
+library(viridis)
+
+# Load package
+library(wesanderson)
+#Print palettes 
+names(wes_palettes)
+
+```
 
 ## R common graphic devices
 
