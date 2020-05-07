@@ -105,6 +105,28 @@ Here's a shortcut if you missed the last session:
 
 # GIS Overview
 
+## GIS Data
+There are two main types of spatial data: vector and raster data. 
+
+* __Vector:__ Vectors (also called shapefiles) consist of points, lines and polygons. These shapes are attached to a dataframe, where each row corresponds to a different spatial element. 
+
+* __Raster:__ Rasters are spatially-referenced grids where each cell has one value.
+
+<br>
+
+<div class="columns-2">
+  
+__Shapefile__
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/shapefile.png", dpi = 120)
+```
+
+__Raster__
+```{r fig.align="center", echo=F}
+knitr::include_graphics("img/raster.png", dpi = 130)
+```
+</div>
+
 ## Load Spatial Object
 
 We'll load the map  data using the the readOGR function from the rgdal package. The argument for dsn is the folder where the shapefile is and layer is the name of the shapefile.
@@ -1278,4 +1300,8 @@ display.brewer.all()
 * [Spatial Features](https://r-spatial.github.io/sf/articles/sf1.html). There's an entirely different way of defining spatial objects in R that we didn't cover, so see this website for an overview of "spatial features" that treat spatial objects more similarly to dataframes.
 
 * [This](https://gist.github.com/sboysel/fc661f26ef51eae6377b) provides useful links to a bunch of other resources.
+
+* [Visualizing geospatial data](https://serialmentor.com/dataviz/geospatial-data.html)
+
+* [Geocomputation with R](https://geocompr.robinlovelace.net/)
 
