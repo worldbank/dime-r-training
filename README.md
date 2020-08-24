@@ -15,7 +15,7 @@ This material was developed by the [DIME Analytics](https://worldbank.github.io/
 This material is developed under MIT license. See http://adampritchard.mit-license.org/ or see [the `LICENSE` file](https://github.com/worldbank/ietoolkit/blob/master/LICENSE) for details.
 
 ## Main Contact
-Luiza Cardoso de Andrade (lcardoso@worldbank.org)
+Luiza Cardoso de Andrade (lcardoso@worldbank.org) - dimeanalytics@worldbank.org
 
 ## Authors
 Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Teixeira Viotti
