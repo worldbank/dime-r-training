@@ -1,0 +1,102 @@
+---
+title: "Introduction I - R basics"
+subtitle: "R for Advanced Stata Users"
+author: "DIME Analytics"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> `r format(Sys.time(), '%d %B %Y')`"
+output:
+  xaringan::moon_reader:
+    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(knitr)
+opts_chunk$set(
+  fig.align="center",  
+  fig.height=4, #fig.width=6,
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=T#, echo=F, warning=F, message=F
+  )
+library(tidyverse)
+library(hrbrthemes)
+library(fontawesome)
+library(xaringanExtra)
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(
+  image_url = "img/lightbulb.png",
+  exclude_class = c("inverse", "hide_logo"),
+  width = "50px"
+)
+```
+
+```{r, echo = F, eval=T}
+# Load the package than contains ToothGrowth dataset
+library(datasets)
+
+# File paths
+
+if (Sys.getenv("USERNAME") == "WB532468"){
+  projectFolder  <- "C:/WBG/Repos/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "WB501238"){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "Leonardo"){
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+
+}
+
+if (Sys.getenv("USERNAME") == "wb519128"){
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
+}
+
+# File paths
+  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+
+  Data              <- file.path(dataWorkFolder,"DataSets")
+  finalData         <- file.path(Data,"Final")
+# Load CSV data
+# lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
+#                 header = T)
+
+whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
+                header = T)
+
+```
+
+# Table of contents
+
+1. [Installation](#installation)
+
+2. [Dummy Slides]
+
+---
+name: installation
+
+# Installation
+
+## Installation
+
+This training requires that you have R installed in your computer:
+
+### Instructions
+
+ * Please visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
+
+ * If you're in the US, you can directly visit the mirror at Berkley university at (https://cran.cnr.berkeley.edu).
+
+ * we also strongly suggest installing R studio. You can get it in (https://www.rstudio.com/), but you need to install R first.
