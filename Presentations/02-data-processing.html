@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Session 3: Data Processing</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Rony Rodrigo Maximiliano Rodriguez-Ramirez" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Session 3: Data Processing
+## R for Stata Users
+### Rony Rodrigo Maximiliano Rodriguez-Ramirez
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> 16 November 2020
+
+---
+
+
+
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 50px;
+height: 128px;
+z-index: 0;
+background-image: url(pics/lightbulb.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+top:1em;right:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('div')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = null
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+
+# Table of contents
+
+1. [Introduction](#intro)
+
+2. [Data wrangling](#dataw)
+
+---
+class: inverse, center, middle
+name: intro
+
+# Introduction
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Introduction
+
+### Goals of this session
+
+- To organize data in a way that it will be easier to analyze it and communicate it.
+
+- We'll use a set of packages that are bundled into something called the `tidyverse`.
+
+
+--
+
+### Things to keep in mind
+
+- We'll take you through the same steps we've taken when we were preparing the datasets. 
+
+- In most cases, your datasets won't be `tidy`. 
+
+&gt; **Tidy data**: A dataset is said to be tidy if it satisfies the following conditions: 
+1. observations are in rows
+2. variables are in columns
+3. contained in a single dataset.
+
+Takeaway: long format &gt; wide format
+
+
+---
+
+# Introduction
+
+- In this session, you'll be introduced to some basic conceptos of data cleaning in R. We will cover: 
+
+1. Exploring a dataset;
+2. Creating new variables;
+3. Filtering and subsetting datasets;
+4. Merging datasets;
+5. Dealing with factor variables;
+6. Saving data.
+
+--
+
+&gt; There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session.
+
+---
+
+# Introduction
+
+- Before we start, let's makue sure we are all set: 
+
+1. Start a fresh session.
+2. Load the tidyverse package.
+3. Set your file paths.
+
+---
+
+# Tidyverse packages
+
+Let's load the tidyverse meta-package:
+
+```r
+# If you haven't installed the package uncomment the next line
+# install.package("tidyverse", dependencies = TRUE)
+
+# Load packages
+library(tidyverse)
+```
+
+```
+## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+```
+
+```
+## v ggplot2 3.3.2     v purrr   0.3.4
+## v tibble  3.0.4     v dplyr   1.0.2
+## v tidyr   1.1.2     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.0
+```
+
+```
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+```r
+library(janitor)
+```
+
+```
+## 
+## Attaching package: 'janitor'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test
+```
+
+&gt; Remember that you should always load your packages before your start coding.
+
+---
+
+# File paths
+
+For this session, my file paths are as follows. We will use them to load and export datasets.
+
+```r
+# Example of my filepaths for this presentation
+project           &lt;- "D:/Documents/RA Jobs/DIME/trainings/dime-r-training"
+dataWorkFolder    &lt;- file.path(projectFolder,"DataWork")
+Data              &lt;- file.path(dataWorkFolder,"DataSets")
+finalData         &lt;- file.path(Data,"Final")
+rawData           &lt;- file.path(Data,"Raw")
+rawOutput         &lt;- file.path(dataWorkFolder,"Output","Raw")
+```
+
+---
+
+# Just in case: Check your R and RStudio versions
+
+☑ R version:
+
+```r
+version$version.string
+```
+
+```
+## [1] "R version 4.0.3 (2020-10-10)"
+```
+
+
+☑ RStudio version:
+
+```r
+# Use the following function to get the version: RStudio.Version()$version
+# [1] ‘1.3.1073’
+```
+
+☑ Packages:
+
+```r
+update.packages(ask = FALSE, checkBuilt = TRUE)
+```
+  
+---
+
+# Loading a dataset in R
+
+Before we start wrangling our data, let's read ourdataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to the World Happiness Report (2015-2018)
+
+&gt; *Background of the data*: This data comes from the US Census's archives
+
+
+```r
+whr15 &lt;- read_csv(file.path(rawData, "Un WHR" , "WHR2015.csv")) %&gt;% clean_names()
+whr16 &lt;- read_csv(file.path(rawData, "Un WHR" , "WHR2016.csv")) %&gt;% clean_names()
+whr17 &lt;- read_csv(file.path(rawData, "Un WHR" , "WHR2017.csv")) %&gt;% clean_names()
+```
+
+---
+# Load and show a dataset
+
+We can just show our dataset using the name of the object; in this case, `census`. 
+
+
+```r
+whr15
+```
+
+```
+## # A tibble: 158 x 12
+##    country region happiness_rank happiness_score standard_error economy_gdp_per~
+##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Switze~ Weste~              1            7.59         0.0341             1.40
+##  2 Iceland Weste~              2            7.56         0.0488             1.30
+##  3 Denmark Weste~              3            7.53         0.0333             1.33
+##  4 Norway  Weste~              4            7.52         0.0388             1.46
+##  5 Canada  North~              5            7.43         0.0355             1.33
+##  6 Finland Weste~              6            7.41         0.0314             1.29
+##  7 Nether~ Weste~              7            7.38         0.0280             1.33
+##  8 Sweden  Weste~              8            7.36         0.0316             1.33
+##  9 New Ze~ Austr~              9            7.29         0.0337             1.25
+## 10 Austra~ Austr~             10            7.28         0.0408             1.33
+## # ... with 148 more rows, and 6 more variables: family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
+```
+
+---
+class: inverse, center, middle
+name: dataw
+
+# Data wrangling
+
+---
+
+# Exploring a data set
+
+Some useful functions from base R: 
+
+* `View()`: open the data set
+* `class()`: reports object type of type of data stored.
+* `dim()`: reports the size of each one of an object's dimension.
+* `names()`: returns the variable names of a dataset.
+* `str()`: general information on an R object.
+* `summary()`: summary information about the variables in a data frame.
+* `head()`: shows the first few observations in the dataset.
+* `tail()`: shows the last few observations in the dataset.
+
+Some other useful functions from the tidyverse:
+
+* `glimpse()`: get a glimpse of your data
+
+---
+
+# Glimpse your data
+
+This functions give your information about your variables (e.g., type, row, columns,)
+
+
+```r
+whr15 %&gt;% 
+  glimpse()
+```
+
+```
+## Rows: 158
+## Columns: 12
+## $ country                     &lt;chr&gt; "Switzerland", "Iceland", "Denmark", "N...
+## $ region                      &lt;chr&gt; "Western Europe", "Western Europe", "We...
+## $ happiness_rank              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, ...
+## $ happiness_score             &lt;dbl&gt; 7.587, 7.561, 7.527, 7.522, 7.427, 7.40...
+## $ standard_error              &lt;dbl&gt; 0.03411, 0.04884, 0.03328, 0.03880, 0.0...
+## $ economy_gdp_per_capita      &lt;dbl&gt; 1.39651, 1.30232, 1.32548, 1.45900, 1.3...
+## $ family                      &lt;dbl&gt; 1.34951, 1.40223, 1.36058, 1.33095, 1.3...
+## $ health_life_expectancy      &lt;dbl&gt; 0.94143, 0.94784, 0.87464, 0.88521, 0.9...
+## $ freedom                     &lt;dbl&gt; 0.66557, 0.62877, 0.64938, 0.66973, 0.6...
+## $ trust_government_corruption &lt;dbl&gt; 0.41978, 0.14145, 0.48357, 0.36503, 0.3...
+## $ generosity                  &lt;dbl&gt; 0.29678, 0.43630, 0.34139, 0.34699, 0.4...
+## $ dystopia_residual           &lt;dbl&gt; 2.51738, 2.70201, 2.49204, 2.46531, 2.4...
+```
+
+---
+
+# dplyr:filter
+
+Filter or subsetting a dataset. 
+
+
+```r
+whr15 %&gt;% 
+  filter(region == "Western Europe",
+         happiness_rank &lt;= 10)
+```
+
+```
+## # A tibble: 7 x 12
+##   country region happiness_rank happiness_score standard_error economy_gdp_per~
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Switze~ Weste~              1            7.59         0.0341             1.40
+## 2 Iceland Weste~              2            7.56         0.0488             1.30
+## 3 Denmark Weste~              3            7.53         0.0333             1.33
+## 4 Norway  Weste~              4            7.52         0.0388             1.46
+## 5 Finland Weste~              6            7.41         0.0314             1.29
+## 6 Nether~ Weste~              7            7.38         0.0280             1.33
+## 7 Sweden  Weste~              8            7.36         0.0316             1.33
+## # ... with 6 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
+## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
+```
+
+---
+
+# dplyr:filter regular expressions
+
+One advantage of the filter command over Stata is that you can also integrate regular expressions. Let's say that we want to subset all regions' divisions that have `East` in their names. We can use the following: 
+
+
+```r
+whr15 %&gt;% 
+  filter(grepl("America", region)) %&gt;% 
+  head(5)
+```
+
+```
+## # A tibble: 5 x 12
+##   country region happiness_rank happiness_score standard_error economy_gdp_per~
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Canada  North~              5            7.43         0.0355            1.33 
+## 2 Costa ~ Latin~             12            7.23         0.0445            0.956
+## 3 Mexico  Latin~             14            7.19         0.0418            1.02 
+## 4 United~ North~             15            7.12         0.0384            1.39 
+## 5 Brazil  Latin~             16            6.98         0.0408            0.981
+## # ... with 6 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
+## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
+```
+
+&gt; Notice that I have used `head()` to show just the first 8 observations of the subset. If you want to save this subset you can assign it to an objet. For example `census_east &lt;- + and the code above`. 
+
+---
+
+# dplyr:filter missing cases
+
+If case you want to remove the missing cases for a specif variable, you can use `!is.na()`. Now we have a dataset that contains information per region and division without missing values.
+
+
+```r
+whr15 %&gt;% 
+  filter(!is.na(region)) %&gt;% 
+  head(5)
+```
+
+```
+## # A tibble: 5 x 12
+##   country region happiness_rank happiness_score standard_error economy_gdp_per~
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Switze~ Weste~              1            7.59         0.0341             1.40
+## 2 Iceland Weste~              2            7.56         0.0488             1.30
+## 3 Denmark Weste~              3            7.53         0.0333             1.33
+## 4 Norway  Weste~              4            7.52         0.0388             1.46
+## 5 Canada  North~              5            7.43         0.0355             1.33
+## # ... with 6 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
+## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
+```
+
+&gt; Notice that we are negating a function, i.e., !
+&lt;br&gt; In case we want to keep the observations that contains missing information we will only use `is.na()`. 
+
+---
+
+# Other relevant functions: slice, subset, select
+
+.panelset[
+.panel[.panel-name[Arrange]
+
+`Arrange`: allows you to order by a specific column.
+
+
+```r
+whr15 %&gt;% 
+  arrange(region, country) %&gt;% 
+  head(5)
+```
+
+```
+## # A tibble: 5 x 12
+##   country region happiness_rank happiness_score standard_error economy_gdp_per~
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Austra~ Austr~             10            7.28         0.0408            1.33 
+## 2 New Ze~ Austr~              9            7.29         0.0337            1.25 
+## 3 Albania Centr~             95            4.96         0.0501            0.879
+## 4 Armenia Centr~            127            4.35         0.0476            0.768
+## 5 Azerba~ Centr~             80            5.21         0.0336            1.02 
+## # ... with 6 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
+## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
+```
+
+]
+
+.panel[.panel-name[Slice]
+
+`Slice`: allows you to select, remove, and duplicate rows. 
+
+
+```r
+whr15 %&gt;% 
+  slice(1:5) # to select the first 5 rows
+```
+
+```
+## # A tibble: 5 x 12
+##   country region happiness_rank happiness_score standard_error economy_gdp_per~
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Switze~ Weste~              1            7.59         0.0341             1.40
+## 2 Iceland Weste~              2            7.56         0.0488             1.30
+## 3 Denmark Weste~              3            7.53         0.0333             1.33
+## 4 Norway  Weste~              4            7.52         0.0388             1.46
+## 5 Canada  North~              5            7.43         0.0355             1.33
+## # ... with 6 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
+## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
+```
+
+You can also use `slice_head` and `slice_tail` to select the first or last rows respectively. Or `slice_sample` to randomly draw n rows.
+
+]
+
+.panel[.panel-name[Select]
+
+`Select`: allows you to specific columns.
+
+
+```r
+whr15 %&gt;% 
+  select(region, country, happiness_rank)
+```
+
+```
+## # A tibble: 158 x 3
+##    region                    country     happiness_rank
+##    &lt;chr&gt;                     &lt;chr&gt;                &lt;dbl&gt;
+##  1 Western Europe            Switzerland              1
+##  2 Western Europe            Iceland                  2
+##  3 Western Europe            Denmark                  3
+##  4 Western Europe            Norway                   4
+##  5 North America             Canada                   5
+##  6 Western Europe            Finland                  6
+##  7 Western Europe            Netherlands              7
+##  8 Western Europe            Sweden                   8
+##  9 Australia and New Zealand New Zealand              9
+## 10 Australia and New Zealand Australia               10
+## # ... with 148 more rows
+```
+
+]
+
+.panel[.panel-name[Combining functions]
+
+`Select`: allows you to specific columns.
+
+
+```r
+whr15 %&gt;% 
+  arrange(region, country) %&gt;%                        # Arrange by region and year
+  filter(!is.na(region)) %&gt;%                          # Filter those non-missing obs for division
+  select(country, region, starts_with("happin")) %&gt;%  # Select from region to year, and vars that stars with black
+  slice_head()                                        # Get the first row
+```
+
+```
+## # A tibble: 1 x 4
+##   country   region                    happiness_rank happiness_score
+##   &lt;chr&gt;     &lt;chr&gt;                              &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Australia Australia and New Zealand             10            7.28
+```
+
+]
+
+]
+
+---
+class: inverse, center, middle
+name: id
+
+# ID variables
+
+---
+
+# ID variables
+
+Dimensions of your data: 
+
+```r
+dim(whr15) 
+```
+
+```
+## [1] 158  12
+```
+
+```r
+dim_desc(whr15)
+```
+
+```
+## [1] "[158 x 12]"
+```
+
+The number of distinct values of a particular variable:
+
+
+```r
+n_distinct(whr15$region, na.rm = TRUE)
+```
+
+```
+## [1] 10
+```
+
+```r
+n_distinct(whr15$country, na.rm = TRUE)
+```
+
+```
+## [1] 158
+```
+
+---
+
+# ID variables
+
+We can also test whether the number of rows is equal to the number of distinct values in a specific variable as follows :
+
+
+```r
+n_distinct(whr15$country, na.rm = TRUE) == nrow(whr15)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+n_distinct(whr16$country, na.rm = TRUE) == nrow(whr16)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+n_distinct(whr17$country, na.rm = TRUE) == nrow(whr17)
+```
+
+```
+## [1] TRUE
+```
+
+---
+
+# Comparing two dataframes
+
+**setdiff()**: Prints all the elements of the first object that are not in the second object (ignores duplicates).
+
+We can use this function to see which countries are coming in and out of the WHR dataset set between 2015 and 2016.
+
+
+```r
+# Any countries in 2015 that are not in 2016?
+setdiff(whr15$country, whr16$country)
+```
+
+```
+## [1] "Oman"                     "Somaliland region"       
+## [3] "Mozambique"               "Lesotho"                 
+## [5] "Swaziland"                "Djibouti"                
+## [7] "Central African Republic"
+```
+
+```r
+# And vice-versa
+setdiff(whr16$country, whr15$country)
+```
+
+```
+## [1] "Puerto Rico"       "Belize"            "Somalia"          
+## [4] "Somaliland Region" "Namibia"           "South Sudan"
+```
+
+---
+
+# Replacing values
+
+You might notice in the last slide, that *Somaliland region* and *Somaliland Region* are not considered the same. We can fix this as follows using base R:
+
+
+```r
+whr15$country[whr15$country == "Somaliland region"] &lt;- "Somaliland Region"
+```
+
+Now, if run again `setdiff` again, we get: 
+
+
+```r
+# Any countries in 2015 that are not in 2016?
+setdiff(whr15$country, whr16$country)
+```
+
+```
+## [1] "Oman"                     "Mozambique"              
+## [3] "Lesotho"                  "Swaziland"               
+## [5] "Djibouti"                 "Central African Republic"
+```
+
+```r
+# And vice-versa
+setdiff(whr16$country, whr15$country)
+```
+
+```
+## [1] "Puerto Rico" "Belize"      "Somalia"     "Namibia"     "South Sudan"
+```
+
+--
+
+&gt; *Notes*: We are going to see different ways of handling this replacement. 
+
+---
+class: inverse, center, middle
+name: variables
+
+# Creating new variables
+
+---
+
+# Creating new variables
+
+### In the tidyverse, we refer to creating variables as mutating
+
+So, instead of **gen**erate, we use mutate(). Let's say we want to have ratios:
+
+
+```r
+whr15 %&gt;%
+  arrange(region, country, -happiness_rank) %&gt;% 
+  mutate(
+    hap_hle = happiness_score * health_life_expectancy, 
+  ) %&gt;% 
+  select(country:happiness_score, health_life_expectancy, hap_hle) %&gt;% 
+  head(5)
+```
+
+```
+## # A tibble: 5 x 6
+##   country   region      happiness_rank happiness_score health_life_expe~ hap_hle
+##   &lt;chr&gt;     &lt;chr&gt;                &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Australia Australia ~             10            7.28             0.932    6.79
+## 2 New Zeal~ Australia ~              9            7.29             0.908    6.62
+## 3 Albania   Central an~             95            4.96             0.813    4.03
+## 4 Armenia   Central an~            127            4.35             0.730    3.18
+## 5 Azerbaij~ Central an~             80            5.21             0.640    3.34
+```
+
+---
+
+# Creating new variables: Dummy variables
+
+
+```r
+whr15 %&gt;%
+  mutate(
+    happiness_score_6 = (happiness_score &gt; 6)
+  )
+```
+
+.qa[Q] Well, what do you think it is happening to this variable? 
+
+--
+
+.qa[A] The variable we created contains either TRUE or FALSE. &lt;br&gt; If we want to have it as a numeric (1 or 0), we could include `as.numeric()`
+
+--
+
+
+```r
+whr15 %&gt;%
+  mutate(
+    happiness_score_6 = as.numeric((happiness_score &gt; 6)) 
+  )
+```
+
+--
+
+Finally, instead of using a random number such as 6, we can do the following: 
+
+
+```r
+whr15 %&gt;%
+  mutate(
+    happiness_high_mean = as.numeric((happiness_score &gt; mean(happiness_score))) 
+  ) 
+```
+
+---
+
+# Using ifelse when creating a variable
+
+We can also create a dummy variable with `ifelse` as follows: 
+
+
+```r
+whr15 %&gt;% 
+  mutate(
+    latin_america_car = ifelse(region == "Latin America and Caribbean", 1, 0)
+  ) %&gt;% 
+  arrange(-latin_america_car) %&gt;% 
+  head(5)
+```
+
+```
+## # A tibble: 5 x 13
+##   country region happiness_rank happiness_score standard_error economy_gdp_per~
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Costa ~ Latin~             12            7.23         0.0445            0.956
+## 2 Mexico  Latin~             14            7.19         0.0418            1.02 
+## 3 Brazil  Latin~             16            6.98         0.0408            0.981
+## 4 Venezu~ Latin~             23            6.81         0.0648            1.04 
+## 5 Panama  Latin~             25            6.79         0.0491            1.06 
+## # ... with 7 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
+## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;, latin_america_car &lt;dbl&gt;
+```
+
+The way we use this function is as: `ifelse(test, yes, no)`. We can also use the `case_when()` function.
+
+---
+
+# Some notes: mutate() vs transmute()
+
+`mutate()` *vs* `transmute()`
+
+Similar in nature but: 
+
+1. `mutate()` returns original and new columns (variables). 
+2. `transmute()` returns only the new columns (variables).
+
+
+---
+
+# Creating variables by groups
+
+Let's imagine now that we want to create a variable at the region level -- recal `bys gen` in Stata. In R, we can `group_by()` before we mutate. For example: 
+
+
+```r
+whr15 %&gt;% 
+  arrange(country, region, happiness_score) %&gt;% 
+  group_by(region) %&gt;%
+  mutate(
+    mean_hap = mean(happiness_score)
+  ) %&gt;% 
+  select(country:happiness_score, mean_hap) %&gt;% 
+  head(5)
+```
+
+```
+## # A tibble: 5 x 5
+## # Groups:   region [5]
+##   country     region                     happiness_rank happiness_score mean_hap
+##   &lt;chr&gt;       &lt;chr&gt;                               &lt;dbl&gt;           &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Afghanistan Southern Asia                         153            3.58     4.58
+## 2 Albania     Central and Eastern Europe             95            4.96     5.33
+## 3 Algeria     Middle East and Northern ~             68            5.60     5.41
+## 4 Angola      Sub-Saharan Africa                    137            4.03     4.20
+## 5 Argentina   Latin America and Caribbe~             30            6.57     6.14
+```
+
+---
+
+# Creating multiple variables at the same type
+
+With the new version of `dplyr`, we now can create multiple variables in an easier way. So, let's imagine that we want to estimate the mean value for the variables: white, black, black_free, black_slaves.
+
+.panelset[
+.panel[.panel-name[Across]
+
+
+```r
+vars &lt;- c("happiness_score", "health_life_expectancy", "trust_government_corruption")
+
+whr15 %&gt;%
+  group_by(region) %&gt;%
+  summarize(
+    across(all_of(vars), mean)
+  )
+```
+
+]
+
+.panel[.panel-name[Output]
+
+
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```
+## # A tibble: 10 x 4
+##    region              happiness_score health_life_expect~ trust_government_cor~
+##    &lt;chr&gt;                         &lt;dbl&gt;               &lt;dbl&gt;                 &lt;dbl&gt;
+##  1 Australia and New ~            7.28               0.920                0.393 
+##  2 Central and Easter~            5.33               0.719                0.0867
+##  3 Eastern Asia                   5.63               0.877                0.128 
+##  4 Latin America and ~            6.14               0.704                0.117 
+##  5 Middle East and No~            5.41               0.706                0.182 
+##  6 North America                  7.27               0.884                0.244 
+##  7 Southeastern Asia              5.32               0.677                0.151 
+##  8 Southern Asia                  4.58               0.541                0.103 
+##  9 Sub-Saharan Africa             4.20               0.282                0.124 
+## 10 Western Europe                 6.69               0.909                0.231
+```
+]
+]
+
+---
+
+# Creating variables
+
+Before we merge our dataframes, we should add a year variable to identify each period: 
+
+
+```r
+whr15 &lt;- whr15 %&gt;% 
+  mutate(
+    year = 2015
+  )
+
+whr16 &lt;- whr16 %&gt;% 
+  mutate(
+    year = 2016
+  )
+
+whr17 &lt;- whr17 %&gt;% 
+  mutate(
+    year = 2017
+  )
+```
+
+
+---
+class: inverse, center, middle
+name: bind
+
+# Appending and merging data sets
+
+---
+
+# Appending and merging data sets
+
+Let's create a panel with the three dataframes. We can use the `bind_rows` function: 
+
+
+```r
+bind_rows(whr15, whr16, whr17)
+```
+
+```
+## # A tibble: 470 x 17
+##    country region happiness_rank happiness_score standard_error economy_gdp_per~
+##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Switze~ Weste~              1            7.59         0.0341             1.40
+##  2 Iceland Weste~              2            7.56         0.0488             1.30
+##  3 Denmark Weste~              3            7.53         0.0333             1.33
+##  4 Norway  Weste~              4            7.52         0.0388             1.46
+##  5 Canada  North~              5            7.43         0.0355             1.33
+##  6 Finland Weste~              6            7.41         0.0314             1.29
+##  7 Nether~ Weste~              7            7.38         0.0280             1.33
+##  8 Sweden  Weste~              8            7.36         0.0316             1.33
+##  9 New Ze~ Austr~              9            7.29         0.0337             1.25
+## 10 Austra~ Austr~             10            7.28         0.0408             1.33
+## # ... with 460 more rows, and 11 more variables: family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;, lower_confidence_interval &lt;dbl&gt;,
+## #   upper_confidence_interval &lt;dbl&gt;, whisker_high &lt;dbl&gt;, whisker_low &lt;dbl&gt;
+```
+
+--
+
+&gt; **Notes**: One of the problems with binding rows like this is that in terms of columns compatibility they are not.
+
+---
+
+# Appending and merging data sets
+
+To be honest, the most important variable that we will need to include in the 2017 dataset is the region variable. We can do the following: 
+
+* Create a region vector from the `whr2015` dataframe.
+
+
+```r
+regions &lt;- whr15 %&gt;% 
+  select(country, region)
+```
+
+* Now, we join the `regions` dataframe with the `whr17` dataframe. 
+
+
+```r
+whr17 &lt;- whr17 %&gt;% 
+  left_join(regions) %&gt;% 
+  select(country, region, everything()) 
+```
+
+```
+## Joining, by = "country"
+```
+
+---
+
+# Appending and merging data sets
+
+But unfortunately, some countries were not in the whr15 data. 
+
+
+```r
+whr17 %&gt;% 
+  filter(is.na(region))
+```
+
+```
+## # A tibble: 6 x 14
+##   country region happiness_rank happiness_score whisker_high whisker_low
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Taiwan~ &lt;NA&gt;               33            6.42         6.49        6.35
+## 2 Belize  &lt;NA&gt;               50            5.96         6.20        5.71
+## 3 Hong K~ &lt;NA&gt;               71            5.47         5.55        5.39
+## 4 Somalia &lt;NA&gt;               93            5.15         5.24        5.06
+## 5 Namibia &lt;NA&gt;              111            4.57         4.77        4.38
+## 6 South ~ &lt;NA&gt;              147            3.59         3.73        3.46
+## # ... with 8 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
+```
+
+---
+
+# Appending and merging data sets
+
+Let's fix these six countries. 
+
+* Taiwan and Hong Kong have different names. Let's use `case_when`:
+
+
+```r
+whr17 &lt;- whr17 %&gt;% 
+  mutate(
+    country = case_when(country == "Hong Kong S.A.R., China" ~ "Hong Kong", 
+                        country == "Taiwan Province of China" ~ "Taiwan", 
+                        TRUE ~ country)
+  )
+```
+* Now, let's joing again the regions dataframe.
+
+
+```r
+whr17 &lt;- whr17 %&gt;% 
+  select(-region) %&gt;% 
+  left_join(regions) %&gt;% 
+  select(country, region, everything()) 
+```
+
+```
+## Joining, by = "country"
+```
+
+---
+
+# Appending and merging data sets
+
+Which countries still don't have region information? 
+
+
+```r
+whr17 %&gt;% 
+  filter(is.na(region))
+```
+
+```
+## # A tibble: 4 x 14
+##   country region happiness_rank happiness_score whisker_high whisker_low
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Belize  &lt;NA&gt;               50            5.96         6.20        5.71
+## 2 Somalia &lt;NA&gt;               93            5.15         5.24        5.06
+## 3 Namibia &lt;NA&gt;              111            4.57         4.77        4.38
+## 4 South ~ &lt;NA&gt;              147            3.59         3.73        3.46
+## # ... with 8 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
+```
+
+---
+
+# Appending and merging data sets
+
+We can get their info from the whr16 dataset as follows
+
+
+```r
+whr17 &lt;- whr17 %&gt;% 
+  left_join(
+    whr16 %&gt;%
+      select(country, new_region = region), 
+    by = "country"
+  ) %&gt;% 
+  mutate(
+    region = ifelse(is.na(region), as.character(new_region), region)
+  ) %&gt;% 
+  select(-new_region)
+```
+
+---
+
+# Appending and merging data sets
+
+Any other country that still don't have region information? 
+
+
+```r
+whr17 %&gt;% 
+  filter(is.na(region))
+```
+
+```
+## # A tibble: 0 x 14
+## # ... with 14 variables: country &lt;chr&gt;, region &lt;chr&gt;, happiness_rank &lt;dbl&gt;,
+## #   happiness_score &lt;dbl&gt;, whisker_high &lt;dbl&gt;, whisker_low &lt;dbl&gt;,
+## #   economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
+## #   freedom &lt;dbl&gt;, generosity &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
+```
+  
+---
+
+# Appending and merging data sets
+
+Finally, let's keep those relevant variables first and bind those baby rows. 
+
+
+```r
+keepvars &lt;- c("country", "region", "year", "happiness_rank", 
+              "happiness_score", "economy_gdp_per_capita", 
+              "health_life_expectancy", "freedom")
+
+whr15 &lt;- select(whr15, all_of(keepvars))
+whr16 &lt;- select(whr16, all_of(keepvars))
+whr17 &lt;- select(whr17, all_of(keepvars))
+
+whr_panel &lt;- rbind(whr15, whr16, whr17)    # or bind_rows
+```
+
+
+---
+  
+class: inverse, center, middle
+name: saving
+
+# Saving a dataset
+
+---
+
+# Saving a dataset
+
+To save a dataset we can use the `write_csv` function from the tidyverse, or `write.csv` from base R. 
+
+
+```r
+# Save the whr data set
+
+write.csv(whr_panel, 
+          file.path(finalData,"whr_panel.csv"), 
+          row.names = FALSE) 
+```
+
+--
+
+* The problem with CSVs is that they cannot differentiate between strings and factors
+* They also don’t save factor orders
+* Data attributes (which are beyong the scope of this training, but also useful to document data sets) are also lost in csv data
+
+---
+
+# Saving a dataset
+
+The R equivalent of a `.dta` file is a `.Rds` file. It can be saved and loaded using the following commands:
+
+* `saveRDS(object, file = "")`: Writes a single R object to a file.
+
+* `readRDS(file)`: Load a single R object from a file. 
+
+
+
+```r
+# Save the data set
+
+saveRDS(whr_panel, file = file.path(finalData, "whr_panel.Rds"))
+```
+
+
+
+---
+class: inverse, center, middle
+name: reshaping
+
+# Reshaping a dataset
+
+---
+
+# Reshaping a dataset
+
+Finally, let's try to reshape our dataset using the tidyverse functions. No more `reshape` from Stata. We can use `pivot_wider` or `pivot_longer`
+
+
+.panelset[
+.panel[.panel-name[Long to Wide]
+
+
+
+
+
+
+```r
+whr_panel %&gt;% 
+  select(country, region, year, happiness_score) %&gt;% 
+  pivot_wider(
+    names_from = year, 
+    values_from = happiness_score
+  ) %&gt;% 
+  head(5)
+```
+
+```
+## # A tibble: 5 x 5
+##   country     region         `2015` `2016` `2017`
+##   &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Switzerland Western Europe   7.59   7.51   7.49
+## 2 Iceland     Western Europe   7.56   7.50   7.50
+## 3 Denmark     Western Europe   7.53   7.53   7.52
+## 4 Norway      Western Europe   7.52   7.50   7.54
+## 5 Canada      North America    7.43   7.40   7.32
+```
+]
+
+.panel[.panel-name[Wide to Long]
+
+
+
+```r
+whr_panel_wide %&gt;% 
+  pivot_longer(
+    cols = `2015`:`2017`,  
+    names_to = "year",
+    values_to = "happiness_score" 
+  ) %&gt;% 
+  head(5)
+```
+
+```
+## # A tibble: 5 x 4
+##   country     region         year  happiness_score
+##   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;           &lt;dbl&gt;
+## 1 Switzerland Western Europe 2015             7.59
+## 2 Switzerland Western Europe 2016             7.51
+## 3 Switzerland Western Europe 2017             7.49
+## 4 Iceland     Western Europe 2015             7.56
+## 5 Iceland     Western Europe 2016             7.50
+```
+] 
+]
+
+
+---
+class: inverse, center, middle
+
+# Thank you~~
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,867 @@
+---
+title: "Session 3: Data Processing"
+subtitle: "R for Stata Users"
+author: "Rony Rodrigo Maximiliano Rodriguez-Ramirez"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> `r format(Sys.time(), '%d %B %Y')`"
+output:
+  xaringan::moon_reader:
+    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+
+# Load packages
+options(htmltools.dir.version = FALSE)
+library(knitr)
+opts_chunk$set(
+  fig.align="center",  
+  fig.height=4, #fig.width=6,
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=T#, echo=F, warning=F, message=F
+  )
+library(hrbrthemes)
+library(fontawesome)
+library(xaringanExtra)
+xaringanExtra::use_panelset()
+
+# File paths
+if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "luis_eduardo"){
+  projectFolder  <- "/home/luis_eduardo/cs_projects/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "Leonardo"){
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+
+}
+
+if (Sys.getenv("USERNAME") == "wb519128"){
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
+}
+
+if (Sys.getenv("USERNAME") == "maximiliano"){
+  projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
+}
+
+# File paths
+  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+  Data              <- file.path(dataWorkFolder,"DataSets")
+  finalData         <- file.path(Data,"Final")
+  rawData           <- file.path(Data,"Raw")
+  rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
+```
+
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(
+  image_url = "pics/lightbulb.png",
+  exclude_class = c("inverse", "hide_logo"),
+  width = "50px"
+)
+```
+
+
+# Table of contents
+
+1. [Introduction](#intro)
+
+2. [Data wrangling](#dataw)
+
+---
+class: inverse, center, middle
+name: intro
+
+# Introduction
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Introduction
+
+### Goals of this session
+
+- To organize data in a way that it will be easier to analyze it and communicate it.
+
+- We'll use a set of packages that are bundled into something called the `tidyverse`.
+
+
+--
+
+### Things to keep in mind
+
+- We'll take you through the same steps we've taken when we were preparing the datasets. 
+
+- In most cases, your datasets won't be `tidy`. 
+
+> **Tidy data**: A dataset is said to be tidy if it satisfies the following conditions: 
+1. observations are in rows
+2. variables are in columns
+3. contained in a single dataset.
+
+Takeaway: long format > wide format
+
+
+---
+
+# Introduction
+
+- In this session, you'll be introduced to some basic conceptos of data cleaning in R. We will cover: 
+
+1. Exploring a dataset;
+2. Creating new variables;
+3. Filtering and subsetting datasets;
+4. Merging datasets;
+5. Dealing with factor variables;
+6. Saving data.
+
+--
+
+> There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session.
+
+---
+
+# Introduction
+
+- Before we start, let's makue sure we are all set: 
+
+1. Start a fresh session.
+2. Load the tidyverse package.
+3. Set your file paths.
+
+---
+
+# Tidyverse packages
+
+Let's load the tidyverse meta-package:
+```{r tverse, cache = FALSE}
+# If you haven't installed the package uncomment the next line
+# install.package("tidyverse", dependencies = TRUE)
+
+# Load packages
+library(tidyverse)
+library(janitor)
+
+```
+
+> Remember that you should always load your packages before your start coding.
+
+---
+
+# File paths
+
+For this session, my file paths are as follows. We will use them to load and export datasets.
+```{r, cache = FALSE, eval = FALSE}
+# Example of my filepaths for this presentation
+project           <- "D:/Documents/RA Jobs/DIME/trainings/dime-r-training"
+dataWorkFolder    <- file.path(projectFolder,"DataWork")
+Data              <- file.path(dataWorkFolder,"DataSets")
+finalData         <- file.path(Data,"Final")
+rawData           <- file.path(Data,"Raw")
+rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
+``` 
+
+---
+
+# Just in case: Check your R and RStudio versions
+
+☑ R version:
+```{r}
+version$version.string
+```
+
+
+☑ RStudio version:
+```{r}
+# Use the following function to get the version: RStudio.Version()$version
+# [1] ‘1.3.1073’
+```
+
+☑ Packages:
+```{r eval=FALSE}
+update.packages(ask = FALSE, checkBuilt = TRUE)
+```
+  
+---
+
+# Loading a dataset in R
+
+Before we start wrangling our data, let's read ourdataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to the World Happiness Report (2015-2018)
+
+> *Background of the data*: This data comes from the US Census's archives
+
+```{r readcsv, message = FALSE}
+whr15 <- read_csv(file.path(rawData, "Un WHR" , "WHR2015.csv")) %>% clean_names()
+whr16 <- read_csv(file.path(rawData, "Un WHR" , "WHR2016.csv")) %>% clean_names()
+whr17 <- read_csv(file.path(rawData, "Un WHR" , "WHR2017.csv")) %>% clean_names()
+```
+
+---
+# Load and show a dataset
+
+We can just show our dataset using the name of the object; in this case, `census`. 
+
+```{r show}
+whr15
+```
+
+---
+class: inverse, center, middle
+name: dataw
+
+# Data wrangling
+
+---
+
+# Exploring a data set
+
+Some useful functions from base R: 
+
+* `View()`: open the data set
+* `class()`: reports object type of type of data stored.
+* `dim()`: reports the size of each one of an object's dimension.
+* `names()`: returns the variable names of a dataset.
+* `str()`: general information on an R object.
+* `summary()`: summary information about the variables in a data frame.
+* `head()`: shows the first few observations in the dataset.
+* `tail()`: shows the last few observations in the dataset.
+
+Some other useful functions from the tidyverse:
+
+* `glimpse()`: get a glimpse of your data
+
+---
+
+# Glimpse your data
+
+This functions give your information about your variables (e.g., type, row, columns,)
+
+```{r glimpse}
+whr15 %>% 
+  glimpse()
+
+```
+
+---
+
+# dplyr:filter
+
+Filter or subsetting a dataset. 
+
+```{r filter}
+whr15 %>% 
+  filter(region == "Western Europe",
+         happiness_rank <= 10)
+
+```
+
+---
+
+# dplyr:filter regular expressions
+
+One advantage of the filter command over Stata is that you can also integrate regular expressions. Let's say that we want to subset all regions' divisions that have `East` in their names. We can use the following: 
+
+```{r grepl}
+whr15 %>% 
+  filter(grepl("America", region)) %>% 
+  head(5)
+
+```
+
+> Notice that I have used `head()` to show just the first 8 observations of the subset. If you want to save this subset you can assign it to an objet. For example `census_east <- + and the code above`. 
+
+---
+
+# dplyr:filter missing cases
+
+If case you want to remove the missing cases for a specif variable, you can use `!is.na()`. Now we have a dataset that contains information per region and division without missing values.
+
+```{r missings}
+whr15 %>% 
+  filter(!is.na(region)) %>% 
+  head(5)
+
+```
+
+> Notice that we are negating a function, i.e., !
+<br> In case we want to keep the observations that contains missing information we will only use `is.na()`. 
+
+---
+
+# Other relevant functions: slice, subset, select
+
+.panelset[
+.panel[.panel-name[Arrange]
+
+`Arrange`: allows you to order by a specific column.
+
+```{r arrange}
+whr15 %>% 
+  arrange(region, country) %>% 
+  head(5)
+
+```
+
+]
+
+.panel[.panel-name[Slice]
+
+`Slice`: allows you to select, remove, and duplicate rows. 
+
+```{r slice}
+whr15 %>% 
+  slice(1:5) # to select the first 5 rows
+
+```
+
+You can also use `slice_head` and `slice_tail` to select the first or last rows respectively. Or `slice_sample` to randomly draw n rows.
+
+]
+
+.panel[.panel-name[Select]
+
+`Select`: allows you to specific columns.
+
+```{r select}
+whr15 %>% 
+  select(region, country, happiness_rank)
+```
+
+]
+
+.panel[.panel-name[Combining functions]
+
+`Select`: allows you to specific columns.
+
+```{r mix}
+whr15 %>% 
+  arrange(region, country) %>%                        # Arrange by region and year
+  filter(!is.na(region)) %>%                          # Filter those non-missing obs for division
+  select(country, region, starts_with("happin")) %>%  # Select from region to year, and vars that stars with black
+  slice_head()                                        # Get the first row
+
+```
+
+]
+
+]
+
+---
+class: inverse, center, middle
+name: id
+
+# ID variables
+
+---
+
+# ID variables
+
+Dimensions of your data: 
+```{r}
+dim(whr15) 
+
+dim_desc(whr15)
+
+```
+
+The number of distinct values of a particular variable:
+
+```{r}
+n_distinct(whr15$region, na.rm = TRUE)
+n_distinct(whr15$country, na.rm = TRUE)
+
+```
+
+---
+
+# ID variables
+
+We can also test whether the number of rows is equal to the number of distinct values in a specific variable as follows :
+
+```{r}
+n_distinct(whr15$country, na.rm = TRUE) == nrow(whr15)
+
+n_distinct(whr16$country, na.rm = TRUE) == nrow(whr16)
+
+n_distinct(whr17$country, na.rm = TRUE) == nrow(whr17)
+```
+
+---
+
+# Comparing two dataframes
+
+**setdiff()**: Prints all the elements of the first object that are not in the second object (ignores duplicates).
+
+We can use this function to see which countries are coming in and out of the WHR dataset set between 2015 and 2016.
+
+```{r}
+# Any countries in 2015 that are not in 2016?
+setdiff(whr15$country, whr16$country)
+
+# And vice-versa
+setdiff(whr16$country, whr15$country)
+
+```
+
+---
+
+# Replacing values
+
+You might notice in the last slide, that *Somaliland region* and *Somaliland Region* are not considered the same. We can fix this as follows using base R:
+
+```{r}
+whr15$country[whr15$country == "Somaliland region"] <- "Somaliland Region"
+```
+
+Now, if run again `setdiff` again, we get: 
+
+```{r}
+# Any countries in 2015 that are not in 2016?
+setdiff(whr15$country, whr16$country)
+
+# And vice-versa
+setdiff(whr16$country, whr15$country)
+
+```
+
+--
+
+> *Notes*: We are going to see different ways of handling this replacement. 
+
+---
+class: inverse, center, middle
+name: variables
+
+# Creating new variables
+
+---
+
+# Creating new variables
+
+### In the tidyverse, we refer to creating variables as mutating
+
+So, instead of **gen**erate, we use mutate(). Let's say we want to have ratios:
+
+```{r mut}
+whr15 %>%
+  arrange(region, country, -happiness_rank) %>% 
+  mutate(
+    hap_hle = happiness_score * health_life_expectancy, 
+  ) %>% 
+  select(country:happiness_score, health_life_expectancy, hap_hle) %>% 
+  head(5)
+```
+
+---
+
+# Creating new variables: Dummy variables
+
+```{r include = TRUE, eval = FALSE}
+whr15 %>%
+  mutate(
+    happiness_score_6 = (happiness_score > 6)
+  )
+```
+
+.qa[Q] Well, what do you think it is happening to this variable? 
+
+--
+
+.qa[A] The variable we created contains either TRUE or FALSE. <br> If we want to have it as a numeric (1 or 0), we could include `as.numeric()`
+
+--
+
+```{r include = TRUE, eval = FALSE}
+whr15 %>%
+  mutate(
+    happiness_score_6 = as.numeric((happiness_score > 6)) 
+  )
+```
+
+--
+
+Finally, instead of using a random number such as 6, we can do the following: 
+
+```{r include = TRUE, eval = FALSE}
+whr15 %>%
+  mutate(
+    happiness_high_mean = as.numeric((happiness_score > mean(happiness_score))) 
+  ) 
+```
+
+---
+
+# Using ifelse when creating a variable
+
+We can also create a dummy variable with `ifelse` as follows: 
+
+```{r}
+whr15 %>% 
+  mutate(
+    latin_america_car = ifelse(region == "Latin America and Caribbean", 1, 0)
+  ) %>% 
+  arrange(-latin_america_car) %>% 
+  head(5)
+```
+
+The way we use this function is as: `ifelse(test, yes, no)`. We can also use the `case_when()` function.
+
+---
+
+# Some notes: mutate() vs transmute()
+
+`mutate()` *vs* `transmute()`
+
+Similar in nature but: 
+
+1. `mutate()` returns original and new columns (variables). 
+2. `transmute()` returns only the new columns (variables).
+
+
+---
+
+# Creating variables by groups
+
+Let's imagine now that we want to create a variable at the region level -- recal `bys gen` in Stata. In R, we can `group_by()` before we mutate. For example: 
+
+```{r}
+whr15 %>% 
+  arrange(country, region, happiness_score) %>% 
+  group_by(region) %>%
+  mutate(
+    mean_hap = mean(happiness_score)
+  ) %>% 
+  select(country:happiness_score, mean_hap) %>% 
+  head(5)
+```
+
+---
+
+# Creating multiple variables at the same type
+
+With the new version of `dplyr`, we now can create multiple variables in an easier way. So, let's imagine that we want to estimate the mean value for the variables: white, black, black_free, black_slaves.
+
+.panelset[
+.panel[.panel-name[Across]
+
+```{r across, eval = FALSE}
+vars <- c("happiness_score", "health_life_expectancy", "trust_government_corruption")
+
+whr15 %>%
+  group_by(region) %>%
+  summarize(
+    across(all_of(vars), mean)
+  )
+
+```
+
+]
+
+.panel[.panel-name[Output]
+
+```{r across2, echo = FALSE}
+vars <- c("happiness_score", "health_life_expectancy", "trust_government_corruption")
+
+whr15 %>%
+  group_by(region) %>%
+  summarize(
+    across(all_of(vars), mean)
+  )
+
+```
+]
+]
+
+---
+
+# Creating variables
+
+Before we merge our dataframes, we should add a year variable to identify each period: 
+
+```{r}
+whr15 <- whr15 %>% 
+  mutate(
+    year = 2015
+  )
+
+whr16 <- whr16 %>% 
+  mutate(
+    year = 2016
+  )
+
+whr17 <- whr17 %>% 
+  mutate(
+    year = 2017
+  )
+
+```
+
+
+---
+class: inverse, center, middle
+name: bind
+
+# Appending and merging data sets
+
+---
+
+# Appending and merging data sets
+
+Let's create a panel with the three dataframes. We can use the `bind_rows` function: 
+
+```{r bind_rows}
+
+bind_rows(whr15, whr16, whr17)
+
+```
+
+--
+
+> **Notes**: One of the problems with binding rows like this is that in terms of columns compatibility they are not.
+
+---
+
+# Appending and merging data sets
+
+To be honest, the most important variable that we will need to include in the 2017 dataset is the region variable. We can do the following: 
+
+* Create a region vector from the `whr2015` dataframe.
+
+```{r regions}
+regions <- whr15 %>% 
+  select(country, region)
+```
+
+* Now, we join the `regions` dataframe with the `whr17` dataframe. 
+
+```{r}
+whr17 <- whr17 %>% 
+  left_join(regions) %>% 
+  select(country, region, everything()) 
+```
+
+---
+
+# Appending and merging data sets
+
+But unfortunately, some countries were not in the whr15 data. 
+
+```{r}
+whr17 %>% 
+  filter(is.na(region))
+```
+
+---
+
+# Appending and merging data sets
+
+Let's fix these six countries. 
+
+* Taiwan and Hong Kong have different names. Let's use `case_when`:
+
+```{r}
+whr17 <- whr17 %>% 
+  mutate(
+    country = case_when(country == "Hong Kong S.A.R., China" ~ "Hong Kong", 
+                        country == "Taiwan Province of China" ~ "Taiwan", 
+                        TRUE ~ country)
+  )
+```
+* Now, let's joing again the regions dataframe.
+
+```{r}
+whr17 <- whr17 %>% 
+  select(-region) %>% 
+  left_join(regions) %>% 
+  select(country, region, everything()) 
+```
+
+---
+
+# Appending and merging data sets
+
+Which countries still don't have region information? 
+
+```{r}
+whr17 %>% 
+  filter(is.na(region))
+  
+```
+
+---
+
+# Appending and merging data sets
+
+We can get their info from the whr16 dataset as follows
+
+```{r}
+whr17 <- whr17 %>% 
+  left_join(
+    whr16 %>%
+      select(country, new_region = region), 
+    by = "country"
+  ) %>% 
+  mutate(
+    region = ifelse(is.na(region), as.character(new_region), region)
+  ) %>% 
+  select(-new_region)
+```
+
+---
+
+# Appending and merging data sets
+
+Any other country that still don't have region information? 
+
+```{r}
+whr17 %>% 
+  filter(is.na(region))
+```
+  
+---
+
+# Appending and merging data sets
+
+Finally, let's keep those relevant variables first and bind those baby rows. 
+
+```{r}
+keepvars <- c("country", "region", "year", "happiness_rank", 
+              "happiness_score", "economy_gdp_per_capita", 
+              "health_life_expectancy", "freedom")
+
+whr15 <- select(whr15, all_of(keepvars))
+whr16 <- select(whr16, all_of(keepvars))
+whr17 <- select(whr17, all_of(keepvars))
+
+whr_panel <- rbind(whr15, whr16, whr17)    # or bind_rows
+```
+
+
+---
+  
+class: inverse, center, middle
+name: saving
+
+# Saving a dataset
+
+---
+
+# Saving a dataset
+
+To save a dataset we can use the `write_csv` function from the tidyverse, or `write.csv` from base R. 
+
+```{r}
+# Save the whr data set
+
+write.csv(whr_panel, 
+          file.path(finalData,"whr_panel.csv"), 
+          row.names = FALSE) 
+```
+
+--
+
+* The problem with CSVs is that they cannot differentiate between strings and factors
+* They also don’t save factor orders
+* Data attributes (which are beyong the scope of this training, but also useful to document data sets) are also lost in csv data
+
+---
+
+# Saving a dataset
+
+The R equivalent of a `.dta` file is a `.Rds` file. It can be saved and loaded using the following commands:
+
+* `saveRDS(object, file = "")`: Writes a single R object to a file.
+
+* `readRDS(file)`: Load a single R object from a file. 
+
+
+```{r}
+# Save the data set
+
+saveRDS(whr_panel, file = file.path(finalData, "whr_panel.Rds"))
+
+```
+
+
+
+---
+class: inverse, center, middle
+name: reshaping
+
+# Reshaping a dataset
+
+---
+
+# Reshaping a dataset
+
+Finally, let's try to reshape our dataset using the tidyverse functions. No more `reshape` from Stata. We can use `pivot_wider` or `pivot_longer`
+
+
+.panelset[
+.panel[.panel-name[Long to Wide]
+
+```{r echo = FALSE, include = FALSE, message = FALSE, eval = TRUE}
+whr_panel_wide <- whr_panel %>% 
+  select(country, region, year, happiness_score) %>% 
+  pivot_wider(
+    names_from = year, 
+    values_from = happiness_score
+  ) 
+```
+
+
+
+```{r}
+whr_panel %>% 
+  select(country, region, year, happiness_score) %>% 
+  pivot_wider(
+    names_from = year, 
+    values_from = happiness_score
+  ) %>% 
+  head(5)
+```
+]
+
+.panel[.panel-name[Wide to Long]
+```{r echo = FALSE, include = FALSE, message = FALSE, eval = TRUE}
+whr_panel_long <- whr_panel_wide %>% 
+  pivot_longer(
+    cols = `2015`:`2017`,  
+    names_to = "year",
+    values_to = "happiness_score" 
+  )
+
+```
+
+```{r}
+whr_panel_wide %>% 
+  pivot_longer(
+    cols = `2015`:`2017`,  
+    names_to = "year",
+    values_to = "happiness_score" 
+  ) %>% 
+  head(5)
+```
+] 
+]
+
+
+---
+class: inverse, center, middle
+
+# Thank you~~ 
+
+
+
+
