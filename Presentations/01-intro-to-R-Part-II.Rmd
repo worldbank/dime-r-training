@@ -80,7 +80,6 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 
 ```
-
 # Table of contents
 
 1. [Introduction](#introduction)
@@ -154,7 +153,9 @@ name: initial-settings
 
 Raise your hand if you have ever seen these lines of code before:
 
-<img width=45% src="img/stataheader.jpg" />
+```{r echo = FALSE, out.width = "40%"}
+knitr::include_graphics("img/stataheader.jpg")
+```
 
 ---
 
@@ -184,7 +185,9 @@ Raise your hand if you have ever seen these lines of code before:
 
 # Initial settings
 
-<img width=45% src="img/rm.png" />
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/rm.png")
+```
 
 ---
 
@@ -196,19 +199,25 @@ Raise your hand if you have ever seen these lines of code before:
 
 # Initial settings
 
-<img width=75% src="img/Options1.png" />
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/Options1.png")
+```
 
 ---
 
 # Initial settings
 
-<img width=50% src="img/Options2.png" />
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/Options2.png")
+```
 
 ---
 
 # Initial settings
 
-<img width=50% src="img/Options3.png" />
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/Options3.png")
+```
 
 ---
 
@@ -554,7 +563,9 @@ install.packages("stargazer",
 
 What if this happens?
 
-<img width=100% src="img/Warning.png" />
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/Warning.png")
+```
 
 ---
 
@@ -616,8 +627,9 @@ name: functions-inception
 
 # Functions inception
 
-<img width=90% src="img/statalog.png" />
-
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/statalog.png")
+```
 ---
 
 # Functions inception  
@@ -657,7 +669,9 @@ name: functions-inception
   
 You don't need to worry about piping for now, just know that it exists, and laugh if you see this sticker in some tidyverse nerd computer
 
-<img width=90% src="img/pipe.jpg" />
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/pipe.jpg")
+```
 
 ---
 
@@ -866,7 +880,7 @@ print(plot)
 
 ## Why indent?
 
-```{r, eval = T, echo = F}
+```{r, eval = T, echo = F, out.width = "60%"}
 annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
 plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region)) +
 geom_line() + geom_point()
@@ -879,7 +893,7 @@ print(plot)
 
 ## Why indent?
 
-```{r, eval = F}
+```{r, eval = F, out.width = "60%"}
 # Here's the same code
 annualHappy_reg <-
   aggregate(happy_score ~ year + region,
@@ -904,7 +918,7 @@ print(plot)
 
 ## Why indent?
 
-```{r, echo = F}
+```{r, eval = F, out.width = "60%"}
 annualHappy_reg <-
   aggregate(happy_score ~ year + region,
             data = whr,

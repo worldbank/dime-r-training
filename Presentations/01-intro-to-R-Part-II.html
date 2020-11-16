@@ -59,7 +59,6 @@ top:1em;right:1em;
 </div>
 
 
-
 # Table of contents
 
 1. [Introduction](#introduction)
@@ -133,7 +132,7 @@ name: initial-settings
 
 Raise your hand if you have ever seen these lines of code before:
 
-&lt;img width=45% src="img/stataheader.jpg" /&gt;
+&lt;img src="img/stataheader.jpg" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -163,7 +162,7 @@ Raise your hand if you have ever seen these lines of code before:
 
 # Initial settings
 
-&lt;img width=45% src="img/rm.png" /&gt;
+&lt;img src="img/rm.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -175,19 +174,19 @@ Raise your hand if you have ever seen these lines of code before:
 
 # Initial settings
 
-&lt;img width=75% src="img/Options1.png" /&gt;
+&lt;img src="img/Options1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Initial settings
 
-&lt;img width=50% src="img/Options2.png" /&gt;
+&lt;img src="img/Options2.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Initial settings
 
-&lt;img width=50% src="img/Options3.png" /&gt;
+&lt;img src="img/Options3.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -624,7 +623,7 @@ install.packages("stargazer",
 
 What if this happens?
 
-&lt;img width=100% src="img/Warning.png" /&gt;
+&lt;img src="img/Warning.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -699,8 +698,7 @@ name: functions-inception
 
 # Functions inception
 
-&lt;img width=90% src="img/statalog.png" /&gt;
-
+&lt;img src="img/statalog.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 # Functions inception  
@@ -741,7 +739,7 @@ name: functions-inception
   
 You don't need to worry about piping for now, just know that it exists, and laugh if you see this sticker in some tidyverse nerd computer
 
-&lt;img width=90% src="img/pipe.jpg" /&gt;
+&lt;img src="img/pipe.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1002,7 +1000,7 @@ print(plot)
 
 ## Why indent?
 
-&lt;img src="01-intro-to-R-Part-II_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="01-intro-to-R-Part-II_files/figure-html/unnamed-chunk-30-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1036,7 +1034,24 @@ print(plot)
 
 ## Why indent?
 
-&lt;img src="01-intro-to-R-Part-II_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+
+```r
+annualHappy_reg &lt;-
+  aggregate(happy_score ~ year + region,
+            data = whr,
+            FUN = mean)
+
+plot &lt;-
+  ggplot(annualHappy_reg,
+         aes(y = happy_score,
+             x = year,
+             color = region,
+             group = region)) +
+  geom_line() +
+  geom_point()
+
+print(plot)
+```
 
 ---
 

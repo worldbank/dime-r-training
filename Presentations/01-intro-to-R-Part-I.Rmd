@@ -257,13 +257,17 @@ Let's start by loading the data set we'll be using:
 
 # Getting started
 
-<img width=45% src="img/import_data1.png" />
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/import_data1.png")
+```
 
 ---
 
 # Getting started
 
-<img width=50% src="img/import_data2.png" />
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/import_data2.png")
+```
 
 ---
 
@@ -278,37 +282,48 @@ name: rstudio-interface
 
 # RStudio interface
 
-<img height=70% width=70% src="img/Interface.png" />
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/Interface.png")
+```
 
 ---
 
 # RStudio interface
 
-<img height=70% width=70% src="img/environment.png" />
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/environment.png")
+```
 
 ---
 
 # RStudio interface
 
-<img height=70% width=70% src="img/scritpt1.png" />
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/scritpt1.png")
+```
 
 ---
 
 # RStudio interface
 
-<img height=70% width=70% src="img/scritpt2.png" />
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/scritpt2.png")
+```
+---
+
+# RStudio interface
+
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/scritpt3.png")
+```
 
 ---
 
 # RStudio interface
 
-<img height=70% width=70% src="img/scritpt3.png" />
-
----
-
-# RStudio interface
-
-<img height=70% width=70% src="img/scritpt4.png" />
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/scritpt4.png")
+```
 
 ---
 
@@ -376,7 +391,9 @@ head(whr)
 
 # Data in R
 
-<img height=75% width=75% src="img/View.png" />
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/View.png")
+```
 
 ---
 
