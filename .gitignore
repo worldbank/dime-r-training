@@ -17,10 +17,8 @@
 *.cpg
 *.prj
 *.shp
-*.pdf
 
 !Presentations/img/*
-*.pdf
 
 Presentations/01-intro-to-R-Part-I_cache/
 
