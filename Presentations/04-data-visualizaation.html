@@ -29,7 +29,7 @@ class: center, middle, inverse, title-slide
 width: 50px;
 height: 128px;
 z-index: 0;
-background-image: url(pics/lightbulb.png);
+background-image: url(img/lightbulb.png);
 background-size: contain;
 background-repeat: no-repeat;
 position: absolute;
@@ -57,6 +57,15 @@ top:1em;right:1em;
   document.addEventListener('DOMContentLoaded', addLogo)
 })()</script>
 </div>
+
+&lt;style type="text/css"&gt;
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+&lt;/style&gt;
+
 
 # Table of contents
 
@@ -103,7 +112,7 @@ Similarly to the previous session, you can find some references at the end of th
 
 ```r
 # Packages
-library(ggplot2)
+library(tidyverse)
 library(plotly)
 
 # Load CSV data
@@ -111,7 +120,7 @@ library(plotly)
 
 FolderPath &lt;- file.path("YOUR/FOLDER/PATH")
 
-whr &lt;- read.csv(file.path(FolderPath,"whr_panel.csv"),
+whr_panel &lt;- read.csv(file.path(FolderPath,"whr_panel.csv"),
                 header = T,
                 stringsAsFactors = F)
 ```
@@ -195,7 +204,7 @@ ggplot(data = &lt;DATA&gt;) +
 
 .pull-right[
 
-![](pics/ggplot_decom.png)
+![](img/ggplot_decom.png)
 
 ]
 
@@ -227,6 +236,7 @@ name: ea
 
 # Exploratory Analysis
 
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -241,7 +251,7 @@ name: ea
   geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita)) 
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-3-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-4-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -256,7 +266,7 @@ ggplot(data = whr_panel) +
 * geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita))
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-4-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-5-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -270,7 +280,7 @@ ggplot(data = whr_panel) +
   geom_point()  
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-5-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-6-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -374,7 +384,7 @@ ggplot(data = whr_panel,
   geom_point()
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -416,7 +426,7 @@ ggplot(data = whr_panel,
 * geom_point(color = "red")
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -434,7 +444,7 @@ ggplot(data = whr_panel,
 * geom_point(aes(color = region))
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -446,6 +456,7 @@ name: ggplot
 
 # {ggplot2}'s settings
 
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -480,13 +491,13 @@ ggplot(data = whr_panel,
 * geom_point(shape = 5)
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-12-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-13-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # {ggplot2}: shapes
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-13-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-14-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -503,7 +514,7 @@ ggplot(data = whr_panel,
   geom_point() 
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-14-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-15-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -521,7 +532,7 @@ ggplot(data = whr_panel,
 * geom_vline(xintercept = mean_happiness_score)
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-16-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -539,7 +550,7 @@ ggplot(data = whr_panel,
 ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-18-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -556,7 +567,7 @@ ggplot(data = whr_panel,
 *             method.args = list(start = list(a = 0.1, b = 0.1)))
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-18-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-19-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -574,7 +585,7 @@ ggplot(data = whr_panel,
   facet_wrap(~ region)
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-19-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-20-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -603,7 +614,7 @@ whr_panel %&gt;%
 .panel[.panel-name[Plot]
 
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-21-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-22-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -627,7 +638,7 @@ ggplot(data = whr_panel,
   geom_point() 
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-22-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-23-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -642,7 +653,7 @@ ggplot(data = whr_panel,
 * scale_x_log10()
 ```
 
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-23-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-24-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -691,7 +702,7 @@ whr_panel %&gt;%
 ]
 
 .panel[.panel-name[Plot]
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-25-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-26-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -726,7 +737,7 @@ whr_panel %&gt;%
 ]
 
 .panel[.panel-name[Plot]
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-27-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-28-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -761,7 +772,7 @@ whr_panel %&gt;%
 ]
 
 .panel[.panel-name[Plot]
-&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-29-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualizaation_files/figure-html/unnamed-chunk-30-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -794,6 +805,8 @@ class: inverse, center, middle
 name: saving
 
 # Saving a plot
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -834,6 +847,8 @@ class: inverse, center, middle
 name: references
 
 # References and recommendations
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 

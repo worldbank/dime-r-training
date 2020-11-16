@@ -65,10 +65,18 @@ if (Sys.getenv("USERNAME") == "maximiliano"){
 
 ```{r xaringan-logo, echo=FALSE}
 xaringanExtra::use_logo(
-  image_url = "pics/lightbulb.png",
+  image_url = "img/lightbulb.png",
   exclude_class = c("inverse", "hide_logo"),
   width = "50px"
 )
+```
+
+```{css, echo = F, eval = T}
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
 ```
 
 
@@ -77,6 +85,17 @@ xaringanExtra::use_logo(
 1. [Introduction](#intro)
 
 2. [Data wrangling](#dataw)
+
+3. [ID variables](#id)
+
+4. [Create variables](#variables)
+
+5. [Appending and marging](#bind)
+
+6. [Saving a dataframe](#saving)
+
+7. [Reshaping](#reshaping)
+
 
 ---
 class: inverse, center, middle
@@ -222,6 +241,8 @@ name: dataw
 
 # Data wrangling
 
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
 ---
 
 # Exploring a data set
@@ -363,6 +384,8 @@ name: id
 
 # ID variables
 
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
 ---
 
 # ID variables
@@ -444,6 +467,8 @@ class: inverse, center, middle
 name: variables
 
 # Creating new variables
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
@@ -614,6 +639,8 @@ name: bind
 
 # Appending and merging data sets
 
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
 ---
 
 # Appending and merging data sets
@@ -749,11 +776,13 @@ whr_panel <- rbind(whr15, whr16, whr17)    # or bind_rows
 
 
 ---
-  
+
 class: inverse, center, middle
 name: saving
 
 # Saving a dataset
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
@@ -800,6 +829,8 @@ class: inverse, center, middle
 name: reshaping
 
 # Reshaping a dataset
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 

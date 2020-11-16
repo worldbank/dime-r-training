@@ -60,6 +60,14 @@ top:1em;right:1em;
 
 
 
+&lt;style type="text/css"&gt;
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+&lt;/style&gt;
+
 # Table of contents
 
 1. [Installation](#installation)
@@ -85,7 +93,6 @@ name: installation
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
-
 # Installation
 
 ## Installation
@@ -358,20 +365,20 @@ head(whr)
 ```
 
 ```
-##   country_code     country         region year happy_rank happy_score   gdp_pc
-## 1          578      Norway Western Europe 2017          1       7.537 1.616463
-## 2          208     Denmark Western Europe 2017          2       7.522 1.482383
-## 3          352     Iceland Western Europe 2017          3       7.504 1.480633
-## 4          756 Switzerland Western Europe 2017          4       7.494 1.564980
-## 5          246     Finland Western Europe 2017          5       7.469 1.443572
-## 6          528 Netherlands Western Europe 2017          6       7.377 1.503945
-##     family    health   freedom trust_gov_corr generosity dystopia_res
-## 1 1.533524 0.7966665 0.6354226      0.3159638  0.3620122     2.277027
-## 2 1.551122 0.7925655 0.6260067      0.4007701  0.3552805     2.313707
-## 3 1.610574 0.8335521 0.6271626      0.1535266  0.4755402     2.322715
-## 4 1.516912 0.8581313 0.6200706      0.3670073  0.2905493     2.276716
-## 5 1.540247 0.8091577 0.6179509      0.3826115  0.2454828     2.430182
-## 6 1.428939 0.8106961 0.5853845      0.2826618  0.4704898     2.294804
+##   country_code     country         region year happy_rank happy_score   gdp_pc   family    health   freedom
+## 1          578      Norway Western Europe 2017          1       7.537 1.616463 1.533524 0.7966665 0.6354226
+## 2          208     Denmark Western Europe 2017          2       7.522 1.482383 1.551122 0.7925655 0.6260067
+## 3          352     Iceland Western Europe 2017          3       7.504 1.480633 1.610574 0.8335521 0.6271626
+## 4          756 Switzerland Western Europe 2017          4       7.494 1.564980 1.516912 0.8581313 0.6200706
+## 5          246     Finland Western Europe 2017          5       7.469 1.443572 1.540247 0.8091577 0.6179509
+## 6          528 Netherlands Western Europe 2017          6       7.377 1.503945 1.428939 0.8106961 0.5853845
+##   trust_gov_corr generosity dystopia_res
+## 1      0.3159638  0.3620122     2.277027
+## 2      0.4007701  0.3552805     2.313707
+## 3      0.1535266  0.4755402     2.322715
+## 4      0.3670073  0.2905493     2.276716
+## 5      0.3826115  0.2454828     2.430182
+## 6      0.2826618  0.4704898     2.294804
 ```
 
 ---
@@ -408,20 +415,20 @@ head(whr)
 
 
 ```
-##   country_code     country         region year happy_rank happy_score   gdp_pc
-## 1          578      Norway Western Europe 2017          1       7.537 1.616463
-## 2          208     Denmark Western Europe 2017          2       7.522 1.482383
-## 3          352     Iceland Western Europe 2017          3       7.504 1.480633
-## 4          756 Switzerland Western Europe 2017          4       7.494 1.564980
-## 5          246     Finland Western Europe 2017          5       7.469 1.443572
-## 6          528 Netherlands Western Europe 2017          6       7.377 1.503945
-##     family    health   freedom trust_gov_corr generosity dystopia_res
-## 1 1.533524 0.7966665 0.6354226      0.3159638  0.3620122     2.277027
-## 2 1.551122 0.7925655 0.6260067      0.4007701  0.3552805     2.313707
-## 3 1.610574 0.8335521 0.6271626      0.1535266  0.4755402     2.322715
-## 4 1.516912 0.8581313 0.6200706      0.3670073  0.2905493     2.276716
-## 5 1.540247 0.8091577 0.6179509      0.3826115  0.2454828     2.430182
-## 6 1.428939 0.8106961 0.5853845      0.2826618  0.4704898     2.294804
+##   country_code     country         region year happy_rank happy_score   gdp_pc   family    health   freedom
+## 1          578      Norway Western Europe 2017          1       7.537 1.616463 1.533524 0.7966665 0.6354226
+## 2          208     Denmark Western Europe 2017          2       7.522 1.482383 1.551122 0.7925655 0.6260067
+## 3          352     Iceland Western Europe 2017          3       7.504 1.480633 1.610574 0.8335521 0.6271626
+## 4          756 Switzerland Western Europe 2017          4       7.494 1.564980 1.516912 0.8581313 0.6200706
+## 5          246     Finland Western Europe 2017          5       7.469 1.443572 1.540247 0.8091577 0.6179509
+## 6          528 Netherlands Western Europe 2017          6       7.377 1.503945 1.428939 0.8106961 0.5853845
+##   trust_gov_corr generosity dystopia_res
+## 1      0.3159638  0.3620122     2.277027
+## 2      0.4007701  0.3552805     2.313707
+## 3      0.1535266  0.4755402     2.322715
+## 4      0.3670073  0.2905493     2.276716
+## 5      0.3826115  0.2454828     2.430182
+## 6      0.2826618  0.4704898     2.294804
 ```
 
 ---

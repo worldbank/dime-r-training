@@ -88,6 +88,14 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 ```
 
+```{css, echo = F, eval = T}
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+```
+
 # Table of contents
 
 1. [Installation](#installation)
@@ -113,7 +121,6 @@ name: installation
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
-
 # Installation
 
 ## Installation

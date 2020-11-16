@@ -80,6 +80,16 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 
 ```
+
+```{css, echo = F, eval = T}
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+```
+
+
 # Table of contents
 
 1. [Introduction](#introduction)
