@@ -122,9 +122,9 @@ name: introduction
 
 * In the last session, you learned the basic concepts to work in R
 
-* You are probably eager to get your hands into some data using R by now, and you would figure out *what* should be in your code for it to work
+* You are probably eager to get your hands into some data using R by now, and you would figure out __what should be in your code__ for it to work
 
-* But you would probably not know right away *how* to write that, so that in the end you might have code that is only intelligible for yourself -- and not for a very long time
+* But you would probably not know right away __how to write that__, so that in the end you might have code that is only intelligible for yourself -- and not for a very long time
 
 ---
 
@@ -132,9 +132,9 @@ name: introduction
 
 ## Why are we here today?
 
-* In this session, we will cover common coding practices in R so that you can make the most efficient use for it
+* In this session, we will cover common coding practices in R so that you can make __the most efficient use__ for it
 
-* We will also discuss some styling conventions to make your code readable and reproducible
+* We will also discuss some styling conventions to make your code __readable and reproducible__
 
 * This will give you a solid foundation to code in R, and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
 
@@ -151,7 +151,7 @@ name: initial-settings
 
 # Initial settings
 
-* Ok, let's start by opening RStudio
+* Ok, let's start by opening RStudio, or by reopening it if you had it opened already
 
 * What do you see in your environment?
 
@@ -171,7 +171,7 @@ knitr::include_graphics("img/stataheader.jpg")
 
 # Initial settings
 
-* We don't need to set the memory or the maximum number of variables in R, and the equivalent of `more` is the default in R
+* We __don't need to set the memory or the maximum number of variables in R__, and the equivalent of `set more off` is the default in R
 
 * You can see all the objects currently in you memory in the *Environment* pane
 
@@ -286,7 +286,7 @@ Let's test if that worked:
 
   # Project folder
   projectFolder  <-
-    "C:/Users/luiza/Documents/GitHub/dime-r-training"
+    "/home/luis_eduardo/cs_projects/dime-r-training"
 
   # Data work folder
   dataWorkFolder    <- file.path(projectFolder,"DataWork")
@@ -305,12 +305,12 @@ Let's test if that worked:
 Use the `read.csv()` command:
 
 ```{r, eval=F}
-read.csv(file, header=FALSE)
+read.csv(file, header = FALSE, stringsAsFactors = FALSE)
 ```
 
-* __file__: is the path to the file you want to open, including its name and format (`.csv`).
+* __file__: is the path (string) to the file you want to open, including its name and format (`.csv`).
 
-* __header__: if `TRUE`, will read the first row as variable names.
+* __header__: if `TRUE`, will read the first row as variable names (default is `header = FALSE`).
 
 * __stringsAsFactors__: logical. See next slide for more.
 
@@ -320,11 +320,13 @@ read.csv(file, header=FALSE)
 
 ## Loading a dataset from CSV
 
-* R reads string variables as factors as default (CHECK IF THIS IS TRUE IN VERSION 4.0)
+* Since R 4.0.0 and beyond, `stringsAsFactors = FALSE` is the default. In every previous version, the default is `TRUE`.
 
-* This format saves memory, but can be tricky if you actually want to use the variables as strings
+* This means that if your R version is 3.X.X, R will turn any string variables into factors by default when reading a `csv` file.
 
-* You can specify the option `stringsAsFactors = FALSE` to prevent R from turning strings into factors
+* This format __saves memory__, but can be tricky if you actually want to use the variables as strings.
+
+* You can specify the option `stringsAsFactors = FALSE` to make sure you prevent R from turning strings into factors.
 
 ---
 
@@ -346,7 +348,7 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 ```
 
-5. Run the whole script. If it worked, your environment should include only the `whr` data set.
+5. Run the whole script. If it worked, your environment should now include the `whr` dataset and the path locals.
 
 ---
 
@@ -464,7 +466,7 @@ name: commenting
 
 ### Exercise 6: Commenting
 
-1. Go the `Lab 2 - Intro II.R` script. Select the lines under `PART 2: Set folder pahts`.
+1. Go the `Lab 2 - Intro II.R` script. Select the lines under `PART 2: Set folder paths`.
 
 2. Use the keyboard shortcut to comment these lines.
 
@@ -483,7 +485,7 @@ name: creating-a-document-outline-in-rstudio
 
 # Creating a document outline in RStudio
 
-* RStudio also allows you to create an interactive index for your scripts
+* RStudio also allows you to __create an interactive index__ for your scripts
 
 * To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes, pound signs or equal signs after it
 
@@ -521,7 +523,7 @@ name: using-packages
 
 * To make it simpler, these functionalities are bundled into packages.
 
-* A package is just a unit of shareable code.
+* A package is just __a unit of shareable code__.
 
 ---
 
@@ -546,7 +548,7 @@ install.packages("stargazer",
 # that it may depend upon to run
 ```
 
-* You only have to install a package once, but you have to load it every new session.
+* You only have to install a package once, but you have to __load it every new session__.
 
 ---
 
@@ -564,6 +566,7 @@ install.packages("stargazer",
   library(stargazer)
 ```
 
+Notice that we used quotes around the name to install the package, but we don't need them anymore to load it.
 
 ---
 
@@ -585,7 +588,7 @@ knitr::include_graphics("img/Warning.png")
 
 R has two types of error messages, `warnings` and actual `errors`:
 
-  * `Errors` - break your code, i.e., prevent it from running.
+  * `Errors` - break your code, usually preventing it from running.
   * `Warnings` - usually mean that nothing went wrong yet, but you should be careful.
 
 RStudio's default is to print warning messages, but not stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
@@ -603,7 +606,7 @@ name: functions-inception
 
 # Functions inception
 
-* In R, you can write one function inside another
+* In R, you can __write one function inside another__
 
 * In fact, you have already done this a few times in this course
 
@@ -616,20 +619,20 @@ name: functions-inception
 ```{r}
   # Doing it the long way -----------------------------
   # Create a vector with the log of the happiness score
-  log_score <- log(whr$happy_score)
+  log_score <- log(whr$happiness_score)
 
   # Get descriptive statistics for the log vector
   summary(log_score)
 
   # Shortcut to get to the same place ----------------
-  summary(log(whr$happy_score))
+  summary(log(whr$happiness_score))
 ```
 
 ---
 
 # Functions inception
 
-* This is a simple example of metaprogramming (that's the real name of this technique) and may seem trivial, but it's not
+* This is a simple example of __metaprogramming__ (that's the real name of this technique) and may seem trivial, but it's not
 
 * For starters, you can't do it in Stata!
 
@@ -644,40 +647,42 @@ knitr::include_graphics("img/statalog.png")
 
 # Functions inception  
   
-* This is a very powerful technique, as you will soon see
+* This is a __very powerful technique__, as you will soon see
 
-* It's also a common source of error, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
+* It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
 
-* It can also get quite tricky
+* It can also get quite tricky to follow what a line of code with multiple functions inceptions is doing
 
-* Which is why we sometimes use pipes
+* Which is why we sometimes use pipes: `%>%`
 
 ---
 
 # Functions inception  
 
 ```{r, eval = F}
-  # Doing it the long way -----------------------------
+  # 1: Doing it the long way -----------------------------
   # Create a vector with the log of the happiness score
   log_score <- log(whr$happy_score)
 
   # Get descriptive statistics for the log vector
   mean(log_score)
 
-  # Shortcut to get to the same place -----------------
+  # 2: Shortcut to get to the same place -----------------
   mean(log(whr$happy_score))
 
-  # Now with pipes ------------------------------------
+  # 3: Now with pipes ------------------------------------
   whr$happy_score %>%
     log() %>%
     mean()
 ```
 
+In a few words, `x %>% f()` is the same as `f(x)`
+
 ---
 
 # Functions inception  
   
-You don't need to worry about piping for now, just know that it exists, and laugh if you see this sticker in some tidyverse nerd computer
+Now that you know piping exists in R, you should know that it can __drastically improve code readability__. And from now on you can also laugh if you see this in some tidyverse nerd laptop sticker or t-shirt:
 
 ```{r echo = FALSE, out.width = "50%"}
 knitr::include_graphics("img/pipe.jpg")
@@ -724,7 +729,7 @@ name: looping
 
 # Looping
 
-* R, however, has a whole function family that allows users to loop through an object in a more efficient way
+* R, however, has a whole function family that allows users to loop through an object _in a more efficient way__, without using explicit loops
 
 * They're called `apply` and there are many of them, with different use cases
 
@@ -736,9 +741,9 @@ name: looping
 
 # Looping
 
-#### `sapply(X, FUN, ...)`: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are
+#### `sapply(X, FUN, ...)`: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are:
 
-* **X:** a matrix (or data frame) the function will be applied to
+* **X:** a data frame (or matrix) the function will be applied to
 
 * **FUN:** the function you want to apply
 
@@ -766,7 +771,7 @@ A more general version is the `apply` function.
 
 #### `apply(X, MARGIN, FUN, ...)`: applies a function to all columns or rows of matrix. Its arguments are
 
-* **X:** a matrix (or data frame) the function will be applied to
+* **X:** a data frame (or matrix) the function will be applied to
 
 * **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
 
@@ -813,9 +818,9 @@ name: custom-functions
 
 # Custom functions
 
-* As you have said several times, R is super flexible
+* As we have said several times, __R is super flexible__
 
-* One example of that is that it's super easy and quick to create custom functions
+* One example of that is that it's __super easy and quick to create custom functions__
 
 * Here's how:
 
@@ -841,7 +846,7 @@ name: custom-functions
 
 ### Exercise 9: Create a function 
 
-1. Create a function that calculates the z-score of a variable.
+1. Create a function that calculates the z-score of a vector.
 
 ---
 
@@ -858,7 +863,7 @@ name: custom-functions
     
   }
 
-  summary(zscore(whr$happy_score))
+  summary(zscore(whr$happiness_score))
   
 ```
 
@@ -891,8 +896,8 @@ print(plot)
 ## Why indent?
 
 ```{r, eval = T, echo = F, out.width = "60%"}
-annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region)) +
+annualHappy_reg <- aggregate(happiness_score ~ year + region, data = whr, FUN = mean)
+plot <- ggplot(annualHappy_reg,aes(y = happiness_score,x = year, color = region, group = region)) +
 geom_line() + geom_point()
 print(plot)
 ```
@@ -906,13 +911,13 @@ print(plot)
 ```{r, eval = F, out.width = "60%"}
 # Here's the same code
 annualHappy_reg <-
-  aggregate(happy_score ~ year + region,
+  aggregate(happiness_score ~ year + region,
             data = whr,
             FUN = mean)
 
 plot <-
   ggplot(annualHappy_reg,
-         aes(y = happy_score,
+         aes(y = happiness_score,
              x = year,
              color = region,
              group = region)) +
@@ -928,15 +933,15 @@ print(plot)
 
 ## Why indent?
 
-```{r, eval = F, out.width = "60%"}
+```{r, eval = T, echo = F, out.width = "60%"}
 annualHappy_reg <-
-  aggregate(happy_score ~ year + region,
+  aggregate(happiness_score ~ year + region,
             data = whr,
             FUN = mean)
 
 plot <-
   ggplot(annualHappy_reg,
-         aes(y = happy_score,
+         aes(y = happiness_score,
              x = year,
              color = region,
              group = region)) +
@@ -951,8 +956,10 @@ print(plot)
 # Indentation
 
 ## Why indent?
- * Even though R understands what unindented code says, it can be quite difficult for a human being to read it
- * On the other hand, white space does not have a special meaning for R, so it will understand code that is more readable for a human being
+
+* Even though R understands what unindented code says, it can be __quite difficult for a human being to read it__
+
+* On the other hand, __white space does not have a special meaning for R__, so it will understand code that is more readable for a human being
 
 ---
 
@@ -960,8 +967,8 @@ print(plot)
 
 * Indentation in R looks different than in Stata:
 
- - To indent a whole line, you can select that line and press \texttt{Tab}
- - To unindent a whole line, you can select that line and press \texttt{Shift + Tab}
+ - To indent a whole line, you can select that line and press `Tab`
+ - To unindent a whole line, you can select that line and press `Shift + Tab`
  - However, this will not always work for different parts of a code in the same line
 
 * In R, we typically don't introduce white space manually
@@ -980,7 +987,7 @@ To see an example of how indenting works in RStudio, go back to our first exampl
 sapply(c(1.2,2.5), round)
 ```
 
-1. Add a line between the two arguments of the function (the vector of numbers and the round function)
+1. Add a line between the two arguments of the function (the vector of numbers and the `round` function)
 
 2. Now add a line between the numbers in the vector.
 
@@ -1034,9 +1041,9 @@ Create a function that
 
 * Installing packages can be time-consuming, especially as the number of packages you're using grows, and each package only needs to be installed once
 
-* In the same way we use locals in Stata to create In Stata, section switches would be saved as locals
+* We often use locals in Stata to create section switches to install packages
 
-* In R, the equivalent to that would be to create a new object
+* In R, the equivalent to that would be to create a new object as a section switch
 
 ### Exercise 9: Creating an if statement
 
@@ -1120,7 +1127,7 @@ Create a function that
 
 * We at DIME Analytics recommend always using **explicit** and **dynamic** file paths
 
-* **Explicit** means your explicitly stating where the file will be saved -- instead of setting the working directory, for example
+* **Explicit** means you're explicitly stating where the file will be saved -- instead of setting the working directory, for example
 
 * **Dynamic** means that you don't need to adjust every file path in the script when you change from one machine to another -- they're updated based on a single line of code to be changed  
 
@@ -1152,16 +1159,16 @@ Create a function that
 
 Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
 
-* Rcmdr - Easy to use GUI
-* swirl - An interactive learning environment for R and statistics.
-* ggplot2 - beautiful and versatile graphics (the syntax is a pain, though)
-* stargazer - awesome latex regression and summary statistics tables
-* foreign - reads dtas and other formats from inferior statistical software
-* zoo - time series and panel data manipulation useful functions
-* data.table - some functions to deal with huge data sets
-* sp and rgeos - spatial analysis
-* multiwayvcov and sandwich - clustered and robust standard errors
-* RODBC, RMySQL, RPostgresSQL, RSQLite - For relational databases and using SQL in R.
+* `Rcmdr` - easy to use GUI
+* `swirl` - an interactive learning environment for R and statistics.
+* `ggplot2` - beautiful and versatile graphics (the syntax is a pain, though)
+* `stargazer` - awesome latex regression and summary statistics tables
+* `foreign` - reads `.dta` and other formats from inferior statistical software
+* `zoo` - time series and panel data manipulation useful functions
+* `data.table` - some functions to deal with huge data sets
+* `sp` and `rgeos` - spatial analysis
+* `multiwayvcov` and `sandwich` - clustered and robust standard errors
+* `RODBC`, `RMySQL`, `RPostgresSQL`, `RSQLite` - For relational databases and using SQL in R.
 
 ---
 
@@ -1193,7 +1200,7 @@ We didn't cover it here because of time constraints, but below are some useful l
 
 ## R projects
 
-If you have used R before, you may have heard of RStudio Projects. It's RStudio suggested tool for workflow management. DIME Analytics has found that it is not the best fit for our needs, because
+If you have used R before, you may have heard of RStudio Projects. It's RStudio's suggested tool for workflow management. DIME Analytics has found that it is not the best fit for our needs, because
 
 1. In DIME, we mainly use Stata, and we prefer to keep a similar structure in R (Stata 15 also has a projects feature, but it is not yet widely adopted)
 
