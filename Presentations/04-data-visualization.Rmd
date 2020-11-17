@@ -1,5 +1,5 @@
 ---
-title: "Session 5: Data Visualization"
+title: "Session 4: Data Visualization"
 subtitle: "R for Stata Users"
 author: "Rony Rodrigo Maximiliano Rodriguez-Ramirez"
 date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> `r format(Sys.time(), '%d %B %Y')`"
