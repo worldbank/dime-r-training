@@ -141,7 +141,7 @@ Set folder paths to your computer
 --
 
 Load the packages that we will use today
-```{r, evalt = F}
+```{r, eval = F}
   # Load packages
   packages <- c("tidyverse", "skimr", "huxtable", "lfe")
   pacman::p_load(packages, character.only = TRUE)
@@ -301,7 +301,7 @@ Use the `table()` function to display frequency tables for:
 ## One way tabulation
 
 .can-edit[
-```{r, echo=T, eval=T}
+```{r, eval = F}
   table()
 ```
 ]
@@ -484,6 +484,23 @@ census %>%
 
 # Exporting tables
 
+To export the tables to a different software, we will need a different package, `huxtable`. The easiest way to save tables is through this family of commands:
+
+.command[
+**quick_latex(..., file)**<br>
+**quick_pdf(..., file)**<br>
+**quick_html(..., file)**<br>
+**quick_docx(..., file)**<br>
+**quick_pptx(..., file)**<br>
+**quick_xlsx(..., file)**<br>
+**quick_rtf(..., file)**<br>
+- **...**: the huxtable objects or data frames to be exported
+- *file*: the file path to where the table should be saved, including the file extension
+]
+
+---
+
+The code below exports the table we just created to Excel and LaTeX
 ```{r}
 # Store table so it can be exported twice
 summary_stats_table <-
@@ -506,27 +523,32 @@ quick_latex(summary_stats_table,
 
 # Beautifying tables
 
-```{r}
+`huxtable` also allows you to edit your table as a data frame in R, and set the formatting so it can be exported with the same layout to multiple software. The code below shows how to do edit `summary_stats_table`
 
+.small[
+```{r, message=FALSE }
+
+# Extract variable labels from data frame
 census_dictionary <- 
   data.frame("Variable" = attributes(census)$var.labels,
              "name" = names(census))
 
 summary_stats_table <-
    summary_stats_table %>%
-   rename(name = skim_variable) %>%
-   left_join(census_dictionary) %>%
-   select(-name) %>%
-   as_hux
+   rename(name = skim_variable) %>% # Rename var with var names so we can merge the datasets
+   left_join(census_dictionary) %>% # Merge to variable labels
+   select(-name) %>% # Keep only variable labels instead of names
+   as_hux # Convert it into a huxtable object
 
 
 summary_stats_table <-
    summary_stats_table %>% 
-   relocate(Variable) %>%
-   set_header_rows(1, TRUE) %>%
-   set_header_cols("Variable", TRUE)  %>% 
-   theme_basic()
+   relocate(Variable) %>%  # Make veriable labels the first column
+   set_header_rows(1, TRUE) %>% # Use stats name as table header
+   set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header
+   theme_basic() # Set a theme for quick formatting
 
+# Now export it
 quick_xlsx(summary_stats_table,
            file = file.path(rawOutput, "summary-stats-basic.xlsx"))
 
@@ -534,32 +556,75 @@ quick_latex(summary_stats_table,
            file = file.path(rawOutput, "summary-stats-basic.tex"))
 
 ```
+]
+
 ---
 
 # Other themes to play with
 
-* https://cran.r-project.org/web/packages/huxtable/vignettes/themes.html
+![https://cran.r-project.org/web/packages/huxtable/vignettes/themes.html](pics/themes.png){width=90%}
+---
+
+# Aggregating observations
+
+- If you want to show aggregated statistics, the function `summarise` is a powerful tool. 
+- It is similar to `skim` in that it calculates a series of statistics for a data frame. 
+- However, it does not have pre-defined statistics, so it requires more manual input. 
+- On the other hand, its output is a regular data frame, so it is also useful to create constructed data sets.
+- Its Stata equivalent would be `collapse`
+
+.command[
+## `summarise(.data, ...,)`
+- **data**: the data frame to be summarized
+- **...**: Name-value pairs of summary functions. The name will be the name of the variable in the result.
+]
+The "name-value" pairs mentioned under `...` look like this: `new_variable = stat(existing_variable)`, where `stat` takes the same functions as `sfl`
 
 ---
 
-```{r}
-short_stats <- 
-  skim_with(numeric = sfl(N = ~ sum(!is.na(.)),
-                          Mean = mean, 
-                          SD = sd),
-            append = FALSE)
+# Aggregating observations
 
-pop_byreg_table <-
-   census %>% 
+```{r}
+  region_stats <- 
+    census %>% 
     group_by(region) %>%
-    short_stats(pop) %>%
-    select(-n_missing, -complete_rate) %>%
-    yank("numeric")
+    summarise(`Number of States` = n_distinct(state),
+              `Total Population` = sum(pop))
+```
+
+```{r, echo = FALSE, message = F}
+  census %>% 
+  group_by(region) %>%
+  summarise(`Number of States` = n_distinct(state),
+            `Total Population` = sum(pop),
+            `Average Population` = mean(pop),
+            `SD of Population` = sd(pop)) %>%
+  kable
 ```
 
 ---
+# Aggregating observations
 
-```{r}
+.exercise[
+### Exercise `r fa("keyboard")`
+Recreate the `region_stats` data set,  now including the average and the standard deviation of the population.
+]
+
+.can-edit[
+```{r, eval = F}
+  region_stats <- 
+    census %>% 
+    group_by(region) %>%
+    summarise(`Number of States` = n_distinct(state),
+              `Total Population` = sum(pop))
+```
+]
+
+---
+
+# Aggregating observations
+
+```{r, message = F}
   region_stats <- 
     census %>% 
     group_by(region) %>%
@@ -567,6 +632,32 @@ pop_byreg_table <-
               `Total Population` = sum(pop),
               `Average Population` = mean(pop),
               `SD of Population` = sd(pop))
+```
+
+```{r, echo = FALSE, message = F}
+  region_stats%>%
+  kable
+```
+
+---
+
+.exercise[
+### Exercise `r fa("keyboard")`
+Use `huxtable` to format and export the object `region_stats`.
+]
+
+--
+
+```{r, echo = F}
+region_stats_table <-
+    region_stats %>%
+    rename(Region = region) %>%
+    as_hux %>%
+    set_header_cols("Region", TRUE)  %>% 
+    theme_bright()
+
+number_format(region_stats_table) <- "%6.0f"
+region_stats_table
 ```
 
 ---
@@ -586,6 +677,7 @@ pop_byreg_table <-
              file = file.path(rawOutput, "region-stats.tex"))
   
 ```  
+
 ---
 
 class: inverse, center, middle
