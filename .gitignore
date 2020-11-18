@@ -21,3 +21,6 @@
 
 !Presentations/img/*
 *.pdf
+*.RData
+*.rdx
+*.rdb

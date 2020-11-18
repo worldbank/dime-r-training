@@ -1,11 +1,30 @@
 
 
-  library(tidyverse)
-  library(skimr)
-  
-  census <- 
-    readRDS("C:/Users/wb501238/Documents/GitHub/dime-r-training/DataWork/DataSets/Final/census.RDS")
-  
+# Setting the stage --------------------------------------------------------------------------------
+
+# Set folder paths
+projectFolder <- file.path("EDIT/THIS/FILE/PATH/dime-r-training")
+
+
+dataWorkFolder    <- file.path(projectFolder,"DataWork")
+Data              <- file.path(dataWorkFolder,"DataSets")
+finalData         <- file.path(Data,"Final")
+rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
+
+# Load packages
+packages <- c("tidyverse", 
+              "skimr", 
+              "huxtable")
+
+pacman::p_load(packages, 
+               character.only = TRUE)
+
+# Load data
+census <- 
+  readRDS(file.path(finalData, "census.RDS"))
+
+
+
   summary(census)
   
   full_skim <-
