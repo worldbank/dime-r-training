@@ -31,3 +31,6 @@ Presentations/04-data-visualizaation_cache/
 Presentations/04-data-visualization_cache/
 
 Presentations/libs/panelset/
+*.rdb
+*.RData
+*.rdx

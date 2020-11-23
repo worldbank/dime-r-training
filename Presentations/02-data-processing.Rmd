@@ -140,7 +140,7 @@ Takeaway: long format > wide format
 
 # Introduction
 
-- In this session, you'll be introduced to some basic conceptos of data cleaning in R. We will cover: 
+- In this session, you'll be introduced to some basic concepts of data cleaning in R. We will cover: 
 
 1. Exploring a dataset;
 2. Creating new variables;
@@ -157,9 +157,9 @@ Takeaway: long format > wide format
 
 # Introduction
 
-- Before we start, let's makue sure we are all set: 
+- Before we start, let's make sure we are all set: 
 
-1. Start a fresh session.
+1. Start a fresh RStudio session.
 2. Load the tidyverse package.
 3. Set your file paths.
 
@@ -185,6 +185,7 @@ library(janitor)
 # File paths
 
 For this session, my file paths are as follows. We will use them to load and export datasets.
+
 ```{r, cache = FALSE, eval = FALSE}
 # Example of my filepaths for this presentation
 project           <- "D:/Documents/RA Jobs/DIME/trainings/dime-r-training"
@@ -194,6 +195,8 @@ finalData         <- file.path(Data,"Final")
 rawData           <- file.path(Data,"Raw")
 rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
 ``` 
+
+If you saved the changes you made to the code during the Intro II session, you can simply run that script.
 
 ---
 
@@ -244,7 +247,7 @@ whr17 <- read_csv(file.path(rawData, "Un WHR" , "WHR2017.csv")) %>% clean_names(
 ---
 # Load and show a dataset
 
-We can just show our dataset using the name of the object; in this case, `census`. 
+We can just show our dataset using the name of the object; in this case, `whr15`. 
 
 ```{r show}
 whr15
@@ -319,8 +322,6 @@ Let's see first:
 ```{r}
 dim(whr15) 
 
-dim_desc(whr15)
-
 ```
 
 * **The number of distinct values of a particular variable**:
@@ -335,7 +336,7 @@ n_distinct(DATASET$variable, na.rm = TRUE)
 
 # ID variables
 
-In the last example, we used `n_distinct`. This allows us to count the number of unique values of a variablelength of a vector. We included `na.rm = TRUE`, so we don't count missing values.
+In the last example, we used `n_distinct`. This allows us to count the number of unique values of a variable length of a vector. We included `na.rm = TRUE`, so we don't count missing values.
 
 --
 
@@ -374,58 +375,6 @@ n_distinct(whr17$country, na.rm = TRUE) == nrow(whr17)
 
 ---
 
-# Comparing two dataframes
-
-**setdiff()**: Prints all the elements of the first object that are not in the second object (ignores duplicates).
-
-We can use this function to see which countries are coming in and out of the WHR dataset set between 2015 and 2016. This function takes two arguments `setdiff(df1, df2)`: 
-
-
----
-
-# Comparing two dataframes
-
-### Exercise 3: Compare vectors.
-
-Use the setdiff() function to see which countries are coming in and out of the WHR data set between 2015 and 2016
-
---
-
-### How to do it
-
-```{r}
-# Any countries in 2015 that are not in 2016?
-setdiff(whr15$country, whr16$country)
-
-# And vice-versa
-setdiff(whr16$country, whr15$country)
-
-```
-
----
-
-# Comparing two dataframes
-
-### Replacing values
-
-You might notice in the last slide, that *Somaliland region* and *Somaliland Region* are not considered the same. We can fix this as follows using base R:
-
-```{r}
-whr15$country[whr15$country == "Somaliland region"] <- "Somaliland Region"
-```
-
-Now, if run again `setdiff` again, we get: 
-
-```{r}
-# Any countries in 2015 that are not in 2016?
-setdiff(whr15$country, whr16$country)
-
-# And vice-versa
-setdiff(whr16$country, whr15$country)
-
-```
-
----
 class: inverse, center, middle
 name: wrangling
 
@@ -455,6 +404,7 @@ whr15 %>%
 * Use `filter()`
 * Filter only for the regions: (1) Eastern Asia and (2) North America.
 
+--
 This would be the normal way to do it: 
 ```{r, eval = FALSE}
 whr15 %>% 
@@ -474,7 +424,7 @@ whr15 %>%
 
 # dplyr::filter regular expressions
 
-One advantage of the filter command over Stata is that you can also integrate regular expressions in quite a better way. Let's say that we want to subset all regions' divisions that have `East` in their names. We can use the following: 
+One advantage of the filter command over Stata is that you can also integrate regular expressions in quite a better way. Let's say that we want to subset all regions' divisions that have `America` in their names. We can use the following: 
 
 ```{r grepl}
 whr15 %>% 
@@ -752,7 +702,7 @@ name: bind
 
 # Appending and merging data sets
 
-Now that we can identify the observations, we can combine the data set. Here are tweo functions to append objects by row
+Now that we can identify the observations, we can combine the data set. Here are two functions to append objects by row
 
 ```{r eval = FALSE}
 rbind(...)
@@ -787,13 +737,13 @@ To be honest, the most important variable that we will need to include in the 20
 
 #### Exercise 7a: 
 
-* Create a region data frame from the `whr2015` that includes only the vars: country and region.
+* Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR`
 
 --
 
 ```{r regions}
-regions <- whr15 %>% 
-  select(country, region)
+regions <- 
+  readRDS(file.path(Data, "Raw", "Un WHR", "regions.RDS"))
 ```
 
 ---
@@ -822,47 +772,6 @@ whr17 <- whr17 %>%
 
 # Appending and merging data sets
 
-But unfortunately, some countries were not in the whr15 data. 
-
-```{r}
-whr17 %>% 
-  filter(is.na(region))
-```
-
----
-
-# Appending and merging data sets
-
-Let's fix these six countries. 
-
---
-
-* Taiwan and Hong Kong have different names. Let's use `case_when`:
-
-```{r}
-whr17 <- whr17 %>% 
-  mutate(
-    country = case_when(country == "Hong Kong S.A.R., China" ~ "Hong Kong", 
-                        country == "Taiwan Province of China" ~ "Taiwan", 
-                        TRUE ~ country)
-  )
-```
-
---
-
-* Now, let's joing again the regions dataframe.
-
-```{r}
-whr17 <- whr17 %>% 
-  select(-region) %>% 
-  left_join(regions) %>% 
-  select(country, region, everything()) 
-```
-
----
-
-# Appending and merging data sets
-
 #### Exercise 7c: 
 
 Check if there is any other country without region info:
@@ -878,46 +787,6 @@ whr17 %>%
   
 ```
 
----
-
-# Appending and merging data sets
-
-We can get their info from the `whr16` dataset as follows
-
-```{r}
-whr17 <- whr17 %>% 
-  left_join(
-    whr16 %>%
-      select(country, new_region = region), 
-    by = "country"
-  ) %>% 
-  mutate(
-    region = ifelse(is.na(region), as.character(new_region), region)
-  ) %>% 
-  select(-new_region)
-```
-
---
-
-Let's look at each of the parts of this pipe: 
-
-* `left_join()` and region is now called `new_region`.
-* `mutate()` with the condition that if region is missing we assign the values from new region, if not we keep the og values.
-* `select()` to eliminate new_region.
-
----
-
-# Appending and merging data sets
-
-Any other country that still doesn't have region information? 
-
---
-
-```{r}
-whr17 %>% 
-  filter(is.na(region))
-```
-  
 ---
 
 # Appending and merging data sets
