@@ -105,6 +105,8 @@ We're glad you're joining us today!
 
 # Sessions format
 
+## Format
+
 - The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a private message whenever you need help
 
 - Otherwise, if you have a __general question__ feel free to unmute yourself or use the chat to ask it
@@ -113,7 +115,7 @@ We're glad you're joining us today!
 
 - If your connection is good enough, please leave your video on
 
-- The materials of each session will be shared in the OSF page on the course after the end of each session
+- The materials of each session will be shared in the OSF page on the course after the end of each session: https://osf.io/b7hm6/
 
 ---
 
@@ -129,7 +131,7 @@ name: installation
 
 ## Installation
 
-This training requires that you have R installed in your computer:
+This training requires that you have R and RStudio installed in your computer:
 
 ### Instructions
 
@@ -137,7 +139,7 @@ This training requires that you have R installed in your computer:
 
  * If you're in the US, you can directly visit the mirror at Berkeley University at (https://cran.cnr.berkeley.edu).
 
- * We also strongly suggest installing R studio. You can get it in (https://www.rstudio.com/), but you need to install R first.
+ * To install RStudio, go to https://www.rstudio.com/. Note that you need to install R first.
 
 ---
 
@@ -152,11 +154,7 @@ name: introduction
 
 # Introduction
 
-These training sessions will offer an introduction to R, its amazing features and how Stata users can adapt to utilize the features that are better in R
-
----
-
-# Introduction
+These training sessions will offer an introduction to R, its amazing features and how Stata users can adapt from using Stata to using R.
 
 This first session will present the basic concepts you will need to use R.
 
@@ -181,23 +179,24 @@ https://github.com/worldbank/dime-r-training
 
 ## R vs Stata
 
-Some advantages of R over Stata:
+* R is object oriented while Stata is action oriented:
+  + Classic example: Stata's `summarize()` vs R's `summary()`
+  + In Stata you declare what you want to do, while in R you usually declare the result you want to get
 
-* It is less specialized:
-  + More flexibility when programming.
-  + Many more functionalities.
+* R needs to load non-base commands (packages) at the beginning of each session
+  + Imagine that in Stata you'd have to load a command installed with `ssc install` every time you'll use it in a new session
 
-* Much broader network of users:
+* R is less specialized, which means more flexibility and functionalities.
+
+* R has a much broader network of users:
   + More resources online, which makes using Google a lot easier. You'll never want to see Statalist again in your life!
   + Development of new features and bug fixes happen faster.
-
-* It is cooler in general.
 
 ---
 
 # Introduction
 
-Some possible disadvantages of R:
+Some possible disadvantages of R vs Stata:
 
 * Higher cost of entry than Stata for learning how to use it.
 
@@ -214,11 +213,12 @@ Some possible disadvantages of R:
 
 # Introduction
 
-Here are some other advantages:
+Here are some advantages:
 
 * R is a free and open source software!
 
 * It allows you to have several datasets open simultaneously.
+  + No need to use `keep`, `preserve`, `restore`
 
 * It can run complex Geographic Information System (GIS) analyses.
 
@@ -261,12 +261,6 @@ name: getting-started
 
 # Getting started - RStudio interface
 
-&lt;img src="img/environment.png" width="70%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Getting started - RStudio interface
-
 &lt;img src="img/scritpt1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -294,12 +288,14 @@ Let's start by loading the data set we'll be using:
 
 ## Exercise 1: Import data
 
-1. In RStudio, go to `File &gt; Import Dataset &gt; From Text (base)` and open the `whr_panel.csv` file. 
+1. Go to the OSF page of the course (https://osf.io/b7hm6/) and download the file located in `DataWork/DataSets/Final/whr_panel.csv`
+
+2. In RStudio, go to `File &gt; Import Dataset &gt; From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your Rstudio version, it might be `File &gt; Import Dataset &gt; From CSV`
 
-2. The file should be in `GitHub/dime-r-training/DataWork/DataSets/Final/whr_panel.csv`.
+3. The file should be in `GitHub/dime-r-training/DataWork/DataSets/Final/whr_panel.csv`.
 
-3. Assign the name `whr` to the dataset on the import window.
+4. Assign the name `whr` to the dataset on the import window.
 
 ---
 
@@ -312,6 +308,12 @@ Let's start by loading the data set we'll be using:
 # Getting started - Importing data
 
 &lt;img src="img/import_data2.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Getting started - RStudio interface
+
+&lt;img src="img/environment_2020.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -473,7 +475,9 @@ We can see that nothing happened to the original data. This happens because we d
 x &lt;- 42
 ```
 
-From now on, *x* is associated with the stored value (until you replace it, delete it, or quit the R session).
+From now on, `x` is associated with the stored value (until you replace it, delete it, or quit the R session).
+
+&lt;img src="img/x_42.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -553,20 +557,36 @@ head(whr)
 
 # Data in R
 
-You can also see that your environment pane now has two objects:
+You can also see that your environment pane now has two `Data` objects:
 
-&lt;img height=50% width=50% src="img/environment_2vars.png" /&gt;
+&lt;img height=50% width=50% src="img/environment_2vars_2020.png" /&gt;
 
 ---
 
 # Data in R
 
 ### Important concepts to take note:
- 1. In R, if you want to change your data, you need to __store it in an object__.
 
- 2.  It is possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
+* In R, if you want to change your data, you need to __store it in an object__.
 
- 3. Print (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but won't save anything in the memory.
+* It is possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
+ 
+ 
+ ```r
+ # This would have replaced "whr" instead of creating a new object:
+ whr &lt;- subset(whr, year == 2015)
+ ```
+
+* Print (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but won't save anything in the memory.
+
+
+```r
+# For instance, this will only print the observations that meet the specified condition:
+subset(whr, year == 2016)
+
+# To actually store the result, we would need to assign it to an object:
+whr2016 &lt;- subset(whr, year == 2016)
+```
 
 ---
 
@@ -616,7 +636,7 @@ This will give you the foundation to explore your data and construct analytical 
 
 ## What is an object?
 
-* An object is like a global in Stata, it's __something you can refer to later__ in your code to get a value.
+* An object is like a global or local in Stata, it's __something you can refer to later__ in your code to get a value.
 
 * But while you can only put a number or a string in a global, __you can put anything into an object__: scalars, strings, datasets, vectors, plots, functions, etc.
 
@@ -636,7 +656,7 @@ Here are the object classes we will cover in this first session:
 
 ---
 
-# R objects
+# R objects - Vectors
 
 ## Vectors
 
@@ -665,11 +685,11 @@ v2[4]
 
 ---
 
-# R objects
+# R objects - Vectors
 
 ## Vectors
 
-To R, each of the columns of `whr` is a vector.
+To R, each of the columns of the object `whr` is a vector.
 
 #### Calling a vector from a `data.frame` column
 We use the `$` character to call vectors (variables) by their names in a `data.frame`
@@ -690,11 +710,11 @@ whr$year[1:3]
 
 ---
 
-# R objects
+# R objects - Data frames
 
-## Data Frames
+## Data frames
 
-The `whr` and `whr2015` objects are both data frames. You can also construct a new data frame from scratch by __combining vectors with the same number of element__.
+The `whr` and `whr2015` objects are both data frames. You can also construct a new data frame from scratch by __combining vectors with the same number of elements__.
 
 #### Now, type the following code to create a new data frame
 
@@ -715,9 +735,9 @@ df1
 
 ---
 
-# R objects
+# R objects - Data frames
 
-## Data Frames
+## Data frames
 
 Since a data frame has two dimensions, you can use indices for both. The first index indicates the row selection and the second indicates the column.
 
@@ -727,7 +747,7 @@ Since a data frame has two dimensions, you can use indices for both. The first i
 # The first column of whr
 whr[,1]
 
-# The 45th line of whr
+# The 45th row of whr
 whr[45,]
 
 # Or the 45th element of the first column
@@ -736,9 +756,9 @@ whr[45,1]
 
 ---
 
-# R objects
+# R objects - Data frames
 
-## Data Frames
+## Data frames
 
 Alternatively, you can use the column names for indexing, which is the same as using the `$` sign.
 
@@ -755,7 +775,7 @@ whr[22,"country"] # The same as whr$country[22]
 
 ---
 
-# R objects
+# R objects - Lists
 
 ## Lists
 
@@ -775,7 +795,7 @@ Print the list yourself to see how it looks like.
 
 ---
 
-# R objects
+# R objects - Lists
 
 ## Lists
 
@@ -915,7 +935,7 @@ Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as
 
 In `whr`, we can see that `country` and `region` are factor variables. In your environment panel you can see the information about the types of every variable in the `whr` dataframe, and for factors you can see the number of levels (unique values).
 
-&lt;img height=55% width=55% src="img/environment_factors.png" /&gt;
+&lt;img height=55% width=55% src="img/environment_factors_2020.png" /&gt;
 
 ---
 
@@ -940,7 +960,7 @@ Unlike Stata, in R:
 Boolean data is the result of logical conditions. It can take two possible values: `TRUE` or `FALSE`.
 
 * Whenever you're using an `if` statement in Stata, you're implicitly using boolean data. 
-* The difference is that in R, this can be done in 2 steps.
+* One difference is that in R, this can be done in 2 steps.
 * Another difference is that in R you can assign a boolean value to an object:
 
 
@@ -953,7 +973,7 @@ boolean_false &lt;- FALSE
 
 ```r
 # Printing the objects:
-print(boolean_true)
+boolean_true
 ```
 
 ```
@@ -961,7 +981,7 @@ print(boolean_true)
 ```
 
 ```r
-print(boolean_false)
+boolean_false
 ```
 
 ```
@@ -998,14 +1018,14 @@ head(bool_vec)
 Now let's use the boolean vector created to add a dummy variable in the `whr` data set for the same condition.
 
 ### Exercise 7:
- 1. Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
+ * Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
 
 ```r
 whr$rank_low &lt;- 0
 ```
 
- 2. Use `bool_vec` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
+ * Now use `bool_vec` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
 
 
 ```r
@@ -1244,7 +1264,8 @@ num &lt;- 12.99
 
 # Appendix - Numbers and integers
 
-Now we can see the objects classes with the *class()* function and test it with the *is.integer()* and *is.numeric()* functions.
+Now we can see the objects classes with the `class()` function and test it with the `is.integer()` and `is.numeric()` functions.
+
 
 ```r
 # you can see the number's format using the class function:
@@ -1289,7 +1310,8 @@ Did you notice anything strange? That happens because the default way R stores n
 
 We can, however, coerce objects into different classes. We just need to be careful because the result might not be what we're expecting.
 
-#### Use the *as.integer()* and *round()* functions on the *num* object to see the difference:
+#### Use the `as.integer()` and `round()` functions on the `num` object to see the difference:
+
 
 ```r
 as.integer(num)

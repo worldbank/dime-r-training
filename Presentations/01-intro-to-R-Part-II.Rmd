@@ -1,5 +1,5 @@
 ---
-title: "Introduction to R II"
+title: "Introduction II - R programming"
 subtitle: "R for Advanced Stata Users"
 author: "DIME Analytics"
 date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2020"
@@ -123,6 +123,8 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 # Sessions format
 
+## Format
+
 - The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a private message whenever you need help
 
 - Otherwise, if you have a __general question__ feel free to unmute yourself or use the chat to ask it
@@ -131,7 +133,7 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 - If your connection is good enough, please leave your video on
 
-- The materials of each session will be shared in the OSF page on the course after the end of each session
+- The materials of each session will be shared in the OSF page on the course after the end of each session: https://osf.io/b7hm6/
 
 ---
 
@@ -146,7 +148,7 @@ name: introduction
 
 # Introduction
 
-## Why are we here today?
+## What is this session about?
 
 * In the last session, you learned the basic concepts to work in R
 
@@ -158,7 +160,7 @@ name: introduction
 
 # Introduction
 
-## Why are we here today?
+## What is this session about?
 
 * In this session, we will cover common coding practices in R so that you can make __the most efficient use__ for it
 
@@ -179,11 +181,13 @@ name: initial-settings
 
 # Initial settings
 
-* Ok, let's start by opening RStudio, or by reopening it if you had it opened already
+* Let's start by opening RStudio, or by reopening it if you had it opened already
 
 * What do you see in your environment?
 
-* If you saved the last RStudio session in `.Rhistory` (and that is the default), the objects that were in RStudio's memory last time you closed it will still be there whenever you open it again
+* If you saved the objects from the last session in `.RData`, the objects that were in RStudio's memory last time you closed it will still be there whenever you open it again
+
+* You can also go to the `Console` panel and use the up and down keys to navigate through the commands you executed in previous sessions. They are saved by default in `.Rhistory`
 
 ---
 
@@ -199,9 +203,11 @@ knitr::include_graphics("img/stataheader.jpg")
 
 # Initial settings
 
-* We __don't need to set the memory or the maximum number of variables in R__, and the equivalent of `set more off` is the default in R
+* We __don't need to set the memory or the maximum number of variables__ in R
 
-* You can see all the objects currently in you memory in the *Environment* pane
+* The equivalent of `set more off` is the default
+
+* You can see all the objects in your memory t any point in the `Environment` pane
 
 ---
 
@@ -215,9 +221,10 @@ knitr::include_graphics("img/stataheader.jpg")
 
 * Type `rm(foo)` to remove the `foo` object from you memory
 
-* Type `ls()` to print the names of the object in memory
+* Type `ls()` to print the names of all the object in memory
 
 * To remove all objects, use `rm(list=ls())`
+  + This is similar to using `clear all` in Stata
 
 ---
 
@@ -231,7 +238,19 @@ knitr::include_graphics("img/rm.png")
 
 # Initial settings
 
+You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if set global options correctly in RStudio.
+
 ## Exercise 2: To make sure that no one will burn your computer, here's how you change these settings:
+
+1. Go to `Tools > Global options...`
+
+2. Make sure the following options are checked:
+
+  + Re-use idle sessions for project links *(Note: this is only relevant for Windows)*
+  + Restore most recently opened project at startup
+  + Restore previously open source documents at startup
+  + Restore `.RData` into workspace at startup
+  + Always save history (even when not saving `.RData`)
 
 ---
 
@@ -276,7 +295,12 @@ name: file-paths
 
 * You can find resources about it in the appendix, and we have shared with you a folder that is organized as we want it to be.
 
-* To follow today's session, go to the `DataWork/Code` folder and open the file called `Lab 2 - Intro II.R`.
+* For today's session:
+  + Go to the OSF repository of this course (https://osf.io/b7hm6/)
+  + On the `Files` panel, select `OSF Storage (United States)`
+  + You'll notice that a button with the text `Download as zip` will appear next to `Filter`
+  + Download and unzip the materials in a location you can remember
+  + Then go to the `DataWork/Code` folder and open the file `Lab 2 - Intro II.R`
 
 * We will use this script as a basis for the exercises, and you should modify it during this session to complete them.
 
@@ -293,7 +317,13 @@ name: file-paths
 * Note, however, that in R we can only use forward slashes (`/`) to separate folder names
 
 ### Exercise 3: File path to your folder
-Let's start by adding the folder path to the training's folder in your computer to the beginning of `PART 2`
+Let's start by adding the folder path to the training's folder in your computer to the `projectFolder` object at the beginning of `PART 2`
+
+```{r, eval=F}
+# Add your folder path here
+# Remember to replace backslashes ("\") with regular ones ("/")
+projectFolder <- "YOUR/FOLDER/PATH/HERE"
+```
 
 ---
 
@@ -337,6 +367,7 @@ read.csv(file, header = FALSE, stringsAsFactors = FALSE)
 ```
 
 * __file__: is the path (string) to the file you want to open, including its name and format (`.csv`).
+  + Example: `whr_panel.csv`
 
 * __header__: if `TRUE`, will read the first row as variable names (default is `header = FALSE`).
 
@@ -362,11 +393,12 @@ read.csv(file, header = FALSE, stringsAsFactors = FALSE)
 
 ### Exercise 4: Test file paths
 
-1. Save your code.
+1. Save your script.
 
 2. Start a new R session: go to `Session > New Session`. This session should be completely blank.
 
 3. Open the code you just saved.
+  + Go to `File > Open File...` and select your script
 
 4. Add a line opening the data set in your code
 ```{r, eval = F}
@@ -401,7 +433,7 @@ Some useful functions:
 
 * **`names()`:** returns the variable names of a data set
 
-* **`str()`:** general information on an R object
+* **`str()`:** general information about the structure of an R object
 
 * **`summary()`:** summary information about the variables in a data frame
 
@@ -461,7 +493,7 @@ head(whr)
 
 ---
 
-# Exploring a data set
+# Exploring a dataset
 
 Didn't get all of those? 
 
@@ -486,7 +518,7 @@ name: commenting
 
 * In Stata, you can use `/*` and `*/` to comment part of a line's code. That is not possible in R: whatever comes after `#` will be a comment
 
-* To comment a selection of lines, press `Ctrl + Shift + C`
+* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
 
 ---
 
@@ -497,6 +529,7 @@ name: commenting
 1. Go the `Lab 2 - Intro II.R` script. Select the lines under `PART 2: Set folder paths`.
 
 2. Use the keyboard shortcut to comment these lines.
+  + Shortcut: `Ctrl` + `Shift` + `C`
 
 3. Use the keyboard shortcut to comment these lines again. What happened?
 
@@ -515,7 +548,7 @@ name: creating-a-document-outline-in-rstudio
 
 * RStudio also allows you to __create an interactive index__ for your scripts
 
-* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes, pound signs or equal signs after it
+* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
 
 ---
 
@@ -524,6 +557,7 @@ name: creating-a-document-outline-in-rstudio
 ### Exercise 7: Headers
 
 1. Open the script index and make `PART 1` a section header. Do the same for parts 2 and 3.
+  + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
 
 2. Note that once you create a section header, an arrow appears right next to it. Click on the arrows of parts 2 and 3 to see what happens.
 
@@ -547,6 +581,8 @@ name: using-packages
 
 # Using packages
 
+## Packages
+
 * Since there is a lot of people developing for R, it can have many different functionalities.
 
 * To make it simpler, these functionalities are bundled into packages.
@@ -557,6 +593,8 @@ name: using-packages
 
 # Using packages
 
+## Packages
+
 * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
 
 * They can be shared through R's official repository - CRAN (13,000+ packages reviewed and tested).
@@ -566,6 +604,8 @@ name: using-packages
 ---
 
 # Using packages
+
+## Packages
 
 * To install and use packages you can either do it with the user interface or by the command prompt.
 ```{r, eval = F}
@@ -731,9 +771,9 @@ name: looping
 
 * One thing that usually gives people away as Stata users writing R code are loops
 
-* In Stata, we use for loops quite a lot
+* In Stata, we use `for` loops quite a lot
 
-* The equivalent to that in R would be to write a for loop like this
+* The equivalent to that in R would be to write a `for` loop like this
 
 ```{r, eval = F}
     # A for loop in R
@@ -757,7 +797,7 @@ name: looping
 
 # Looping
 
-* R, however, has a whole function family that allows users to loop through an object _in a more efficient way__, without using explicit loops
+* R, however, has a whole function family that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
 * They're called `apply` and there are many of them, with different use cases
 
@@ -775,7 +815,7 @@ name: looping
 
 * **FUN:** the function you want to apply
 
-* **...:** possible function options
+* **...:** possible function arguments
 
 ---
 
@@ -805,7 +845,7 @@ A more general version is the `apply` function.
 
 * **FUN:** the function you want to apply
 
-* **... :** possible function options
+* **... :** possible function arguments
 
 ---
 
@@ -875,6 +915,23 @@ name: custom-functions
 ### Exercise 9: Create a function 
 
 1. Create a function that calculates the z-score of a vector.
+  
+  + Recall the outline of functions in R:
+  
+```{r eval=F}
+function_name <- function(input) {
+  
+  output <- operation(input)
+  
+  return(output)
+
+}
+```
+
+  + Hints:
+    * The command to obtain the mean of a vector is `mean(x)`
+    * The command to get the SD of a vector is `sd(x)`
+    * R is vectorized: you can operate vectors and number directly and the result will be a vector
 
 ---
 
@@ -1184,7 +1241,7 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 
 ## Resources
 
-* A discussion of folder strucutre and data managament can be found here: https://dimewiki.worldbank.org/wiki/DataWork_Folder
+* A discussion of folder structure and data managament can be found here: https://dimewiki.worldbank.org/wiki/DataWork_Folder
 
 * For a broader discussion of data management, go to https://dimewiki.worldbank.org/wiki/Data_Management
 
