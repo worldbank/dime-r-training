@@ -17,17 +17,17 @@
 #                                                   Last modified in November 2020
 
 
-# PART 1: Load packages   
+# PART 1: Load packages
 
   
-# PART 2: Set folder folder paths 
+# PART 2: Set folder folder paths
 
   #-------------#
   # Root folder #
   #-------------#
 
-  # Add your username and folder path here
-  # Remember to change backslashes ("\") for regular ones ("/")
+  # Add your folder path here
+  # Remember to replace backslashes ("\") with regular ones ("/")
   projectFolder  <- "YOUR/FOLDER/PATH/HERE"
 
   #--------------------#
@@ -48,4 +48,4 @@
 
  
 # PART 3: Load data
-  
+
