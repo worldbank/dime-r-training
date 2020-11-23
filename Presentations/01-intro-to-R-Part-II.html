@@ -87,6 +87,34 @@ top:1em;right:1em;
 
 ---
 
+# Sessions format
+
+## Format
+
+- These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
+
+- The sessions include exercises where we give 1-2 minutes to solve them. Then, the presenter will call names to discuss what you did and which issues you encountered
+
+  + If you prefer not to be called or have connectivity issues which prevent participation, please let us know by sending a private message to one of our TAs
+
+- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez Ramirez__
+
+---
+
+# Sessions format
+
+- The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a private message whenever you need help
+
+- Otherwise, if you have a __general question__ feel free to unmute yourself or use the chat to ask it
+
+- Please mute your microphone the rest of the time
+
+- If your connection is good enough, please leave your video on
+
+- The materials of each session will be shared in the OSF page on the course after the end of each session
+
+---
+
 class: inverse, center, middle
 name: introduction
 
@@ -977,29 +1005,14 @@ name: indentation
 
 # Indentation
 
-## Why indent?
-
 
 ```r
 # Here's some code
 annualHappy_reg &lt;- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-plot &lt;- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region,
-group = region)) + geom_line() + geom_point()
+plot &lt;- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region))
++ geom_line() + geom_point()
 print(plot)
 ```
-
----
-# Indentation
-
-## Why indent?
-
-&lt;img src="01-intro-to-R-Part-II_files/figure-html/unnamed-chunk-31-1.png" width="60%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Indentation
-
-## Why indent?
 
 
 ```r
@@ -1025,9 +1038,7 @@ print(plot)
 
 # Indentation
 
-## Why indent?
-
-&lt;img src="01-intro-to-R-Part-II_files/figure-html/unnamed-chunk-33-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="01-intro-to-R-Part-II_files/figure-html/unnamed-chunk-32-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1042,6 +1053,8 @@ print(plot)
 ---
 
 # Indentation
+
+## Why indent?
 
 * Indentation in R looks different than in Stata:
 
