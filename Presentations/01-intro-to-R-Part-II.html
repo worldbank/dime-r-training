@@ -185,7 +185,7 @@ Raise your hand if you have ever seen these lines of code before:
 
 * The equivalent of `set more off` is the default
 
-* You can see all the objects in your memory t any point in the `Environment` pane
+* You can see all the objects in your memory at any point in the `Environment` pane
 
 ---
 
@@ -193,15 +193,15 @@ Raise your hand if you have ever seen these lines of code before:
 
 ## Exercise 1: Clear workspace
 
-* Make sure the `Environment` window is open. Is anything there?
+1. Make sure the `Environment` window is open. Is anything there?
 
-* Create an object called `foo` with any content you pick
+2. Create an object called `foo` with any content you pick
 
-* Type `rm(foo)` to remove the `foo` object from you memory
+3. Type `rm(foo)` to remove the `foo` object from you memory
 
-* Type `ls()` to print the names of all the object in memory
+4. Type `ls()` to print the names of all the object in memory
 
-* To remove all objects, use `rm(list=ls())`
+5. To remove all objects, use `rm(list=ls())`
   + This is similar to using `clear all` in Stata
 
 ---
@@ -259,7 +259,7 @@ name: file-paths
 
 # File paths
 
-* For the purpose of this training, we will assume that you are dealing with a specific folder structure.
+* For the purpose of this session, we will assume that you are dealing with a specific folder structure.
 
 * Folder organization, though an important part of data work, is outside the scope of this course.
 
@@ -267,8 +267,7 @@ name: file-paths
 
 * For today's session:
   + Go to the OSF repository of this course (https://osf.io/b7hm6/)
-  + On the `Files` panel, select `OSF Storage (United States)`
-  + You'll notice that a button with the text `Download as zip` will appear next to `Filter`
+  + Download the file `DataWork.zip`
   + Download and unzip the materials in a location you can remember
   + Then go to the `DataWork/Code` folder and open the file `Lab 2 - Intro II.R`
 
@@ -341,8 +340,8 @@ Use the `read.csv()` command:
 read.csv(file, header = FALSE, stringsAsFactors = FALSE)
 ```
 
-* __file__: is the path (string) to the file you want to open, including its name and format (`.csv`).
-  + Example: `whr_panel.csv`
+* __file__: is the path (string) to the file you want to open, including its path, name and file extension (`.csv`).
+  + Example: `/home/user/Data/whr_panel.csv`
 
 * __header__: if `TRUE`, will read the first row as variable names (default is `header = FALSE`).
 
@@ -422,7 +421,23 @@ Some useful functions:
 
 ### Exercise 5: Explore a dataset
 
-Use some of the functions listed above to explore the `whr` data set.
+Use some of these functions to explore the `whr` data set.
+
+* `View()`
+
+* `class()`
+
+* `dim()`
+
+* `names()`
+
+* `str()`
+
+* `summary()`
+
+* `head()`
+
+* `tail()`
 
 ---
 
@@ -868,7 +883,7 @@ name: looping
 
 #### `sapply(X, FUN, ...)`: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are:
 
-* **X:** a data frame (or matrix) the function will be applied to
+* **X:** a data frame, matrix or vector the function will be applied to
 
 * **FUN:** the function you want to apply
 
@@ -1168,6 +1183,18 @@ class: inverse, center, middle
 name: appendix
 
 # Appendix
+
+---
+
+# Appendix - Initial settings
+
+## `.Rhistory` and `.RData`
+
+* `.Rhistory` automatically stores the commands entered in the console
+
+* `.RData` stores the objects in your environment only if you save your workspace, and loads them again in the next RStudio session
+
+* Both files are relative to the working directory where your RStudio session started
 
 ---
 
