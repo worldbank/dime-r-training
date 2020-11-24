@@ -583,7 +583,36 @@ whr15 %&gt;%
 
 # dplyr::filter missing cases
 
-If case you want to remove the missing cases for a specif variable, you can use `!is.na()`. Now we have a dataset that contains information per region and division without missing values.
+If case you want to remove (or identify) the missing cases for a specif variable, you can use `is.na()`. 
+
+* This function returns a value of true and false for each value in a data set.
+* If the value is NA the is.na() function return the value of true, otherwise, return to a value of false.
+* In this way, we can check NA values that can be used for other functions.
+* We can also negate the function using `!is.na()` which indicats that we want to return those observations with no missings values in a specif variable.
+
+The function syntax in a pipeline is as follows:
+
+
+```r
+DATA %&gt;% 
+  filter(
+    is.na(VAR)
+  )
+```
+
+--
+
+#### What are we returning here? 
+
+--
+
+The observations that have missing values for the variable VAR.
+
+---
+
+# dplyr::filter missing cases
+
+Let's try filtering the whr15 data. Let's keep those observations that have information per region, i.e., no missing values.
 
 
 ```r
@@ -606,7 +635,7 @@ whr15 %&gt;%
 ## #   dystopia_residual &lt;dbl&gt;
 ```
 
-&gt; Notice that we are negating a function, i.e., !
+&gt; Notice that we are negating the function, i.e., !
 &lt;br&gt; In case we want to keep the observations that contains missing information we will only use `is.na()`. 
 
 ---
