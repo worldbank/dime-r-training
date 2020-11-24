@@ -454,7 +454,7 @@ whr15 %>%
 
 --
 
-> Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east <- + the code above`. The arrow (<-) remembert that is a mix of < and -. The font we are using is called Fira Code which finds the two characters (a ligature). 
+> Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east <- + the code above`. Remember that the arrow sign (<-) is a mix of < and -. The font we are using in this presentation is called Fira Code, and it combines the two characters (a ligature). 
 
 ---
 
@@ -465,7 +465,7 @@ If case you want to remove (or identify) the missing cases for a specif variable
 * This function returns a value of true and false for each value in a data set.
 * If the value is NA the is.na() function return the value of true, otherwise, return to a value of false.
 * In this way, we can check NA values that can be used for other functions.
-* We can also negate the function using `!is.na()` which indicats that we want to return those observations with no missings values in a specif variable.
+* We can also negate the function using `!is.na()` which indicates that we want to return those observations with no missings values in a specif variable.
 
 The function syntax in a pipeline is as follows:
 
