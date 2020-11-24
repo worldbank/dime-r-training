@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 # Session 3: Data Processing
 ## R for Stata Users
 ### Rony Rodrigo Maximiliano Rodriguez-Ramirez
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> 23 November 2020
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> 24 November 2020
 
 ---
 
@@ -144,11 +144,18 @@ Takeaway: long format &gt; wide format
 
 # Introduction
 
-- Before we start, let's make sure we are all set: 
+### Before we start, let's make sure we are all set: 
 
 1. Start a fresh RStudio session.
 2. Load the tidyverse package.
 3. Set your file paths.
+
+
+### Notes for this session
+
+* Most of our exercises for today focus on the tidyverse. 
+* The setup is a bit different than yesterday. 
+* Since we are "exploring" our data, we something don't need to assign everything to an object. 
 
 ---
 
@@ -583,12 +590,12 @@ whr15 %&gt;%
 
 # dplyr::filter missing cases
 
-If case you want to remove (or identify) the missing cases for a specif variable, you can use `is.na()`. 
+If case you want to remove (or identify) the missing cases for a specific variable, you can use `is.na()`. 
 
 * This function returns a value of true and false for each value in a data set.
 * If the value is NA the is.na() function return the value of true, otherwise, return to a value of false.
 * In this way, we can check NA values that can be used for other functions.
-* We can also negate the function using `!is.na()` which indicats that we want to return those observations with no missings values in a specif variable.
+* We can also negate the function using `!is.na()` which indicates that we want to return those observations with no missings values in a specif variable.
 
 The function syntax in a pipeline is as follows:
 
