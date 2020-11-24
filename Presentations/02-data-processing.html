@@ -144,28 +144,23 @@ Takeaway: long format &gt; wide format
 
 # Introduction
 
-- Before we start, let's makue sure we are all set: 
+- Before we start, let's make sure we are all set: 
 
-1. Start a fresh session.
+1. Start a fresh RStudio session.
 2. Load the tidyverse package.
 3. Set your file paths.
 
 ---
 
-# Tidyverse packages
+# Let's load the tidyverse meta-package:
 
-Let's load the tidyverse meta-package:
 
 ```r
 # If you haven't installed the package uncomment the next line
 # install.package("tidyverse", dependencies = TRUE)
+# install.package("janitor")
 
-# Load packages
 library(tidyverse)
-```
-
-```
-## Warning: package 'tidyverse' was built under R version 4.0.3
 ```
 
 ```
@@ -180,49 +175,14 @@ library(tidyverse)
 ```
 
 ```
-## Warning: package 'ggplot2' was built under R version 4.0.3
-```
-
-```
-## Warning: package 'tibble' was built under R version 4.0.3
-```
-
-```
-## Warning: package 'tidyr' was built under R version 4.0.3
-```
-
-```
-## Warning: package 'readr' was built under R version 4.0.3
-```
-
-```
-## Warning: package 'purrr' was built under R version 4.0.3
-```
-
-```
-## Warning: package 'dplyr' was built under R version 4.0.3
-```
-
-```
-## Warning: package 'stringr' was built under R version 4.0.3
-```
-
-```
-## Warning: package 'forcats' was built under R version 4.0.3
-```
-
-```
 ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
 
+
 ```r
 library(janitor)
-```
-
-```
-## Warning: package 'janitor' was built under R version 4.0.3
 ```
 
 ```
@@ -244,9 +204,11 @@ library(janitor)
 
 For this session, my file paths are as follows. We will use them to load and export datasets.
 
+
 ```r
 # Example of my filepaths for this presentation
 project           &lt;- "D:/Documents/RA Jobs/DIME/trainings/dime-r-training"
+
 dataWorkFolder    &lt;- file.path(projectFolder,"DataWork")
 Data              &lt;- file.path(dataWorkFolder,"DataSets")
 finalData         &lt;- file.path(Data,"Final")
@@ -254,34 +216,8 @@ rawData           &lt;- file.path(Data,"Raw")
 rawOutput         &lt;- file.path(dataWorkFolder,"Output","Raw")
 ```
 
----
+If you saved the changes you made to the code during the Intro II session, you can simply run that script.
 
-# Just in case: Check your R and RStudio versions
-
-☑ R version:
-
-```r
-version$version.string
-```
-
-```
-## [1] "R version 4.0.2 (2020-06-22)"
-```
-
-
-☑ RStudio version:
-
-```r
-# Use the following function to get the version: RStudio.Version()$version
-# [1] ‘1.3.1073’
-```
-
-☑ Packages:
-
-```r
-update.packages(ask = FALSE, checkBuilt = TRUE)
-```
-  
 ---
 
 # Loading a dataset in R
@@ -289,11 +225,11 @@ update.packages(ask = FALSE, checkBuilt = TRUE)
 Before we start wrangling our data, let's read ourdataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to use the World Happiness Report (2015-2018)
 
 
-### Exercise 1: Load Data.
+### Exercise 1: Load Data. This is a recap from yesterday's session.
 
 Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw` folder. Use the following notation for each dataset: `whrYY`. 
 
-* Remember to sue `file.path()` to simplify the folder path. 
+* Remember to use `file.path()` to simplify the folder path. 
 
 --
 
@@ -306,12 +242,21 @@ whr16 &lt;- read_csv(file.path(rawData, "Un WHR" , "WHR2016.csv")) %&gt;% clean_
 whr17 &lt;- read_csv(file.path(rawData, "Un WHR" , "WHR2017.csv")) %&gt;% clean_names()
 ```
 
-&gt; Notice the `clean_names()` function. 
+&gt; Notice the `clean_names()` function. More on this in the next slide.
 
 ---
+
+# The clean_names() function
+
+The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called GDP_per_CApita_2015, the `clean_names()` function will help us fix those messy names. 
+
+&gt; **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide.
+
+---
+
 # Load and show a dataset
 
-We can just show our dataset using the name of the object; in this case, `census`. 
+We can just show our dataset using the name of the object; in this case, `whr15`. 
 
 
 ```r
@@ -364,6 +309,18 @@ Some useful functions from base R:
 Some other useful functions from the tidyverse:
 
 * `glimpse()`: get a glimpse of your data
+
+---
+
+# Before we explore our data
+
+For this session, we are going to use pipes %&gt;% quite a lot. 
+
+* "Piping" in R can be seen as "chaining." 
+* This means that we are invoking multiple method calls. 
+* Every time you have invoked a method (a function) this return an object that then is going to be used in the following pipe, and this continues *forever*~~~~
+
+&gt; **Be careful with that forever!!!**
 
 ---
 
@@ -430,14 +387,6 @@ dim(whr15)
 ## [1] 158  12
 ```
 
-```r
-dim_desc(whr15)
-```
-
-```
-## [1] "[158 x 12]"
-```
-
 * **The number of distinct values of a particular variable**:
 
 
@@ -445,17 +394,28 @@ dim_desc(whr15)
 n_distinct(DATASET$variable, na.rm = TRUE)
 ```
 
+--
+
+#### Quick Note: 
+
+* Missings in R are treated differently than in Stata. They are represented by the NA symbol.
+* Impossible values are represented by the symbol NaN which means 'not a number.' 
+* R uses the same symbol for character and numeric data.
+* NA is not a string or a numeric value, but an indicator of missingness.
+* NAs are contagious. This means that if you compare a number with NAs you will get NAs. 
+* Therefore, always remember the `na.rm = TRUE` argument if needed.
+
 ---
 
 # ID variables
 
-In the last example, we used `n_distinct`. This allows us to count the number of unique values of a variablelength of a vector. We included `na.rm = TRUE`, so we don't count missing values.
+In the last example, we used `n_distinct`. This allows us to count the number of unique values of a variable length of a vector. We included `na.rm = TRUE`, so we don't count missing values.
 
 --
 
 ### Exercise 2: Identify the ID.
 
-Using the `n_distinct` function, can you tell if the following variables are IDs of the whr15 data set?
+Using the `n_distinct` function, can you tell if the following variables are IDs of the whr15 data set? Is any of these variables an ID variable?
 
 1. Region
 2. Country
@@ -497,6 +457,9 @@ nrow(whr15)
 ## [1] 158
 ```
 
+--
+
+
 ```r
 n_distinct(whr15$country, na.rm = TRUE) == nrow(whr15)
 ```
@@ -523,85 +486,6 @@ n_distinct(whr17$country, na.rm = TRUE) == nrow(whr17)
 
 ---
 
-# Comparing two dataframes
-
-**setdiff()**: Prints all the elements of the first object that are not in the second object (ignores duplicates).
-
-We can use this function to see which countries are coming in and out of the WHR dataset set between 2015 and 2016. This function takes two arguments `setdiff(df1, df2)`: 
-
-
----
-
-# Comparing two dataframes
-
-### Exercise 3: Compare vectors.
-
-Use the setdiff() function to see which countries are coming in and out of the WHR data set between 2015 and 2016
-
---
-
-### How to do it
-
-
-```r
-# Any countries in 2015 that are not in 2016?
-setdiff(whr15$country, whr16$country)
-```
-
-```
-## [1] "Oman"                     "Somaliland region"       
-## [3] "Mozambique"               "Lesotho"                 
-## [5] "Swaziland"                "Djibouti"                
-## [7] "Central African Republic"
-```
-
-```r
-# And vice-versa
-setdiff(whr16$country, whr15$country)
-```
-
-```
-## [1] "Puerto Rico"       "Belize"            "Somalia"          
-## [4] "Somaliland Region" "Namibia"           "South Sudan"
-```
-
----
-
-# Comparing two dataframes
-
-### Replacing values
-
-You might notice in the last slide, that *Somaliland region* and *Somaliland Region* are not considered the same. We can fix this as follows using base R:
-
-
-```r
-whr15$country[whr15$country == "Somaliland region"] &lt;- "Somaliland Region"
-```
-
-Now, if run again `setdiff` again, we get: 
-
-
-```r
-# Any countries in 2015 that are not in 2016?
-setdiff(whr15$country, whr16$country)
-```
-
-```
-## [1] "Oman"                     "Mozambique"              
-## [3] "Lesotho"                  "Swaziland"               
-## [5] "Djibouti"                 "Central African Republic"
-```
-
-```r
-# And vice-versa
-setdiff(whr16$country, whr15$country)
-```
-
-```
-## [1] "Puerto Rico" "Belize"      "Somalia"     "Namibia"     "South Sudan"
-```
-
----
 class: inverse, center, middle
 name: wrangling
 
@@ -642,12 +526,15 @@ whr15 %&gt;%
 
 # dplyr::filter
 
-### Exercise 4: Filter the dataset.
+### Exercise 3: Filter the dataset.
 
 * Use `filter()`
 * Filter only for the regions: (1) Eastern Asia and (2) North America.
 
+--
+
 This would be the normal way to do it: 
+
 
 ```r
 whr15 %&gt;% 
@@ -668,30 +555,29 @@ whr15 %&gt;%
 
 # dplyr::filter regular expressions
 
-One advantage of the filter command over Stata is that you can also integrate regular expressions in quite a better way. Let's say that we want to subset all regions' divisions that have `East` in their names. We can use the following: 
+One advantage of the filter command over Stata is that you can also integrate regular expressions in quite a better way. Let's say that we want to subset all regions' divisions that have `America` in their names. We can use the following: 
 
 
 ```r
 whr15 %&gt;% 
   filter(grepl("America", region)) %&gt;% 
-  head(5)
+  head(2)
 ```
 
 ```
-## # A tibble: 5 x 12
+## # A tibble: 2 x 12
 ##   country region happiness_rank happiness_score standard_error economy_gdp_per~
 ##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
 ## 1 Canada  North~              5            7.43         0.0355            1.33 
 ## 2 Costa ~ Latin~             12            7.23         0.0445            0.956
-## 3 Mexico  Latin~             14            7.19         0.0418            1.02 
-## 4 United~ North~             15            7.12         0.0384            1.39 
-## 5 Brazil  Latin~             16            6.98         0.0408            0.981
 ## # ... with 6 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
 ## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
 ## #   dystopia_residual &lt;dbl&gt;
 ```
 
-&gt; Notice that I have used `head()` to show just the first 8 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east &lt;- + the code above`. 
+--
+
+&gt; Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east &lt;- + the code above`. The arrow (&lt;-) remembert that is a mix of &lt; and -. The font we are using is called Fira Code which finds the two characters (a ligature). 
 
 ---
 
@@ -919,7 +805,7 @@ whr15 %&gt;%
 
 # Using ifelse when creating a variable
 
-We can also create a dummy variable with `ifelse` as follows: 
+We can also create a dummy variable with the `ifelse()` function. The way we use this function is as: `ifelse(test, yes, no)`. We can also use another function called `case_when()`.
 
 
 ```r
@@ -945,8 +831,6 @@ whr15 %&gt;%
 ## #   dystopia_residual &lt;dbl&gt;, latin_america_car &lt;dbl&gt;
 ```
 
-The way we use this function is as: `ifelse(test, yes, no)`. We can also use the `case_when()` function.
-
 ---
 
 # Some notes: mutate() vs transmute()
@@ -963,37 +847,34 @@ Similar in nature but:
 
 # Creating variables by groups
 
-Let's imagine now that we want to create a variable at the region level -- recal `bys gen` in Stata. In R, we can `group_by()` before we mutate. For example: 
+Let's imagine now that we want to create a variable at the region level -- recal `bys gen` in Stata.In R, we can use `group_by()` before we mutate. So for this example, we going to combine the chain the following functions. 
+
+1. Group our data by the region variable.
+2. Create a variable that would be the mean of happiness_score by each region.
+3. Select the variables `country, region, happiness_score, mean_hap`. 
+
+--
 
 
 ```r
 whr15 %&gt;% 
-  arrange(country, region, happiness_score) %&gt;% 
   group_by(region) %&gt;%
   mutate(
     mean_hap = mean(happiness_score)
   ) %&gt;% 
-  select(country:happiness_score, mean_hap) %&gt;% 
-  head(5)
-```
-
-```
-## # A tibble: 5 x 5
-## # Groups:   region [5]
-##   country     region                     happiness_rank happiness_score mean_hap
-##   &lt;chr&gt;       &lt;chr&gt;                               &lt;dbl&gt;           &lt;dbl&gt;    &lt;dbl&gt;
-## 1 Afghanistan Southern Asia                         153            3.58     4.58
-## 2 Albania     Central and Eastern Europe             95            4.96     5.33
-## 3 Algeria     Middle East and Northern ~             68            5.60     5.41
-## 4 Angola      Sub-Saharan Africa                    137            4.03     4.20
-## 5 Argentina   Latin America and Caribbe~             30            6.57     6.14
+  select(country, region, happiness_score, mean_hap) 
 ```
 
 ---
 
-# Creating multiple variables at the same type
+# Creating multiple variables at the same time
 
-With the new version of `dplyr`, we now can create multiple variables in an easier way. So, let's imagine that we want to estimate the mean value for the variables: white, black, black_free, black_slaves.
+With the new version of `dplyr`, we now can create multiple variables in an easier way. So, let's imagine that we want to estimate the mean value for the variables: happiness_score, health_life_expectancy, and trust_government_corruption.
+
+#### How we can do it? 
+
+* In R we can use the new function `across()`. It behaves this way: `across(VARS that you want to transform, function to execute)`. 
+* `across()` should be always use inside `summarise()` or `mutate()`.
 
 .panelset[
 .panel[.panel-name[Across]
@@ -1019,19 +900,12 @@ whr15 %&gt;%
 ```
 
 ```
-## # A tibble: 10 x 4
-##    region              happiness_score health_life_expect~ trust_government_cor~
-##    &lt;chr&gt;                         &lt;dbl&gt;               &lt;dbl&gt;                 &lt;dbl&gt;
-##  1 Australia and New ~            7.28               0.920                0.393 
-##  2 Central and Easter~            5.33               0.719                0.0867
-##  3 Eastern Asia                   5.63               0.877                0.128 
-##  4 Latin America and ~            6.14               0.704                0.117 
-##  5 Middle East and No~            5.41               0.706                0.182 
-##  6 North America                  7.27               0.884                0.244 
-##  7 Southeastern Asia              5.32               0.677                0.151 
-##  8 Southern Asia                  4.58               0.541                0.103 
-##  9 Sub-Saharan Africa             4.20               0.282                0.124 
-## 10 Western Europe                 6.69               0.909                0.231
+## # A tibble: 3 x 4
+##   region             happiness_score health_life_expecta~ trust_government_corr~
+##   &lt;chr&gt;                        &lt;dbl&gt;                &lt;dbl&gt;                  &lt;dbl&gt;
+## 1 Australia and New~            7.28                0.920                 0.393 
+## 2 Central and Easte~            5.33                0.719                 0.0867
+## 3 Eastern Asia                  5.63                0.877                 0.128
 ```
 ]
 ]
@@ -1080,7 +954,7 @@ name: bind
 
 # Appending and merging data sets
 
-Now that we can identify the observations, we can combine the data set. Here are tweo functions to append objects by row
+Now that we can identify the observations, we can combine the data set. Here are two functions to append objects by row
 
 
 ```r
@@ -1093,6 +967,8 @@ bind_rows(...)
 
 * Use either functions to append the three WHR datasets:
 
+--
+
 ### How to do it?
 
 
@@ -1102,7 +978,11 @@ bind_rows(whr15, whr16, whr17)
 
 --
 
-&gt; _**Notes**_: One of the problems with binding rows like this is that, sometimes, columns compatibility is quite junky.
+### What problems do you think we can have with these approach?
+
+--
+
+* One of the problems with binding rows like this is that, sometimes, columns compatibility is quite junky.
 
 ---
 
@@ -1115,21 +995,22 @@ To be honest, the most important variable that we will need to include in the 20
 
 #### Exercise 7a: 
 
-* Create a region data frame from the `whr2015` that includes only the vars: country and region.
+* Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR`
 
 --
 
 
 ```r
-regions &lt;- whr15 %&gt;% 
-  select(country, region)
+regions &lt;- readRDS(file.path(Data, "Raw", "Un WHR", "regions.RDS"))
 ```
 
 ---
 
 # Appending and merging data sets
 
-We can use the `left_join()` function merge two dataframes. We could either use pipes or just `left_join(df1, df2)`.
+We can use the `left_join()` function merge two dataframes. The function syntax is: `left_join(a_df, another_df, by = c("id_col1"))`. 
+
+&gt; A left join takes all the values from the first table, and looks for matches in the second table. If it finds a match, it adds the data from the second table; if not, it adds missing values. 
 
 --
 
@@ -1142,78 +1023,11 @@ We can use the `left_join()` function merge two dataframes. We could either use 
 
 ```r
 whr17 &lt;- whr17 %&gt;% 
-  left_join(regions) %&gt;% 
+  left_join(regions, by = "country") %&gt;% 
   select(country, region, everything()) 
 ```
 
-```
-## Joining, by = "country"
-```
-
-&gt; _**Notes**_: Look at the everything() function. It takes all the variables. 
-
----
-
-# Appending and merging data sets
-
-But unfortunately, some countries were not in the whr15 data. 
-
-
-```r
-whr17 %&gt;% 
-  filter(is.na(region))
-```
-
-```
-## # A tibble: 6 x 14
-##   country region happiness_rank happiness_score whisker_high whisker_low
-##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
-## 1 Taiwan~ &lt;NA&gt;               33            6.42         6.49        6.35
-## 2 Belize  &lt;NA&gt;               50            5.96         6.20        5.71
-## 3 Hong K~ &lt;NA&gt;               71            5.47         5.55        5.39
-## 4 Somalia &lt;NA&gt;               93            5.15         5.24        5.06
-## 5 Namibia &lt;NA&gt;              111            4.57         4.77        4.38
-## 6 South ~ &lt;NA&gt;              147            3.59         3.73        3.46
-## # ... with 8 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
-## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;, generosity &lt;dbl&gt;,
-## #   trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
-```
-
----
-
-# Appending and merging data sets
-
-Let's fix these six countries. 
-
---
-
-* Taiwan and Hong Kong have different names. Let's use `case_when`:
-
-
-```r
-whr17 &lt;- whr17 %&gt;% 
-  mutate(
-    country = case_when(country == "Hong Kong S.A.R., China" ~ "Hong Kong", 
-                        country == "Taiwan Province of China" ~ "Taiwan", 
-                        TRUE ~ country)
-  )
-```
-
---
-
-* Now, let's joing again the regions dataframe.
-
-
-```r
-whr17 &lt;- whr17 %&gt;% 
-  select(-region) %&gt;% 
-  left_join(regions) %&gt;% 
-  select(country, region, everything()) 
-```
-
-```
-## Joining, by = "country"
-```
+&gt; _**Notes**_: Look at the everything() function. It takes all the variables from the dataframe and put them after country and region. In this way, select can be use to **order** columns! 
 
 ---
 
@@ -1225,6 +1039,7 @@ Check if there is any other country without region info:
 
 * Only use pipes %&gt;%
 * And `filter()`
+* Do not assign it to an object.
 
 --
 
@@ -1235,13 +1050,11 @@ whr17 %&gt;%
 ```
 
 ```
-## # A tibble: 4 x 14
+## # A tibble: 2 x 14
 ##   country region happiness_rank happiness_score whisker_high whisker_low
 ##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
-## 1 Belize  &lt;NA&gt;               50            5.96         6.20        5.71
-## 2 Somalia &lt;NA&gt;               93            5.15         5.24        5.06
-## 3 Namibia &lt;NA&gt;              111            4.57         4.77        4.38
-## 4 South ~ &lt;NA&gt;              147            3.59         3.73        3.46
+## 1 Taiwan~ &lt;NA&gt;               33            6.42         6.49        6.35
+## 2 Hong K~ &lt;NA&gt;               71            5.47         5.55        5.39
 ## # ... with 8 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
 ## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;, generosity &lt;dbl&gt;,
 ## #   trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
@@ -1249,65 +1062,32 @@ whr17 %&gt;%
 
 ---
 
-# Appending and merging data sets
+# So we ended up with two countries with NAs
 
-We can get their info from the `whr16` dataset as follows
+This is due to the name of the countries. The regions dataset doesn't have "Taiwan Province of China" nor "Hong Kong S.A.R., China" but "Taiwan" and "Hong Kong."
 
-
-```r
-whr17 &lt;- whr17 %&gt;% 
-  left_join(
-    whr16 %&gt;%
-      select(country, new_region = region), 
-    by = "country"
-  ) %&gt;% 
-  mutate(
-    region = ifelse(is.na(region), as.character(new_region), region)
-  ) %&gt;% 
-  select(-new_region)
-```
+#### How do you think we should solve this? 
 
 --
 
-Let's look at each of the parts of this pipe: 
+* My approach would be to: 
 
-* `left_join()` and region is now called `new_region`.
-* `mutate()` with the condition that if region is missing we assign the values from new region, if not we keep the og values.
-* `select()` to eliminate new_region.
+1. fix the names of these countries in the whr17 dataset and; 
+2. merge (left_join) it with the regions dataset.
+
 
 ---
 
 # Appending and merging data sets
 
-Any other country that still doesn't have region information? 
-
---
-
-
-```r
-whr17 %&gt;% 
-  filter(is.na(region))
-```
-
-```
-## # A tibble: 0 x 14
-## # ... with 14 variables: country &lt;chr&gt;, region &lt;chr&gt;, happiness_rank &lt;dbl&gt;,
-## #   happiness_score &lt;dbl&gt;, whisker_high &lt;dbl&gt;, whisker_low &lt;dbl&gt;,
-## #   economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
-## #   freedom &lt;dbl&gt;, generosity &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;,
-## #   dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
-```
-  
----
-
-# Appending and merging data sets
-
-Finally, let's keep those relevant variables first and bind those baby rows. 
+Finally, let's keep those relevant variables first and bind those rows. 
 
 ### Exercise 8: Bind all rows and create a panel called: `whr_panel`. 
 
 * Use `rbind()`
 * Select the variables: country, region, year, happiness_rank, happiness_score, economy_gdp_per_capita, health_life_expectancy, freedom for each df, i.e., 15,16,16.
+
+--
 
 
 ```r
@@ -1473,8 +1253,7 @@ name: reshaping
 
 # Reshaping a dataset
 
-Finally, let's try to reshape our dataset using the tidyverse functions. No more `reshape` from Stata. We can use `pivot_wider` or `pivot_longer`
-
+Finally, let's try to reshape our dataset using the tidyverse functions. No more `reshape` from Stata. We can use `pivot_wider` or `pivot_longer`. Let's assign our wide format panel to an object called whr_panel_wide. 
 
 .panelset[
 .panel[.panel-name[Long to Wide]
