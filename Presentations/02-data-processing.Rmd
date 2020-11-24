@@ -461,7 +461,7 @@ whr15 %>%
 
 --
 
-> Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east <- + the code above`. The arrow (<-) remembert that is a mix of < and -. The font we are using is called Fira Code which finds the two characters (a ligature). 
+> Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east <- + the code above`. Remember that the arrow sign (<-) is a mix of < and -. The font we are using in this presentation is called Fira Code, and it combines the two characters (a ligature). 
 
 ---
 
