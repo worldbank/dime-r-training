@@ -121,7 +121,7 @@ Similarly to previous sessions, you can find some references at the end of this 
 ### Before we start
 
 * Make sure the packages `ggplot2` and `plotly` are installed and loaded.
-* Load the `whr_panel.csv` data set.
+* Load the `whr_panel` data set.
 
 ```{r eval = FALSE}
 # Packages
@@ -133,14 +133,16 @@ library(plotly)
 
 FolderPath <- file.path("YOUR/FOLDER/PATH")
 
-whr_panel <- read.csv(file.path(FolderPath,"whr_panel.csv"),
-                header = T,
-                stringsAsFactors = F)
+dataWorkFolder    <- file.path(projectFolder,"DataWork")
+Data              <- file.path(dataWorkFolder,"DataSets")
+finalData         <- file.path(Data,"Final")
+
+whr_panel <- readRDS(file.path(finalData, "whr_panel.RDS"))
 
 ```
 
 ```{r echo = FALSE, include = FALSE}
-whr_panel <- read_csv(file.path(finalData, "whr_panel.csv"))
+whr_panel <- readRDS(file.path(finalData, "whr_panel.RDS"))
 
 ```
 
@@ -213,22 +215,14 @@ plot(whr_simp)
 
 ---
 
-# Base Plot: Histogram
-
-```{r, out.width = "70%"}
-hist(whr_simp$happiness_score, col = "green")
-```
-
----
-
 # The beauty of {ggplot2}
 
 ### Some advantages of `ggplot2`
 
 1. Consistency with the [**Grammar of Graphics**](https://www.springer.com/gp/book/9780387245447)
-  * This book is the foundation of several data viz applications: {ggplot2}, {polaris-tableau}, {vega-lite}.
+  * This book is the foundation of several data viz applications: {ggplot2}, {polaris-tableau}, {vega-lite}
 2. Flexibility
-3. Layering and theme customization (way better than Stata).
+3. Layering and theme customization
 4. Community
 
 It is a powerful and easy to use tool (once you understand its logic) that produces complex and multifaceted plots.
@@ -253,19 +247,16 @@ ggplot(data = <DATA>) +
   
 ```
 
---
-
-> There is an ongoing debate on how we should structure our ggplot. More about this later on.
-
-
 ---
 
 # {ggplot2}'s decomp
 
 .pull-left[
 
-.center[### I will stick to Thomas Lin Pedersen's decomposition who is one of most prominent developers of the ggplot and gganimate package.]
+.center[
 
+### There are multiple ways to structure plots in ggplot. For this presentation, I will stick to Thomas Lin Pedersen's decomposition who is one of most prominent developers of the ggplot and gganimate package
+]
 ]
 
 .pull-right[
@@ -494,6 +485,22 @@ ggplot(data = whr_panel,
 
 ```{r, out.width = "55%"}
 ggplot(data = whr_panel, 
+       aes(x = freedom, y = economy_gdp_per_capita, color = year)) +
+  geom_point()  
+```
+
+---
+
+# Exploratory Analysis
+
+### Exercise 3: Map colors per year for the freedom and gdp plot we did before.
+
+* **Keep in mind the type of the variable year**.
+
+--
+
+```{r, out.width = "55%"}
+ggplot(data = whr_panel, 
        aes(x = freedom, y = economy_gdp_per_capita, color = as.factor(year))) +
   geom_point()  
 ```
@@ -539,7 +546,7 @@ Now, let's try to modify our plots. In the following slides, we are going to:
 
 1. Pipe and mutate before plotting.
 
-1. Changing scales.
+1. Change scales.
 
 1. Modify our theme.
 
@@ -916,7 +923,8 @@ name: saving
 Remember that in R we can always assign our functions to an object. In this case, we can assign our {ggplot2} code to an object called fig as follows.
 
 ```{r, eval = FALSE}
-fig <- whr_panel %>% 
+fig <- 
+  whr_panel %>% 
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
   ) %>% 
