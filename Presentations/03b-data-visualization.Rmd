@@ -8,10 +8,10 @@ output:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
     lib_dir: libs
     nature:
+      countIncrementalSlides: FALSE
       ratio: "16:9"
       highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
+      highlightLines: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -92,7 +92,9 @@ xaringanExtra::use_logo(
 
 5. [Saving a plot](#saving)
 
-6. [References and recommendations](#references)
+6. [Homework](#hw)
+
+7. [References and recommendations](#references)
 
 
 ---
@@ -325,7 +327,30 @@ ggplot(data = whr_panel, aes(x = happiness_score, y = economy_gdp_per_capita)) +
 
 # Exploratory Analysis
 
-I prefer to use the second way of structuring our ggplot. First, setting our data and aesthetics, and then the geometries. 
+#### We can also set up the data outside the `ggplot()` function as follows: 
+
+```{r, out.width = "65%"}
+whr_panel %>%  #<< 
+  ggplot(aes(x = happiness_score, y = economy_gdp_per_capita)) +
+  geom_point()  
+```
+
+---
+
+# Exploratory Analysis
+
+I prefer to use the second way of structuring our ggplot. 
+
+1. First, setting our data; 
+2. pipe it; 
+3. then aesthetics; 
+4. and finally the geometries. 
+
+Both structures will work but this will make a difference if you want to load more datasets at the same time, and whether you would like to combine more geoms in the same ggplot. More on this in the following slides.
+
+---
+
+# Exploratory Analysis
 
 ### Exercise 2: Create a scatter plot with x = freedom and y = economy_gdp_per_capita.
 
@@ -434,6 +459,23 @@ ggplot(data = whr_panel,
   geom_point()
 ```
 
+---
+
+# Exploratory Analysis
+
+Let's try to do something different, try, instead of `region`, adding `color = "blue"` inside `aes()`.
+
+* What do you think is the problem with this code? 
+
+--
+
+```{r, out.width = "50%"}
+ggplot(data = whr_panel, 
+       aes(x = happiness_score,           
+           y = economy_gdp_per_capita,
+           color = "blue")) +  #<<
+  geom_point()
+```
 
 ---
 
@@ -462,7 +504,7 @@ Notice that it is important to know where we are setting our aesthetics. For exa
 
 # Exploratory Analysis
 
-Let's modify our last plot.
+Let's modify our last plot. Let's add `color = "blue"` inside `geom_point()`.
 
 --
 
@@ -470,7 +512,7 @@ Let's modify our last plot.
 ggplot(data = whr_panel, 
        aes(x = happiness_score,           
            y = economy_gdp_per_capita)) +  
-  geom_point(color = "red") #<<
+  geom_point(color = "blue") #<<
 ```
 
 ---
@@ -479,29 +521,34 @@ ggplot(data = whr_panel,
 
 ### Exercise 3: Map colors per year for the freedom and gdp plot we did before.
 
-* Keep in mind the type of the variable year.
+* Keep in mind the type of the variable `year`.
 
 --
 
-```{r, out.width = "55%"}
+```{r, out.width = "45%"}
 ggplot(data = whr_panel, 
        aes(x = freedom, y = economy_gdp_per_capita, color = year)) +
   geom_point()  
 ```
 
+--
+
+* How do you think we could solve it? 
+
 ---
 
 # Exploratory Analysis
 
 ### Exercise 3: Map colors per year for the freedom and gdp plot we did before.
 
-* **Keep in mind the type of the variable year**.
+* Keep in mind the type of the variable `year`.
+* Change the variable `year`as: `as.factor(year)`.
 
 --
 
-```{r, out.width = "55%"}
+```{r, out.width = "45%"}
 ggplot(data = whr_panel, 
-       aes(x = freedom, y = economy_gdp_per_capita, color = as.factor(year))) +
+       aes(x = freedom, y = economy_gdp_per_capita, color = as.factor(year))) + #<<
   geom_point()  
 ```
 
@@ -509,7 +556,7 @@ ggplot(data = whr_panel,
 
 # Exploratory Analysis
 
-Let's modify our last plot.
+We can also add the color information in `geom_point()`. Let's modify our last plot and add `aes(color = region)`.
 
 --
 
@@ -522,7 +569,7 @@ ggplot(data = whr_panel,
 
 --
 
-> Notice that we can either set up our aesthetics at the global level our within each layer.
+> **Reminder**: Notice that we can either set up our aesthetics at the global level our within each layer.
 
 ---
 class: inverse, center, middle    
@@ -609,7 +656,6 @@ ggplot(data = whr_panel,
        aes(x = happiness_score,  y = economy_gdp_per_capita)) +
   geom_point() + 
   facet_wrap(~ region) #<<
-  
 ```
 
 ---
@@ -626,6 +672,21 @@ ggplot(data = whr_panel,
   geom_point() + 
   facet_wrap(~ region) 
   
+```
+
+---
+
+# {ggplot2}: Colors and facets
+
+If you want to remove the region legend title we can set it up in the `labs()` more about this in the `themes` subsection.
+
+```{r, out.width = "55%"}
+ggplot(data = whr_panel, 
+       aes(x = happiness_score,  y = economy_gdp_per_capita, color = region)) + #<<
+  geom_point() + 
+  facet_wrap(~ region) +
+  labs(color = "")#<< 
+
 ```
 
 ---
@@ -687,7 +748,7 @@ whr_panel %>%
 
 --
 
-### Why do you think we are adding the size to the geom_point()'s aes? 
+#### Why do you think we are adding the size to the geom_point()'s aes? 
 
 ---
 
@@ -893,6 +954,9 @@ The `theme()` function allows you to modify each aspect of your plot. Some argum
 
 ```{r eval = FALSE}
 theme(
+    # Title and text labels
+    #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  
+    plot.title = element_text(color, size, face),
     # Legend title and text labels
     #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Title font color size and face
@@ -907,6 +971,88 @@ theme(
 ```
 
 More about these modification can be found [here](https://ggplot2.tidyverse.org/reference/theme.html)
+
+---
+
+# {ggplot2}: Color palettes
+
+We can also add color palettes using other packages such as: `RColorBrewer, viridis` or funny ones like the `wesanderson` package. So, let's add new colors. 
+
+* First, install the `RColorBrewer` package. 
+
+```{r}
+# install.packages("RColorBrewer")
+library(RColorBrewer)
+```
+
+* Let's add `scale_color_brewer(palette = "Dark2")` to our ggplot. 
+
+
+---
+
+# {ggplot2}: Color palettes
+
+
+.panelset[
+.panel[.panel-name[R Code]
+
+```{r, out.width = "60%", eval = FALSE}
+whr_panel %>% 
+  mutate(
+    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  ) %>% 
+  filter(year == 2015) %>% 
+  ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
+             color = latam)) + 
+  geom_point() +  
+  scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) + 
+  labs(
+    x = "Happiness Score", 
+    y = "GDP per capita", 
+    color = "Country in Latin America\nand the Caribbean",
+    title = "Happiness Score vs GDP per capita, 2015"
+  ) + 
+  theme_minimal() #<<
+  
+```
+
+]
+
+.panel[.panel-name[Plot]
+```{r, out.width = "70%", echo = FALSE}
+whr_panel %>% 
+  mutate(
+    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  ) %>% 
+  filter(year == 2015) %>% 
+  ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
+             color = latam)) + 
+  geom_point() +
+  scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) + 
+  labs(
+    x = "Happiness Score", 
+    y = "GDP per capita", 
+    color = "Country in Latin America\nand the Caribbean", 
+    title = "Happiness Score vs GDP per capita, 2015"
+  ) + 
+  theme_minimal()
+```  
+]
+]
+
+---
+
+# {ggplot2}: Color palettes
+
+My favorite color palettes packages:
+
+1. [ghibli](https://github.com/ewenme/ghibli)
+2. [LaCroixColoR](https://github.com/johannesbjork/LaCroixColoR)
+3. [NineteenEightyR](https://github.com/m-clark/NineteenEightyR)
+4. [nord](https://github.com/jkaupp/nord)
+5. [palettetown](https://github.com/timcdlucas/palettetown)
+6. [quickpalette](https://github.com/EmilHvitfeldt/quickpalette)
+7. [wesanderson](https://github.com/karthik/wesanderson)
 
 ---
 class: inverse, center, middle    
@@ -1042,6 +1188,31 @@ ggplotly(fig) %>%
   layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
 
 ```
+
+---
+class: inverse, center, middle    
+name: hw
+
+# Howework
+
+---
+
+# Howework
+
+### ggplot2 exercise:
+
+1. Load the `whr_panel` data.
+2. Filter those countries that do not have region information. There are two.
+3. Create a scatter plot using `geom_point()`. X variable: happiness_score, Y variable: freedom.
+4. The size of `geom_point()` should be based on the `economy_gdp_per_capita` variable.
+5. Color your points using the year variable.
+6. Use `scale_VAR_log10()` for the Y variable.
+7. Use the `facet` function for year.
+8. Enter this [link](scale_x_log10) and add any theme you like.
+9. Remove the legends using `theme(legend.position = "none")`. 
+10. Fix the labels (xaxis, yaxis, and size) and add a title.
+11. Apply any color palette you like.
+12. Save the plot as pdf and as png.
 
 ---
 class: inverse, center, middle    
