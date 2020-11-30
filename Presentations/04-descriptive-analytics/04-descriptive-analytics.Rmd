@@ -704,7 +704,7 @@ The base R command for linear regressions is called `lm`
 
 Formulas can take three specifications:
 - `y ~ x1 + x2` regresses variable `y` on covariates `x1` and `x2`
-- `y ~ x1:x2` regresses variable `y` the interaction of covariates `x1` and `x2`
+- `y ~ x1:x2` regresses variable `y` on the interaction of covariates `x1` and `x2`
 - `y ~ x1*x2` is equivalent to `y ~ x1 + x2 + x1:x2`
 
 ---
