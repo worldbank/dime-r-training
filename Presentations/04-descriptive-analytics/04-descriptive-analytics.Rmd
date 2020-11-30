@@ -476,7 +476,7 @@ census %>%
 census %>% 
   summary_stats() %>%
   yank("numeric") %>% # keep only numeric variables on the table
-  select(-n_missing, -complete_rate) # remove daulft statistics
+  select(-n_missing, -complete_rate) # remove default statistics
 ```
 ]
 
