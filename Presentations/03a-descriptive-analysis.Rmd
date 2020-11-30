@@ -27,12 +27,9 @@ opts_chunk$set(
   dpi=300, #fig.path='Figs/',
   cache=T#, echo=F, warning=F, message=F
   )
-library(tidyverse)
 library(hrbrthemes)
 library(fontawesome)
-library(huxtable)
 library(xaringanExtra)
-library(lfe)
 xaringanExtra::use_panelset()
 xaringanExtra::use_editable()
 xaringanExtra::use_clipboard()
@@ -61,7 +58,7 @@ xaringanExtra::use_logo(
   finalData         <- file.path(Data,"Final")
   rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
 
-  packages <- c("tidyverse", "skimr")
+  packages <- c("tidyverse", "skimr", "lfe", "huxtable")
   pacman::p_load(packages, character.only = TRUE)
 ```
 
@@ -144,31 +141,11 @@ Set folder paths to your computer
 
 --
 
-Load the packages that we will use today
-```{r, eval = F}
-  # Load packages
-  packages <- c("tidyverse", "skimr", "huxtable", "lfe")
-  pacman::p_load(packages, character.only = TRUE)
-```
-
---
-
 Load the data that we will use today: Stata's `census` dataset
 ```{r}
   # Load data
    census <- 
     readRDS(file.path(finalData, "census.RDS"))
-```
-
-```{r xaringanExtra-clipboard, echo=FALSE}
-htmltools::tagList(
-  xaringanExtra::use_clipboard(
-    button_text = "<i class=\"fa fa-clipboard\"></i>",
-    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
-    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
-  ),
-  rmarkdown::html_dependency_font_awesome()
-)
 ```
 
 ???
@@ -192,6 +169,38 @@ Double-check that you can see this dataset in your environment pane. Now, can so
 str(census)
 ```
 ]
+
+---
+
+# Setting the stage
+
+
+Load the packages that we will use today
+```{r, eval = F}
+  # Install new packages
+  install.packages("skimr")
+  install.packages("lfe")
+  install.packages("huxtable")
+
+  # Load packages
+  library(tidyverse)
+  library(skimr)
+  library(lfe)
+  library(huxtable)
+```
+
+
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
 
 ---
 
@@ -386,8 +395,18 @@ name: desc_tables
 # Exploring datasets with *skimr*
 
 
+```{r, echo = F, eval=FALSE}
+skim(census)
+```
+
+---
+
+
+# Exploring datasets with *skimr*
+
+
 .small[
-```{r, skimr_include_summary = FALSE}
+```{r, echo = F, skimr_include_summary = FALSE}
 skim(census)
 ```
 ]
@@ -614,6 +633,7 @@ summary_stats_table <- #<<
    relocate(Variable) %>%  # Make variable labels the first column #<<
    set_header_rows(1, TRUE) %>% # Use stats name as table header #<<
    set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header #<<
+   set_number_format("\"%9.0f\"" ) %>% # Don't round large numbers #<<
    theme_basic() # Set a theme for quick formatting #<<
 
 ```
@@ -646,6 +666,7 @@ summary_stats_table <-
    relocate(Variable) %>%  # Make variable labels the first column 
    set_header_rows(1, TRUE) %>% # Use stats name as table header
    set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header
+   set_number_format("%9.0f") %>% # Don't round large numbers
    theme_basic() # Set a theme for quick formatting
 
 # Now export it #<<
@@ -678,6 +699,7 @@ summary_stats_table <-
    relocate(Variable) %>%  # Make variable labels the first column 
    set_header_rows(1, TRUE) %>% # Use stats name as table header
    set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header
+   set_number_format("\"%9.0f\"" ) %>% # Don't round large numbers #<<
    theme_basic() # Set a theme for quick formatting
 
 # Now export it #<<
@@ -688,6 +710,18 @@ quick_latex(summary_stats_table, #<<
            file = file.path(rawOutput, "summary-stats-basic.tex")) #<<
 
 ```
+
+---
+
+# Before
+
+![](img/summary-stats.png)
+
+---
+
+# After
+
+![](img/summary-stats-basic.png)
 
 ---
 

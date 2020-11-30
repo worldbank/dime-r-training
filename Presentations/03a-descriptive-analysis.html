@@ -6,7 +6,7 @@
     <meta name="author" content="Luiza Andrade, Leonardo Viotti, Rob Marty, Rony Rodriguez, Luis Eduardo San Martin" />
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xcd126d3ba3f47ff9ad424c76e22f47e","expires":14}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x748479e691e4f1f8484b352da988132","expires":14}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -153,16 +153,6 @@ Set folder paths to your computer
 
 --
 
-Load the packages that we will use today
-
-```r
-  # Load packages
-  packages &lt;- c("tidyverse", "skimr", "huxtable", "lfe")
-  pacman::p_load(packages, character.only = TRUE)
-```
-
---
-
 Load the data that we will use today: Stata's `census` dataset
 
 ```r
@@ -170,8 +160,6 @@ Load the data that we will use today: Stata's `census` dataset
    census &lt;- 
     readRDS(file.path(finalData, "census.RDS"))
 ```
-
-
 
 ???
 
@@ -226,6 +214,30 @@ str(census)
 ##  - attr(*, "orig.dim")= int [1:2] 50 13
 ```
 ]
+
+---
+
+# Setting the stage
+
+
+Load the packages that we will use today
+
+```r
+  # Install new packages
+  install.packages("skimr")
+  install.packages("lfe")
+  install.packages("huxtable")
+
+  # Load packages
+  library(tidyverse)
+  library(skimr)
+  library(lfe)
+  library(huxtable)
+```
+
+
+
+
 
 ---
 
@@ -487,14 +499,15 @@ name: desc_tables
 # Exploring datasets with *skimr*
 
 
+
+
+---
+
+
+# Exploring datasets with *skimr*
+
+
 .small[
-
-```r
-skim(census)
-```
-
-
-
 
 **Variable type: character**
 
@@ -787,6 +800,7 @@ summary_stats_table &lt;-
 *  relocate(Variable) %&gt;%  # Make variable labels the first column
 *  set_header_rows(1, TRUE) %&gt;% # Use stats name as table header
 *  set_header_cols("Variable", TRUE)  %&gt;%  # Use variable name as row header
+*  set_number_format("\"%9.0f\"" ) %&gt;% # Don't round large numbers
 *  theme_basic() # Set a theme for quick formatting
 ```
 ]
@@ -818,6 +832,7 @@ summary_stats_table &lt;-
    relocate(Variable) %&gt;%  # Make variable labels the first column 
    set_header_rows(1, TRUE) %&gt;% # Use stats name as table header
    set_header_cols("Variable", TRUE)  %&gt;%  # Use variable name as row header
+   set_number_format("%9.0f") %&gt;% # Don't round large numbers
    theme_basic() # Set a theme for quick formatting
 
 *# Now export it
@@ -830,6 +845,18 @@ summary_stats_table &lt;-
 ]
 
 
+
+---
+
+# Before
+
+![](img/summary-stats.png)
+
+---
+
+# After
+
+![](img/summary-stats-basic.png)
 
 ---
 
@@ -947,7 +974,7 @@ Use `huxtable` to format and export the object `region_stats`.
 
 --
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-31">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-32">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(126, 171, 242); font-weight: normal;"><span style="color: rgb(255, 255, 255);">Region</span></th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(227, 118, 227); font-weight: normal;"><span style="color: rgb(255, 255, 255);">Number of States</span></th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(252, 187, 3); font-weight: normal;"><span style="color: rgb(255, 255, 255);">Total Population</span></th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(122, 186, 89); font-weight: normal;"><span style="color: rgb(255, 255, 255);">Average Population</span></th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(252, 3, 86); font-weight: normal;"><span style="color: rgb(255, 255, 255);">SD of Population</span></th></tr>
 <tr>
@@ -1240,7 +1267,7 @@ name: reg_tables
 huxreg(reg1, reg2)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-39">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-40">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2)</th></tr>
 <tr>
@@ -1291,7 +1318,7 @@ huxreg(reg1, reg2,
                 after = 7)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-40">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-41">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2)</th></tr>
 <tr>
