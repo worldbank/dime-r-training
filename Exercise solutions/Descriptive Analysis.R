@@ -15,7 +15,7 @@ rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
 packages <- c("tidyverse", 
               "skimr", 
               "huxtable")
-
+install.packages("pacman") # this package tests if a package is installed before loading, and installs it if it is not
 pacman::p_load(packages, 
                character.only = TRUE)
 
