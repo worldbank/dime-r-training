@@ -543,7 +543,7 @@ summary_stats_table <-
 
 summary_stats_table <-
    summary_stats_table %>% 
-   relocate(Variable) %>%  # Make veriable labels the first column
+   relocate(Variable) %>%  # Make variable labels the first column
    set_header_rows(1, TRUE) %>% # Use stats name as table header
    set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header
    theme_basic() # Set a theme for quick formatting
