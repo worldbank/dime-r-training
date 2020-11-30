@@ -9,23 +9,25 @@
 # PURPOSE:    Set-up configurations and run scripts that are part of DIME's R
 #             Training
 
-# NOTES:      Version 4
+# NOTES:      Version 5
 
 # WRITTEN BY: Luiza Cardoso de Andrade, Robert A. Marty, Leonardo Viotti
+# MODIFIED BY: Luis Eduardo San Martin
 
-#                                                   Last modified in April 2019
+#                                                   Last modified in November 2020
 
 
-# PART 1: Load packages   
+# PART 1: Load packages
 
   
-# PART 2: Set folder folder paths 
+# PART 2: Set folder folder paths
 
   #-------------#
   # Root folder #
   #-------------#
 
-  # Add your username and folder path here
+  # Add your folder path here
+  # Remember to replace backslashes ("\") with regular ones ("/")
   projectFolder  <- "YOUR/FOLDER/PATH/HERE"
 
   #--------------------#
@@ -46,4 +48,4 @@
 
  
 # PART 3: Load data
-  
+

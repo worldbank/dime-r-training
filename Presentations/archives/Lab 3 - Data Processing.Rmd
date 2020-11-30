@@ -1,0 +1,834 @@
+---
+title: "Data Processing"
+subtitle: "R for Stata Users"
+date: "June 2019"
+author: "Luiza Andrade, Leonardo Viotti & Rob Marty"
+output:
+  beamer_presentation:
+    #theme: "Pittsburgh"
+    theme: "Madrid"
+    colortheme: "whale"
+    fonttheme: "default"
+    toc: true
+    includes:
+      in_header: header.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r, echo = F, eval=T, warning=FALSE}
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+
+
+# File paths
+
+if (Sys.getenv("USERNAME") == "luiza"){
+  projectFolder  <- "C:/Users/luiza/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
+  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
+  
+}
+
+if (Sys.getenv("USERNAME") == "Leonardo"){
+  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
+  
+}
+
+
+if (Sys.getenv("USERNAME") == "wb519128"){
+  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
+}
+
+
+
+# File paths
+dataWorkFolder    <- file.path(projectFolder,"DataWork")
+
+Data              <- file.path(dataWorkFolder,"DataSets")
+finalData         <- file.path(Data,"Final")
+rawData           <- file.path(Data,"Raw")
+
+```
+
+
+```{r, echo = F, eval=T, warning=FALSE, message=F, results='hide'}
+library(tidyverse, verbose = F)
+library(readstata13)
+library(data.table)
+
+```
+
+# Introduction
+
+
+## Introduction
+
+* The goal of this session is to recreate the WHR data set that we've been using for this training
+* We'll take you through the same steps we've taken when we were preparing it
+* We'll use a set of packages that are bundled into something called the `tidyverse`
+
+## Introduction
+
+* In this session, you'll be introduced to some basic concepts of data cleaning in R. The contents covered are:
+    * Exploring a data set
+    * Creating new variables
+    * Filtering and subsetting data sets
+    * Merging data sets
+    * Dealing with factor variables
+    * Saving data
+* There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session
+
+
+
+## Introduction
+
+Before we start, let's make sure we're all set:
+
+  1. Start a fresh session.
+  2. Load the `tidyverse` package.
+  3. Set your file paths.
+
+## Introduction
+
+Here's a how you can do that:
+
+\scriptsize
+
+```{r, eval= F}
+  # Install packages
+  install.packages("tidyverse",
+                   dependencies = TRUE)
+
+  # Load packages
+  library(tidyverse)
+
+  #  Set folder paths
+  projectFolder <- "YOUR/FOLDER/PATH"
+  finalData     <- file.path(projectFolder, 
+                             "DataWork", "DataSets", "Final")
+  rawData       <- file.path(projectFolder, 
+                             "DataWork", "DataSets", "Raw")
+
+```
+
+## Loading a data set from CSV
+
+### ``read.csv(file, header = FALSE)``
+ 
+ * **file**: is the path to the file you want to open, including it's name and format (``.csv``)
+ * **header**: if `TRUE`, will read the first row as variable names
+ * **stringsAsFactors:** logical. See next slide for more.
+
+## Loading a data set from CSV
+
+* R reads string variables as factors as default
+* This format saves memory, but can be tricky if you actually want to use the variables as strings
+* You can specify the option ``stringsAsFactors = FALSE`` to prevent R from turning strings into factors
+
+## Loading a data set from CSV
+
+### Exercise 1: Load data
+Use the `read.csv` function to load the three `WHR` data sets from `DataWork > DataSets > Raw`. Create an object called `whrYY` with each data set.
+
+ * TIP 1: use the ``file.path()`` function to simplify the folder path.
+ * TIP 2: for this data set, we want to read strings as strings, not factors.
+
+
+## Loading a data set from CSV
+
+```{r}
+# Load the data sets (we'll discuss why the 
+# stringsAsFactors argument is necessary soon)
+whr15 <- read.csv(file.path(rawData,"WHR2015.csv"),
+                  header = TRUE,
+                  stringsAsFactors = FALSE)
+
+whr16 <- read.csv(file.path(rawData,"WHR2016.csv"),
+                  header = TRUE,
+                  stringsAsFactors = FALSE)
+
+whr17 <- read.csv(file.path(rawData,"WHR2017.csv"),
+                  header = TRUE,
+                  stringsAsFactors = FALSE)
+  
+```
+
+# Exploring a data set
+
+## Exploring a data set
+
+Some useful functions:
+
+* **``View()``:** open the data set
+* **``class()``:** reports object type or type of data stored
+* **``dim()``:** reports the size of each one of an object's dimension
+* **``names()``:** returns the variable names of a data set
+* **``str()``:** general information on an R object
+* **``summary()``:** summary information about the variables in a data frame
+* **``head()``:** shows the first few observations in the dataset
+* **``tail()``:** shows the last few observations in the dataset
+
+
+# ID variables
+
+## ID variables
+
+Desired properties of an ID variable: *uniquely and fully identifying*
+
+* An ID variable cannot have duplicates
+* An ID variable may never be missing
+* The ID variable must be constant across a project
+* The ID variable must be anonymous
+
+## ID variables
+
+
+### ``n_distinct(..., na.rm = FALSE)``  
+
+Counts the number of unique values of a variablelength of a vector
+
+ * **...**: a vector of values
+ * **na.rm**: if `TRUE`, missing values don't count
+ 
+### Exercise 2: identify the ID
+
+Using the `n_distinct` function, can you tell if the following variables are IDs of the `whr15` data set?
+
+1. Region
+2. Country
+
+## ID variables
+
+```{r}
+dim(whr15)
+n_distinct(whr15$Region, na.rm = TRUE)
+n_distinct(whr15$Country, na.rm = TRUE)
+```
+
+## ID variables
+
+We did the same for the other two data sets:
+```{r, size = "footnotesize"}
+n_distinct(whr16$Country, na.rm = TRUE) == nrow(whr16)
+
+n_distinct(whr17$Country, na.rm = TRUE) == nrow(whr17)
+```
+
+## ID variables
+  
+ * The data set we've been using in the last few sessions combines all three data sets we have now
+ * Before we combine them, we should take a better look at the ID variables to find out if they are consistent
+
+
+## Comparing vectors
+
+### ``setdiff(first, second)``
+Prints all the elements of the `first` object that are not in the `second` object (ignores duplicates).
+
+* **first:** an object
+* **second:** an (other?) object
+
+## Comparing vectors
+
+### Exercise 3: compare vectors
+Use the `setdiff()` function to see which countries are coming in and out of the WHR data set between 2015 and 2016.
+
+## Comparing vectors
+
+```{r}
+# Any countries in 2015 that are not in 2016?
+setdiff(whr15$Country, whr16$Country)
+
+# And vice-versa
+setdiff(whr16$Country, whr15$Country)
+```
+
+## Replacing values
+
+Wait, "Somaliland region" and "Somaliland Region" are not the same?!
+
+### Exercise 4: replacing values
+Replace the occurrences of "Somaliland region" in whr15 with "Somaliland **R**egion".
+
+- TIP: use indexing to select only the observations of whr15$Country that are equal to "Somaliland region"
+
+## Replacing values
+
+Wait, "Somaliland region" and "Somaliland Region" are not the same?!
+```{r}
+# Now they are:
+whr15$Country[whr15$Country == "Somaliland region"] <-
+  "Somaliland Region"
+```
+
+## Creating variables
+  
+  * Ok, the ID variables are consistent now
+  * But once we merge the data sets, we need to still be able to identify them
+  * So let's add a `year` variable so we can tell them apart
+
+### Exercise 5: creating variables
+Create a variable called `year` in each WHR data set identifying what year it refers to.
+
+## Creating variables
+
+```{r}
+# Piece of cake!
+whr15$year <- 2015
+whr16$year <- 2016
+whr17$year <- 2017
+```
+
+# Appending and merging data sets
+
+## Appending data sets
+
+  * Now that we can identify the observations, we can combine the data set
+  * Here's a function to append objects by row:
+ 
+### ``rbind(...)``
+Take a sequence of vector, matrix or data-frame arguments and combine by rows.
+
+* **...:** vectors or matrices to be combined (separated by comma)
+
+## Appending and merging
+
+### Exercise 6: append data sets
+Use the `rbind` function to append the three WHR datasets into a data set called `whr_panel`.
+
+## Appending and merging data sets
+
+```{r, eval = F}
+# Append data sets
+whr_panel <- rbind(whr15, whr16, whr17)
+```
+\textcolor{red}{\texttt{Error in rbind(deparse.level, ...) : \\ numbers of columns of arguments do not match}}
+
+## Appending data sets
+
+  * Our data sets are still too different to use this function, as it has very strong requirements
+  * There's a number of ways to fix this, and we will explore them soon
+  * But first, here's how we could append the data as is if we wanted to 
+  
+```{r}
+# This is the quick fix
+whr_panel <- bind_rows(whr15, whr16, whr17)
+```
+  
+  * Now, let's take a closer look at the variables in our data sets and see how we can make them compatible
+
+## Exploring a data set (again)
+
+```{r, size = "tiny"}
+names(whr15)
+names(whr16)
+names(whr17)
+```
+
+## Exploring a data set (again)
+
+There are a few issues here:
+
+1. The data set for 2017 doesn't include a region identifier
+2. The names for the same variables are different in 2017 and 2016 (and the variable names are terrible in general)
+3. The data for 2015 only includes the standard error, not the confidence interval
+
+## Subsetting
+
+To fix the first issue, we will merge the region variable from 2016 to the 2017 data set. But first, we need to isolate the variables we actually want to merge to 2017. To do this, we'll use our first `tidyverse` function:
+
+### ``select(.data, ...)``
+Keeps only the variables you mention.
+
+  * **.data: ** a data set
+  * **...:** one or more unquoted expressions separated by commas indicating the names of the variables you want to keep
+
+## Subsetting
+
+### Exercise 7: subset the data
+Create a new object called `regions` containing only the columns `Country` and `Region` of the `whr16` data set.
+
+## Subsetting
+
+```{r}
+# Subset the whr 16 data set
+regions <- select(whr16, Country, Region)
+
+# Here's what the new dataset looks like
+str(regions)
+```
+
+## Subsetting 
+```{r, size = "footnotesize"}
+# This also works with a vector of variables
+keepVars <-   c("Country",
+                "Region",
+                "year",
+                "Happiness.Rank",
+                "Happiness.Score",
+                "Economy..GDP.per.Capita.", 
+                "Family",
+                "Health..Life.Expectancy.",
+                "Freedom",
+                "Trust..Government.Corruption.",
+                "Generosity",
+                "Dystopia.Residual")
+
+whr15 <- whr15[, keepVars]
+whr16 <- select(whr16, keepVars)
+```
+
+## Tidyverse
+
+  * As you might have noticed, some `tidyverse` functions have a syntax that is a little bit different from most R functions
+  * Its first argument is the name of a data set
+  * The following arguments are variable names
+  * You don't need to write variable names in quotes
+  * You don't need to name your arguments (and it will break if they are in the wrong order)
+
+## Merging
+
+ * The `tidyverse` package `dplyr` has a whole family of functions to do merging. You can look them up by typing `?join`
+ * The different `join` functions have a similar function to the `keep` and `keepusing` options of Stata's `merge` function
+ * We now want to merge the values in the `regions` object to the `whr17` object, keeping all observations in `whr17`, regardless of them having matches or not
+ 
+## Merging
+
+### ``left_join(x, y, by)``
+Return all rows from x, and all columns from x and y. Rows in x with no match in y will have NA values in the new columns. If there are multiple matches between x and y, all combinations of the matches are returned.
+
+* **x, y:** data sets to join
+* **by:** a character vector of variables to join by. If NULL, the default, *_join() will do a natural join, using all variables with common names across the two tables. 
+
+## Merging 
+
+### Exercise 8: Merge
+Merge the `regions` data set into the `whr17` data set.
+
+## Merging
+
+```{r, size = "tiny"}
+# Merge
+whr17 <- left_join(whr17, regions)
+
+# See the result
+str(whr17)
+```
+
+## Missing values
+
+```{r, size = "tiny"}
+# Did that solve it?
+any(is.na(whr17$Region))
+sum(is.na(whr17$Region))
+
+# Where is it still missing?
+whr17$Country[is.na(whr17$Region)]
+
+# Let's fix that
+whr17$Region[whr17$Country %in% c("Mozambique",
+                                  "Lesotho",
+                                  "Central African Republic")] <-
+  "Sub-Saharan Africa"
+
+# That's better
+any(is.na(whr17$Region))
+```
+
+## Missing values
+
+Unlike in Stata, R never\footnote{Of course, there might be an obscure package with a function that does this or you can write your on function. But base R and all the major packages don't and we never came across any function on CRAN that does.} treats missings as zeros by default in any function.
+
+ * If your vector (column or row in your dataset) has at least one `NA`, any function that takes it as an argument will return `NA`.
+ * If you wish to treat missings as zeros or ignore them, you need to explicitly do it.
+ * E.g. `mean(myVector, na.rm = T)` or `rowSums(myDataFrame, na.rm = T)`
+
+
+## Renaming variables
+
+The second problem we found, of different names for the same variable in different data sets, can be easily fixed with the rename function:
+
+```{r}
+# Rename function: new name on the left!
+whr17 <- rename(whr17,
+                Lower.Confidence.Interval = Whisker.low,
+                Upper.Confidence.Interval = Whisker.high)
+```
+
+## Renaming
+
+  * If you need to change the name of variables in bulk, setting the whole vector of variable names would be easier, as in the example below
+  * However, to do that you need to be sure that the variables are in the right order!
+  
+## Renaming
+```{r, size = "tiny"}
+# Bulk rename
+names(whr15)
+
+newnames <-  c("country",
+               "region",
+               "year",
+               "happy_rank",
+               "happy_score",
+               "gdp_pc",
+               "family",
+               "health",
+               "freedom",
+               "trust_gov_corr",
+               "generosity",
+               "dystopia_res")
+
+names(whr15) <-  newnames
+
+```
+
+## Ordering variables
+
+Fortunately, `select` also reorders variables
+```{r}
+# Subset the 2017 data set and order variables
+whr17 <- select(whr17, keepVars)
+
+# Rename variables
+names(whr16) <-  newnames
+names(whr17) <-  newnames
+
+# Now we can append safely
+whr_panel <- rbind(whr15, whr16, whr17)
+```
+
+# Saving a data set
+
+## Saving a data set to csv
+
+* The data set you have now is the same data set we've been using for earlier sessions, so we can save it now
+* As mentioned before, R data sets are often save as csv
+* To save a data set, we use the ``write.csv()`` function:
+
+### ``write.csv(x, file, row.names = TRUE)``
+* **``x``:** the object (usually a data frame) you want to export to CSV
+* **``file``:** the file path to where you want to save it, including the file name and the format (".csv")
+* **``row.names``**: by default, R adds a column to the CSV file with the names (or numbers) of the rows in the data frame. Set it to ``FALSE`` if you don't want that column to be exported
+
+
+## Saving a data set to csv
+
+### Exercise 9: save the data set
+
+Save the ``whr_panel`` data set to DataWork > DataSets > Final.
+
+* TIP: Use the ``file.path()`` function and the object ``finalData`` created in the master to simplify the folder path.
+
+## Saving a data set to csv
+
+```{r, eval = F}
+# Save the whr data set
+write.csv(whr_panel,
+          file.path(finalData,"whr_panel.csv"),
+          row.names = F)
+```
+
+## Saving a data set as R data
+
+* The problem with CSVs is that they cannot differentiate between strings and factors
+* They also don't save factor orders
+* Data attributes (which are beyong the scope of this training, but also useful to document data sets) are also lost in csv data
+
+
+## Saving a data set as R data
+
+The R equivalent of a `.dta` file is a `.Rda` file. It can be saved and loaded using the following commands:
+
+### `saveRDS(object, file = "")`
+Writes a single R object to a file.
+
+* **object:** the R object to be save
+* **file: ** the file path to where it should be saved
+
+### `readRDS(file)`
+Load a single R object from a file.
+
+* **file: ** the file path to the data set
+
+
+## Saving a data set as R data
+
+```{r}
+# Save the data set
+saveRDS(whr_panel,
+        file = file.path(finalData, 
+                         "whr_panel.Rda"))
+
+# And load it again
+whr_panel <- 
+  readRDS(file.path(finalData, 
+                    "whr_panel.Rda"))
+
+```
+## Saving a data set to Stata
+
+### ``write.dta13(data, file)``
+Part of the `readstata13` package. Writes a Stata dta-file bytewise and saves the data into a dta-file.
+
+* **data: ** A data frame
+* **file: ** Path to the dta file you want to export
+
+## Saving a data set to Stata
+
+```{r}
+# This command doesn't handle ordered factors well
+whr_panel$region_ord <- NULL
+
+# Export it 
+save.dta13(whr_panel,
+           file = file.path(finalData, 
+                            "whr_panel.dta"))
+
+# Load it again
+whr_panel <- read.dta13(file.path(finalData, 
+                                  "whr_panel.dta"))
+```
+
+# Adding variables
+
+
+## Creating variables based on a formula
+
+  * When we created the `year` variable, we just assigned a value to a column in the data frames using `$`
+  * This is great for simple variables, but can get tricky if it takes more complex values
+  * For example, to create a dummy variable that shows if the happy score is above the median, we would write the following
+  
+```{r, eval = F}
+# Using $
+whr_panel$happy_high <- 
+  whr_panel$happy_score > median(whr_panel$happy_score)
+```
+  
+  * The `tidyverse` function `mutate` make this process simpler
+  
+## Creating variables based on a formula
+
+### `mutate(.data, ...)`
+
+Adds new variables and preserves existing
+
+  * **.data: ** the data set you want to add a variable to
+  * **...:**    name-value pairs of expressions. Use NULL to drop a variable
+  
+
+## Creating variables based on a formula
+
+### Exercise 10: Create a variable based on a formula
+Use the `mutate` function to create a variable called `happy_high` in the `whr_panel` data set indicating whether the `happy_score` is above the median.
+
+- TIP: as usual in `tidyverse`, you can refer to variables by their names, without quotes or `$`
+
+## Creating variables based on a formula
+
+```{r}
+# Adding a new variable
+whr_panel <- 
+  mutate(whr_panel, 
+         happy_high = happy_score > median(happy_score))
+```
+
+## Creating variables based on a formula
+
+```{r}
+# You can do this for multiple variables at a time
+whr_panel <- 
+  mutate(whr_panel, 
+         happy_high = happy_score > median(happy_score),
+         happy_low = happy_score < median(happy_score),
+         dystopia_res = NULL) # NULL drops the variable
+```
+
+## Creating factor variables
+
+  * When we imported this data set, we told R explicitly to not read strings as factor
+  * We did that because we knew that we'd have to fix the country names
+  * The region variable, however, should be a factor:
+
+```{r, size = "tiny"}
+str(whr_panel$region)
+unique(whr_panel$region)
+```
+
+## Creating a factor
+
+To create a factor variable, we use the ``factor`` function:
+
+### ``factor(x, levels, labels)`` : turns numeric or string vector ``x`` into a factor vector
+* **``x``:** the vector you want to turn into a factor
+* **``levels``:** a vector containing the possible values of ``x``
+* **``labels``:** a vector of strings containing the labels you want to apply to your factor variable
+* **``ordered``:** logical flag to determine if the levels should be regarded as ordered (in the order given).
+
+## Converting strings into factors
+
+If your categorical variable does not need to be ordered, and your string variable already has the label you want, making the conversion is quite easy.
+
+### Exercise 11: turn a string variable into a factor
+Use the `mutate` function to create a variable called `region_cat` containing a categorical version of the `region` variable.
+
+- TIP: to do this, you only need the first argument of the `factor` function
+
+## Converting strings into factors
+```{r, size = "scriptsize"}
+# Create categorical region
+whr_panel <- 
+  mutate(whr_panel,
+         region_cat = factor(region))
+
+
+class(whr_panel$region_cat)
+table(whr_panel$region_cat)
+```
+
+## Ordering factors
+
+```{r, size = "tiny"}
+# If you want your levels to be shown in a particular order, you need to order them
+whr_panel <- 
+  mutate(whr_panel,
+         region_ord = factor(region,
+                             levels = c("Latin America and Caribbean",
+                                        "North America",
+                                        "Western Europe",
+                                        "Central and Eastern Europe",
+                                        "Middle East and Northern Africa",
+                                        "Sub-Saharan Africa",
+                                        "Eastern Asia",
+                                        "Southeastern Asia",
+                                        "Southern Asia",
+                                        "Australia and New Zealand"),
+                             ordered = TRUE))
+
+class(whr_panel$region_ord)
+table(whr_panel$region_ord)
+```
+
+## Labelling values
+
+The `labels` argument of the `factor` function can be used to assign labels to specific values
+
+```{r, size = "footnotesize"}
+# Assign 'not so happy'  and 'happy' as labels
+# for above of below median happy score, respectively
+whr_panel <- 
+  mutate(whr_panel,
+         happy_cat = factor(happy_high,
+                            levels = c(TRUE,
+                                       FALSE),
+                            labels = c("Happy",
+                                       "Not so happy")))
+
+table(whr_panel$happy_cat)
+```
+
+# Appendix
+
+# Reshaping
+
+## `spread` and `gather`
+
+  * These are the `tidyverse` functions to reshape data
+  * We've `spread` in Lab 2 to create a table of the happy score by year
+  
+```{r, size = "footnotesize"}
+# Spread data
+happy_table <- 
+  spread(select(whr_panel, 
+                country, year, happy_score), # data
+         key = year,                         # new variables' names 
+         value = happy_score)                # var to populate the cells
+
+# See result
+head(happy_table)
+```
+
+## `spread` and `gather`
+
+If we wanted to make the resulting data set long again, we'd use `gather`:
+```{r,  size = "footnotesize"}
+# Gather the happy_table
+happy_table_long <- 
+  gather(happy_table,
+         key = year,
+         value = happy_score,
+         `2015`, `2016`, `2017`) # name of columns that will be gathered
+
+# See result
+head(happy_table_long)
+
+```
+
+## `dcast` and `melt`
+
+* These are functions from the `reshape2` package
+
+```{r, eval = F}
+install.packages("reshape2")
+library(reshape2)
+```
+
+## `dcast`: reshape from long to wide
+
+### `dcast(data, formula, value.var)`
+
+* **data: ** a **data.table**
+* **formula: ** a formula of the format `LHS ~ RHS`, where LHS is the unique ID in the final data set and `RHS` are the `j` variables in Stata's `reshape`
+* **value.var: ** name of the columns to be reshaped
+
+## `dcast`: reshape from long to wide
+
+```{r, eval = F}
+library(data.table)
+```
+
+```{r, size = "tiny"}
+# Making the data long
+happy_long <-
+  dcast(setDT(whr_panel),
+        country ~ year, 
+        value.var = c("happy_score",
+                      "happy_rank"))
+
+# See result
+head(happy_long)
+```
+
+## `melt`: reshape from wide to long
+
+### `melt(data, id.vars, measure.vars)`
+
+  * **data: ** a **data.table** object to melt
+  * **id.vars:** a vector of unique IDs in `data`
+  * **measure.vars:** a list of variables to melt
+  * **variable.name:** the name of the new ID var (the one that was in wide)
+  * **value.name:** a vector of names for the reshaped variables
+
+## `melt`: reshape from wide to long    
+```{r, size = "tiny"}
+# Reshape
+happy_wide <-
+  melt(happy_long,
+        id.vars = "country",
+        measure.vars = patterns("^happy_score", "^happy_rank"),
+        variable.name = "year",
+        value.name = c("happy_score", "happy_rank"))
+
+# See result
+head(happy_wide)
+```
+
+
+
