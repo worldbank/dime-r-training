@@ -1115,6 +1115,7 @@ wb_projects_moll <-
 ### Exercise `r fa("keyboard")`
 Change the projection of the `wb_projects` object to Mollweid.
 > Tip: use the CRS shortcut `"+proj=moll"`
+
 ]
 
 ```{r}
@@ -1225,22 +1226,22 @@ basemap <-
                 zoom = 6, # The higher the zoom, the more details you get
                 maptype = "terrain-background")
 
-map<- ggmap(basemap) + 
-  coord_sf(crs = "epsg:3857") + 
+map <- 
+  ggmap(basemap) + 
   geom_sf(data = moz, 
           inherit.aes = FALSE,
           fill = "white", 
           alpha = .6) +
   geom_sf(data = moz_projects,
           aes(color = sector), 
-          inherit.aes = FALSE) +
-  labs(title = "World Bank in Mozambique",
-       color = "Project sector") +
+          inherit.aes = FALSE,
+          size = 1) +
+  labs(color = "Project sector") +
   theme_void() + 
-  scale_color_manual(values = wes_palette("GrandBudapest1", 4))
+  scale_color_manual(values = wes_palette("GrandBudapest1", 3))
 ```
 
-```{r}
+```{r, echo = F}
 plot(map)
 ```
 
