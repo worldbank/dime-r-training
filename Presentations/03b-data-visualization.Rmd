@@ -88,7 +88,7 @@ xaringanExtra::use_logo(
 
 2. [Exploratory Analysis](#ea)
 
-4. [{ggplot2}'s settings](#ggplot)
+4. [`ggplot`](#ggplot)
 
 5. [Saving a plot](#saving)
 
@@ -156,7 +156,7 @@ whr_panel <- readRDS(file.path(finalData, "whr_panel.RDS"))
 In our workflow there are usually two distinct uses for plots:
 
 1. **Exploratory analysis**: Quickly visualize your data in an insightful way.
-  * We’ll do this using `{ggplot2}`, but in a more simplistic way which will allow us to quickly create some basic figures.
+  * We’ll do this using `ggplot2`, but in a more simplistic way which will allow us to quickly create some basic figures.
   
 2. **Publication/Reporting**: Make pretty graphs for a presentation, a project report, or to just show your boss something other than the laziest graph you could come up with:
   * We’ll do this using `ggplot2` with more customization. The idea is to create beautiful graphs.
@@ -171,9 +171,9 @@ In our workflow there are usually two distinct uses for plots:
 
 - Is our data in a tidy format? 
 
-If it is not, we might need to first clean it and then plot it. It will really difficult to create good graphics when your data is tidy. 
+If it is not, we might need to first clean it and then plot it. It will really difficult to create good graphics when your data is not tidy. 
 
-> {ggplot} and other R packages tend to set up their functions in a way that we need a tidy data. In a few cases, these packages will require a different data structure. 
+> `ggplot` and other R packages tend to set up their functions in a way that we need a tidy data. In a few cases, these packages will require a different data structure. 
 
 ---
 class: inverse, center, middle    
@@ -217,12 +217,12 @@ plot(whr_simp)
 
 ---
 
-# The beauty of {ggplot2}
+# The beauty of ggplot2
 
 ### Some advantages of `ggplot2`
 
 1. Consistency with the [**Grammar of Graphics**](https://www.springer.com/gp/book/9780387245447)
-  * This book is the foundation of several data viz applications: {ggplot2}, {polaris-tableau}, {vega-lite}
+  * This book is the foundation of several data viz applications: `ggplot2`, `polaris-tableau`, `vega-lite`
 2. Flexibility
 3. Layering and theme customization
 4. Community
@@ -231,7 +231,7 @@ It is a powerful and easy to use tool (once you understand its logic) that produ
 
 ---
 
-# {ggplot2}'s structure
+# ggplot2: structure
 
 After we have load our dataset. Let's plot something basic. The structure of a basic ggplot is: 
 
@@ -251,7 +251,7 @@ ggplot(data = <DATA>) +
 
 ---
 
-# {ggplot2}'s decomp
+# ggplot2: decomposition
 
 .pull-left[
 
@@ -270,11 +270,11 @@ ggplot(data = <DATA>) +
 
 ---
 
-# {ggplot2}'s structure
+# ggplot2: structure
 
 Therefore, we have the following: 
 
-1. `Data`: The raw data that you want to visualize
+1. `Data`: The data that you want to visualize
 
 2. `Layers`: geom_ and stat_ → The geometric shapes and statistical summaries representing the data
 
@@ -481,7 +481,7 @@ ggplot(data = whr_panel,
 
 # Exploratory Analysis
 
-In `{ggplot2}`, these settings are called **aesthetics**. 
+In `ggplot2`, these settings are called **aesthetics**. 
 
 > "Aesthetics of the geometric and statistical objects". 
 
@@ -575,13 +575,13 @@ ggplot(data = whr_panel,
 class: inverse, center, middle    
 name: ggplot
 
-# {ggplot2}'s settings
+# ggplot2: settings
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# {ggplot2}'s settings
+# ggplot2: settings
 
 Now, let's try to modify our plots. In the following slides, we are going to: 
 
@@ -601,7 +601,7 @@ Now, let's try to modify our plots. In the following slides, we are going to:
 
 ---
 
-# {ggplot2}: shapes
+# ggplot2: shapes
 
 
 ```{r, out.width = "65%"}
@@ -613,7 +613,7 @@ ggplot(data = whr_panel,
 
 ---
 
-# {ggplot2}: shapes
+# ggplot2: shapes
 
 ```{r echo = FALSE, eval = TRUE, out.width = "75%", message = FALSE}
 library(ggpubr)
@@ -623,7 +623,7 @@ show_point_shapes()+
 
 ---
 
-# {ggplot2}: including more geoms
+# ggplot2: including more geoms
 
 ```{r, out.width = "55%"}
 mean_happiness_score <- mean(whr_panel$happiness_score) #<< 
@@ -637,7 +637,7 @@ ggplot(data = whr_panel,
 
 ---
 
-# {ggplot2}: including more geoms
+# ggplot2: including more geoms
 
 ```{r, out.width = "60%"}
 ggplot(data = whr_panel, 
@@ -649,7 +649,7 @@ ggplot(data = whr_panel,
 
 ---
 
-# {ggplot2}: Facets
+# ggplot2: Facets
 
 ```{r, out.width = "55%"}
 ggplot(data = whr_panel, 
@@ -660,7 +660,7 @@ ggplot(data = whr_panel,
 
 ---
 
-# {ggplot2}: Colors and facets
+# ggplot2: Colors and facets
 
 ### Exercise 4: Use the last plot and add a color aesthetic per region.
 
@@ -676,7 +676,7 @@ ggplot(data = whr_panel,
 
 ---
 
-# {ggplot2}: Colors and facets
+# ggplot2: Colors and facets
 
 If you want to remove the region legend title we can set it up in the `labs()` more about this in the `themes` subsection.
 
@@ -691,7 +691,7 @@ ggplot(data = whr_panel,
 
 ---
 
-# {ggplot2}: Pipe and mutate before plotting
+# ggplot2: Pipe and mutate before plotting
 
 Let's imagine now, that we would like to transform a variable before plotting.
 
@@ -734,7 +734,7 @@ whr_panel %>%
 
 ---
 
-# {ggplot2}: geom's sizes
+# ggplot2: geom's sizes
 
 We can also specify the size of a geom, either by a variable or just a number.
 
@@ -752,7 +752,7 @@ whr_panel %>%
 
 ---
 
-# {ggplot2}: Changing scales
+# ggplot2: Changing scales
 
 
 .panelset[
@@ -784,7 +784,7 @@ ggplot(data = whr_panel,
 
 ---
 
-# {ggplot2}: Themes
+# ggplot2: Themes
 
 Let's go back to our plot with the `latam` dummy.
 
@@ -799,7 +799,7 @@ We are going to do the following to this plot:
 
 ---
 
-# {ggplot2}: Labs
+# ggplot2: Labs
 
 
 .panelset[
@@ -846,7 +846,7 @@ whr_panel %>%
 
 ---
 
-# {ggplot2}: Legends
+# ggplot2: Legends
 
 
 .panelset[
@@ -896,7 +896,7 @@ whr_panel %>%
 
 ---
 
-# {ggplot2}: Themes
+# ggplot2: Themes
 
 
 .panelset[
@@ -948,7 +948,7 @@ whr_panel %>%
 
 ---
 
-# {ggplot2}: Themes
+# ggplot2: Themes
 
 The `theme()` function allows you to modify each aspect of your plot. Some arguments are: 
 
@@ -974,7 +974,7 @@ More about these modification can be found [here](https://ggplot2.tidyverse.org/
 
 ---
 
-# {ggplot2}: Color palettes
+# ggplot2: Color palettes
 
 We can also add color palettes using other packages such as: `RColorBrewer, viridis` or funny ones like the `wesanderson` package. So, let's add new colors. 
 
@@ -990,7 +990,7 @@ library(RColorBrewer)
 
 ---
 
-# {ggplot2}: Color palettes
+# ggplot2: Color palettes
 
 
 .panelset[
@@ -1042,7 +1042,7 @@ whr_panel %>%
 
 ---
 
-# {ggplot2}: Color palettes
+# ggplot2: Color palettes
 
 My favorite color palettes packages:
 
@@ -1066,7 +1066,7 @@ name: saving
 
 # Saving a plot 
 
-Remember that in R we can always assign our functions to an object. In this case, we can assign our {ggplot2} code to an object called fig as follows.
+Remember that in R we can always assign our functions to an object. In this case, we can assign our `ggplot2` code to an object called fig as follows.
 
 ```{r, eval = FALSE}
 fig <- 
