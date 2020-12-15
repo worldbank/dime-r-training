@@ -191,23 +191,6 @@ Raise your hand if you have ever seen these lines of code before:
 
 # Initial settings
 
-## Exercise 1: Clear workspace
-
-1. Make sure the `Environment` window is open. Is anything there?
-
-2. Create an object called `foo` with any content you pick
-
-3. Type `rm(foo)` to remove the `foo` object from you memory
-
-4. Type `ls()` to print the names of all the object in memory
-
-5. To remove all objects, use `rm(list=ls())`
-  + This is similar to using `clear all` in Stata
-
----
-
-# Initial settings
-
 &lt;img src="img/rm.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -216,7 +199,7 @@ Raise your hand if you have ever seen these lines of code before:
 
 You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if set global options correctly in RStudio.
 
-## Exercise 2: To make sure that no one will burn your computer, here's how you change these settings:
+## Exercise 1: To make sure that no one will burn your computer, here's how you change these settings:
 
 1. Go to `Tools &gt; Global options...`
 
@@ -227,6 +210,8 @@ You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if s
   + Restore previously open source documents at startup
   + Restore `.RData` into workspace at startup
   + Always save history (even when not saving `.RData`)
+  
+3. Now restart RStudio
 
 ---
 
@@ -379,7 +364,7 @@ read.csv(file, header = FALSE, stringsAsFactors = FALSE)
 ```r
 # Load data set
 whr &lt;- read.csv(file.path(finalData,"whr_panel.csv"),
-                header = T)
+                header = TRUE)
 ```
 
 5. Run the whole script. If it worked, your environment should now include the `whr` dataset and the path locals.
@@ -663,8 +648,8 @@ name: using-packages
 
 ```r
 # Installing a package
-install.packages("stargazer",
-                 dependencies = T)
+install.packages("tidyverse",
+                 dependencies = TRUE)
 # the dependencies argument also installs all other packages
 # that it may depend upon to run
 ```
@@ -685,7 +670,7 @@ install.packages("stargazer",
 
 
 ```r
-  library(stargazer)
+  library(tidyverse)
 ```
 
 Notice that we used quotes around the name to install the package, but we don't need them anymore to load it.
@@ -1265,12 +1250,12 @@ Possible variations would include
 
     # Using a Boolean object
     if (PACKAGES == TRUE) {
-      install.packages(packages, dep = T)
+      install.packages(packages, dep = TRUE)
     }
 
     # Which is the same as
     if (PACKAGES) {
-      install.packages(packages, dep = T)
+      install.packages(packages, dep = TRUE)
     }
 ```
 
@@ -1327,7 +1312,7 @@ Create a function that
 
   # Load data set
   whr &lt;- read.csv(file.path(finalData,"whr_panel.csv"),
-                  header = T)
+                  header = TRUE)
 ```
 
 ---

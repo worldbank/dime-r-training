@@ -293,7 +293,7 @@ Let's start by loading the data set we'll be using:
 2. In RStudio, go to `File &gt; Import Dataset &gt; From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your Rstudio version, it might be `File &gt; Import Dataset &gt; From CSV`
 
-3. The file should be in `GitHub/dime-r-training/DataWork/DataSets/Final/whr_panel.csv`.
+3. The file should be in `dime-r-training/DataWork/DataSets/Final/whr_panel.csv`.
 
 4. Assign the name `whr` to the dataset on the import window.
 
@@ -370,7 +370,7 @@ Type the following code to explore the data:
 
 ```r
 # We can use the function View() to browse the whole data
-View(whr)
+View(whr) # &lt;--- Note that the first letter is uppercase
 
 # Alternatively we can print the first 6 obs. with head()
 head(whr)
@@ -576,6 +576,12 @@ You can also see that your environment pane now has two `Data` objects:
  # This would have replaced "whr" instead of creating a new object:
  whr &lt;- subset(whr, year == 2015)
  ```
+ 
+__Important:__ This will delete the original object -- `whr` in this case
+
+---
+
+# Data in R
 
 * Print (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but won't save anything in the memory.
 
@@ -606,6 +612,8 @@ name: functions
 `head()`, `View()`, `subset()` and`read.csv()` are functions!
 
 * Functions in R take named arguments (unlike in Stata that you have arguments and options).
+
+* Arguments are always enclosed in parentheses
 
 * Usually the first argument is the object you want to use the function on, e.g. `subset(whr, ...)`
 
