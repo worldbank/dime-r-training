@@ -1,23 +1,55 @@
-*Data/*
-*.do
-*.Rhistory
-*.xlsx
-*.log
-*.out
-*.snm
-*.nav
-*.toc
-*.md
-*.vrb
-*.aux
-*.png
-*.DS_Store
-*.csv
-*.dbf
-*.cpg
-*.prj
-*.shp
-*.pdf
+########################################################################
+#
+# Based on DIME .gitignore template. Follow the instructions in the URL
+# below to set up this template in your own repository
+# https://github.com/worldbank/dime-github-trainings/tree/master/GitHub-resources/DIME-GitHub-Templates
+#
+# Note that if you are using GitKraken, you need to use version 5.x or more
+# recent for this template to work properly
+#
+########################################################################
 
-!Presentations/img/*
-*.pdf
+#######################
+# Start by ignoring everything, and below we are explicitly saying
+# what to not ignore
+*
+
+#######################
+# List of files with GitHub functionality anywhere in the repo
+# that we do not want to ignore
+
+# These files include GitHub settings
+!.gitignore
+!.gitattributes
+
+# Keep markdown files used for documentation on GitHub
+!README.md
+!CONTRIBUTING.md
+!LICENSE*
+
+#######################
+# For performance reasons, if a folder is already ignored, then
+# GitHub does not check the content for that folder for matches
+# with additional rules. The line below includes folder in the
+# top folder (but not their content), so that anything matching
+# the rules below will still not be ignored.
+!*/
+
+#######################
+# The following file types are code that should always be
+# included no matter where in the repository folder they are
+# located unless you explicitly ignore that folder
+
+# R
+!/**/*.R
+!/**/*.Rmd
+!/**/*.Rproj
+
+# CSS and other libraries for presentations
+!/**/*.css
+!/**/*.js
+!Presentations/img/**
+!Presentations/libs/**/**
+
+# Markdown
+!/**/*.md
