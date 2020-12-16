@@ -1,3 +1,0 @@
-- https://evamaerey.github.io/data_manipulation/about
-- https://tmieno2.github.io/R-as-GIS-for-Economists/
-- https://geocompr.robinlovelace.net/index.html
