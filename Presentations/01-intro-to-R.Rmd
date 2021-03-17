@@ -931,13 +931,15 @@ boolean_false
 ## Booleans
 
 ### Exercise 6:
+
 Create a boolean vector with the condition of annual income below average:
+
 ```{r}
 # Create vector
-bool_vec <- whr$happiness_score < mean(whr$happiness_score)
+inc_below_avg <- whr$happiness_score < mean(whr$happiness_score)
 
 # See the 6 first elements of the vector
-head(bool_vec)
+head(inc_below_avg)
 ```
 
 ---
@@ -946,7 +948,29 @@ head(bool_vec)
 
 ## Booleans
 
-Now let's use the boolean vector created to add a dummy variable in the `whr` data set for the same condition.
+We can use boolean vectors to index elements:
+
+```{r}
+# Creating a vector with 5 elements:
+my_vector <- c("1st", "2nd", "3rd", "4th", "5th")
+my_vector
+
+# Selecting and printing the first and last elements only:
+boolean1 <- c(TRUE, FALSE, FALSE, FALSE, TRUE)
+my_vector [boolean1]
+
+# Selecting and printing every element but the first:
+boolean2 <- c(FALSE, TRUE, TRUE, TRUE, TRUE)
+my_vector [boolean2]
+```
+
+---
+
+# Advanced types of data
+
+## Booleans
+
+Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the `whr` data set for the same condition.
 
 ### Exercise 7:
  * Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
@@ -955,11 +979,13 @@ Now let's use the boolean vector created to add a dummy variable in the `whr` da
 whr$rank_low <- 0
 ```
 
- * Now use `bool_vec` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
+ * Now use `inc_below_avg` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
 
 ```{r,  eval = F}
-whr$rank_low[bool_vec] <- 1
+whr$rank_low [inc_below_avg] <- 1
 ```
+
+**Important:** Notice that `whr$rank_low [bool_vec]` is subsetting the column `whr$rank_low` to the observations that have a value of `TRUE` in the boolean vector `inc_below_avg` 
 
 ---
 
@@ -975,7 +1001,8 @@ Instead of indexing the lines with the boolean vector `bool_vec`, we could also 
 whr$rank_low [bool_vec] <- 1 
 # is the same as
 whr$rank_low [whr$happiness_score < mean(whr$happiness_score)] <- 1 
-# This in stata would be
+
+# This in stata would be:
 # gen     rank_low = 0
 # replace rank_low = 1 if (...)
 ```
