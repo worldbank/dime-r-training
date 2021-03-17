@@ -993,12 +993,12 @@ whr$rank_low [inc_below_avg] <- 1
 
 ## Booleans
 
-Instead of indexing the lines with the boolean vector `bool_vec`, we could also use the boolean condition itself:
+Instead of indexing the lines with the boolean vector `inc_below_avg`, we could also use the boolean condition itself:
 
 ```{r}
 
 # Replace with 1 those obs that meet the condition
-whr$rank_low [bool_vec] <- 1 
+whr$rank_low [inc_below_avg] <- 1 
 # is the same as
 whr$rank_low [whr$happiness_score < mean(whr$happiness_score)] <- 1 
 
