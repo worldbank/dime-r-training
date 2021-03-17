@@ -2,7 +2,7 @@
 title: "Introduction I - R basics"
 subtitle: "R for Advanced Stata Users"
 author: "DIME Analytics"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2020"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -983,15 +983,20 @@ whr$rank_low [whr$happiness_score < mean(whr$happiness_score)] <- 1
 ---
 
 class: inverse, center, middle
-name: help-google-and-stack-overflow
 
-# Help, Google and Stack Overflow
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+# Thank you!
 
 ---
 
-# Help, Google and Stack Overflow
+class: inverse, center, middle
+name: appendix
+
+# Appendix
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+---
+
+# Appendix - Help, Google and Stack Overflow
 
 Help in R works very much like in Stata: the help files usually start with a brief description of the function, explain its syntax and arguments and list a few examples. There are two ways to access help files:
 
@@ -1008,7 +1013,7 @@ help(summary)
 
 ---
 
-# Help, Google and Stack Overflow
+# Appendix - Help, Google and Stack Overflow
 
  * The biggest difference, however, is that __R has a much wider user community__ and it has __a lot more online resources__.
 
@@ -1021,16 +1026,7 @@ help(summary)
 
 ---
 
-class: inverse, center, middle
-name: useful-resources
-
-# Useful resources
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Useful resources
+# Appendix - Useful resources
 
 ## Blogs, courses and resources:
 
@@ -1060,7 +1056,7 @@ https://worldbank.github.io/r-econ-visual-library/
 
 ---
 
-# Useful resources
+# Appendix - Useful resources
 
 ## Books:
 
@@ -1071,21 +1067,6 @@ https://r-graphics.org/
 
 * R for Data Science - Hadley Wickham and Garrett Grolemund
 https://r4ds.had.co.nz/
-
----
-
-class: inverse, center, middle
-
-# Thank you!
-
----
-
-class: inverse, center, middle
-name: appendix
-
-# Appendix
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
