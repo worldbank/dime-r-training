@@ -51,7 +51,7 @@ if (Sys.getenv("USERNAME") == "luis_eduardo"){
   
 }
 
-if (Sys.getenv("USERNAME") == "WB532468"){
+if (Sys.getenv("USERNAME") == "wb532468"){
   projectFolder  <- "C:/WBG/Repos/dime-r-training"
   
 }
