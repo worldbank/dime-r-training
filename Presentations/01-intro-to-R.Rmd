@@ -1,6 +1,6 @@
 ---
-title: "Introduction I - R basics"
-subtitle: "R for Advanced Stata Users"
+title: "Introduction to R"
+subtitle: "R for Stata Users"
 author: "DIME Analytics"
 date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
 output:
@@ -122,9 +122,7 @@ We're glad you're joining us today!
 
 - These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
 
-- The sessions include exercises where we give 1-2 minutes to solve them. Then, the presenter will call names to discuss what you did and which issues you encountered
-
-  + If you prefer not to be called or have connectivity issues which prevent participation, please let us know by sending a private message to __Luiza Cardoso De Andrade__
+- The sessions include exercises where we give 3-4 minutes to solve them
 
 - Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez Ramirez__
 
@@ -142,7 +140,7 @@ We're glad you're joining us today!
 
 - If your connection is good enough, please leave your video on
 
-- The materials of each session will be shared in the OSF page on the course after the end of each session: https://osf.io/b7hm6/
+- The materials of each session will be shared in the OSF page of the course by the beginning of each session: https://osf.io/b7hm6/
 
 ---
 
@@ -181,21 +179,33 @@ name: introduction
 
 # Introduction
 
+## About this course
+
 These training sessions will offer an introduction to R, its amazing features and how Stata users can adapt from using Stata to using R.
+
+We assume that you know how to do statistical programming in Stata or that you have a computer programming background.
+
+## About this session
 
 This first session will present the basic concepts you will need to use R.
 
-The next sessions will include:
+---
 
-* __Introduction to R - part II__
+# Introduction
 
-* __Data processing__
+## Sessions
 
-* __Data visualization__
+* Introduction to R
 
-* __Exploratory analysis__
+* Data processing
 
-* __Geospatial data and geospatial analysis in R__
+* Data visualization
+
+* Descriptive analysis
+
+* Geospatial data
+
+* R programming practices
 
 For the most recent versions of these trainings, visit the R-training GitHub repository at
 https://github.com/worldbank/dime-r-training
@@ -985,7 +995,7 @@ whr$rank_low <- 0
 whr$rank_low [inc_below_avg] <- 1
 ```
 
-**Important:** Notice that `whr$rank_low [bool_vec]` is subsetting the column `whr$rank_low` to the observations that have a value of `TRUE` in the boolean vector `inc_below_avg` 
+ * **Important:** Notice that `whr$rank_low [bool_vec]` is subsetting the column `whr$rank_low` to the observations that have a value of `TRUE` in the boolean vector `inc_below_avg` 
 
 ---
 
