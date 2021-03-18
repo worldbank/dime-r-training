@@ -106,9 +106,7 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 6. [R objects](#r-objects)
 7. [Basic types of data](#basic-types-of-data)
 8. [Advanced types of data](#advanced-types-of-data)
-9. [Help, Google, and Stack Overflow](#help-google-and-stack-overflow)
-10. [Useful resources](#useful-resources)
-11. [Appendix](#appendix)
+9. [Appendix](#appendix)
 
 ---
 
