@@ -619,7 +619,7 @@ Notice that we used quotes around the name to install the package, but we don't 
 What if this happens?
 
 ```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/Warning.png")
+knitr::include_graphics("img/Warning_tidyverse.png")
 ```
 
 ---
