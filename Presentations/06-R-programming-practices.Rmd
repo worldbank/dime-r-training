@@ -65,7 +65,7 @@ if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
-if (Sys.getenv("USERNAME") == "maximiliano"){
+if (Sys.getenv("USERNAME") == "Maximiliano"){
   projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
 }
 

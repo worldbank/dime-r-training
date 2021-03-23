@@ -1,11 +1,14 @@
 ---
 title: "Session 3: Data Processing"
 subtitle: "R for Stata Users"
-author: "Rony Rodrigo Maximiliano Rodriguez-Ramirez"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> `r format(Sys.time(), '%d %B %Y')`"
 output:
   xaringan::moon_reader:
-    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
+    css: ["libs/remark-css/default.css", 
+          "libs/remark-css/metropolis.css", 
+          "libs/remark-css/metropolis-fonts.css",
+          "libs/remark-css/custom.css"]
     lib_dir: libs
     nature:
       ratio: "16:9"
@@ -51,7 +54,7 @@ if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
-if (Sys.getenv("USERNAME") == "maximiliano"){
+if (Sys.getenv("USERNAME") == "Maximiliano"){
   projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
 }
 
@@ -240,6 +243,17 @@ The `clean_names()` function helps us big time when our variables names are pret
 
 > **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide.
 
+If we wanto to rename our variable manually, we could use: 
+
+```{r manual_names, eval=FALSE}
+
+whr15 <- whr15 %>% 
+  rename(
+    var_newname = var_oldname
+  )
+
+```
+
 ---
 
 # Load and show a dataset
@@ -293,7 +307,7 @@ For this session, we are going to use pipes %>% quite a lot.
 
 # Glimpse your data
 
-This functions give your information about your variables (e.g., type, row, columns,)
+Use `glimpse()` to get information about your variables (e.g., type, row, columns,)
 
 ```{r glimpse}
 whr15 %>% 
@@ -343,14 +357,26 @@ n_distinct(DATASET$variable, na.rm = TRUE)
 
 --
 
+The `$` sign is a subsetting operator. In R, we have three subsetting operators (`[[`, `[`, and `$`.). It is often used to access variables in a dataframe. 
+
+---
+
+# Missing values in R
+
+
 #### Quick Note: 
 
+.pull-left[
 * Missings in R are treated differently than in Stata. They are represented by the NA symbol.
 * Impossible values are represented by the symbol NaN which means 'not a number.' 
 * R uses the same symbol for character and numeric data.
+]
+
+.pull-right[
 * NA is not a string or a numeric value, but an indicator of missingness.
 * NAs are contagious. This means that if you compare a number with NAs you will get NAs. 
 * Therefore, always remember the `na.rm = TRUE` argument if needed.
+]
 
 ---
 
@@ -389,6 +415,10 @@ nrow(whr15)
 
 --
 
+We can use the two functions (`nrow` and `n_distinct`) together to test if their result is the same.
+
+--
+
 ```{r}
 n_distinct(whr15$country, na.rm = TRUE) == nrow(whr15)
 
@@ -410,12 +440,11 @@ name: wrangling
 
 # dplyr::filter
 
-Filter or subsetting a dataset. 
+Filter or subsetting a dataset. We can extract our data when `region == "Western Europe"` using the `filter()` function. For example: 
 
 ```{r filter}
 whr15 %>% 
-  filter(region == "Western Europe",
-         happiness_rank <= 10)
+  filter(region == "Western Europe")
 
 ```
 
@@ -439,7 +468,7 @@ whr15 %>%
 
 --
 
-A more elegant approach would be: 
+A more elegant approach would be to use the `%in%` operator : 
 
 ```{r, eval = FALSE}
 whr15 %>% 
@@ -450,13 +479,12 @@ whr15 %>%
 
 # dplyr::filter regular expressions
 
-One advantage of the filter command over Stata is that you can also integrate regular expressions in quite a better way. Let's say that we want to subset all regions' divisions that have `America` in their names. We can use the following: 
+One advantage of the filter command is that you can also integrate regular expressions. Let's say that we want to subset all regions' divisions that have `America` in their names. We can use the following: 
 
 ```{r grepl}
 whr15 %>% 
   filter(grepl("America", region)) %>% 
   head(2)
-
 ```
 
 --
@@ -504,69 +532,8 @@ whr15 %>%
 
 ```
 
-> Notice that we are negating the function, i.e., !
+> Notice that we are negating the function, i.e., `!is.na()`
 <br> In case we want to keep the observations that contains missing information we will only use `is.na()`. 
-
----
-
-# Other relevant functions: slice, subset, select
-
-.panelset[
-.panel[.panel-name[Arrange]
-
-`Arrange`: allows you to order by a specific column.
-
-```{r arrange}
-whr15 %>% 
-  arrange(region, country) %>% 
-  head(5)
-
-```
-
-]
-
-.panel[.panel-name[Slice]
-
-`Slice`: allows you to select, remove, and duplicate rows. 
-
-```{r slice}
-whr15 %>% 
-  slice(1:5) # to select the first 5 rows
-
-```
-
-You can also use `slice_head` and `slice_tail` to select the first or last rows respectively. Or `slice_sample` to randomly draw n rows.
-
-]
-
-.panel[.panel-name[Select]
-
-`Select`: allows you to specific columns.
-
-```{r select}
-whr15 %>% 
-  select(region, country, happiness_rank)
-```
-
-]
-
-.panel[.panel-name[Combining functions]
-
-`Select`: allows you to specific columns.
-
-```{r mix}
-whr15 %>% 
-  arrange(region, country) %>%                        # Arrange by region and country
-  filter(!is.na(region)) %>%                          # Filter those non-missing obs for region if any
-  select(country, region, starts_with("happin")) %>%  # Select country, year, and vars that stars with happin
-  slice_head()                                        # Get the first row
-
-```
-
-]
-
-]
-
 
 ---
 class: inverse, center, middle
@@ -582,7 +549,7 @@ name: variables
 
 ### In the tidyverse, we refer to creating variables as mutating
 
-So, instead of **gen**erate, we use `mutate()`. Let's say we want to have interactions:
+So, we use the `mutate()` function. Let's say we want to have interactions:
 
 ```{r mut}
 whr15 %>%
@@ -605,11 +572,11 @@ whr15 %>%
   )
 ```
 
-.qa[Q] Well, what do you think is happening to this variable? 
+What do you think is happening to this variable? 
 
 --
 
-.qa[A] The variable we created contains either TRUE or FALSE. <br> If we want to have it as a numeric (1 or 0), we could include `as.numeric()`
+> The variable we created contains either `TRUE` or `FALSE`. <br> If we want to have it as a numeric (1 or 0), we could include `as.numeric()`
 
 --
 
@@ -633,21 +600,6 @@ whr15 %>%
 
 ---
 
-# Using ifelse when creating a variable
-
-We can also create a dummy variable with the `ifelse()` function. The way we use this function is as: `ifelse(test, yes, no)`. We can also use another function called `case_when()`.
-
-```{r}
-whr15 %>% 
-  mutate(
-    latin_america_car = ifelse(region == "Latin America and Caribbean", 1, 0)
-  ) %>% 
-  arrange(-latin_america_car) %>% 
-  head(5)
-```
-
----
-
 # Some notes: mutate() vs transmute()
 
 `mutate()` *vs* `transmute()`
@@ -662,9 +614,9 @@ Similar in nature but:
 
 # Creating variables by groups
 
-Let's imagine now that we want to create a variable at the region level -- recal `bys gen` in Stata.In R, we can use `group_by()` before we mutate. So for this example, we going to combine the chain the following functions. 
+Let's imagine now that we want to create a variable at the region level (recall `bys gen` in Stata).In R, we can use `group_by()` before we mutate. So for this example, we going to pipe the following functions. 
 
-1. Group our data by the region variable.
+1. Group our data by the `region` variable.
 2. Create a variable that would be the mean of happiness_score by each region.
 3. Select the variables `country, region, happiness_score, mean_hap`. 
 
@@ -683,11 +635,11 @@ whr15 %>%
 
 # Creating multiple variables at the same time
 
-With the new version of `dplyr`, we now can create multiple variables in an easier way. So, let's imagine that we want to estimate the mean value for the variables: happiness_score, health_life_expectancy, and trust_government_corruption.
+We can create multiple variables in an easy way. So, let's imagine that we want to estimate the mean value for the variables: happiness_score, health_life_expectancy, and trust_government_corruption.
 
 #### How we can do it? 
 
-* In R we can use the new function `across()`. It behaves this way: `across(VARS that you want to transform, function to execute)`. 
+* We can use the function `across()`. It behaves this way: `across(VARS that you want to transform, FUNCTION to execute)`. 
 * `across()` should be always use inside `summarise()` or `mutate()`.
 
 .panelset[
@@ -769,14 +721,14 @@ name: bind
 Now that we can identify the observations, we can combine the data set. Here are two functions to append objects by row
 
 ```{r eval = FALSE}
-rbind(...)
+rbind(df1, df2, df3)
 
-bind_rows(...)
+bind_rows(df1, df2, df3)
 ```
 
 ### Exercise 6: Append data sets.
 
-* Use either functions to append the three WHR datasets:
+* Use the function `bind_rows` to append the three WHR datasets:
 
 --
 
@@ -794,14 +746,11 @@ bind_rows(whr15, whr16, whr17)
 
 --
 
-* One of the problems with binding rows like this is that, sometimes, columns compatibility is quite junky.
+* One of the problems with binding rows like this is that, sometimes, some columns are not compatible.
 
 ---
 
 # Appending and merging data sets
-
-To be honest, the most important variable that we will need to include in the 2017 dataset is the region variable. 
-
 
 ### Exercise 7: Fixing our variables and appending the dfs correctly.
 
@@ -969,6 +918,96 @@ saveRDS(whr_panel, file = file.path(finalData, "whr_panel.Rds"))
 
 ---
 class: inverse, center, middle
+
+# Thank you~~ 
+
+
+---
+class: inverse, center, middle
+name: appendix
+
+# Appendix
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Other relevant functions: slice, subset, select
+
+.panelset[
+.panel[.panel-name[Arrange]
+
+`Arrange`: allows you to order by a specific column.
+
+```{r arrange}
+whr15 %>% 
+  arrange(region, country) %>% 
+  head(5)
+
+```
+
+]
+
+.panel[.panel-name[Slice]
+
+`Slice`: allows you to select, remove, and duplicate rows. 
+
+```{r slice}
+whr15 %>% 
+  slice(1:5) # to select the first 5 rows
+
+```
+
+You can also use `slice_head` and `slice_tail` to select the first or last rows respectively. Or `slice_sample` to randomly draw n rows.
+
+]
+
+.panel[.panel-name[Select]
+
+`Select`: allows you to specific columns.
+
+```{r select}
+whr15 %>% 
+  select(region, country, happiness_rank)
+```
+
+]
+
+.panel[.panel-name[Combining functions]
+
+`Select`: allows you to specific columns.
+
+```{r mix}
+whr15 %>% 
+  arrange(region, country) %>%                        # Arrange by region and country
+  filter(!is.na(region)) %>%                          # Filter those non-missing obs for region if any
+  select(country, region, starts_with("happin")) %>%  # Select country, year, and vars that stars with happin
+  slice_head()                                        # Get the first row
+
+```
+
+]
+
+]
+
+
+---
+
+# Using ifelse when creating a variable
+
+We can also create a dummy variable with the `ifelse()` function. The way we use this function is as: `ifelse(test, yes, no)`. We can also use another function called `case_when()`.
+
+```{r}
+whr15 %>% 
+  mutate(
+    latin_america_car = ifelse(region == "Latin America and Caribbean", 1, 0)
+  ) %>% 
+  arrange(-latin_america_car) %>% 
+  head(5)
+```
+
+---
+class: inverse, center, middle
 name: factor
 
 # Factor variables
@@ -1053,7 +1092,6 @@ whr_panel_wide <- whr_panel %>%
     values_from = happiness_score
   ) 
 ```
-
 
 
 ```{r}

@@ -1,14 +1,14 @@
 ---
 title: "Spatial Data"
 subtitle: "[R for Advanced Stata Users](https://github.com/worldbank)"
-author: "Luiza Andrade, Leonardo Viotti, Rob Marty, Rony Rodriguez, Luis Eduardo San Martin"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "DIME |The World Bank <br> `r format(Sys.time(), '%d %B %Y')`"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
           "libs/remark-css/metropolis.css", 
           "libs/remark-css/metropolis-fonts.css",
-          "custom-css.css"]
+          "libs/remark-css/custom.css"]
     lib_dir: libs
     nature:
       ratio: "16:9"
@@ -57,6 +57,10 @@ htmltools::tagList(
     
   }
 
+  if (Sys.getenv("USERNAME") == "Maximiliano"){
+    projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
+  }
+
   # File paths
   dataWorkFolder    <- file.path(projectFolder,"DataWork")
 
@@ -68,6 +72,7 @@ htmltools::tagList(
   library(sf)
   library(rworldmap)
   library(ggmap)
+  library(wesanderson)
   
   # Load data
 whr_panel   <- readRDS(file.path(finalData, "whr_panel.RDS"))

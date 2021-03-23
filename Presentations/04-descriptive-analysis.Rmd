@@ -1,7 +1,7 @@
 ---
 title: "Descriptive Analysis"
 subtitle: "[R for Advanced Stata Users](https://github.com/worldbank)"
-author: "Luiza Andrade, Leonardo Viotti, Rob Marty, Rony Rodriguez, Luis Eduardo San Martin"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "DIME |The World Bank <br> `r format(Sys.time(), '%d %B %Y')`"
 output:
   xaringan::moon_reader:
@@ -49,6 +49,10 @@ xaringanExtra::use_logo(
   if (Sys.getenv("USERNAME") %in% c("wb501238", "WB501238")) {
     projectFolder  <- "C:/Users/wb501238/Documents/GitHub/dime-r-training"
     
+  }
+
+  if (Sys.getenv("USERNAME") == "Maximiliano"){
+    projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
   }
 
   # File paths

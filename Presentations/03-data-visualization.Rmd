@@ -1,11 +1,14 @@
 ---
-title: "Session 3b: Data Visualization"
+title: "Session 3: Data Visualization"
 subtitle: "R for Stata Users"
-author: "Rony Rodrigo Maximiliano Rodriguez-Ramirez"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> `r format(Sys.time(), '%d %B %Y')`"
 output:
   xaringan::moon_reader:
-    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
+    css: ["libs/remark-css/default.css", 
+          "libs/remark-css/metropolis.css", 
+          "libs/remark-css/metropolis-fonts.css",
+          "libs/remark-css/custom.css"]
     lib_dir: libs
     nature:
       countIncrementalSlides: FALSE
@@ -52,7 +55,7 @@ if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
-if (Sys.getenv("USERNAME") == "maximiliano"){
+if (Sys.getenv("USERNAME") == "Maximiliano"){
   projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
 }
 
@@ -1143,57 +1146,11 @@ ggsave(fig,
 
 ---
 class: inverse, center, middle    
-name: ggplotly
-
-# Interactive graphs
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Interactive graphs
-
-There are several packages to create interactive or dynamic data vizualizations with R. Here are a few:
-
-* `leaflet` - R integration tp one of the most popular open-source libraries for interactive maps.
-* `highcharter` - cool interactive graphs.
-* `plotly` - interactive graphs with integration to ggplot.
-* `gganimate` - ggplot GIFs.
-* `DT` - Interactive table
-
-These are generally, html widgets that can be incorporated in to an html document and websites.
-
----
-
-# Interactive graphs
-
-Now we’ll use the ggplotly() function from the plotly package to create an interactive graph!
-
-### Exercise 6: Interactive graphs.
-
-* Load the plotly package
-* Pass that object with the last plot you created to the ggplotly() function
-
-
----
-
-# Interactive graphs
-
-```{r, message=FALSE, warning=FALSE, out.width = "70%", out.height="70%", out.extra = 'style="display:block; margin:auto;"'}
-# Load package
-library(plotly)
-
-# Use ggplotly to create an interactive plot
-ggplotly(fig) %>% 
-  layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
-
-```
-
----
-class: inverse, center, middle    
 name: hw
 
 # Howework
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
@@ -1246,3 +1203,59 @@ https://www.coursera.org/learn/exploratory-data-analysis
 class: inverse, center, middle
 
 # Thank you~ 
+
+---
+class: inverse, center, middle    
+name: appendix
+
+# Appendix
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+class: inverse, center, middle    
+name: ggplotly
+
+# Interactive graphs
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Interactive graphs
+
+There are several packages to create interactive or dynamic data vizualizations with R. Here are a few:
+
+* `leaflet` - R integration tp one of the most popular open-source libraries for interactive maps.
+* `highcharter` - cool interactive graphs.
+* `plotly` - interactive graphs with integration to ggplot.
+* `gganimate` - ggplot GIFs.
+* `DT` - Interactive table
+
+These are generally, html widgets that can be incorporated in to an html document and websites.
+
+---
+
+# Interactive graphs
+
+Now we’ll use the ggplotly() function from the plotly package to create an interactive graph!
+
+### Exercise 6: Interactive graphs.
+
+* Load the plotly package
+* Pass that object with the last plot you created to the ggplotly() function
+
+
+---
+
+# Interactive graphs
+
+```{r, message=FALSE, warning=FALSE, out.width = "70%", out.height="70%", out.extra = 'style="display:block; margin:auto;"'}
+# Load package
+library(plotly)
+
+# Use ggplotly to create an interactive plot
+ggplotly(fig) %>% 
+  layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
+
+```
