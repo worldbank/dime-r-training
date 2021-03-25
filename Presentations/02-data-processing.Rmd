@@ -33,6 +33,7 @@ library(hrbrthemes)
 library(fontawesome)
 library(xaringanExtra)
 xaringanExtra::use_panelset()
+xaringanExtra::use_webcam()
 
 # File paths
 if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
