@@ -316,39 +316,6 @@ Let's test if that worked:
 
 # File paths
 
-## Loading a dataset from CSV
-
-Use the `read.csv()` command:
-
-```{r, eval=F}
-read.csv(file, header = FALSE, stringsAsFactors = FALSE)
-```
-
-* __file__: is the path (string) to the file you want to open, including its path, name and file extension (`.csv`).
-  + Example: `/home/user/Data/whr_panel.csv`
-
-* __header__: if `TRUE`, will read the first row as variable names (default is `header = FALSE`).
-
-* __stringsAsFactors__: logical. See next slide for more.
-
----
-
-# File paths
-
-## Loading a dataset from CSV
-
-* Since R 4.0.0 and beyond, `stringsAsFactors = FALSE` is the default. In every previous version, the default is `TRUE`.
-
-* This means that if your R version is 3.X.X, R will turn any string variables into factors by default when reading a `csv` file.
-
-* This format __saves memory__, but can be tricky if you actually want to use the variables as strings.
-
-* You can specify the option `stringsAsFactors = FALSE` to make sure you prevent R from turning strings into factors.
-
----
-
-# File paths
-
 ### Exercise 4: Test file paths
 
 1. Save your script.
