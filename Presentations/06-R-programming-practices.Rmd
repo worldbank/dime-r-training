@@ -1,8 +1,8 @@
 ---
-title: "R programming practices"
-subtitle: "R for Stata Users"
+title: "Introduction II - R programming"
+subtitle: "R for Advanced Stata Users"
 author: "DIME Analytics"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2020"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -57,10 +57,6 @@ if (Sys.getenv("USERNAME") == "Leonardo"){
 
 }
 
-if (Sys.getenv("USERNAME") == "wb532468"){
-  projectFolder <- file.path("C:/WBG/Repos/dime-r-training")
-}
-
 if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
@@ -111,6 +107,36 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 
 ---
 
+# Sessions format
+
+## Format
+
+- These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
+
+- The sessions include exercises where we give 1-2 minutes to solve them. Then, the presenter will call names to discuss what you did and which issues you encountered
+
+  + If you prefer not to be called or have connectivity issues which prevent participation, please let us know by sending a private message to __Luiza Cardoso De Andrade__
+
+- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez Ramirez__
+
+---
+
+# Sessions format
+
+## Format
+
+- The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a private message whenever you need help
+
+- Otherwise, if you have a __general question__ feel free to unmute yourself or use the chat to ask it
+
+- Please mute your microphone the rest of the time
+
+- If your connection is good enough, please leave your video on
+
+- The materials of each session will be shared in the OSF page on the course after the end of each session: https://osf.io/b7hm6/
+
+---
+
 class: inverse, center, middle
 name: introduction
 
@@ -124,7 +150,7 @@ name: introduction
 
 ## What is this session about?
 
-* In the previous sessions, you learned how to use R in data analysis
+* In the last session, you learned the basic concepts to work in R
 
 * You are probably eager to get your hands into some data using R by now, and you would figure out __what should be in your code__ for it to work
 
@@ -316,6 +342,39 @@ Let's test if that worked:
 
 # File paths
 
+## Loading a dataset from CSV
+
+Use the `read.csv()` command:
+
+```{r, eval=F}
+read.csv(file, header = FALSE, stringsAsFactors = FALSE)
+```
+
+* __file__: is the path (string) to the file you want to open, including its path, name and file extension (`.csv`).
+  + Example: `/home/user/Data/whr_panel.csv`
+
+* __header__: if `TRUE`, will read the first row as variable names (default is `header = FALSE`).
+
+* __stringsAsFactors__: logical. See next slide for more.
+
+---
+
+# File paths
+
+## Loading a dataset from CSV
+
+* Since R 4.0.0 and beyond, `stringsAsFactors = FALSE` is the default. In every previous version, the default is `TRUE`.
+
+* This means that if your R version is 3.X.X, R will turn any string variables into factors by default when reading a `csv` file.
+
+* This format __saves memory__, but can be tricky if you actually want to use the variables as strings.
+
+* You can specify the option `stringsAsFactors = FALSE` to make sure you prevent R from turning strings into factors.
+
+---
+
+# File paths
+
 ### Exercise 4: Test file paths
 
 1. Save your script.
@@ -334,6 +393,111 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 ```
 
 5. Run the whole script. If it worked, your environment should now include the `whr` dataset and the path locals.
+
+---
+
+class: inverse, center, middle
+name: exploring-a-dataset
+
+# Exploring a dataset
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Exploring a dataset
+
+Some useful functions:
+
+* **`View()`:** open the data set
+
+* **`class()`:** reports object type or type of data stored
+
+* **`dim()`:** reports the size of each one of an object's dimension
+
+* **`names()`:** returns the variable names of a data set
+
+* **`str()`:** general information about the structure of an R object
+
+* **`summary()`:** summary information about the variables in a data frame
+
+* **`head()`:** shows the first few observations in the dataset
+
+* **`tail()`:** shows the last few observations in the dataset
+
+---
+
+# Exploring a dataset
+
+### Exercise 5: Explore a dataset
+
+Use some of these functions to explore the `whr` data set.
+
+* `View()`
+
+* `class()`
+
+* `dim()`
+
+* `names()`
+
+* `str()`
+
+* `summary()`
+
+* `head()`
+
+* `tail()`
+
+---
+
+# Exploring a dataset
+
+```{r, eval = F}
+# View the data set (same as clicking on it in the Environment pane)
+View(whr)
+```
+
+---
+
+# Exploring a dataset
+
+```{r}
+class(whr)
+dim(whr)
+```
+
+---
+
+# Exploring a dataset
+
+```{r}
+str(whr)
+```
+
+---
+
+# Exploring a dataset
+
+```{r}
+summary(whr)
+```
+
+---
+
+# Exploring a dataset
+
+```{r}
+head(whr)
+```
+
+---
+
+# Exploring a dataset
+
+Didn't get all of those? 
+
+Don't worry, you'll see them again soon.
 
 ---
 
@@ -481,7 +645,7 @@ Notice that we used quotes around the name to install the package, but we don't 
 What if this happens?
 
 ```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/Warning_tidyverse.png")
+knitr::include_graphics("img/Warning.png")
 ```
 
 ---
@@ -605,8 +769,6 @@ name: looping
 
 # Looping
 
-## Loops
-
 * One thing that usually gives people away as Stata users writing R code are loops
 
 * In Stata, we use `for` loops quite a lot
@@ -624,8 +786,6 @@ name: looping
 
 # Looping
 
-## Loops
-
 ```{r}
     # A for loop in R
     for (number in 1:5) {
@@ -636,8 +796,6 @@ name: looping
 ---
 
 # Looping
-
-## Apply
 
 * R, however, has a whole function family that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
@@ -651,8 +809,6 @@ name: looping
 
 # Looping
 
-## Apply
-
 #### `sapply(X, FUN, ...)`: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are:
 
 * **X:** a data frame, matrix or vector the function will be applied to
@@ -664,8 +820,6 @@ name: looping
 ---
 
 # Looping
-
-## Loops vs Apply
 
 ```{r}
     # A for loop in R
@@ -681,24 +835,7 @@ name: looping
 
 # Looping
 
-## Loops vs Apply
-
-* When looping, you repeat the same operation over a set of items
-
-* `apply()`, instead, takes all your elements at once and applies an operation to them simultaneously
-
-* The difference is like this: imagine you ask a yes/no question to a group of people.
-
- + You can collect the answers by asking each one of them individually -- this is looping
- + Otherwise, you can ask them to raise their hands and collect the answers at once -- this is `apply()`
-
----
-
-# Looping
-
-## Apply
-
-A more general version of `sapply()` is the `apply()` function.
+A more general version is the `apply` function.
 
 #### `apply(X, MARGIN, FUN, ...)`: applies a function to all columns or rows of matrix. Its arguments are
 
@@ -714,7 +851,6 @@ A more general version of `sapply()` is the `apply()` function.
 
 # Looping
 
-## Apply
 
 ```{r, eval = T}
     # Create a matrix
@@ -728,8 +864,6 @@ A more general version of `sapply()` is the `apply()` function.
 ---
 
 # Looping
-
-## Apply
 
 ```{r, eval = T}
     # Row means
