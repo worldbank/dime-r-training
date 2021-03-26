@@ -925,7 +925,7 @@ In `whr`, we can see that `country` and `region` are factor variables. In your e
 
 ## Factors
 
-We'll learn more about factors on a later session, since they are very important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
+We'll learn more about factors on a later session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
 
 Unlike Stata, in R:
 
@@ -941,8 +941,8 @@ Unlike Stata, in R:
 
 Boolean data is the result of logical conditions. It can take two possible values: `TRUE` or `FALSE`.
 
-* Whenever you're using an `if` statement in Stata, you're implicitly using boolean data. 
-* One difference is that in R, this can be done in 2 steps.
+* Stata doesn't have boolean types as such, but Whenever you're using an `if` statement, you're implicitly using boolean data.
+* One difference is that in R, this can be done in 2 steps
 * Another difference is that in R you can assign a boolean value to an object:
 
 ```{r}
@@ -1018,7 +1018,7 @@ whr$rank_low <- 0
 whr$rank_low [inc_below_avg] <- 1
 ```
 
- * **Important:** Notice that `whr$rank_low [bool_vec]` is subsetting the column `whr$rank_low` to the observations that have a value of `TRUE` in the boolean vector `inc_below_avg` 
+ **Important:** Notice that `whr$rank_low [bool_vec]` is subsetting the column `whr$rank_low` to the observations that have a value of `TRUE` in the boolean vector `inc_below_avg` 
 
 ---
 
