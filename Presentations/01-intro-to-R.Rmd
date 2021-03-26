@@ -130,15 +130,27 @@ We're glad you're joining us today!
 
 ## Format
 
-- The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a private message whenever you need help
+- The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a message over the chat whenever you need help
 
-- Otherwise, if you have a __general question__ feel free to unmute yourself or use the chat to ask it
+- You can also use our Slack channel to troubleshoot, feel free to send screenshots if you can!
+
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/slack.png")
+```
+
+---
+
+# Sessions format
+
+## Format
+
+- If you have a __general question__ feel free to unmute yourself or use the chat to ask it
 
 - Please mute your microphone the rest of the time
 
 - If your connection is good enough, please leave your video on
 
-- The materials of each session will be shared in the OSF page of the course by the beginning of each session: https://osf.io/b7hm6/
+- The materials of each session will be shared in the OSF page of the course by the beginning of each session: https://osf.io/XXXXX/
 
 ---
 
@@ -179,7 +191,7 @@ name: introduction
 
 ## About this course
 
-These training sessions will offer an introduction to R, its amazing features and how Stata users can adapt from using Stata to using R.
+These training sessions will offer an introduction to R, its amazing features, and how Stata users can adapt from using Stata to using R.
 
 We assume that you know how to do statistical programming in Stata or that you have a computer programming background.
 
@@ -231,6 +243,8 @@ https://github.com/worldbank/dime-r-training
 
 # Introduction
 
+## R vs Stata
+
 Some possible disadvantages of R vs Stata:
 
 * Higher cost of entry than Stata for learning how to use it.
@@ -248,7 +262,9 @@ Some possible disadvantages of R vs Stata:
 
 # Introduction
 
-Here are some advantages:
+## R vs Stata
+
+Here are some advantages of R:
 
 * R is a free and open source software!
 
@@ -379,7 +395,7 @@ name: data-in-r
 
 # Data in R
 
-In __Stata__:
+## In Stata:
 
 * You can open __one dataset__ and perform operations that can change that dataset.
 
@@ -391,21 +407,25 @@ In __Stata__:
 
 # Data in R
 
+## In R:
+
 __R__ works in a completely different way: 
  
-* You can have __as many datasets (objects) as you wish__ or your computer's memory allows.
+* You can load __as many datasets as you wish__ or your computer's memory allows
 
-* Operations will have lasting effects __only if you store them__.
+* Operations will have lasting effects __only if you store them__
 
 ---
 
 # Data in R
 
-* Everything that exists in R's memory -- variables, datasets, functions -- __is an object__.
+## In R:
 
-* You could think of an object like a chunk of data with some properties that has a name by which you call it.
+* Everything that exists in R's memory -- variables, datasets, functions -- __is an object__
 
-* If you create an object, it's going to be stored in memory until you delete it or quit R.
+* You could think of an object like a chunk of data with some properties that has a name by which you call it
+
+* If you create an object, it's going to be stored in memory until you delete it or quit R
 
 * Whenever you run anything you intend to use in the future, __you need to store it as an object__.
 
@@ -423,22 +443,17 @@ Type the following code to explore the data:
 # We can use the function View() to browse the whole data
 View(whr) # <--- Note that the first letter is uppercase
 
-# Alternatively we can print the first 6 obs. with head()
-head(whr)
-
 ```
 
----
-
-# Data in R
-
-```{r echo = FALSE, out.width = "70%"}
+```{r echo = FALSE, out.width = "45%"}
 knitr::include_graphics("img/View.png")
 ```
 
 ---
 
 # Data in R
+
+Alternatively we can print the first 6 obs. with `head()`:
 
 ```{r, include = T}
 
@@ -468,7 +483,7 @@ subset(whr, year == 2015)
 head(whr)
 ```
 
-#### Important: Always write your code in the script window and run it from there
+**Important:** It is a good practice to always write your code in the script window and run it from there
 
 ---
 
@@ -487,7 +502,7 @@ head(whr)
 
 # Data in R
 
-We can see that nothing happened to the original data. This happens because we didn't store the edit we made anywhere.
+We can see that nothing happened to the original data. This was because we didn't store the edit we made.
 
 ### To store an object, we use the assignment operator (`<-`):
 
@@ -563,9 +578,9 @@ You can also see that your environment pane now has two `Data` objects:
 
 ### Important concepts to take note:
 
-* In R, if you want to change your data, you need to __store it in an object__.
+* In R, if you want to change your data, you need to __store the result in an object__ using the arrow operator `<-`
 
-* It is possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
+* It is also possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
  
  ```{r, eval = F}
  # This would have replaced "whr" instead of creating a new object:
@@ -578,7 +593,9 @@ __Important:__ This will delete the original object -- `whr` in this case
 
 # Data in R
 
-* Print (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but won't save anything in the memory.
+## Printing a result vs storing a result
+
+Print (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but won't save anything in the memory.
 
 ```{r, eval = F}
 # For instance, this will only print the observations that meet the specified condition:
@@ -606,7 +623,7 @@ name: functions
 
 `head()`, `View()`, `subset()` and`read.csv()` are functions!
 
-* Functions in R take named arguments (unlike in Stata that you have arguments and options).
+* Functions in R take named arguments (unlike in Stata that you have arguments and options)
 
 * Arguments are always enclosed in parentheses
 
@@ -614,7 +631,7 @@ name: functions
 
 * Functions usually return values that you can store in an object, print or use directly as an argument of another function.
 
-We will explore these ideas in depth in the next session.
+We will explore these ideas in depth in a later session.
 
 ---
 
@@ -629,6 +646,8 @@ name: r-objects
 
 # R objects
 
+## R objects
+
 Objects are the __building blocks of R programming__. This section will explore some of the most common classes, with a focus on data structures.
 
 This will give you the foundation to explore your data and construct analytical outputs.
@@ -639,15 +658,17 @@ This will give you the foundation to explore your data and construct analytical 
 
 ## What is an object?
 
-* An object is like a global or local in Stata, it's __something you can refer to later__ in your code to get a value.
+* An object is like a global or local in Stata, it's __something you can refer to later__ in your code to get a value
 
 * But while you can only put a number or a string in a global, __you can put anything into an object__: scalars, strings, datasets, vectors, plots, functions, etc.
 
-* Objects also have attributes that can be used to manipulate it.
+* Objects also have attributes that can be used to manipulate them
 
 ---
 
 # R objects
+
+## Object classes
 
 Here are the object classes we will cover in this first session:
 
@@ -689,10 +710,12 @@ v2[4]
 
 To R, each of the columns of the object `whr` is a vector.
 
-#### Calling a vector from a `data.frame` column
+### Calling a vector from a `data.frame` column:
+
 We use the `$` character to call vectors (variables) by their names in a `data.frame`
 
-#### Type the following code:
+For example:
+
 ```{r}
 # Create a vector with the values of the "year" variable
 year_vector <- whr$year
@@ -759,7 +782,7 @@ whr[22,"country"] # The same as whr$country[22]
 
 ## Lists
 
-Lists are more complex objects that can contain many objects __of different classes and dimensions__.
+Lists are more complex objects that can contain many objects of __different classes and dimensions__.
 
 The outputs of many functions, a regression for example, are similar to lists.
 
@@ -816,7 +839,7 @@ As in Stata, there are two different ways to store numbers. They are different b
 Now we'll use string data to practice some basic object manipulations in R.
 
 ### Exercise 4: Create a vector of strings
-Create a string vector containing the names of commonly used statistical software in order of importance:
+Create a string vector containing the names of commonly used statistical software:
 ```{r, include = T, results = "hide"}
 
 # Creating string vector
@@ -835,7 +858,7 @@ Now print them to check them out.
 ## Strings
 
 ### Exercise 5: Concatenate strings
- 1. Create a scalar (a vector of one element) containing the phrase "is cooler than" and call it `str_scalar`.
+ 1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`.
 
  2. Use the function `paste()` with 3 arguments separated by commas:
   + The first argument as the 1st element of `str_vec`.
@@ -857,7 +880,7 @@ help(paste)
 ### Using the paste function to combine strings
 
 # Scalar
-str_scalar <- "is cooler than"
+str_scalar <- "can be an option to"
 
 # Using the paste() function
 paste(str_vec[1], str_scalar, str_vec[5])
@@ -879,9 +902,11 @@ name: advanced-types-of-data
 R also has other more complex ways of storing data. These are the most used:
 
 ## Factors
+
 Factors are __numeric categorical values with text labels__, equivalent to labeled variables in Stata. Turning strings into factors makes it easier to run different analyses on them and also uses less space in your memory.
 
 ## Booleans
+
 Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as values. They are automatically generated when performing logical operations.
 
 ---
@@ -900,7 +925,7 @@ In `whr`, we can see that `country` and `region` are factor variables. In your e
 
 ## Factors
 
-We'll learn how to deal with factors in detail on the next session, since they are very important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
+We'll learn more about factors on a later session, since they are very important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
 
 Unlike Stata, in R:
 
