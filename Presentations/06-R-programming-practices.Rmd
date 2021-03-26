@@ -185,9 +185,21 @@ name: initial-settings
 
 * What do you see in your environment?
 
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/empty_environment.png")
+```
+
+---
+
+#Initial settings
+
 * If you saved the objects from the last session in `.RData`, the objects that were in RStudio's memory last time you closed it will still be there whenever you open it again
 
 * You can also go to the `Console` panel and use the up and down keys to navigate through the commands you executed in previous sessions. They are saved by default in `.Rhistory`
+
+```{r echo = FALSE, out.width = "40%"}
+knitr::include_graphics("img/Interface.png")
+```
 
 ---
 
