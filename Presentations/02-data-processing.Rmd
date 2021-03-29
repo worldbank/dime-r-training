@@ -30,6 +30,7 @@ opts_chunk$set(
   cache=T#, echo=F, warning=F, message=F
   )
 library(hrbrthemes)
+library(here)
 library(fontawesome)
 library(xaringanExtra)
 xaringanExtra::use_panelset()
@@ -55,7 +56,7 @@ if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
-if (Sys.getenv("USERNAME") == "Maximiliano"){
+if (Sys.getenv("USERNAME") == "maximiliano"){
   projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
 }
 
@@ -119,6 +120,8 @@ name: intro
 
 ### Goals of this session
 
+- To understand what RStudio projects are and how they can be used in your daily work.
+
 - To organize data in a way that it will be easier to analyze it and communicate it.
 
 - We'll use a set of packages that are bundled into something called the `tidyverse`.
@@ -144,18 +147,105 @@ Takeaway: long format > wide format
 
 # Introduction
 
-- In this session, you'll be introduced to some basic concepts of data cleaning in R. We will cover: 
+In this session, you'll be introduced to some basic concepts of data cleaning in R. We will cover: 
 
-1. Exploring a dataset;
-2. Creating new variables;
-3. Filtering and subsetting datasets;
-4. Merging datasets;
-5. Dealing with factor variables;
-6. Saving data.
+1. RStudio projects; 
+2. Exploring a dataset;
+3. Creating new variables;
+4. Filtering and subsetting datasets;
+5. Merging datasets;
+6. Dealing with factor variables;
+7. Saving data.
 
 --
 
 > There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session.
+
+---
+
+# Introduction: RStudio Projects
+
+#### What are RStudio projects? 
+
+- Projects should be reproducible, and if you happen to code in R, RStudio Projects will make your science reproducible and easier in the long-run. 
+- RStudio projects are simply working directories associated with a `.Rproj`. 
+  - If you open a `.Rproj` file, your working directory will be set automatically. Therefore, in this directory you should create folders containing your data, codes, notes, and other material. 
+- To create a RStudio project click `File > New Project`, then:
+
+```{r projects1, echo = FALSE, out.width="35%"}
+knitr::include_graphics("img/project1.png")
+```
+---
+
+# Introduction: RStudio Projects
+
+.pull-left[
+
+```{r projects2, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/project2.png")
+```
+- Click on New Project 
+]
+
+.pull-right[
+```{r projects3, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/project3.png")
+```
+
+- Add a name to your project and directory, and click on create project. 
+]
+
+---
+
+# Introduction: RStudio Projects
+
+### RStudio projects give you a solid workflow: 
+
+- Uses relative paths. 
+- Keep data files there. 
+- You will have a history of the functions you have used.
+- It could load your the last state of your environment. 
+
+---
+
+# Introduction: Packages
+
+### Another important aspect to consider is R packages. Consider the following: 
+
+.pull-left[
+
+#### R is a new phone
+
+```{r, echo = FALSE, out.width="30%"}
+knitr::include_graphics("https://images-na.ssl-images-amazon.com/images/I/81F-QC1N5WL._AC_SY550_.jpg")
+```
+]
+
+.pull-right[
+
+#### R packages are apps in your phone
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("https://www.apple.com/v/app-store/a/images/meta/og__c59t0pflacq6.png?202009232211")
+```
+]
+
+---
+
+# Introduction: Packages
+
+### To install and load a package you can run the following command:
+
+```{r, echo = TRUE, eval = FALSE, include = TRUE}
+
+# To Install
+install.packages("tidyverse")
+
+# To load
+library(tidyverse)
+
+```
+
 
 ---
 
@@ -164,9 +254,8 @@ Takeaway: long format > wide format
 ### Before we start, let's make sure we are all set: 
 
 1. Start a fresh RStudio session.
-2. Load the tidyverse package.
-3. Set your file paths.
-
+2. Open your RStudio project.
+3. Load the tidyverse package.
 
 ### Notes for this session
 
@@ -176,17 +265,13 @@ Takeaway: long format > wide format
 
 ---
 
-# Let's load the tidyverse meta-package:
+# Let's load the two other packages:
 
 ```{r tverse, cache = FALSE}
-# If you haven't installed the package uncomment the next line
-# install.package("tidyverse", dependencies = TRUE)
+# If you haven't installed the packages uncomment the next line
+# install.package("here")
 # install.package("janitor")
-
-library(tidyverse)
-```
-
-```{r warning=FALSE}
+library(here)
 library(janitor)
 ```
 
@@ -196,20 +281,17 @@ library(janitor)
 
 # File paths
 
-For this session, my file paths are as follows. We will use them to load and export datasets.
+The `here` package allows you to interact with your working directory. That's why it is important to set your RStudio project correctly. 
 
-```{r, cache = FALSE, eval = FALSE}
-# Example of my filepaths for this presentation
-project           <- "D:/Documents/RA Jobs/DIME/trainings/dime-r-training"
+The goal of this package is to:
 
-dataWorkFolder    <- file.path(projectFolder,"DataWork")
-Data              <- file.path(dataWorkFolder,"DataSets")
-finalData         <- file.path(Data,"Final")
-rawData           <- file.path(Data,"Raw")
-rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
-``` 
+- Easily reference your files in project-oriented workflows. 
 
-If you saved the changes you made to the code during the Intro II session, you can simply run that script.
+
+```{r here, echo = FALSE, out.width = "40%"}
+knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/here.png")
+```
+
 
 ---
 
@@ -229,9 +311,9 @@ Use either of the functions mentioned above and load the three WHR datasets from
 ### How to do it? 
 
 ```{r readcsv, message = FALSE}
-whr15 <- read_csv(file.path(rawData, "Un WHR" , "WHR2015.csv")) %>% clean_names()
-whr16 <- read_csv(file.path(rawData, "Un WHR" , "WHR2016.csv")) %>% clean_names()
-whr17 <- read_csv(file.path(rawData, "Un WHR" , "WHR2017.csv")) %>% clean_names()
+whr15 <- read_csv(here::here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2015.csv")) %>% clean_names()
+whr16 <- read_csv(here::here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2016.csv")) %>% clean_names()
+whr17 <- read_csv(here::here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv")) %>% clean_names()
 ```
 
 > Notice the `clean_names()` function. More on this in the next slide.
@@ -762,7 +844,7 @@ bind_rows(whr15, whr16, whr17)
 --
 
 ```{r regions}
-regions <- readRDS(file.path(Data, "Raw", "Un WHR", "regions.RDS"))
+regions <- readRDS(here::here("DataWork", "DataSets", "Raw", "Un WHR", "regions.RDS"))
 
 ```
 
@@ -889,7 +971,7 @@ The function takes the following structure:
 # Save the whr data set
 
 write.csv(whr_panel, 
-          file.path(finalData,"whr_panel.csv"), 
+          here::here("DataWork", "DataSets", "Final", "whr_panel.csv"), 
           row.names = FALSE) 
 ```
 
@@ -913,7 +995,7 @@ The R equivalent of a `.dta` file is a `.Rds` file. It can be saved and loaded u
 ```{r}
 # Save the data set
 
-saveRDS(whr_panel, file = file.path(finalData, "whr_panel.Rds"))
+saveRDS(whr_panel, file = here::here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
 
 ```
 

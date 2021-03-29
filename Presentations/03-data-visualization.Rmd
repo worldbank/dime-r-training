@@ -55,7 +55,7 @@ if (Sys.getenv("USERNAME") == "wb519128"){
   projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
 }
 
-if (Sys.getenv("USERNAME") == "Maximiliano"){
+if (Sys.getenv("USERNAME") == "maximiliano"){
   projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
 }
 
@@ -132,22 +132,15 @@ Similarly to previous sessions, you can find some references at the end of this 
 # Packages
 library(tidyverse)
 library(plotly)
+library(here)
 
 # Load CSV data
-# Replace with where your data is
-
-FolderPath <- file.path("YOUR/FOLDER/PATH")
-
-dataWorkFolder    <- file.path(projectFolder,"DataWork")
-Data              <- file.path(dataWorkFolder,"DataSets")
-finalData         <- file.path(Data,"Final")
-
-whr_panel <- readRDS(file.path(finalData, "whr_panel.RDS"))
+here::here()
 
 ```
 
 ```{r echo = FALSE, include = FALSE}
-whr_panel <- readRDS(file.path(finalData, "whr_panel.RDS"))
+whr_panel <- readRDS(here::here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
 
 ```
 
@@ -1128,7 +1121,7 @@ fig <- whr_panel %>%
 
 ```{r}
 ggsave(fig, 
-       filename = file.path(rawOutput, "fig.png"), 
+       filename = here::here("DataWork", "Output", "Raw", "fig.png"),
        dpi = 750, scale = 0.8,
        height = 8, width = 12)
 ```
@@ -1139,7 +1132,7 @@ If we want to save it as a pdf, we can include the argument `device = cairo_pdf`
 ```{r}
 # Save Plot
 ggsave(fig, 
-       filename = file.path(rawOutput, "fig.pdf"), 
+       filename = here::here("DataWork", "Output", "Raw", "fig.pdf"),
        device = cairo_pdf, scale = 0.8,
        height = 8, width = 12)
 ```
