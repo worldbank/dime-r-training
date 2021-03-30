@@ -106,14 +106,14 @@ name: intro
 
 - To organize data in a way that it will be easier to analyze it and communicate it.
 
-- We'll use a set of packages that are bundled into something called the `tidyverse`.
+- To get familiar with the packages bundled into the `tidyverse`.
 
 
 --
 
 ### Things to keep in mind
 
-- We'll take you through the same steps we've taken when we were preparing the datasets. 
+- We'll take you through the same steps we've taken when we were preparing the datasets used in this course. 
 
 - In most cases, your datasets won't be `tidy`. 
 
@@ -505,7 +505,13 @@ name: wrangling
 
 # dplyr::filter
 
-Filter or subsetting a dataset. We can extract our data when `region == "Western Europe"` using the `filter()` function. For example: 
+- The `filter` function is used to subset rows in a dataset. 
+
+--
+
+-  For example, we can use to extract observations from Westerns European countries
+
+--
 
 ```{r filter}
 whr15 %>% 
@@ -519,12 +525,11 @@ whr15 %>%
 
 ### Exercise 3: Filter the dataset.
 
-* Use `filter()`
-* Filter only for the regions: (1) Eastern Asia and (2) North America.
+* Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America.
 
 --
 
-This would be the normal way to do it: 
+The *or* operator (`|`) is one way to do it: 
 
 ```{r, eval = FALSE}
 whr15 %>% 
@@ -533,7 +538,7 @@ whr15 %>%
 
 --
 
-A more elegant approach would be to use the `%in%` operator : 
+A more elegant approach would be to use the `%in%` operator (equivalent to `inlist()` in Stata): 
 
 ```{r, eval = FALSE}
 whr15 %>% 
@@ -826,7 +831,7 @@ bind_rows(whr15, whr16, whr17)
 --
 
 ```{r regions}
-regions <- readRDS(here("DataWork", "DataSets", "Raw", "Un WHR", "regions.RDS"))
+regions <- read_rds(here("DataWork", "DataSets", "Raw", "Un WHR", "regions.RDS"))
 
 ```
 
@@ -836,7 +841,7 @@ regions <- readRDS(here("DataWork", "DataSets", "Raw", "Un WHR", "regions.RDS"))
 
 We can use the `left_join()` function merge two dataframes. The function syntax is: `left_join(a_df, another_df, by = c("id_col1"))`. 
 
-> A left join takes all the values from the first table, and looks for matches in the second table. If it finds a match, it adds the data from the second table; if not, it adds missing values. 
+> A left join takes all the values from the first table, and looks for matches in the second table. If it finds a match, it adds the data from the second table; if not, it adds missing values. It is the equivalent of `merge, keep(master matched)` in Stata.
 
 --
 
@@ -899,7 +904,7 @@ Finally, let's keep those relevant variables first and bind those rows.
 ### Exercise 8: Bind all rows and create a panel called: `whr_panel`. 
 
 * Use `rbind()`
-* Select the variables: country, region, year, happiness_rank, happiness_score, economy_gdp_per_capita, health_life_expectancy, freedom for each df, i.e., 15,16,16.
+* Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`.
 
 --
 
@@ -934,11 +939,11 @@ name: saving
 
 The function takes the following structure: 
 
-`write.csv(x, file, row.names = TRUE)`: 
+`write_csv(x, file, append = FALSE)`: 
 
 * `x:` the object (usually a data frame) you want to export to CSV
 * `file:` the file path to where you want to save it, including the file name and the format (“.csv”)
-* `row.names:` by default, R adds a column to the CSV file with the names (or numbers) of the rows in the data frame. Set it to `FALSE` if you don’t want that column to be exported.
+* `append:` If FALSE, will create a new file. If TRUE, will append to an existing file.
 
 ---
 
@@ -946,15 +951,14 @@ The function takes the following structure:
 
 ### Exercise 9: Save the dataset.
 
-* Use `write.csv()`
+* Use `write_csv()`
 * Use `here()`
 
 ```{r}
 # Save the whr data set
 
-write.csv(whr_panel, 
-          here("DataWork", "DataSets", "Final", "whr_panel.csv"), 
-          row.names = FALSE) 
+write_csv(whr_panel, 
+          here("DataWork", "DataSets", "Final", "whr_panel.csv")) 
 ```
 
 --
@@ -967,17 +971,17 @@ write.csv(whr_panel,
 
 # Saving a dataset
 
-The R equivalent of a `.dta` file is a `.Rds` file. It can be saved and loaded using the following commands:
+The R equivalent of a `.dta` file is a `.rds` file. It can be saved and loaded using the following commands:
 
-* `saveRDS(object, file = "")`: Writes a single R object to a file.
+* `write_rds(object, file = "")`: Writes a single R object to a file.
 
-* `readRDS(file)`: Load a single R object from a file. 
+* `read_rds(file)`: Load a single R object from a file. 
 
 
 ```{r}
 # Save the data set
 
-saveRDS(whr_panel, file = here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
+write_rds(whr_panel, file = here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
 
 ```
 
