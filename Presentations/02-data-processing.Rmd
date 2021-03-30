@@ -56,6 +56,11 @@ if (Sys.getenv("USERNAME") == "luis_eduardo"){
   
 }
 
+if (Sys.getenv("USERNAME") %in% c("WB532468", "wb532468")){
+  projectFolder  <- "/home/luis_eduardo/cs_projects/dime-r-training"
+  
+}
+
 if (Sys.getenv("USERNAME") == "Leonardo"){
   projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
 
@@ -581,7 +586,7 @@ whr15 %>%
 
 --
 
-> Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east <- + the code above`. Remember that the arrow sign (<-) is a mix of < and -. The font we are using in this presentation is called Fira Code, and it combines the two characters (a ligature). 
+> Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east <- + the code above`.
 
 ---
 
