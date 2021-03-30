@@ -17,22 +17,26 @@ output:
       highlightLines: TRUE
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 
 # Load packages
-options(htmltools.dir.version = FALSE)
 library(knitr)
-opts_chunk$set(
-  fig.align="center",  
-  fig.height=4, #fig.width=6,
-  # out.width="748px", #out.length="520.75px",
-  dpi=300, #fig.path='Figs/',
-  cache=T#, echo=F, warning=F, message=F
-  )
 library(tidyverse)
 library(hrbrthemes)
 library(fontawesome)
+library(here)
 library(xaringanExtra)
+
+here::i_am("Presentations/03-data-visualization.Rmd")
+
+options(htmltools.dir.version = FALSE)
+opts_chunk$set(
+  fig.align = "center",
+  fig.height = 4,
+  dpi = 300,
+  cache = T
+  )
+
 xaringanExtra::use_panelset()
 xaringanExtra::use_webcam()
 xaringanExtra::use_clipboard()
@@ -44,45 +48,12 @@ htmltools::tagList(
   rmarkdown::html_dependency_font_awesome()
 )
 
-
-
-# File paths
-if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "luis_eduardo"){
-  projectFolder  <- "/home/luis_eduardo/cs_projects/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-
-}
-
-if (Sys.getenv("USERNAME") == "wb519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
-}
-
-if (Sys.getenv("USERNAME") == "maximiliano"){
-  projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
-}
-
-# File paths
-dataWorkFolder    <- file.path(projectFolder,"DataWork")
-Data              <- file.path(dataWorkFolder,"DataSets")
-finalData         <- file.path(Data,"Final")
-rawData           <- file.path(Data,"Raw")
-rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
-
-```
-
-```{r xaringan-logo, echo=FALSE}
 xaringanExtra::use_logo(
-  image_url = "img/lightbulb.png",
-  exclude_class = c("inverse", "hide_logo"),
+  image_url = here("Presentations",
+                   "img",
+                   "lightbulb.png"),
+  exclude_class = c("inverse", 
+                    "hide_logo"),
   width = "50px"
 )
 ```
@@ -112,6 +83,7 @@ xaringanExtra::use_logo(
 
 
 ---
+
 class: inverse, center, middle
 name: intro
 
@@ -139,19 +111,16 @@ Similarly to previous sessions, you can find some references at the end of this 
 * Make sure the packages `ggplot2` and `plotly` are installed and loaded.
 * Load the `whr_panel` data set.
 
-```{r eval = FALSE}
+```{r}
 # Packages
 library(tidyverse)
 library(plotly)
 library(here)
 
-# Load CSV data
-here::here()
-
-```
-
-```{r echo = FALSE, include = FALSE}
-whr_panel <- readRDS(here::here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
+whr_panel <- readRDS(here("DataWork", 
+                          "DataSets", 
+                          "Final", 
+                          "whr_panel.Rds"))
 
 ```
 
@@ -164,7 +133,7 @@ In our workflow there are usually two distinct uses for plots:
 
 1. **Exploratory analysis**: Quickly visualize your data in an insightful way.
   * We’ll do this using `ggplot2`, but in a more simplistic way which will allow us to quickly create some basic figures.
-  
+
 2. **Publication/Reporting**: Make pretty graphs for a presentation, a project report, or to just show your boss something other than the laziest graph you could come up with:
   * We’ll do this using `ggplot2` with more customization. The idea is to create beautiful graphs.
   * `ggplot2`’s syntax is more complicated, but it’s easier to make your graphs look good with it.
@@ -174,16 +143,16 @@ In our workflow there are usually two distinct uses for plots:
 
 # Tidy Data (Yes, again)
 
-### First, we need to remember the following: 
+### First, we need to remember the following:
 
-- Is our data in a tidy format? 
+- Is our data in a tidy format?
 
-If it is not, we might need to first clean it and then plot it. It will really difficult to create good graphics when your data is not tidy. 
+If it is not, we might need to first clean it and then plot it. It will really difficult to create good graphics when your data is not tidy.
 
-> `ggplot` and other R packages tend to set up their functions in a way that we need a tidy data. In a few cases, these packages will require a different data structure. 
+> `ggplot` and other R packages tend to set up their functions in a way that we need a tidy data. In a few cases, these packages will require a different data structure.
 
 ---
-class: inverse, center, middle    
+class: inverse, center, middle
 name: ea
 
 # Exploratory Analysis
@@ -194,11 +163,11 @@ name: ea
 
 # Base Plot
 
-First, we’re going to use base plot, i.e., using Base R default libraries. It is easy to use and can produce useful graphs with very few lines of code. 
+First, we’re going to use base plot, i.e., using Base R default libraries. It is easy to use and can produce useful graphs with very few lines of code.
 
 ### Exercise 1: Exploratory graph.
 
-Let's plot the whr dataset that we constructed last week. We are going to use the function `plot()`. Before we plot it, let's create a vector called `vars` that contains the variables: economy_gdp_per_capita, happiness_score, health_life_expectancy, and freedom. 
+Let's plot the whr dataset that we constructed last week. We are going to use the function `plot()`. Before we plot it, let's create a vector called `vars` that contains the variables: economy_gdp_per_capita, happiness_score, health_life_expectancy, and freedom.
 
 --
 
@@ -209,7 +178,7 @@ vars <- c("economy_gdp_per_capita", "happiness_score", "health_life_expectancy",
 
 # Create a subset with only those variables, let's called this subset whr_simp
 
-whr_simp <- whr_panel %>% 
+whr_simp <- whr_panel %>%
   select(all_of(vars))
 
 ```
@@ -240,20 +209,20 @@ It is a powerful and easy to use tool (once you understand its logic) that produ
 
 # ggplot2: structure
 
-After we have load our dataset. Let's plot something basic. The structure of a basic ggplot is: 
+After we have load our dataset. Let's plot something basic. The structure of a basic ggplot is:
 
 ```
-ggplot(data = <DATA>) + 
+ggplot(data = <DATA>) +
   <GEOM_FUNCTION>(
      mapping = aes(<MAPPINGS>),
-     stat = <STAT>, 
+     stat = <STAT>,
      position = <POSITION>
   ) +
   <COORDINATE_FUNCTION> +
   <FACET_FUNCTION> +
-  <SCALE_FUNTION> + 
+  <SCALE_FUNTION> +
   <THEME_FUNCTION>
-  
+
 ```
 
 ---
@@ -279,7 +248,7 @@ ggplot(data = <DATA>) +
 
 # ggplot2: structure
 
-Therefore, we have the following: 
+Therefore, we have the following:
 
 1. `Data`: The data that you want to visualize
 
@@ -303,8 +272,8 @@ Therefore, we have the following:
 
 
 ```{r, out.width = "65%"}
-ggplot(data = whr_panel) +    #<< 
-  geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita)) 
+ggplot(data = whr_panel) +    #<<
+  geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita))
 ```
 
 ---
@@ -315,8 +284,8 @@ ggplot(data = whr_panel) +    #<<
 
 
 ```{r, out.width = "65%"}
-ggplot(data = whr_panel) +   
-  geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita))  #<< 
+ggplot(data = whr_panel) +
+  geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita))  #<<
 ```
 
 ---
@@ -326,32 +295,32 @@ ggplot(data = whr_panel) +
 #### We can also set up our mapping in the `ggplot()` function.
 
 ```{r, out.width = "65%"}
-ggplot(data = whr_panel, aes(x = happiness_score, y = economy_gdp_per_capita)) +   #<< 
-  geom_point()  
+ggplot(data = whr_panel, aes(x = happiness_score, y = economy_gdp_per_capita)) +   #<<
+  geom_point()
 ```
 
 ---
 
 # Exploratory Analysis
 
-#### We can also set up the data outside the `ggplot()` function as follows: 
+#### We can also set up the data outside the `ggplot()` function as follows:
 
 ```{r, out.width = "65%"}
-whr_panel %>%  #<< 
+whr_panel %>%  #<<
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita)) +
-  geom_point()  
+  geom_point()
 ```
 
 ---
 
 # Exploratory Analysis
 
-I prefer to use the second way of structuring our ggplot. 
+I prefer to use the second way of structuring our ggplot.
 
-1. First, setting our data; 
-2. pipe it; 
-3. then aesthetics; 
-4. and finally the geometries. 
+1. First, setting our data;
+2. pipe it;
+3. then aesthetics;
+4. and finally the geometries.
 
 Both structures will work but this will make a difference if you want to load more datasets at the same time, and whether you would like to combine more geoms in the same ggplot. More on this in the following slides.
 
@@ -365,21 +334,21 @@ Both structures will work but this will make a difference if you want to load mo
 
 ```{r, out.width = "55%"}
 ggplot(data = whr_panel, aes(x = freedom, y = economy_gdp_per_capita)) +
-  geom_point()  
+  geom_point()
 ```
 
 ---
 
 # Exploratory Analysis
 
-The most common `geoms` are: 
+The most common `geoms` are:
 
 
 * `geom_bar()`, `geom_col()`: bar charts.
 * `geom_boxplot()`: box and whiskers plots.
-* `geom_density()`: density estiamtes. 
+* `geom_density()`: density estiamtes.
 * `geom_jitter()`: jittered points.
-* `geom_line()`: line plots. 
+* `geom_line()`: line plots.
 * `geom_point()`: scatter plots.
 
 
@@ -390,15 +359,15 @@ The most common `geoms` are:
 
 # Exploratory Analysis
 
-In summary, our basic plots should have the following: 
+In summary, our basic plots should have the following:
 
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(data = whr_panel, #<< 
-       aes(x = happiness_score, 
+ggplot(data = whr_panel, #<<
+       aes(x = happiness_score,
            y = economy_gdp_per_capita)) +
-  geom_point()  
+  geom_point()
 ```
 
 ]
@@ -412,15 +381,15 @@ The data we want to plot.
 
 # Exploratory Analysis
 
-In summary, our basic plots should have the following: 
+In summary, our basic plots should have the following:
 
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           #<< 
-           y = economy_gdp_per_capita)) + #<< 
-  geom_point()  
+ggplot(data = whr_panel,
+       aes(x = happiness_score,           #<<
+           y = economy_gdp_per_capita)) + #<<
+  geom_point()
 ```
 
 ]
@@ -434,14 +403,14 @@ Columns to use for `x` and `y`
 
 # Exploratory Analysis
 
-In summary, our basic plots should have the following: 
+In summary, our basic plots should have the following:
 
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           
-           y = economy_gdp_per_capita)) +  
+ggplot(data = whr_panel,
+       aes(x = happiness_score,
+           y = economy_gdp_per_capita)) +
   geom_point()  #<<
 ```
 
@@ -456,11 +425,11 @@ How the plot is going to be drawn.
 
 # Exploratory Analysis
 
-We can also **map** colors. 
+We can also **map** colors.
 
 ```{r, out.width = "50%"}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           
+ggplot(data = whr_panel,
+       aes(x = happiness_score,
            y = economy_gdp_per_capita,
            color = region)) +  #<<
   geom_point()
@@ -472,13 +441,13 @@ ggplot(data = whr_panel,
 
 Let's try to do something different, try, instead of `region`, adding `color = "blue"` inside `aes()`.
 
-* What do you think is the problem with this code? 
+* What do you think is the problem with this code?
 
 --
 
 ```{r, out.width = "50%"}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           
+ggplot(data = whr_panel,
+       aes(x = happiness_score,
            y = economy_gdp_per_capita,
            color = "blue")) +  #<<
   geom_point()
@@ -488,11 +457,11 @@ ggplot(data = whr_panel,
 
 # Exploratory Analysis
 
-In `ggplot2`, these settings are called **aesthetics**. 
+In `ggplot2`, these settings are called **aesthetics**.
 
-> "Aesthetics of the geometric and statistical objects". 
+> "Aesthetics of the geometric and statistical objects".
 
-We can set up: 
+We can set up:
 
 * `position`:  x, y, xmin, xmax, ymin, ymax, etc.
 * `colors`: color and fill.
@@ -516,9 +485,9 @@ Let's modify our last plot. Let's add `color = "blue"` inside `geom_point()`.
 --
 
 ```{r, out.width = "50%"}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           
-           y = economy_gdp_per_capita)) +  
+ggplot(data = whr_panel,
+       aes(x = happiness_score,
+           y = economy_gdp_per_capita)) +
   geom_point(color = "blue") #<<
 ```
 
@@ -533,14 +502,14 @@ ggplot(data = whr_panel,
 --
 
 ```{r, out.width = "45%"}
-ggplot(data = whr_panel, 
+ggplot(data = whr_panel,
        aes(x = freedom, y = economy_gdp_per_capita, color = year)) +
-  geom_point()  
+  geom_point()
 ```
 
 --
 
-* How do you think we could solve it? 
+* How do you think we could solve it?
 
 ---
 
@@ -554,9 +523,9 @@ ggplot(data = whr_panel,
 --
 
 ```{r, out.width = "45%"}
-ggplot(data = whr_panel, 
+ggplot(data = whr_panel,
        aes(x = freedom, y = economy_gdp_per_capita, color = as.factor(year))) + #<<
-  geom_point()  
+  geom_point()
 ```
 
 ---
@@ -568,9 +537,9 @@ We can also add the color information in `geom_point()`. Let's modify our last p
 --
 
 ```{r, out.width = "50%"}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           
-           y = economy_gdp_per_capita)) +  
+ggplot(data = whr_panel,
+       aes(x = happiness_score,
+           y = economy_gdp_per_capita)) +
   geom_point(aes(color = region)) #<<
 ```
 
@@ -579,7 +548,7 @@ ggplot(data = whr_panel,
 > **Reminder**: Notice that we can either set up our aesthetics at the global level our within each layer.
 
 ---
-class: inverse, center, middle    
+class: inverse, center, middle
 name: ggplot
 
 # ggplot2: settings
@@ -590,7 +559,7 @@ name: ggplot
 
 # ggplot2: settings
 
-Now, let's try to modify our plots. In the following slides, we are going to: 
+Now, let's try to modify our plots. In the following slides, we are going to:
 
 1. Change shapes.
 
@@ -612,9 +581,9 @@ Now, let's try to modify our plots. In the following slides, we are going to:
 
 
 ```{r, out.width = "65%"}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           
-           y = economy_gdp_per_capita)) +  
+ggplot(data = whr_panel,
+       aes(x = happiness_score,
+           y = economy_gdp_per_capita)) +
   geom_point(shape = 5) #<<
 ```
 
@@ -633,11 +602,11 @@ show_point_shapes()+
 # ggplot2: including more geoms
 
 ```{r, out.width = "55%"}
-mean_happiness_score <- mean(whr_panel$happiness_score) #<< 
+mean_happiness_score <- mean(whr_panel$happiness_score) #<<
 
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,  y = economy_gdp_per_capita,           
-           color = region)) + 
+ggplot(data = whr_panel,
+       aes(x = happiness_score,  y = economy_gdp_per_capita,
+           color = region)) +
   geom_point() +
   geom_vline(xintercept = mean_happiness_score)   #<<
 ```
@@ -647,11 +616,11 @@ ggplot(data = whr_panel,
 # ggplot2: including more geoms
 
 ```{r, out.width = "60%"}
-ggplot(data = whr_panel, 
+ggplot(data = whr_panel,
        aes(x = happiness_score,  y = economy_gdp_per_capita)) +
-  geom_point() + 
+  geom_point() +
   geom_smooth()   #<<
-  
+
 ```
 
 ---
@@ -659,9 +628,9 @@ ggplot(data = whr_panel,
 # ggplot2: Facets
 
 ```{r, out.width = "55%"}
-ggplot(data = whr_panel, 
+ggplot(data = whr_panel,
        aes(x = happiness_score,  y = economy_gdp_per_capita)) +
-  geom_point() + 
+  geom_point() +
   facet_wrap(~ region) #<<
 ```
 
@@ -674,11 +643,11 @@ ggplot(data = whr_panel,
 --
 
 ```{r, out.width = "55%"}
-ggplot(data = whr_panel, 
+ggplot(data = whr_panel,
        aes(x = happiness_score,  y = economy_gdp_per_capita, color = region)) + #<<
-  geom_point() + 
-  facet_wrap(~ region) 
-  
+  geom_point() +
+  facet_wrap(~ region)
+
 ```
 
 ---
@@ -688,11 +657,11 @@ ggplot(data = whr_panel,
 If you want to remove the region legend title we can set it up in the `labs()` more about this in the `themes` subsection.
 
 ```{r, out.width = "55%"}
-ggplot(data = whr_panel, 
+ggplot(data = whr_panel,
        aes(x = happiness_score,  y = economy_gdp_per_capita, color = region)) + #<<
-  geom_point() + 
+  geom_point() +
   facet_wrap(~ region) +
-  labs(color = "")#<< 
+  labs(color = "")#<<
 
 ```
 
@@ -708,14 +677,14 @@ Let's imagine now, that we would like to transform a variable before plotting.
 
 
 ```{r, out.width = "55%", eval = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate( #<<
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE) #<<
   ) %>%  #<<
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
              color = latam)) + #<<
   geom_point()
-  
+
 ```
 
 ]
@@ -724,14 +693,14 @@ whr_panel %>%
 
 
 ```{r, out.width = "55%", echo = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
+  ) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
+             color = latam)) +
   geom_point()
-  
+
 ```
 
 ]
@@ -746,16 +715,16 @@ whr_panel %>%
 We can also specify the size of a geom, either by a variable or just a number.
 
 ```{r, out.width = "40%"}
-whr_panel %>% 
-  filter(year == 2017) %>% 
-  ggplot(aes(x = happiness_score,  y = economy_gdp_per_capita)) + 
+whr_panel %>%
+  filter(year == 2017) %>%
+  ggplot(aes(x = happiness_score,  y = economy_gdp_per_capita)) +
   geom_point(aes(size = economy_gdp_per_capita)) #<<
-  
+
 ```
 
 --
 
-#### Why do you think we are adding the size to the geom_point()'s aes? 
+#### Why do you think we are adding the size to the geom_point()'s aes?
 
 ---
 
@@ -766,10 +735,10 @@ whr_panel %>%
 .panel[.panel-name[Linear]
 
 ```{r, out.width = "50%"}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           
-           y = economy_gdp_per_capita)) +  
-  geom_point() 
+ggplot(data = whr_panel,
+       aes(x = happiness_score,
+           y = economy_gdp_per_capita)) +
+  geom_point()
 ```
 
 ]
@@ -777,10 +746,10 @@ ggplot(data = whr_panel,
 .panel[.panel-name[Log]
 
 ```{r, out.width = "50%"}
-ggplot(data = whr_panel, 
-       aes(x = happiness_score,           
-           y = economy_gdp_per_capita)) +  
-  geom_point() + 
+ggplot(data = whr_panel,
+       aes(x = happiness_score,
+           y = economy_gdp_per_capita)) +
+  geom_point() +
   scale_x_log10() #<<
 ```
 
@@ -795,11 +764,11 @@ ggplot(data = whr_panel,
 
 Let's go back to our plot with the `latam` dummy.
 
-We are going to do the following to this plot: 
+We are going to do the following to this plot:
 
 1. Filter only for the year 2015.
 2. Change our theme.
-3. Add correct labels. 
+3. Add correct labels.
 4. Add some annotations.
 5. Modify our legends.
 
@@ -813,40 +782,40 @@ We are going to do the following to this plot:
 .panel[.panel-name[R Code]
 
 ```{r, out.width = "40%", eval = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
+  ) %>%
   filter(year == 2015) %>%  #<<
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
+             color = latam)) +
   geom_point() +
   labs(#<<
     x = "Happiness Score", #<<
     y = "GDP per capita", #<<
     title = "Happiness Score vs GDP per capita, 2015" #<<
   ) #<<
-  
+
 ```
 
 ]
 
 .panel[.panel-name[Plot]
 ```{r, out.width = "60%", echo = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
+             color = latam)) +
   geom_point() +
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
+    x = "Happiness Score",
+    y = "GDP per capita",
     title = "Happiness Score vs GDP per capita, 2015"
   )
-```  
+```
 ]
 ]
 
@@ -860,44 +829,44 @@ whr_panel %>%
 .panel[.panel-name[R Code]
 
 ```{r, out.width = "40%", eval = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
-  geom_point() +  
+             color = latam)) +
+  geom_point() +
   scale_color_discrete(labels = c("No", "Yes")) +  #<<
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
+    x = "Happiness Score",
+    y = "GDP per capita",
     color = "Country in Latin America\nand the Caribbean", #<<
     title = "Happiness Score vs GDP per capita, 2015"
   )
-  
+
 ```
 
 ]
 
 .panel[.panel-name[Plot]
 ```{r, out.width = "70%", echo = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
+             color = latam)) +
   geom_point() +
-  scale_color_discrete(labels = c("No", "Yes")) + 
+  scale_color_discrete(labels = c("No", "Yes")) +
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
-    color = "Country in Latin America\nand the Caribbean", 
+    x = "Happiness Score",
+    y = "GDP per capita",
+    color = "Country in Latin America\nand the Caribbean",
     title = "Happiness Score vs GDP per capita, 2015"
   )
-```  
+```
 ]
 ]
 
@@ -910,46 +879,46 @@ whr_panel %>%
 .panel[.panel-name[R Code]
 
 ```{r, out.width = "60%", eval = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
-  geom_point() +  
-  scale_color_discrete(labels = c("No", "Yes")) + 
+             color = latam)) +
+  geom_point() +
+  scale_color_discrete(labels = c("No", "Yes")) +
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
+    x = "Happiness Score",
+    y = "GDP per capita",
     color = "Country in Latin America\nand the Caribbean",
     title = "Happiness Score vs GDP per capita, 2015"
-  ) + 
+  ) +
   theme_minimal() #<<
-  
+
 ```
 
 ]
 
 .panel[.panel-name[Plot]
 ```{r, out.width = "70%", echo = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
+             color = latam)) +
   geom_point() +
-  scale_color_discrete(labels = c("No", "Yes")) + 
+  scale_color_discrete(labels = c("No", "Yes")) +
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
-    color = "Country in Latin America\nand the Caribbean", 
+    x = "Happiness Score",
+    y = "GDP per capita",
+    color = "Country in Latin America\nand the Caribbean",
     title = "Happiness Score vs GDP per capita, 2015"
-  ) + 
+  ) +
   theme_minimal()
-```  
+```
 ]
 ]
 
@@ -957,21 +926,21 @@ whr_panel %>%
 
 # ggplot2: Themes
 
-The `theme()` function allows you to modify each aspect of your plot. Some arguments are: 
+The `theme()` function allows you to modify each aspect of your plot. Some arguments are:
 
 ```{r eval = FALSE}
 theme(
     # Title and text labels
-    #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  
+    #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     plot.title = element_text(color, size, face),
     # Legend title and text labels
     #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Title font color size and face
     legend.title = element_text(color, size, face),
     # Title alignment. Number from 0 (left) to 1 (right)
-    legend.title.align = NULL,             
+    legend.title.align = NULL,
     # Text label font color size and face
-    legend.text = element_text(color, size, face), 
+    legend.text = element_text(color, size, face),
     # Text label alignment. Number from 0 (left) to 1 (right)
     legend.text.align = NULL,
 )
@@ -983,16 +952,16 @@ More about these modification can be found [here](https://ggplot2.tidyverse.org/
 
 # ggplot2: Color palettes
 
-We can also add color palettes using other packages such as: `RColorBrewer, viridis` or funny ones like the `wesanderson` package. So, let's add new colors. 
+We can also add color palettes using other packages such as: `RColorBrewer, viridis` or funny ones like the `wesanderson` package. So, let's add new colors.
 
-* First, install the `RColorBrewer` package. 
+* First, install the `RColorBrewer` package.
 
 ```{r}
 # install.packages("RColorBrewer")
 library(RColorBrewer)
 ```
 
-* Let's add `scale_color_brewer(palette = "Dark2")` to our ggplot. 
+* Let's add `scale_color_brewer(palette = "Dark2")` to our ggplot.
 
 
 ---
@@ -1004,46 +973,46 @@ library(RColorBrewer)
 .panel[.panel-name[R Code]
 
 ```{r, out.width = "60%", eval = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
-  geom_point() +  
-  scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) + 
+             color = latam)) +
+  geom_point() +
+  scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) +
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
+    x = "Happiness Score",
+    y = "GDP per capita",
     color = "Country in Latin America\nand the Caribbean",
     title = "Happiness Score vs GDP per capita, 2015"
-  ) + 
+  ) +
   theme_minimal() #<<
-  
+
 ```
 
 ]
 
 .panel[.panel-name[Plot]
 ```{r, out.width = "70%", echo = FALSE}
-whr_panel %>% 
+whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
+             color = latam)) +
   geom_point() +
-  scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) + 
+  scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) +
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
-    color = "Country in Latin America\nand the Caribbean", 
+    x = "Happiness Score",
+    y = "GDP per capita",
+    color = "Country in Latin America\nand the Caribbean",
     title = "Happiness Score vs GDP per capita, 2015"
-  ) + 
+  ) +
   theme_minimal()
-```  
+```
 ]
 ]
 
@@ -1062,7 +1031,7 @@ My favorite color palettes packages:
 7. [wesanderson](https://github.com/karthik/wesanderson)
 
 ---
-class: inverse, center, middle    
+class: inverse, center, middle
 name: saving
 
 # Saving a plot
@@ -1071,68 +1040,73 @@ name: saving
 
 ---
 
-# Saving a plot 
+# Saving a plot
 
 Remember that in R we can always assign our functions to an object. In this case, we can assign our `ggplot2` code to an object called fig as follows.
 
 ```{r, eval = FALSE}
-fig <- 
-  whr_panel %>% 
+fig <-
+  whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
-  geom_point() +  
-  scale_color_discrete(labels = c("No", "Yes")) + 
+             color = latam)) +
+  geom_point() +
+  scale_color_discrete(labels = c("No", "Yes")) +
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
+    x = "Happiness Score",
+    y = "GDP per capita",
     color = "Country in Latin America\nand the Caribbean",
     title = "Happiness Score vs GDP per capita, 2015"
-  ) + 
+  ) +
   theme_minimal()
 ```
 
-Therefore, if you want to plot it again, you can just type `fig` in the console. 
+Therefore, if you want to plot it again, you can just type `fig` in the console.
 
 ---
 
 # Saving a plot
 
-### Exercise 5: Save our last plot. 
+### Exercise 5: Save our last plot.
 
 We will use the `ggsave()` function.  You can either include the function after your plot or, first, save the ggplot as an object and then save the plot.
 
-The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dpi = ...)`. 
+The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dpi = ...)`.
 
 ```{r, echo = FALSE}
-fig <- whr_panel %>% 
+fig <- whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
-  ) %>% 
-  filter(year == 2015) %>% 
+  ) %>%
+  filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + 
-  geom_point() +  
-  scale_color_discrete(labels = c("No", "Yes")) + 
+             color = latam)) +
+  geom_point() +
+  scale_color_discrete(labels = c("No", "Yes")) +
   labs(
-    x = "Happiness Score", 
-    y = "GDP per capita", 
+    x = "Happiness Score",
+    y = "GDP per capita",
     color = "Country in Latin America\nand the Caribbean",
     title = "Happiness Score vs GDP per capita, 2015"
-  ) + 
-  theme_minimal() 
+  ) +
+  theme_minimal()
 ```
 
---
+---
 
-### How to do it? 
+# Saving a plot
+
+### How to do it?
 
 ```{r}
-ggsave(fig, 
-       filename = here::here("DataWork", "Output", "Raw", "fig.png"),
+ggsave(fig,
+       filename = here("DataWork",
+                       "Output",
+                       "Raw",
+                       "fig.png"),
        dpi = 750, scale = 0.8,
        height = 8, width = 12)
 ```
@@ -1142,14 +1116,17 @@ If we want to save it as a pdf, we can include the argument `device = cairo_pdf`
 
 ```{r}
 # Save Plot
-ggsave(fig, 
-       filename = here::here("DataWork", "Output", "Raw", "fig.pdf"),
+ggsave(fig,
+       filename = here("DataWork",
+                       "Output",
+                       "Raw",
+                       "fig.pdf"),
        device = cairo_pdf, scale = 0.8,
        height = 8, width = 12)
 ```
 
 ---
-class: inverse, center, middle    
+class: inverse, center, middle
 name: hw
 
 # Howework
@@ -1170,13 +1147,13 @@ name: hw
 6. Use `scale_VAR_log10()` for the Y variable.
 7. Use the `facet` function for year.
 8. Enter this [link](scale_x_log10) and add any theme you like.
-9. Remove the legends using `theme(legend.position = "none")`. 
+9. Remove the legends using `theme(legend.position = "none")`.
 10. Fix the labels (xaxis, yaxis, and size) and add a title.
 11. Apply any color palette you like.
 12. Save the plot as pdf and as png.
 
 ---
-class: inverse, center, middle    
+class: inverse, center, middle
 name: references
 
 # References and recommendations
@@ -1206,10 +1183,10 @@ https://www.coursera.org/learn/exploratory-data-analysis
 ---
 class: inverse, center, middle
 
-# Thank you~ 
+# Thank you~
 
 ---
-class: inverse, center, middle    
+class: inverse, center, middle
 name: appendix
 
 # Appendix
@@ -1217,7 +1194,7 @@ name: appendix
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
-class: inverse, center, middle    
+class: inverse, center, middle
 name: ggplotly
 
 # Interactive graphs
@@ -1259,7 +1236,7 @@ Now we’ll use the ggplotly() function from the plotly package to create an int
 library(plotly)
 
 # Use ggplotly to create an interactive plot
-ggplotly(fig) %>% 
+ggplotly(fig) %>%
   layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
 
 ```
