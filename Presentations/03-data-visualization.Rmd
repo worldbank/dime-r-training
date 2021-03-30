@@ -111,7 +111,7 @@ Similarly to previous sessions, you can find some references at the end of this 
 * Make sure the packages `ggplot2` and `plotly` are installed and loaded.
 * Load the `whr_panel` data set.
 
-```{r}
+```{r, warnings = F}
 # Packages
 library(tidyverse)
 library(plotly)
@@ -132,7 +132,8 @@ whr_panel <- readRDS(here("DataWork",
 In our workflow there are usually two distinct uses for plots:
 
 1. **Exploratory analysis**: Quickly visualize your data in an insightful way.
-  * We’ll do this using `ggplot2`, but in a more simplistic way which will allow us to quickly create some basic figures.
+  * Base R can be used to quickly create (ugly) basic figures
+  * We will also use `ggplot2` to quickly create (less ugly) basic figures.
 
 2. **Publication/Reporting**: Make pretty graphs for a presentation, a project report, or to just show your boss something other than the laziest graph you could come up with:
   * We’ll do this using `ggplot2` with more customization. The idea is to create beautiful graphs.
@@ -167,7 +168,7 @@ First, we’re going to use base plot, i.e., using Base R default libraries. It 
 
 ### Exercise 1: Exploratory graph.
 
-Let's plot the whr dataset that we constructed last week. We are going to use the function `plot()`. Before we plot it, let's create a vector called `vars` that contains the variables: economy_gdp_per_capita, happiness_score, health_life_expectancy, and freedom.
+Let's plot the `whr` dataset that we constructed last week. We are going to use the function `plot()`. Before we plot it, let's create a vector called `vars` that contains the variables: `economy_gdp_per_capita`, `happiness_score`, `health_life_expectancy`, and `freedom`.
 
 --
 
@@ -1189,15 +1190,7 @@ class: inverse, center, middle
 class: inverse, center, middle
 name: appendix
 
-# Appendix
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-class: inverse, center, middle
-name: ggplotly
-
-# Interactive graphs
+# Appendix: interactive graphs
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
