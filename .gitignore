@@ -53,4 +53,8 @@
 
 # Markdown
 !/**/*.md
-.Rproj.user
+
+# HTML for slides
+!/**/*.html
+
+

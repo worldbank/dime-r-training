@@ -21,5 +21,5 @@ Luiza Cardoso de Andrade (lcardoso@worldbank.org) - dimeanalytics@worldbank.org
 * Luiza Cardoso de Andrade
 * Robert A. Marty
 * Leonardo Teixeira Viotti
-* Rony Rodriguez Ramirez
+* Rony Rodriguez-Ramirez
 * Luis Eduardo San Martin
