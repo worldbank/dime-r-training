@@ -1,5 +1,5 @@
 ---
-title: "Session 3: Data Processing"
+title: "Session 2: Data Processing"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> `r format(Sys.time(), '%d %B %Y')`"
@@ -118,12 +118,9 @@ name: intro
 - In most cases, your datasets won't be `tidy`. 
 
 > **Tidy data**: A dataset is said to be tidy if it satisfies the following conditions: 
-1. observations are in rows
-2. variables are in columns
-3. contained in a single dataset.
-
-Takeaway: long format > wide format
-
+1. Every column is a variable.
+2. Every row is an observation.
+3. Every cell is a single value.
 
 ---
 
@@ -152,7 +149,7 @@ In this session, you'll be introduced to some basic concepts of data cleaning in
 - Projects should be reproducible, and if you happen to code in R, RStudio Projects will make your science reproducible and easier in the long-run. 
 - RStudio projects are simply working directories associated with a `.Rproj`. 
   - If you open a `.Rproj` file, your working directory will be set automatically. Therefore, in this directory you should create folders containing your data, codes, notes, and other material. 
-- To create a RStudio project click `File > New Project`, then:
+- To create a RStudio project go to `File > New Project`, click on `New Repository`:
 
 ```{r projects1, echo = FALSE, out.width="35%"}
 knitr::include_graphics("img/project1.png")
@@ -186,7 +183,7 @@ knitr::include_graphics("img/project3.png")
 - Uses relative paths. 
 - Keep data files there. 
 - You will have a history of the functions you have used.
-- It could load your the last state of your environment. 
+- It could load the last state of your environment. 
 
 ---
 
@@ -284,7 +281,7 @@ Before we start wrangling our data, let's read ourdataset. In R, we can use the 
 
 ### Exercise 1: Load Data. This is a recap from yesterday's session.
 
-Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw` folder. Use the following notation for each dataset: `whrYY`. 
+Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw/Un WHR` folder. Use the following notation for each dataset: `whrYY`. 
 
 * Remember to use `here()` to simplify the folder path. 
 
@@ -298,10 +295,54 @@ whr16 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2016.csv")) 
 whr17 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv")) %>% clean_names()
 ```
 
-> Notice the `clean_names()` function. More on this in the next slide.
+> Notice the `clean_names()` function and the `pipe (%>%)` operator. More on this in the next slide.
 
 ---
 
+# The pipe %>% operator.
+
+* "Piping" in R can be seen as "**chaining**." This means that we are invoking multiple method calls. 
+* Every time you have invoked a method (a function) this return an object that then is going to be used in the next pipe.
+
+.pull-left[
+
+```{r, eval = FALSE}
+rony %>% 
+  wake_up(time = "6:30") %>% 
+  get_out_of_bead() %>% 
+  do_exercise() %>% 
+  shower() %>% 
+  get_dressed() %>% 
+  eat(meal = "breakfast", coffee = TRUE) %>% 
+  brush_teeth() %>%
+  work(effor = "mininum")
+```
+]
+
+.pull-right[
+
+```{r, eval = FALSE}
+  work(
+    brush_teeth(
+      eat(
+        get_dressed(
+          shower(
+            do_exercise(
+              get_out_of_bed(
+                wake_up(me, time = "6:30")
+              ), 
+            )
+          )
+        ), meal = "breakfast", coffee = TRUE
+      )
+    ), effort = "minimum"
+  )
+
+```
+
+]
+
+---
 # The clean_names() function
 
 The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called GDP_per_CApita_2015, the `clean_names()` function will help us fix those messy names. 
@@ -317,16 +358,6 @@ whr15 <- whr15 %>%
     var_newname = var_oldname
   )
 
-```
-
----
-
-# Load and show a dataset
-
-We can just show our dataset using the name of the object; in this case, `whr15`. 
-
-```{r show}
-whr15
 ```
 
 ---
@@ -358,15 +389,13 @@ Some other useful functions from the tidyverse:
 
 ---
 
-# Before we explore our data
+# Load and show a dataset
 
-For this session, we are going to use pipes %>% quite a lot. 
+We can just show our dataset using the name of the object; in this case, `whr15`. 
 
-* "Piping" in R can be seen as "chaining." 
-* This means that we are invoking multiple method calls. 
-* Every time you have invoked a method (a function) this return an object that then is going to be used in the following pipe, and this continues *forever*~~~~
-
-> **Be careful with that forever!!!**
+```{r show}
+whr15
+```
 
 ---
 
@@ -623,7 +652,6 @@ So, we use the `mutate()` function. Let's say we want to have interactions:
 
 ```{r mut}
 whr15 %>%
-  arrange(region, country, -happiness_rank) %>% 
   mutate(
     hap_hle = happiness_score * health_life_expectancy, 
   ) %>% 
@@ -684,7 +712,7 @@ Similar in nature but:
 
 # Creating variables by groups
 
-Let's imagine now that we want to create a variable at the region level (recall `bys gen` in Stata).In R, we can use `group_by()` before we mutate. So for this example, we going to pipe the following functions. 
+Let's imagine now that we want to create a variable at the region level (recall `bys gen` in Stata).In R, we can use `group_by()` before we mutate. So for this example, we are going to pipe the following functions. 
 
 1. Group our data by the `region` variable.
 2. Create a variable that would be the mean of happiness_score by each region.
@@ -1033,7 +1061,7 @@ You can also use `slice_head` and `slice_tail` to select the first or last rows 
 
 .panel[.panel-name[Select]
 
-`Select`: allows you to specific columns.
+`Select`: allows you to select specific columns.
 
 ```{r select}
 whr15 %>% 

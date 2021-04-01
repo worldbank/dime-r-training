@@ -932,10 +932,7 @@ The `theme()` function allows you to modify each aspect of your plot. Some argum
 ```{r eval = FALSE}
 theme(
     # Title and text labels
-    #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     plot.title = element_text(color, size, face),
-    # Legend title and text labels
-    #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Title font color size and face
     legend.title = element_text(color, size, face),
     # Title alignment. Number from 0 (left) to 1 (right)
@@ -1046,8 +1043,7 @@ name: saving
 Remember that in R we can always assign our functions to an object. In this case, we can assign our `ggplot2` code to an object called fig as follows.
 
 ```{r, eval = FALSE}
-fig <-
-  whr_panel %>%
+fig <- whr_panel %>%
   mutate(
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
   ) %>%
@@ -1165,6 +1161,9 @@ name: references
 
 # References and recommendations
 
+* **ggplot tricks**: 
+  * Tricks and Secrets for Beautiful Plots in R by Cédric Scherer: https://github.com/z3tt/outlierconf2021
+  
 * **Websites**:
   * Interactive stuff : http://www.htmlwidgets.org/
   * The R Graph Gallery: https://www.r-graph-gallery.com/
@@ -1184,7 +1183,7 @@ https://www.coursera.org/learn/exploratory-data-analysis
 ---
 class: inverse, center, middle
 
-# Thank you~
+# Thank you~~
 
 ---
 class: inverse, center, middle
