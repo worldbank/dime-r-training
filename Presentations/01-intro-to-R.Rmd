@@ -351,14 +351,12 @@ Let's start by loading the data set we'll be using:
 
 ## Exercise 1: Import data
 
-1. Go to the OSF page of the course (https://osf.io/b7hm6/) and download the file located in `DataWork/DataSets/Final/whr_panel.csv`
+1. Go to the OSF page of the course (https://osf.io/b7hm6/) and download the file located in `R for Stata Users - April 2021` > `Data` > `whr_panel.csv`
 
-2. In RStudio, go to `File > Import Dataset > From Text (base)` and open the `whr_panel.csv` file. 
-  + Depending on your Rstudio version, it might be `File > Import Dataset > From CSV`
+2. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and open the `whr_panel.csv` file. 
+  + Depending on your Rstudio version, it might be `File` > `Import Dataset` > `From CSV`
 
-3. The file should be in `dime-r-training/DataWork/DataSets/Final/whr_panel.csv`.
-
-4. Assign the name `whr` to the dataset on the import window.
+3. Assign the name `whr` to the dataset on the import window.
 
 ---
 
