@@ -7,27 +7,27 @@ This material was developed by the [DIME Analytics](https://worldbank.github.io/
 
 [01 - Introduction to R](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/02-data-processing.html)
 
-    - Introduction to RStudio, R syntax, objects and classes. Designed for a 1h30m session.
+- Introduction to RStudio, R syntax, objects and classes. Designed for a 1h30m session.
 
 [02 - Data processing](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/02-data-processing.html)
 
-    - Basic functions for processing data. Designed for a 1h30m session.
+- Basic functions for processing data. Designed for a 1h30m session.
 
 [03 - Data visualization](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/03-data-visualization.html) 
 
-    - An introduction to creating and export graphs in ggplot2. Designed for a 1h30m session.
+- An introduction to creating and export graphs in ggplot2. Designed for a 1h30m session.
 
 [04 - Descriptive analysis](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/04-descriptive-analysis.html)
 
-    - How to create and export descriptive statistics table in R. Designed for a 1h30m session.
+- How to create and export descriptive statistics table in R. Designed for a 1h30m session.
 
 [05 - Geospatial data](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/05-spatial-data.html)
 
-    - An overview of R resources on GIS. Designed for a 1h30m session.
+- An overview of R resources on GIS. Designed for a 1h30m session.
 
 [06 - R programming practices](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/02-data-processing.html)
 
-    - uses and R master script to explore code organization, loops, custom functions and if statements. Designed for a 1h30m session.
+- Uses and R master script to explore code organization, loops, custom functions and if statements. Designed for a 1h30m session.
 
 ## License
 This material is developed under MIT license. See http://adampritchard.mit-license.org/ or see [the `LICENSE` file](https://github.com/worldbank/ietoolkit/blob/master/LICENSE) for details.
