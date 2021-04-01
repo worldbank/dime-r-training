@@ -56,6 +56,6 @@
 
 # HTML and pngs for slides
 !/**/*.html
-!/**/*.pngs
+!/**/*.png
 
 
