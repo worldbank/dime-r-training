@@ -315,7 +315,7 @@ rony %>%
   get_dressed() %>% 
   eat(meal = "breakfast", coffee = TRUE) %>% 
   brush_teeth() %>%
-  work(effor = "mininum")
+  work(effort = "mininum")
 ```
 ]
 
