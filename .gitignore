@@ -54,7 +54,8 @@
 # Markdown
 !/**/*.md
 
-# HTML for slides
+# HTML and pngs for slides
 !/**/*.html
+!/**/*.pngs
 
 
