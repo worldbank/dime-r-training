@@ -381,7 +381,7 @@ knitr::include_graphics("img/import_data2.png")
 # Getting started - RStudio interface
 
 ```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/environment_2020.png")
+knitr::include_graphics("img/environment_2021.png")
 ```
 
 ---
@@ -457,29 +457,26 @@ knitr::include_graphics("img/View.png")
 
 Alternatively we can print the first 6 obs. with `head()`:
 
-```{r, include = T}
-
-head(whr)
-
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
 
 # Data in R
 
-Now, let's try some simple manipulations. First, assume we're only interested in data of the year 2015.
+Now, let's try some simple manipulations. First, assume we're only interested in data of the year 2016.
 
 ## Exercise 2: Subset the data 
 
-1. Subset the data set, keeping only observations where variable `year` equals `2015`.
+1- Subset the data set, keeping only observations where variable `year` equals `2016`.
 
 ```{r, eval=FALSE}
 # To do that we'll use the subset() function
-subset(whr, year == 2015)
-
+subset(whr, year == 2016)
 ```
 
-2. Then, look again at the first 6 observations
+2- Then, look again at the first 6 observations
 ```{r, include = T, results = "hide"}
 # Use the head() function again
 head(whr)
@@ -491,13 +488,13 @@ head(whr)
 
 # Data in R
 
-```{r, eval = F}
+```{r, eval=FALSE}
+subset(whr, year == 2016)
 head(whr)
 ```
 
-```{r, echo = F}
-# Use the head() function again
-head(whr)
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -514,9 +511,27 @@ We can see that nothing happened to the original data. This was because we didn'
 x <- 42
 ```
 
+---
+
+# Data in R
+
+```{r, include = T, results = "hide"}
+# Assign the Answer to the Ultimate Question of Life, 
+# the Universe, and Everything
+x <- 42
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Data in R
+
 From now on, `x` is associated with the stored value (until you replace it, delete it, or quit the R session).
 
-```{r echo = FALSE, out.width = "40%"}
+```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/x_42.png")
 ```
 
@@ -526,14 +541,14 @@ knitr::include_graphics("img/x_42.png")
 
 ## Exercise 3: Create an object
 
-Create a new dataset, called `whr2015`, that is a subset of the `whr` data set containing only data from the year 2015.
+Create a new dataset, called `whr2016`, that is a subset of the `whr` data set containing only data from the year 2016.
 
 ```{r, include = T, results = "hide"}
 # Using the same function but now assigning it to an object
-whr2015 <- subset(whr, year == 2015)
+whr2016 <- subset(whr, year == 2016)
 
 # Display the 5 first obs. of the new data
-head(whr2015)
+head(whr2016)
 
 # Notice that we still have the original data set intact
 head(whr)
@@ -544,26 +559,14 @@ head(whr)
 
 # Data in R
 
-```{r, eval= F}
-head(whr2015)
-```
-
-```{r, echo= F}
-# Use the head() function again
-head(whr2015)
-```
-
----
-
-# Data in R
-
-```{r, eval= F}
+```{r, include = T, results = "hide"}
+whr2016 <- subset(whr, year == 2016)
+head(whr2016)
 head(whr)
 ```
 
-```{r, echo= F}
-# Use the head() function again
-head(whr)
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -572,7 +575,7 @@ head(whr)
 
 You can also see that your environment pane now has two `Data` objects:
 
-<img height=50% width=50% src="img/environment_2vars_2020.png" />
+<img height=70% width=70% src="img/environment_2vars_2021.png" />
 
 ---
 
@@ -586,10 +589,10 @@ You can also see that your environment pane now has two `Data` objects:
  
  ```{r, eval = F}
  # This would have replaced "whr" instead of creating a new object:
- whr <- subset(whr, year == 2015)
+ whr <- subset(whr, year == 2016)
  ```
  
-__Important:__ This will delete the original object -- `whr` in this case
+__Important:__ This will modify the original object -- `whr` in this case
 
 ---
 
@@ -623,7 +626,7 @@ name: functions
 
 ## Quick intro to functions
 
-`head()`, `View()`, `subset()` and`read.csv()` are functions!
+`head()`, `View()`, `subset()` and`read.csv()` are functions.
 
 * Functions in R take named arguments (unlike in Stata that you have arguments and options)
 
@@ -698,10 +701,31 @@ v2 <- 1:5
 
 ```
 
-#### You can use brackets for indexing
-```{r}
-# Print the 4th element of the vector
-v2[4]
+---
+
+# R objects - Vectors
+
+```{r,eval=F}
+v1 <- c(1,2,3,4,5) # Creating a vector with the c() function
+v2 <- 1:5          # Alternative way to create an evenly spaced vector
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# R objects - Vectors
+
+#### You can use brackets for indexing vector elements
+```{r, eval=F}
+v2[4]   # Prints the 4th element of the vector
+v2[1:3] # Prints from the 1st to the 3rd element
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -729,17 +753,43 @@ whr$year[1:3]
 
 ---
 
+# R objects - Vectors
+
+```{r, eval=F}
+year_vector <- whr$year # creates a vector with the values of the "year" variable
+whr$year[1:3]           # see the 3 first elements of the year column
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
 # R objects - Data frames
 
 ## Data frames
 
-The `whr` and `whr2015` objects are both data frames. You can also construct a new data frame from scratch by __combining vectors with the same number of elements__.
+The `whr` and `whr2016` objects are both data frames. You can also construct a new data frame from scratch by __combining vectors with the same number of elements__.
 
 #### Now, type the following code to create a new data frame
 ```{r}
 # Dataframe created by biding vectors
 df1 <- data.frame(v1,v2)
 df1
+```
+
+---
+
+# R objects - Data frames
+
+```{r, eval=F}
+df1 <- data.frame(v1,v2) #creates a df by binding to existing vectors
+df1
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -767,6 +817,20 @@ whr[45,1]
 
 # R objects - Data frames
 
+```{r, eval = F}
+whr[,1]   # The first column of whr
+whr[45,]  # The 45th row of whr
+whr[45,1] # Or the 45th element of the first column
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# R objects - Data frames
+
 ## Data frames
 
 Alternatively, you can use the column names for indexing, which is the same as using the `$` sign.
@@ -776,6 +840,19 @@ Alternatively, you can use the column names for indexing, which is the same as u
 # The 22th element of the country column
 whr[22,"country"] # The same as whr$country[22]
 
+```
+
+---
+
+# R objects - Data frames
+
+```{r, eval=F}
+# The 22th element of the country column
+whr[22,"country"] # The same as whr$country[22]
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -804,9 +881,13 @@ Print the list yourself to see how it looks like.
 
 ## Lists
 
-```{r}
-# Check the contents of lst
-print(lst)
+```{r, eval=F}
+lst <- list(v1, df1, 45) # definition of lst
+print(lst)               # checking the content of lst
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -851,7 +932,21 @@ str_vec <- c("R",
              "Excel",
              "Stata")
 ```
+
 Now print them to check them out.
+
+---
+
+# Basic types of data - Strings
+
+```{r, eval=F}
+# Creating string vector
+str_vec <- c("R", "Python", "SAS", "Excel", "Stata")
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
 
 ---
 
@@ -874,18 +969,15 @@ help(paste)
 
 ---
 
-# Basic types of data
+# Basic types of data - Strings
 
-## Strings
+```{r, eval=F}
+str_scalar <- "can be an option to"       # creating str_scalar
+paste(str_vec[1], str_scalar, str_vec[5]) # using paste()
+```
 
-```{r}
-### Using the paste function to combine strings
-
-# Scalar
-str_scalar <- "can be an option to"
-
-# Using the paste() function
-paste(str_vec[1], str_scalar, str_vec[5])
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -917,17 +1009,7 @@ Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as
 
 ## Factors
 
-In `whr`, we can see that `country` and `region` are factor variables. In your environment panel you can see the information about the types of every variable in the `whr` dataframe, and for factors you can see the number of levels (unique values).
-
-<img height=55% width=55% src="img/environment_factors_2020.png" />
-
----
-
-# Advanced types of data
-
-## Factors
-
-We'll learn more about factors on a later session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
+We'll learn more about factors on the last session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
 
 Unlike Stata, in R:
 
@@ -944,7 +1026,6 @@ Unlike Stata, in R:
 Boolean data is the result of logical conditions. It can take two possible values: `TRUE` or `FALSE`.
 
 * Stata doesn't have boolean types as such, but Whenever you're using an `if` statement, you're implicitly using boolean data.
-* One difference is that in R, this can be done in 2 steps
 * Another difference is that in R you can assign a boolean value to an object:
 
 ```{r}
@@ -954,9 +1035,22 @@ boolean_false <- FALSE
 ```
 
 ```{r}
-# Printing the objects:
+# Printing:
 boolean_true
 boolean_false
+```
+
+---
+
+# Advanced types of data - Booleans
+
+```{r, eval=F}
+boolean_true  <- TRUE
+boolean_false <- FALSE
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -979,6 +1073,19 @@ head(inc_below_avg)
 
 ---
 
+# Advanced types of data - Booleans
+
+```{r, eval=F}
+inc_below_avg <- whr$happiness_score < mean(whr$happiness_score) # Create vector
+head(inc_below_avg) # See the 6 first elements of the vector
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
 # Advanced types of data
 
 ## Booleans
@@ -996,7 +1103,21 @@ my_vector [boolean1]
 
 # Selecting and printing every element but the first:
 boolean2 <- c(FALSE, TRUE, TRUE, TRUE, TRUE)
-my_vector [boolean2]
+my_vector[boolean2]
+```
+
+---
+
+# Advanced types of data - Booleans
+
+```{r, eval=F}
+my_vector <- c("1st", "2nd", "3rd", "4th", "5th")
+boolean1 <- c(TRUE, FALSE, FALSE, FALSE, TRUE) # We'll use this to select the first and last elements only
+boolean2 <- c(FALSE, TRUE, TRUE, TRUE, TRUE)   # And this to select every element but the first
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -1017,10 +1138,24 @@ whr$rank_low <- 0
  * Now use `inc_below_avg` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
 
 ```{r,  eval = F}
-whr$rank_low [inc_below_avg] <- 1
+whr$rank_low[inc_below_avg] <- 1
 ```
 
- **Important:** Notice that `whr$rank_low [bool_vec]` is subsetting the column `whr$rank_low` to the observations that have a value of `TRUE` in the boolean vector `inc_below_avg` 
+ **Important:** Notice that `whr$rank_low[inc_below_avg]` is subsetting the column `whr$rank_low` to the observations that have a value of `TRUE` in the boolean vector `inc_below_avg` 
+
+---
+
+# Advanced types of data - Booleans
+
+```{r,  eval = F}
+whr$rank_low <- 0 # this creates a vector of zeros
+whr$rank_low[inc_below_avg] <- 1
+# this ^ turns its values to 1, for the observations with a TRUE value in inc_below_avg
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
 
 ---
 
@@ -1033,9 +1168,9 @@ Instead of indexing the lines with the boolean vector `inc_below_avg`, we could 
 ```{r}
 
 # Replace with 1 those obs that meet the condition
-whr$rank_low [inc_below_avg] <- 1 
+whr$rank_low[inc_below_avg] <- 1 
 # is the same as
-whr$rank_low [whr$happiness_score < mean(whr$happiness_score)] <- 1 
+whr$rank_low[whr$happiness_score < mean(whr$happiness_score)] <- 1 
 
 # This in stata would be:
 # gen     rank_low = 0
