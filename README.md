@@ -5,7 +5,7 @@ This material was developed by the [DIME Analytics](https://worldbank.github.io/
 
 ## Training content
 
-[01 - Introduction to R](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/02-data-processing.html)
+[01 - Introduction to R](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/01-intro-to-R.html)
 
 - Introduction to RStudio, R syntax, objects and classes. Designed for a 1h30m session.
 
@@ -25,7 +25,7 @@ This material was developed by the [DIME Analytics](https://worldbank.github.io/
 
 - An overview of R resources on GIS. Designed for a 1h30m session.
 
-[06 - R programming practices](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/02-data-processing.html)
+[06 - R programming practices](https://raw.githack.com/worldbank/dime-r-training/apr-2021-roro/Presentations/06-R-programming-practices.html)
 
 - Uses and R master script to explore code organization, loops, custom functions and if statements. Designed for a 1h30m session.
 

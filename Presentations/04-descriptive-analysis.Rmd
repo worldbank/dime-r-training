@@ -51,7 +51,7 @@ xaringanExtra::use_logo(
     
   }
 
-  if (Sys.getenv("USERNAME") == "Maximiliano"){
+  if (Sys.getenv("USERNAME") == "maximiliano"){
     projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
   }
 

@@ -1,97 +1,73 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R programming practices</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="DIME Analytics" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# R programming practices
+## R for Stata Users
+### DIME Analytics
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> April 2021
+
 ---
-title: "R programming practices"
-subtitle: "R for Stata Users"
-author: "DIME Analytics"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
-output:
-  xaringan::moon_reader:
-    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
-    lib_dir: libs
-    nature:
-      ratio: "16:9"
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
----
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-library(knitr)
-opts_chunk$set(
-  fig.align="center",  
-  fig.height=4, #fig.width=6,
-  # out.width="748px", #out.length="520.75px",
-  dpi=300, #fig.path='Figs/',
-  cache=T#, echo=F, warning=F, message=F
-  )
-library(tidyverse)
-library(hrbrthemes)
-library(fontawesome)
-library(xaringanExtra)
-xaringanExtra::use_panelset()
-```
 
-```{r xaringan-logo, echo=FALSE}
-xaringanExtra::use_logo(
-  image_url = "img/lightbulb.png",
-  exclude_class = c("inverse", "hide_logo"),
-  width = "50px"
-)
-```
 
-```{r, echo = F, eval= T}
 
-# File paths
-if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
-  
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 50px;
+height: 128px;
+z-index: 0;
+background-image: url(img/lightbulb.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+top:1em;right:1em;
 }
-
-if (Sys.getenv("USERNAME") == "luis_eduardo"){
-  projectFolder  <- "/home/luis_eduardo/cs_projects/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-
-}
-
-if (Sys.getenv("USERNAME") == "wb532468"){
-  projectFolder <- file.path("C:/WBG/Repos/dime-r-training")
-}
-
-if (Sys.getenv("USERNAME") == "wb519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
-}
-
-if (Sys.getenv("USERNAME") == "maximiliano"){
-  projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
-}
-
-# File paths
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-  Data              <- file.path(dataWorkFolder,"DataSets")
-  finalData         <- file.path(Data,"Final")
-  rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
-
-# Load CSV data
-
-whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
-                header = T)
-
-#library(tidyverse)
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('div')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = null
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
 
 
-```
 
-```{css, echo = F, eval = T}
+&lt;style type="text/css"&gt;
 @media print {
   .has-continuation {
     display: block !important;
   }
 }
-```
+&lt;/style&gt;
 
 
 # Table of contents
@@ -116,7 +92,7 @@ name: introduction
 
 # Introduction
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -149,7 +125,7 @@ name: initial-settings
 
 # Initial settings
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -169,9 +145,7 @@ name: initial-settings
 
 Raise your hand if you have ever seen these lines of code before:
 
-```{r echo = FALSE, out.width = "40%"}
-knitr::include_graphics("img/stataheader.jpg")
-```
+&lt;img src="img/stataheader.jpg" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -187,9 +161,7 @@ knitr::include_graphics("img/stataheader.jpg")
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/rm.png")
-```
+&lt;img src="img/rm.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -199,7 +171,7 @@ You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if s
 
 ## Exercise 1: To make sure that no one will burn your computer, here's how you change these settings:
 
-1. Go to `Tools > Global options...`
+1. Go to `Tools &gt; Global options...`
 
 2. Make sure the following options are checked:
 
@@ -215,25 +187,19 @@ You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if s
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/Options1.png")
-```
+&lt;img src="img/Options1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/Options2.png")
-```
+&lt;img src="img/Options2.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/Options3.png")
-```
+&lt;img src="img/Options3.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -242,7 +208,7 @@ name: file-paths
 
 # File paths
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -277,10 +243,11 @@ name: file-paths
 ### Exercise 3: File path to your folder
 Let's start by adding the folder path to the training's folder in your computer to the `projectFolder` object at the beginning of `PART 2`
 
-```{r, eval=F}
+
+```r
 # Add your folder path here
 # Remember to replace backslashes ("\") with regular ones ("/")
-projectFolder <- "YOUR/FOLDER/PATH/HERE"
+projectFolder &lt;- "YOUR/FOLDER/PATH/HERE"
 ```
 
 ---
@@ -298,18 +265,21 @@ projectFolder <- "YOUR/FOLDER/PATH/HERE"
 # File paths
 
 Let's test if that worked:
-```{r, eval = T}
 
+```r
   # Project folder
-  projectFolder  <-
+  projectFolder  &lt;-
     "/home/luis_eduardo/cs_projects/dime-r-training"
 
   # Data work folder
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+  dataWorkFolder    &lt;- file.path(projectFolder,"DataWork")
 
   # Print data work folder
   dataWorkFolder
+```
 
+```
+## [1] "/home/luis_eduardo/cs_projects/dime-r-training/DataWork"
 ```
 
 ---
@@ -320,7 +290,8 @@ Let's test if that worked:
 
 Use the `read.csv()` command:
 
-```{r, eval=F}
+
+```r
 read.csv(file, header = FALSE, stringsAsFactors = FALSE)
 ```
 
@@ -353,17 +324,17 @@ read.csv(file, header = FALSE, stringsAsFactors = FALSE)
 
 1. Save your script.
 
-2. Start a new R session: go to `Session > New Session`. This session should be completely blank.
+2. Start a new R session: go to `Session &gt; New Session`. This session should be completely blank.
 
 3. Open the code you just saved.
-  + Go to `File > Open File...` and select your script
+  + Go to `File &gt; Open File...` and select your script
 
 4. Add a line opening the data set in your code
-```{r, eval = F}
-# Load data set
-whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                header = TRUE)
 
+```r
+# Load data set
+whr &lt;- read.csv(file.path(finalData,"whr_panel.csv"),
+                header = TRUE)
 ```
 
 5. Run the whole script. If it worked, your environment should now include the `whr` dataset and the path locals.
@@ -375,7 +346,7 @@ name: exploring-a-dataset
 
 # Exploring a dataset
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -427,7 +398,8 @@ Use some of these functions to explore the `whr` data set.
 
 # Exploring a dataset
 
-```{r, eval = F}
+
+```r
 # View the data set (same as clicking on it in the Environment pane)
 View(whr)
 ```
@@ -436,33 +408,94 @@ View(whr)
 
 # Exploring a dataset
 
-```{r}
+
+```r
 class(whr)
+```
+
+```
+## [1] "data.frame"
+```
+
+```r
 dim(whr)
 ```
 
+```
+## [1] 470   8
+```
+
 ---
 
 # Exploring a dataset
 
-```{r}
+
+```r
 str(whr)
 ```
 
----
-
-# Exploring a dataset
-
-```{r}
-summary(whr)
+```
+## 'data.frame':	470 obs. of  8 variables:
+##  $ country               : chr  "Switzerland" "Iceland" "Denmark" "Norway" ...
+##  $ region                : chr  "Western Europe" "Western Europe" "Western Europe" "Western Europe" ...
+##  $ year                  : int  2015 2015 2015 2015 2015 2015 2015 2015 2015 2015 ...
+##  $ happiness_rank        : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ happiness_score       : num  7.59 7.56 7.53 7.52 7.43 ...
+##  $ economy_gdp_per_capita: num  1.4 1.3 1.33 1.46 1.33 ...
+##  $ health_life_expectancy: num  0.941 0.948 0.875 0.885 0.906 ...
+##  $ freedom               : num  0.666 0.629 0.649 0.67 0.633 ...
 ```
 
 ---
 
 # Exploring a dataset
 
-```{r}
+
+```r
+summary(whr)
+```
+
+```
+##    country             region               year      happiness_rank  
+##  Length:470         Length:470         Min.   :2015   Min.   :  1.00  
+##  Class :character   Class :character   1st Qu.:2015   1st Qu.: 40.00  
+##  Mode  :character   Mode  :character   Median :2016   Median : 79.00  
+##                                        Mean   :2016   Mean   : 78.83  
+##                                        3rd Qu.:2017   3rd Qu.:118.00  
+##                                        Max.   :2017   Max.   :158.00  
+##  happiness_score economy_gdp_per_capita health_life_expectancy    freedom      
+##  Min.   :2.693   Min.   :0.0000         Min.   :0.0000         Min.   :0.0000  
+##  1st Qu.:4.509   1st Qu.:0.6053         1st Qu.:0.4023         1st Qu.:0.2976  
+##  Median :5.282   Median :0.9954         Median :0.6301         Median :0.4183  
+##  Mean   :5.371   Mean   :0.9278         Mean   :0.5800         Mean   :0.4028  
+##  3rd Qu.:6.234   3rd Qu.:1.2524         3rd Qu.:0.7683         3rd Qu.:0.5169  
+##  Max.   :7.587   Max.   :1.8708         Max.   :1.0252         Max.   :0.6697
+```
+
+---
+
+# Exploring a dataset
+
+
+```r
 head(whr)
+```
+
+```
+##       country         region year happiness_rank happiness_score
+## 1 Switzerland Western Europe 2015              1           7.587
+## 2     Iceland Western Europe 2015              2           7.561
+## 3     Denmark Western Europe 2015              3           7.527
+## 4      Norway Western Europe 2015              4           7.522
+## 5      Canada  North America 2015              5           7.427
+## 6     Finland Western Europe 2015              6           7.406
+##   economy_gdp_per_capita health_life_expectancy freedom
+## 1                1.39651                0.94143 0.66557
+## 2                1.30232                0.94784 0.62877
+## 3                1.32548                0.87464 0.64938
+## 4                1.45900                0.88521 0.66973
+## 5                1.32629                0.90563 0.63297
+## 6                1.29025                0.88911 0.64169
 ```
 
 ---
@@ -480,7 +513,7 @@ name: commenting
 
 # Commenting
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -514,7 +547,7 @@ name: creating-a-document-outline-in-rstudio
 
 # Creating a document outline in RStudio
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -549,7 +582,7 @@ name: using-packages
 
 # Using packages
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -582,7 +615,8 @@ name: using-packages
 ## Packages
 
 * To install and use packages you can either do it with the user interface or by the command prompt.
-```{r, eval = F}
+
+```r
 # Installing a package
 install.packages("tidyverse",
                  dependencies = TRUE)
@@ -604,7 +638,8 @@ install.packages("tidyverse",
 
 # Using packages
 
-```{r, eval = F}
+
+```r
   library(tidyverse)
 ```
 
@@ -618,9 +653,7 @@ Notice that we used quotes around the name to install the package, but we don't 
 
 What if this happens?
 
-```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/Warning_tidyverse.png")
-```
+&lt;img src="img/Warning_tidyverse.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -642,7 +675,7 @@ name: functions-inception
 
 # Functions inception
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -658,16 +691,29 @@ name: functions-inception
 
 # Functions inception
 
-```{r}
+
+```r
   # Doing it the long way -----------------------------
   # Create a vector with the log of the happiness score
-  log_score <- log(whr$happiness_score)
+  log_score &lt;- log(whr$happiness_score)
 
   # Get descriptive statistics for the log vector
   summary(log_score)
+```
 
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.9907  1.5061  1.6644  1.6576  1.8300  2.0264
+```
+
+```r
   # Shortcut to get to the same place ----------------
   summary(log(whr$happiness_score))
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.9907  1.5061  1.6644  1.6576  1.8300  2.0264
 ```
 
 ---
@@ -682,9 +728,7 @@ name: functions-inception
 
 # Functions inception
 
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/statalog.png")
-```
+&lt;img src="img/statalog.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 # Functions inception  
@@ -695,16 +739,17 @@ knitr::include_graphics("img/statalog.png")
 
 * It can also get quite tricky to follow what a line of code with multiple functions inceptions is doing
 
-* Which is why we sometimes use pipes: `%>%`
+* Which is why we sometimes use pipes: `%&gt;%`
 
 ---
 
 # Functions inception  
 
-```{r, eval = F}
+
+```r
   # 1: Doing it the long way -----------------------------
   # Create a vector with the log of the happiness score
-  log_score <- log(whr$happy_score)
+  log_score &lt;- log(whr$happy_score)
 
   # Get descriptive statistics for the log vector
   mean(log_score)
@@ -713,12 +758,12 @@ knitr::include_graphics("img/statalog.png")
   mean(log(whr$happy_score))
 
   # 3: Now with pipes ------------------------------------
-  whr$happy_score %>%
-    log() %>%
+  whr$happy_score %&gt;%
+    log() %&gt;%
     mean()
 ```
 
-In a few words, `x %>% f()` is the same as `f(x)`
+In a few words, `x %&gt;% f()` is the same as `f(x)`
 
 ---
 
@@ -726,9 +771,7 @@ In a few words, `x %>% f()` is the same as `f(x)`
   
 Now that you know piping exists in R, you should know that it can __drastically improve code readability__. And from now on you can also laugh if you see this in some tidyverse nerd laptop sticker or t-shirt:
 
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/pipe.jpg")
-```
+&lt;img src="img/pipe.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -737,7 +780,7 @@ name: looping
 
 # Looping
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -751,7 +794,8 @@ name: looping
 
 * The equivalent to that in R would be to write a `for` loop like this
 
-```{r, eval = F}
+
+```r
     # A for loop in R
     for (number in 1:5) {
         print(number)
@@ -764,11 +808,20 @@ name: looping
 
 ## Loops
 
-```{r}
+
+```r
     # A for loop in R
     for (number in 1:5) {
         print(number)
     }
+```
+
+```
+## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5
 ```
 
 ---
@@ -805,14 +858,26 @@ name: looping
 
 ## Loops vs Apply
 
-```{r}
+
+```r
     # A for loop in R
     for (number in c(1.2,2.5)) {
       print(round(number))
     }
+```
 
+```
+## [1] 1
+## [1] 2
+```
+
+```r
     # A much more elegant loop in R
     sapply(c(1.2,2.5), round)
+```
+
+```
+## [1] 1 2
 ```
 
 ---
@@ -854,13 +919,21 @@ A more general version of `sapply()` is the `apply()` function.
 
 ## Apply
 
-```{r, eval = T}
+
+```r
     # Create a matrix
-    matrix <- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2),
+    matrix &lt;- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2),
                        nrow = 3)
 
     # Look at the matrix
     matrix
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    6    2
+## [2,]   24    9   74
+## [3,]    9    4    2
 ```
 
 ---
@@ -869,12 +942,23 @@ A more general version of `sapply()` is the `apply()` function.
 
 ## Apply
 
-```{r, eval = T}
+
+```r
     # Row means
     apply(matrix, 1, mean)
+```
 
+```
+## [1]  3.00000 35.66667  5.00000
+```
+
+```r
     # Column means
     apply(matrix, 2, mean)
+```
+
+```
+## [1] 11.333333  6.333333 26.000000
 ```
 
 ---
@@ -884,7 +968,7 @@ name: custom-functions
 
 # Custom functions
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
@@ -900,17 +984,22 @@ name: custom-functions
 
 # Custom functions
 
-```{r}
-  square <- function(x) {
+
+```r
+  square &lt;- function(x) {
     
-    y <- x ^ 2
+    y &lt;- x ^ 2
     
     return(y)
     
   }
 
   square(2)
-```  
+```
+
+```
+## [1] 4
+```
 
 ---
 
@@ -922,10 +1011,11 @@ name: custom-functions
   
   + Recall the outline of functions in R:
   
-```{r eval=F}
-function_name <- function(input) {
+
+```r
+function_name &lt;- function(input) {
   
-  output <- operation(input)
+  output &lt;- operation(input)
   
   return(output)
 
@@ -941,19 +1031,24 @@ function_name <- function(input) {
 
 # Custom functions
 
-```{r}
-  zscore <- function(x) {
+
+```r
+  zscore &lt;- function(x) {
     
-    mean <- mean(x, na.rm = T)
-    sd   <- sd(x, na.rm = T)
-    z    <- (x - mean)/sd
+    mean &lt;- mean(x, na.rm = T)
+    sd   &lt;- sd(x, na.rm = T)
+    z    &lt;- (x - mean)/sd
     
     return(z)
     
   }
 
   summary(zscore(whr$happiness_score))
-  
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -2.3551 -0.7579 -0.0776  0.0000  0.7590  1.9492
 ```
 
 ---
@@ -963,28 +1058,30 @@ name: indentation
 
 # Indentation
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
 # Indentation
 
-```{r, eval = F}
+
+```r
 # Here's some code
-annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region))
+annualHappy_reg &lt;- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
+plot &lt;- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region))
 + geom_line() + geom_point()
 print(plot)
 ```
 
-```{r, eval = F}
+
+```r
 # Here's the same code
-annualHappy_reg <-
+annualHappy_reg &lt;-
   aggregate(happiness_score ~ year + region,
             data = whr,
             FUN = mean)
 
-plot <-
+plot &lt;-
   ggplot(annualHappy_reg,
          aes(y = happiness_score,
              x = year,
@@ -1000,23 +1097,7 @@ print(plot)
 
 # Indentation
 
-```{r, eval = T, echo = F, out.width = "60%"}
-annualHappy_reg <-
-  aggregate(happiness_score ~ year + region,
-            data = whr,
-            FUN = mean)
-
-plot <-
-  ggplot(annualHappy_reg,
-         aes(y = happiness_score,
-             x = year,
-             color = region,
-             group = region)) +
-  geom_line() +
-  geom_point()
-
-print(plot)
-```
+&lt;img src="06-R-programming-practices_files/figure-html/unnamed-chunk-34-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1051,7 +1132,8 @@ print(plot)
 ### Exercise 8: Indentation in R
 To see an example of how indenting works in RStudio, go back to our first example with `sapply`:
 
-```{r, eval = F}
+
+```r
 # A much more elegant loop in R
 sapply(c(1.2,2.5), round)
 ```
@@ -1066,7 +1148,8 @@ sapply(c(1.2,2.5), round)
 
 Note that RStudio formats the different arguments of the function differently:
 
-```{r, eval = F}
+
+```r
 # A much more elegant loop in R
 sapply(c(1.2,
          2.5),
@@ -1140,17 +1223,16 @@ Create a dummy scalar object called PACKAGES.
 
 * If statements in R look like this:
 
-```{r, eval = F}
 
+```r
     # Turn switch on
-    PACKAGES <- 1
+    PACKAGES &lt;- 1
 
     # Install packages
     if (PACKAGES == 1) {
       install.packages(packages,
                        dependencies = TRUE)
     }
-
 ```
 
 ---
@@ -1161,9 +1243,10 @@ Create a dummy scalar object called PACKAGES.
 
 Possible variations would include
 
-```{r, eval = F}
+
+```r
     # Turn switch on
-    PACKAGES <- TRUE
+    PACKAGES &lt;- TRUE
 
     # Using a Boolean object
     if (PACKAGES == TRUE) {
@@ -1174,7 +1257,6 @@ Possible variations would include
     if (PACKAGES) {
       install.packages(packages, dep = TRUE)
     }
-
 ```
 
 ---
@@ -1194,7 +1276,8 @@ Create a function that
 5. Loads the packages
 
 - TIP: to test if a package is already installed, use the following code:
-```{r, eval = F}
+
+```r
     # Test if object x is contained in
     # the vector of installed packages
     x %in% installed.packages()
@@ -1220,16 +1303,16 @@ Create a function that
 
 * Explicit and dynamic file path:
 
-```{r, eval = F}
+
+```r
   # Define dynamic file path
-  finalData <- "C:/Users/luiza/Documents/GitHub/
+  finalData &lt;- "C:/Users/luiza/Documents/GitHub/
                 dime-r-training/
                 DataWork/DataSets/Final"
 
   # Load data set
-  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
+  whr &lt;- read.csv(file.path(finalData,"whr_panel.csv"),
                   header = TRUE)
-
 ```
 
 ---
@@ -1289,3 +1372,127 @@ If you have used R before, you may have heard of RStudio Projects. It's RStudio'
 
 However, if you want to learn more about it, we recommend starting here:
 https://r4ds.had.co.nz/workflow-projects.html
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
