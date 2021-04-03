@@ -58,15 +58,6 @@ xaringanExtra::use_logo(
 )
 ```
 
-```{css, echo = F, eval = T}
-@media print {
-  .has-continuation {
-    display: block !important;
-  }
-}
-```
-
-
 # Table of contents
 
 1. [Introduction](#intro)
@@ -1223,7 +1214,10 @@ Now we’ll use the ggplotly() function from the plotly package to create an int
 
 # Interactive graphs
 
-```{r, message=FALSE, warning=FALSE, out.width = "70%", out.height="70%", out.extra = 'style="display:block; margin:auto;"'}
+.panelset[
+.panel[.panel-name[R Code]
+
+```{r, message=FALSE, warning=FALSE, out.width = "70%", out.height="70%", out.extra = 'style="display:block; margin:auto;"', eval = FALSE}
 # Load package
 library(plotly)
 
@@ -1232,3 +1226,31 @@ ggplotly(fig) %>%
   layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
 
 ```
+]
+
+.panel[.panel-name[Plot]
+
+```{r, message=FALSE, warning=FALSE, out.width = "70%", out.height="70%", out.extra = 'style="display:block; margin:auto;"', echo = FALSE}
+# Load package
+library(plotly)
+
+# Use ggplotly to create an interactive plot
+ggplotly(fig) %>%
+  layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
+
+```
+]
+
+]
+
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("03-data-visualization.html", output = "03-data-visualization.pdf")
+
+# or
+source("https://git.io/xaringan2pdf")
+xaringan_to_pdf("03-data-visualization.html")
+```
+

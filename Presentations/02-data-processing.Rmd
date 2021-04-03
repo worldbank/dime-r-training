@@ -58,14 +58,6 @@ xaringanExtra::use_logo(
 )
 ```
 
-```{css, echo = F, eval = T}
-@media print {
-  .has-continuation {
-    display: block !important;
-  }
-}
-```
-
 
 # Table of contents
 
@@ -1225,11 +1217,21 @@ whr_panel_wide %>%
 ] 
 ]
 
-
 ---
 class: inverse, center, middle
 
 # Thank you~~ 
+
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("02-data-processing.html", output = "02-data-processing.pdf")
+
+# Or
+source("https://git.io/xaringan2pdf")
+xaringan_to_pdf("02-data-processing.html")
+```
 
 
 

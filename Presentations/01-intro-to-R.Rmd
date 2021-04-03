@@ -1,7 +1,7 @@
 ---
 title: "Introduction to R"
 subtitle: "R for Stata Users"
-author: "DIME Analytics"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
 output:
   xaringan::moon_reader:
@@ -14,79 +14,59 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+```{r setup, include = FALSE}
+
+# Load packages
 library(knitr)
-opts_chunk$set(
-  fig.align="center",  
-  fig.height=4, #fig.width=6,
-  # out.width="748px", #out.length="520.75px",
-  dpi=300, #fig.path='Figs/',
-  cache=T#, echo=F, warning=F, message=F
-  )
 library(tidyverse)
 library(hrbrthemes)
 library(fontawesome)
+library(here)
 library(xaringanExtra)
-xaringanExtra::use_panelset()
-```
 
-```{r xaringan-logo, echo=FALSE}
+here::i_am("Presentations/01-intro-to-R.Rmd")
+
+options(htmltools.dir.version = FALSE)
+opts_chunk$set(
+  fig.align = "center",
+  fig.height = 4,
+  dpi = 300,
+  cache = T
+  )
+
+xaringanExtra::use_panelset()
+xaringanExtra::use_webcam()
+xaringanExtra::use_clipboard()
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+
 xaringanExtra::use_logo(
-  image_url = "img/lightbulb.png",
-  exclude_class = c("inverse", "hide_logo"),
+  image_url = here("Presentations",
+                   "img",
+                   "lightbulb.png"),
+  exclude_class = c("inverse", 
+                    "hide_logo"),
   width = "50px"
 )
 ```
 
-```{r, echo = F, eval=T}
-
-# Load the package than contains ToothGrowth dataset
-library(datasets)
-
-# File paths
-
-if (Sys.getenv("USERNAME") == "luis_eduardo"){
-  projectFolder  <- "/home/luis_eduardo/cs_projects/dime-r-training"
-  
+```{css, echo = F, eval = T}
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
 }
-
-if (Sys.getenv("USERNAME") == "wb532468"){
-  projectFolder  <- "C:/WBG/Repos/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "WB501238"){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-
-}
-
-if (Sys.getenv("USERNAME") == "wb519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
-}
-
-if (Sys.getenv("USERNAME") == "maximiliano"){
-  projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
-}
-
-# File paths
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-  Data              <- file.path(dataWorkFolder,"DataSets")
-  finalData         <- file.path(Data,"Final")
-  
-# Load CSV data
-# lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
-#                 header = T)
-
-whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
-                header = T)
 
 ```
+```{r echo = FALSE, include = FALSE, eval = TRUE}
+whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
+```
+
 
 ```{css, echo = F, eval = T}
 @media print {
@@ -122,7 +102,7 @@ We're glad you're joining us today!
 
 - The sessions include exercises where we give 3-4 minutes to solve them
 
-- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez Ramirez__
+- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez-Ramirez__
 
 ---
 
@@ -207,17 +187,17 @@ This first session will present the basic concepts you will need to use R.
 
 ## Sessions
 
-* Introduction to R
+1. Introduction to R
 
-* Data processing
+2. Data processing
 
-* Data visualization
+3. Data visualization
 
-* Descriptive analysis
+4. Descriptive analysis
 
-* Geospatial data
+5. Geospatial data
 
-* R programming practices
+6. R programming practices
 
 For the most recent versions of these trainings, visit the R-training GitHub repository at
 https://github.com/worldbank/dime-r-training
@@ -247,14 +227,14 @@ https://github.com/worldbank/dime-r-training
 
 ## R vs Stata
 
-Some possible disadvantages of R vs Stata:
+Some possible disadvantages of Stata:
 
-* Higher cost of entry than Stata for learning how to use it.
+* Higher cost of entry than Stata for learning how to use R.
 
 * Stata is more specialized:
-  + Certain common tasks are simpler in Stata. For example:
-    * Running a regression with clustered standard errors
-    * Analyzing survey data with weights
+  * Certain common tasks are simpler in Stata. For example:
+      * Running a regression with clustered standard errors
+      * Analyzing survey data with weights
 
 * Stata has wider adoption among micro-econometricians (though R adoption is steadily increasing).
   + Network externalities in your work environment.
@@ -279,7 +259,7 @@ Here are some advantages of R:
 
 * You can run machine learning algorithms with it.
 
-* You can create complex Markdown documents. This presentation, for example, is entirely done in RStudio.
+* You can create complex Markdown documents. This presentation, for example, is entirely done in R.
 
 * You can create interactive dashboards and online applications with the Shiny package.
 
@@ -362,7 +342,7 @@ Let's start by loading the data set we'll be using:
 
 # Getting started - Importing data
 
-```{r echo = FALSE, out.width = "50%"}
+```{r echo = FALSE, out.width = "40%"}
 knitr::include_graphics("img/import_data1.png")
 ```
 
@@ -571,10 +551,11 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Data in R
 
-You can also see that your environment pane now has two `Data` objects:
+You can also see that your environment panel now has two `Data` objects:
 
-<img height=70% width=70% src="img/environment_2vars_2021.png" />
-
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/environment_2vars_2021.png")
+```
 ---
 
 # Data in R
