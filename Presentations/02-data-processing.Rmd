@@ -243,7 +243,7 @@ library(tidyverse)
 # install.package("here")
 # install.package("janitor")
 library(here) # A package to work with relative file paths
-library(janitor)
+library(janitor) # Additional data cleaning tools
 ```
 
 > Remember that you should always load your packages before your start coding.
