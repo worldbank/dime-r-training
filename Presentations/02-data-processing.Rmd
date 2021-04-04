@@ -666,7 +666,7 @@ What do you think is happening to this variable?
 
 --
 
-> The variable we created contains either `TRUE` or `FALSE`. <br> If we want to have it as a numeric (1 or 0), we could include `as.numeric()`
+> The variable we created contains either `TRUE` or `FALSE`. <br> If we wanted to have it as a numeric (1 or 0, respectively), we could include `as.numeric()`. However, the point of having logical variables is to treat them as numbers when relevant (for example as dummy variables in a regression) and as categories when relevant (for example in graphs)
 
 --
 
@@ -1232,4 +1232,3 @@ pagedown::chrome_print("02-data-processing.html", output = "02-data-processing.p
 source("https://git.io/xaringan2pdf")
 xaringan_to_pdf("02-data-processing.html")
 ```
-
