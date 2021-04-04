@@ -217,7 +217,7 @@ library(tidyverse)
 
 ```
 
-
+> Note: unlike in Stata, R packages need to be loaded in each R session that will use them
 ---
 
 # Introduction
