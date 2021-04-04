@@ -14,9 +14,17 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+```{r setup, include = FALSE}
 library(knitr)
+library(tidyverse)
+library(hrbrthemes)
+library(fontawesome)
+library(xaringanExtra)
+library(here)
+library(datasets)
+
+
+options(htmltools.dir.version = FALSE)
 opts_chunk$set(
   fig.align="center",  
   fig.height=4, #fig.width=6,
@@ -24,67 +32,18 @@ opts_chunk$set(
   dpi=300, #fig.path='Figs/',
   cache=T#, echo=F, warning=F, message=F
   )
-library(tidyverse)
-library(hrbrthemes)
-library(fontawesome)
-library(xaringanExtra)
 xaringanExtra::use_panelset()
-```
 
-```{r xaringan-logo, echo=FALSE}
 xaringanExtra::use_logo(
   image_url = "img/lightbulb.png",
   exclude_class = c("inverse", "hide_logo"),
   width = "50px"
 )
-```
 
-```{r, echo = F, eval=T}
-
-# Load the package than contains ToothGrowth dataset
-library(datasets)
-
-# File paths
-
-if (Sys.getenv("USERNAME") == "luis_eduardo"){
-  projectFolder  <- "/home/luis_eduardo/cs_projects/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "wb532468"){
-  projectFolder  <- "C:/WBG/Repos/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "WB501238"){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-
-}
-
-if (Sys.getenv("USERNAME") == "wb519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
-}
-
-if (Sys.getenv("USERNAME") == "maximiliano"){
-  projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
-}
-
-# File paths
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-  Data              <- file.path(dataWorkFolder,"DataSets")
-  finalData         <- file.path(Data,"Final")
-  
-# Load CSV data
-# lwh <- read.csv(file.path(finalData,"lwh_clean.csv"), 
-#                 header = T)
-
-whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
-                header = T)
+whr <- read_csv(here("DataWork",
+                     "DataSets",
+                     "Final",
+                     "whr_panel.csv"))
 
 ```
 
@@ -120,9 +79,9 @@ We're glad you're joining us today!
 
 - These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
 
-- The sessions include exercises where we give 3-4 minutes to solve them
+- The sessions include exercises. You will be given 3-4 minutes to solve each exercise before we show the solution
 
-- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez Ramirez__
+- Every session has two TAs. For this session, our TAs are __Luíza Cardoso De Andrade__ and __Rony Rodriguez Ramirez__
 
 ---
 
@@ -132,7 +91,7 @@ We're glad you're joining us today!
 
 - The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a message over the chat whenever you need help
 
-- You can also use our Slack workspace to troubleshoot, feel free to send screenshots if you can!
+- You can also use our Slack workspace to troubleshoot. It is easier to follow direct conversations in Slack, and it also allows you to send screenshots (please send them if you can!)
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/slack.png")
@@ -229,7 +188,7 @@ https://github.com/worldbank/dime-r-training
 ## R vs Stata
 
 * R is object oriented while Stata is action oriented:
-  + Classic example: Stata's `summarize()` vs R's `summary()`
+  + Classic example: Stata's `summarize` vs R's `summary()`
   + In Stata you declare what you want to do, while in R you usually declare the result you want to get
 
 * R needs to load non-base commands (packages) at the beginning of each session
@@ -251,10 +210,9 @@ Some possible disadvantages of R vs Stata:
 
 * Higher cost of entry than Stata for learning how to use it.
 
-* Stata is more specialized:
-  + Certain common tasks are simpler in Stata. For example:
-    * Running a regression with clustered standard errors
-    * Analyzing survey data with weights
+* Stata is more specialized, which makes certain common tasks simpler. For example:
+  - Running a regression with clustered standard errors
+  - Analyzing survey data with weights
 
 * Stata has wider adoption among micro-econometricians (though R adoption is steadily increasing).
   + Network externalities in your work environment.
@@ -467,14 +425,14 @@ Now, let's try some simple manipulations. First, assume we're only interested in
 
 ## Exercise 2: Subset the data 
 
-1- Subset the data set, keeping only observations where variable `year` equals `2016`.
+1. Subset the data set, keeping only observations where variable `year` equals `2016`.
 
 ```{r, eval=FALSE}
 # To do that we'll use the subset() function
 subset(whr, year == 2016)
 ```
 
-2- Then, look again at the first 6 observations
+2. Then, look again at the first 6 observations
 ```{r, include = T, results = "hide"}
 # Use the head() function again
 head(whr)
