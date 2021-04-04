@@ -1068,7 +1068,7 @@ whr15 %>%
 
 ```{r mix}
 whr15 %>% 
-  arrange(region, country) %>%                        # Arrange by region and country
+  arrange(region, country) %>%                        # Sort by region and country
   filter(!is.na(region)) %>%                          # Filter those non-missing obs for region if any
   select(country, region, starts_with("happin")) %>%  # Select country, year, and vars that stars with happin
   slice_head()                                        # Get the first row
@@ -1232,5 +1232,4 @@ pagedown::chrome_print("02-data-processing.html", output = "02-data-processing.p
 source("https://git.io/xaringan2pdf")
 xaringan_to_pdf("02-data-processing.html")
 ```
-
 
