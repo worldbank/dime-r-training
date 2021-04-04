@@ -242,7 +242,7 @@ library(tidyverse)
 # If you haven't installed the packages uncomment the next line
 # install.package("here")
 # install.package("janitor")
-library(here)
+library(here) # A package to work with relative file paths
 library(janitor)
 ```
 
