@@ -339,7 +339,7 @@ rony %>%
 
 The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called GDP_per_CApita_2015, the `clean_names()` function will help us fix those messy names. 
 
-> **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide.
+> **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide. It will make sure column names are well-suited for use in R
 
 If we wanto to rename our variable manually, we could use: 
 
