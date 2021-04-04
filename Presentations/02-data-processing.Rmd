@@ -811,7 +811,7 @@ name: bind
 Now that we can identify the observations, we can combine the data set. Here are two functions to append objects by row
 
 ```{r eval = FALSE}
-rbind(df1, df2, df3)
+rbind(df1, df2, df3) # The base R function
 
 bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
 ```
@@ -1232,6 +1232,5 @@ pagedown::chrome_print("02-data-processing.html", output = "02-data-processing.p
 source("https://git.io/xaringan2pdf")
 xaringan_to_pdf("02-data-processing.html")
 ```
-
 
 
