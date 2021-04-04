@@ -252,7 +252,7 @@ library(janitor)
 
 # File paths
 
-The `here` package allows you to interact with your working directory. That's why it is important to set your RStudio project correctly. 
+The `here` package allows you to interact with your working directory. It will look for the closest R Project and set its location as the working directory. That's why it is important to set your RStudio project correctly. 
 
 The goal of this package is to:
 
