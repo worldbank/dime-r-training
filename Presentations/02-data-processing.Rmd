@@ -813,7 +813,7 @@ Now that we can identify the observations, we can combine the data set. Here are
 ```{r eval = FALSE}
 rbind(df1, df2, df3)
 
-bind_rows(df1, df2, df3)
+bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
 ```
 
 ### Exercise 6: Append data sets.
@@ -1232,7 +1232,6 @@ pagedown::chrome_print("02-data-processing.html", output = "02-data-processing.p
 source("https://git.io/xaringan2pdf")
 xaringan_to_pdf("02-data-processing.html")
 ```
-
 
 
 
