@@ -2,7 +2,7 @@
 title: "Session 2: Data Processing"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> `r format(Sys.time(), '%d %B %Y')`"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> April 2021"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -205,19 +205,28 @@ knitr::include_graphics("https://www.apple.com/v/app-store/a/images/meta/og__c59
 
 # Introduction: Packages
 
-### To install and load a package you can run the following command:
+### To install a package you can run the following command:
 
 ```{r, echo = TRUE, eval = FALSE, include = TRUE}
 
 # To Install
 install.packages("tidyverse")
 
-# To load
-library(tidyverse)
-
 ```
 
-> Note: unlike in Stata, R packages need to be loaded in each R session that will use them
+* Unlike in Stata, R packages need to be loaded in each R session that will use them. 
+* That means that for example a functions that comes from the tidyverse cannot be used if the tidyverse package has not been installed and loaded first. 
+
+### To load a package you can run the following command:
+
+```{r, echo = TRUE, eval = FALSE, include = TRUE}
+
+# To Install
+library(tidyverse)
+```
+
+* Notice that we uso double quotes for installing but not for loading a package. 
+
 ---
 
 # Introduction
@@ -226,7 +235,6 @@ library(tidyverse)
 
 1. Start a fresh RStudio session.
 2. Open your RStudio project.
-3. Load the tidyverse package.
 
 ### Notes for this session
 
@@ -236,17 +244,19 @@ library(tidyverse)
 
 ---
 
-# Let's load the two other packages:
+# Let's load the two following packages:
 
-```{r tverse, cache = FALSE}
+```{r tverse, cache = FALSE, message = FALSE}
 # If you haven't installed the packages uncomment the next line
+# install.package("tidyverse")
 # install.package("here")
 # install.package("janitor")
-library(here) # A package to work with relative file paths
-library(janitor) # Additional data cleaning tools
+library(tidyverse)
+library(here)       # A package to work with relative file paths
+library(janitor)    # Additional data cleaning tools
 ```
 
-> Remember that you should always load your packages before your start coding.
+> *Notes*: Remember you should always load your packages before your start coding.
 
 ---
 
@@ -528,15 +538,8 @@ name: wrangling
 
 - The `filter` function is used to subset rows in a dataset. 
 
---
-
--  For example, we can use to extract observations from Westerns European countries
-
---
-
 ```{r filter}
-whr15 %>% 
-  filter(region == "Western Europe")
+whr15 %>% filter(region == "Western Europe")
 
 ```
 
@@ -568,22 +571,6 @@ whr15 %>%
 
 ---
 
-# dplyr::filter regular expressions
-
-One advantage of the filter command is that you can also integrate regular expressions. Let's say that we want to subset all regions' divisions that have `America` in their names. We can use the following: 
-
-```{r grepl}
-whr15 %>% 
-  filter(grepl("America", region)) %>% 
-  head(2)
-```
-
---
-
-> Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east <- + the code above`.
-
----
-
 # dplyr::filter missing cases
 
 If case you want to remove (or identify) the missing cases for a specific variable, you can use `is.na()`. 
@@ -597,9 +584,7 @@ The function syntax in a pipeline is as follows:
 
 ```{r eval = FALSE}
 DATA %>% 
-  filter(
-    is.na(VAR)
-  )
+  filter(is.na(VAR))
 ```
 
 --
@@ -657,9 +642,7 @@ whr15 %>%
 
 ```{r include = TRUE, eval = FALSE}
 whr15 %>%
-  mutate(
-    happiness_score_6 = (happiness_score > 6)
-  )
+  mutate(happiness_score_6 = (happiness_score > 6))
 ```
 
 What do you think is happening to this variable? 
@@ -672,9 +655,7 @@ What do you think is happening to this variable?
 
 ```{r include = TRUE, eval = FALSE}
 whr15 %>%
-  mutate(
-    happiness_score_6 = as.numeric((happiness_score > 6)) 
-  )
+  mutate(happiness_score_6 = as.numeric((happiness_score > 6)))
 ```
 
 --
@@ -683,9 +664,7 @@ Finally, instead of using a random number such as 6, we can do the following:
 
 ```{r include = TRUE, eval = FALSE}
 whr15 %>%
-  mutate(
-    happiness_high_mean = as.numeric((happiness_score > mean(happiness_score))) 
-  ) 
+  mutate(happiness_high_mean = as.numeric((happiness_score > mean(happiness_score)))) 
 ```
 
 ---

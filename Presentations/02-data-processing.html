@@ -28,7 +28,7 @@ class: center, middle, inverse, title-slide
 # Session 2: Data Processing
 ## R for Stata Users
 ### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> 03 April 2021
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> April 2021
 
 ---
 
@@ -172,17 +172,26 @@ In this session, you'll be introduced to some basic concepts of data cleaning in
 
 # Introduction: Packages
 
-### To install and load a package you can run the following command:
+### To install a package you can run the following command:
 
 
 ```r
 # To Install
 install.packages("tidyverse")
+```
 
-# To load
+* Unlike in Stata, R packages need to be loaded in each R session that will use them. 
+* That means that for example a functions that comes from the tidyverse cannot be used if the tidyverse package has not been installed and loaded first. 
+
+### To load a package you can run the following command:
+
+
+```r
+# To Install
 library(tidyverse)
 ```
 
+* Notice that we uso double quotes for installing but not for loading a package. 
 
 ---
 
@@ -192,7 +201,6 @@ library(tidyverse)
 
 1. Start a fresh RStudio session.
 2. Open your RStudio project.
-3. Load the tidyverse package.
 
 ### Notes for this session
 
@@ -202,35 +210,26 @@ library(tidyverse)
 
 ---
 
-# Let's load the two other packages:
+# Let's load the two following packages:
 
 
 ```r
 # If you haven't installed the packages uncomment the next line
+# install.package("tidyverse")
 # install.package("here")
 # install.package("janitor")
-library(here)
-library(janitor)
+library(tidyverse)
+library(here)       # A package to work with relative file paths
+library(janitor)    # Additional data cleaning tools
 ```
 
-```
-## 
-## Attaching package: 'janitor'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     chisq.test, fisher.test
-```
-
-&gt; Remember that you should always load your packages before your start coding.
+&gt; *Notes*: Remember you should always load your packages before your start coding.
 
 ---
 
 # File paths
 
-The `here` package allows you to interact with your working directory. That's why it is important to set your RStudio project correctly. 
+The `here` package allows you to interact with your working directory. It will look for the closest R Project and set its location as the working directory. That's why it is important to set your RStudio project correctly. 
 
 The goal of this package is to:
 
@@ -317,7 +316,7 @@ rony %&gt;%
 
 The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called GDP_per_CApita_2015, the `clean_names()` function will help us fix those messy names. 
 
-&gt; **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide.
+&gt; **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide. It will make sure column names are well-suited for use in R
 
 If we wanto to rename our variable manually, we could use: 
 
@@ -580,16 +579,9 @@ name: wrangling
 
 - The `filter` function is used to subset rows in a dataset. 
 
---
-
--  For example, we can use to extract observations from Westerns European countries
-
---
-
 
 ```r
-whr15 %&gt;% 
-  filter(region == "Western Europe")
+whr15 %&gt;% filter(region == "Western Europe")
 ```
 
 ```
@@ -642,34 +634,6 @@ whr15 %&gt;%
 
 ---
 
-# dplyr::filter regular expressions
-
-One advantage of the filter command is that you can also integrate regular expressions. Let's say that we want to subset all regions' divisions that have `America` in their names. We can use the following: 
-
-
-```r
-whr15 %&gt;% 
-  filter(grepl("America", region)) %&gt;% 
-  head(2)
-```
-
-```
-## # A tibble: 2 x 12
-##   country  region happiness_rank happiness_score standard_error economy_gdp_per~
-##   &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
-## 1 Canada   North~              5            7.43         0.0355            1.33 
-## 2 Costa R~ Latin~             12            7.23         0.0445            0.956
-## # ... with 6 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
-## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
-## #   dystopia_residual &lt;dbl&gt;
-```
-
---
-
-&gt; Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east &lt;- + the code above`.
-
----
-
 # dplyr::filter missing cases
 
 If case you want to remove (or identify) the missing cases for a specific variable, you can use `is.na()`. 
@@ -684,9 +648,7 @@ The function syntax in a pipeline is as follows:
 
 ```r
 DATA %&gt;% 
-  filter(
-    is.na(VAR)
-  )
+  filter(is.na(VAR))
 ```
 
 --
@@ -771,25 +733,21 @@ whr15 %&gt;%
 
 ```r
 whr15 %&gt;%
-  mutate(
-    happiness_score_6 = (happiness_score &gt; 6)
-  )
+  mutate(happiness_score_6 = (happiness_score &gt; 6))
 ```
 
 What do you think is happening to this variable? 
 
 --
 
-&gt; The variable we created contains either `TRUE` or `FALSE`. &lt;br&gt; If we want to have it as a numeric (1 or 0), we could include `as.numeric()`
+&gt; The variable we created contains either `TRUE` or `FALSE`. &lt;br&gt; If we wanted to have it as a numeric (1 or 0, respectively), we could include `as.numeric()`. However, the point of having logical variables is to treat them as numbers when relevant (for example as dummy variables in a regression) and as categories when relevant (for example in graphs)
 
 --
 
 
 ```r
 whr15 %&gt;%
-  mutate(
-    happiness_score_6 = as.numeric((happiness_score &gt; 6)) 
-  )
+  mutate(happiness_score_6 = as.numeric((happiness_score &gt; 6)))
 ```
 
 --
@@ -799,9 +757,7 @@ Finally, instead of using a random number such as 6, we can do the following:
 
 ```r
 whr15 %&gt;%
-  mutate(
-    happiness_high_mean = as.numeric((happiness_score &gt; mean(happiness_score))) 
-  ) 
+  mutate(happiness_high_mean = as.numeric((happiness_score &gt; mean(happiness_score)))) 
 ```
 
 ---
@@ -927,9 +883,9 @@ Now that we can identify the observations, we can combine the data set. Here are
 
 
 ```r
-rbind(df1, df2, df3)
+rbind(df1, df2, df3) # The base R function
 
-bind_rows(df1, df2, df3)
+bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
 ```
 
 ### Exercise 6: Append data sets.
@@ -1240,7 +1196,7 @@ whr15 %&gt;%
 
 ```r
 whr15 %&gt;% 
-  arrange(region, country) %&gt;%                        # Arrange by region and country
+  arrange(region, country) %&gt;%                        # Sort by region and country
   filter(!is.na(region)) %&gt;%                          # Filter those non-missing obs for region if any
   select(country, region, starts_with("happin")) %&gt;%  # Select country, year, and vars that stars with happin
   slice_head()                                        # Get the first row
@@ -1436,10 +1392,6 @@ class: inverse, center, middle
 
 ---
 exclude: true
-
-
-
-
 
 
     </textarea>
