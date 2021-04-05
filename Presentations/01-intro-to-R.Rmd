@@ -264,18 +264,6 @@ Here are some advantages of R:
 
 ---
 
-# Introduction
-
-But Python is even more flexible and has more users than R, so why should I learn R?
-
-* Despite being super popular for data science, Python has fewer libraries developed for econometrics.
-
-* Python is a bit harder to set up and get started.
-
-* It can be a harder to find help only for statistics and econometrics in Python than in R, especially for beginners.
-
----
-
 class: inverse, center, middle
 name: getting-started
 
@@ -330,7 +318,7 @@ Let's start by loading the data set we'll be using:
 
 ## Exercise 1: Import data
 
-1. Go to the OSF page of the course (https://osf.io/b7hm6/) and download the file located in `R for Stata Users - April 2021` > `Data` > `whr_panel.csv`
+1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - April 2021` > `Data` > `whr_panel.csv`
 
 2. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your Rstudio version, it might be `File` > `Import Dataset` > `From CSV`
@@ -416,7 +404,7 @@ To better understand the idea, we're going to use the data we opened from the Un
 
 First, let's take a look at the data.
 
-Type the following code to explore the data:
+Type the following code __in the Console panel__ and press Enter to explore the data: 
 ```{r, include = T, results = "hide"}
 
 # We can use the function View() to browse the whole data
@@ -524,7 +512,7 @@ Create a new dataset, called `whr2016`, that is a subset of the `whr` data set c
 # Using the same function but now assigning it to an object
 whr2016 <- subset(whr, year == 2016)
 
-# Display the 5 first obs. of the new data
+# Display the 6 first obs. of the new data
 head(whr2016)
 
 # Notice that we still have the original data set intact
@@ -881,7 +869,7 @@ name: basic-types-of-data
 
 # Basic types of data
 
-R has different kinds of data that can be recorded inside objects. They are very similar to what you have in Stata, and the main types are string, integer, numeric, factor and boolean.
+R has different kinds of data that can be recorded inside objects. They are very similar to what you have in Stata, and the main types are string, integer and numeric, factors, and boolean.
 
 Let's start with the simpler ones:
 
@@ -904,11 +892,7 @@ Create a string vector containing the names of commonly used statistical softwar
 ```{r, include = T, results = "hide"}
 
 # Creating string vector
-str_vec <- c("R",
-             "Python",
-             "SAS",
-             "Excel",
-             "Stata")
+str_vec <- c("R", "Python", "SAS", "Excel", "Stata")
 ```
 
 Now print them to check them out.
@@ -933,7 +917,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ## Strings
 
 ### Exercise 5: Concatenate strings
- 1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`.
+ 1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar <- "can be an option to"`
 
  2. Use the function `paste()` with 3 arguments separated by commas:
   + The first argument as the 1st element of `str_vec`.
@@ -1077,7 +1061,7 @@ my_vector
 
 # Selecting and printing the first and last elements only:
 boolean1 <- c(TRUE, FALSE, FALSE, FALSE, TRUE)
-my_vector [boolean1]
+my_vector[boolean1]
 
 # Selecting and printing every element but the first:
 boolean2 <- c(FALSE, TRUE, TRUE, TRUE, TRUE)
