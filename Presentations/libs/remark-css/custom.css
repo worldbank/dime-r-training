@@ -1,0 +1,24 @@
+.vlarge { font-size: 200% }
+.large { font-size: 150% }
+.medium { font-size: 120% }
+.small { font-size: 70% }
+.red {color: #ac142a}
+.green{color: #046307}
+
+div.command {
+    padding: 5px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #fdeccf;
+    border-radius: 10px;
+  }
+
+div.exercise {
+    padding: 5px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #e3f5fb;
+    border-radius: 20px;
+  }
