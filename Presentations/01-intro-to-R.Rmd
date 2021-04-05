@@ -63,17 +63,9 @@ xaringanExtra::use_logo(
 }
 
 ```
+
 ```{r echo = FALSE, include = FALSE, eval = TRUE}
 whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
-```
-
-
-```{css, echo = F, eval = T}
-@media print {
-  .has-continuation {
-    display: block !important;
-  }
-}
 ```
 
 # Table of contents
