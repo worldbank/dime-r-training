@@ -53,3 +53,10 @@
 
 # Markdown
 !/**/*.md
+
+# HTML and pngs for slides
+!/**/*.html
+!/**/*.png
+!/**/*.pdf
+
+.Rproj.user

@@ -1,11 +1,14 @@
 ---
-title: "Session 3: Data Processing"
+title: "Session 2: Data Processing"
 subtitle: "R for Stata Users"
-author: "Rony Rodrigo Maximiliano Rodriguez-Ramirez"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> `r format(Sys.time(), '%d %B %Y')`"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> April 2021"
 output:
   xaringan::moon_reader:
-    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
+    css: ["libs/remark-css/default.css", 
+          "libs/remark-css/metropolis.css", 
+          "libs/remark-css/metropolis-fonts.css",
+          "libs/remark-css/custom.css"]
     lib_dir: libs
     nature:
       ratio: "16:9"
@@ -14,69 +17,45 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 
 # Load packages
-options(htmltools.dir.version = FALSE)
 library(knitr)
-opts_chunk$set(
-  fig.align="center",  
-  fig.height=4, #fig.width=6,
-  # out.width="748px", #out.length="520.75px",
-  dpi=300, #fig.path='Figs/',
-  cache=T#, echo=F, warning=F, message=F
-  )
+library(tidyverse)
 library(hrbrthemes)
 library(fontawesome)
+library(here)
 library(xaringanExtra)
+
+here::i_am("Presentations/02-data-processing.Rmd")
+
+options(htmltools.dir.version = FALSE)
+opts_chunk$set(
+  fig.align = "center",
+  fig.height = 4,
+  dpi = 300,
+  cache = T
+  )
+
 xaringanExtra::use_panelset()
+xaringanExtra::use_webcam()
+xaringanExtra::use_clipboard()
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 
-# File paths
-if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "luis_eduardo"){
-  projectFolder  <- "/home/luis_eduardo/cs_projects/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-
-}
-
-if (Sys.getenv("USERNAME") == "wb519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
-}
-
-if (Sys.getenv("USERNAME") == "maximiliano"){
-  projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
-}
-
-# File paths
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-  Data              <- file.path(dataWorkFolder,"DataSets")
-  finalData         <- file.path(Data,"Final")
-  rawData           <- file.path(Data,"Raw")
-  rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
-```
-
-```{r xaringan-logo, echo=FALSE}
 xaringanExtra::use_logo(
-  image_url = "img/lightbulb.png",
-  exclude_class = c("inverse", "hide_logo"),
+  image_url = here("Presentations",
+                   "img",
+                   "lightbulb.png"),
+  exclude_class = c("inverse", 
+                    "hide_logo"),
   width = "50px"
 )
-```
-
-```{css, echo = F, eval = T}
-@media print {
-  .has-continuation {
-    display: block !important;
-  }
-}
 ```
 
 
@@ -115,43 +94,138 @@ name: intro
 
 ### Goals of this session
 
+- To understand what RStudio projects are and how they can be used in your daily work.
+
 - To organize data in a way that it will be easier to analyze it and communicate it.
 
-- We'll use a set of packages that are bundled into something called the `tidyverse`.
+- To get familiar with the packages bundled into the `tidyverse`.
 
 
 --
 
 ### Things to keep in mind
 
-- We'll take you through the same steps we've taken when we were preparing the datasets. 
+- We'll take you through the same steps we've taken when we were preparing the datasets used in this course. 
 
 - In most cases, your datasets won't be `tidy`. 
 
 > **Tidy data**: A dataset is said to be tidy if it satisfies the following conditions: 
-1. observations are in rows
-2. variables are in columns
-3. contained in a single dataset.
-
-Takeaway: long format > wide format
-
+1. Every column is a variable.
+2. Every row is an observation.
+3. Every cell is a single value.
 
 ---
 
 # Introduction
 
-- In this session, you'll be introduced to some basic concepts of data cleaning in R. We will cover: 
+In this session, you'll be introduced to some basic concepts of data cleaning in R. We will cover: 
 
-1. Exploring a dataset;
-2. Creating new variables;
-3. Filtering and subsetting datasets;
-4. Merging datasets;
-5. Dealing with factor variables;
-6. Saving data.
+1. RStudio projects; 
+2. Exploring a dataset;
+3. Creating new variables;
+4. Filtering and subsetting datasets;
+5. Merging datasets;
+6. Dealing with factor variables;
+7. Saving data.
 
 --
 
 > There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session.
+
+---
+
+# Introduction: RStudio Projects
+
+#### What are RStudio projects? 
+
+- Projects should be reproducible, and if you happen to code in R, RStudio Projects will make your science reproducible and easier in the long-run. 
+- RStudio projects are simply working directories associated with a `.Rproj`. 
+  - If you open a `.Rproj` file, your working directory will be set automatically. Therefore, in this directory you should create folders containing your data, codes, notes, and other material. 
+- To create a RStudio project go to `File > New Project`, click on `New Repository`:
+
+```{r projects1, echo = FALSE, out.width="35%"}
+knitr::include_graphics("img/project1.png")
+```
+---
+
+# Introduction: RStudio Projects
+
+.pull-left[
+
+```{r projects2, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/project2.png")
+```
+- Click on New Project 
+]
+
+.pull-right[
+```{r projects3, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/project3.png")
+```
+
+- Add a name to your project and directory, and click on create project. 
+]
+
+---
+
+# Introduction: RStudio Projects
+
+### RStudio projects give you a solid workflow: 
+
+- Uses relative paths. 
+- Keep data files there. 
+- You will have a history of the functions you have used.
+- It could load the last state of your environment. 
+
+---
+
+# Introduction: Packages
+
+### Another important aspect to consider is R packages. Consider the following: 
+
+.pull-left[
+
+#### R is a new phone
+
+```{r, echo = FALSE, out.width="30%"}
+knitr::include_graphics("https://images-na.ssl-images-amazon.com/images/I/81F-QC1N5WL._AC_SY550_.jpg")
+```
+]
+
+.pull-right[
+
+#### R packages are apps in your phone
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("https://www.apple.com/v/app-store/a/images/meta/og__c59t0pflacq6.png?202009232211")
+```
+]
+
+---
+
+# Introduction: Packages
+
+### To install a package you can run the following command:
+
+```{r, echo = TRUE, eval = FALSE, include = TRUE}
+
+# To Install
+install.packages("tidyverse")
+
+```
+
+* Unlike in Stata, R packages need to be loaded in each R session that will use them. 
+* That means that for example a functions that comes from the tidyverse cannot be used if the tidyverse package has not been installed and loaded first. 
+
+### To load a package you can run the following command:
+
+```{r, echo = TRUE, eval = FALSE, include = TRUE}
+
+# To Install
+library(tidyverse)
+```
+
+* Notice that we se double quotes for installing but not for loading a package. 
 
 ---
 
@@ -160,9 +234,7 @@ Takeaway: long format > wide format
 ### Before we start, let's make sure we are all set: 
 
 1. Start a fresh RStudio session.
-2. Load the tidyverse package.
-3. Set your file paths.
-
+2. Open your RStudio project.
 
 ### Notes for this session
 
@@ -172,40 +244,35 @@ Takeaway: long format > wide format
 
 ---
 
-# Let's load the tidyverse meta-package:
+# Let's load the two following packages:
 
-```{r tverse, cache = FALSE}
-# If you haven't installed the package uncomment the next line
-# install.package("tidyverse", dependencies = TRUE)
+```{r tverse, cache = FALSE, message = FALSE}
+# If you haven't installed the packages uncomment the next line
+# install.package("tidyverse")
+# install.package("here")
 # install.package("janitor")
-
 library(tidyverse)
+library(here)       # A package to work with relative file paths
+library(janitor)    # Additional data cleaning tools
 ```
 
-```{r warning=FALSE}
-library(janitor)
-```
-
-> Remember that you should always load your packages before your start coding.
+> *Notes*: Remember you should always load your packages before your start coding.
 
 ---
 
 # File paths
 
-For this session, my file paths are as follows. We will use them to load and export datasets.
+The `here` package allows you to interact with your working directory. It will look for the closest R Project and set its location as the working directory. That's why it is important to set your RStudio project correctly. 
 
-```{r, cache = FALSE, eval = FALSE}
-# Example of my filepaths for this presentation
-project           <- "D:/Documents/RA Jobs/DIME/trainings/dime-r-training"
+The goal of this package is to:
 
-dataWorkFolder    <- file.path(projectFolder,"DataWork")
-Data              <- file.path(dataWorkFolder,"DataSets")
-finalData         <- file.path(Data,"Final")
-rawData           <- file.path(Data,"Raw")
-rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
-``` 
+- Easily reference your files in project-oriented workflows. 
 
-If you saved the changes you made to the code during the Intro II session, you can simply run that script.
+
+```{r here, echo = FALSE, out.width = "40%"}
+knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/here.png")
+```
+
 
 ---
 
@@ -216,38 +283,83 @@ Before we start wrangling our data, let's read ourdataset. In R, we can use the 
 
 ### Exercise 1: Load Data. This is a recap from yesterday's session.
 
-Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw` folder. Use the following notation for each dataset: `whrYY`. 
+Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw/Un WHR` folder. Use the following notation for each dataset: `whrYY`. 
 
-* Remember to use `file.path()` to simplify the folder path. 
+* Remember to use `here()` to simplify the folder path. 
 
 --
 
 ### How to do it? 
 
 ```{r readcsv, message = FALSE}
-whr15 <- read_csv(file.path(rawData, "Un WHR" , "WHR2015.csv")) %>% clean_names()
-whr16 <- read_csv(file.path(rawData, "Un WHR" , "WHR2016.csv")) %>% clean_names()
-whr17 <- read_csv(file.path(rawData, "Un WHR" , "WHR2017.csv")) %>% clean_names()
+whr15 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2015.csv")) %>% clean_names()
+whr16 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2016.csv")) %>% clean_names()
+whr17 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv")) %>% clean_names()
 ```
 
-> Notice the `clean_names()` function. More on this in the next slide.
+> Notice the `clean_names()` function and the `pipe (%>%)` operator. More on this in the next slide.
 
 ---
 
+# The pipe %>% operator.
+
+* "Piping" in R can be seen as "**chaining**." This means that we are invoking multiple method calls. 
+* Every time you have invoked a method (a function) this return an object that then is going to be used in the next pipe.
+
+.pull-left[
+
+```{r, eval = FALSE}
+rony %>% 
+  wake_up(time = "6:30") %>% 
+  get_out_of_bead() %>% 
+  do_exercise() %>% 
+  shower() %>% 
+  get_dressed() %>% 
+  eat(meal = "breakfast", coffee = TRUE) %>% 
+  brush_teeth() %>%
+  work(effort = "mininum")
+```
+]
+
+.pull-right[
+
+```{r, eval = FALSE}
+  work(
+    brush_teeth(
+      eat(
+        get_dressed(
+          shower(
+            do_exercise(
+              get_out_of_bed(
+                wake_up(me, time = "6:30")
+              ), 
+            )
+          )
+        ), meal = "breakfast", coffee = TRUE
+      )
+    ), effort = "minimum"
+  )
+
+```
+
+]
+
+---
 # The clean_names() function
 
 The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called GDP_per_CApita_2015, the `clean_names()` function will help us fix those messy names. 
 
-> **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide.
+> **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide. It will make sure column names are well-suited for use in R
 
----
+If we wanto to rename our variable manually, we could use: 
 
-# Load and show a dataset
+```{r manual_names, eval=FALSE}
 
-We can just show our dataset using the name of the object; in this case, `whr15`. 
+whr15 <- whr15 %>% 
+  rename(
+    var_newname = var_oldname
+  )
 
-```{r show}
-whr15
 ```
 
 ---
@@ -279,21 +391,19 @@ Some other useful functions from the tidyverse:
 
 ---
 
-# Before we explore our data
+# Load and show a dataset
 
-For this session, we are going to use pipes %>% quite a lot. 
+We can just show our dataset using the name of the object; in this case, `whr15`. 
 
-* "Piping" in R can be seen as "chaining." 
-* This means that we are invoking multiple method calls. 
-* Every time you have invoked a method (a function) this return an object that then is going to be used in the following pipe, and this continues *forever*~~~~
-
-> **Be careful with that forever!!!**
+```{r show}
+whr15
+```
 
 ---
 
 # Glimpse your data
 
-This functions give your information about your variables (e.g., type, row, columns,)
+Use `glimpse()` to get information about your variables (e.g., type, row, columns,)
 
 ```{r glimpse}
 whr15 %>% 
@@ -343,14 +453,26 @@ n_distinct(DATASET$variable, na.rm = TRUE)
 
 --
 
+The `$` sign is a subsetting operator. In R, we have three subsetting operators (`[[`, `[`, and `$`.). It is often used to access variables in a dataframe. 
+
+---
+
+# Missing values in R
+
+
 #### Quick Note: 
 
+.pull-left[
 * Missings in R are treated differently than in Stata. They are represented by the NA symbol.
 * Impossible values are represented by the symbol NaN which means 'not a number.' 
 * R uses the same symbol for character and numeric data.
+]
+
+.pull-right[
 * NA is not a string or a numeric value, but an indicator of missingness.
 * NAs are contagious. This means that if you compare a number with NAs you will get NAs. 
 * Therefore, always remember the `na.rm = TRUE` argument if needed.
+]
 
 ---
 
@@ -389,6 +511,10 @@ nrow(whr15)
 
 --
 
+We can use the two functions (`nrow` and `n_distinct`) together to test if their result is the same.
+
+--
+
 ```{r}
 n_distinct(whr15$country, na.rm = TRUE) == nrow(whr15)
 
@@ -410,12 +536,10 @@ name: wrangling
 
 # dplyr::filter
 
-Filter or subsetting a dataset. 
+- The `filter` function is used to subset rows in a dataset. 
 
 ```{r filter}
-whr15 %>% 
-  filter(region == "Western Europe",
-         happiness_rank <= 10)
+whr15 %>% filter(region == "Western Europe")
 
 ```
 
@@ -425,12 +549,11 @@ whr15 %>%
 
 ### Exercise 3: Filter the dataset.
 
-* Use `filter()`
-* Filter only for the regions: (1) Eastern Asia and (2) North America.
+* Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America.
 
 --
 
-This would be the normal way to do it: 
+The *or* operator (`|`) is one way to do it: 
 
 ```{r, eval = FALSE}
 whr15 %>% 
@@ -439,29 +562,12 @@ whr15 %>%
 
 --
 
-A more elegant approach would be: 
+A more elegant approach would be to use the `%in%` operator (equivalent to `inlist()` in Stata): 
 
 ```{r, eval = FALSE}
 whr15 %>% 
   filter(region %in% c("Eastern Asia", "North America")) 
 ```
-
----
-
-# dplyr::filter regular expressions
-
-One advantage of the filter command over Stata is that you can also integrate regular expressions in quite a better way. Let's say that we want to subset all regions' divisions that have `America` in their names. We can use the following: 
-
-```{r grepl}
-whr15 %>% 
-  filter(grepl("America", region)) %>% 
-  head(2)
-
-```
-
---
-
-> Notice that I have used `head()` to show just the first 2 observations of the subset. If you want to save this subset you can assign it to an objet. For example `whr15_east <- + the code above`. Remember that the arrow sign (<-) is a mix of < and -. The font we are using in this presentation is called Fira Code, and it combines the two characters (a ligature). 
 
 ---
 
@@ -478,9 +584,7 @@ The function syntax in a pipeline is as follows:
 
 ```{r eval = FALSE}
 DATA %>% 
-  filter(
-    is.na(VAR)
-  )
+  filter(is.na(VAR))
 ```
 
 --
@@ -504,69 +608,8 @@ whr15 %>%
 
 ```
 
-> Notice that we are negating the function, i.e., !
+> Notice that we are negating the function, i.e., `!is.na()`
 <br> In case we want to keep the observations that contains missing information we will only use `is.na()`. 
-
----
-
-# Other relevant functions: slice, subset, select
-
-.panelset[
-.panel[.panel-name[Arrange]
-
-`Arrange`: allows you to order by a specific column.
-
-```{r arrange}
-whr15 %>% 
-  arrange(region, country) %>% 
-  head(5)
-
-```
-
-]
-
-.panel[.panel-name[Slice]
-
-`Slice`: allows you to select, remove, and duplicate rows. 
-
-```{r slice}
-whr15 %>% 
-  slice(1:5) # to select the first 5 rows
-
-```
-
-You can also use `slice_head` and `slice_tail` to select the first or last rows respectively. Or `slice_sample` to randomly draw n rows.
-
-]
-
-.panel[.panel-name[Select]
-
-`Select`: allows you to specific columns.
-
-```{r select}
-whr15 %>% 
-  select(region, country, happiness_rank)
-```
-
-]
-
-.panel[.panel-name[Combining functions]
-
-`Select`: allows you to specific columns.
-
-```{r mix}
-whr15 %>% 
-  arrange(region, country) %>%                        # Arrange by region and country
-  filter(!is.na(region)) %>%                          # Filter those non-missing obs for region if any
-  select(country, region, starts_with("happin")) %>%  # Select country, year, and vars that stars with happin
-  slice_head()                                        # Get the first row
-
-```
-
-]
-
-]
-
 
 ---
 class: inverse, center, middle
@@ -582,11 +625,10 @@ name: variables
 
 ### In the tidyverse, we refer to creating variables as mutating
 
-So, instead of **gen**erate, we use `mutate()`. Let's say we want to have interactions:
+So, we use the `mutate()` function. Let's say we want to have interactions:
 
 ```{r mut}
 whr15 %>%
-  arrange(region, country, -happiness_rank) %>% 
   mutate(
     hap_hle = happiness_score * health_life_expectancy, 
   ) %>% 
@@ -600,24 +642,20 @@ whr15 %>%
 
 ```{r include = TRUE, eval = FALSE}
 whr15 %>%
-  mutate(
-    happiness_score_6 = (happiness_score > 6)
-  )
+  mutate(happiness_score_6 = (happiness_score > 6))
 ```
 
-.qa[Q] Well, what do you think is happening to this variable? 
+What do you think is happening to this variable? 
 
 --
 
-.qa[A] The variable we created contains either TRUE or FALSE. <br> If we want to have it as a numeric (1 or 0), we could include `as.numeric()`
+> The variable we created contains either `TRUE` or `FALSE`. <br> If we wanted to have it as a numeric (1 or 0, respectively), we could include `as.numeric()`. However, the point of having logical variables is to treat them as numbers when relevant (for example as dummy variables in a regression) and as categories when relevant (for example in graphs)
 
 --
 
 ```{r include = TRUE, eval = FALSE}
 whr15 %>%
-  mutate(
-    happiness_score_6 = as.numeric((happiness_score > 6)) 
-  )
+  mutate(happiness_score_6 = as.numeric((happiness_score > 6)))
 ```
 
 --
@@ -626,24 +664,7 @@ Finally, instead of using a random number such as 6, we can do the following:
 
 ```{r include = TRUE, eval = FALSE}
 whr15 %>%
-  mutate(
-    happiness_high_mean = as.numeric((happiness_score > mean(happiness_score))) 
-  ) 
-```
-
----
-
-# Using ifelse when creating a variable
-
-We can also create a dummy variable with the `ifelse()` function. The way we use this function is as: `ifelse(test, yes, no)`. We can also use another function called `case_when()`.
-
-```{r}
-whr15 %>% 
-  mutate(
-    latin_america_car = ifelse(region == "Latin America and Caribbean", 1, 0)
-  ) %>% 
-  arrange(-latin_america_car) %>% 
-  head(5)
+  mutate(happiness_high_mean = as.numeric((happiness_score > mean(happiness_score)))) 
 ```
 
 ---
@@ -662,9 +683,9 @@ Similar in nature but:
 
 # Creating variables by groups
 
-Let's imagine now that we want to create a variable at the region level -- recal `bys gen` in Stata.In R, we can use `group_by()` before we mutate. So for this example, we going to combine the chain the following functions. 
+Let's imagine now that we want to create a variable at the region level (recall `bys gen` in Stata).In R, we can use `group_by()` before we mutate. So for this example, we are going to pipe the following functions. 
 
-1. Group our data by the region variable.
+1. Group our data by the `region` variable.
 2. Create a variable that would be the mean of happiness_score by each region.
 3. Select the variables `country, region, happiness_score, mean_hap`. 
 
@@ -683,11 +704,11 @@ whr15 %>%
 
 # Creating multiple variables at the same time
 
-With the new version of `dplyr`, we now can create multiple variables in an easier way. So, let's imagine that we want to estimate the mean value for the variables: happiness_score, health_life_expectancy, and trust_government_corruption.
+We can create multiple variables in an easy way. So, let's imagine that we want to estimate the mean value for the variables: happiness_score, health_life_expectancy, and trust_government_corruption.
 
 #### How we can do it? 
 
-* In R we can use the new function `across()`. It behaves this way: `across(VARS that you want to transform, function to execute)`. 
+* We can use the function `across()`. It behaves this way: `across(VARS that you want to transform, FUNCTION to execute)`. 
 * `across()` should be always use inside `summarise()` or `mutate()`.
 
 .panelset[
@@ -769,14 +790,14 @@ name: bind
 Now that we can identify the observations, we can combine the data set. Here are two functions to append objects by row
 
 ```{r eval = FALSE}
-rbind(...)
+rbind(df1, df2, df3) # The base R function
 
-bind_rows(...)
+bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
 ```
 
 ### Exercise 6: Append data sets.
 
-* Use either functions to append the three WHR datasets:
+* Use the function `bind_rows` to append the three WHR datasets:
 
 --
 
@@ -794,14 +815,11 @@ bind_rows(whr15, whr16, whr17)
 
 --
 
-* One of the problems with binding rows like this is that, sometimes, columns compatibility is quite junky.
+* One of the problems with binding rows like this is that, sometimes, some columns are not compatible.
 
 ---
 
 # Appending and merging data sets
-
-To be honest, the most important variable that we will need to include in the 2017 dataset is the region variable. 
-
 
 ### Exercise 7: Fixing our variables and appending the dfs correctly.
 
@@ -812,7 +830,7 @@ To be honest, the most important variable that we will need to include in the 20
 --
 
 ```{r regions}
-regions <- readRDS(file.path(Data, "Raw", "Un WHR", "regions.RDS"))
+regions <- read_rds(here("DataWork", "DataSets", "Raw", "Un WHR", "regions.RDS"))
 
 ```
 
@@ -822,7 +840,7 @@ regions <- readRDS(file.path(Data, "Raw", "Un WHR", "regions.RDS"))
 
 We can use the `left_join()` function merge two dataframes. The function syntax is: `left_join(a_df, another_df, by = c("id_col1"))`. 
 
-> A left join takes all the values from the first table, and looks for matches in the second table. If it finds a match, it adds the data from the second table; if not, it adds missing values. 
+> A left join takes all the values from the first table, and looks for matches in the second table. If it finds a match, it adds the data from the second table; if not, it adds missing values. It is the equivalent of `merge, keep(master matched)` in Stata.
 
 --
 
@@ -885,7 +903,7 @@ Finally, let's keep those relevant variables first and bind those rows.
 ### Exercise 8: Bind all rows and create a panel called: `whr_panel`. 
 
 * Use `rbind()`
-* Select the variables: country, region, year, happiness_rank, happiness_score, economy_gdp_per_capita, health_life_expectancy, freedom for each df, i.e., 15,16,16.
+* Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`.
 
 --
 
@@ -920,11 +938,11 @@ name: saving
 
 The function takes the following structure: 
 
-`write.csv(x, file, row.names = TRUE)`: 
+`write_csv(x, file, append = FALSE)`: 
 
 * `x:` the object (usually a data frame) you want to export to CSV
 * `file:` the file path to where you want to save it, including the file name and the format (“.csv”)
-* `row.names:` by default, R adds a column to the CSV file with the names (or numbers) of the rows in the data frame. Set it to `FALSE` if you don’t want that column to be exported.
+* `append:` If FALSE, will create a new file. If TRUE, will append to an existing file.
 
 ---
 
@@ -932,15 +950,14 @@ The function takes the following structure:
 
 ### Exercise 9: Save the dataset.
 
-* Use `write.csv()`
-* Use `file.path()`
+* Use `write_csv()`
+* Use `here()`
 
 ```{r}
 # Save the whr data set
 
-write.csv(whr_panel, 
-          file.path(finalData,"whr_panel.csv"), 
-          row.names = FALSE) 
+write_csv(whr_panel, 
+          here("DataWork", "DataSets", "Final", "whr_panel.csv")) 
 ```
 
 --
@@ -953,18 +970,108 @@ write.csv(whr_panel,
 
 # Saving a dataset
 
-The R equivalent of a `.dta` file is a `.Rds` file. It can be saved and loaded using the following commands:
+The R equivalent of a `.dta` file is a `.rds` file. It can be saved and loaded using the following commands:
 
-* `saveRDS(object, file = "")`: Writes a single R object to a file.
+* `write_rds(object, file = "")`: Writes a single R object to a file.
 
-* `readRDS(file)`: Load a single R object from a file. 
+* `read_rds(file)`: Load a single R object from a file. 
 
 
 ```{r}
 # Save the data set
 
-saveRDS(whr_panel, file = file.path(finalData, "whr_panel.Rds"))
+write_rds(whr_panel, file = here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
 
+```
+
+---
+class: inverse, center, middle
+
+# Thank you~~ 
+
+
+---
+class: inverse, center, middle
+name: appendix
+
+# Appendix
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Other relevant functions: slice, subset, select
+
+.panelset[
+.panel[.panel-name[Arrange]
+
+`Arrange`: allows you to order by a specific column.
+
+```{r arrange}
+whr15 %>% 
+  arrange(region, country) %>% 
+  head(5)
+
+```
+
+]
+
+.panel[.panel-name[Slice]
+
+`Slice`: allows you to select, remove, and duplicate rows. 
+
+```{r slice}
+whr15 %>% 
+  slice(1:5) # to select the first 5 rows
+
+```
+
+You can also use `slice_head` and `slice_tail` to select the first or last rows respectively. Or `slice_sample` to randomly draw n rows.
+
+]
+
+.panel[.panel-name[Select]
+
+`Select`: allows you to select specific columns.
+
+```{r select}
+whr15 %>% 
+  select(region, country, happiness_rank)
+```
+
+]
+
+.panel[.panel-name[Combining functions]
+
+`Select`: allows you to specific columns.
+
+```{r mix}
+whr15 %>% 
+  arrange(region, country) %>%                        # Sort by region and country
+  filter(!is.na(region)) %>%                          # Filter those non-missing obs for region if any
+  select(country, region, starts_with("happin")) %>%  # Select country, year, and vars that stars with happin
+  slice_head()                                        # Get the first row
+
+```
+
+]
+
+]
+
+
+---
+
+# Using ifelse when creating a variable
+
+We can also create a dummy variable with the `ifelse()` function. The way we use this function is as: `ifelse(test, yes, no)`. We can also use another function called `case_when()`.
+
+```{r}
+whr15 %>% 
+  mutate(
+    latin_america_car = ifelse(region == "Latin America and Caribbean", 1, 0)
+  ) %>% 
+  arrange(-latin_america_car) %>% 
+  head(5)
 ```
 
 ---
@@ -1055,7 +1162,6 @@ whr_panel_wide <- whr_panel %>%
 ```
 
 
-
 ```{r}
 whr_panel %>% 
   select(country, region, year, happiness_score) %>% 
@@ -1090,12 +1196,18 @@ whr_panel_wide %>%
 ] 
 ]
 
-
 ---
 class: inverse, center, middle
 
 # Thank you~~ 
 
+---
+exclude: true
 
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("02-data-processing.html", output = "02-data-processing.pdf")
 
-
+# Or
+source("https://git.io/xaringan2pdf")
+xaringan_to_pdf("02-data-processing.html")
+```
