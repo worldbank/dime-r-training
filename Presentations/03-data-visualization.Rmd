@@ -130,19 +130,6 @@ In our workflow there are usually two distinct uses for plots:
   * We’ll do this using `ggplot2` with more customization. The idea is to create beautiful graphs.
   * `ggplot2`’s syntax is more complicated, but it’s easier to make your graphs look good with it.
 
-
----
-
-# Tidy Data (Yes, again)
-
-### First, we need to remember the following:
-
-- Is our data in a tidy format?
-
-If it is not, we might need to first clean it and then plot it. It will really difficult to create good graphics when your data is not tidy.
-
-> `ggplot` and other R packages tend to set up their functions in a way that we need a tidy data. In a few cases, these packages will require a different data structure.
-
 ---
 class: inverse, center, middle
 name: ea
@@ -203,6 +190,8 @@ It is a powerful and easy to use tool (once you understand its logic) that produ
 
 After we have load our dataset. Let's plot something basic. The structure of a basic ggplot is:
 
+
+.pull-left[
 ```
 ggplot(data = <DATA>) +
   <GEOM_FUNCTION>(
@@ -216,6 +205,18 @@ ggplot(data = <DATA>) +
   <THEME_FUNCTION>
 
 ```
+]
+
+.pull-right[
+
+1. `Data`: The data that you want to visualize
+2. `Layers`: geom_ and stat_ → The geometric shapes and statistical summaries representing the data
+3. `Aesthetics`: aes() → Aesthetic mappings of the geometric and statistical objects
+4. `Scales` scale_ → Maps between the data and the aesthetic dimensions
+5. `Coordinate system`: coord_ → Maps data into the plane of the data rectangle
+6. `Facets`: facet_ → The arrangement of the data into a grid of plots
+7. `Visual themes`: theme() and theme_ → The overall visual defaults of a plot
+]
 
 ---
 
@@ -225,7 +226,9 @@ ggplot(data = <DATA>) +
 
 .center[
 
-### There are multiple ways to structure plots in ggplot. For this presentation, I will stick to Thomas Lin Pedersen's decomposition who is one of most prominent developers of the ggplot and gganimate package
+### There are multiple ways to structure plots in ggplot. 
+
+For this presentation, I will stick to Thomas Lin Pedersen's decomposition who is one of most prominent developers of the ggplot and gganimate package
 ]
 ]
 
@@ -238,29 +241,9 @@ ggplot(data = <DATA>) +
 
 ---
 
-# ggplot2: structure
-
-Therefore, we have the following:
-
-1. `Data`: The data that you want to visualize
-
-2. `Layers`: geom_ and stat_ → The geometric shapes and statistical summaries representing the data
-
-3. `Aesthetics`: aes() → Aesthetic mappings of the geometric and statistical objects
-
-4. `Scales` scale_ → Maps between the data and the aesthetic dimensions
-
-5. `Coordinate system`: coord_ → Maps data into the plane of the data rectangle
-
-6. `Facets`: facet_ → The arrangement of the data into a grid of plots
-
-7. `Visual themes`: theme() and theme_ → The overall visual defaults of a plot
-
----
-
 # Exploratory Analysis
 
-#### Ok, enough chit-chat about the gramar of graphics. Let's start making some plots.
+#### Let's start making some plots.
 
 
 ```{r, out.width = "65%"}
@@ -521,25 +504,6 @@ ggplot(data = whr_panel,
 ```
 
 ---
-
-# Exploratory Analysis
-
-We can also add the color information in `geom_point()`. Let's modify our last plot and add `aes(color = region)`.
-
---
-
-```{r, out.width = "50%"}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,
-           y = economy_gdp_per_capita)) +
-  geom_point(aes(color = region)) #<<
-```
-
---
-
-> **Reminder**: Notice that we can either set up our aesthetics at the global level our within each layer.
-
----
 class: inverse, center, middle
 name: ggplot
 
@@ -593,20 +557,6 @@ show_point_shapes()+
 
 # ggplot2: including more geoms
 
-```{r, out.width = "55%"}
-mean_happiness_score <- mean(whr_panel$happiness_score) #<<
-
-ggplot(data = whr_panel,
-       aes(x = happiness_score,  y = economy_gdp_per_capita,
-           color = region)) +
-  geom_point() +
-  geom_vline(xintercept = mean_happiness_score)   #<<
-```
-
----
-
-# ggplot2: including more geoms
-
 ```{r, out.width = "60%"}
 ggplot(data = whr_panel,
        aes(x = happiness_score,  y = economy_gdp_per_capita)) +
@@ -639,21 +589,6 @@ ggplot(data = whr_panel,
        aes(x = happiness_score,  y = economy_gdp_per_capita, color = region)) + #<<
   geom_point() +
   facet_wrap(~ region)
-
-```
-
----
-
-# ggplot2: Colors and facets
-
-If you want to remove the region legend title we can set it up in the `labs()` more about this in the `themes` subsection.
-
-```{r, out.width = "55%"}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,  y = economy_gdp_per_capita, color = region)) + #<<
-  geom_point() +
-  facet_wrap(~ region) +
-  labs(color = "")#<<
 
 ```
 
@@ -713,10 +648,6 @@ whr_panel %>%
   geom_point(aes(size = economy_gdp_per_capita)) #<<
 
 ```
-
---
-
-#### Why do you think we are adding the size to the geom_point()'s aes?
 
 ---
 
@@ -970,14 +901,14 @@ whr_panel %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
              color = latam)) +
   geom_point() +
-  scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) +
+  scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) + #<<
   labs(
     x = "Happiness Score",
     y = "GDP per capita",
     color = "Country in Latin America\nand the Caribbean",
     title = "Happiness Score vs GDP per capita, 2015"
   ) +
-  theme_minimal() #<<
+  theme_minimal() 
 
 ```
 
@@ -1099,46 +1030,11 @@ ggsave(fig,
        height = 8, width = 12)
 ```
 
-If we want to save it as a pdf, we can include the argument `device = cairo_pdf`.
-
-
-```{r}
-# Save Plot
-ggsave(fig,
-       filename = here("DataWork",
-                       "Output",
-                       "Raw",
-                       "fig.pdf"),
-       device = cairo_pdf, scale = 0.8,
-       height = 8, width = 12)
-```
-
 ---
 class: inverse, center, middle
-name: hw
 
-# Howework
+# Thank you~~
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Howework
-
-### ggplot2 exercise:
-
-1. Load the `whr_panel` data.
-2. Filter those countries that do not have region information. There are two.
-3. Create a scatter plot using `geom_point()`. X variable: happiness_score, Y variable: freedom.
-4. The size of `geom_point()` should be based on the `economy_gdp_per_capita` variable.
-5. Color your points using the year variable.
-6. Use `scale_VAR_log10()` for the Y variable.
-7. Use the `facet` function for year.
-8. Enter this [link](scale_x_log10) and add any theme you like.
-9. Remove the legends using `theme(legend.position = "none")`.
-10. Fix the labels (xaxis, yaxis, and size) and add a title.
-11. Apply any color palette you like.
-12. Save the plot as pdf and as png.
 
 ---
 class: inverse, center, middle
@@ -1169,12 +1065,6 @@ https://www.coursera.org/learn/exploratory-data-analysis
   * Beautiful Evidence by Edward Tufte.
   * R Graphics cook book by Winston Chang
   * R for Data Science by Hadley Wickham andGarrett Grolemund
-
-
----
-class: inverse, center, middle
-
-# Thank you~~
 
 ---
 class: inverse, center, middle

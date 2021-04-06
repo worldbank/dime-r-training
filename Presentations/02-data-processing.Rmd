@@ -248,9 +248,9 @@ library(tidyverse)
 
 ```{r tverse, cache = FALSE, message = FALSE}
 # If you haven't installed the packages uncomment the next line
-# install.package("tidyverse")
-# install.package("here")
-# install.package("janitor")
+# install.packages("tidyverse")
+# install.packages("here")
+# install.packages("janitor")
 library(tidyverse)
 library(here)       # A package to work with relative file paths
 library(janitor)    # Additional data cleaning tools
