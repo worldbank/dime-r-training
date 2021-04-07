@@ -85,36 +85,6 @@ whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 
 ---
 
-# Sessions format
-
-## Format
-
-- These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
-
-- The sessions include exercises where we give 1-2 minutes to solve them. Then, the presenter will call names to discuss what you did and which issues you encountered
-
-  + If you prefer not to be called or have connectivity issues which prevent participation, please let us know by sending a private message to __Luiza Cardoso De Andrade__
-
-- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez Ramirez__
-
----
-
-# Sessions format
-
-## Format
-
-- The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a private message whenever you need help
-
-- Otherwise, if you have a __general question__ feel free to unmute yourself or use the chat to ask it
-
-- Please mute your microphone the rest of the time
-
-- If your connection is good enough, please leave your video on
-
-- The materials of each session will be shared in the OSF page on the course after the end of each session: https://osf.io/b7hm6/
-
----
-
 class: inverse, center, middle
 name: introduction
 
@@ -128,23 +98,25 @@ name: introduction
 
 ## What is this session about?
 
-* In the last session, you learned the basic concepts to work in R
+* In the previous sessions, you learned how to work with R
 
-* You are probably eager to get your hands into some data using R by now, and you would figure out __what should be in your code__ for it to work
+* You are probably eager to programming in R by now
 
-* But you would probably not know right away __how to write that__, so that in the end you might have code that is only intelligible for yourself -- and not for a very long time
+* Before you start, we recommend learning how to write R code that will be __reproducible, efficient, intelligible and easy to navigate__
+
+* Indeed, that's what this session is about!
 
 ---
 
 # Introduction
 
-## What is this session about?
+## What this session is about
 
-* In this session, we will cover common coding practices in R so that you can make __the most efficient use__ for it
+* We will cover common coding practices in R so that you can make __the most efficient use__ for it
 
 * We will also discuss some styling conventions to make your code __readable and reproducible__
 
-* This will give you a solid foundation to code in R, and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
+* This will give you a solid foundation to write code in R and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
 
 ---
 
@@ -159,31 +131,33 @@ name: initial-settings
 
 # Initial settings
 
-* Let's start by opening RStudio, or by reopening it if you had it opened already
+* Let's start by opening RStudio or by closing and opening it again
 
-* What do you see in your environment?
+* Notice two things:
 
-```{r echo = FALSE, out.width = "70%"}
+1- Your environment is *probably* empty (it's OK if it's not)
+
+```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/empty_environment.png")
-```
-
----
-
-#Initial settings
-
-* If you saved the objects from the last session in `.RData`, the objects that were in RStudio's memory last time you closed it will still be there whenever you open it again
-
-* You can also go to the `Console` panel and use the up and down keys to navigate through the commands you executed in previous sessions. They are saved by default in `.Rhistory`
-
-```{r echo = FALSE, out.width = "40%"}
-knitr::include_graphics("img/Interface.png")
 ```
 
 ---
 
 # Initial settings
 
-Raise your hand if you have ever seen these lines of code before:
+2- Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
+
+```{r, echo = FALSE, out.width ="70%"}
+knitr::include_graphics("img/rhistory.png")
+```
+
+* We'd usually want these two things -- an __empty environment__ and the __history of commands__ executed in previous sessions -- to be present every time we open a new RStudio session
+
+---
+
+# Initial settings
+
+Have ever seen these lines of code before?
 
 ```{r echo = FALSE, out.width = "40%"}
 knitr::include_graphics("img/stataheader.jpg")
@@ -193,37 +167,33 @@ knitr::include_graphics("img/stataheader.jpg")
 
 # Initial settings
 
+## R Initial settings
+
 * We __don't need to set the memory or the maximum number of variables__ in R
 
 * The equivalent of `set more off` is the default
 
-* You can see all the objects in your memory at any point in the `Environment` pane
+* The equivalent of `clear all` is not a default setting, but we'll change that in exercise 1
 
----
+* In any case, remember that you can see all the objects in your computer's memory at any point in the `Environment` panel
 
-# Initial settings
-
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/rm.png")
+```{r echo = FALSE, out.width = "40%"}
+knitr::include_graphics("img/environment_2vars_2021.png")
 ```
 
 ---
 
 # Initial settings
 
-You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if set global options correctly in RStudio.
+## Exercise 1: you'll never have to use  the equivalent of `clear all`
 
-## Exercise 1: To make sure that no one will burn your computer, here's how you change these settings:
+1. Go to `Tools` > `Global Options...`
 
-1. Go to `Tools > Global options...`
+2. In the `General` tab, make sure the following options are set:
 
-2. Make sure the following options are checked:
-
-  + Re-use idle sessions for project links *(Note: this is only relevant for Windows)*
-  + Restore most recently opened project at startup
-  + Restore previously open source documents at startup
-  + Restore `.RData` into workspace at startup
-  + Always save history (even when not saving `.RData`)
+  + Un-check *Restore .RData into workspace at startup*
+  + For *Save workspace to .RData on exit*, select *Never*
+  + Make sure *Always save history (even when not saving .RData)* is checked
   
 3. Now restart RStudio
 
@@ -231,24 +201,16 @@ You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if s
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/Options1.png")
+```{r echo = FALSE, out.width = "90%"}
+knitr::include_graphics("img/options1_2021.png")
 ```
 
 ---
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/Options2.png")
-```
-
----
-
-# Initial settings
-
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/Options3.png")
+```{r echo = FALSE, out.width = "48%"}
+knitr::include_graphics("img/options2_2021.png")
 ```
 
 ---
@@ -264,19 +226,21 @@ name: file-paths
 
 # File paths
 
-* For the purpose of this session, we will assume that you are dealing with a specific folder structure.
+* What about working directories? We usually use `cd "path/in/my/computer"` every time we start a new script in Stata
 
-* Folder organization, though an important part of data work, is outside the scope of this course.
+* The direct equivalent to `cd` in R is this command:
 
-* You can find resources about it in the appendix, and we have shared with you a folder that is organized as we want it to be.
+```{r, eval=FALSE}
+setwd("your/path")
+```
 
-* For today's session:
-  + Go to the OSF repository of this course (https://osf.io/b7hm6/)
-  + Download the file `DataWork.zip`
-  + Download and unzip the materials in a location you can remember
-  + Then go to the `DataWork/Code` folder and open the file `Lab 2 - Intro II.R`
+* However, we recommend not using it unless it's absolutely necessary
 
-* We will use this script as a basis for the exercises, and you should modify it during this session to complete them.
+---
+
+# File paths
+
+* Instead, you should use RStudio projects and the `here` library
 
 ---
 
