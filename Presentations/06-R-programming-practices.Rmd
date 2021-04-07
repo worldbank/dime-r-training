@@ -135,7 +135,7 @@ name: initial-settings
 
 * Notice two things:
 
-1- Your environment is *probably* empty (it's OK if it's not)
+1. Your environment is *probably* empty (it's OK if it's not)
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/empty_environment.png")
@@ -157,7 +157,7 @@ knitr::include_graphics("img/rhistory.png")
 
 # Initial settings
 
-Have ever seen these lines of code before?
+Have you ever seen these lines of code before?
 
 ```{r echo = FALSE, out.width = "40%"}
 knitr::include_graphics("img/stataheader.jpg")
@@ -226,7 +226,11 @@ name: file-paths
 
 # File paths
 
-* What about working directories? We usually use `cd "path/in/my/computer"` every time we start a new script in Stata
+* What about working directories? We usually do something like this every time we start a new script in Stata:
+
+```{r echo = FALSE, out.width = "35%"}
+knitr::include_graphics("img/stata_cd.png")
+```
 
 * The direct equivalent to `cd` in R is this command:
 
@@ -234,7 +238,7 @@ name: file-paths
 setwd("your/path")
 ```
 
-* However, we recommend not using it unless it's absolutely necessary
+* However, we recommend not using it unless it's absolutely necessary (never, if possible)
 
 ---
 
@@ -242,216 +246,146 @@ setwd("your/path")
 
 * Instead, you should use RStudio projects and the `here` library
 
----
+* __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__
 
-# File paths
+## RStudio Projects
 
-* In the last session, we used the menu bar to load a data set into R
+* RStudio projects let you "bind" your project files to a root directory, regardless of the path to it
 
-* Today, we will do that using code and referring a file's path
+* This is crucial because it allows smooth interoperability between different computers where the exact path to the project root directory differs
 
-* File paths in R, as in Stata, are basically just strings
-
-* Note, however, that in R we can only use forward slashes (`/`) to separate folder names
-
-### Exercise 3: File path to your folder
-Let's start by adding the folder path to the training's folder in your computer to the `projectFolder` object at the beginning of `PART 2`
-
-```{r, eval=F}
-# Add your folder path here
-# Remember to replace backslashes ("\") with regular ones ("/")
-projectFolder <- "YOUR/FOLDER/PATH/HERE"
-```
+* Additionally, each RStudio project you work on keeps their own history of commands!
 
 ---
 
 # File paths
 
-* You can set file paths in your script using the `file.path()` function
+## RStudio projects
 
-* This function concatenates strings using `/` as a separator to create file paths
+### Exercise 2: Create a new RStudio project
 
-* This is similar to using globals to define folder paths in Stata
+Follow these instructions:
+
+1. On RStudio, select `File` > `New Project...`
+
+2. Select `New Directory` > `New Project`
+
+3. Assign the name: `dime-r-training-project` to the project
 
 ---
 
 # File paths
 
-Let's test if that worked:
-```{r, eval = T}
+## RStudio projects
 
-  # Project folder
-  projectFolder  <-
-    "/home/luis_eduardo/cs_projects/dime-r-training"
-
-  # Data work folder
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-
-  # Print data work folder
-  dataWorkFolder
-
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/dime-r-training-project.png")
 ```
 
 ---
 
 # File paths
 
-## Loading a dataset from CSV
+## The `here` library
 
-Use the `read.csv()` command:
+* `here` locates files relative to your project root
 
-```{r, eval=F}
-read.csv(file, header = FALSE, stringsAsFactors = FALSE)
-```
+* It uses the root project directory to build paths to files easily
 
-* __file__: is the path (string) to the file you want to open, including its path, name and file extension (`.csv`).
-  + Example: `/home/user/Data/whr_panel.csv`
-
-* __header__: if `TRUE`, will read the first row as variable names (default is `header = FALSE`).
-
-* __stringsAsFactors__: logical. See next slide for more.
+* Similar to RStudio projects, it allows for interoperability between different computers where the absolute path to the same file is not the same
 
 ---
 
 # File paths
 
-## Loading a dataset from CSV
+## Usage of `here`
 
-* Since R 4.0.0 and beyond, `stringsAsFactors = FALSE` is the default. In every previous version, the default is `TRUE`.
+1- At the beginning of your script, include the following:
 
-* This means that if your R version is 3.X.X, R will turn any string variables into factors by default when reading a `csv` file.
+```{r, eval=FALSE}
+here::i_am("path")
+```
 
-* This format __saves memory__, but can be tricky if you actually want to use the variables as strings.
+  + `"path"` should be the relative path of your current script, with respect of your project root directory
+  + For example: if your script is in `C:/WBG/project-root-name/scripts/analysis/my-script.R`:
+  
+```{r, eval=FALSE}
+here::i_am("scripts/analysis/my-script.R")
+```
 
-* You can specify the option `stringsAsFactors = FALSE` to make sure you prevent R from turning strings into factors.
+  + Don't forget to include the file name and extension
 
 ---
 
 # File paths
 
-### Exercise 4: Test file paths
+## Usage of `here`
 
-1. Save your script.
+2- Load the `here` library:
 
-2. Start a new R session: go to `Session > New Session`. This session should be completely blank.
-
-3. Open the code you just saved.
-  + Go to `File > Open File...` and select your script
-
-4. Add a line opening the data set in your code
-```{r, eval = F}
-# Load data set
-whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                header = TRUE)
-
+```{r, eval=FALSE}
+library(here)
 ```
 
-5. Run the whole script. If it worked, your environment should now include the `whr` dataset and the path locals.
+3- Now you'll be able to use `here()` to point the location of every file relative to your project root
+
+  + For example, to load a `csv` file located in: `C:/WBG/project-root-name/data/raw/data-file.csv`, you should use:
+  
+```{r, eval=FALSE}
+df <- read.csv(here("data", "raw", "data-file.csv"))
+```
+
+This is going to be clearer with the next exercise.
 
 ---
 
-class: inverse, center, middle
-name: exploring-a-dataset
+# File paths
 
-# Exploring a dataset
+### Exercise 3: Combining `here` and RStudio projects
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+1. Go to the OSF page of the course: https://osf.io/86g3b/
 
----
+2. Download the file in: `R for Stata Users - April 2021` > `Data` > `DataWork.zip`
 
-# Exploring a dataset
+3. Unzip the file in your RStudio project root folder
 
-Some useful functions:
-
-* **`View()`:** open the data set
-
-* **`class()`:** reports object type or type of data stored
-
-* **`dim()`:** reports the size of each one of an object's dimension
-
-* **`names()`:** returns the variable names of a data set
-
-* **`str()`:** general information about the structure of an R object
-
-* **`summary()`:** summary information about the variables in a data frame
-
-* **`head()`:** shows the first few observations in the dataset
-
-* **`tail()`:** shows the last few observations in the dataset
+  + This is the folder where the file `dime-r-training-project.Rproj` sits
+  + If you didn't change the default directory when creating the RStudio project, it will be in your `Documents` folder in Windows or in your Home directory in Mac or Linux
+  
+4. On RStudio, go to `File` > `New File` > `R Script`
 
 ---
 
-# Exploring a dataset
+# File paths
 
-### Exercise 5: Explore a dataset
+### Exercise 3: Combining `here` and RStudio projects
 
-Use some of these functions to explore the `whr` data set.
+5- Save this empty new script in `DataWork` > `Code` as `exercises.R`
 
-* `View()`
+6- Include `here::i_am()` at the beginning of this script:
 
-* `class()`
+```{r, eval=FALSE}
+here::i_am("DataWork/Code/exercises.R")
+```
 
-* `dim()`
+7- Now let's test if that worked. Load the `here` library read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
 
-* `names()`
-
-* `str()`
-
-* `summary()`
-
-* `head()`
-
-* `tail()`
-
----
-
-# Exploring a dataset
-
-```{r, eval = F}
-# View the data set (same as clicking on it in the Environment pane)
-View(whr)
+```{r, eval=FALSE}
+library(here)
+whr <- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv))
 ```
 
 ---
 
-# Exploring a dataset
+# File paths
 
-```{r}
-class(whr)
-dim(whr)
+## RStudio projects and `here`
+
+If you did the exercise correctly, you should see the `whr` data frame listed in the Environment panel
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/environment_2021.png")
 ```
-
----
-
-# Exploring a dataset
-
-```{r}
-str(whr)
-```
-
----
-
-# Exploring a dataset
-
-```{r}
-summary(whr)
-```
-
----
-
-# Exploring a dataset
-
-```{r}
-head(whr)
-```
-
----
-
-# Exploring a dataset
-
-Didn't get all of those? 
-
-Don't worry, you'll see them again soon.
 
 ---
 
@@ -468,9 +402,18 @@ name: commenting
 
 * To comment a line, write `#` as its first character
 
-* You can also add `#` half way through a line to comment whatever comes after it
+```{r, eval=FALSE}
+# This is a comment
+print("But this part is not")
+```
 
-* In Stata, you can use `/*` and `*/` to comment part of a line's code. That is not possible in R: whatever comes after `#` will be a comment
+* You can also add `#` halfway through a line to comment whatever comes after it
+
+```{r, eval=FALSE}
+print("This part is not a comment") # And this is a comment
+```
+
+* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
 
 * To comment a selection of lines, press `Ctrl` + `Shift` + `C`
 
@@ -478,9 +421,9 @@ name: commenting
 
 # Commenting
 
-### Exercise 6: Commenting
+### Exercise 4: Commenting
 
-1. Go the `Lab 2 - Intro II.R` script. Select the lines under `PART 2: Set folder paths`.
+1. In your script panel, select all the lines of your script
 
 2. Use the keyboard shortcut to comment these lines.
   + Shortcut: `Ctrl` + `Shift` + `C`
@@ -508,19 +451,29 @@ name: creating-a-document-outline-in-rstudio
 
 # Creating a document outline in RStudio
 
-### Exercise 7: Headers
+### Exercise 5: Headers
 
-1. Open the script index and make `PART 1` a section header. Do the same for parts 2 and 3.
+1. In your script, add a header before the line where you used `here::i_am()` with the text: `# Part 1: Setting the project root----` (omit the quotes)
+
+2. Add the following header before `library(here)`: `# Part 2: Loading libraries----`
+
+3. Add this header before `read.csv(...)`: `Part 3: Loading data----`
+
   + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
 
-2. Note that once you create a section header, an arrow appears right next to it. Click on the arrows of parts 2 and 3 to see what happens.
+4. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
 
 ---
 
 # Creating a document outline in RStudio
 
 * The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
+
 * You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
+
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/document-outline.png")
+```
 
 ---
 
@@ -562,6 +515,7 @@ name: using-packages
 ## Packages
 
 * To install and use packages you can either do it with the user interface or by the command prompt.
+
 ```{r, eval = F}
 # Installing a package
 install.packages("tidyverse",
@@ -578,17 +532,13 @@ install.packages("tidyverse",
 
 ### Exercise 8
 
-1. Now load the package we just installed. Use the `library()` function to do it.
-
----
-
-# Using packages
+Add:
 
 ```{r, eval = F}
   library(tidyverse)
 ```
 
-Notice that we used quotes around the name to install the package, but we don't need them anymore to load it.
+to Part 2 in your script and run it
 
 ---
 
@@ -599,7 +549,7 @@ Notice that we used quotes around the name to install the package, but we don't 
 What if this happens?
 
 ```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/Warning.png")
+knitr::include_graphics("img/warning_2021.png")
 ```
 
 ---
@@ -613,7 +563,7 @@ R has two types of error messages, `warnings` and actual `errors`:
   * `Errors` - break your code, usually preventing it from running.
   * `Warnings` - usually mean that nothing went wrong yet, but you should be careful.
 
-RStudio's default is to print warning messages, but not stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
+RStudio's default is to print warning messages, but not to stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
 
 ---
 
@@ -630,7 +580,7 @@ name: functions-inception
 
 * In R, you can __write one function inside another__
 
-* In fact, you have already done this a few times in this course
+* In fact, you have already done this several times in this course
 
 * Here's an example:
 
@@ -638,16 +588,19 @@ name: functions-inception
 
 # Functions inception
 
-```{r}
-  # Doing it the long way -----------------------------
-  # Create a vector with the log of the happiness score
-  log_score <- log(whr$happiness_score)
+```{r, eval=FALSE}
+# Print the summary of the logarithm of the happiness score
 
-  # Get descriptive statistics for the log vector
-  summary(log_score)
+## The long way:
+log_score <- log(whr$happiness_score)
+summary(log_score)
 
-  # Shortcut to get to the same place ----------------
-  summary(log(whr$happiness_score))
+# The shortcut
+summary(log(whr$happiness_score))
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -675,7 +628,7 @@ knitr::include_graphics("img/statalog.png")
 
 * It can also get quite tricky to follow what a line of code with multiple functions inceptions is doing
 
-* Which is why we sometimes use pipes: `%>%`
+* And that is why we use pipes: `%>%`
 
 ---
 
