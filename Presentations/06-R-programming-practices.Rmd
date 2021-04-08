@@ -73,7 +73,6 @@ whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 1. [Introduction](#introduction)
 2. [Initial settings](#initial-settings)
 3. [File paths](#file-paths)
-4. [Exploring a dataset](#exploring-a-dataset)
 5. [Commenting](#commenting)
 6. [Creating a document outline in RStudio](#creating-a-document-outline-in-rstudio)
 7. [Using packages](#using-packages)
@@ -530,7 +529,9 @@ install.packages("tidyverse",
 
 # Using packages
 
-### Exercise 8
+## Packages
+
+### Exercise 6
 
 Add:
 
@@ -578,6 +579,8 @@ name: functions-inception
 
 # Functions inception
 
+## A function inside a function
+
 * In R, you can __write one function inside another__
 
 * In fact, you have already done this several times in this course
@@ -607,6 +610,8 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Functions inception
 
+## A function inside a function
+
 * This is a simple example of __metaprogramming__ (that's the real name of this technique) and may seem trivial, but it's not
 
 * For starters, you can't do it in Stata!
@@ -621,7 +626,9 @@ knitr::include_graphics("img/statalog.png")
 ---
 
 # Functions inception  
-  
+
+## Piping
+
 * This is a __very powerful technique__, as you will soon see
 
 * It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
@@ -632,14 +639,13 @@ knitr::include_graphics("img/statalog.png")
 
 ---
 
-# Functions inception  
+# Functions inception
+
+## Piping
 
 ```{r, eval = F}
   # 1: Doing it the long way -----------------------------
-  # Create a vector with the log of the happiness score
   log_score <- log(whr$happy_score)
-
-  # Get descriptive statistics for the log vector
   mean(log_score)
 
   # 2: Shortcut to get to the same place -----------------
@@ -651,11 +657,17 @@ knitr::include_graphics("img/statalog.png")
     mean()
 ```
 
-In a few words, `x %>% f()` is the same as `f(x)`
+In a few words:
+
+* `x %>% f()` is the same as `f(x)`
+
+* `x %>% f() %>% g()` is the same as `g(f(x))`
 
 ---
 
 # Functions inception  
+
+## Piping
   
 Now that you know piping exists in R, you should know that it can __drastically improve code readability__. And from now on you can also laugh if you see this in some tidyverse nerd laptop sticker or t-shirt:
 
@@ -676,9 +688,11 @@ name: looping
 
 # Looping
 
+## Loops
+
 * One thing that usually gives people away as Stata users writing R code are loops
 
-* In Stata, we use `for` loops quite a lot
+* In Stata, we use `foreach` loops quite a lot
 
 * The equivalent to that in R would be to write a `for` loop like this
 
@@ -693,18 +707,23 @@ name: looping
 
 # Looping
 
-```{r}
-    # A for loop in R
+```{r, eval = F}
     for (number in 1:5) {
         print(number)
     }
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
 
 # Looping
 
-* R, however, has a whole function family that allows users to loop through an object __in a more efficient way__, without using explicit loops
+## Apply
+
+* R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
 * They're called `apply` and there are many of them, with different use cases
 
@@ -716,43 +735,78 @@ name: looping
 
 # Looping
 
-#### `sapply(X, FUN, ...)`: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are:
+## Apply
 
-* **X:** a data frame, matrix or vector the function will be applied to
+* The syntax of `sapply()` is:
 
-* **FUN:** the function you want to apply
+```{r, eval=FALSE}
+sapply(X, FUN, ...)
+```
 
-* **...:** possible function arguments
+* Its main arguments are:
+
+  + **X:** a data frame, matrix or vector the function will be applied to
+  + **FUN:** the function you want to apply
+
+* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
+
+* The output of `sapply()` is a vector with the results
+
+
 
 ---
 
 # Looping
 
-```{r}
+```{r, eval=FALSE}
     # A for loop in R
-    for (number in c(1.2,2.5)) {
+    for (number in c(1.2, 2.5)) {
       print(round(number))
     }
 
     # A much more elegant loop in R
-    sapply(c(1.2,2.5), round)
+    sapply(c(1.2, 2.5), round)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
 
 # Looping
 
-A more general version is the `apply` function.
+## Loops vs Apply
 
-#### `apply(X, MARGIN, FUN, ...)`: applies a function to all columns or rows of matrix. Its arguments are
+* When looping, you repeat the same operation over a set of items
 
-* **X:** a data frame (or matrix) the function will be applied to
+* `apply()`, instead, takes all your elements at once and applies an operation to them simultaneously
 
-* **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
+* The difference is like this:
 
-* **FUN:** the function you want to apply
+  + Imagine you ask a yes/no question to a group of people
+  + You can collect the answers by asking each one of them individually -- __this is looping__
+  + Otherwise, you can ask them to raise their hands and collect the answers at once -- __this is `apply()`__
 
-* **... :** possible function arguments
+---
+
+# Looping
+
+## Apply
+
+* A more general version of `sapply()` is the `apply()` function. This is its syntax:
+
+```{r, eval=FALSE}
+apply(X, MARGIN, FUN, ...)
+```
+
+* Arguments:
+
+  + **X:** a data frame (or matrix) the function will be applied to
+  + **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
+  + **FUN:** the function you want to apply
+
+* `apply()` applies a function (`FUN`) to all columns or rows of matrix (`X`). A value of 1 in `MARGIN` indicates that the funcion should be applied row-wise, while 2 indicates columns
 
 ---
 
@@ -760,24 +814,13 @@ A more general version is the `apply` function.
 
 
 ```{r, eval = T}
-    # Create a matrix
-    matrix <- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2),
-                       nrow = 3)
-
-    # Look at the matrix
-    matrix
+matrix <- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2), nrow = 3) # Defining a matrix
+apply(matrix, 1, mean) # row means
+apply(matrix, 2, mean) # column means
 ```
 
----
-
-# Looping
-
-```{r, eval = T}
-    # Row means
-    apply(matrix, 1, mean)
-
-    # Column means
-    apply(matrix, 2, mean)
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -793,6 +836,8 @@ name: custom-functions
 
 # Custom functions
 
+## Writing your own functions
+
 * As we have said several times, __R is super flexible__
 
 * One example of that is that it's __super easy and quick to create custom functions__
@@ -803,27 +848,26 @@ name: custom-functions
 
 # Custom functions
 
-```{r}
+```{r, eval=FALSE}
   square <- function(x) {
-    
     y <- x ^ 2
-    
     return(y)
-    
   }
-
-  square(2)
 ```  
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
 
 ---
 
 # Custom functions
 
-### Exercise 9: Create a function 
+### Exercise 7: Create a function 
 
-1. Create a function that calculates the z-score of a vector.
+Create a function that calculates the z-score of a vector.
   
-  + Recall the outline of functions in R:
+* Recall the outline of functions in R:
   
 ```{r eval=F}
 function_name <- function(input) {
@@ -839,24 +883,23 @@ function_name <- function(input) {
     * The command to obtain the mean of a vector is `mean(x)`
     * The command to get the SD of a vector is `sd(x)`
     * R is vectorized: you can operate vectors and number directly and the result will be a vector
+    * Don't forget to include the argument `na.rm = TRUE` in `mean()` and `sd()`
 
 ---
 
 # Custom functions
 
 ```{r}
-  zscore <- function(x) {
-    
-    mean <- mean(x, na.rm = T)
-    sd   <- sd(x, na.rm = T)
+zscore <- function(x) {
+    mean <- mean(x, na.rm = TRUE)
+    sd   <- sd(x, na.rm = TRUE)
     z    <- (x - mean)/sd
-    
     return(z)
-    
   }
+```
 
-  summary(zscore(whr$happiness_score))
-  
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -875,9 +918,9 @@ name: indentation
 ```{r, eval = F}
 # Here's some code
 annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region))
-+ geom_line() + geom_point()
-print(plot)
+ggplot(annualHappy_reg,aes(y = happy_score,x = as.factor(year), color = region, group = region)) +
+geom_line() + geom_point()
+
 ```
 
 ```{r, eval = F}
@@ -887,16 +930,14 @@ annualHappy_reg <-
             data = whr,
             FUN = mean)
 
-plot <-
-  ggplot(annualHappy_reg,
-         aes(y = happiness_score,
-             x = year,
-             color = region,
-             group = region)) +
-  geom_line() +
-  geom_point()
+ggplot(annualHappy_reg,
+       aes(y = happiness_score,
+           x = as.factor(year),
+           color = region,
+           group = region)) +
+geom_line() +
+geom_point()
 
-print(plot)
 ```
 
 ---
@@ -909,16 +950,13 @@ annualHappy_reg <-
             data = whr,
             FUN = mean)
 
-plot <-
-  ggplot(annualHappy_reg,
-         aes(y = happiness_score,
-             x = year,
-             color = region,
-             group = region)) +
-  geom_line() +
-  geom_point()
-
-print(plot)
+ggplot(annualHappy_reg,
+       aes(y = happiness_score,
+           x = as.factor(year),
+           color = region,
+           group = region)) +
+geom_line() +
+geom_point()
 ```
 
 ---
@@ -927,7 +965,7 @@ print(plot)
 
 ## Why indent?
 
-* Even though R understands what unindented code says, it can be __quite difficult for a human being to read it__
+* R understands what unindented code says, but it can be __quite difficult for a human being to read it__
 
 * On the other hand, __white space does not have a special meaning for R__, so it will understand code that is more readable for a human being
 
@@ -952,14 +990,15 @@ print(plot)
 # Indentation
 
 ### Exercise 8: Indentation in R
-To see an example of how indenting works in RStudio, go back to our first example with `sapply`:
+
+To see an example of how indenting works in RStudio, let's go back to our first example with `sapply()`:
 
 ```{r, eval = F}
 # A much more elegant loop in R
 sapply(c(1.2,2.5), round)
 ```
 
-1. Add a line between the two arguments of the function (the vector of numbers and the `round` function)
+1. Add a line between the two arguments of the function (the vector of numbers and `round`)
 
 2. Now add a line between the numbers in the vector.
 
@@ -1029,19 +1068,17 @@ Create a function that
 
 * In R, the equivalent to that would be to create a new object as a section switch
 
-### Exercise 9: Creating an if statement
-
-Create a dummy scalar object called PACKAGES.
-
-- TIP: Section switches can also be Boolean objects.
-
 ---
 
 # Appendix - If statements
 
-* Now we need to create an if statement using this switch
+### Exercise 9: Creating an if statement
 
-* If statements in R look like this:
+* Create a scalar object called PACKAGES and assign it any numerical value.
+
+  - TIP: Section switches can also be Boolean objects.
+
+* Now create an if statement using this switch scalar as a switch to indicate if you want to install a set of packages:
 
 ```{r, eval = F}
 
@@ -1105,23 +1142,25 @@ Create a function that
 
 ---
 
-# Appendix - File paths best practices
+# Appendix - Other file path practices
 
 ## File paths best practices
 
-* We at DIME Analytics recommend always using **explicit** and **dynamic** file paths
+* RStudio projects are a nice option when all your project files sit in the same root folder
 
-* **Explicit** means you're explicitly stating where the file will be saved -- instead of setting the working directory, for example
+* But what happens if that's not the case? For example: if your data is in Dropbox or OneDrive and your code is in a GitHub repository folder
 
-* **Dynamic** means that you don't need to adjust every file path in the script when you change from one machine to another -- they're updated based on a single line of code to be changed  
+* If that happens, we at DIME Analytics recommend always using **explicit** and **dynamic** file paths
+
+  + **Explicit** means you're explicitly stating where the file will be saved -- instead of setting the working directory, for example
+
+  + **Dynamic** means that you don't need to adjust every file path in the script when you change from one machine to another -- they're updated based on a single line of code to be changed  
 
 ---
 
 # Appendix - File paths best practices
 
-## File paths
-
-* Explicit and dynamic file path:
+## Explicit and dynamic file paths:
 
 ```{r, eval = F}
   # Define dynamic file path
@@ -1180,15 +1219,9 @@ We didn't cover it here because of time constraints, but below are some useful l
 
 ---
 
-# Appendix - R projects
+# Appendix - More on R projects
 
 ## R projects
 
-If you have used R before, you may have heard of RStudio Projects. It's RStudio's suggested tool for workflow management. DIME Analytics has found that it is not the best fit for our needs, because
-
-1. In DIME, we mainly use Stata, and we prefer to keep a similar structure in R (Stata 15 also has a projects feature, but it is not yet widely adopted)
-
-2. We need to keep our code and data in separate folders, as we store code in GitHub and data in DropBox
-
-However, if you want to learn more about it, we recommend starting here:
+If you want to learn more about them, we recommend starting here:
 https://r4ds.had.co.nz/workflow-projects.html
