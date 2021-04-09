@@ -1225,3 +1225,14 @@ We didn't cover it here because of time constraints, but below are some useful l
 
 If you want to learn more about them, we recommend starting here:
 https://r4ds.had.co.nz/workflow-projects.html
+
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("06-R-programming-practices.html", output = "06-R-programming-practices.pdf")
+
+# or
+source("https://git.io/xaringan2pdf")
+xaringan_to_pdf("06-R-programming-practices.html")
+```
