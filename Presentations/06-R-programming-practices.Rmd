@@ -389,49 +389,6 @@ knitr::include_graphics("img/environment_2021.png")
 ---
 
 class: inverse, center, middle
-name: commenting
-
-# Commenting
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Commenting
-
-* To comment a line, write `#` as its first character
-
-```{r, eval=FALSE}
-# This is a comment
-print("But this part is not")
-```
-
-* You can also add `#` halfway through a line to comment whatever comes after it
-
-```{r, eval=FALSE}
-print("This part is not a comment") # And this is a comment
-```
-
-* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
-
-* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
-
----
-
-# Commenting
-
-### Exercise 4: Commenting
-
-1. In your script panel, select all the lines of your script
-
-2. Use the keyboard shortcut to comment these lines.
-  + Shortcut: `Ctrl` + `Shift` + `C`
-
-3. Use the keyboard shortcut to comment these lines again. What happened?
-
----
-
-class: inverse, center, middle
 name: creating-a-document-outline-in-rstudio
 
 # Creating a document outline in RStudio
@@ -692,7 +649,7 @@ name: looping
 
 * One thing that usually gives people away as Stata users writing R code are loops
 
-* In Stata, we use `foreach` loops quite a lot
+* In Stata, we use `for` loops quite a lot
 
 * The equivalent to that in R would be to write a `for` loop like this
 
@@ -1072,7 +1029,7 @@ Create a function that
 
 # Appendix - If statements
 
-### Exercise 9: Creating an if statement
+### Exercise: Creating an if statement
 
 * Create a scalar object called PACKAGES and assign it any numerical value.
 
@@ -1121,7 +1078,7 @@ Possible variations would include
 
 # Appendix - Assignment 2
 
-Create a function that
+### Exercise: Create a function that...
 
 1. Takes as argument a vector of packages names
 
@@ -1225,6 +1182,41 @@ We didn't cover it here because of time constraints, but below are some useful l
 
 If you want to learn more about them, we recommend starting here:
 https://r4ds.had.co.nz/workflow-projects.html
+
+---
+
+# Appendix - Commenting
+
+* To comment a line, write `#` as its first character
+
+```{r, eval=FALSE}
+# This is a comment
+print("But this part is not")
+```
+
+* You can also add `#` halfway through a line to comment whatever comes after it
+
+```{r, eval=FALSE}
+print("This part is not a comment") # And this is a comment
+```
+
+* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
+
+* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
+
+---
+
+# Appendix - Commenting
+
+### Exercise: Commenting
+
+1. In your script panel, select all the lines of your script
+
+2. Use the keyboard shortcut to comment these lines.
+  + Shortcut: `Ctrl` + `Shift` + `C`
+
+3. Use the keyboard shortcut to comment these lines again. What happened?
+
 
 ---
 exclude: true
