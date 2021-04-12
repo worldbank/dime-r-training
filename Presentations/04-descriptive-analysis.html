@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Descriptive Analysis</title>
+    <title>Exploratory Analysis</title>
     <meta charset="utf-8" />
     <meta name="author" content="Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"e5abd68196474376ac109867725f8b38","expires":14}</script>
-    <script src="libs/himalaya/himalaya.js"></script>
-    <script src="libs/js-cookie/js.cookie.js"></script>
-    <link href="libs/editable/editable.css" rel="stylesheet" />
-    <script src="libs/editable/editable.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
     <script src="libs/clipboard/clipboard.min.js"></script>
     <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
-    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
     <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
@@ -28,49 +25,13 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Descriptive Analysis
+# Exploratory Analysis
 ## <a href="https://github.com/worldbank">R for Advanced Stata Users</a>
 ### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### DIME |The World Bank <br> 03 April 2021
+### DIME |The World Bank <br> 12 April 2021
 
 ---
 
-
-
-
-<div>
-<style type="text/css">.xaringan-extra-logo {
-width: 50px;
-height: 128px;
-z-index: 0;
-background-image: url(img/lightbulb.png);
-background-size: contain;
-background-repeat: no-repeat;
-position: absolute;
-top:1em;right:1em;
-}
-</style>
-<script>(function () {
-  let tries = 0
-  function addLogo () {
-    if (typeof slideshow === 'undefined') {
-      tries += 1
-      if (tries < 10) {
-        setTimeout(addLogo, 100)
-      }
-    } else {
-      document.querySelectorAll('.remark-slide-content:not(.inverse):not(.hide_logo)')
-        .forEach(function (slide) {
-          const logo = document.createElement('div')
-          logo.classList = 'xaringan-extra-logo'
-          logo.href = null
-          slide.appendChild(logo)
-        })
-    }
-  }
-  document.addEventListener('DOMContentLoaded', addLogo)
-})()</script>
-</div>
 
 
 
@@ -136,35 +97,20 @@ But that's enough of me talking. Let's get you all to run some code
 
 # Setting the stage
 
-Set folder paths to your computer
-
-.can-edit[
-
-```r
-  # Set folder paths
-  projectFolder &lt;- file.path("EDIT/THIS/FILE/PATH/dime-r-training")
-
-
-  dataWorkFolder    &lt;- file.path(projectFolder,"DataWork")
-  Data              &lt;- file.path(dataWorkFolder,"DataSets")
-  finalData         &lt;- file.path(Data,"Final")
-  rawOutput         &lt;- file.path(dataWorkFolder,"Output","Raw")
-```
-]
-
---
-
 Load the data that we will use today: Stata's `census` dataset
 
 ```r
   # Load data
-   census &lt;- 
-    readRDS(file.path(finalData, "census.RDS"))
+   census &lt;-
+    read_rds(here("DataWork",
+                  "DataSets", 
+                  "Final", 
+                  "census.RDS"))
 ```
 
 ???
 
-So first thing, as usual, is make sure you are setting your folder paths so R knows where to find files and where to export them too. 
+So first thing, as usual, is make sure you are setting your folder paths so R knows where to find files and where to export them too.
 
 If you have already downloaded the DataWork folder from OSF, all you need to do now is edit this line of code to match your computer. I'll do it on mine in case you don't remember the exact steps.
 
@@ -178,43 +124,28 @@ Double-check that you can see this dataset in your environment pane. Now, can so
 
 # Taking a peek at the data
 
-.small[
 
 ```r
-str(census)
+glimpse(census)
 ```
 
 ```
-## 'data.frame':	50 obs. of  13 variables:
-##  $ state   : chr  "Alabama" "Alaska" "Arizona" "Arkansas" ...
-##  $ state2  : chr  "AL" "AK" "AZ" "AR" ...
-##  $ region  : Factor w/ 4 levels "NE","N Cntrl",..: 3 4 4 3 4 4 1 3 3 3 ...
-##  $ pop     : int  3893888 401851 2718215 2286435 23667902 2889964 3107576 594338 9746324 5463105 ...
-##  $ poplt5  : int  296412 38949 213883 175592 1708400 216495 185188 41151 570224 414935 ...
-##  $ pop5_17 : int  865836 91796 577604 495782 4680558 592318 637731 125444 1789412 1231195 ...
-##  $ pop18p  : int  2731640 271106 1926728 1615061 17278944 2081151 2284657 427743 7386688 3816975 ...
-##  $ pop65p  : int  440015 11547 307362 312477 2414250 247325 364864 59179 1687573 516731 ...
-##  $ popurban: int  2337713 258567 2278728 1179556 21607606 2329869 2449774 419819 8212385 3409081 ...
-##  $ medage  : num  29.3 26.1 29.2 30.6 29.9 ...
-##  $ death   : int  35305 1604 21226 22676 186428 18925 26005 5123 104190 44230 ...
-##  $ marriage: int  49018 5361 30223 26513 210864 34917 26048 4437 108344 70638 ...
-##  $ divorce : int  26745 3517 19908 15882 133541 18571 13488 2313 71579 34743 ...
-##  - attr(*, "datalabel")= chr "1980 Census data by state"
-##  - attr(*, "time.stamp")= chr "11 Nov 2020 18:02"
-##  - attr(*, "formats")= chr [1:13] "%-14s" "%-2s" "%-8.0g" "%12.0gc" ...
-##  - attr(*, "types")= int [1:13] 14 2 65529 65528 65528 65528 65528 65528 65528 65527 ...
-##  - attr(*, "val.labels")= Named chr [1:13] "" "" "cenreg" "" ...
-##   ..- attr(*, "names")= chr [1:13] "" "" "cenreg" "" ...
-##  - attr(*, "var.labels")= chr [1:13] "State" "Two-letter state abbreviation" "Census region" "Population" ...
-##  - attr(*, "version")= int 118
-##  - attr(*, "label.table")=List of 1
-##   ..$ cenreg: Named int [1:4] 1 2 3 4
-##   .. ..- attr(*, "names")= chr [1:4] "NE" "N Cntrl" "South" "West"
-##  - attr(*, "expansion.fields")= list()
-##  - attr(*, "byteorder")= chr "LSF"
-##  - attr(*, "orig.dim")= int [1:2] 50 13
+## Rows: 50
+## Columns: 13
+## $ state    &lt;chr&gt; "Alabama", "Alaska", "Arizona", "Arkansas", "California", ...
+## $ state2   &lt;chr&gt; "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA"...
+## $ region   &lt;fct&gt; South, West, West, South, West, West, NE, South, South, So...
+## $ pop      &lt;int&gt; 3893888, 401851, 2718215, 2286435, 23667902, 2889964, 3107...
+## $ poplt5   &lt;int&gt; 296412, 38949, 213883, 175592, 1708400, 216495, 185188, 41...
+## $ pop5_17  &lt;int&gt; 865836, 91796, 577604, 495782, 4680558, 592318, 637731, 12...
+## $ pop18p   &lt;int&gt; 2731640, 271106, 1926728, 1615061, 17278944, 2081151, 2284...
+## $ pop65p   &lt;int&gt; 440015, 11547, 307362, 312477, 2414250, 247325, 364864, 59...
+## $ popurban &lt;int&gt; 2337713, 258567, 2278728, 1179556, 21607606, 2329869, 2449...
+## $ medage   &lt;dbl&gt; 29.3, 26.1, 29.2, 30.6, 29.9, 28.6, 32.0, 29.8, 34.7, 28.7...
+## $ death    &lt;int&gt; 35305, 1604, 21226, 22676, 186428, 18925, 26005, 5123, 104...
+## $ marriage &lt;int&gt; 49018, 5361, 30223, 26513, 210864, 34917, 26048, 4437, 108...
+## $ divorce  &lt;int&gt; 26745, 3517, 19908, 15882, 133541, 18571, 13488, 2313, 715...
 ```
-]
 
 ---
 
@@ -228,17 +159,16 @@ Load the packages that we will use today
   install.packages("skimr")
   install.packages("lfe")
   install.packages("huxtable")
+```
 
+
+```r
   # Load packages
   library(tidyverse)
   library(skimr)
   library(lfe)
   library(huxtable)
 ```
-
-
-
-
 
 ---
 
@@ -262,7 +192,7 @@ Equivalent to Stata's `codebook`. Its arguments are:
 ]
 
 --
- 
+
 .exercise[
 
 ### Exercise &lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 576 512"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
@@ -274,44 +204,7 @@ Use the `summary()` function to describe the `census` data frame.
 
 # Exploring a dataset
 
-
-.small[
-
-```r
-  summary(census)
-```
-
-```
-##     state              state2              region        pop          
-##  Length:50          Length:50          NE     : 9   Min.   :  401851  
-##  Class :character   Class :character   N Cntrl:12   1st Qu.: 1169218  
-##  Mode  :character   Mode  :character   South  :16   Median : 3066433  
-##                                        West   :13   Mean   : 4518149  
-##                                                     3rd Qu.: 5434033  
-##                                                     Max.   :23667902  
-##      poplt5           pop5_17            pop18p             pop65p       
-##  Min.   :  35998   Min.   :  91796   Min.   :  271106   Min.   :  11547  
-##  1st Qu.:  98831   1st Qu.: 257949   1st Qu.:  823702   1st Qu.: 118660  
-##  Median : 227468   Median : 629654   Median : 2175130   Median : 370495  
-##  Mean   : 326278   Mean   : 945952   Mean   : 3245920   Mean   : 509503  
-##  3rd Qu.: 361321   3rd Qu.:1143292   3rd Qu.: 3858173   3rd Qu.: 580087  
-##  Max.   :1708400   Max.   :4680558   Max.   :17278944   Max.   :2414250  
-##     popurban            medage          death           marriage     
-##  Min.   :  172735   Min.   :24.20   Min.   :  1604   Min.   :  4437  
-##  1st Qu.:  826651   1st Qu.:28.73   1st Qu.:  9087   1st Qu.: 14840  
-##  Median : 2156905   Median :29.75   Median : 26177   Median : 36279  
-##  Mean   : 3328253   Mean   :29.54   Mean   : 39474   Mean   : 47701  
-##  3rd Qu.: 3403450   3rd Qu.:30.20   3rd Qu.: 46533   3rd Qu.: 57338  
-##  Max.   :21607606   Max.   :34.70   Max.   :186428   Max.   :210864  
-##     divorce      
-##  Min.   :  2142  
-##  1st Qu.:  6898  
-##  Median : 17113  
-##  Mean   : 23679  
-##  3rd Qu.: 27987  
-##  Max.   :133541
-```
-]
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -333,41 +226,12 @@ Use the `summary()` function to describe the `census` data frame.
 Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
 ]
 
---
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
 
-.can-edit[
-
-```r
-  summary()
-```
-]
-
-
----
-
-# Summarizing continuous variables
-
-.exercise[
-
-### Exercise &lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 576 512"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
-Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
-]
-
-
-```r
-  summary(census$pop)
-```
-
-```
-##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-##   401851  1169218  3066433  4518149  5434033 23667902
-```
 
 ---
 
 # Summarizing categorical variables
- 
---
 
 .command[
 ## `table()`
@@ -379,7 +243,7 @@ Equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments
 .exercise[
 ### Exercise &lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 576 512"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
 Use the `table()` function to display frequency tables for:
-    
+
 1. The variable `region` in the `census` data frame
 2. The variables `region` and `state` in the `census` data frame, simultaneously
 ]
@@ -390,40 +254,17 @@ Use the `table()` function to display frequency tables for:
 
 ## One way tabulation
 
-.can-edit[
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
 
-```r
-  table()
-```
-]
 
 ---
 
-# Summarizing categorical variables
-
-## One way tabulation
-
-
-```r
-  table(census$region)
-```
-
-```
-## 
-##      NE N Cntrl   South    West 
-##       9      12      16      13
-```
-
---
+# Summarizing continuous variables
 
 ## Two way tabulation
 
-.can-edit[
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
 
-```r
-  table()
-```
-]
 
 ???
 
@@ -431,35 +272,6 @@ Note that the output of `table` having a single variable as argument is the same
 
 ---
 
-# Summarizing categorical variables
-
-
-```r
-  table(census$region, census$state)
-```
-
-```
-##          
-##           Alabama Alaska Arizona Arkansas California Colorado Connecticut
-##   NE            0      0       0        0          0        0           1
-##   N Cntrl       0      0       0        0          0        0           0
-##   South         1      0       0        1          0        0           0
-##   West          0      1       1        0          1        1           0
-##          
-##           Delaware Florida Georgia Hawaii Idaho Illinois Indiana Iowa Kansas
-##   NE             0       0       0      0     0        0       0    0      0
-##   N Cntrl        0       0       0      0     0        1       1    1      1
-##   South          1       1       1      0     0        0       0    0      0
-##   West           0       0       0      1     1        0       0    0      0
-##          
-##           Kentucky Louisiana Maine Maryland Massachusetts Michigan Minnesota
-##   NE             0         0     1        0             1        0         0
-##   N Cntrl        0         0     0        0             0        1         1
-##   South          1         1     0        1             0        0         0
-##   West           0         0     0        0             0        0         0
-```
-
----
 
 class: inverse, center, middle
 name: desc_tables
@@ -501,6 +313,9 @@ name: desc_tables
 
 
 
+```r
+skim(census)
+```
 
 ---
 
@@ -588,15 +403,15 @@ You can also create your own _skimr function list (sfl)_ for each class of varia
 
 
 ```r
-summary_stats &lt;- 
+summary_stats &lt;-
   skim_with(numeric = sfl(Mean = mean, # Variable name = statistic
-                          Median = median, 
-                          SD = sd, 
-                          Min = min, 
+                          Median = median,
+                          SD = sd,
+                          Min = min,
                           Max = max),
             append = FALSE) # Remove all default statistics
 
-census %&gt;% 
+census %&gt;%
     summary_stats()
 ```
 
@@ -652,7 +467,7 @@ Here are a few functions that can be used within `sfl()`:
 .small[
 
 ```r
-census %&gt;% 
+census %&gt;%
   summary_stats() %&gt;%
   yank("numeric") %&gt;% # keep only numeric variables on the table
   select(-n_missing, -complete_rate) # remove default statistics
@@ -712,18 +527,24 @@ The code below exports the table we just created to Excel and LaTeX
 ```r
 # Store table so it can be exported twice
 summary_stats_table &lt;-
-  census %&gt;% 
+  census %&gt;%
   summary_stats() %&gt;%
   yank("numeric") %&gt;% # keep only numeric variables on the table
-  select(-n_missing, -complete_rate) # remove daulft statistics 
+  select(-n_missing, -complete_rate) # remove daulft statistics
 
 # Export to Excel
 quick_xlsx(summary_stats_table,
-           file = file.path(rawOutput, "summary-stats.xlsx"))
+           file = here("DataWork",
+                       "Output",
+                       "Raw",
+                       "summary-stats.xlsx"))
 
 # Export to LaTeX
 quick_latex(summary_stats_table,
-           file = file.path(rawOutput, "summary-stats.tex"))
+           file = here("DataWork",
+                       "Output",
+                       "Raw",
+                       "summary-stats.tex"))
 ```
 
 ---
@@ -790,7 +611,7 @@ census_dictionary &lt;-
 
 summary_stats_table &lt;-
    summary_stats_table %&gt;%
-   rename(name = skim_variable) %&gt;% # Rename var with var names so we can merge the datasets 
+   rename(name = skim_variable) %&gt;% # Rename var with var names so we can merge the datasets
    left_join(census_dictionary) %&gt;% # Merge to variable labels
    select(-name) %&gt;% # Keep only variable labels instead of names
    as_hux # Convert it into a huxtable object
@@ -812,6 +633,10 @@ summary_stats_table &lt;-
 
 `huxtable` also allows you to edit your table as a data frame in R, and set the formatting so it can be exported with the same layout to multiple software. The code below shows how to do edit `summary_stats_table`
 
+---
+
+# Beautifying tables
+
 .small[
 
 ```r
@@ -822,18 +647,18 @@ census_dictionary &lt;-
 
 summary_stats_table &lt;-
    summary_stats_table %&gt;%
-   rename(name = skim_variable) %&gt;% # Rename var with var names so we can merge the datasets 
+   rename(name = skim_variable) %&gt;% # Rename var with var names so we can merge the datasets
    left_join(census_dictionary) %&gt;% # Merge to variable labels
    select(-name) %&gt;% # Keep only variable labels instead of names
    as_hux # Convert it into a huxtable object
 
 
-summary_stats_table &lt;- 
+summary_stats_table &lt;-
    summary_stats_table %&gt;%
-   relocate(Variable) %&gt;%  # Make variable labels the first column 
+   relocate(Variable) %&gt;%  # Make variable labels the first column
    set_header_rows(1, TRUE) %&gt;% # Use stats name as table header
    set_header_cols("Variable", TRUE)  %&gt;%  # Use variable name as row header
-   set_number_format("%9.0f") %&gt;% # Don't round large numbers
+   set_number_format("\"%9.0f\"" ) %&gt;% # Don't round large numbers
    theme_basic() # Set a theme for quick formatting
 
 *# Now export it
@@ -841,12 +666,12 @@ summary_stats_table &lt;-
 *          file = file.path(rawOutput, "summary-stats-basic.xlsx"))
 
 *quick_latex(summary_stats_table,
-*          file = file.path(rawOutput, "summary-stats-basic.tex"))
+*          file = here("DataWork",
+*                      "Output",
+*                      "Raw",
+*                      "summary-stats-basic.tex"))
 ```
 ]
-
-
-
 ---
 
 # Before
@@ -879,15 +704,17 @@ name: aggregating
 
 # Aggregating observations
 
-- If you want to show aggregated statistics, the function `summarise` is a powerful tool. 
-- It is similar to `skim` in that it calculates a series of statistics for a data frame. 
-- However, it does not have pre-defined statistics, so it requires more manual input. 
+- If you want to show aggregated statistics, the function `summarise` is a powerful tool.
+- It is similar to `skim` in that it calculates a series of statistics for a data frame.
+- However, it does not have pre-defined statistics, so it requires more manual input.
 - On the other hand, its output is a regular data frame, so it is also useful to create constructed data sets.
 - Its Stata equivalent would be `collapse`
 
 --
+
 .command[
 ## `summarise(.data, ...,)`
+
 - **data**: the data frame to be summarized
 - **...**: Name-value pairs of summary functions. The name will be the name of the variable in the result.
 ]
@@ -902,11 +729,15 @@ The "name-value" pairs mentioned under `...` look like this: `new_variable = sta
 
 
 ```r
-  region_stats &lt;- 
-    census %&gt;% 
+  region_stats &lt;-
+    census %&gt;%
     group_by(region) %&gt;%
     summarise(`Number of States` = n_distinct(state),
               `Total Population` = sum(pop))
+```
+
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 
@@ -926,16 +757,8 @@ The "name-value" pairs mentioned under `...` look like this: `new_variable = sta
 Recreate the `region_stats` data set,  now including the average and the standard deviation of the population.
 ]
 
-.can-edit[
 
-```r
-  region_stats &lt;- 
-    census %&gt;% 
-    group_by(region) %&gt;%
-    summarise(`Number of States` = n_distinct(state),
-              `Total Population` = sum(pop))
-```
-]
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -943,8 +766,8 @@ Recreate the `region_stats` data set,  now including the average and the standar
 
 
 ```r
-  region_stats &lt;- 
-    census %&gt;% 
+  region_stats &lt;-
+    census %&gt;%
     group_by(region) %&gt;%
     summarise(`Number of States` = n_distinct(state),
               `Total Population` = sum(pop),
@@ -969,22 +792,6 @@ Recreate the `region_stats` data set,  now including the average and the standar
 Use `huxtable` to format and export the object `region_stats`.
 ]
 
---
-
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-32">
-<col><col><col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(126, 171, 242); font-weight: normal;"><span style="color: rgb(255, 255, 255);">Region</span></th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(227, 118, 227); font-weight: normal;"><span style="color: rgb(255, 255, 255);">Number of States</span></th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(252, 187, 3); font-weight: normal;"><span style="color: rgb(255, 255, 255);">Total Population</span></th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(122, 186, 89); font-weight: normal;"><span style="color: rgb(255, 255, 255);">Average Population</span></th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(252, 3, 86); font-weight: normal;"><span style="color: rgb(255, 255, 255);">SD of Population</span></th></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">NE</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     9</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">49135283</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5459476</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5925235</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N Cntrl</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    12</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">58865670</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4905473</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3750094</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">South</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    16</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">74734029</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4670877</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3277853</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">West</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    13</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">43172490</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3320961</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 3pt 3pt 3pt 3pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; font-weight: normal;">6217177</td></tr>
-</table>
-
-
 ---
 
 # Aggregating observations
@@ -995,14 +802,20 @@ Use `huxtable` to format and export the object `region_stats`.
     region_stats %&gt;%
     rename(Region = region) %&gt;%
     as_hux %&gt;%
-    set_header_cols("Region", TRUE)  %&gt;% 
+    set_header_cols("Region", TRUE)  %&gt;%
     theme_bright()
-  
+
   quick_xlsx(region_stats_table,
-           file = file.path(rawOutput, "region-stats.xlsx"))
-  
+           file = here("DataWork",
+                       "Output",
+                       "Raw",
+                       "region-stats.xlsx"))
+
   quick_latex(region_stats_table,
-             file = file.path(rawOutput, "region-stats.tex"))
+             file = here("DataWork",
+                       "Output",
+                       "Raw",
+                       "region-stats.tex"))
 ```
 
 ---
@@ -1040,13 +853,13 @@ Formulas can take three specifications:
 
 .exercise[
 ### Exercise &lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 576 512"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
-Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages. 
+Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages.
 ]
 
 .can-edit[
 
 ```r
-  lm(y ~ x1 + x2, 
+  lm(y ~ x1 + x2,
      data)
 ```
 ]
@@ -1057,30 +870,22 @@ Using the `census` data, run a regression of the number of divorces on populatio
 
 .exercise[
 ### Exercise &lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 576 512"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
-Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages. 
+Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages.
 ]
 
 
-```r
- lm(divorce ~ pop + popurban + marriage, 
-     census)
-```
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
 
-```
-## 
-## Call:
-## lm(formula = divorce ~ pop + popurban + marriage, data = census)
-## 
-## Coefficients:
-## (Intercept)          pop     popurban     marriage  
-##   1.207e+02    1.044e-03    1.954e-03    2.587e-01
-```
 
---
+---
 
-- The output of regression commands is a list of relevant information. 
+# Running regressions
+
+
+- The output of regression commands is a list of relevant information.
 - By default, it prints only a small portion of this information.
 - The best way to visualize results is to store this list in an object and then access its contents using the function `summary`
+
 
 ---
 
@@ -1090,7 +895,7 @@ Using the `census` data, run a regression of the number of divorces on populatio
 
 ```r
 reg1 &lt;-
-  lm(divorce ~ pop + popurban + marriage, 
+  lm(divorce ~ pop + popurban + marriage,
      census)
 
 summary(reg1)
@@ -1148,13 +953,13 @@ Formulas for `felm` are more complex, and take the following format:
 
 .exercise[
 ### Exercise &lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 576 512"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
-Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages controlling for region fixed effects. 
+Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages controlling for region fixed effects.
 ]
 
 .can-edit[
 
 ```r
-  felm(y ~ x1 + x2 | fe1 + fe2 | 0 | 0, 
+  felm(y ~ x1 + x2 | fe1 + fe2 | 0 | 0,
      data)
 ```
 ]
@@ -1163,31 +968,23 @@ Using the `census` data, run a regression of the number of divorces on populatio
 
 # Running regressions
 
+
 .exercise[
 ### Exercise &lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 576 512"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
-Using the `census` data, run a regression of population, urban population and number of marriages controlling for region fixed effects. 
+Using the `census` data, run a regression of divorce on population, urban population and number of marriages controlling for region fixed effects.
 ]
 
-
-```r
- felm(divorce ~ pop + popurban + marriage | region | 0 | 0, 
-     census)
-```
-
-```
-##       pop  popurban  marriage 
-## 0.0003951 0.0035532 0.1836593
-```
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
 
 ---
 
 # Running regressions
-   
+
 .small[
 
 ```r
 reg2 &lt;-
-  felm(divorce ~ pop + popurban + marriage | region | 0 | 0, 
+  felm(divorce ~ pop + popurban + marriage | region | 0 | 0,
      census)
 
 summary(reg2)
@@ -1247,10 +1044,10 @@ name: reg_tables
 ## huxreg(...)
 - **...**: Models, or a single list of models. Names will be used as column headings.
 - *number_format:* Format for numbering. See number_format() for details.
-- *stars:* Levels for p value stars. 
-- *bold_signif:* Where p values are below this number, cells will be displayed in bold. 
+- *stars:* Levels for p value stars.
+- *bold_signif:* Where p values are below this number, cells will be displayed in bold.
 - *note:* Footnote for bottom cell, which spans all columns.
-- *statistics:* A vector of summary statistics to display. 
+- *statistics:* A vector of summary statistics to display.
 - *coefs:* A vector of coefficients to display. To change display names, name the coef vector: c("Displayed title" = "coefficient_name", ...)
 ]
 
@@ -1264,14 +1061,7 @@ name: reg_tables
 huxreg(reg1, reg2)
 ```
 
-```
-## Warning in checkMatrixPackageVersion(): Package version inconsistency detected.
-## TMB was built with Matrix version 1.2.18
-## Current Matrix version is 1.3.2
-## Please re-install 'TMB' from source using install.packages('TMB', type = 'source') or ask CRAN for a binary version of 'TMB' matching CRAN's 'Matrix' package
-```
-
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-40">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-33">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2)</th></tr>
 <tr>
@@ -1322,7 +1112,7 @@ huxreg(reg1, reg2,
                 after = 7)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-41">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2)</th></tr>
 <tr>
@@ -1354,6 +1144,9 @@ huxreg(reg1, reg2,
 # References and recommendations
 
 
+  * Econometrics with R
+  https://www.econometrics-with-r.org/index.html
+  
   * Skimr documentation:
    https://qiushi.rbind.io/post/introduction-to-skimr/
 
@@ -1362,15 +1155,13 @@ huxreg(reg1, reg2,
 
   * Using `huxtable` for regression tables:
   https://cran.r-project.org/web/packages/huxtable/vignettes/huxreg.html
-  
+
   * Johns Hopkins Exploratory Data Analysis at Coursera:
   https://www.coursera.org/learn/exploratory-data-analysis
 
   * Udacity's Data Analysis with R:
   https://www.udacity.com/course/data-analysis-with-r--ud651
-  
-  * Applied econometrics with R
-  https://www.springer.com/us/book/9780387773162
+
 
 ## Since we talked about LaTeX so much...
 

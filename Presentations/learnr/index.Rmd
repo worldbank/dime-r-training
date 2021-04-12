@@ -1,0 +1,30 @@
+---
+tutorial:
+  id: "e3f990c5-f033-4ddb-8cd5-e32469662e5a"
+output: 
+  html_document:
+    css: css/style.css
+    includes:
+      in_header: resizer.html
+runtime: shiny_prerendered
+---
+  
+```{r setup, include = FALSE}  
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(lfe)
+library(huxtable)
+library(learnr)
+```
+
+```{r, echo = FALSE}
+# Load data
+census <- read_rds("census.RDS")
+```
+
+
+```{r addition, exercise = TRUE}
+
+```
+
