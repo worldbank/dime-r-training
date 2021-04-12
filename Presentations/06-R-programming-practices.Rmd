@@ -73,7 +73,6 @@ whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 1. [Introduction](#introduction)
 2. [Initial settings](#initial-settings)
 3. [File paths](#file-paths)
-5. [Commenting](#commenting)
 6. [Creating a document outline in RStudio](#creating-a-document-outline-in-rstudio)
 7. [Using packages](#using-packages)
 8. [Functions inception](#functions-inception)
@@ -99,9 +98,9 @@ name: introduction
 
 * In the previous sessions, you learned how to work with R
 
-* You are probably eager to programming in R by now
+* You are probably eager to start programming in R by now
 
-* Before you start, we recommend learning how to write R code that will be __reproducible, efficient, intelligible and easy to navigate__
+* But before you start, we recommend learning how to write R code that will be __reproducible, efficient, intelligible and easy to navigate__
 
 * Indeed, that's what this session is about!
 
@@ -184,7 +183,7 @@ knitr::include_graphics("img/environment_2vars_2021.png")
 
 # Initial settings
 
-## Exercise 1: you'll never have to use  the equivalent of `clear all`
+### Exercise 1: you'll never have to use  the equivalent of `clear all`
 
 1. Go to `Tools` > `Global Options...`
 
@@ -407,7 +406,7 @@ name: creating-a-document-outline-in-rstudio
 
 # Creating a document outline in RStudio
 
-### Exercise 5: Headers
+### Exercise 4: Headers
 
 1. In your script, add a header before the line where you used `here::i_am()` with the text: `# Part 1: Setting the project root----` (omit the quotes)
 
@@ -488,7 +487,7 @@ install.packages("tidyverse",
 
 ## Packages
 
-### Exercise 6
+### Exercise 5
 
 Add:
 
@@ -647,8 +646,6 @@ name: looping
 
 ## Loops
 
-* One thing that usually gives people away as Stata users writing R code are loops
-
 * In Stata, we use `for` loops quite a lot
 
 * The equivalent to that in R would be to write a `for` loop like this
@@ -678,7 +675,66 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Looping
 
+## Column extraction operators
+
+* Remember the use of `$` to extract columns from a dataframe?
+
+* Other than `$`, we can also use double brackets to extract the column of a dataframe:
+
+```{r, eval=FALSE}
+# With $:
+whr$year
+```
+
+```{r, eval=FALSE}
+# With [[]]:
+whr[["year"]] # Notice the use of double quotes
+```
+
+---
+
+# Looping
+
+## Column extraction operators: `[[]]` vs `$`
+
+What's the key difference between them?
+
+Well, `[[]]` lets us use other objects to refer to column names, while `$` doesn't
+
+```{r}
+col_name <- "year"
+head(whr$col_name) # this returns a NULL object because no column has the name "col_name" in whr
+```
+
+```{r}
+col_name <- "year"
+head(whr[[col_name]])
+```
+
+---
+
+# Looping
+
+## Column extraction operators: `[[]]` vs `$`
+
+This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
+
+```{r}
+# Printing the first observation of every column of whr
+for (col in colnames(whr)) {
+  whr[[col]] %>%
+    head(1) %>%
+    print()
+}
+```
+
+---
+
+# Looping
+
 ## Apply
+
+* Using `[[]]` to loop through columns works very similar to how we usually use `for` loops in Stata
 
 * R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
@@ -721,8 +777,25 @@ sapply(X, FUN, ...)
       print(round(number))
     }
 
-    # A much more elegant loop in R
+    # A much more elegant option
     sapply(c(1.2, 2.5), round)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Looping
+
+```{r, eval=FALSE}
+# Printing the first observation of every column of whr
+for (col in colnames(whr)) {
+  print(head(whr[[col]], 1))
+} # Option 1
+
+sapply(whr, head, 1) # A more elegant and efficient option
 ```
 
 ```{r echo=FALSE}
@@ -743,7 +816,11 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
   + Imagine you ask a yes/no question to a group of people
   + You can collect the answers by asking each one of them individually -- __this is looping__
-  + Otherwise, you can ask them to raise their hands and collect the answers at once -- __this is `apply()`__
+  + Otherwise, you can ask them to raise their hands and collect all answers at once -- __this is `apply()`__
+
+* The output of a loop is the regular output of the operation you're repeating, times the number of iterations you did
+
+* The output of `apply()` will be a vector most of times, but it can also be a list or an array of elements (a matrix)
 
 ---
 
@@ -820,9 +897,9 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Custom functions
 
-### Exercise 7: Create a function 
+### Exercise 6: Create a function 
 
-Create a function that calculates the z-score of a vector.
+Create a function named `zscore` that standardizes the values of a vector.
   
 * Recall the outline of functions in R:
   
@@ -853,6 +930,34 @@ zscore <- function(x) {
     z    <- (x - mean)/sd
     return(z)
   }
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Custom functions
+
+### Exercise 7: Putting it all together!
+
+1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
+
+2. Use `sapply()` combined with the `zscore` function to get the z-score of these two columns
+  
++ Hint:
+  * Use the pipes (`%>%`) successively
+  * Remember that we don't use parenthesis next to the function name we're using `sapply()` with
+
+---
+
+# Custom functions
+
+```{r, eval=FALSE}
+whr %>%
+  select(health_life_expectancy, freedom) %>%
+  sapply(zscore)
 ```
 
 ```{r echo=FALSE}

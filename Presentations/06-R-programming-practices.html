@@ -50,7 +50,6 @@ class: center, middle, inverse, title-slide
 1. [Introduction](#introduction)
 2. [Initial settings](#initial-settings)
 3. [File paths](#file-paths)
-5. [Commenting](#commenting)
 6. [Creating a document outline in RStudio](#creating-a-document-outline-in-rstudio)
 7. [Using packages](#using-packages)
 8. [Functions inception](#functions-inception)
@@ -76,9 +75,9 @@ name: introduction
 
 * In the previous sessions, you learned how to work with R
 
-* You are probably eager to programming in R by now
+* You are probably eager to start programming in R by now
 
-* Before you start, we recommend learning how to write R code that will be __reproducible, efficient, intelligible and easy to navigate__
+* But before you start, we recommend learning how to write R code that will be __reproducible, efficient, intelligible and easy to navigate__
 
 * Indeed, that's what this session is about!
 
@@ -153,7 +152,7 @@ Have you ever seen these lines of code before?
 
 # Initial settings
 
-## Exercise 1: you'll never have to use  the equivalent of `clear all`
+### Exercise 1: you'll never have to use  the equivalent of `clear all`
 
 1. Go to `Tools` &gt; `Global Options...`
 
@@ -355,51 +354,6 @@ If you did the exercise correctly, you should see the `whr` data frame listed in
 ---
 
 class: inverse, center, middle
-name: commenting
-
-# Commenting
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-
-# Commenting
-
-* To comment a line, write `#` as its first character
-
-
-```r
-# This is a comment
-print("But this part is not")
-```
-
-* You can also add `#` halfway through a line to comment whatever comes after it
-
-
-```r
-print("This part is not a comment") # And this is a comment
-```
-
-* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
-
-* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
-
----
-
-# Commenting
-
-### Exercise 4: Commenting
-
-1. In your script panel, select all the lines of your script
-
-2. Use the keyboard shortcut to comment these lines.
-  + Shortcut: `Ctrl` + `Shift` + `C`
-
-3. Use the keyboard shortcut to comment these lines again. What happened?
-
----
-
-class: inverse, center, middle
 name: creating-a-document-outline-in-rstudio
 
 # Creating a document outline in RStudio
@@ -418,7 +372,7 @@ name: creating-a-document-outline-in-rstudio
 
 # Creating a document outline in RStudio
 
-### Exercise 5: Headers
+### Exercise 4: Headers
 
 1. In your script, add a header before the line where you used `here::i_am()` with the text: `# Part 1: Setting the project root----` (omit the quotes)
 
@@ -498,7 +452,7 @@ install.packages("tidyverse",
 
 ## Packages
 
-### Exercise 6
+### Exercise 5
 
 Add:
 
@@ -652,9 +606,7 @@ name: looping
 
 ## Loops
 
-* One thing that usually gives people away as Stata users writing R code are loops
-
-* In Stata, we use `foreach` loops quite a lot
+* In Stata, we use `for` loops quite a lot
 
 * The equivalent to that in R would be to write a `for` loop like this
 
@@ -683,7 +635,94 @@ name: looping
 
 # Looping
 
+## Column extraction operators
+
+* Remember the use of `$` to extract columns from a dataframe?
+
+* Other than `$`, we can also use double brackets to extract the column of a dataframe:
+
+
+```r
+# With $:
+whr$year
+```
+
+
+```r
+# With [[]]:
+whr[["year"]] # Notice the use of double quotes
+```
+
+---
+
+# Looping
+
+## Column extraction operators: `[[]]` vs `$`
+
+What's the key difference between them?
+
+Well, `[[]]` lets us use other objects to refer to column names, while `$` doesn't
+
+
+```r
+col_name &lt;- "year"
+head(whr$col_name) # this returns a NULL object because no column has the name "col_name" in whr
+```
+
+```
+## Warning: Unknown or uninitialised column: `col_name`.
+```
+
+```
+## NULL
+```
+
+
+```r
+col_name &lt;- "year"
+head(whr[[col_name]])
+```
+
+```
+## [1] 2015 2015 2015 2015 2015 2015
+```
+
+---
+
+# Looping
+
+## Column extraction operators: `[[]]` vs `$`
+
+This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
+
+
+```r
+# Printing the first observation of every column of whr
+for (col in colnames(whr)) {
+  whr[[col]] %&gt;%
+    head(1) %&gt;%
+    print()
+}
+```
+
+```
+## [1] "Switzerland"
+## [1] "Western Europe"
+## [1] 2015
+## [1] 1
+## [1] 7.587
+## [1] 1.39651
+## [1] 0.94143
+## [1] 0.66557
+```
+
+---
+
+# Looping
+
 ## Apply
+
+* Using `[[]]` to loop through columns works very similar to how we usually use `for` loops in Stata
 
 * R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
@@ -728,8 +767,24 @@ sapply(X, FUN, ...)
       print(round(number))
     }
 
-    # A much more elegant loop in R
+    # A much more elegant option
     sapply(c(1.2, 2.5), round)
+```
+
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+
+---
+
+# Looping
+
+
+```r
+# Printing the first observation of every column of whr
+for (col in colnames(whr)) {
+  print(head(whr[[col]], 1))
+} # Option 1
+
+sapply(whr, head, 1) # A more elegant and efficient option
 ```
 
 &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
@@ -748,7 +803,11 @@ sapply(X, FUN, ...)
 
   + Imagine you ask a yes/no question to a group of people
   + You can collect the answers by asking each one of them individually -- __this is looping__
-  + Otherwise, you can ask them to raise their hands and collect the answers at once -- __this is `apply()`__
+  + Otherwise, you can ask them to raise their hands and collect all answers at once -- __this is `apply()`__
+
+* The output of a loop is the regular output of the operation you're repeating, times the number of iterations you did
+
+* The output of `apply()` will be a vector most of times, but it can also be a list or an array of elements (a matrix)
 
 ---
 
@@ -835,9 +894,9 @@ name: custom-functions
 
 # Custom functions
 
-### Exercise 7: Create a function 
+### Exercise 6: Create a function 
 
-Create a function that calculates the z-score of a vector.
+Create a function named `zscore` that standardizes the values of a vector.
   
 * Recall the outline of functions in R:
   
@@ -870,6 +929,33 @@ zscore &lt;- function(x) {
     z    &lt;- (x - mean)/sd
     return(z)
   }
+```
+
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+
+---
+
+# Custom functions
+
+### Exercise 7: Putting it all together!
+
+1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
+
+2. Use `sapply()` combined with the `zscore` function to get the z-score of this two columns
+  
++ Hint:
+  * Use the pipes (`%&gt;%`) successively
+  * Remember that we don't use parenthesis next to the function name we're using `sapply()` with
+
+---
+
+# Custom functions
+
+
+```r
+whr %&gt;%
+  select(health_life_expectancy, freedom) %&gt;%
+  sapply(zscore)
 ```
 
 &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
@@ -916,7 +1002,7 @@ geom_point()
 
 # Indentation
 
-&lt;img src="06-R-programming-practices_files/figure-html/unnamed-chunk-46-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-R-programming-practices_files/figure-html/unnamed-chunk-53-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1033,7 +1119,7 @@ Create a function that
 
 # Appendix - If statements
 
-### Exercise 9: Creating an if statement
+### Exercise: Creating an if statement
 
 * Create a scalar object called PACKAGES and assign it any numerical value.
 
@@ -1081,7 +1167,7 @@ Possible variations would include
 
 # Appendix - Assignment 2
 
-Create a function that
+### Exercise: Create a function that...
 
 1. Takes as argument a vector of packages names
 
@@ -1186,6 +1272,43 @@ We didn't cover it here because of time constraints, but below are some useful l
 
 If you want to learn more about them, we recommend starting here:
 https://r4ds.had.co.nz/workflow-projects.html
+
+---
+
+# Appendix - Commenting
+
+* To comment a line, write `#` as its first character
+
+
+```r
+# This is a comment
+print("But this part is not")
+```
+
+* You can also add `#` halfway through a line to comment whatever comes after it
+
+
+```r
+print("This part is not a comment") # And this is a comment
+```
+
+* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
+
+* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
+
+---
+
+# Appendix - Commenting
+
+### Exercise: Commenting
+
+1. In your script panel, select all the lines of your script
+
+2. Use the keyboard shortcut to comment these lines.
+  + Shortcut: `Ctrl` + `Shift` + `C`
+
+3. Use the keyboard shortcut to comment these lines again. What happened?
+
 
 ---
 exclude: true
