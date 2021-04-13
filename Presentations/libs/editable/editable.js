@@ -73,7 +73,6 @@
     editables.forEach(function (el) {
       el.addEventListener('focus', function () {
         if (window.editable.debug) console.log('[editable] blocking shortcuts')
-        slideshow.pause()
         el.addEventListener('keyup', blockEvents)
         el.addEventListener('keydown', blockEvents)
         el.addEventListener('keypress', blockEvents)
@@ -83,7 +82,6 @@
       })
       el.addEventListener('blur', function () {
         if (window.editable.debug) console.log('[editable] unblocking shortcuts')
-        slideshow.resume()
         el.removeEventListener('keyup', blockEvents)
         el.removeEventListener('keydown', blockEvents)
         el.removeEventListener('keypress', blockEvents)

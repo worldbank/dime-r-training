@@ -27,6 +27,7 @@ opts_chunk$set(
   dpi=300, #fig.path='Figs/',
   cache=T#, echo=F, warning=F, message=F
   )
+
 library(hrbrthemes)
 library(fontawesome)
 library(xaringanExtra)
@@ -85,7 +86,7 @@ install.packages(c("sf",
 
 
 And load them
-```{r, eval = FALSE}
+```{r, eval = TRUE, message = FALSE, warning = FALSE}
 library(here)
 library(tidyverse)
 library(sf)
@@ -138,11 +139,15 @@ There are two main types of spatial data: vector and raster data.
 --
 
 .pull-left[
-<img src="img/raster.png"  width = 400>
+```{r, out.width = "400px"}
+knitr::include_graphics("img/raster.png")
+```
 ]
 
 .pull-right[
-<img src="img/shapefile.png"  width = 300>
+```{r, out.width = "300px"}
+knitr::include_graphics("img/shapefile.png")
+```
 ]
 
 ---
