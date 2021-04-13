@@ -1,5 +1,5 @@
 ---
-title: "Introduction to R"
+title: "Session 1 - Introduction to R"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
@@ -63,17 +63,9 @@ xaringanExtra::use_logo(
 }
 
 ```
+
 ```{r echo = FALSE, include = FALSE, eval = TRUE}
 whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
-```
-
-
-```{css, echo = F, eval = T}
-@media print {
-  .has-continuation {
-    display: block !important;
-  }
-}
 ```
 
 # Table of contents
@@ -1362,4 +1354,15 @@ as.integer(num)
 
 round(num)
 
+```
+
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("01-intro-to-R.html", output = "01-intro-to-R.pdf")
+
+# or
+source("https://git.io/xaringan2pdf")
+xaringan_to_pdf("01-intro-to-R.html")
 ```

@@ -1,8 +1,8 @@
 ---
-title: "Introduction II - R programming"
-subtitle: "R for Advanced Stata Users"
-author: "DIME Analytics"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2020"
+title: "Session 6: R Programming Practices"
+subtitle: "R for Stata Users"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -15,70 +15,44 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+
+# Load packages
 library(knitr)
-opts_chunk$set(
-  fig.align="center",  
-  fig.height=4, #fig.width=6,
-  # out.width="748px", #out.length="520.75px",
-  dpi=300, #fig.path='Figs/',
-  cache=T#, echo=F, warning=F, message=F
-  )
 library(tidyverse)
 library(hrbrthemes)
 library(fontawesome)
 library(xaringanExtra)
-xaringanExtra::use_panelset()
-```
+library(here)
 
-```{r xaringan-logo, echo=FALSE}
+here::i_am("Presentations/06-R-programming-practices.Rmd")
+
+options(htmltools.dir.version = FALSE)
+opts_chunk$set(
+  fig.align = "center",
+  fig.height = 4,
+  dpi = 300,
+  cache = T
+  )
+
+xaringanExtra::use_panelset()
+xaringanExtra::use_webcam()
+xaringanExtra::use_clipboard()
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+
 xaringanExtra::use_logo(
-  image_url = "img/lightbulb.png",
-  exclude_class = c("inverse", "hide_logo"),
+  image_url = here("Presentations",
+                   "img",
+                   "lightbulb.png"),
+  exclude_class = c("inverse", 
+                    "hide_logo"),
   width = "50px"
 )
-```
-
-```{r, echo = F, eval= T}
-
-# File paths
-if (Sys.getenv("USERNAME") %in% c("WB501238", "wb501238")){
-  projectFolder  <- "C:/Users/WB501238/Documents/GitHub/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "luis_eduardo"){
-  projectFolder  <- "/home/luis_eduardo/cs_projects/dime-r-training"
-  
-}
-
-if (Sys.getenv("USERNAME") == "Leonardo"){
-  projectFolder  <- "C:/Users/Leonardo/Documents/GitHub/dime-r-training"
-
-}
-
-if (Sys.getenv("USERNAME") == "wb519128"){
-  projectFolder <- file.path("C:/Users/WB519128/Documents/GitHub/dime-r-training")
-}
-
-if (Sys.getenv("USERNAME") == "maximiliano"){
-  projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
-}
-
-# File paths
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-  Data              <- file.path(dataWorkFolder,"DataSets")
-  finalData         <- file.path(Data,"Final")
-  rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
-
-# Load CSV data
-
-whr <- read.csv(file.path(finalData,"whr_panel.csv"), 
-                header = T)
-
-#library(tidyverse)
-
-
 ```
 
 ```{css, echo = F, eval = T}
@@ -87,16 +61,18 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
     display: block !important;
   }
 }
+
 ```
 
+```{r, echo = FALSE, include=FALSE, eval = TRUE}
+whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
+```
 
 # Table of contents
 
 1. [Introduction](#introduction)
 2. [Initial settings](#initial-settings)
 3. [File paths](#file-paths)
-4. [Exploring a dataset](#exploring-a-dataset)
-5. [Commenting](#commenting)
 6. [Creating a document outline in RStudio](#creating-a-document-outline-in-rstudio)
 7. [Using packages](#using-packages)
 8. [Functions inception](#functions-inception)
@@ -104,36 +80,6 @@ whr <- read.csv(file.path(finalData,"whr_panel.csv"),
 10. [Custom functions](#custom-functions)
 11. [Indentation](#indentation)
 12. [Appendix](#appendix)
-
----
-
-# Sessions format
-
-## Format
-
-- These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
-
-- The sessions include exercises where we give 1-2 minutes to solve them. Then, the presenter will call names to discuss what you did and which issues you encountered
-
-  + If you prefer not to be called or have connectivity issues which prevent participation, please let us know by sending a private message to __Luiza Cardoso De Andrade__
-
-- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez Ramirez__
-
----
-
-# Sessions format
-
-## Format
-
-- The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a private message whenever you need help
-
-- Otherwise, if you have a __general question__ feel free to unmute yourself or use the chat to ask it
-
-- Please mute your microphone the rest of the time
-
-- If your connection is good enough, please leave your video on
-
-- The materials of each session will be shared in the OSF page on the course after the end of each session: https://osf.io/b7hm6/
 
 ---
 
@@ -150,23 +96,25 @@ name: introduction
 
 ## What is this session about?
 
-* In the last session, you learned the basic concepts to work in R
+* In the previous sessions, you learned how to work with R
 
-* You are probably eager to get your hands into some data using R by now, and you would figure out __what should be in your code__ for it to work
+* You are probably eager to start programming in R by now
 
-* But you would probably not know right away __how to write that__, so that in the end you might have code that is only intelligible for yourself -- and not for a very long time
+* But before you start, we recommend learning how to write R code that will be __reproducible, efficient, intelligible and easy to navigate__
+
+* Indeed, that's what this session is about!
 
 ---
 
 # Introduction
 
-## What is this session about?
+## What this session is about
 
-* In this session, we will cover common coding practices in R so that you can make __the most efficient use__ for it
+* We will cover common coding practices in R so that you can make __the most efficient use__ for it
 
 * We will also discuss some styling conventions to make your code __readable and reproducible__
 
-* This will give you a solid foundation to code in R, and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
+* This will give you a solid foundation to write code in R and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
 
 ---
 
@@ -181,19 +129,33 @@ name: initial-settings
 
 # Initial settings
 
-* Let's start by opening RStudio, or by reopening it if you had it opened already
+* Let's start by opening RStudio or by closing and opening it again
 
-* What do you see in your environment?
+* Notice two things:
 
-* If you saved the objects from the last session in `.RData`, the objects that were in RStudio's memory last time you closed it will still be there whenever you open it again
+1. Your environment is *probably* empty (it's OK if it's not)
 
-* You can also go to the `Console` panel and use the up and down keys to navigate through the commands you executed in previous sessions. They are saved by default in `.Rhistory`
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/empty_environment.png")
+```
 
 ---
 
 # Initial settings
 
-Raise your hand if you have ever seen these lines of code before:
+2- Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
+
+```{r, echo = FALSE, out.width ="70%"}
+knitr::include_graphics("img/rhistory.png")
+```
+
+* We'd usually want these two things -- an __empty environment__ and the __history of commands__ executed in previous sessions -- to be present every time we open a new RStudio session
+
+---
+
+# Initial settings
+
+Have you ever seen these lines of code before?
 
 ```{r echo = FALSE, out.width = "40%"}
 knitr::include_graphics("img/stataheader.jpg")
@@ -203,37 +165,33 @@ knitr::include_graphics("img/stataheader.jpg")
 
 # Initial settings
 
+## R Initial settings
+
 * We __don't need to set the memory or the maximum number of variables__ in R
 
 * The equivalent of `set more off` is the default
 
-* You can see all the objects in your memory at any point in the `Environment` pane
+* The equivalent of `clear all` is not a default setting, but we'll change that in exercise 1
 
----
+* In any case, remember that you can see all the objects in your computer's memory at any point in the `Environment` panel
 
-# Initial settings
-
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/rm.png")
+```{r echo = FALSE, out.width = "40%"}
+knitr::include_graphics("img/environment_2vars_2021.png")
 ```
 
 ---
 
 # Initial settings
 
-You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if set global options correctly in RStudio.
+### Exercise 1: you'll never have to use  the equivalent of `clear all`
 
-## Exercise 1: To make sure that no one will burn your computer, here's how you change these settings:
+1. Go to `Tools` > `Global Options...`
 
-1. Go to `Tools > Global options...`
+2. In the `General` tab, make sure the following options are set:
 
-2. Make sure the following options are checked:
-
-  + Re-use idle sessions for project links *(Note: this is only relevant for Windows)*
-  + Restore most recently opened project at startup
-  + Restore previously open source documents at startup
-  + Restore `.RData` into workspace at startup
-  + Always save history (even when not saving `.RData`)
+  + Un-check *Restore .RData into workspace at startup*
+  + For *Save workspace to .RData on exit*, select *Never*
+  + Make sure *Always save history (even when not saving .RData)* is checked
   
 3. Now restart RStudio
 
@@ -241,24 +199,16 @@ You don't need to use the equivalents to Stata's `cd()` and `clear all`in R if s
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/Options1.png")
+```{r echo = FALSE, out.width = "90%"}
+knitr::include_graphics("img/options1_2021.png")
 ```
 
 ---
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/Options2.png")
-```
-
----
-
-# Initial settings
-
-```{r echo = FALSE, out.width = "50%"}
-knitr::include_graphics("img/Options3.png")
+```{r echo = FALSE, out.width = "48%"}
+knitr::include_graphics("img/options2_2021.png")
 ```
 
 ---
@@ -274,264 +224,139 @@ name: file-paths
 
 # File paths
 
-* For the purpose of this session, we will assume that you are dealing with a specific folder structure.
+* What about working directories? We usually do something like this every time we start a new script in Stata:
 
-* Folder organization, though an important part of data work, is outside the scope of this course.
-
-* You can find resources about it in the appendix, and we have shared with you a folder that is organized as we want it to be.
-
-* For today's session:
-  + Go to the OSF repository of this course (https://osf.io/b7hm6/)
-  + Download the file `DataWork.zip`
-  + Download and unzip the materials in a location you can remember
-  + Then go to the `DataWork/Code` folder and open the file `Lab 2 - Intro II.R`
-
-* We will use this script as a basis for the exercises, and you should modify it during this session to complete them.
-
----
-
-# File paths
-
-* In the last session, we used the menu bar to load a data set into R
-
-* Today, we will do that using code and referring a file's path
-
-* File paths in R, as in Stata, are basically just strings
-
-* Note, however, that in R we can only use forward slashes (`/`) to separate folder names
-
-### Exercise 3: File path to your folder
-Let's start by adding the folder path to the training's folder in your computer to the `projectFolder` object at the beginning of `PART 2`
-
-```{r, eval=F}
-# Add your folder path here
-# Remember to replace backslashes ("\") with regular ones ("/")
-projectFolder <- "YOUR/FOLDER/PATH/HERE"
+```{r echo = FALSE, out.width = "35%"}
+knitr::include_graphics("img/stata_cd.png")
 ```
 
----
+* The direct equivalent to `cd` in R is this command:
 
-# File paths
+```{r, eval=FALSE}
+setwd("your/path")
+```
 
-* You can set file paths in your script using the `file.path()` function
-
-* This function concatenates strings using `/` as a separator to create file paths
-
-* This is similar to using globals to define folder paths in Stata
+* However, we recommend not using it unless it's absolutely necessary (never, if possible)
 
 ---
 
 # File paths
 
-Let's test if that worked:
-```{r, eval = T}
+* Instead, you should use RStudio projects and the `here` library
 
-  # Project folder
-  projectFolder  <-
-    "/home/luis_eduardo/cs_projects/dime-r-training"
+* __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__
 
-  # Data work folder
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
+## RStudio Projects
 
-  # Print data work folder
-  dataWorkFolder
+* RStudio projects let you "bind" your project files to a root directory, regardless of the path to it
 
+* This is crucial because it allows smooth interoperability between different computers where the exact path to the project root directory differs
+
+* Additionally, each RStudio project you work on keeps their own history of commands!
+
+---
+
+# File paths
+
+## RStudio projects
+
+### Exercise 2: Create a new RStudio project
+
+Follow these instructions:
+
+1. On RStudio, select `File` > `New Project...`
+
+2. Select `New Directory` > `New Project`
+
+3. Assign the name: `dime-r-training-project` to the project
+
+---
+
+# File paths
+
+## RStudio projects
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/dime-r-training-project.png")
 ```
 
 ---
 
 # File paths
 
-## Loading a dataset from CSV
+## The `here` library
 
-Use the `read.csv()` command:
+* `here` locates files relative to your project root
 
-```{r, eval=F}
-read.csv(file, header = FALSE, stringsAsFactors = FALSE)
-```
+* It uses the root project directory to build paths to files easily
 
-* __file__: is the path (string) to the file you want to open, including its path, name and file extension (`.csv`).
-  + Example: `/home/user/Data/whr_panel.csv`
-
-* __header__: if `TRUE`, will read the first row as variable names (default is `header = FALSE`).
-
-* __stringsAsFactors__: logical. See next slide for more.
+* Similar to RStudio projects, it allows for interoperability between different computers where the absolute path to the same file is not the same
 
 ---
 
 # File paths
 
-## Loading a dataset from CSV
+## Usage of `here`
 
-* Since R 4.0.0 and beyond, `stringsAsFactors = FALSE` is the default. In every previous version, the default is `TRUE`.
+1. Load the `here` library:
 
-* This means that if your R version is 3.X.X, R will turn any string variables into factors by default when reading a `csv` file.
+```{r, eval=FALSE}
+library(here)
+```
 
-* This format __saves memory__, but can be tricky if you actually want to use the variables as strings.
+2. Now you'll be able to use `here()` to point the location of every file relative to your project root
 
-* You can specify the option `stringsAsFactors = FALSE` to make sure you prevent R from turning strings into factors.
+  + For example, to load a `csv` file located in: `C:/WBG/project-root-name/data/raw/data-file.csv`, you should use:
+  
+```{r, eval=FALSE}
+df <- read.csv(here("data", "raw", "data-file.csv"))
+```
+
+* __Note:__ Your project root is the directory that contains the `.Rproj` file
 
 ---
 
 # File paths
 
-### Exercise 4: Test file paths
+### Exercise 3: Combining `here` and RStudio projects
 
-1. Save your script.
+1. Go to the OSF page of the course: https://osf.io/86g3b/
 
-2. Start a new R session: go to `Session > New Session`. This session should be completely blank.
+2. Download the file in: `R for Stata Users - April 2021` > `Data` > `DataWork.zip`
 
-3. Open the code you just saved.
-  + Go to `File > Open File...` and select your script
+3. Unzip the file in your RStudio project root folder
 
-4. Add a line opening the data set in your code
-```{r, eval = F}
-# Load data set
-whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                header = TRUE)
-
-```
-
-5. Run the whole script. If it worked, your environment should now include the `whr` dataset and the path locals.
+  + This is the folder where the file `dime-r-training-project.Rproj` sits
+  + If you didn't change the default directory when creating the RStudio project, it will be in your `Documents` folder in Windows or in your Home directory in Mac or Linux
+  
+4. On RStudio, go to `File` > `New File` > `R Script`
 
 ---
 
-class: inverse, center, middle
-name: exploring-a-dataset
+# File paths
 
-# Exploring a dataset
+### Exercise 3: Combining `here` and RStudio projects
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+5- Save this new empty script in `DataWork` > `Code` as `exercises.R`
 
----
+6- Now let's test if that worked. Load the `here` library read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
 
-# Exploring a dataset
-
-Some useful functions:
-
-* **`View()`:** open the data set
-
-* **`class()`:** reports object type or type of data stored
-
-* **`dim()`:** reports the size of each one of an object's dimension
-
-* **`names()`:** returns the variable names of a data set
-
-* **`str()`:** general information about the structure of an R object
-
-* **`summary()`:** summary information about the variables in a data frame
-
-* **`head()`:** shows the first few observations in the dataset
-
-* **`tail()`:** shows the last few observations in the dataset
-
----
-
-# Exploring a dataset
-
-### Exercise 5: Explore a dataset
-
-Use some of these functions to explore the `whr` data set.
-
-* `View()`
-
-* `class()`
-
-* `dim()`
-
-* `names()`
-
-* `str()`
-
-* `summary()`
-
-* `head()`
-
-* `tail()`
-
----
-
-# Exploring a dataset
-
-```{r, eval = F}
-# View the data set (same as clicking on it in the Environment pane)
-View(whr)
+```{r, eval=FALSE}
+library(here)
+whr <- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 ```
 
 ---
 
-# Exploring a dataset
+# File paths
 
-```{r}
-class(whr)
-dim(whr)
+## RStudio projects and `here`
+
+If you did the exercise correctly, you should see the `whr` data frame listed in the Environment panel
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/environment_2021.png")
 ```
-
----
-
-# Exploring a dataset
-
-```{r}
-str(whr)
-```
-
----
-
-# Exploring a dataset
-
-```{r}
-summary(whr)
-```
-
----
-
-# Exploring a dataset
-
-```{r}
-head(whr)
-```
-
----
-
-# Exploring a dataset
-
-Didn't get all of those? 
-
-Don't worry, you'll see them again soon.
-
----
-
-class: inverse, center, middle
-name: commenting
-
-# Commenting
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Commenting
-
-* To comment a line, write `#` as its first character
-
-* You can also add `#` half way through a line to comment whatever comes after it
-
-* In Stata, you can use `/*` and `*/` to comment part of a line's code. That is not possible in R: whatever comes after `#` will be a comment
-
-* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
-
----
-
-# Commenting
-
-### Exercise 6: Commenting
-
-1. Go the `Lab 2 - Intro II.R` script. Select the lines under `PART 2: Set folder paths`.
-
-2. Use the keyboard shortcut to comment these lines.
-  + Shortcut: `Ctrl` + `Shift` + `C`
-
-3. Use the keyboard shortcut to comment these lines again. What happened?
 
 ---
 
@@ -554,19 +379,27 @@ name: creating-a-document-outline-in-rstudio
 
 # Creating a document outline in RStudio
 
-### Exercise 7: Headers
+### Exercise 4: Headers
 
-1. Open the script index and make `PART 1` a section header. Do the same for parts 2 and 3.
+1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
+
+2. Add the following header before `read.csv(...)`: `Part 3: Loading data----`
+
   + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
 
-2. Note that once you create a section header, an arrow appears right next to it. Click on the arrows of parts 2 and 3 to see what happens.
+3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
 
 ---
 
 # Creating a document outline in RStudio
 
 * The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
+
 * You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
+
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/document-outline.png")
+```
 
 ---
 
@@ -608,6 +441,7 @@ name: using-packages
 ## Packages
 
 * To install and use packages you can either do it with the user interface or by the command prompt.
+
 ```{r, eval = F}
 # Installing a package
 install.packages("tidyverse",
@@ -622,19 +456,17 @@ install.packages("tidyverse",
 
 # Using packages
 
-### Exercise 8
+## Packages
 
-1. Now load the package we just installed. Use the `library()` function to do it.
+### Exercise 5
 
----
-
-# Using packages
+Add:
 
 ```{r, eval = F}
   library(tidyverse)
 ```
 
-Notice that we used quotes around the name to install the package, but we don't need them anymore to load it.
+to Part 2 in your script and run it
 
 ---
 
@@ -645,7 +477,7 @@ Notice that we used quotes around the name to install the package, but we don't 
 What if this happens?
 
 ```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/Warning.png")
+knitr::include_graphics("img/warning_2021.png")
 ```
 
 ---
@@ -659,7 +491,7 @@ R has two types of error messages, `warnings` and actual `errors`:
   * `Errors` - break your code, usually preventing it from running.
   * `Warnings` - usually mean that nothing went wrong yet, but you should be careful.
 
-RStudio's default is to print warning messages, but not stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
+RStudio's default is to print warning messages, but not to stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
 
 ---
 
@@ -674,9 +506,11 @@ name: functions-inception
 
 # Functions inception
 
+## A function inside a function
+
 * In R, you can __write one function inside another__
 
-* In fact, you have already done this a few times in this course
+* In fact, you have already done this several times in this course
 
 * Here's an example:
 
@@ -684,21 +518,26 @@ name: functions-inception
 
 # Functions inception
 
-```{r}
-  # Doing it the long way -----------------------------
-  # Create a vector with the log of the happiness score
-  log_score <- log(whr$happiness_score)
+```{r, eval=FALSE}
+# Print the summary of the logarithm of the happiness score
 
-  # Get descriptive statistics for the log vector
-  summary(log_score)
+## The long way:
+log_score <- log(whr$happiness_score)
+summary(log_score)
 
-  # Shortcut to get to the same place ----------------
-  summary(log(whr$happiness_score))
+# The shortcut
+summary(log(whr$happiness_score))
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
 
 # Functions inception
+
+## A function inside a function
 
 * This is a simple example of __metaprogramming__ (that's the real name of this technique) and may seem trivial, but it's not
 
@@ -714,25 +553,26 @@ knitr::include_graphics("img/statalog.png")
 ---
 
 # Functions inception  
-  
+
+## Piping
+
 * This is a __very powerful technique__, as you will soon see
 
 * It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
 
 * It can also get quite tricky to follow what a line of code with multiple functions inceptions is doing
 
-* Which is why we sometimes use pipes: `%>%`
+* And that is why we use pipes: `%>%`
 
 ---
 
-# Functions inception  
+# Functions inception
+
+## Piping
 
 ```{r, eval = F}
   # 1: Doing it the long way -----------------------------
-  # Create a vector with the log of the happiness score
   log_score <- log(whr$happy_score)
-
-  # Get descriptive statistics for the log vector
   mean(log_score)
 
   # 2: Shortcut to get to the same place -----------------
@@ -744,11 +584,17 @@ knitr::include_graphics("img/statalog.png")
     mean()
 ```
 
-In a few words, `x %>% f()` is the same as `f(x)`
+In a few words:
+
+* `x %>% f()` is the same as `f(x)`
+
+* `x %>% f() %>% g()` is the same as `g(f(x))`
 
 ---
 
 # Functions inception  
+
+## Piping
   
 Now that you know piping exists in R, you should know that it can __drastically improve code readability__. And from now on you can also laugh if you see this in some tidyverse nerd laptop sticker or t-shirt:
 
@@ -769,7 +615,7 @@ name: looping
 
 # Looping
 
-* One thing that usually gives people away as Stata users writing R code are loops
+## Loops
 
 * In Stata, we use `for` loops quite a lot
 
@@ -786,18 +632,82 @@ name: looping
 
 # Looping
 
-```{r}
-    # A for loop in R
+```{r, eval = F}
     for (number in 1:5) {
         print(number)
     }
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
 
 # Looping
 
-* R, however, has a whole function family that allows users to loop through an object __in a more efficient way__, without using explicit loops
+## Column extraction operators
+
+* Remember the use of `$` to extract columns from a dataframe?
+
+* Other than `$`, we can also use double brackets to extract the column of a dataframe:
+
+```{r, eval=FALSE}
+# With $:
+whr$year
+```
+
+```{r, eval=FALSE}
+# With [[]]:
+whr[["year"]] # Notice the use of double quotes
+```
+
+---
+
+# Looping
+
+## Column extraction operators: `[[]]` vs `$`
+
+What's the key difference between them?
+
+Well, `[[]]` lets us use other objects to refer to column names, while `$` doesn't
+
+```{r}
+col_name <- "year"
+head(whr$col_name) # this returns a NULL object because no column has the name "col_name" in whr
+```
+
+```{r}
+col_name <- "year"
+head(whr[[col_name]])
+```
+
+---
+
+# Looping
+
+## Column extraction operators: `[[]]` vs `$`
+
+This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
+
+```{r}
+# Printing the first observation of every column of whr
+for (col in colnames(whr)) {
+  whr[[col]] %>%
+    head(1) %>%
+    print()
+}
+```
+
+---
+
+# Looping
+
+## Apply
+
+* Using `[[]]` to loop through columns works very similar to how we usually use `for` loops in Stata
+
+* R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
 * They're called `apply` and there are many of them, with different use cases
 
@@ -809,43 +719,99 @@ name: looping
 
 # Looping
 
-#### `sapply(X, FUN, ...)`: applies a function to all elements of a vector or list and returns the result in a vector. Its arguments are:
+## Apply
 
-* **X:** a data frame, matrix or vector the function will be applied to
+* The syntax of `sapply()` is:
 
-* **FUN:** the function you want to apply
+```{r, eval=FALSE}
+sapply(X, FUN, ...)
+```
 
-* **...:** possible function arguments
+* Its main arguments are:
+
+  + **X:** a data frame, matrix or vector the function will be applied to
+  + **FUN:** the function you want to apply
+
+* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
+
+* The output of `sapply()` is a vector with the results
+
+
 
 ---
 
 # Looping
 
-```{r}
+```{r, eval=FALSE}
     # A for loop in R
-    for (number in c(1.2,2.5)) {
+    for (number in c(1.2, 2.5)) {
       print(round(number))
     }
 
-    # A much more elegant loop in R
-    sapply(c(1.2,2.5), round)
+    # A much more elegant option
+    sapply(c(1.2, 2.5), round)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
 
 # Looping
 
-A more general version is the `apply` function.
+```{r, eval=FALSE}
+# Printing the first observation of every column of whr
+for (col in colnames(whr)) {
+  print(head(whr[[col]], 1))
+} # Option 1
 
-#### `apply(X, MARGIN, FUN, ...)`: applies a function to all columns or rows of matrix. Its arguments are
+sapply(whr, head, 1) # A more elegant and efficient option
+```
 
-* **X:** a data frame (or matrix) the function will be applied to
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
 
-* **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
+---
 
-* **FUN:** the function you want to apply
+# Looping
 
-* **... :** possible function arguments
+## Loops vs Apply
+
+* When looping, you repeat the same operation over a set of items
+
+* `apply()`, instead, takes all your elements at once and applies an operation to them simultaneously
+
+* The difference is like this:
+
+  + Imagine you ask a yes/no question to a group of people
+  + You can collect the answers by asking each one of them individually -- __this is looping__
+  + Otherwise, you can ask them to raise their hands and collect all answers at once -- __this is `apply()`__
+
+* The output of a loop is the regular output of the operation you're repeating, times the number of iterations you did
+
+* The output of `apply()` will be a vector most of times, but it can also be a list or an array of elements (a matrix)
+
+---
+
+# Looping
+
+## Apply
+
+* A more general version of `sapply()` is the `apply()` function. This is its syntax:
+
+```{r, eval=FALSE}
+apply(X, MARGIN, FUN, ...)
+```
+
+* Arguments:
+
+  + **X:** a data frame (or matrix) the function will be applied to
+  + **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
+  + **FUN:** the function you want to apply
+
+* `apply()` applies a function (`FUN`) to all columns or rows of matrix (`X`). A value of 1 in `MARGIN` indicates that the funcion should be applied row-wise, while 2 indicates columns
 
 ---
 
@@ -853,24 +819,13 @@ A more general version is the `apply` function.
 
 
 ```{r, eval = T}
-    # Create a matrix
-    matrix <- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2),
-                       nrow = 3)
-
-    # Look at the matrix
-    matrix
+matrix <- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2), nrow = 3) # Defining a matrix
+apply(matrix, 1, mean) # row means
+apply(matrix, 2, mean) # column means
 ```
 
----
-
-# Looping
-
-```{r, eval = T}
-    # Row means
-    apply(matrix, 1, mean)
-
-    # Column means
-    apply(matrix, 2, mean)
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -886,6 +841,8 @@ name: custom-functions
 
 # Custom functions
 
+## Writing your own functions
+
 * As we have said several times, __R is super flexible__
 
 * One example of that is that it's __super easy and quick to create custom functions__
@@ -896,27 +853,26 @@ name: custom-functions
 
 # Custom functions
 
-```{r}
+```{r, eval=FALSE}
   square <- function(x) {
-    
     y <- x ^ 2
-    
     return(y)
-    
   }
-
-  square(2)
 ```  
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
 
 ---
 
 # Custom functions
 
-### Exercise 9: Create a function 
+### Exercise 6: Create a function 
 
-1. Create a function that calculates the z-score of a vector.
+Create a function named `zscore` that standardizes the values of a vector.
   
-  + Recall the outline of functions in R:
+* Recall the outline of functions in R:
   
 ```{r eval=F}
 function_name <- function(input) {
@@ -932,24 +888,51 @@ function_name <- function(input) {
     * The command to obtain the mean of a vector is `mean(x)`
     * The command to get the SD of a vector is `sd(x)`
     * R is vectorized: you can operate vectors and number directly and the result will be a vector
+    * Don't forget to include the argument `na.rm = TRUE` in `mean()` and `sd()`
 
 ---
 
 # Custom functions
 
 ```{r}
-  zscore <- function(x) {
-    
-    mean <- mean(x, na.rm = T)
-    sd   <- sd(x, na.rm = T)
+zscore <- function(x) {
+    mean <- mean(x, na.rm = TRUE)
+    sd   <- sd(x, na.rm = TRUE)
     z    <- (x - mean)/sd
-    
     return(z)
-    
   }
+```
 
-  summary(zscore(whr$happiness_score))
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Custom functions
+
+### Exercise 7: Putting it all together!
+
+1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
+
+2. Use `sapply()` combined with the `zscore` function to get the z-score of these two columns
   
++ Hint:
+  * Use the pipes (`%>%`) successively
+  * Remember that we don't use parenthesis next to the function name we're using `sapply()` with
+
+---
+
+# Custom functions
+
+```{r, eval=FALSE}
+whr %>%
+  select(health_life_expectancy, freedom) %>%
+  sapply(zscore)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -968,9 +951,9 @@ name: indentation
 ```{r, eval = F}
 # Here's some code
 annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-plot <- ggplot(annualHappy_reg,aes(y = happy_score,x = year, color = region, group = region))
-+ geom_line() + geom_point()
-print(plot)
+ggplot(annualHappy_reg,aes(y = happy_score,x = as.factor(year), color = region, group = region)) +
+geom_line() + geom_point()
+
 ```
 
 ```{r, eval = F}
@@ -980,16 +963,14 @@ annualHappy_reg <-
             data = whr,
             FUN = mean)
 
-plot <-
-  ggplot(annualHappy_reg,
-         aes(y = happiness_score,
-             x = year,
-             color = region,
-             group = region)) +
-  geom_line() +
-  geom_point()
+ggplot(annualHappy_reg,
+       aes(y = happiness_score,
+           x = as.factor(year),
+           color = region,
+           group = region)) +
+geom_line() +
+geom_point()
 
-print(plot)
 ```
 
 ---
@@ -1002,16 +983,13 @@ annualHappy_reg <-
             data = whr,
             FUN = mean)
 
-plot <-
-  ggplot(annualHappy_reg,
-         aes(y = happiness_score,
-             x = year,
-             color = region,
-             group = region)) +
-  geom_line() +
-  geom_point()
-
-print(plot)
+ggplot(annualHappy_reg,
+       aes(y = happiness_score,
+           x = as.factor(year),
+           color = region,
+           group = region)) +
+geom_line() +
+geom_point()
 ```
 
 ---
@@ -1020,7 +998,7 @@ print(plot)
 
 ## Why indent?
 
-* Even though R understands what unindented code says, it can be __quite difficult for a human being to read it__
+* R understands what unindented code says, but it can be __quite difficult for a human being to read it__
 
 * On the other hand, __white space does not have a special meaning for R__, so it will understand code that is more readable for a human being
 
@@ -1045,14 +1023,15 @@ print(plot)
 # Indentation
 
 ### Exercise 8: Indentation in R
-To see an example of how indenting works in RStudio, go back to our first example with `sapply`:
+
+To see an example of how indenting works in RStudio, let's go back to our first example with `sapply()`:
 
 ```{r, eval = F}
 # A much more elegant loop in R
 sapply(c(1.2,2.5), round)
 ```
 
-1. Add a line between the two arguments of the function (the vector of numbers and the `round` function)
+1. Add a line between the two arguments of the function (the vector of numbers and `round`)
 
 2. Now add a line between the numbers in the vector.
 
@@ -1122,19 +1101,17 @@ Create a function that
 
 * In R, the equivalent to that would be to create a new object as a section switch
 
-### Exercise 9: Creating an if statement
-
-Create a dummy scalar object called PACKAGES.
-
-- TIP: Section switches can also be Boolean objects.
-
 ---
 
 # Appendix - If statements
 
-* Now we need to create an if statement using this switch
+### Exercise: Creating an if statement
 
-* If statements in R look like this:
+* Create a scalar object called PACKAGES and assign it any numerical value.
+
+  - TIP: Section switches can also be Boolean objects.
+
+* Now create an if statement using this switch scalar as a switch to indicate if you want to install a set of packages:
 
 ```{r, eval = F}
 
@@ -1177,7 +1154,7 @@ Possible variations would include
 
 # Appendix - Assignment 2
 
-Create a function that
+### Exercise: Create a function that...
 
 1. Takes as argument a vector of packages names
 
@@ -1198,23 +1175,25 @@ Create a function that
 
 ---
 
-# Appendix - File paths best practices
+# Appendix - Other file path practices
 
 ## File paths best practices
 
-* We at DIME Analytics recommend always using **explicit** and **dynamic** file paths
+* RStudio projects are a nice option when all your project files sit in the same root folder
 
-* **Explicit** means you're explicitly stating where the file will be saved -- instead of setting the working directory, for example
+* But what happens if that's not the case? For example: if your data is in Dropbox or OneDrive and your code is in a GitHub repository folder
 
-* **Dynamic** means that you don't need to adjust every file path in the script when you change from one machine to another -- they're updated based on a single line of code to be changed  
+* If that happens, we at DIME Analytics recommend always using **explicit** and **dynamic** file paths
+
+  + **Explicit** means you're explicitly stating where the file will be saved -- instead of setting the working directory, for example
+
+  + **Dynamic** means that you don't need to adjust every file path in the script when you change from one machine to another -- they're updated based on a single line of code to be changed  
 
 ---
 
 # Appendix - File paths best practices
 
-## File paths
-
-* Explicit and dynamic file path:
+## Explicit and dynamic file paths:
 
 ```{r, eval = F}
   # Define dynamic file path
@@ -1273,15 +1252,55 @@ We didn't cover it here because of time constraints, but below are some useful l
 
 ---
 
-# Appendix - R projects
+# Appendix - More on R projects
 
 ## R projects
 
-If you have used R before, you may have heard of RStudio Projects. It's RStudio's suggested tool for workflow management. DIME Analytics has found that it is not the best fit for our needs, because
-
-1. In DIME, we mainly use Stata, and we prefer to keep a similar structure in R (Stata 15 also has a projects feature, but it is not yet widely adopted)
-
-2. We need to keep our code and data in separate folders, as we store code in GitHub and data in DropBox
-
-However, if you want to learn more about it, we recommend starting here:
+If you want to learn more about them, we recommend starting here:
 https://r4ds.had.co.nz/workflow-projects.html
+
+---
+
+# Appendix - Commenting
+
+* To comment a line, write `#` as its first character
+
+```{r, eval=FALSE}
+# This is a comment
+print("But this part is not")
+```
+
+* You can also add `#` halfway through a line to comment whatever comes after it
+
+```{r, eval=FALSE}
+print("This part is not a comment") # And this is a comment
+```
+
+* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
+
+* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
+
+---
+
+# Appendix - Commenting
+
+### Exercise: Commenting
+
+1. In your script panel, select all the lines of your script
+
+2. Use the keyboard shortcut to comment these lines.
+  + Shortcut: `Ctrl` + `Shift` + `C`
+
+3. Use the keyboard shortcut to comment these lines again. What happened?
+
+
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("06-R-programming-practices.html", output = "06-R-programming-practices.pdf")
+
+# or
+source("https://git.io/xaringan2pdf")
+xaringan_to_pdf("06-R-programming-practices.html")
+```
