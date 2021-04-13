@@ -1213,3 +1213,14 @@ plot(map)
 class: inverse, center, middle
 
 # Thank you!
+
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("05-spatial-data.html", output = "05-spatial-data.pdf")
+
+# Or
+source("https://git.io/xaringan2pdf")
+xaringan_to_pdf("05-spatial-data.html")
+```
