@@ -85,7 +85,7 @@ install.packages(c("sf",
 
 
 And load them
-```{r, message = FALSE}
+```{r, eval = FALSE}
 library(here)
 library(tidyverse)
 library(sf)
