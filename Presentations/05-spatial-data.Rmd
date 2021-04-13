@@ -58,7 +58,7 @@ htmltools::tagList(
 3. Simple features
 4. Visualizing spatial data
 5. Why projections matters
-6. Basuc spatial operations
+6. Basic spatial operations
 ]
 
 
@@ -139,14 +139,14 @@ There are two main types of spatial data: vector and raster data.
 --
 
 .pull-left[
-```{r, out.width = "400px"}
-knitr::include_graphics("img/raster.png")
+```{r, out.width = "400px", echo = FALSE}
+knitr::include_graphics("img/raster.PNG")
 ```
 ]
 
 .pull-right[
-```{r, out.width = "300px"}
-knitr::include_graphics("img/shapefile.png")
+```{r, out.width = "300px", echo = FALSE}
+knitr::include_graphics("img/shapefile.PNG")
 ```
 ]
 
