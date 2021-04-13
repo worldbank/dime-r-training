@@ -49,47 +49,15 @@ htmltools::tagList(
 )
 ```
 
-```{r, echo = F, eval=T, include=FALSE}
-# File paths
-
-  if (Sys.getenv("USERNAME") %in% c("wb501238", "WB501238")) {
-    projectFolder  <- "C:/Users/wb501238/Documents/GitHub/dime-r-training"
-    
-  }
-
-  if (Sys.getenv("USERNAME") == "Maximiliano"){
-    projectFolder <- file.path("D:/Documents/RA Jobs/DIME/trainings/dime-r-training")
-  }
-
-  # File paths
-  dataWorkFolder    <- file.path(projectFolder,"DataWork")
-
-  Data              <- file.path(dataWorkFolder,"DataSets")
-  finalData         <- file.path(Data,"Final")
-  rawOutput         <- file.path(dataWorkFolder,"Output","Raw")
-  
-  library(tidyverse)
-  library(sf)
-  library(rworldmap)
-  library(ggmap)
-  library(wesanderson)
-  
-  # Load data
-whr_panel   <- readRDS(file.path(finalData, "whr_panel.RDS"))
-wb_projects <- read_csv(file.path(finalData, "wb_projects.csv"))
-
-```
-
 # Table of contents
 
 .vlarge[
-1. [Quick summary statistics](#exploring)
-2. [Descriptive statistics tables](#desc_tables)
-3. [Exporting descriptive statistics tables](#exporting)
-3. [Formatting tables](#beautifying)
-3. [Aggregating observations](#aggregating)
-3. [Running regressions](#regressing)
-3. [Exporting regression tables](#reg_tables)
+1. Loading and exploring spatial data
+2. Spatial data structure
+3. Simple features
+4. Visualizing spatial data
+5. Why projections matters
+6. Basuc spatial operations
 ]
 
 
@@ -110,41 +78,38 @@ Install new packages
 ```{r, eval = F}
 install.packages(c("sf",
                    "rworldmap",
-                   "ggmap"))
-
+                   "ggmap",
+                   "wesanderson"),
+                 dependencies = TRUE)
 ```
 
 
 And load them
-```{r, eval = F}
+```{r, message = FALSE}
+library(here)
 library(tidyverse)
 library(sf)
 library(rworldmap)
 library(ggmap)
+library(wesanderson)
 ```
 
 ---
 
 # Setting the stage
 
-Folder paths
-```{r, eval = F}
-projectFolder  <- "ENTER/FOLDER/PATH/dime-r-training"
-
-# File paths
-dataWorkFolder    <- file.path(projectFolder,"DataWork")
-
-Data              <- file.path(dataWorkFolder,"DataSets")
-finalData         <- file.path(Data,"Final")
-```
-
---
-
 Datasets we will use today
-```{r, eval = F}
+```{r, message = FALSE}
 # Load data
-whr_panel   <- readRDS(file.path(finalData, "whr_panel.RDS"))
-wb_projects <- read_csv(file.path(finalData, "wb_projects.csv"))
+whr_panel   <- read_rds(here("DataWork",
+                             "DataSets",
+                             "Final",
+                             "whr_panel.RDS"))
+
+wb_projects <- read_csv(here("DataWork",
+                             "DataSets",
+                             "Final",
+                             "wb_projects.csv"))
 ```
 
 ---
@@ -199,8 +164,10 @@ The first thing we will do in this session is to recreate this data set:
 
 ```{r}
 worldmap <- 
-  st_read(file.path(finalData, 
-                    "worldmap.shp"))
+  st_read(here("DataWork",
+               "DataSets",
+               "Final",
+               "worldmap.shp"))
 ```
 
 ```{r, eval = F}
@@ -307,33 +274,11 @@ We can treat the data in a geospatial object just like any other data frame
 Use the command `select()` from tidyverse's `dplyr` package to keep only the following variables in the `worldmap` data: `ADMIN, REGION, continent, POP_EST, GDP_MD_EST`.
 ]
 
---
-.can-edit[
-```{r, eval = F}
-dplyr::select(variables)
-```
-]
-
-> Why do we need to use `dyplr::`?
-
----
-
-# Spatial data structure: the data
-
-
-We can treat the data in a geospatial object just like any other data frame
-
-.exercise[
-
-### Exercise `r fa("keyboard")`
-Use the command `select()` from tidyverse's `dplyr` package to keep only the following variables in the `worldmap` data: `ADMIN, REGION, continent, POP_EST, GDP_MD_EST`.
-]
-
 
 ```{r}
 worldmap@data <-
   worldmap@data %>%
-  dplyr::select(ADMIN, REGION, continent, POP_EST, GDP_MD_EST)
+  select(ADMIN, REGION, continent, POP_EST, GDP_MD_EST)
 ```
 
 ---
@@ -632,7 +577,7 @@ name: projecting
 
 # Combining non-spatial and spatial data
 
-- To create the `worldmap` shapefile that you have in your `finalData` folder, we combined the data in `whr_panel` and the polygon in `worldmap`. Given what we have seen, this is as 
+- To create the `worldmap` shapefile that you have in your final data folder, we combined the data in `whr_panel` and the polygon in `worldmap`. Given what we have seen, this is as simple as joining two data sets
 
 --
 
@@ -862,7 +807,7 @@ The package `ggmap` allows us to layers as a basemap. The code is the same as `g
 
 
 Here is how we can retrieve basemaps:
-```{r, message="hide", warning = F}
+```{r, message=FALSE, warning = F}
 # Create an object with Africa only
 africa <-
   worldmap %>%
@@ -1037,7 +982,7 @@ ggplot() +
 
 # Transforming GPS data into a shapefile
 
-- As we saw earlier, shapefiles can contain poins, polygons or lines.
+- As we saw earlier, shapefiles can contain points, polygons or lines.
 - So far, we have only use the `wb_projects` coordinates as if they were numbers like any others.
 - To be able to change the projection of `wb_projects`, we need to convert it into a spatial object.
 

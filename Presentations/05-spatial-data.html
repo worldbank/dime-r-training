@@ -4,10 +4,9 @@
     <title>Spatial Data</title>
     <meta charset="utf-8" />
     <meta name="author" content="Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"a6cf71df1add49e5ae9e7da56ec61a3a","expires":14}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x4b90fd3eddd425baa040d5d8db32400","expires":14}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -31,11 +30,9 @@ class: center, middle, inverse, title-slide
 # Spatial Data
 ## <a href="https://github.com/worldbank">R for Advanced Stata Users</a>
 ### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### DIME |The World Bank <br> 23 March 2021
+### DIME |The World Bank <br> 12 April 2021
 
 ---
-
-
 
 
 
@@ -43,13 +40,12 @@ class: center, middle, inverse, title-slide
 # Table of contents
 
 .vlarge[
-1. [Quick summary statistics](#exploring)
-2. [Descriptive statistics tables](#desc_tables)
-3. [Exporting descriptive statistics tables](#exporting)
-3. [Formatting tables](#beautifying)
-3. [Aggregating observations](#aggregating)
-3. [Running regressions](#regressing)
-3. [Exporting regression tables](#reg_tables)
+1. Loading and exploring spatial data
+2. Spatial data structure
+3. Simple features
+4. Visualizing spatial data
+5. Why projections matters
+6. Basuc spatial operations
 ]
 
 
@@ -71,43 +67,40 @@ Install new packages
 ```r
 install.packages(c("sf",
                    "rworldmap",
-                   "ggmap"))
+                   "ggmap",
+                   "wesanderson"),
+                 dependencies = TRUE)
 ```
 
 
 And load them
 
 ```r
+library(here)
 library(tidyverse)
 library(sf)
 library(rworldmap)
 library(ggmap)
+library(wesanderson)
 ```
 
 ---
 
 # Setting the stage
 
-Folder paths
-
-```r
-projectFolder  &lt;- "ENTER/FOLDER/PATH/dime-r-training"
-
-# File paths
-dataWorkFolder    &lt;- file.path(projectFolder,"DataWork")
-
-Data              &lt;- file.path(dataWorkFolder,"DataSets")
-finalData         &lt;- file.path(Data,"Final")
-```
-
---
-
 Datasets we will use today
 
 ```r
 # Load data
-whr_panel   &lt;- readRDS(file.path(finalData, "whr_panel.RDS"))
-wb_projects &lt;- read_csv(file.path(finalData, "wb_projects.csv"))
+whr_panel   &lt;- read_rds(here("DataWork",
+                             "DataSets",
+                             "Final",
+                             "whr_panel.RDS"))
+
+wb_projects &lt;- read_csv(here("DataWork",
+                             "DataSets",
+                             "Final",
+                             "wb_projects.csv"))
 ```
 
 ---
@@ -163,12 +156,14 @@ The first thing we will do in this session is to recreate this data set:
 
 ```r
 worldmap &lt;- 
-  st_read(file.path(finalData, 
-                    "worldmap.shp"))
+  st_read(here("DataWork",
+               "DataSets",
+               "Final",
+               "worldmap.shp"))
 ```
 
 ```
-## Reading layer `worldmap' from data source `D:\Documents\RA Jobs\DIME\trainings\dime-r-training\DataWork\DataSets\Final\worldmap.shp' using driver `ESRI Shapefile'
+## Reading layer `worldmap' from data source `C:\Users\wb501238\Documents\GitHub\dime-r-training\DataWork\DataSets\Final\worldmap.shp' using driver `ESRI Shapefile'
 ## Simple feature collection with 244 features and 15 fields
 ## geometry type:  MULTIPOLYGON
 ## dimension:      XY
@@ -185,7 +180,7 @@ plot(worldmap)
 
 # Exploring the data
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -363,35 +358,12 @@ We can treat the data in a geospatial object just like any other data frame
 Use the command `select()` from tidyverse's `dplyr` package to keep only the following variables in the `worldmap` data: `ADMIN, REGION, continent, POP_EST, GDP_MD_EST`.
 ]
 
---
-.can-edit[
-
-```r
-dplyr::select(variables)
-```
-]
-
-&gt; Why do we need to use `dyplr::`?
-
----
-
-# Spatial data structure: the data
-
-
-We can treat the data in a geospatial object just like any other data frame
-
-.exercise[
-
-### Exercise &lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 576 512"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
-Use the command `select()` from tidyverse's `dplyr` package to keep only the following variables in the `worldmap` data: `ADMIN, REGION, continent, POP_EST, GDP_MD_EST`.
-]
-
 
 
 ```r
 worldmap@data &lt;-
   worldmap@data %&gt;%
-  dplyr::select(ADMIN, REGION, continent, POP_EST, GDP_MD_EST)
+  select(ADMIN, REGION, continent, POP_EST, GDP_MD_EST)
 ```
 
 ---
@@ -463,7 +435,7 @@ summary(worldmap@data)
 plot(worldmap)
 ```
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -625,7 +597,7 @@ summary(worldmap)
 plot(worldmap)
 ```
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -711,13 +683,13 @@ worldmap_mercator %&gt;%
 
 # Projections in sf
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Projections in sf
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -732,7 +704,7 @@ name: projecting
 
 # Combining non-spatial and spatial data
 
-- To create the `worldmap` shapefile that you have in your `finalData` folder, we combined the data in `whr_panel` and the polygon in `worldmap`. Given what we have seen, this is as 
+- To create the `worldmap` shapefile that you have in your final data folder, we combined the data in `whr_panel` and the polygon in `worldmap`. Given what we have seen, this is as simple as joining two data sets
 
 --
 
@@ -790,7 +762,7 @@ ggplot(worldmap) +
 
 # Visualizing polygons
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -830,7 +802,7 @@ ggplot(worldmap) +
 
 # Visualizing polygons
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -858,7 +830,7 @@ ggplot(worldmap %&gt;%
 
 # Visualizing polygons
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -916,7 +888,7 @@ ggplot() +
 
 # Visualizing points
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -937,7 +909,7 @@ ggplot() +
 
 # Visualizing points
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-40-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -966,42 +938,6 @@ africa_basemap &lt;-
                 maptype = "watercolor")
 ```
 
-```
-## Source : http://tile.stamen.com/watercolor/3/3/3.jpg
-```
-
-```
-## Source : http://tile.stamen.com/watercolor/3/4/3.jpg
-```
-
-```
-## Source : http://tile.stamen.com/watercolor/3/5/3.jpg
-```
-
-```
-## Source : http://tile.stamen.com/watercolor/3/3/4.jpg
-```
-
-```
-## Source : http://tile.stamen.com/watercolor/3/4/4.jpg
-```
-
-```
-## Source : http://tile.stamen.com/watercolor/3/5/4.jpg
-```
-
-```
-## Source : http://tile.stamen.com/watercolor/3/3/5.jpg
-```
-
-```
-## Source : http://tile.stamen.com/watercolor/3/4/5.jpg
-```
-
-```
-## Source : http://tile.stamen.com/watercolor/3/5/5.jpg
-```
-
 ---
 
 # Adding a basemap
@@ -1012,7 +948,7 @@ africa_basemap &lt;-
 ggmap(africa_basemap)
 ```
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1053,7 +989,7 @@ ggmap(africa_basemap) +
 
 # Adding layers on top of a basemap
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-47-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1080,7 +1016,7 @@ ggplot() +
 
 # Combining our two maps
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-49-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-46-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1119,13 +1055,13 @@ ggplot() +
 
 # Why projections matter
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-48-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Transforming GPS data into a shapefile
 
-- As we saw earlier, shapefiles can contain poins, polygons or lines.
+- As we saw earlier, shapefiles can contain points, polygons or lines.
 - So far, we have only use the `wb_projects` coordinates as if they were numbers like any others.
 - To be able to change the projection of `wb_projects`, we need to convert it into a spatial object.
 
@@ -1239,7 +1175,7 @@ ggplot() +
 
 # Combining plots with the same projection
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-57-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1289,7 +1225,7 @@ Here's some pseudo code:
 
 
 
-&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-60-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="05-spatial-data_files/figure-html/unnamed-chunk-57-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
