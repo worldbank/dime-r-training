@@ -27,6 +27,7 @@ opts_chunk$set(
   dpi=300, #fig.path='Figs/',
   cache=T#, echo=F, warning=F, message=F
   )
+
 library(hrbrthemes)
 library(fontawesome)
 library(xaringanExtra)
@@ -57,7 +58,7 @@ htmltools::tagList(
 3. Simple features
 4. Visualizing spatial data
 5. Why projections matters
-6. Basuc spatial operations
+6. Basic spatial operations
 ]
 
 
@@ -85,7 +86,7 @@ install.packages(c("sf",
 
 
 And load them
-```{r, eval = FALSE}
+```{r, eval = TRUE, message = FALSE, warning = FALSE}
 library(here)
 library(tidyverse)
 library(sf)
@@ -138,11 +139,15 @@ There are two main types of spatial data: vector and raster data.
 --
 
 .pull-left[
-<img src="img/raster.png"  width = 400>
+```{r, out.width = "400px", echo = FALSE}
+knitr::include_graphics("img/raster.PNG")
+```
 ]
 
 .pull-right[
-<img src="img/shapefile.png"  width = 300>
+```{r, out.width = "300px", echo = FALSE}
+knitr::include_graphics("img/shapefile.PNG")
+```
 ]
 
 ---
@@ -736,7 +741,7 @@ Create a scatter plot of the projects in the `wb_projects` dataset.
 ```{r,eval = F}
 ggplot() +
    geom_point(aes(x = ,
-                  y = )
+                  y = ))
 ```
 ]
 
