@@ -370,7 +370,7 @@ here::i_am("DataWork/Code/exercises.R")
 
 ```{r, eval=FALSE}
 library(here)
-whr <- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv))
+whr <- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 ```
 
 ---
