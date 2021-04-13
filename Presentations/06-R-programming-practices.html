@@ -338,7 +338,7 @@ here::i_am("DataWork/Code/exercises.R")
 
 ```r
 library(here)
-whr &lt;- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv))
+whr &lt;- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 ```
 
 ---
@@ -941,7 +941,7 @@ zscore &lt;- function(x) {
 
 1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
 
-2. Use `sapply()` combined with the `zscore` function to get the z-score of this two columns
+2. Use `sapply()` combined with the `zscore` function to get the z-score of these two columns
   
 + Hint:
   * Use the pipes (`%&gt;%`) successively
