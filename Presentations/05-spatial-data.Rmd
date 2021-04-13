@@ -741,7 +741,7 @@ Create a scatter plot of the projects in the `wb_projects` dataset.
 ```{r,eval = F}
 ggplot() +
    geom_point(aes(x = ,
-                  y = )
+                  y = ))
 ```
 ]
 
