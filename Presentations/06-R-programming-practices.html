@@ -71,7 +71,7 @@ name: introduction
 
 # Introduction
 
-## What is this session about?
+## What this session is about
 
 * In the previous sessions, you learned how to work with R
 
@@ -260,14 +260,14 @@ Follow these instructions:
 
 ## Usage of `here`
 
-1. Load the `here` library:
+1- Load the `here` library:
 
 
 ```r
 library(here)
 ```
 
-2. Now you'll be able to use `here()` to point the location of every file relative to your project root
+2- Now you'll be able to use `here()` to point the location of every file relative to your project root
 
   + For example, to load a `csv` file located in: `C:/WBG/project-root-name/data/raw/data-file.csv`, you should use:
   
@@ -284,26 +284,18 @@ df &lt;- read.csv(here("data", "raw", "data-file.csv"))
 
 ### Exercise 3: Combining `here` and RStudio projects
 
-1. Go to the OSF page of the course: https://osf.io/86g3b/
+1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - April 2021` &gt; `Data` &gt; `DataWork.zip`
 
-2. Download the file in: `R for Stata Users - April 2021` &gt; `Data` &gt; `DataWork.zip`
-
-3. Unzip the file in your RStudio project root folder
+2. Unzip the file in your RStudio project root folder
 
   + This is the folder where the file `dime-r-training-project.Rproj` sits
   + If you didn't change the default directory when creating the RStudio project, it will be in your `Documents` folder in Windows or in your Home directory in Mac or Linux
   
-4. On RStudio, go to `File` &gt; `New File` &gt; `R Script`
+3. On RStudio, go to `File` &gt; `New File` &gt; `R Script`
 
----
+4. Save this new empty script in `DataWork` &gt; `Code` as `exercises.R`
 
-# File paths
-
-### Exercise 3: Combining `here` and RStudio projects
-
-5- Save this new empty script in `DataWork` &gt; `Code` as `exercises.R`
-
-6- Now let's test if that worked. Load the `here` library read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
+5. Now let's test if that worked. Load the `here` library read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
 
 
 ```r
@@ -346,7 +338,7 @@ name: creating-a-document-outline-in-rstudio
 
 1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
 
-2. Add the following header before `read.csv(...)`: `Part 3: Loading data----`
+2. Add the following header before `read.csv(...)`: `Part 2: Loading data----`
 
   + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
 
@@ -510,17 +502,31 @@ summary(log(whr$happiness_score))
 &lt;img src="img/statalog.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
-# Functions inception  
+# Functions inception
 
-## Piping
+## A function inside a function
 
-* This is a __very powerful technique__, as you will soon see
+* Metaprogramming is a __very powerful technique__, as you will soon see
 
 * It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
 
 * It can also get quite tricky to follow what a line of code with multiple functions inceptions is doing
 
-* And that is why we use pipes: `%&gt;%`
+
+
+---
+
+# Functions inception  
+
+## Piping revisited
+
+* Remember piping? This: `%&gt;%`
+
+* Well, piping is actually a way of doing metaprogramming
+
+* Recall that the meaning of the pipes is: *Pipes take the __output__ of the function at the left and pass it as the __input__ of the function at the right*
+
+* The advantages of using piping is that it allows to have a cleaner division of successively applied functions in R code, __drastically improving code readability__
 
 ---
 
@@ -543,21 +549,11 @@ summary(log(whr$happiness_score))
     mean()
 ```
 
-In a few words:
+Just remember:
 
 * `x %&gt;% f()` is the same as `f(x)`
 
 * `x %&gt;% f() %&gt;% g()` is the same as `g(f(x))`
-
----
-
-# Functions inception  
-
-## Piping
-  
-Now that you know piping exists in R, you should know that it can __drastically improve code readability__. And from now on you can also laugh if you see this in some tidyverse nerd laptop sticker or t-shirt:
-
-&lt;img src="img/pipe.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -574,7 +570,7 @@ name: looping
 
 ## Loops
 
-* In Stata, we use `for` loops quite a lot
+* In Stata, we use `for` loops very frequently
 
 * The equivalent to that in R would be to write a `for` loop like this
 
@@ -720,7 +716,7 @@ sapply(X, FUN, ...)
 
 * `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
 
-* The output of `sapply()` is a vector with the results
+* The output of `sapply()` is usually a vector with the results, but it can be a matrix if the results have more than one dimension
 
 
 
@@ -748,7 +744,7 @@ sapply(X, FUN, ...)
 
 ```r
 # Printing the first observation of every column of whr
-for (col in colnames(whr)) {
+for (col in names(whr)) {
   print(head(whr[[col]], 1))
 } # Option 1
 
@@ -807,18 +803,7 @@ apply(X, MARGIN, FUN, ...)
 ```r
 matrix &lt;- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2), nrow = 3) # Defining a matrix
 apply(matrix, 1, mean) # row means
-```
-
-```
-## [1]  3.00000 35.66667  5.00000
-```
-
-```r
 apply(matrix, 2, mean) # column means
-```
-
-```
-## [1] 11.333333  6.333333 26.000000
 ```
 
 &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
