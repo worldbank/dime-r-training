@@ -312,7 +312,7 @@ library(here)
 df <- read.csv(here("data", "raw", "data-file.csv"))
 ```
 
-* __Note:__ Your project root is the directory that contains the `.Rproj` fule
+* __Note:__ Your project root is the directory that contains the `.Rproj` file
 
 ---
 

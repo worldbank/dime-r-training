@@ -260,37 +260,14 @@ Follow these instructions:
 
 ## Usage of `here`
 
-1- At the beginning of your script, include the following:
-
-
-```r
-here::i_am("path")
-```
-
-  + `"path"` should be the relative path of your current script, with respect of your project root directory
-  + For example: if your script is in `C:/WBG/project-root-name/scripts/analysis/my-script.R`:
-  
-
-```r
-here::i_am("scripts/analysis/my-script.R")
-```
-
-  + Don't forget to include the file name and extension
-
----
-
-# File paths
-
-## Usage of `here`
-
-2- Load the `here` library:
+1. Load the `here` library:
 
 
 ```r
 library(here)
 ```
 
-3- Now you'll be able to use `here()` to point the location of every file relative to your project root
+2. Now you'll be able to use `here()` to point the location of every file relative to your project root
 
   + For example, to load a `csv` file located in: `C:/WBG/project-root-name/data/raw/data-file.csv`, you should use:
   
@@ -299,7 +276,7 @@ library(here)
 df &lt;- read.csv(here("data", "raw", "data-file.csv"))
 ```
 
-This is going to be clearer with the next exercise.
+* __Note:__ Your project root is the directory that contains the `.Rproj` file
 
 ---
 
@@ -324,16 +301,9 @@ This is going to be clearer with the next exercise.
 
 ### Exercise 3: Combining `here` and RStudio projects
 
-5- Save this empty new script in `DataWork` &gt; `Code` as `exercises.R`
+5- Save this new empty script in `DataWork` &gt; `Code` as `exercises.R`
 
-6- Include `here::i_am()` at the beginning of this script:
-
-
-```r
-here::i_am("DataWork/Code/exercises.R")
-```
-
-7- Now let's test if that worked. Load the `here` library read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
+6- Now let's test if that worked. Load the `here` library read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
 
 
 ```r
@@ -374,15 +344,13 @@ name: creating-a-document-outline-in-rstudio
 
 ### Exercise 4: Headers
 
-1. In your script, add a header before the line where you used `here::i_am()` with the text: `# Part 1: Setting the project root----` (omit the quotes)
+1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
 
-2. Add the following header before `library(here)`: `# Part 2: Loading libraries----`
-
-3. Add this header before `read.csv(...)`: `Part 3: Loading data----`
+2. Add the following header before `read.csv(...)`: `Part 3: Loading data----`
 
   + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
 
-4. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
+3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
 
 ---
 
@@ -1002,7 +970,7 @@ geom_point()
 
 # Indentation
 
-&lt;img src="06-R-programming-practices_files/figure-html/unnamed-chunk-53-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-R-programming-practices_files/figure-html/unnamed-chunk-50-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
