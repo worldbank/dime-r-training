@@ -532,7 +532,7 @@ summary(log(whr$happiness_score))
 
 # Functions inception
 
-## Piping
+## Piping revisited
 
 
 ```r
@@ -599,7 +599,7 @@ name: looping
 
 # Looping
 
-## Column extraction operators
+## Column extraction operators - revisited
 
 * Remember the use of `$` to extract columns from a dataframe?
 
@@ -810,6 +810,46 @@ apply(matrix, 2, mean) # column means
 
 ---
 
+# Looping
+
+### Exercise 6: Get the row max
+
+1. Select the columns `freedom` and `happiness_score` of `whr`
+
+2. Use `apply()` to get the row max between these two columns, for every row
+
+* Hints:
+  + Remember the syntax of `apply()`: `apply(X, MARGIN, FUN)`
+  + A value of 1 for `MARGIN` indicates that the function must applied row-wise
+  + The function to get the maximum over a set of number is `max`
+
+---
+
+# Looping
+
+
+```r
+whr %&gt;%
+  select(freedom, happiness_score) %&gt;%
+  apply(1, max)
+```
+
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+
+---
+
+# Looping
+
+## Apply
+
+* Apply looks nice
+
+* But what about cases when it's impossible to implement the operations I want to apply in only one function? Do I have to use `for` loops then?
+
+* Not at all! Let's get to the next section for those cases
+
+---
+
 class: inverse, center, middle
 name: custom-functions
 
@@ -847,7 +887,7 @@ name: custom-functions
 
 # Custom functions
 
-### Exercise 6: Create a function 
+### Exercise 7: Create a function 
 
 Create a function named `zscore` that standardizes the values of a vector.
   
@@ -890,7 +930,7 @@ zscore &lt;- function(x) {
 
 # Custom functions
 
-### Exercise 7: Putting it all together!
+### Exercise 8: Putting it all together!
 
 1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
 
@@ -955,7 +995,7 @@ geom_point()
 
 # Indentation
 
-&lt;img src="06-R-programming-practices_files/figure-html/unnamed-chunk-50-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-R-programming-practices_files/figure-html/unnamed-chunk-52-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -987,7 +1027,7 @@ geom_point()
 
 # Indentation
 
-### Exercise 8: Indentation in R
+### Exercise 9: Indentation in R
 
 To see an example of how indenting works in RStudio, let's go back to our first example with `sapply()`:
 
