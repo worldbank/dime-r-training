@@ -70,15 +70,14 @@ whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 
 # Table of contents
 
-1. [Installation](#installation)
-2. [Introduction](#introduction)
-3. [Getting started](#getting-started)
-4. [Data in R](#data-in-r)
-5. [Functions](#functions)
-6. [R objects](#r-objects)
-7. [Basic types of data](#basic-types-of-data)
-8. [Advanced types of data](#advanced-types-of-data)
-9. [Appendix](#appendix)
+1. [Introduction](#introduction)
+2. [Getting started](#getting-started)
+3. [Data in R](#data-in-r)
+4. [Functions](#functions)
+5. [R objects](#r-objects)
+6. [Basic types of data](#basic-types-of-data)
+7. [Advanced types of data](#advanced-types-of-data)
+8. [Appendix](#appendix)
 
 ---
 
@@ -116,39 +115,15 @@ knitr::include_graphics("img/slack.png")
 
 ## Format
 
-- You can join our Slack workspace using [this link](https://join.slack.com/t/rforstatauser-cag9201/shared_invite/zt-odgmvvgm-AGqrRB4T8mxVOplcnRETSw)
+- You can join our Slack workspace using [this link](https://join.slack.com/t/rforstatauser-cag9201/shared_invite/zt-odgmvvgm-AGqrRB4T8mxVOplcnRETSw) *to be updated*
 
-- If you have a __general question__ feel free to unmute yourself or use the chat to ask it
+- If you have a question feel free to unmute yourself or use the chat to ask it
 
 - Please mute your microphone the rest of the time
 
 - If your connection is good enough, please leave your video on
 
 - The materials of each session will be shared in the OSF page of the course by the beginning of each session: https://osf.io/86g3b/
-
----
-
-class: inverse, center, middle
-name: installation
-
-# Installation
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-# Installation
-
-## Installation
-
-This training requires that you have R and RStudio installed in your computer:
-
-### Instructions
-
- * Please visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
-
- * If you're in the US, you can directly visit the mirror at Berkeley University at (https://cran.cnr.berkeley.edu).
-
- * To install RStudio, go to https://www.rstudio.com/. Note that you need to install R first.
 
 ---
 
@@ -1145,6 +1120,22 @@ name: appendix
 # Appendix
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+
+---
+
+# Appendix - R and RStudio Installation
+
+## Installation
+
+This training requires that you have R and RStudio installed in your computer:
+
+### Instructions
+
+* To install R, visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
+
+* To install RStudio, go to https://www.rstudio.com/. Note that you need to install R first.
+
 ---
 
 # Appendix - Help, Google and Stack Overflow
