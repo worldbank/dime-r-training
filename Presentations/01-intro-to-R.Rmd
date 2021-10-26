@@ -115,7 +115,7 @@ knitr::include_graphics("img/slack.png")
 
 ## Format
 
-- You can join our Slack workspace using [this link](https://join.slack.com/t/rforstatauser-cag9201/shared_invite/zt-odgmvvgm-AGqrRB4T8mxVOplcnRETSw) *to be updated*
+- You can join our Slack workspace using [this link](https://join.slack.com/t/rforstatauser-cag9201/shared_invite/zt-odgmvvgm-AGqrRB4T8mxVOplcnRETSw) *(to be updated)*
 
 - If you have a question feel free to unmute yourself or use the chat to ask it
 
@@ -156,17 +156,17 @@ This first session will present the basic concepts you will need to use R.
 
 1. Introduction to R
 
-2. Data processing
+2. Introduction to R programming
 
-3. Data visualization
+3. Data processing
 
-4. Descriptive analysis
+4. Data visualization
 
-5. Geospatial data
+5. Descriptive analysis
 
-6. R programming practices
+6. Geospatial data
 
-For the most recent versions of these trainings, visit the R-training GitHub repository at
+For the most recent versions of these trainings, visit the DIME-R-training GitHub repository at
 https://github.com/worldbank/dime-r-training
 
 ---
@@ -225,7 +225,7 @@ Let's start by loading the data set we'll be using:
 
 ## Exercise 1: Import data
 
-1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - April 2021` > `Data` > `whr_panel.csv`
+1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - November 2021` > `Data` > `whr_panel.csv`
 
 2. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your Rstudio version, it might be `File` > `Import Dataset` > `From CSV`
