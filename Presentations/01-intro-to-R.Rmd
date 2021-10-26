@@ -2,7 +2,7 @@
 title: "Session 1 - Introduction to R"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2021"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -168,66 +168,6 @@ This first session will present the basic concepts you will need to use R.
 
 For the most recent versions of these trainings, visit the R-training GitHub repository at
 https://github.com/worldbank/dime-r-training
-
----
-
-# Introduction
-
-## R vs Stata
-
-* R is object oriented while Stata is action oriented:
-  + Classic example: Stata's `summarize` vs R's `summary()`
-  + In Stata you declare what you want to do, while in R you usually declare the result you want to get
-
-* R needs to load non-base commands (packages) at the beginning of each session
-  + Imagine that in Stata you'd have to load a command installed with `ssc install` every time you'll use it in a new session
-
-* R is less specialized, which means more flexibility and functionalities.
-
-* R has a much broader network of users:
-  + More resources online, which makes using Google a lot easier. You'll never want to see Statalist again in your life!
-  + Development of new features and bug fixes happen faster.
-
----
-
-# Introduction
-
-## R vs Stata
-
-Some possible disadvantages of Stata:
-
-* Higher cost of entry than Stata for learning how to use R.
-
-* Stata is more specialized, which makes certain common tasks simpler. For example:
-  - Running a regression with clustered standard errors
-  - Analyzing survey data with weights
-
-* Stata has wider adoption among micro-econometricians (though R adoption is steadily increasing).
-  + Network externalities in your work environment.
-  + Development of new specialized techniques and tools could happen faster (e.g. *ietoolkit*).
-
----
-
-# Introduction
-
-## R vs Stata
-
-Here are some advantages of R:
-
-* R is a free and open source software!
-
-* It allows you to have several datasets open simultaneously.
-  + No need to use `keep`, `preserve`, `restore`
-
-* It can run complex Geographic Information System (GIS) analyses.
-
-* You can use it for web scrapping.
-
-* You can run machine learning algorithms with it.
-
-* You can create complex Markdown documents. This presentation, for example, is entirely done in R.
-
-* You can create interactive dashboards and online applications with the Shiny package.
 
 ---
 
@@ -1135,6 +1075,60 @@ This training requires that you have R and RStudio installed in your computer:
 * To install R, visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
 
 * To install RStudio, go to https://www.rstudio.com/. Note that you need to install R first.
+
+---
+
+# Appendix - R vs Stata
+
+* R is object oriented while Stata is action oriented:
+  + Classic example: Stata's `summarize` vs R's `summary()`
+  + In Stata you declare what you want to do, while in R you usually declare the result you want to get
+
+* R needs to load non-base commands (packages) at the beginning of each session
+  + Imagine that in Stata you'd have to load a command installed with `ssc install` every time you'll use it in a new session
+
+* R is less specialized, which means more flexibility and functionalities.
+
+* R has a much broader network of users:
+  + More resources online, which makes using Google a lot easier. You'll never want to see Statalist again in your life!
+  + Development of new features and bug fixes happen faster.
+
+---
+
+# Appendix - R vs Stata
+
+Some possible disadvantages of Stata:
+
+* Higher cost of entry than Stata for learning how to use R.
+
+* Stata is more specialized, which makes certain common tasks simpler. For example:
+  - Running a regression with clustered standard errors
+  - Analyzing survey data with weights
+
+* Stata has wider adoption among micro-econometricians (though R adoption is steadily increasing).
+  + Network externalities in your work environment.
+  + Development of new specialized techniques and tools could happen faster (e.g. *ietoolkit*).
+
+---
+
+# Appendix - R vs Stata
+
+Here are some advantages of R:
+
+* R is a free and open source software!
+
+* It allows you to have several datasets open simultaneously.
+  + No need to use `keep`, `preserve`, `restore`
+
+* It can run complex Geographic Information System (GIS) analyses.
+
+* You can use it for web scrapping.
+
+* You can run machine learning algorithms with it.
+
+* You can create complex Markdown documents. This presentation, for example, is entirely done in R.
+
+* You can create interactive dashboards and online applications with the Shiny package.
 
 ---
 
