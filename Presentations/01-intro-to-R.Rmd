@@ -1349,5 +1349,5 @@ pagedown::chrome_print("01-intro-to-R.html", output = "01-intro-to-R.pdf")
 
 # or
 source("https://git.io/xaringan2pdf")
-xaringan_to_pdf("01-intro-to-R.html")
+xaringan_to_pdf("Presentations/01-intro-to-R.html")
 ```
