@@ -775,7 +775,21 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Map
 
-* `map()` looks nice
+### Exercise 6: Get the column max
+
+1. Select the columns `freedom` and `happiness_score` of `whr`
+2. Use `map()` to get the maximum value of these columns
+
+- Hints:
+
+  + Remember the syntax of `map()`: `map(X, function)`. You can also try using pipes here
+  + The function to get the maximum over a set of numbers is `max` 
+
+---
+
+# Map
+
+* `map()` looks nice, doesn't it?
 
 * But what about cases when it's impossible to implement the operations I want to apply in only one function? Do I have to use `for` loops then?
 
@@ -821,7 +835,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Custom functions
 
-### Exercise 6: Create a function 
+### Exercise 7: Create a function 
 
 Create a function named `zscore` that standardizes the values of a vector.
   
@@ -864,7 +878,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Custom functions
 
-### Exercise 7: Custom functions and `map()` together
+### Exercise 8: Custom functions and `map()` together
 
 1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
 
