@@ -1,5 +1,5 @@
 ---
-title: "Session 6: R Programming Practices"
+title: "Session 2: Introduction to R Programming"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2021"
@@ -73,13 +73,14 @@ whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 1. [Introduction](#introduction)
 2. [Initial settings](#initial-settings)
 3. [File paths](#file-paths)
-6. [Creating a document outline in RStudio](#creating-a-document-outline-in-rstudio)
-7. [Using packages](#using-packages)
-8. [Functions inception](#functions-inception)
-9. [Looping](#looping)
-10. [Custom functions](#custom-functions)
-11. [Indentation](#indentation)
-12. [Appendix](#appendix)
+4. [Exploring a dataset](#exploring-a-dataset)
+5. [Creating a document outline in RStudio](#creating-a-document-outline-in-rstudio)
+6. [Using packages](#using-packages)
+7. [Functions inception](#functions-inception)
+8. [Mapping and iterations](#mapping-and-iterations)
+9. [Custom functions](#custom-functions)
+10. [Indentation](#indentation)
+11. [Appendix](#appendix)
 
 ---
 
@@ -96,7 +97,7 @@ name: introduction
 
 ## What this session is about
 
-* In the previous sessions, you learned how to work with R
+* In the first session, you learned how to work with R
 
 * You are probably eager to start programming in R by now
 
@@ -353,6 +354,49 @@ knitr::include_graphics("img/environment_2021.png")
 ---
 
 class: inverse, center, middle
+name: creating-a-document-outline-in-rstudio
+
+# Creating a document outline in RStudio
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Document outline
+
+* RStudio allows you to __create an interactive index__ for your scripts
+
+* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
+
+---
+
+# Document outline
+
+### Exercise 4: Setion headers
+
+1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
+
+2. Add the following header before `read.csv(...)`: `Part 2: Loading data----`
+
+  + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
+
+3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
+
+---
+
+# Document outline
+
+* The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
+
+* You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
+
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/document-outline.png")
+```
+
+---
+
+class: inverse, center, middle
 name: exploring-a-dataset
 
 # Exploring a dataset
@@ -380,30 +424,6 @@ Some useful functions:
 * **`head()`:** shows the first few observations in the dataset
 
 * **`tail()`:** shows the last few observations in the dataset
-
----
-
-# Exploring a dataset
-
-### Exercise 5: Explore a dataset
-
-Use some of these functions to explore the `whr` data set.
-
-* `View()`
-
-* `class()`
-
-* `dim()`
-
-* `names()`
-
-* `str()`
-
-* `summary()`
-
-* `head()`
-
-* `tail()`
 
 ---
 
@@ -528,17 +548,15 @@ install.packages("tidyverse",
 
 # Using packages
 
-## Packages
+### Exercise 5: Loading the tidyverse
 
-### Exercise 5
-
-Add:
+- Load the tidyverse packages in part 1 of your script
 
 ```{r, eval = F}
   library(tidyverse)
 ```
 
-to your script and run it
+- Run your script
 
 ---
 
@@ -678,7 +696,7 @@ Just remember:
 ---
 
 class: inverse, center, middle
-name: mapping-iterations
+name: mapping-and-iterations
 
 # Mapping and iterations
 
@@ -803,11 +821,11 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Custom functions
 
-### Exercise 7: Create a function 
+### Exercise 6: Create a function 
 
 Create a function named `zscore` that standardizes the values of a vector.
   
-* Recall the outline of functions in R:
+* Recall the syntax of functions in R:
   
 ```{r eval=F}
 function_name <- function(input) {
@@ -846,7 +864,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Custom functions
 
-### Exercise 8: Putting it all together!
+### Exercise 7: Custom functions and `map()` together
 
 1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
 
@@ -873,45 +891,11 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ---
 
 class: inverse, center, middle
-name: creating-a-document-outline-in-rstudio
+name: indentation
 
-# Coding style
+# Indentation
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Document outline
-
-* RStudio allows you to __create an interactive index__ for your scripts
-
-* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
-
----
-
-# Document outline
-
-### Exercise 4: Headers
-
-1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
-
-2. Add the following header before `read.csv(...)`: `Part 2: Loading data----`
-
-  + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
-
-3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
-
----
-
-# Document outline
-
-* The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
-
-* You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
-
-```{r echo = FALSE, out.width = "65%"}
-knitr::include_graphics("img/document-outline.png")
-```
 
 ---
 
@@ -991,13 +975,13 @@ geom_point()
 
 # Indentation
 
-### Exercise 9: Indentation in R
+### Exercise 8: Indentation in R
 
-To see an example of how indenting works in RStudio, let's go back to our first example with `sapply()`:
+To see an example of how indenting works in RStudio, let's use an example with `map()`:
 
 ```{r, eval = F}
-# A much more elegant loop in R
-sapply(c(1.2,2.5), round)
+# An elegant "loop" in R
+map(c(1.2, 2.5, 9.1, 5.8), round)
 ```
 
 1. Add a line between the two arguments of the function (the vector of numbers and `round`)
@@ -1012,9 +996,11 @@ Note that RStudio formats the different arguments of the function differently:
 
 ```{r, eval = F}
 # A much more elegant loop in R
-sapply(c(1.2,
-         2.5),
-       round)
+map(c(1.2,
+      2.5,
+      9.1,
+      5.8),
+    round)
 ```
 
 ---
@@ -1251,7 +1237,7 @@ print("This part is not a comment") # And this is a comment
 
 ---
 
-# Appendix - Commenting
+# Appendix - Assignment 3
 
 ### Exercise: Commenting
 
@@ -1430,9 +1416,9 @@ apply(matrix, 2, mean) # column means
 
 ---
 
-# Appendix - Apply
+# Appendix - Assignment 4
 
-### Exercise 6: Get the row max
+### Exercise: Get the row max
 
 1. Select the columns `freedom` and `happiness_score` of `whr`
 
