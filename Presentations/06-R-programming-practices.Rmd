@@ -2,7 +2,7 @@
 title: "Session 6: R Programming Practices"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2021"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2021"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -320,7 +320,7 @@ df <- read.csv(here("data", "raw", "data-file.csv"))
 
 ### Exercise 3: Combining `here` and RStudio projects
 
-1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - April 2021` > `Data` > `DataWork.zip`
+1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - November 2021` > `Data` > `DataWork.zip`
 
 2. Unzip the file in your RStudio project root folder
 
@@ -331,7 +331,7 @@ df <- read.csv(here("data", "raw", "data-file.csv"))
 
 4. Save this new empty script in `DataWork` > `Code` as `exercises.R`
 
-5. Now let's test if that worked. Load the `here` library read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
+5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
 
 ```{r, eval=FALSE}
 library(here)
@@ -349,51 +349,6 @@ If you did the exercise correctly, you should see the `whr` data frame listed in
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/environment_2021.png")
 ```
-
----
-
-class: inverse, center, middle
-name: creating-a-document-outline-in-rstudio
-
-# Creating a document outline in RStudio
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Creating a document outline in RStudio
-
-* RStudio also allows you to __create an interactive index__ for your scripts
-
-* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
-
----
-
-# Creating a document outline in RStudio
-
-### Exercise 4: Headers
-
-1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
-
-2. Add the following header before `read.csv(...)`: `Part 2: Loading data----`
-
-  + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
-
-3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
-
----
-
-# Creating a document outline in RStudio
-
-* The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
-
-* You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
-
-```{r echo = FALSE, out.width = "65%"}
-knitr::include_graphics("img/document-outline.png")
-```
-
----
 
 class: inverse, center, middle
 name: using-packages
@@ -975,15 +930,49 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ---
 
 class: inverse, center, middle
-name: indentation
+name: creating-a-document-outline-in-rstudio
 
-# Indentation
+# Coding style
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Indentation
+# Coding style - Document outline
+
+* RStudio allows you to __create an interactive index__ for your scripts
+
+* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
+
+---
+
+# Coding style - Document outline
+
+### Exercise 4: Headers
+
+1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
+
+2. Add the following header before `read.csv(...)`: `Part 2: Loading data----`
+
+  + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
+
+3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
+
+---
+
+# Coding style - Document outline
+
+* The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
+
+* You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
+
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/document-outline.png")
+```
+
+---
+
+# Coding style - Indentation
 
 ```{r, eval = F}
 # Here's some code
@@ -1012,7 +1001,7 @@ geom_point()
 
 ---
 
-# Indentation
+# Coding style - Indentation
 
 ```{r, eval = T, echo = F, out.width = "60%"}
 annualHappy_reg <-
@@ -1031,7 +1020,7 @@ geom_point()
 
 ---
 
-# Indentation
+# Coding style - Indentation
 
 ## Why indent?
 
@@ -1041,7 +1030,7 @@ geom_point()
 
 ---
 
-# Indentation
+# Coding style - Indentation
 
 ## Why indent?
 
@@ -1057,7 +1046,7 @@ geom_point()
 
 ---
 
-# Indentation
+# Coding style - Indentation
 
 ### Exercise 9: Indentation in R
 
@@ -1074,7 +1063,7 @@ sapply(c(1.2,2.5), round)
 
 ---
 
-# Indentation
+# Coding style - Indentation
 
 Note that RStudio formats the different arguments of the function differently:
 
