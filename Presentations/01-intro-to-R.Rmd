@@ -115,7 +115,7 @@ knitr::include_graphics("img/slack.png")
 
 ## Format
 
-- You can join our Slack workspace using [this link](https://join.slack.com/t/rforstatauser-cag9201/shared_invite/zt-odgmvvgm-AGqrRB4T8mxVOplcnRETSw) *(to be updated)*
+- You can join our Slack workspace using [this link](https://join.slack.com/t/worldbank-network/shared_invite/zt-xxcai60m-7_E_oBFFQe1tzrSCTNmEmQ)
 
 - If you have a question feel free to unmute yourself or use the chat to ask it
 
