@@ -464,7 +464,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Exploring a dataset
 
-```{r, eval = F}}
+```{r, eval = F}
 # Printing the first rows of a dataframe
 head(whr)
 ```
@@ -686,9 +686,78 @@ name: mapping-iterations
 
 ---
 
-# Mapping
+# Iterations in R
 
-* Apply looks nice
+* In Stata, we use `for` loops very frequently
+
+* R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
+
+* For the purpose of this training, we will use `map()`. It is a function part of the tidyverse set of packages
+
+* We won't be covering loops in the main content of this session, but you can check the Annex of this presentation to learn how to write loops in R
+
+---
+
+# Map
+
+* `map()` is part of the tidyverse setof packages. You need to either load the library `tidyverse` or `purrr` to enable it
+
+* The basic syntax of `map()` is:
+
+```{r, eval=FALSE}
+map(X, function, ...)
+```
+
+* Its main arguments are:
+
+  + **X:** a data frame, matrix or vector the function will be applied to
+  + **function:** the function you want to apply to each of the elements of `X`
+  
+* `map()` applies the function to each of the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
+
+* The output of `map()` is always a vector with the results
+
+---
+
+# Map
+
+```{r, eval=FALSE}
+# Round the values of the following vector
+
+## Vector
+x <- c(1.2, 2.5, 9.1, 5.8)
+
+## Rounding the vector elements
+x %>% map(round)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Map vs looping
+
+* When looping, you repeat the same operation over a set of items
+
+* `map()`, instead, takes all your elements at once and applies an operation to them simultaneously
+
+* The difference is like this:
+
+  + Imagine you ask a yes/no question to a group of people
+  + You can collect the answers by asking each one of them individually -- __this is looping__
+  + Otherwise, you can ask them to raise their hands and collect all answers at once -- __this is `map()`__
+
+* The output of a loop is the regular output of the operation you're repeating, times the number of iterations you did
+
+* The output of `map()` will be always a list
+
+---
+
+# Map
+
+* `map()` looks nice
 
 * But what about cases when it's impossible to implement the operations I want to apply in only one function? Do I have to use `for` loops then?
 
@@ -781,11 +850,11 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
 
-2. Use `sapply()` combined with the `zscore` function to get the z-score of these two columns
+2. Use `map()` combined with the `zscore` function to get the z-score of these two columns
   
-+ Hint:
++ Hints:
   * Use the pipes (`%>%`) successively
-  * Remember that we don't use parenthesis next to the function name we're using `sapply()` with
+  * Remember that we don't use parenthesis next to the function name we're using `map()` with
 
 ---
 
@@ -794,7 +863,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```{r, eval=FALSE}
 whr %>%
   select(health_life_expectancy, freedom) %>%
-  sapply(zscore)
+  map(zscore)
 ```
 
 ```{r echo=FALSE}
@@ -1193,18 +1262,6 @@ print("This part is not a comment") # And this is a comment
 
 3. Use the keyboard shortcut to comment these lines again. What happened?
 
-
----
-exclude: true
-
-```{R, pdfs, include = F, eval = F}
-pagedown::chrome_print("06-R-programming-practices.html", output = "06-R-programming-practices.pdf")
-
-# or
-source("https://git.io/xaringan2pdf")
-xaringan_to_pdf("06-R-programming-practices.html")
-```
-
 ---
 
 # Appendix - Looping
@@ -1213,7 +1270,7 @@ xaringan_to_pdf("06-R-programming-practices.html")
 
 * In Stata, we use `for` loops very frequently
 
-* The equivalent to that in R would be to write a `for` loop like this
+* The equivalent to that in R would be this
 
 ```{r, eval = F}
     # A for loop in R
@@ -1226,21 +1283,7 @@ xaringan_to_pdf("06-R-programming-practices.html")
 
 # Appendix - Looping
 
-```{r, eval = F}
-    for (number in 1:5) {
-        print(number)
-    }
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# Appendix - Looping
-
-## Other column extraction operators
+## Column extraction operators
 
 * Remember the use of `$` to extract columns from a dataframe?
 
@@ -1299,15 +1342,13 @@ for (col in colnames(whr)) {
 
 ## Apply
 
-* Using `[[]]` to loop through columns works very similar to how we usually use `for` loops in Stata
-
-* R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
+* Apart from tidyverse's `map()`, base R also has a set of functions that allows users to apply a function to a number of objects without using explicit loops
 
 * They're called `apply` and there are many of them, with different use cases
 
 * If you look for the `apply` help file, you can see all of them
 
-* For the purpose of this training, we will only use two of them, `sapply` and `apply`
+* We'll show only two of them, `sapply` and `apply`
 
 ---
 
@@ -1330,8 +1371,6 @@ sapply(X, FUN, ...)
 
 * The output of `sapply()` is usually a vector with the results, but it can be a matrix if the results have more than one dimension
 
-
-
 ---
 
 # Appendix - Apply
@@ -1346,10 +1385,6 @@ sapply(X, FUN, ...)
     sapply(c(1.2, 2.5), round)
 ```
 
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
 ---
 
 # Appendix - Apply
@@ -1362,30 +1397,6 @@ for (col in names(whr)) {
 
 sapply(whr, head, 1) # A more elegant and efficient option
 ```
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# Appendix - Apply
-
-## Loops vs Apply
-
-* When looping, you repeat the same operation over a set of items
-
-* `apply()`, instead, takes all your elements at once and applies an operation to them simultaneously
-
-* The difference is like this:
-
-  + Imagine you ask a yes/no question to a group of people
-  + You can collect the answers by asking each one of them individually -- __this is looping__
-  + Otherwise, you can ask them to raise their hands and collect all answers at once -- __this is `apply()`__
-
-* The output of a loop is the regular output of the operation you're repeating, times the number of iterations you did
-
-* The output of `apply()` will be a vector most of times, but it can also be a list or an array of elements (a matrix)
 
 ---
 
@@ -1417,10 +1428,6 @@ apply(matrix, 1, mean) # row means
 apply(matrix, 2, mean) # column means
 ```
 
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
 ---
 
 # Appendix - Apply
@@ -1446,6 +1453,13 @@ whr %>%
   apply(1, max)
 ```
 
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("06-R-programming-practices.html", output = "06-R-programming-practices.pdf")
+
+# or
+source("https://git.io/xaringan2pdf")
+xaringan_to_pdf("06-R-programming-practices.html")
 ```
