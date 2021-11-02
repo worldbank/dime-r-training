@@ -425,6 +425,7 @@ knitr::include_graphics("img/whr_viewer.png")
 # Exploring a dataset
 
 ```{r, eval = F}
+# Object type and dimensions
 class(whr)
 dim(whr)
 ```
@@ -435,7 +436,10 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
+# Exploring a dataset
+
 ```{r, eval = F}
+# Object structure
 str(whr)
 ```
 
@@ -447,7 +451,8 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Exploring a dataset
 
-```{r}
+```{r, eval = F}
+# Summarize a dataframe
 summary(whr)
 ```
 
@@ -459,7 +464,8 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Exploring a dataset
 
-```{r}
+```{r, eval = F}}
+# Printing the first rows of a dataframe
 head(whr)
 ```
 
@@ -633,13 +639,13 @@ knitr::include_graphics("img/statalog.png")
 
 # Functions inception  
 
-## Piping revisited
+## Piping
 
-* Remember piping? This: `%>%`
+* Ever heard of piping? It's this: `%>%`
 
-* Well, piping is actually a way of doing metaprogramming
+* Piping is a way of doing metaprogramming
 
-* Recall that the meaning of the pipes is: *Pipes take the __output__ of the function at the left and pass it as the __input__ of the function at the right*
+* The meaning of the pipes is: *Pipes take the __output__ of the function at the left and pass it as the __input__ of the function at the right*
 
 * The advantages of using piping is that it allows to have a cleaner division of successively applied functions in R code, __drastically improving code readability__
 
@@ -647,7 +653,7 @@ knitr::include_graphics("img/statalog.png")
 
 # Functions inception
 
-## Piping revisited
+## Piping
 
 ```{r, eval = F}
   # 1: Doing it the long way -----------------------------
@@ -672,263 +678,15 @@ Just remember:
 ---
 
 class: inverse, center, middle
-name: looping
+name: mapping-iterations
 
-# Looping
+# Mapping and iterations
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Looping
-
-## Loops
-
-* In Stata, we use `for` loops very frequently
-
-* The equivalent to that in R would be to write a `for` loop like this
-
-```{r, eval = F}
-    # A for loop in R
-    for (number in 1:5) {
-        print(number)
-    }
-```
-
----
-
-# Looping
-
-```{r, eval = F}
-    for (number in 1:5) {
-        print(number)
-    }
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# Looping
-
-## Column extraction operators - revisited
-
-* Remember the use of `$` to extract columns from a dataframe?
-
-* Other than `$`, we can also use double brackets to extract the column of a dataframe:
-
-```{r, eval=FALSE}
-# With $:
-whr$year
-```
-
-```{r, eval=FALSE}
-# With [[]]:
-whr[["year"]] # Notice the use of double quotes
-```
-
----
-
-# Looping
-
-## Column extraction operators: `[[]]` vs `$`
-
-What's the key difference between them?
-
-Well, `[[]]` lets us use other objects to refer to column names, while `$` doesn't
-
-```{r}
-col_name <- "year"
-head(whr$col_name) # this returns a NULL object because no column has the name "col_name" in whr
-```
-
-```{r}
-col_name <- "year"
-head(whr[[col_name]])
-```
-
----
-
-# Looping
-
-## Column extraction operators: `[[]]` vs `$`
-
-This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
-
-```{r}
-# Printing the first observation of every column of whr
-for (col in colnames(whr)) {
-  whr[[col]] %>%
-    head(1) %>%
-    print()
-}
-```
-
----
-
-# Looping
-
-## Apply
-
-* Using `[[]]` to loop through columns works very similar to how we usually use `for` loops in Stata
-
-* R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
-
-* They're called `apply` and there are many of them, with different use cases
-
-* If you look for the `apply` help file, you can see all of them
-
-* For the purpose of this training, we will only use two of them, `sapply` and `apply`
-
----
-
-# Looping
-
-## Apply
-
-* The syntax of `sapply()` is:
-
-```{r, eval=FALSE}
-sapply(X, FUN, ...)
-```
-
-* Its main arguments are:
-
-  + **X:** a data frame, matrix or vector the function will be applied to
-  + **FUN:** the function you want to apply
-
-* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
-
-* The output of `sapply()` is usually a vector with the results, but it can be a matrix if the results have more than one dimension
-
-
-
----
-
-# Looping
-
-```{r, eval=FALSE}
-    # A for loop in R
-    for (number in c(1.2, 2.5)) {
-      print(round(number))
-    }
-
-    # A much more elegant option
-    sapply(c(1.2, 2.5), round)
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# Looping
-
-```{r, eval=FALSE}
-# Printing the first observation of every column of whr
-for (col in names(whr)) {
-  print(head(whr[[col]], 1))
-} # Option 1
-
-sapply(whr, head, 1) # A more elegant and efficient option
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# Looping
-
-## Loops vs Apply
-
-* When looping, you repeat the same operation over a set of items
-
-* `apply()`, instead, takes all your elements at once and applies an operation to them simultaneously
-
-* The difference is like this:
-
-  + Imagine you ask a yes/no question to a group of people
-  + You can collect the answers by asking each one of them individually -- __this is looping__
-  + Otherwise, you can ask them to raise their hands and collect all answers at once -- __this is `apply()`__
-
-* The output of a loop is the regular output of the operation you're repeating, times the number of iterations you did
-
-* The output of `apply()` will be a vector most of times, but it can also be a list or an array of elements (a matrix)
-
----
-
-# Looping
-
-## Apply
-
-* A more general version of `sapply()` is the `apply()` function. This is its syntax:
-
-```{r, eval=FALSE}
-apply(X, MARGIN, FUN, ...)
-```
-
-* Arguments:
-
-  + **X:** a data frame (or matrix) the function will be applied to
-  + **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
-  + **FUN:** the function you want to apply
-
-* `apply()` applies a function (`FUN`) to all columns or rows of matrix (`X`). A value of 1 in `MARGIN` indicates that the funcion should be applied row-wise, while 2 indicates columns
-
----
-
-# Looping
-
-
-```{r, eval = FALSE}
-matrix <- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2), nrow = 3) # Defining a matrix
-apply(matrix, 1, mean) # row means
-apply(matrix, 2, mean) # column means
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# Looping
-
-### Exercise 6: Get the row max
-
-1. Select the columns `freedom` and `happiness_score` of `whr`
-
-2. Use `apply()` to get the row max between these two columns, for every row
-
-* Hints:
-  + Remember the syntax of `apply()`: `apply(X, MARGIN, FUN)`
-  + A value of 1 for `MARGIN` indicates that the function must applied row-wise
-  + The function to get the maximum over a set of number is `max`
-
----
-
-# Looping
-
-```{r, eval=FALSE}
-whr %>%
-  select(freedom, happiness_score) %>%
-  apply(1, max)
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# Looping
-
-## Apply
+# Mapping
 
 * Apply looks nice
 
@@ -1054,7 +812,7 @@ name: creating-a-document-outline-in-rstudio
 
 ---
 
-# Coding style - Document outline
+# Document outline
 
 * RStudio allows you to __create an interactive index__ for your scripts
 
@@ -1062,7 +820,7 @@ name: creating-a-document-outline-in-rstudio
 
 ---
 
-# Coding style - Document outline
+# Document outline
 
 ### Exercise 4: Headers
 
@@ -1076,7 +834,7 @@ name: creating-a-document-outline-in-rstudio
 
 ---
 
-# Coding style - Document outline
+# Document outline
 
 * The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
 
@@ -1088,7 +846,7 @@ knitr::include_graphics("img/document-outline.png")
 
 ---
 
-# Coding style - Indentation
+# Indentation
 
 ```{r, eval = F}
 # Here's some code
@@ -1117,7 +875,7 @@ geom_point()
 
 ---
 
-# Coding style - Indentation
+# Indentation
 
 ```{r, eval = T, echo = F, out.width = "60%"}
 annualHappy_reg <-
@@ -1136,7 +894,7 @@ geom_point()
 
 ---
 
-# Coding style - Indentation
+# Indentation
 
 ## Why indent?
 
@@ -1146,7 +904,7 @@ geom_point()
 
 ---
 
-# Coding style - Indentation
+# Indentation
 
 ## Why indent?
 
@@ -1162,7 +920,7 @@ geom_point()
 
 ---
 
-# Coding style - Indentation
+# Indentation
 
 ### Exercise 9: Indentation in R
 
@@ -1179,7 +937,7 @@ sapply(c(1.2,2.5), round)
 
 ---
 
-# Coding style - Indentation
+# Indentation
 
 Note that RStudio formats the different arguments of the function differently:
 
@@ -1355,7 +1113,7 @@ Possible variations would include
 
 ## Using packages
 
-Once a package is loaded, you can use its features and functions. Here's a list of some useful and cool packages:
+Once a package is loaded, you can use its features and functions. Here's a list of some useful packages:
 
 * `Rcmdr` - easy to use GUI
 * `swirl` - an interactive learning environment for R and statistics.
@@ -1445,4 +1203,249 @@ pagedown::chrome_print("06-R-programming-practices.html", output = "06-R-program
 # or
 source("https://git.io/xaringan2pdf")
 xaringan_to_pdf("06-R-programming-practices.html")
+```
+
+---
+
+# Appendix - Looping
+
+## Loops
+
+* In Stata, we use `for` loops very frequently
+
+* The equivalent to that in R would be to write a `for` loop like this
+
+```{r, eval = F}
+    # A for loop in R
+    for (number in 1:5) {
+        print(number)
+    }
+```
+
+---
+
+# Appendix - Looping
+
+```{r, eval = F}
+    for (number in 1:5) {
+        print(number)
+    }
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Appendix - Looping
+
+## Other column extraction operators
+
+* Remember the use of `$` to extract columns from a dataframe?
+
+* Other than `$`, we can also use double brackets to extract the column of a dataframe:
+
+```{r, eval=FALSE}
+# With $:
+whr$year
+```
+
+```{r, eval=FALSE}
+# With [[]]:
+whr[["year"]] # Notice the use of double quotes
+```
+
+---
+
+# Appendix - Looping
+
+## Column extraction operators: `[[]]` vs `$`
+
+What's the key difference between them?
+
+Well, `[[]]` lets us use other objects to refer to column names, while `$` doesn't
+
+```{r}
+col_name <- "year"
+head(whr$col_name) # this returns a NULL object because no column has the name "col_name" in whr
+```
+
+```{r}
+col_name <- "year"
+head(whr[[col_name]])
+```
+
+---
+
+# Appendix - Looping
+
+## Column extraction operators: `[[]]` vs `$`
+
+This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
+
+```{r}
+# Printing the first observation of every column of whr
+for (col in colnames(whr)) {
+  whr[[col]] %>%
+    head(1) %>%
+    print()
+}
+```
+
+---
+
+# Appendix - Apply
+
+## Apply
+
+* Using `[[]]` to loop through columns works very similar to how we usually use `for` loops in Stata
+
+* R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
+
+* They're called `apply` and there are many of them, with different use cases
+
+* If you look for the `apply` help file, you can see all of them
+
+* For the purpose of this training, we will only use two of them, `sapply` and `apply`
+
+---
+
+# Appendix - Apply
+
+## Apply
+
+* The syntax of `sapply()` is:
+
+```{r, eval=FALSE}
+sapply(X, FUN, ...)
+```
+
+* Its main arguments are:
+
+  + **X:** a data frame, matrix or vector the function will be applied to
+  + **FUN:** the function you want to apply
+
+* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
+
+* The output of `sapply()` is usually a vector with the results, but it can be a matrix if the results have more than one dimension
+
+
+
+---
+
+# Appendix - Apply
+
+```{r, eval=FALSE}
+    # A for loop in R
+    for (number in c(1.2, 2.5)) {
+      print(round(number))
+    }
+
+    # A much more elegant option
+    sapply(c(1.2, 2.5), round)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Appendix - Apply
+
+```{r, eval=FALSE}
+# Printing the first observation of every column of whr
+for (col in names(whr)) {
+  print(head(whr[[col]], 1))
+} # Option 1
+
+sapply(whr, head, 1) # A more elegant and efficient option
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Appendix - Apply
+
+## Loops vs Apply
+
+* When looping, you repeat the same operation over a set of items
+
+* `apply()`, instead, takes all your elements at once and applies an operation to them simultaneously
+
+* The difference is like this:
+
+  + Imagine you ask a yes/no question to a group of people
+  + You can collect the answers by asking each one of them individually -- __this is looping__
+  + Otherwise, you can ask them to raise their hands and collect all answers at once -- __this is `apply()`__
+
+* The output of a loop is the regular output of the operation you're repeating, times the number of iterations you did
+
+* The output of `apply()` will be a vector most of times, but it can also be a list or an array of elements (a matrix)
+
+---
+
+# Appendix - Apply
+
+## Apply
+
+* A more general version of `sapply()` is the `apply()` function. This is its syntax:
+
+```{r, eval=FALSE}
+apply(X, MARGIN, FUN, ...)
+```
+
+* Arguments:
+
+  + **X:** a data frame (or matrix) the function will be applied to
+  + **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
+  + **FUN:** the function you want to apply
+
+* `apply()` applies a function (`FUN`) to all columns or rows of matrix (`X`). A value of 1 in `MARGIN` indicates that the funcion should be applied row-wise, while 2 indicates columns
+
+---
+
+# Appendix - Apply
+
+```{r, eval = FALSE}
+matrix <- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2), nrow = 3) # Defining a matrix
+apply(matrix, 1, mean) # row means
+apply(matrix, 2, mean) # column means
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Appendix - Apply
+
+### Exercise 6: Get the row max
+
+1. Select the columns `freedom` and `happiness_score` of `whr`
+
+2. Use `apply()` to get the row max between these two columns, for every row
+
+* Hints:
+  + Remember the syntax of `apply()`: `apply(X, MARGIN, FUN)`
+  + A value of 1 for `MARGIN` indicates that the function must applied row-wise
+  + The function to get the maximum over a set of number is `max`
+
+---
+
+# Appendix - Apply
+
+```{r, eval=FALSE}
+whr %>%
+  select(freedom, happiness_score) %>%
+  apply(1, max)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
