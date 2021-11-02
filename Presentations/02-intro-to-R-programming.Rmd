@@ -24,7 +24,7 @@ library(fontawesome)
 library(xaringanExtra)
 library(here)
 
-here::i_am("Presentations/06-R-programming-practices.Rmd")
+here::i_am("Presentations/02-intro-to-R-programming.Rmd")
 
 options(htmltools.dir.version = FALSE)
 opts_chunk$set(
@@ -350,6 +350,125 @@ If you did the exercise correctly, you should see the `whr` data frame listed in
 knitr::include_graphics("img/environment_2021.png")
 ```
 
+---
+
+class: inverse, center, middle
+name: exploring-a-dataset
+
+# Exploring a dataset
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Exploring a dataset
+
+Some useful functions:
+
+* **`View()`:** opens the data set
+
+* **`class()`:** reports object type or type of data stored
+
+* **`dim()`:** reports the size of each one of an object's dimension
+
+* **`names()`:** returns the variable names of a data set
+
+* **`str()`:** general information about the structure of an R object
+
+* **`summary()`:** summary information about the variables in a data frame
+
+* **`head()`:** shows the first few observations in the dataset
+
+* **`tail()`:** shows the last few observations in the dataset
+
+---
+
+# Exploring a dataset
+
+### Exercise 5: Explore a dataset
+
+Use some of these functions to explore the `whr` data set.
+
+* `View()`
+
+* `class()`
+
+* `dim()`
+
+* `names()`
+
+* `str()`
+
+* `summary()`
+
+* `head()`
+
+* `tail()`
+
+---
+
+# Exploring a dataset
+
+```{r, eval = F}
+# View the data set (notice the uppercase "V")
+View(whr)
+```
+
+This is the same as clicking on the object name in the environment panel. It opens a spreadsheet-style data viewer of a dataframe.
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/whr_viewer.png")
+```
+
+---
+
+# Exploring a dataset
+
+```{r, eval = F}
+class(whr)
+dim(whr)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+```{r, eval = F}
+str(whr)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Exploring a dataset
+
+```{r}
+summary(whr)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Exploring a dataset
+
+```{r}
+head(whr)
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
 class: inverse, center, middle
 name: using-packages
 
@@ -397,7 +516,7 @@ install.packages("tidyverse",
 # that it may depend upon to run
 ```
 
-* You only have to install a package once, but you have to __load it every new session__.
+* You only have to install a package once, but you have to __load them every new session__.
 
 ---
 
@@ -413,7 +532,7 @@ Add:
   library(tidyverse)
 ```
 
-to Part 2 in your script and run it
+to your script and run it
 
 ---
 
@@ -497,6 +616,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```{r echo = FALSE, out.width = "50%"}
 knitr::include_graphics("img/statalog.png")
 ```
+
 ---
 
 # Functions inception
@@ -508,10 +628,6 @@ knitr::include_graphics("img/statalog.png")
 * It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
 
 * It can also get quite tricky to follow what a line of code with multiple functions inceptions is doing
-
-```{r, eval=FALSE}
-
-```
 
 ---
 
