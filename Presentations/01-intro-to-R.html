@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 # Session 1 - Introduction to R
 ## R for Stata Users
 ### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> April 2021
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> November 2021
 
 ---
 
@@ -47,15 +47,14 @@ class: center, middle, inverse, title-slide
 
 # Table of contents
 
-1. [Installation](#installation)
-2. [Introduction](#introduction)
-3. [Getting started](#getting-started)
-4. [Data in R](#data-in-r)
-5. [Functions](#functions)
-6. [R objects](#r-objects)
-7. [Basic types of data](#basic-types-of-data)
-8. [Advanced types of data](#advanced-types-of-data)
-9. [Appendix](#appendix)
+1. [Introduction](#introduction)
+2. [Getting started](#getting-started)
+3. [Data in R](#data-in-r)
+4. [Functions](#functions)
+5. [R objects](#r-objects)
+6. [Basic types of data](#basic-types-of-data)
+7. [Advanced types of data](#advanced-types-of-data)
+8. [Appendix](#appendix)
 
 ---
 
@@ -91,39 +90,15 @@ We're glad you're joining us today!
 
 ## Format
 
-- You can join our Slack workspace using [this link](https://join.slack.com/t/rforstatauser-cag9201/shared_invite/zt-odgmvvgm-AGqrRB4T8mxVOplcnRETSw)
+- You can join our Slack workspace using [this link](https://join.slack.com/t/worldbank-network/shared_invite/zt-xxcai60m-7_E_oBFFQe1tzrSCTNmEmQ)
 
-- If you have a __general question__ feel free to unmute yourself or use the chat to ask it
+- If you have a question feel free to unmute yourself or use the chat to ask it
 
 - Please mute your microphone the rest of the time
 
 - If your connection is good enough, please leave your video on
 
 - The materials of each session will be shared in the OSF page of the course by the beginning of each session: https://osf.io/86g3b/
-
----
-
-class: inverse, center, middle
-name: installation
-
-# Installation
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-# Installation
-
-## Installation
-
-This training requires that you have R and RStudio installed in your computer:
-
-### Instructions
-
- * Please visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
-
- * If you're in the US, you can directly visit the mirror at Berkeley University at (https://cran.cnr.berkeley.edu).
-
- * To install RStudio, go to https://www.rstudio.com/. Note that you need to install R first.
 
 ---
 
@@ -156,78 +131,18 @@ This first session will present the basic concepts you will need to use R.
 
 1. Introduction to R
 
-2. Data processing
+2. Introduction to R programming
 
-3. Data visualization
+3. Data processing
 
-4. Descriptive analysis
+4. Data visualization
 
-5. Geospatial data
+5. Descriptive analysis
 
-6. R programming practices
+6. Geospatial data
 
-For the most recent versions of these trainings, visit the R-training GitHub repository at
+For the most recent versions of these trainings, visit the DIME-R-training GitHub repository at
 https://github.com/worldbank/dime-r-training
-
----
-
-# Introduction
-
-## R vs Stata
-
-* R is object oriented while Stata is action oriented:
-  + Classic example: Stata's `summarize` vs R's `summary()`
-  + In Stata you declare what you want to do, while in R you usually declare the result you want to get
-
-* R needs to load non-base commands (packages) at the beginning of each session
-  + Imagine that in Stata you'd have to load a command installed with `ssc install` every time you'll use it in a new session
-
-* R is less specialized, which means more flexibility and functionalities.
-
-* R has a much broader network of users:
-  + More resources online, which makes using Google a lot easier. You'll never want to see Statalist again in your life!
-  + Development of new features and bug fixes happen faster.
-
----
-
-# Introduction
-
-## R vs Stata
-
-Some possible disadvantages of Stata:
-
-* Higher cost of entry than Stata for learning how to use R.
-
-* Stata is more specialized, which makes certain common tasks simpler. For example:
-  - Running a regression with clustered standard errors
-  - Analyzing survey data with weights
-
-* Stata has wider adoption among micro-econometricians (though R adoption is steadily increasing).
-  + Network externalities in your work environment.
-  + Development of new specialized techniques and tools could happen faster (e.g. *ietoolkit*).
-
----
-
-# Introduction
-
-## R vs Stata
-
-Here are some advantages of R:
-
-* R is a free and open source software!
-
-* It allows you to have several datasets open simultaneously.
-  + No need to use `keep`, `preserve`, `restore`
-
-* It can run complex Geographic Information System (GIS) analyses.
-
-* You can use it for web scrapping.
-
-* You can run machine learning algorithms with it.
-
-* You can create complex Markdown documents. This presentation, for example, is entirely done in R.
-
-* You can create interactive dashboards and online applications with the Shiny package.
 
 ---
 
@@ -275,7 +190,7 @@ Let's start by loading the data set we'll be using:
 
 ## Exercise 1: Import data
 
-1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - April 2021` &gt; `Data` &gt; `whr_panel.csv`
+1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - November 2021` &gt; `Data` &gt; `whr_panel.csv`
 
 2. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your Rstudio version, it might be `File` &gt; `Import Dataset` &gt; `From CSV`
@@ -1142,6 +1057,76 @@ name: appendix
 # Appendix
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+
+---
+
+# Appendix - R and RStudio Installation
+
+## Installation
+
+This training requires that you have R and RStudio installed in your computer:
+
+### Instructions
+
+* To install R, visit (https://cran.r-project.org) and select a Comprehensive R Archive Network (CRAN) mirror close to you.
+
+* To install RStudio, go to https://www.rstudio.com/. Note that you need to install R first.
+
+---
+
+# Appendix - R vs Stata
+
+* R is object oriented while Stata is action oriented:
+  + Classic example: Stata's `summarize` vs R's `summary()`
+  + In Stata you declare what you want to do, while in R you usually declare the result you want to get
+
+* R needs to load non-base commands (packages) at the beginning of each session
+  + Imagine that in Stata you'd have to load a command installed with `ssc install` every time you'll use it in a new session
+
+* R is less specialized, which means more flexibility and functionalities.
+
+* R has a much broader network of users:
+  + More resources online, which makes using Google a lot easier. You'll never want to see Statalist again in your life!
+  + Development of new features and bug fixes happen faster.
+
+---
+
+# Appendix - R vs Stata
+
+Some possible disadvantages of Stata:
+
+* Higher cost of entry than Stata for learning how to use R.
+
+* Stata is more specialized, which makes certain common tasks simpler. For example:
+  - Running a regression with clustered standard errors
+  - Analyzing survey data with weights
+
+* Stata has wider adoption among micro-econometricians (though R adoption is steadily increasing).
+  + Network externalities in your work environment.
+  + Development of new specialized techniques and tools could happen faster (e.g. *ietoolkit*).
+
+---
+
+# Appendix - R vs Stata
+
+Here are some advantages of R:
+
+* R is a free and open source software!
+
+* It allows you to have several datasets open simultaneously.
+  + No need to use `keep`, `preserve`, `restore`
+
+* It can run complex Geographic Information System (GIS) analyses.
+
+* You can use it for web scrapping.
+
+* You can run machine learning algorithms with it.
+
+* You can create complex Markdown documents. This presentation, for example, is entirely done in R.
+
+* You can create interactive dashboards and online applications with the Shiny package.
+
 ---
 
 # Appendix - Help, Google and Stack Overflow
