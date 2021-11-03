@@ -476,7 +476,7 @@ whr15 %>% filter(region == "Western Europe")
 
 ### Exercise 3: Filter the dataset.
 
-* Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint use the *or* operator (`|`) to add conditions: 
+* Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint: use the *or* operator (`|`) to add conditions: 
 
 --
 
