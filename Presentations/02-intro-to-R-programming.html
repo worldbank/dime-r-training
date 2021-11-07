@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/custom.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -111,7 +112,7 @@ name: initial-settings
 
 * Notice two things:
 
-1. Your environment is *probably* empty (it's OK if it's not)
+  1. Your environment is *probably* empty (it's OK if it's not)
 
 &lt;img src="img/empty_environment.png" width="60%" style="display: block; margin: auto;" /&gt;
 
@@ -119,10 +120,26 @@ name: initial-settings
 
 # Initial settings
 
-2- Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
+* Let's start by opening RStudio or by closing and opening it again
+
+* Notice two things:
+
+  1. Your environment is *probably* empty (it's OK if it's not)
+  1. Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
 
 &lt;img src="img/rhistory.png" width="70%" style="display: block; margin: auto;" /&gt;
 
+---
+
+# Initial settings
+
+* Let's start by opening RStudio or by closing and opening it again
+
+* Notice two things:
+
+  1. Your environment is *probably* empty (it's OK if it's not)
+  1. Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
+  
 * We'd usually want these two things -- an __empty environment__ and the __history of commands__ executed in previous sessions -- to be present every time we open a new RStudio session
 
 ---
@@ -153,7 +170,11 @@ Have you ever seen these lines of code before?
 
 # Initial settings
 
-### Exercise 1: you'll never have to use  the equivalent of `clear all`
+.exercise[
+
+### Exercise 1 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
+
+You'll never have to use  the equivalent of `clear all`
 
 1. Go to `Tools` &gt; `Global Options...`
 
@@ -164,6 +185,7 @@ Have you ever seen these lines of code before?
   + Make sure *Always save history (even when not saving .RData)* is checked
   
 3. Now restart RStudio
+]
 
 ---
 
@@ -209,7 +231,7 @@ setwd("your/path")
 
 * Instead, you should use RStudio projects and the `here` library
 
-* __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__
+&gt; __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__.
 
 ## RStudio Projects
 
@@ -221,23 +243,24 @@ setwd("your/path")
 
 ---
 
-# File paths
+# File paths 
 
 ## RStudio projects
 
-### Exercise 2: Create a new RStudio project
+.exercise[
 
-Follow these instructions:
+### Exercise 2 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
 1. On RStudio, select `File` &gt; `New Project...`
 
 2. Select `New Directory` &gt; `New Project`
 
 3. Assign the name: `dime-r-training-project` to the project
+]
 
 ---
 
-# File paths
+# File paths 
 
 ## RStudio projects
 
@@ -261,14 +284,14 @@ Follow these instructions:
 
 ## Usage of `here`
 
-1- Load the `here` library:
+1. Load the `here` library:
 
 
 ```r
 library(here)
 ```
 
-2- Now you'll be able to use `here()` to point the location of every file relative to your project root
+2. Now you'll be able to use `here()` to point the location of every file relative to your project root
 
   + For example, to load a `csv` file located in: `C:/WBG/project-root-name/data/raw/data-file.csv`, you should use:
   
@@ -277,13 +300,15 @@ library(here)
 df &lt;- read.csv(here("data", "raw", "data-file.csv"))
 ```
 
-* __Note:__ Your project root is the directory that contains the `.Rproj` file
+* __Note:__ Your project root is the directory that contains the `.Rproj` file (or `.git` directory if you are using git).
 
 ---
 
 # File paths
 
-### Exercise 3: Combining `here` and RStudio projects
+.exercise[
+
+### Exercise 3 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
 1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - November 2021` &gt; `Data` &gt; `DataWork.zip`
 
@@ -296,7 +321,12 @@ df &lt;- read.csv(here("data", "raw", "data-file.csv"))
 
 4. Save this new empty script in `DataWork` &gt; `Code` as `exercises.R`
 
-5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
+5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`.
+]
+
+---
+
+# File paths
 
 
 ```r
@@ -335,7 +365,9 @@ name: creating-a-document-outline-in-rstudio
 
 # Document outline
 
-### Exercise 4: Setion headers
+.exercise[
+
+### Exercise 4 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
 1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
 
@@ -344,6 +376,7 @@ name: creating-a-document-outline-in-rstudio
   + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
 
 3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
+]
 
 ---
 
@@ -411,7 +444,7 @@ class(whr)
 dim(whr)
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -423,7 +456,7 @@ dim(whr)
 str(whr)
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -435,7 +468,7 @@ str(whr)
 summary(whr)
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -447,7 +480,7 @@ summary(whr)
 head(whr)
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -505,16 +538,14 @@ install.packages("tidyverse",
 
 # Using packages
 
-### Exercise 5: Loading the tidyverse
+.exercise[
 
-- Load the tidyverse packages in part 1 of your script
+### Exercise 5 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
+1. Load the `tidyverse` meta package in part 1 of your script using `library(tidyverse)`
+2. Run your script
 
-```r
-  library(tidyverse)
-```
-
-- Run your script
+]
 
 ---
 
@@ -576,7 +607,7 @@ summary(log_score)
 summary(log(whr$happiness_score))
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -664,7 +695,7 @@ name: mapping-and-iterations
 
 * R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
-* For the purpose of this training, we will use `map()`. It is a function part of the tidyverse set of packages
+* For the purpose of this training, we will use `map()`. It is a function part of the tidyverse meta package
 
 * We won't be covering loops in the main content of this session, but you can check the Annex of this presentation to learn how to write loops in R
 
@@ -672,23 +703,18 @@ name: mapping-and-iterations
 
 # Map
 
-* `map()` is part of the tidyverse setof packages. You need to either load the library `tidyverse` or `purrr` to enable it
+* To use `map()`, you need to either load the package `purrr` eithre by itself or alongside other `tidyverse` packages
 
 * The basic syntax of `map()` is:
 
+.command[
 
-```r
-map(X, function, ...)
-```
-
-* Its main arguments are:
+**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a data frame then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a vector with the results.
 
   + **X:** a data frame, matrix or vector the function will be applied to
   + **function:** the function you want to apply to each of the elements of `X`
-  
-* `map()` applies the function to each of the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
+]
 
-* The output of `map()` is always a vector with the results
 
 ---
 
@@ -705,7 +731,7 @@ x &lt;- c(1.2, 2.5, 9.1, 5.8)
 x %&gt;% map(round)
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -729,15 +755,18 @@ x %&gt;% map(round)
 
 # Map
 
-### Exercise 6: Get the column max
+.exercise[
+
+### Exercise 6 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
 1. Select the columns `freedom` and `happiness_score` of `whr`
 2. Use `map()` to get the maximum value of these columns
 
-- Hints:
-
+&gt; Hints:
   + Remember the syntax of `map()`: `map(X, function)`. You can also try using pipes here
-  + The function to get the maximum over a set of numbers is `max` 
+  + The function to get the maximum over a set of numbers is `max`.
+
+]
 
 ---
 
@@ -747,7 +776,7 @@ x %&gt;% map(round)
 
 * But what about cases when it's impossible to implement the operations I want to apply in only one function? Do I have to use `for` loops then?
 
-* Not at all! Let's get to the next section for those cases
+* Not at all! Let's get to the next section for those cases.
 
 ---
 
@@ -782,16 +811,26 @@ name: custom-functions
   }
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
 # Custom functions
 
-### Exercise 7: Create a function 
+.exercise[
+
+### Exercise 7 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
 Create a function named `zscore` that standardizes the values of a vector.
-  
+
+&gt; **Hints:**
+* The command to obtain the mean of a vector is `mean(x)`
+* The command to get the SD of a vector is `sd(x)`
+* R is vectorized: you can operate vectors and number directly and the result will be a vector
+* Don't forget to include the argument `na.rm = TRUE` in `mean()` and `sd()`
+
+]
+
 * Recall the syntax of functions in R:
   
 
@@ -804,12 +843,6 @@ function_name &lt;- function(input) {
 
 }
 ```
-
-  + Hints:
-    * The command to obtain the mean of a vector is `mean(x)`
-    * The command to get the SD of a vector is `sd(x)`
-    * R is vectorized: you can operate vectors and number directly and the result will be a vector
-    * Don't forget to include the argument `na.rm = TRUE` in `mean()` and `sd()`
 
 ---
 
@@ -825,21 +858,25 @@ zscore &lt;- function(x) {
   }
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
 # Custom functions
 
-### Exercise 8: Custom functions and `map()` together
+.exercise[
+
+### Exercise 8 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
 1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
 
 2. Use `map()` combined with the `zscore` function to get the z-score of these two columns
   
-+ Hints:
-  * Use the pipes (`%&gt;%`) successively
-  * Remember that we don't use parenthesis next to the function name we're using `map()` with
+&gt; **Hints:**
+* Use the pipes (`%&gt;%`) successively
+* Remember that we don't use parenthesis next to the function name we're using `map()` with
+
+]
 
 ---
 
@@ -852,7 +889,7 @@ whr %&gt;%
   map(zscore)
 ```
 
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -896,7 +933,7 @@ geom_point()
 
 # Indentation
 
-&lt;img src="02-intro-to-R-programming_files/figure-html/unnamed-chunk-46-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-to-R-programming_files/figure-html/unnamed-chunk-44-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -928,7 +965,9 @@ geom_point()
 
 # Indentation
 
-### Exercise 8: Indentation in R
+.exercise[
+
+### Exercise 9 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
 To see an example of how indenting works in RStudio, let's use an example with `map()`:
 
@@ -941,6 +980,7 @@ map(c(1.2, 2.5, 9.1, 5.8), round)
 1. Add a line between the two arguments of the function (the vector of numbers and `round`)
 
 2. Now add a line between the numbers in the vector.
+]
 
 ---
 
@@ -982,140 +1022,6 @@ name: appendix
 * `.RData` stores the objects in your environment only if you save your workspace, and loads them again in the next RStudio session
 
 * Both files are relative to the working directory where your RStudio session started
-
----
-
-# Appendix - Assignment 1
-
-## Assignment 1
-
-Create a function that
-
-  1. Takes as argument a vector of packages names
-  
-  2. Loops through the packages listed in the input vector
-  
-  3. Install the packages
-  
-  4. Loads the packages
-
----
-
-# Appendix - If statements
-
-## If statements
-
-* Installing packages can be time-consuming, especially as the number of packages you're using grows, and each package only needs to be installed once
-
-* We often use locals in Stata to create section switches to install packages
-
-* In R, the equivalent to that would be to create a new object as a section switch
-
----
-
-# Appendix - If statements
-
-### Exercise: Creating an if statement
-
-* Create a scalar object called PACKAGES and assign it any numerical value.
-
-  - TIP: Section switches can also be Boolean objects.
-
-* Now create an if statement using this switch scalar as a switch to indicate if you want to install a set of packages:
-
-
-```r
-    # Turn switch on
-    PACKAGES &lt;- 1
-
-    # Install packages
-    if (PACKAGES == 1) {
-      install.packages(packages,
-                       dependencies = TRUE)
-    }
-```
-
----
-
-# Appendix - If statements
-
-## If statements
-
-Possible variations would include
-
-
-```r
-    # Turn switch on
-    PACKAGES &lt;- TRUE
-
-    # Using a Boolean object
-    if (PACKAGES == TRUE) {
-      install.packages(packages, dep = TRUE)
-    }
-
-    # Which is the same as
-    if (PACKAGES) {
-      install.packages(packages, dep = TRUE)
-    }
-```
-
----
-
-# Appendix - Assignment 2
-
-### Exercise: Create a function that...
-
-1. Takes as argument a vector of packages names
-
-2. Loops through the packages listed in the input vector
-
-3. Tests if a package is already installed
-
-4. Only installs packages that are not yet installed
-
-5. Loads the packages
-
-- TIP: to test if a package is already installed, use the following code:
-
-```r
-    # Test if object x is contained in
-    # the vector of installed packages
-    x %in% installed.packages()
-```
-
----
-
-# Appendix - Other file path practices
-
-## File paths best practices
-
-* RStudio projects are a nice option when all your project files sit in the same root folder
-
-* But what happens if that's not the case? For example: if your data is in Dropbox or OneDrive and your code is in a GitHub repository folder
-
-* If that happens, we at DIME Analytics recommend always using **explicit** and **dynamic** file paths
-
-  + **Explicit** means you're explicitly stating where the file will be saved -- instead of setting the working directory, for example
-
-  + **Dynamic** means that you don't need to adjust every file path in the script when you change from one machine to another -- they're updated based on a single line of code to be changed  
-
----
-
-# Appendix - File paths best practices
-
-## Explicit and dynamic file paths:
-
-
-```r
-  # Define dynamic file path
-  finalData &lt;- "C:/Users/luiza/Documents/GitHub/
-                dime-r-training/
-                DataWork/DataSets/Final"
-
-  # Load data set
-  whr &lt;- read.csv(file.path(finalData,"whr_panel.csv"),
-                  header = TRUE)
-```
 
 ---
 
@@ -1196,7 +1102,9 @@ print("This part is not a comment") # And this is a comment
 
 # Appendix - Assignment 3
 
-### Exercise: Commenting
+.exercise[
+
+### Exercise  <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/></svg>
 
 1. In your script panel, select all the lines of your script
 
@@ -1204,6 +1112,8 @@ print("This part is not a comment") # And this is a comment
   + Shortcut: `Ctrl` + `Shift` + `C`
 
 3. Use the keyboard shortcut to comment these lines again. What happened?
+
+]
 
 ---
 
@@ -1223,213 +1133,7 @@ print("This part is not a comment") # And this is a comment
     }
 ```
 
----
-
-# Appendix - Looping
-
-## Column extraction operators
-
-* Remember the use of `$` to extract columns from a dataframe?
-
-* Other than `$`, we can also use double brackets to extract the column of a dataframe:
-
-
-```r
-# With $:
-whr$year
-```
-
-
-```r
-# With [[]]:
-whr[["year"]] # Notice the use of double quotes
-```
-
----
-
-# Appendix - Looping
-
-## Column extraction operators: `[[]]` vs `$`
-
-What's the key difference between them?
-
-Well, `[[]]` lets us use other objects to refer to column names, while `$` doesn't
-
-
-```r
-col_name &lt;- "year"
-head(whr$col_name) # this returns a NULL object because no column has the name "col_name" in whr
-```
-
-```
-## Warning: Unknown or uninitialised column: `col_name`.
-```
-
-```
-## NULL
-```
-
-
-```r
-col_name &lt;- "year"
-head(whr[[col_name]])
-```
-
-```
-## [1] 2015 2015 2015 2015 2015 2015
-```
-
----
-
-# Appendix - Looping
-
-## Column extraction operators: `[[]]` vs `$`
-
-This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
-
-
-```r
-# Printing the first observation of every column of whr
-for (col in colnames(whr)) {
-  whr[[col]] %&gt;%
-    head(1) %&gt;%
-    print()
-}
-```
-
-```
-## [1] "Switzerland"
-## [1] "Western Europe"
-## [1] 2015
-## [1] 1
-## [1] 7.587
-## [1] 1.39651
-## [1] 0.94143
-## [1] 0.66557
-```
-
----
-
-# Appendix - Apply
-
-## Apply
-
-* Apart from tidyverse's `map()`, base R also has a set of functions that allows users to apply a function to a number of objects without using explicit loops
-
-* They're called `apply` and there are many of them, with different use cases
-
-* If you look for the `apply` help file, you can see all of them
-
-* We'll show only two of them, `sapply` and `apply`
-
----
-
-# Appendix - Apply
-
-## Apply
-
-* The syntax of `sapply()` is:
-
-
-```r
-sapply(X, FUN, ...)
-```
-
-* Its main arguments are:
-
-  + **X:** a data frame, matrix or vector the function will be applied to
-  + **FUN:** the function you want to apply
-
-* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
-
-* The output of `sapply()` is usually a vector with the results, but it can be a matrix if the results have more than one dimension
-
----
-
-# Appendix - Apply
-
-
-```r
-    # A for loop in R
-    for (number in c(1.2, 2.5)) {
-      print(round(number))
-    }
-
-    # A much more elegant option
-    sapply(c(1.2, 2.5), round)
-```
-
----
-
-# Appendix - Apply
-
-
-```r
-# Printing the first observation of every column of whr
-for (col in names(whr)) {
-  print(head(whr[[col]], 1))
-} # Option 1
-
-sapply(whr, head, 1) # A more elegant and efficient option
-```
-
----
-
-# Appendix - Apply
-
-## Apply
-
-* A more general version of `sapply()` is the `apply()` function. This is its syntax:
-
-
-```r
-apply(X, MARGIN, FUN, ...)
-```
-
-* Arguments:
-
-  + **X:** a data frame (or matrix) the function will be applied to
-  + **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
-  + **FUN:** the function you want to apply
-
-* `apply()` applies a function (`FUN`) to all columns or rows of matrix (`X`). A value of 1 in `MARGIN` indicates that the funcion should be applied row-wise, while 2 indicates columns
-
----
-
-# Appendix - Apply
-
-
-```r
-matrix &lt;- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2), nrow = 3) # Defining a matrix
-apply(matrix, 1, mean) # row means
-apply(matrix, 2, mean) # column means
-```
-
----
-
-# Appendix - Assignment 4
-
-### Exercise: Get the row max
-
-1. Select the columns `freedom` and `happiness_score` of `whr`
-
-2. Use `apply()` to get the row max between these two columns, for every row
-
-* Hints:
-  + Remember the syntax of `apply()`: `apply(X, MARGIN, FUN)`
-  + A value of 1 for `MARGIN` indicates that the function must applied row-wise
-  + The function to get the maximum over a set of number is `max`
-
----
-
-# Appendix - Apply
-
-
-```r
-whr %&gt;%
-  select(freedom, happiness_score) %&gt;%
-  apply(1, max)
-```
+* As we have already discussed, though, this is not the most efficient way to create iterations in R
 
 ---
 exclude: true

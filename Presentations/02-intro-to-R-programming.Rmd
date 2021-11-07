@@ -5,7 +5,10 @@ author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Mart
 date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2021"
 output:
   xaringan::moon_reader:
-    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
+    css: ["libs/remark-css/default.css", 
+          "libs/remark-css/metropolis.css", 
+          "libs/remark-css/metropolis-fonts.css",
+          "libs/remark-css/custom.css"]
     lib_dir: libs
     nature:
       ratio: "16:9"
@@ -134,7 +137,7 @@ name: initial-settings
 
 * Notice two things:
 
-1. Your environment is *probably* empty (it's OK if it's not)
+  1. Your environment is *probably* empty (it's OK if it's not)
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/empty_environment.png")
@@ -144,12 +147,28 @@ knitr::include_graphics("img/empty_environment.png")
 
 # Initial settings
 
-2- Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
+* Let's start by opening RStudio or by closing and opening it again
+
+* Notice two things:
+
+  1. Your environment is *probably* empty (it's OK if it's not)
+  1. Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
 
 ```{r, echo = FALSE, out.width ="70%"}
 knitr::include_graphics("img/rhistory.png")
 ```
 
+---
+
+# Initial settings
+
+* Let's start by opening RStudio or by closing and opening it again
+
+* Notice two things:
+
+  1. Your environment is *probably* empty (it's OK if it's not)
+  1. Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
+  
 * We'd usually want these two things -- an __empty environment__ and the __history of commands__ executed in previous sessions -- to be present every time we open a new RStudio session
 
 ---
@@ -184,7 +203,11 @@ knitr::include_graphics("img/environment_2vars_2021.png")
 
 # Initial settings
 
-### Exercise 1: you'll never have to use  the equivalent of `clear all`
+.exercise[
+
+### Exercise 1 `r fa("keyboard")`
+
+You'll never have to use  the equivalent of `clear all`
 
 1. Go to `Tools` > `Global Options...`
 
@@ -195,6 +218,7 @@ knitr::include_graphics("img/environment_2vars_2021.png")
   + Make sure *Always save history (even when not saving .RData)* is checked
   
 3. Now restart RStudio
+]
 
 ---
 
@@ -245,7 +269,7 @@ setwd("your/path")
 
 * Instead, you should use RStudio projects and the `here` library
 
-* __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__
+> __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__.
 
 ## RStudio Projects
 
@@ -257,23 +281,24 @@ setwd("your/path")
 
 ---
 
-# File paths
+# File paths 
 
 ## RStudio projects
 
-### Exercise 2: Create a new RStudio project
+.exercise[
 
-Follow these instructions:
+### Exercise 2 `r fa("keyboard")`
 
 1. On RStudio, select `File` > `New Project...`
 
 2. Select `New Directory` > `New Project`
 
 3. Assign the name: `dime-r-training-project` to the project
+]
 
 ---
 
-# File paths
+# File paths 
 
 ## RStudio projects
 
@@ -299,13 +324,13 @@ knitr::include_graphics("img/dime-r-training-project.png")
 
 ## Usage of `here`
 
-1- Load the `here` library:
+1. Load the `here` library:
 
 ```{r, eval=FALSE}
 library(here)
 ```
 
-2- Now you'll be able to use `here()` to point the location of every file relative to your project root
+2. Now you'll be able to use `here()` to point the location of every file relative to your project root
 
   + For example, to load a `csv` file located in: `C:/WBG/project-root-name/data/raw/data-file.csv`, you should use:
   
@@ -313,13 +338,15 @@ library(here)
 df <- read.csv(here("data", "raw", "data-file.csv"))
 ```
 
-* __Note:__ Your project root is the directory that contains the `.Rproj` file
+* __Note:__ Your project root is the directory that contains the `.Rproj` file (or `.git` directory if you are using git).
 
 ---
 
 # File paths
 
-### Exercise 3: Combining `here` and RStudio projects
+.exercise[
+
+### Exercise 3 `r fa("keyboard")`
 
 1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - November 2021` > `Data` > `DataWork.zip`
 
@@ -332,7 +359,12 @@ df <- read.csv(here("data", "raw", "data-file.csv"))
 
 4. Save this new empty script in `DataWork` > `Code` as `exercises.R`
 
-5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`:
+5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`.
+]
+
+---
+
+# File paths
 
 ```{r, eval=FALSE}
 library(here)
@@ -372,7 +404,9 @@ name: creating-a-document-outline-in-rstudio
 
 # Document outline
 
-### Exercise 4: Setion headers
+.exercise[
+
+### Exercise 4 `r fa("keyboard")`
 
 1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
 
@@ -381,6 +415,7 @@ name: creating-a-document-outline-in-rstudio
   + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
 
 3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
+]
 
 ---
 
@@ -548,15 +583,14 @@ install.packages("tidyverse",
 
 # Using packages
 
-### Exercise 5: Loading the tidyverse
+.exercise[
 
-- Load the tidyverse packages in part 1 of your script
+### Exercise 5 `r fa("keyboard")`
 
-```{r, eval = F}
-  library(tidyverse)
-```
+1. Load the `tidyverse` meta package in part 1 of your script using `library(tidyverse)`
+2. Run your script
 
-- Run your script
+]
 
 ---
 
@@ -710,7 +744,7 @@ name: mapping-and-iterations
 
 * R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
-* For the purpose of this training, we will use `map()`. It is a function part of the tidyverse set of packages
+* For the purpose of this training, we will use `map()`. It is a function part of the tidyverse meta package
 
 * We won't be covering loops in the main content of this session, but you can check the Annex of this presentation to learn how to write loops in R
 
@@ -718,22 +752,18 @@ name: mapping-and-iterations
 
 # Map
 
-* `map()` is part of the tidyverse setof packages. You need to either load the library `tidyverse` or `purrr` to enable it
+* To use `map()`, you need to either load the package `purrr` eithre by itself or alongside other `tidyverse` packages
 
 * The basic syntax of `map()` is:
 
-```{r, eval=FALSE}
-map(X, function, ...)
-```
+.command[
 
-* Its main arguments are:
+**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a data frame then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a vector with the results.
 
   + **X:** a data frame, matrix or vector the function will be applied to
   + **function:** the function you want to apply to each of the elements of `X`
-  
-* `map()` applies the function to each of the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
+]
 
-* The output of `map()` is always a vector with the results
 
 ---
 
@@ -775,15 +805,18 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Map
 
-### Exercise 6: Get the column max
+.exercise[
+
+### Exercise 6 `r fa("keyboard")`
 
 1. Select the columns `freedom` and `happiness_score` of `whr`
 2. Use `map()` to get the maximum value of these columns
 
-- Hints:
-
+> Hints:
   + Remember the syntax of `map()`: `map(X, function)`. You can also try using pipes here
-  + The function to get the maximum over a set of numbers is `max` 
+  + The function to get the maximum over a set of numbers is `max`.
+
+]
 
 ---
 
@@ -793,7 +826,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 * But what about cases when it's impossible to implement the operations I want to apply in only one function? Do I have to use `for` loops then?
 
-* Not at all! Let's get to the next section for those cases
+* Not at all! Let's get to the next section for those cases.
 
 ---
 
@@ -835,10 +868,20 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Custom functions
 
-### Exercise 7: Create a function 
+.exercise[
+
+### Exercise 7 `r fa("keyboard")`
 
 Create a function named `zscore` that standardizes the values of a vector.
-  
+
+> **Hints:**
+* The command to obtain the mean of a vector is `mean(x)`
+* The command to get the SD of a vector is `sd(x)`
+* R is vectorized: you can operate vectors and number directly and the result will be a vector
+* Don't forget to include the argument `na.rm = TRUE` in `mean()` and `sd()`
+
+]
+
 * Recall the syntax of functions in R:
   
 ```{r eval=F}
@@ -850,12 +893,6 @@ function_name <- function(input) {
 
 }
 ```
-
-  + Hints:
-    * The command to obtain the mean of a vector is `mean(x)`
-    * The command to get the SD of a vector is `sd(x)`
-    * R is vectorized: you can operate vectors and number directly and the result will be a vector
-    * Don't forget to include the argument `na.rm = TRUE` in `mean()` and `sd()`
 
 ---
 
@@ -878,15 +915,19 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Custom functions
 
-### Exercise 8: Custom functions and `map()` together
+.exercise[
+
+### Exercise 8 `r fa("keyboard")`
 
 1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
 
 2. Use `map()` combined with the `zscore` function to get the z-score of these two columns
   
-+ Hints:
-  * Use the pipes (`%>%`) successively
-  * Remember that we don't use parenthesis next to the function name we're using `map()` with
+> **Hints:**
+* Use the pipes (`%>%`) successively
+* Remember that we don't use parenthesis next to the function name we're using `map()` with
+
+]
 
 ---
 
@@ -989,7 +1030,9 @@ geom_point()
 
 # Indentation
 
-### Exercise 8: Indentation in R
+.exercise[
+
+### Exercise 9 `r fa("keyboard")`
 
 To see an example of how indenting works in RStudio, let's use an example with `map()`:
 
@@ -1001,6 +1044,7 @@ map(c(1.2, 2.5, 9.1, 5.8), round)
 1. Add a line between the two arguments of the function (the vector of numbers and `round`)
 
 2. Now add a line between the numbers in the vector.
+]
 
 ---
 
@@ -1041,140 +1085,6 @@ name: appendix
 * `.RData` stores the objects in your environment only if you save your workspace, and loads them again in the next RStudio session
 
 * Both files are relative to the working directory where your RStudio session started
-
----
-
-# Appendix - Assignment 1
-
-## Assignment 1
-
-Create a function that
-
-  1. Takes as argument a vector of packages names
-  
-  2. Loops through the packages listed in the input vector
-  
-  3. Install the packages
-  
-  4. Loads the packages
-
----
-
-# Appendix - If statements
-
-## If statements
-
-* Installing packages can be time-consuming, especially as the number of packages you're using grows, and each package only needs to be installed once
-
-* We often use locals in Stata to create section switches to install packages
-
-* In R, the equivalent to that would be to create a new object as a section switch
-
----
-
-# Appendix - If statements
-
-### Exercise: Creating an if statement
-
-* Create a scalar object called PACKAGES and assign it any numerical value.
-
-  - TIP: Section switches can also be Boolean objects.
-
-* Now create an if statement using this switch scalar as a switch to indicate if you want to install a set of packages:
-
-```{r, eval = F}
-
-    # Turn switch on
-    PACKAGES <- 1
-
-    # Install packages
-    if (PACKAGES == 1) {
-      install.packages(packages,
-                       dependencies = TRUE)
-    }
-
-```
-
----
-
-# Appendix - If statements
-
-## If statements
-
-Possible variations would include
-
-```{r, eval = F}
-    # Turn switch on
-    PACKAGES <- TRUE
-
-    # Using a Boolean object
-    if (PACKAGES == TRUE) {
-      install.packages(packages, dep = TRUE)
-    }
-
-    # Which is the same as
-    if (PACKAGES) {
-      install.packages(packages, dep = TRUE)
-    }
-
-```
-
----
-
-# Appendix - Assignment 2
-
-### Exercise: Create a function that...
-
-1. Takes as argument a vector of packages names
-
-2. Loops through the packages listed in the input vector
-
-3. Tests if a package is already installed
-
-4. Only installs packages that are not yet installed
-
-5. Loads the packages
-
-- TIP: to test if a package is already installed, use the following code:
-```{r, eval = F}
-    # Test if object x is contained in
-    # the vector of installed packages
-    x %in% installed.packages()
-```
-
----
-
-# Appendix - Other file path practices
-
-## File paths best practices
-
-* RStudio projects are a nice option when all your project files sit in the same root folder
-
-* But what happens if that's not the case? For example: if your data is in Dropbox or OneDrive and your code is in a GitHub repository folder
-
-* If that happens, we at DIME Analytics recommend always using **explicit** and **dynamic** file paths
-
-  + **Explicit** means you're explicitly stating where the file will be saved -- instead of setting the working directory, for example
-
-  + **Dynamic** means that you don't need to adjust every file path in the script when you change from one machine to another -- they're updated based on a single line of code to be changed  
-
----
-
-# Appendix - File paths best practices
-
-## Explicit and dynamic file paths:
-
-```{r, eval = F}
-  # Define dynamic file path
-  finalData <- "C:/Users/luiza/Documents/GitHub/
-                dime-r-training/
-                DataWork/DataSets/Final"
-
-  # Load data set
-  whr <- read.csv(file.path(finalData,"whr_panel.csv"),
-                  header = TRUE)
-
-```
 
 ---
 
@@ -1253,7 +1163,9 @@ print("This part is not a comment") # And this is a comment
 
 # Appendix - Assignment 3
 
-### Exercise: Commenting
+.exercise[
+
+### Exercise  `r fa("keyboard")`
 
 1. In your script panel, select all the lines of your script
 
@@ -1261,6 +1173,8 @@ print("This part is not a comment") # And this is a comment
   + Shortcut: `Ctrl` + `Shift` + `C`
 
 3. Use the keyboard shortcut to comment these lines again. What happened?
+
+]
 
 ---
 
