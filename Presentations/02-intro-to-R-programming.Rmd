@@ -96,9 +96,7 @@ name: introduction
 
 ---
 
-# Introduction
-
-## What this session is about
+# What this session is about
 
 * In the first session, you learned how to work with R
 
@@ -110,9 +108,7 @@ name: introduction
 
 ---
 
-# Introduction
-
-## What this session is about
+# What this session is about
 
 * We will cover common coding practices in R so that you can make __the most efficient use__ for it
 
@@ -183,9 +179,7 @@ knitr::include_graphics("img/stataheader.jpg")
 
 ---
 
-# Initial settings
-
-## R Initial settings
+# R Initial settings
 
 * We __don't need to set the memory or the maximum number of variables__ in R
 
@@ -265,13 +259,11 @@ setwd("your/path")
 
 ---
 
-# File paths
+# RStudio Projects
 
 * Instead, you should use RStudio projects and the `here` library
 
 > __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__.
-
-## RStudio Projects
 
 * RStudio projects let you "bind" your project files to a root directory, regardless of the path to it
 
@@ -281,9 +273,7 @@ setwd("your/path")
 
 ---
 
-# File paths 
-
-## RStudio projects
+# RStudio projects
 
 .exercise[
 
@@ -298,9 +288,7 @@ setwd("your/path")
 
 ---
 
-# File paths 
-
-## RStudio projects
+# RStudio projects
 
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/dime-r-training-project.png")
@@ -308,9 +296,7 @@ knitr::include_graphics("img/dime-r-training-project.png")
 
 ---
 
-# File paths
-
-## The `here` library
+# The `here` library
 
 * `here` locates files relative to your project root
 
@@ -320,9 +306,7 @@ knitr::include_graphics("img/dime-r-training-project.png")
 
 ---
 
-# File paths
-
-## Usage of `here`
+# Usage of `here`
 
 1. Load the `here` library:
 
@@ -373,9 +357,7 @@ whr <- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 
 ---
 
-# File paths
-
-## RStudio projects and `here`
+# RStudio projects and `here`
 
 If you did the exercise correctly, you should see the `whr` data frame listed in the Environment panel
 
@@ -539,9 +521,7 @@ name: using-packages
 
 ---
 
-# Using packages
-
-## Packages
+# Packages
 
 * Since there is a lot of people developing for R, it can have many different functionalities.
 
@@ -551,9 +531,7 @@ name: using-packages
 
 ---
 
-# Using packages
-
-## Packages
+# Packages
 
 * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
 
@@ -563,9 +541,7 @@ name: using-packages
 
 ---
 
-# Using packages
-
-## Packages
+# Packages
 
 * To install and use packages you can either do it with the user interface or by the command prompt.
 
@@ -594,9 +570,7 @@ install.packages("tidyverse",
 
 ---
 
-# Using packages
-
-## Warnings vs errors
+# Warnings vs errors
 
 What if this happens?
 
@@ -606,9 +580,7 @@ knitr::include_graphics("img/warning_2021.png")
 
 ---
 
-# Using packages
-
-## Warnings vs errors
+# Warnings vs errors
 
 R has two types of error messages, `warnings` and actual `errors`:
 
@@ -628,9 +600,7 @@ name: functions-inception
 
 ---
 
-# Functions inception
-
-## A function inside a function
+# A function inside a function
 
 * In R, you can __write one function inside another__
 
@@ -640,7 +610,7 @@ name: functions-inception
 
 ---
 
-# Functions inception
+# A function inside a function
 
 ```{r, eval=FALSE}
 # Print the summary of the logarithm of the happiness score
@@ -659,9 +629,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
-# Functions inception
-
-## A function inside a function
+# A function inside a function
 
 * This is a simple example of __metaprogramming__ (that's the real name of this technique) and may seem trivial, but it's not
 
@@ -669,7 +637,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
-# Functions inception
+# A function inside a function
 
 ```{r echo = FALSE, out.width = "50%"}
 knitr::include_graphics("img/statalog.png")
@@ -677,9 +645,7 @@ knitr::include_graphics("img/statalog.png")
 
 ---
 
-# Functions inception
-
-## A function inside a function
+# A function inside a function
 
 * Metaprogramming is a __very powerful technique__, as you will soon see
 
@@ -689,9 +655,7 @@ knitr::include_graphics("img/statalog.png")
 
 ---
 
-# Functions inception  
-
-## Piping
+# Piping
 
 * Ever heard of piping? It's this: `%>%`
 
@@ -703,9 +667,7 @@ knitr::include_graphics("img/statalog.png")
 
 ---
 
-# Functions inception
-
-## Piping
+# Piping
 
 ```{r, eval = F}
   # 1: Doing it the long way -----------------------------
@@ -839,9 +801,7 @@ name: custom-functions
 
 ---
 
-# Custom functions
-
-## Writing your own functions
+# Writing your own functions
 
 * As we have said several times, __R is super flexible__
 
@@ -1002,9 +962,7 @@ geom_point()
 
 ---
 
-# Indentation
-
-## Why indent?
+# Why indent?
 
 * R understands what unindented code says, but it can be __quite difficult for a human being to read it__
 
@@ -1012,9 +970,7 @@ geom_point()
 
 ---
 
-# Indentation
-
-## Why indent?
+# Why indent?
 
 * Indentation in R looks different than in Stata:
 
@@ -1076,9 +1032,7 @@ name: appendix
 
 ---
 
-# Appendix - Initial settings
-
-## `.Rhistory` and `.RData`
+# Appendix - `.Rhistory` and `.RData`
 
 * `.Rhistory` automatically stores the commands entered in the console
 
@@ -1089,8 +1043,6 @@ name: appendix
 ---
 
 # Appendix - Using packages
-
-## Using packages
 
 Once a package is loaded, you can use its features and functions. Here's a list of some useful packages:
 
@@ -1109,8 +1061,6 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 
 # Appendix - Resources
 
-## Resources
-
 * A discussion of folder structure and data managament can be found here: https://dimewiki.worldbank.org/wiki/DataWork_Folder
 
 * For a broader discussion of data management, go to https://dimewiki.worldbank.org/wiki/Data_Management
@@ -1118,8 +1068,6 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 ---
 
 # Appendix - Git
-
-## Git
 
 Git is a version-control system for tracking changes in code and other text files. It is a great resource to include in your work flow.
 
@@ -1132,8 +1080,6 @@ We didn't cover it here because of time constraints, but below are some useful l
 ---
 
 # Appendix - More on R projects
-
-## R projects
 
 If you want to learn more about them, we recommend starting here:
 https://r4ds.had.co.nz/workflow-projects.html
@@ -1180,8 +1126,6 @@ print("This part is not a comment") # And this is a comment
 
 # Appendix - Looping
 
-## Loops
-
 * In Stata, we use `for` loops very frequently
 
 * The equivalent to that in R would be this
@@ -1195,9 +1139,7 @@ print("This part is not a comment") # And this is a comment
 
 ---
 
-# Appendix - Looping
-
-## Column extraction operators
+# Appendix - Column extraction operators
 
 * Remember the use of `$` to extract columns from a dataframe?
 
@@ -1215,9 +1157,7 @@ whr[["year"]] # Notice the use of double quotes
 
 ---
 
-# Appendix - Looping
-
-## Column extraction operators: `[[]]` vs `$`
+# Appendix - Column extraction operators: `[[]]` vs `$`
 
 What's the key difference between them?
 
@@ -1235,9 +1175,7 @@ head(whr[[col_name]])
 
 ---
 
-# Appendix - Looping
-
-## Column extraction operators: `[[]]` vs `$`
+# Appendix - Column extraction operators: `[[]]` vs `$`
 
 This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
 
@@ -1254,8 +1192,6 @@ for (col in colnames(whr)) {
 
 # Appendix - Apply
 
-## Apply
-
 * Apart from tidyverse's `map()`, base R also has a set of functions that allows users to apply a function to a number of objects without using explicit loops
 
 * They're called `apply` and there are many of them, with different use cases
@@ -1267,8 +1203,6 @@ for (col in colnames(whr)) {
 ---
 
 # Appendix - Apply
-
-## Apply
 
 * The syntax of `sapply()` is:
 
@@ -1315,8 +1249,6 @@ sapply(whr, head, 1) # A more elegant and efficient option
 ---
 
 # Appendix - Apply
-
-## Apply
 
 * A more general version of `sapply()` is the `apply()` function. This is its syntax:
 
