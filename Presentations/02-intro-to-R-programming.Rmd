@@ -259,7 +259,7 @@ setwd("your/path")
 
 ---
 
-# RStudio Projects
+# RStudio projects
 
 * Instead, you should use RStudio projects and the `here` library
 
@@ -784,6 +784,20 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 # Map
 
+```{r, eval=FALSE}
+  whr %>%
+    select(freedom, happiness_score) %>%
+    map(max)
+```  
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Map
+
 * `map()` looks nice, doesn't it?
 
 * But what about cases when it's impossible to implement the operations I want to apply in only one function? Do I have to use `for` loops then?
@@ -839,11 +853,8 @@ Create a function named `zscore` that standardizes the values of a vector.
 * The command to get the SD of a vector is `sd(x)`
 * R is vectorized: you can operate vectors and number directly and the result will be a vector
 * Don't forget to include the argument `na.rm = TRUE` in `mean()` and `sd()`
+* Recall the syntax of custom functions in R:
 
-]
-
-* Recall the syntax of functions in R:
-  
 ```{r eval=F}
 function_name <- function(input) {
   
@@ -853,6 +864,10 @@ function_name <- function(input) {
 
 }
 ```
+
+]
+
+
 
 ---
 
@@ -1107,7 +1122,7 @@ print("This part is not a comment") # And this is a comment
 
 ---
 
-# Appendix - Assignment 3
+# Appendix - Assignment 1
 
 .exercise[
 
@@ -1276,7 +1291,7 @@ apply(matrix, 2, mean) # column means
 
 ---
 
-# Appendix - Assignment 4
+# Appendix - Assignment 2
 
 ### Exercise: Get the row max
 
@@ -1292,6 +1307,8 @@ apply(matrix, 2, mean) # column means
 ---
 
 # Appendix - Apply
+
+Solution: 
 
 ```{r, eval=FALSE}
 whr %>%
