@@ -842,7 +842,7 @@ Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as
 
 ## Factors
 
-We'll learn more about factors on the last session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
+We'll learn a more about factors in a later session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
 
 Unlike Stata, in R:
 
@@ -911,7 +911,7 @@ Create a boolean vector with the condition of annual income below average:
 
 ```r
 # Create vector
-inc_below_avg &lt;- whr$happiness_score &lt; mean(whr$happiness_score)
+inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita)
 
 # See the 6 first elements of the vector
 head(inc_below_avg)
@@ -927,7 +927,7 @@ head(inc_below_avg)
 
 
 ```r
-inc_below_avg &lt;- whr$happiness_score &lt; mean(whr$happiness_score) # Create vector
+inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita) # Create vector
 head(inc_below_avg) # See the 6 first elements of the vector
 ```
 
@@ -1036,7 +1036,7 @@ Instead of indexing the lines with the boolean vector `inc_below_avg`, we could 
 # Replace with 1 those obs that meet the condition
 whr$rank_low[inc_below_avg] &lt;- 1 
 # is the same as
-whr$rank_low[whr$happiness_score &lt; mean(whr$happiness_score)] &lt;- 1 
+whr$rank_low[whr$happiness_score &lt; mean(whr$economy_gdp_per_capita)] &lt;- 1 
 
 # This in stata would be:
 # gen     rank_low = 0
