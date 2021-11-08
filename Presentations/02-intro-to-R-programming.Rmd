@@ -796,6 +796,35 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
+# List indexing revisited: `[]` vs `[[]]`
+
+* The output of `map()` will be always a list
+
+* Remember we said yesterday that you could use brackets to index list items? Well, we can also use double brackets
+
+* While both will return the i-th element, a key difference is they return different data types:
+
+  + `[]`: returns a list of one item containing the element selected
+  + `[[]]`: returns the element selected itself
+
+* Understanding this difference is crucial when working with `map()`
+
+---
+
+# List indexing revisited: `[]` vs `[[]]`
+
+```{r, eval=FALSE}
+my_list <- list(1, "hello")
+my_list[2]   # this returns the string "hello" enclosed in another list
+my_list[[2]] # this returns the actual string "hello"
+```  
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
 # Map
 
 * `map()` looks nice, doesn't it?
@@ -896,11 +925,14 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
 
-2. Use `map()` combined with the `zscore` function to get the z-score of these two columns
+2. Use `map()` combined with the `zscore` function to get the z-score of these two columns and assign the resulting list to an object named `z_scores`
+
+3. Use list indexing on `z_scores` to generate two new columns in `whr` with the standardized values of `health_life_expectancy` and `freedom`
   
 > **Hints:**
 * Use the pipes (`%>%`) successively
 * Remember that we don't use parenthesis next to the function name we're using `map()` with
+* Remember that we use double brackets instead of single brackets to index the actual elements of a list
 
 ]
 
@@ -909,9 +941,11 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 # Custom functions
 
 ```{r, eval=FALSE}
-whr %>%
+z_scores <- whr %>%
   select(health_life_expectancy, freedom) %>%
   map(zscore)
+whr$hle_st <- z_scores[[1]]
+whr$freedom_st <- z_scores[[2]]
 ```
 
 ```{r echo=FALSE}
