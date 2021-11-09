@@ -201,7 +201,7 @@ knitr::include_graphics("img/environment_2vars_2021.png")
 
 ### Exercise 1 `r fa("keyboard")`
 
-You'll never have to use  the equivalent of `clear all`
+After this, you'll never have to use  the equivalent of `clear all`
 
 1. Go to `Tools` > `Global Options...`
 
@@ -308,21 +308,25 @@ knitr::include_graphics("img/dime-r-training-project.png")
 
 # Usage of `here`
 
-1. Load the `here` library:
+- Load the `here` library:
 
 ```{r, eval=FALSE}
 library(here)
 ```
 
-2. Now you'll be able to use `here()` to point the location of every file relative to your project root
+- Now you'll be able to use `here()` to point the location of every file relative to your project root
 
   + For example, to load a `csv` file located in: `C:/WBG/project-root-name/data/raw/data-file.csv`, you should use:
   
 ```{r, eval=FALSE}
-df <- read.csv(here("data", "raw", "data-file.csv"))
+path <- here("data", "raw", "data-file.csv")
+df <- read.csv(path)
 ```
 
-* __Note:__ Your project root is the directory that contains the `.Rproj` file (or `.git` directory if you are using git).
+* __Notes:__
+
+  + Your project root is the directory that contains the `.Rproj` file (or `.git` directory if you are using git).
+  + The result of `here()` is an absolute path that points to a file or folder location in your computer
 
 ---
 
@@ -334,16 +338,15 @@ df <- read.csv(here("data", "raw", "data-file.csv"))
 
 1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - November 2021` > `Data` > `DataWork.zip`
 
-2. Unzip the file in your RStudio project root folder
-
-  + This is the folder where the file `dime-r-training-project.Rproj` sits
-  + If you didn't change the default directory when creating the RStudio project, it will be in your `Documents` folder in Windows or in your Home directory in Mac or Linux
+2. Unzip the file in your RStudio project root folder. This is the folder where the file `dime-r-training-project.Rproj` sits
   
-3. On RStudio, go to `File` > `New File` > `R Script`
+3. On RStudio, go to `File` > `New File` > `R Script` and save this new empty script in `DataWork` > `Code` as `exercises-session2.R`
 
-4. Save this new empty script in `DataWork` > `Code` as `exercises.R`
+5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using `here()`
 
-5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using the function `here()`.
+  + Use the function `read.csv()` to load the file. The argument for `read.csv()` is the result of `here()`
+  + Remember to assign the dataframe you're reading to an object. You can call it `whr` as we did yesterday
+
 ]
 
 ---
@@ -661,7 +664,7 @@ knitr::include_graphics("img/statalog.png")
 
 * Piping is a way of doing metaprogramming
 
-* The meaning of the pipes is: *Pipes take the __output__ of the function at the left and pass it as the __input__ of the function at the right*
+* The actual meaning of the pipes is: *Pipes take the __output__ of the function at the left and pass it as the __first argument__ of the function at the right*
 
 * The advantages of using piping is that it allows to have a cleaner division of successively applied functions in R code, __drastically improving code readability__
 
@@ -704,11 +707,19 @@ name: mapping-and-iterations
 
 * In Stata, we use `for` loops very frequently
 
+* In R, the syntax of `for` loops is this:
+
+```{r, eval = T}
+    for (number in 1:3) {
+        print(number)
+    }
+```
+
 * R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
-* For the purpose of this training, we will use `map()`. It is a function part of the tidyverse meta package
+* In this training we'll introduce `map()`. It is a function part of the tidyverse meta package
 
-* We won't be covering loops in the main content of this session, but you can check the Annex of this presentation to learn how to write loops in R
+* Also, in case you have not noticed yet: __R is vectorized!__ this means that many operations are applied element-wise by default so you don't have to code loops to apply them to each element of a vector or dataframe
 
 ---
 
@@ -733,12 +744,9 @@ name: mapping-and-iterations
 
 ```{r, eval=FALSE}
 # Round the values of the following vector
-
-## Vector
 x <- c(1.2, 2.5, 9.1, 5.8)
-
-## Rounding the vector elements
-x %>% map(round)
+x %>% map(round) # Rounding the vector elements
+round(x)         # since R is vectorized, this also works
 ```
 
 ```{r echo=FALSE}
@@ -772,10 +780,14 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ### Exercise 6 `r fa("keyboard")`
 
 1. Select the columns `freedom` and `happiness_score` of `whr`
+  
+  + Use tidyverse's `select()` for this, as in: `whr %>% select(freedom, happiness_score)` 
+
 2. Use `map()` to get the maximum value of these columns
 
 > Hints:
-  + Remember the syntax of `map()`: `map(X, function)`. You can also try using pipes here
+  + Remember the syntax of `map()`: `map(X, function)`
+  + Try using pipe concatenation here
   + The function to get the maximum over a set of numbers is `max`.
 
 ]
@@ -800,14 +812,14 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 * The output of `map()` will be always a list
 
-* Remember we said yesterday that you could use brackets to index list items? Well, we can also use double brackets
+* Remember we said yesterday that you could use brackets to index list items? we can also use double brackets
 
-* While both will return the i-th element, a key difference is they return different data types:
+* While both will return the i-th element, a key difference is that they return different data types:
 
   + `[]`: returns a list of one item containing the element selected
   + `[[]]`: returns the element selected itself
 
-* Understanding this difference is crucial when working with `map()`
+* This difference is crucial when working with `map()`
 
 ---
 
@@ -880,7 +892,7 @@ Create a function named `zscore` that standardizes the values of a vector.
 > **Hints:**
 * The command to obtain the mean of a vector is `mean(x)`
 * The command to get the SD of a vector is `sd(x)`
-* R is vectorized: you can operate vectors and number directly and the result will be a vector
+* R is vectorized: you can operate vectors and numbers directly and the result will be a vector
 * Don't forget to include the argument `na.rm = TRUE` in `mean()` and `sd()`
 * Recall the syntax of custom functions in R:
 
