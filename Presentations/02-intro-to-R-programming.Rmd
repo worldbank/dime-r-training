@@ -1366,9 +1366,9 @@ whr %>%
 exclude: true
 
 ```{R, pdfs, include = F, eval = F}
-pagedown::chrome_print("06-R-programming-practices.html", output = "06-R-programming-practices.pdf")
+pagedown::chrome_print("02-intro-to-R-programming.html", output = "02-intro-to-R-programming.pdf")
 
 # or
 source("https://git.io/xaringan2pdf")
-xaringan_to_pdf("06-R-programming-practices.html")
+xaringan_to_pdf("02-intro-to-R-programming.html")
 ```
