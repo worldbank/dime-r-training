@@ -404,12 +404,10 @@ census %>%
 ```
 
 Here are a few functions that can be used within `sfl()`:
-- Center: `mean()`, `median()`
-- Spread: `sd()`, `IQR()`, `mad()`
-- Range: `min()`, `max()`, `quantile()`
-- Position: `first()`, `last()`, `nth()`,
-- Count: `n()`, `n_distinct()`
-- Logical: `any()`, `all()`
+- Center: `mean`, `median`
+- Spread: `sd`, `IQR`, `variance`
+- Range: `min`, `max`, `quantile`
+- Count: `n_complete`, `n_missing`, `length`
 
 ---
 
