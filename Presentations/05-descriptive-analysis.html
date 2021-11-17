@@ -29,7 +29,7 @@ class: center, middle, inverse, title-slide
 # Exploratory Analysis
 ## <a href="https://github.com/worldbank">R for Advanced Stata Users</a>
 ### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### DIME |The World Bank <br> 15 November 2021
+### DIME |The World Bank <br> 16 November 2021
 
 ---
 
@@ -518,12 +518,10 @@ census %&gt;%
 ```
 
 Here are a few functions that can be used within `sfl()`:
-- Center: `mean()`, `median()`
-- Spread: `sd()`, `IQR()`, `mad()`
-- Range: `min()`, `max()`, `quantile()`
-- Position: `first()`, `last()`, `nth()`,
-- Count: `n()`, `n_distinct()`
-- Logical: `any()`, `all()`
+- Center: `mean`, `median`
+- Spread: `sd`, `IQR`, `variance`
+- Range: `min`, `max`, `quantile`
+- Count: `n_complete`, `n_missing`, `length`
 
 ---
 
@@ -724,7 +722,7 @@ summary_stats_table &lt;-
 *  relocate(Variable) %&gt;%  # Make variable labels the first column
 *  set_header_rows(1, TRUE) %&gt;% # Use stats name as table header
 *  set_header_cols("Variable", TRUE)  %&gt;%  # Use variable name as row header
-*  set_number_format("%9.0f" ) %&gt;% # Don't round large numbers
+   set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;% # Don't round large numbers
 *  theme_basic() # Set a theme for quick formatting
 ```
 ]
@@ -759,8 +757,8 @@ summary_stats_table &lt;-
    summary_stats_table %&gt;%
    relocate(Variable) %&gt;%  # Make variable labels the first column
    set_header_rows(1, TRUE) %&gt;% # Use stats name as table header
-   set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;% # Don't round large numbers
    set_header_cols("Variable", TRUE)  %&gt;%  # Use variable name as row header
+   set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;% # Don't round large numbers
    theme_basic() # Set a theme for quick formatting
 
 *# Now export it
