@@ -762,7 +762,7 @@ Create a scatter plot of the projects in the `wb_projects` dataset.
 ggplot() +
    geom_point(data = wb_projects,
               aes(x = longitude,
-                  y = latitude)
+                  y = latitude))
 ```
 
 ---
