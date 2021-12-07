@@ -7,8 +7,8 @@ output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
           "libs/remark-css/metropolis.css", 
-          "libs/remark-css/metropolis-fonts.css",
-          "custom-css.css"]
+          "libs/remark-css/metropolis-fonts.css"]
+          #"custom-css.css"] from Luise: leaving this out because I don't have this file in my computer
     lib_dir: libs
     nature:
       ratio: "16:9"
