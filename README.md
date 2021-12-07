@@ -21,7 +21,7 @@ Formats:
 Formats:
 - [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-intro-to-R-programming.html)
 - [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-intro-to-R-programming.pdf)
-- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-intro-to-R-programming.html)
+- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-intro-to-R-programming.Rmd)
 
 [03 - Data wrangling](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.html)
 
@@ -30,7 +30,7 @@ Formats:
 Formats:
 - [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.html)
 - [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.pdf)
-- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.html)
+- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.Rmd)
 
 [04 - Data visualization](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-data-visualization.html)
 
