@@ -90,7 +90,11 @@ We're glad you're joining us today!
 
 ## Format
 
+<<<<<<< HEAD
+- You can join our Slack workspace using [this link](https://join.slack.com/t/worldbank-network/shared_invite/zt-xxcai60m-7_E_oBFFQe1tzrSCTNmEmQ)
+=======
 - You can join our Slack workspace using [this link](https://join.slack.com/t/rforstatauser-cag9201/shared_invite/zt-odgmvvgm-AGqrRB4T8mxVOplcnRETSw) *(to be updated)*
+>>>>>>> master
 
 - If you have a question feel free to unmute yourself or use the chat to ask it
 
@@ -98,7 +102,11 @@ We're glad you're joining us today!
 
 - If your connection is good enough, please leave your video on
 
+<<<<<<< HEAD
+- The materials of each session will be shared in the OSF page of the course by the end of each session: https://osf.io/86g3b/
+=======
 - The materials of each session will be shared in the OSF page of the course by the beginning of each session: https://osf.io/86g3b/
+>>>>>>> master
 
 ---
 
@@ -295,7 +303,7 @@ Now, let's try some simple manipulations. First, assume we're only interested in
 
 ## Exercise 2: Subset the data 
 
-1. Subset the data set, keeping only observations where variable `year` equals `2016`.
+- Subset the data set, keeping only observations where variable `year` equals `2016`.
 
 
 ```r
@@ -303,7 +311,7 @@ Now, let's try some simple manipulations. First, assume we're only interested in
 subset(whr, year == 2016)
 ```
 
-2. Then, look again at the first 6 observations
+- Then, look again at the first 6 observations
 
 ```r
 # Use the head() function again
@@ -842,7 +850,7 @@ Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as
 
 ## Factors
 
-We'll learn more about factors on the last session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
+We'll learn a more about factors in a later session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
 
 Unlike Stata, in R:
 
@@ -911,7 +919,7 @@ Create a boolean vector with the condition of annual income below average:
 
 ```r
 # Create vector
-inc_below_avg &lt;- whr$happiness_score &lt; mean(whr$happiness_score)
+inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita)
 
 # See the 6 first elements of the vector
 head(inc_below_avg)
@@ -927,7 +935,7 @@ head(inc_below_avg)
 
 
 ```r
-inc_below_avg &lt;- whr$happiness_score &lt; mean(whr$happiness_score) # Create vector
+inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita) # Create vector
 head(inc_below_avg) # See the 6 first elements of the vector
 ```
 
@@ -1036,7 +1044,7 @@ Instead of indexing the lines with the boolean vector `inc_below_avg`, we could 
 # Replace with 1 those obs that meet the condition
 whr$rank_low[inc_below_avg] &lt;- 1 
 # is the same as
-whr$rank_low[whr$happiness_score &lt; mean(whr$happiness_score)] &lt;- 1 
+whr$rank_low[whr$happiness_score &lt; mean(whr$economy_gdp_per_capita)] &lt;- 1 
 
 # This in stata would be:
 # gen     rank_low = 0
