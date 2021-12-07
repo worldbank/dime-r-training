@@ -1,63 +1,63 @@
 # R for Stata users
 
 ## Background
-This material was developed by the [DIME Analytics](https://worldbank.github.io/dimeanalytics/) team as an introduction to R Statistical Package for its staff. It builds upon knowledge of Stata to explore features of R with impact evaluation applications in mind. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices).
+This material was developed by the [DIME Analytics](https://www.worldbank.org/en/research/dime/data-and-analytics) team as an introduction to R Statistical Package for its staff. It builds upon knowledge of Stata to explore features of R with impact evaluation applications in mind. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices). All sessions are designed to last 90 minutes.
 
 ## Training content
 
 [01 - Introduction to R](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.html)
 
-- Introduction to RStudio, R syntax, objects and classes. Designed for a 1h30m session.
+- Introduction to RStudio, R syntax, objects and classes.
 
-Formats: 
-- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.html) 
-- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.pdf) 
+Formats:
+- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.html)
+- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.pdf)
 - [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.Rmd)
 
-[02 - Data processing](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-data-processing.html)
+[02 - Introduction to R programming](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-intro-to-R-programming.html)
 
-- Basic functions for processing data. Designed for a 1h30m session.
+- Code organization, R libraries, loops, custom functions, and R programming practices.
 
-Formats: 
-- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-data-processing.html) 
-- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-data-processing.pdf) 
-- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-data-processing.Rmd)
+Formats:
+- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-intro-to-R-programming.html)
+- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-intro-to-R-programming.pdf)
+- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/02-intro-to-R-programming.html)
 
-[03 - Data visualization](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-visualization.html) 
+[03 - Data wrangling](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.html)
 
-- An introduction to creating and export graphs in ggplot2. Designed for a 1h30m session.
+- Basic functions for processing data using the tidyverse meta library.
 
-Formats: 
-- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-visualization.html) 
-- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-visualization.pdf) 
-- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-visualization.Rmd)
+Formats:
+- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.html)
+- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.pdf)
+- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.html)
 
-[04 - Descriptive analysis](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-descriptive-analysis.html)
+[04 - Data visualization](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-data-visualization.html)
 
-- How to create and export descriptive statistics table in R. Designed for a 1h30m session.
+- An introduction to creating and export graphs in ggplot2.
 
-Formats: 
-- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-descriptive-analysis.html) 
-- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-descriptive-analysis.pdf) 
-- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-descriptive-analysis.Rmd)
+Formats:
+- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-data-visualization.html)
+- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-data-visualization.pdf)
+- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/04-data-visualization.Rmd)
 
-[05 - Geospatial data](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/05-spatial-data.html)
+[05 - Descriptive analysis](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/05-descriptive-analysis.html)
 
-- An overview of R resources on GIS. Designed for a 1h30m session.
+- How to create and export descriptive statistics table in R.
 
-Formats: 
-- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/05-spatial-data.html) 
-- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/05-spatial-data.pdf) 
-- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/05-spatial-data.Rmd)
+Formats:
+- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/05-descriptive-analysis.html)
+- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/05-descriptive-analysis.pdf)
+- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/05-descriptive-analysis.Rmd)
 
-[06 - R programming practices](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-R-programming-practices.html)
+[06 - Geospatial data](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-spatial-data.html)
 
-- Uses and R master script to explore code organization, loops, custom functions and if statements. Designed for a 1h30m session.
+- An overview of R resources on GIS.
 
-Formats: 
-- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-R-programming-practices.html) 
-- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-R-programming-practices.pdf) 
-- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-R-programming-practices.Rmd)
+Formats:
+- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-spatial-data.html)
+- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-spatial-data.pdf)
+- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-spatial-data.Rmd)
 
 ## License
 This material is developed under MIT license. See http://adampritchard.mit-license.org/ or see [the `LICENSE` file](https://github.com/worldbank/ietoolkit/blob/master/LICENSE) for details.
