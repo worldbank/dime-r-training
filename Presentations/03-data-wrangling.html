@@ -28,7 +28,7 @@ class: center, middle, inverse, title-slide
 # Session 3: Data Wrangling
 ## R for Stata Users
 ### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> April 2021
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> November 2021
 
 ---
 
@@ -177,6 +177,10 @@ library(tidyverse)
 library(tidyverse)
 library(here)       # A package to work with relative file paths
 library(janitor)    # Additional data cleaning tools
+```
+
+```
+## Warning: package 'janitor' was built under R version 4.0.4
 ```
 
 &gt; *Notes*: Remember you should always load your packages before your start coding.
@@ -544,7 +548,7 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 ### Exercise 3: Filter the dataset.
 
-* Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint use the *or* operator (`|`) to add conditions: 
+* Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint: use the *or* operator (`|`) to add conditions: 
 
 --
 
@@ -777,11 +781,11 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 3 x 4
-##   region                     happiness_score health_life_expe~ trust_government~
-##   &lt;chr&gt;                                &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;
-## 1 Australia and New Zealand             7.28             0.920            0.393 
-## 2 Central and Eastern Europe            5.33             0.719            0.0867
-## 3 Eastern Asia                          5.63             0.877            0.128
+##   region             happiness_score health_life_expecta~ trust_government_corr~
+##   &lt;chr&gt;                        &lt;dbl&gt;                &lt;dbl&gt;                  &lt;dbl&gt;
+## 1 Australia and New~            7.28                0.920                 0.393 
+## 2 Central and Easte~            5.33                0.719                 0.0867
+## 3 Eastern Asia                  5.63                0.877                 0.128
 ```
 ]
 ]
@@ -924,12 +928,13 @@ whr17 %&gt;%
 
 ```
 ## # A tibble: 2 x 14
-##   country      region happiness_rank happiness_score whisker_high whisker_low economy_gdp_per_~
-##   &lt;chr&gt;        &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;             &lt;dbl&gt;
-## 1 Taiwan Prov~ &lt;NA&gt;               33            6.42         6.49        6.35              1.43
-## 2 Hong Kong S~ &lt;NA&gt;               71            5.47         5.55        5.39              1.55
-## # ... with 7 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
-## #   generosity &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
+##   country         region happiness_rank happiness_score whisker_high whisker_low
+##   &lt;chr&gt;           &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Taiwan Provinc~ NA                 33            6.42         6.49        6.35
+## 2 Hong Kong S.A.~ NA                 71            5.47         5.55        5.39
+## # ... with 8 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
 ```
 
 ---
@@ -1039,7 +1044,7 @@ The R equivalent of a `.dta` file is a `.rds` file. It can be saved and loaded u
 ```r
 # Save the data set
 
-write_rds(whr_panel, file = here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
+write_rds(whr_panel, here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
 ```
 
 ---
@@ -1094,13 +1099,13 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 x 8
-##   country     region       year happiness_rank happiness_score economy_gdp_per_~
-##   &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;
-## 1 Australia   Australia ~  2015             10            7.28             1.33 
-## 2 New Zealand Australia ~  2015              9            7.29             1.25 
-## 3 Albania     Central an~  2015             95            4.96             0.879
-## 4 Armenia     Central an~  2015            127            4.35             0.768
-## 5 Azerbaijan  Central an~  2015             80            5.21             1.02 
+##   country   region        year happiness_rank happiness_score economy_gdp_per_c~
+##   &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;
+## 1 Australia Australia a~  2015             10            7.28              1.33 
+## 2 New Zeal~ Australia a~  2015              9            7.29              1.25 
+## 3 Albania   Central and~  2015             95            4.96              0.879
+## 4 Armenia   Central and~  2015            127            4.35              0.768
+## 5 Azerbaij~ Central and~  2015             80            5.21              1.02 
 ## # ... with 2 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;
 ```
 
@@ -1118,13 +1123,13 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 x 8
-##   country     region      year happiness_rank happiness_score economy_gdp_per_c~
-##   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;
-## 1 Switzerland Western E~  2015              1            7.59               1.40
-## 2 Iceland     Western E~  2015              2            7.56               1.30
-## 3 Denmark     Western E~  2015              3            7.53               1.33
-## 4 Norway      Western E~  2015              4            7.52               1.46
-## 5 Canada      North Ame~  2015              5            7.43               1.33
+##   country    region      year happiness_rank happiness_score economy_gdp_per_ca~
+##   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;               &lt;dbl&gt;
+## 1 Switzerla~ Western E~  2015              1            7.59                1.40
+## 2 Iceland    Western E~  2015              2            7.56                1.30
+## 3 Denmark    Western E~  2015              3            7.53                1.33
+## 4 Norway     Western E~  2015              4            7.52                1.46
+## 5 Canada     North Ame~  2015              5            7.43                1.33
 ## # ... with 2 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;
 ```
 
@@ -1204,14 +1209,15 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 x 9
-##   country region  year happiness_rank happiness_score economy_gdp_per~ health_life_exp~ freedom
-##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Costa ~ Latin~  2015             12            7.23            0.956            0.860   0.634
-## 2 Mexico  Latin~  2015             14            7.19            1.02             0.814   0.482
-## 3 Brazil  Latin~  2015             16            6.98            0.981            0.697   0.490
-## 4 Venezu~ Latin~  2015             23            6.81            1.04             0.721   0.429
-## 5 Panama  Latin~  2015             25            6.79            1.06             0.797   0.542
-## # ... with 1 more variable: latin_america_car &lt;dbl&gt;
+##   country  region         year happiness_rank happiness_score economy_gdp_per_c~
+##   &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;
+## 1 Costa R~ Latin Americ~  2015             12            7.23              0.956
+## 2 Mexico   Latin Americ~  2015             14            7.19              1.02 
+## 3 Brazil   Latin Americ~  2015             16            6.98              0.981
+## 4 Venezue~ Latin Americ~  2015             23            6.81              1.04 
+## 5 Panama   Latin Americ~  2015             25            6.79              1.06 
+## # ... with 3 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   latin_america_car &lt;dbl&gt;
 ```
 
 ---
@@ -1240,9 +1246,9 @@ whr17 %&gt;%
 
 ```
 ## # A tibble: 0 x 8
-## # ... with 8 variables: country &lt;chr&gt;, region &lt;chr&gt;, year &lt;dbl&gt;, happiness_rank &lt;dbl&gt;,
-## #   happiness_score &lt;dbl&gt;, economy_gdp_per_capita &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
-## #   freedom &lt;dbl&gt;
+## # ... with 8 variables: country &lt;chr&gt;, region &lt;chr&gt;, year &lt;dbl&gt;,
+## #   happiness_rank &lt;dbl&gt;, happiness_score &lt;dbl&gt;, economy_gdp_per_capita &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;
 ```
 ---
 class: inverse, center, middle
@@ -1266,7 +1272,7 @@ str(whr_panel$region)
 ```
 
 ```
-##  chr [1:470] "Western Europe" "Western Europe" "Western Europe" "Western Europe" ...
+##  chr [1:470] "Western Europe" "Western Europe" "Western Europe" ...
 ```
 
 ---

@@ -931,7 +931,7 @@ The R equivalent of a `.dta` file is a `.rds` file. It can be saved and loaded u
 ```{r}
 # Save the data set
 
-write_rds(whr_panel, file = here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
+write_rds(whr_panel, here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
 
 ```
 
