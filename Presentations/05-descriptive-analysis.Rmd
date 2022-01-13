@@ -129,6 +129,30 @@ But that's enough of me talking. Let's get you all to run some code
 
 # Setting the stage
 
+
+Load the packages that we will use today
+```{r, eval = F}
+  # Install new packages
+  install.packages("skimr")
+  install.packages("lfe")
+  install.packages("huxtable")
+  install.packages("openxlsx")
+```
+
+```{r, warning = FALSE}
+  # Load packages
+  library(here)
+  library(tidyverse)
+  library(skimr)
+  library(lfe)
+  library(huxtable)
+  library(openxlsx)
+```
+
+---
+
+# Setting the stage
+
 Load the data that we will use today: Stata's `census` dataset
 ```{r}
   # Load data
@@ -157,27 +181,6 @@ Double-check that you can see this dataset in your environment pane. Now, can so
 
 ```{r}
 glimpse(census)
-```
-
----
-
-# Setting the stage
-
-
-Load the packages that we will use today
-```{r, eval = F}
-  # Install new packages
-  install.packages("skimr")
-  install.packages("lfe")
-  install.packages("huxtable")
-```
-
-```{r, warning = FALSE}
-  # Load packages
-  library(tidyverse)
-  library(skimr)
-  library(lfe)
-  library(huxtable)
 ```
 
 ---
@@ -214,8 +217,8 @@ Use the `summary()` function to describe the `census` data frame.
 
 # Exploring a dataset
 
-```{r, echo = FALSE}
-include_app("https://luizaandrade.shinyapps.io/learnr/")
+```{r}
+summary(census)
 ```
 
 ---
@@ -237,11 +240,6 @@ include_app("https://luizaandrade.shinyapps.io/learnr/")
 ### Exercise `r fa("keyboard")`
 Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
 ]
-
-```{r, echo = FALSE}
-include_app("https://luizaandrade.shinyapps.io/learnr/")
-```
-
 
 ---
 
@@ -268,8 +266,10 @@ Use the `table()` function to display frequency tables for:
 
 ## One way tabulation
 
-```{r, echo = FALSE}
-include_app("https://luizaandrade.shinyapps.io/learnr/")
+--
+
+```{r}
+table(census$region)
 ```
 
 
@@ -279,8 +279,10 @@ include_app("https://luizaandrade.shinyapps.io/learnr/")
 
 ## Two way tabulation
 
+--
+
 ```{r, echo = FALSE}
-include_app("https://luizaandrade.shinyapps.io/learnr/")
+table(census$state, census$region) 
 ```
 
 
@@ -402,12 +404,10 @@ census %>%
 ```
 
 Here are a few functions that can be used within `sfl()`:
-- Center: `mean()`, `median()`
-- Spread: `sd()`, `IQR()`, `mad()`
-- Range: `min()`, `max()`, `quantile()`
-- Position: `first()`, `last()`, `nth()`,
-- Count: `n()`, `n_distinct()`
-- Logical: `any()`, `all()`
+- Center: `mean`, `median`
+- Spread: `sd`, `IQR`, `variance`
+- Range: `min`, `max`, `quantile`
+- Count: `n_complete`, `n_missing`, `length`
 
 ---
 
@@ -574,7 +574,7 @@ summary_stats_table <- #<<
    relocate(Variable) %>%  # Make variable labels the first column #<<
    set_header_rows(1, TRUE) %>% # Use stats name as table header #<<
    set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header #<<
-   set_number_format("\"%9.0f\"" ) %>% # Don't round large numbers #<<
+   set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% # Don't round large numbers
    theme_basic() # Set a theme for quick formatting #<<
 
 ```
@@ -591,7 +591,7 @@ summary_stats_table <- #<<
 # Beautifying tables
 
 .small[
-```{r, message = FALSE, eval = F}
+```{r, message = FALSE}
 
 # Extract variable labels from data frame
 census_dictionary <-
@@ -611,12 +611,15 @@ summary_stats_table <-
    relocate(Variable) %>%  # Make variable labels the first column
    set_header_rows(1, TRUE) %>% # Use stats name as table header
    set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header
-   set_number_format("\"%9.0f\"" ) %>% # Don't round large numbers
+   set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% # Don't round large numbers
    theme_basic() # Set a theme for quick formatting
 
 # Now export it #<<
 quick_xlsx(summary_stats_table, #<<
-           file = file.path(rawOutput, "summary-stats-basic.xlsx")) #<<
+           file = here("DataWork", #<<
+                       "Output", #<<
+                       "Raw", #<<
+                       "summary-stats-basic.xlsx")) #<<
 
 quick_latex(summary_stats_table, #<<
            file = here("DataWork",  #<<
@@ -705,11 +708,6 @@ The "name-value" pairs mentioned under `...` look like this: `new_variable = sta
 ### Exercise `r fa("keyboard")`
 Recreate the `region_stats` data set,  now including the average and the standard deviation of the population.
 ]
-
-
-```{r, echo = FALSE}
-include_app("https://luizaandrade.shinyapps.io/learnr/")
-```
 
 ---
 
@@ -820,8 +818,10 @@ Using the `census` data, run a regression of the number of divorces on populatio
 ]
 
 
-```{r, echo = FALSE}
-include_app("https://luizaandrade.shinyapps.io/learnr/")
+```{r}
+reg1 <-
+  lm(divorce ~ pop + popurban + marriage,
+     census)
 ```
 
 
@@ -897,8 +897,12 @@ Using the `census` data, run a regression of the number of divorces on populatio
 Using the `census` data, run a regression of divorce on population, urban population and number of marriages controlling for region fixed effects.
 ]
 
-```{r, echo = FALSE}
-include_app("https://luizaandrade.shinyapps.io/learnr/")
+```{r, evalt = FALSE}
+reg2 <-
+  felm(divorce ~ pop + popurban + marriage | region | 0 | 0,
+     census)
+
+summary(reg2)
 ```
 
 ---

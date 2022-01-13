@@ -14,6 +14,7 @@ library(tidyverse)
 library(janitor)
 library(skimr)
 library(lfe)
+library(openxlsx)
 library(huxtable)
 library(learnr)
 ```
