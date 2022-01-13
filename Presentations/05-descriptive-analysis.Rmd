@@ -1,5 +1,5 @@
 ---
-title: "Exploratory Analysis"
+title: "Descriptive Analysis"
 subtitle: "[R for Advanced Stata Users](https://github.com/worldbank)"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
 date: "DIME |The World Bank <br> `r format(Sys.time(), '%d %B %Y')`"
