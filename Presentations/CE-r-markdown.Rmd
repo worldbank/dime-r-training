@@ -246,7 +246,7 @@ name: r-code
 
 # Including R code
 
-- You can type the fenced code blocks directly or go to `Insert` > `R` in the script panel of RStudio to create a new block
+- To add new block, you can type the fences directly, go to `Insert` > `R` in the script panel of RStudio, or type `CTRL + ALT + i`
 
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/r-markdown/insert-new-r-fenced-block.png")
