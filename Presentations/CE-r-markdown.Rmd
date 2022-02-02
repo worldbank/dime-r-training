@@ -140,7 +140,7 @@ name: knitting
 1. Go to [our R trainings repository](https://osf.io/86g3b/)
 2. In the files panel, download `Introduction to R Markdown...` > `r-markdown-template.Rmd`
 3. Open this file in RStudio
-4. Click on `Knit`
+4. Click on `Knit`. If RStudio asks you to update some packages for this, select `Yes`
 
 ---
 
@@ -265,7 +265,7 @@ Include the summary of a variable in the document.
   + `mtcars` is a built-in dataset
   + load it with: `data(mtcars)`
 3. Inside the same block, get the summary of the variable `mpg` with `summary(mtcars$mpg)`
-4. Knit the document to PDF and check how this is rendered in the resulting file
+4. Knit the document to PDF and check how this is rendered in the resulting file. Note that you'll have to close the PDF document to knit it again
 
 ---
 
