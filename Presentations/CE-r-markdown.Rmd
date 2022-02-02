@@ -205,7 +205,7 @@ knitr::include_graphics("img/r-markdown/markdown-text-emphasis.png")
 
 # Markdown - Lists
 
-- Markdown allows to use ordered and unordered lists.
+- Markdown allows us to use both ordered and unordered lists.
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/r-markdown/markdown-lists.png")
