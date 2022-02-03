@@ -1,0 +1,55 @@
+---
+output: pdf_document
+---
+
+# R Markdown template
+
+This is an Markdown template created by DIME Analytics.
+It is meant to be a reference to show how text formatting in Markdown is combined with R code to produce R Markdown documents.
+
+# Markdown
+
+##  Headers
+
+# This is a header
+## Subheader 1
+### Subheader 2
+#### Subheader 3
+
+## Paragraphs
+
+This is a line of text.
+This is another line in the same paragraph.
+
+New paragraphs are separated by two line breaks.
+
+## Text emphasis
+
+Text in italics goes between *asterisks* or _underscores_.
+
+Text in bold goes between **two asterisks** or __two underscores__.
+
+You can combine asterisks and underscores to **emphasize with italics and bold _at the same time_**.
+
+Strikethrough text ~~uses two tildes~~.
+
+## Lists
+
+Ordered lists:
+
+1. Include a number and a dot before every item
+2. Also remember to include a blank line before the beginning of the list
+1. The actual number does not matter, the item will have the correct order number
+
+Unordered lists:
+
+* You can use an asterisk
++ Or a plus symbol
+- Or a minus symbol
+
+## Links
+
+Include the link text in brackets followed by the URL in parentheses.
+Like this:
+
+This is [the WB website](https://www.worldbank.org).
