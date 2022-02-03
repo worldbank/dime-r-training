@@ -52,4 +52,4 @@ Unordered lists:
 Include the link text in brackets followed by the URL in parentheses.
 Like this:
 
-This is [the WB website](https://https://www.worldbank.org).
+This is [the WB website](https://www.worldbank.org).
