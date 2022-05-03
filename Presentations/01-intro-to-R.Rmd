@@ -474,9 +474,38 @@ name: functions
 
 ## Quick intro to functions
 
-`head()`, `View()`, `subset()` and`read.csv()` are functions.
+* `head()`, `View()`, `subset()` and`read.csv()` are functions.
 
-* Functions in R take named arguments (unlike in Stata that you have arguments and options)
+* Functions in R take **named arguments** (unlike in Stata that you have arguments and options)
+
+* Type `help(subset)` in the console to check the arguments of the `subset()` function
+
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/subset_arguments.png")
+```
+
+---
+
+# Functions
+
+## Quick intro to functions
+
+* When we used `subset(whr, year == 2016)` we're implicitily telling R that the `x` argument is `whr` and the `subset` argument is `year == 2016`
+
+* In other words, these two commands will return the same results:
+
+  + `subset(whr, year == 2016)`
+  + `subset(x = whr, subset = year == 2016)`
+
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/subset_arguments.png")
+```
+
+---
+
+# Functions
+
+## Quick intro to functions
 
 * Arguments are always enclosed in parentheses
 
