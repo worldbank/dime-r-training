@@ -189,7 +189,7 @@ knitr::include_graphics("img/stataheader.jpg")
 
 * In any case, remember that you can see all the objects in your computer's memory at any point in the `Environment` panel
 
-```{r echo = FALSE, out.width = "40%"}
+```{r echo = FALSE, out.width = "55%"}
 knitr::include_graphics("img/environment_2vars_2021.png")
 ```
 
@@ -731,7 +731,7 @@ name: mapping-and-iterations
 
 .command[
 
-**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a data frame then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a vector with the results.
+**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a data frame then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a list with the results.
 
   + **X:** a data frame, matrix or vector the function will be applied to
   + **function:** the function you want to apply to each of the elements of `X`
@@ -812,28 +812,12 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 * The output of `map()` will be always a list
 
-* Remember we said yesterday that you could use brackets to index list items? we can also use double brackets
-
-* While both will return the i-th element, a key difference is that they return different data types:
+* Remember we said yesterday that you could use single or double brackets to index list items?
 
   + `[]`: returns a list of one item containing the element selected
   + `[[]]`: returns the element selected itself
 
-* This difference is crucial when working with `map()`
-
----
-
-# List indexing revisited: `[]` vs `[[]]`
-
-```{r, eval=FALSE}
-my_list <- list(1, "hello")
-my_list[2]   # this returns the string "hello" enclosed in another list
-my_list[[2]] # this returns the actual string "hello"
-```  
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
+* This difference is crucial when working with `map()`, because it always returns a list
 
 ---
 
