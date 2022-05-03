@@ -1155,80 +1155,6 @@ Here are some advantages of R:
 
 ---
 
-# Appendix - Help, Google and Stack Overflow
-
-Help in R works very much like in Stata: the help files usually start with a brief description of the function, explain its syntax and arguments and list a few examples. There are two ways to access help files:
-
-## Exercise 8: Use help
-
-```{r, eval=FALSE}
-# You can use the help() function
-help(summary)
-
-# or its abbreviation
-?summary
-
-```
-
----
-
-# Appendix - Help, Google and Stack Overflow
-
- * The biggest difference, however, is that __R has a much wider user community__ and it has __a lot more online resources__.
-
- * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550 (check http://r4stats.com/articles/popularity/ for more details).
-
- * The most powerful problem-solving tool in R, however, is Google. Searching the something yields tons of results.
- 
- * Often that means a Stack Overflow page where someone asked the same question and several people gave different answers. Here's a typical example:
- https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group
-
----
-
-# Appendix - Useful resources
-
-## Blogs, courses and resources:
-
-* Surviving graduate econometrics with R:
-https://thetarzan.wordpress.com/2011/05/24/surviving-graduate-econometrics-with-r-the-basics-1-of-8/
-
-* CRAN's manuals:
-https://cran.r-project.org/manuals.html
-
-* R programming in Coursera:
-https://www.coursera.org/learn/r-programming
-
-* R programming for dummies:
-http://www.dummies.com/programming/r/
-
-* R bloggers:
-https://www.r-bloggers.com/
-
-* R statistics blog:
-https://www.r-statistics.com/
-
-* The R graph gallery:
-https://www.r-graph-gallery.com/
-
-* R Econ visual library: (developed and maintained by DIME Analytics!)
-https://worldbank.github.io/r-econ-visual-library/
-
----
-
-# Appendix - Useful resources
-
-## Books:
-
-* R for Stata Users - Robert A. Muenchen and Joseph Hilbe
-
-* R Graphics Cookbook - Winston Chang
-https://r-graphics.org/
-
-* R for Data Science - Hadley Wickham and Garrett Grolemund
-https://r4ds.had.co.nz/
-
----
-
 # Appendix - Syntax
 
 R's syntax is a bit heavier than Stata's:
@@ -1260,6 +1186,32 @@ What's in R's memory.
 
 ## The 4th pane
 Can display different things, including plots you create, packages loaded and help files.
+
+---
+
+# Appendix - RStudio vs R GUI
+
+## RStudio
+
+- RStudio is an integrated development environment for R
+
+- It's a software that uses the base R installation of your computer and provides an expanded interface that greatly facilitates R programming
+
+## R GUI
+
+- The basic R Graphic User Interface (GUI) can also be used to program in R. You will find it in your computer with a name similar to `R<version>`, as in `R4.0.2`
+
+- Opening the R GUI allows to work with R in a command line format, where you introduce one R command and the interface executes it and prints any message if needed
+
+- It's very similar to the console panel of RStudio and it also allows to open a script editor, but it will not show you a list of the variables loaded on your environment
+
+---
+
+# Appendix - RStudio vs R GUI
+
+```{r echo = FALSE, out.width = "90%"}
+knitr::include_graphics("img/r-gui.png")
+```
 
 ---
 
@@ -1363,6 +1315,80 @@ as.integer(num)
 round(num)
 
 ```
+
+---
+
+# Appendix - Help, Google and Stack Overflow
+
+Help in R works very much like in Stata: the help files usually start with a brief description of the function, explain its syntax and arguments and list a few examples. There are two ways to access help files:
+
+## Exercise 8: Use help
+
+```{r, eval=FALSE}
+# You can use the help() function
+help(summary)
+
+# or its abbreviation
+?summary
+
+```
+
+---
+
+# Appendix - Help, Google and Stack Overflow
+
+ * The biggest difference, however, is that __R has a much wider user community__ and it has __a lot more online resources__.
+
+ * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550 (check http://r4stats.com/articles/popularity/ for more details).
+
+ * The most powerful problem-solving tool in R, however, is Google. Searching the something yields tons of results.
+ 
+ * Often that means a Stack Overflow page where someone asked the same question and several people gave different answers. Here's a typical example:
+ https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group
+
+---
+
+# Appendix - Useful resources
+
+## Blogs, courses and resources:
+
+* Surviving graduate econometrics with R:
+https://thetarzan.wordpress.com/2011/05/24/surviving-graduate-econometrics-with-r-the-basics-1-of-8/
+
+* CRAN's manuals:
+https://cran.r-project.org/manuals.html
+
+* R programming in Coursera:
+https://www.coursera.org/learn/r-programming
+
+* R programming for dummies:
+http://www.dummies.com/programming/r/
+
+* R bloggers:
+https://www.r-bloggers.com/
+
+* R statistics blog:
+https://www.r-statistics.com/
+
+* The R graph gallery:
+https://www.r-graph-gallery.com/
+
+* R Econ visual library: (developed and maintained by DIME Analytics!)
+https://worldbank.github.io/r-econ-visual-library/
+
+---
+
+# Appendix - Useful resources
+
+## Books:
+
+* R for Stata Users - Robert A. Muenchen and Joseph Hilbe
+
+* R Graphics Cookbook - Winston Chang
+https://r-graphics.org/
+
+* R for Data Science - Hadley Wickham and Garrett Grolemund
+https://r4ds.had.co.nz/
 
 ---
 exclude: true
