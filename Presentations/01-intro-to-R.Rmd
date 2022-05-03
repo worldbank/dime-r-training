@@ -748,15 +748,12 @@ It would be beyond the scope of this introduction to go deep into them, but here
 ```{r, include = T, results = "hide"}
 # Use the list() function
 lst <- list(v1, df1, 45)
-
 ```
 Print the list yourself to see how it looks like.
 
 ---
 
 # R objects - Lists
-
-## Lists
 
 ```{r, eval=F}
 lst <- list(v1, df1, 45) # definition of lst
@@ -767,6 +764,30 @@ print(lst)               # checking the content of lst
 knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
+---
+
+# R objects - Lists
+
+You can subset lists using single brackets (`[]`) or double brackets (`[[]]`)
+
+- `my_list[[i]]` will return the actual item in the i-th position
+- `my_list[i]` will return a list with the item in the i-th position
+- Importantly, `[]` can be used to index elements with a numeric vector indicating the positions of the elements to subset
+- `[[]]`, on the other hand, only allows a single index
+
+---
+
+# R objects - Lists
+
+```{r, eval=F}
+lst[[3]]    # returns 45
+lst[3]      # returns a list of one element (45)
+lst[c(1,2)] # returns a list with the first two elements of "lst"
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
 ---
 
 class: inverse, center, middle
