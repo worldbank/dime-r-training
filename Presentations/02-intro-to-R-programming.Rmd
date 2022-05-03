@@ -975,111 +975,6 @@ name: indentation
 
 ---
 
-# Indentation
-
-```{r, eval = F}
-# Here's some code
-annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-ggplot(annualHappy_reg,aes(y = happy_score,x = as.factor(year), color = region, group = region)) +
-geom_line() + geom_point()
-
-```
-
-```{r, eval = F}
-# Here's the same code
-annualHappy_reg <-
-  aggregate(happiness_score ~ year + region,
-            data = whr,
-            FUN = mean)
-
-ggplot(annualHappy_reg,
-       aes(y = happiness_score,
-           x = as.factor(year),
-           color = region,
-           group = region)) +
-geom_line() +
-geom_point()
-
-```
-
----
-
-# Indentation
-
-```{r, eval = T, echo = F, out.width = "60%"}
-annualHappy_reg <-
-  aggregate(happiness_score ~ year + region,
-            data = whr,
-            FUN = mean)
-
-ggplot(annualHappy_reg,
-       aes(y = happiness_score,
-           x = as.factor(year),
-           color = region,
-           group = region)) +
-geom_line() +
-geom_point()
-```
-
----
-
-# Why indent?
-
-* R understands what unindented code says, but it can be __quite difficult for a human being to read it__
-
-* On the other hand, __white space does not have a special meaning for R__, so it will understand code that is more readable for a human being
-
----
-
-# Why indent?
-
-* Indentation in R looks different than in Stata:
-
- - To indent a whole line, you can select that line and press `Tab`
- - To unindent a whole line, you can select that line and press `Shift + Tab`
- - However, this will not always work for different parts of a code in the same line
-
-* In R, we typically don't introduce white space manually
-
-* It's rather introduced by RStudio for us
-
----
-
-# Indentation
-
-.exercise[
-
-### Exercise 9 `r fa("keyboard")`
-
-To see an example of how indenting works in RStudio, let's use an example with `map()`:
-
-```{r, eval = F}
-# An elegant "loop" in R
-map(c(1.2, 2.5, 9.1, 5.8), round)
-```
-
-1. Add a line between the two arguments of the function (the vector of numbers and `round`)
-
-2. Now add a line between the numbers in the vector.
-]
-
----
-
-# Indentation
-
-Note that RStudio formats the different arguments of the function differently:
-
-```{r, eval = F}
-# A much more elegant loop in R
-map(c(1.2,
-      2.5,
-      9.1,
-      5.8),
-    round)
-```
-
----
-
 class: inverse, center, middle
 
 # Thank you!
@@ -1360,6 +1255,111 @@ Solution:
 whr %>%
   select(freedom, happiness_score) %>%
   apply(1, max)
+```
+
+---
+
+# Appendix - Indentation
+
+```{r, eval = F}
+# Here's some code
+annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
+ggplot(annualHappy_reg,aes(y = happy_score,x = as.factor(year), color = region, group = region)) +
+geom_line() + geom_point()
+
+```
+
+```{r, eval = F}
+# Here's the same code
+annualHappy_reg <-
+  aggregate(happiness_score ~ year + region,
+            data = whr,
+            FUN = mean)
+
+ggplot(annualHappy_reg,
+       aes(y = happiness_score,
+           x = as.factor(year),
+           color = region,
+           group = region)) +
+geom_line() +
+geom_point()
+
+```
+
+---
+
+# Appendix - Indentation
+
+```{r, eval = T, echo = F, out.width = "60%"}
+annualHappy_reg <-
+  aggregate(happiness_score ~ year + region,
+            data = whr,
+            FUN = mean)
+
+ggplot(annualHappy_reg,
+       aes(y = happiness_score,
+           x = as.factor(year),
+           color = region,
+           group = region)) +
+geom_line() +
+geom_point()
+```
+
+---
+
+# Appendix - Indentation
+
+* R understands what unindented code says, but it can be __quite difficult for a human being to read it__
+
+* On the other hand, __white space does not have a special meaning for R__, so it will understand code that is more readable for a human being
+
+---
+
+# Appendix - Indentation
+
+* Indentation in R looks different than in Stata:
+
+ - To indent a whole line, you can select that line and press `Tab`
+ - To unindent a whole line, you can select that line and press `Shift + Tab`
+ - However, this will not always work for different parts of a code in the same line
+
+* In R, we typically don't introduce white space manually
+
+* It's rather introduced by RStudio for us
+
+---
+
+# Appendix - Assignment 3
+
+.exercise[
+
+### Exercise `r fa("keyboard")`
+
+To see an example of how indenting works in RStudio, let's use an example with `map()`:
+
+```{r, eval = F}
+# An elegant "loop" in R
+map(c(1.2, 2.5, 9.1, 5.8), round)
+```
+
+1. Add a line between the two arguments of the function (the vector of numbers and `round`)
+
+2. Now add a line between the numbers in the vector.
+]
+
+---
+
+# Appendix - Indentation
+
+Note that RStudio formats the different arguments of the function differently:
+
+```{r, eval = F}
+# A much more elegant loop in R
+map(c(1.2,
+      2.5,
+      9.1,
+      5.8),
+    round)
 ```
 
 ---
