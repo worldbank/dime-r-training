@@ -2,7 +2,7 @@
 title: "Session 3: Data Wrangling"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> November 2021"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> May 2021"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -26,6 +26,7 @@ library(hrbrthemes)
 library(fontawesome)
 library(here)
 library(xaringanExtra)
+library(countdown)
 
 here::i_am("Presentations/03-data-wrangling.Rmd")
 
@@ -129,6 +130,21 @@ In this session, you'll be introduced to some basic concepts of data cleaning in
 
 ---
 
+# Introduction
+
+### Before we start, let's make sure we are all set: 
+
+1. Start a fresh RStudio session.
+2. Open your RStudio project.
+
+### Notes for this session
+
+* Most of our exercises for today focus on the tidyverse. 
+* The setup is a bit different than yesterday. 
+* Since we are "exploring" our data, we sometimes don't need to assign everything to an object. 
+
+---
+
 # Introduction: Packages
 
 ### Another important aspect to consider is R packages. Consider the following: 
@@ -165,7 +181,7 @@ install.packages("tidyverse")
 ```
 
 * Unlike Stata, R packages need to be loaded in each R session that will use them. 
-* That means that for example a functions that comes from the tidyverse cannot be used if the tidyverse meta-package has not been installed and loaded first. 
+* That means that, for example, a function that comes from the tidyverse cannot be used if the tidyverse meta-package has not been installed and loaded first. 
 
 ### To load a package you can run the following command:
 
@@ -176,21 +192,6 @@ library(tidyverse)
 ```
 
 * Notice that we use double quotes for installing but not for loading a package. 
-
----
-
-# Introduction
-
-### Before we start, let's make sure we are all set: 
-
-1. Start a fresh RStudio session.
-2. Open your RStudio project.
-
-### Notes for this session
-
-* Most of our exercises for today focus on the tidyverse. 
-* The setup is a bit different than yesterday. 
-* Since we are "exploring" our data, we sometimes don't need to assign everything to an object. 
 
 ---
 
@@ -228,14 +229,16 @@ knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/stats-il
 
 # Loading a dataset in R
 
-Before we start wrangling our data, let's read ourdataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to use the World Happiness Report (2015-2018)
+Before we start wrangling our data, let's read our dataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to use the World Happiness Report (2015-2018)
 
 
-### Exercise 1: Load Data. This is a recap from yesterday's session.
+### Exercise 1: Load Data. Recap from yesterday's session.
 
 Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw/Un WHR` folder. Use the following notation for each dataset: `whrYY`. 
 
 * Remember to use `here()` to simplify the folder path. 
+
+`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
 
 --
 
@@ -247,11 +250,9 @@ whr16 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2016.csv"))
 whr17 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv"))
 ```
 
-> Notice the `clean_names()` function and the `pipe (%>%)` operator. More on this in the next slide.
-
 ---
 
-# The pipe %>% operator.
+# The pipe %>% operator
 
 * "Piping" in R can be seen as "**chaining**." This means that we are invoking multiple method calls. 
 * Every time you have invoked a method (a function) this return an object that then is going to be used in the next pipe.
@@ -260,8 +261,8 @@ whr17 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv"))
 
 ```{r, eval = FALSE}
 rony %>% 
-  wake_up(time = "6:30") %>% 
-  get_out_of_bead() %>% 
+  wake_up(time = "5:30") %>% 
+  get_out_of_bed() %>% 
   do_exercise() %>% 
   shower() %>% 
   get_dressed() %>% 
@@ -281,7 +282,7 @@ rony %>%
           shower(
             do_exercise(
               get_out_of_bed(
-                wake_up(me, time = "6:30")
+                wake_up(me, time = "5:30")
               ), 
             )
           )
@@ -295,11 +296,24 @@ rony %>%
 ]
 
 ---
+
+# The pip %>% operator
+
+From R for Data Science by Wickham & Grolemund:
+
+.large[
+
+> Pipes are a powerful tool for clearly expressing a sequence of multiple operations. The point of the pipe is to help you write code in a way that is easier to read and understand. [...]  It focusses on verbs, not nouns. You can read this series of function compositions like it’s a set of imperative actions.
+
+]
+
+
+---
 # The clean_names() function
 
-The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called GDP_per_CApita_2015, the `clean_names()` function will help us fix those messy names. 
+The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called **`GDP_per_CApita_2015`**, the `clean_names()` function will help us fix those messy names. 
 
-> **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide. It will make sure column names are well-suited for use in R
+> **Tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide. It will make sure column names are well-suited for use in R
 
 ```{r clean_names, message = FALSE}
 whr15 <- whr15 %>% 
@@ -333,9 +347,9 @@ name: exploring
 
 # Exploring a data set
 
-Some useful functions from base R: 
+These are some useful functions from base R: 
 
-* `View()`: open the data set
+* `View()`: open the data set.
 * `class()`: reports object type of type of data stored.
 * `dim()`: reports the size of each one of an object's dimension.
 * `names()`: returns the variable names of a dataset.
@@ -346,7 +360,7 @@ Some useful functions from base R:
 
 Some other useful functions from the tidyverse:
 
-* `glimpse()`: get a glimpse of your data
+* `glimpse()`: get a glimpse of your data.
 
 ---
 
@@ -403,11 +417,11 @@ n_distinct(DATASET$variable, na.rm = TRUE)
 
 The `$` sign is a subsetting operator. In R, we have three subsetting operators (`[[`, `[`, and `$`.). It is often used to access variables in a dataframe. 
 
+The `n_distinct` function allows us to count the number of unique values of a variable length of a vector. We included `na.rm = TRUE`, so we don't count missing values.
+
 ---
 
 # Dimensions of your data
-
-In the last example, we used `n_distinct`. This allows us to count the number of unique values of a variable length of a vector. We included `na.rm = TRUE`, so we don't count missing values.
 
 --
 
@@ -417,6 +431,8 @@ Using the `n_distinct` function, can you tell how many unique values these varia
 
 1. Region
 2. Country
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
@@ -477,6 +493,8 @@ whr15 %>% filter(region == "Western Europe")
 ### Exercise 3: Filter the dataset.
 
 * Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint: use the *or* operator (`|`) to add conditions: 
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
@@ -546,9 +564,7 @@ name: variables
 
 # Creating new variables
 
-### In the tidyverse, we refer to creating variables as mutating
-
-So, we use the `mutate()` function. Let's say we want to have interactions:
+### In the tidyverse, we use the `mutate()` function. Let's say we want to have interactions:
 
 ```{r mut, eval=FALSE}
 whr15 %>%
@@ -557,7 +573,7 @@ whr15 %>%
   ) 
 ```
 
-This will add a new variable called `hap_hle` which is the interaction between happiness score and health life expectancy.
+This will add a new variable called `hap_hle` which is the interaction of happiness score and health life expectancy.
 
 ---
 
@@ -696,10 +712,12 @@ whr15 %>%
 
 # Creating variables: Exercise
 
-### Exercise 5: Create a variable called year that equals to the year of each dataframe .
+### Exercise 4: Create a variable called year that equals to the year of each dataframe .
 
 * Use `mutate()`
 * Remember to assign it to the same dataframe.
+
+`r countdown(minutes = 0, seconds = 45, top = 0, font_size = "2em")`
 
 --
 
@@ -744,9 +762,11 @@ rbind(df1, df2, df3) # The base R function
 bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
 ```
 
-### Exercise 6: Append data sets.
+### Exercise 5: Append data sets.
 
 * Use the function `bind_rows` to append the three WHR datasets:
+
+`r countdown(minutes = 0, seconds = 45, bottom = 0, font_size = "2em")`
 
 --
 
@@ -770,11 +790,15 @@ bind_rows(whr15, whr16, whr17)
 
 # Appending and merging data sets
 
-### Exercise 7: Fixing our variables and appending the dfs correctly.
+### Exercise 6: Fixing our variables and appending the data frames correctly.
 
-#### Exercise 7a: 
+--
+
+#### Exercise 6a: 
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
+
+`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
 
 --
 
@@ -793,9 +817,11 @@ We can use the `left_join()` function to merge two dataframes. The function synt
 
 --
 
-#### Exercise 7b:
+#### Exercise 6b:
 
 * Now, we join the `regions` dataframe with the `whr17` dataframe. 
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
@@ -811,13 +837,15 @@ whr17 <- whr17 %>%
 
 # Appending and merging data sets
 
-#### Exercise 7c: 
+#### Exercise 6c: 
 
 Check if there is any other country without region info:
 
 * Only use pipes %>%
 * And `filter()`
 * Do not assign it to an object.
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
@@ -851,10 +879,12 @@ Appendix: [case_when and mutate](#case_when) for more information.
 
 Finally, let's keep those relevant variables first and bind those rows. 
 
-### Exercise 8: Bind all rows and create a panel called: `whr_panel`. 
+### Exercise 7: Bind all rows and create a panel called: `whr_panel`. 
 
 * Use `rbind()`
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
@@ -899,19 +929,23 @@ The function takes the following structure:
 
 # Saving a dataset
 
-### Exercise 9: Save the dataset.
+### Exercise 8: Save the dataset.
 
 * Use `write_csv()`
 * Use `here()`
 
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
 ```{r}
 # Save the whr data set
 
-write_csv(whr_panel, 
-          here("DataWork", "DataSets", "Final", "whr_panel.csv")) 
+write_csv(
+  whr_panel, 
+  here("DataWork", "DataSets", "Final", "whr_panel.csv")
+) 
 ```
-
---
 
 * The problem with CSVs is that they cannot differentiate between `strings` and `factors`
 * They also don’t save factor orders
@@ -931,15 +965,17 @@ The R equivalent of a `.dta` file is a `.rds` file. It can be saved and loaded u
 ```{r}
 # Save the data set
 
-write_rds(whr_panel, here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
+write_rds(
+  whr_panel, 
+  here("DataWork", "DataSets", "Final", "whr_panel.Rds")
+)
 
 ```
 
 ---
 class: inverse, center, middle
 
-# Thank you~~ 
-
+# Thank you~
 
 ---
 class: inverse, center, middle
@@ -1052,12 +1088,14 @@ name: case_when
 
 Recall the problem we have with regions in the `whr17` data. We can fix it as follows:
 
-```{r}
+```{r, eval=FALSE}
 whr17 <- whr17 %>% 
   mutate(
-    country = case_when(country == "Hong Kong S.A.R., China" ~ "Hong Kong", 
-                        country == "Taiwan Province of China" ~ "Taiwan",
-                        TRUE ~ country)
+    country = case_when(
+      country == "Hong Kong S.A.R., China" ~ "Hong Kong", 
+      country == "Taiwan Province of China" ~ "Taiwan",
+      TRUE ~ country
+    )
   )
 
 whr17 %>%
@@ -1107,7 +1145,7 @@ If your categorical variable does not need to be ordered, and your string variab
 
 # Factor variables
 
-### Exercise 10: Turn a string variable into a factor.
+### Extra exercise: Turn a string variable into a factor.
 
 * Use the mutate function to create a variable called region_cat containing a categorical version of the region variable.
 * TIP: to do this, you only need the first argument of the factor function.
@@ -1162,7 +1200,7 @@ whr_panel %>%
     names_from = year, 
     values_from = happiness_score
   ) %>% 
-  head(5)
+  head(3)
 ```
 ]
 
@@ -1184,7 +1222,7 @@ whr_panel_wide %>%
     names_to = "year",
     values_to = "happiness_score" 
   ) %>% 
-  head(5)
+  head(3)
 ```
 ] 
 ]
@@ -1192,7 +1230,7 @@ whr_panel_wide %>%
 ---
 class: inverse, center, middle
 
-# Thank you~~ 
+# Thank you~
 
 ---
 exclude: true

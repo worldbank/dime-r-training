@@ -2,7 +2,7 @@
 title: "Session 4: Data Visualization"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> November 2021"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> May 2022"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -26,6 +26,7 @@ library(hrbrthemes)
 library(fontawesome)
 library(here)
 library(xaringanExtra)
+library(countdown)
 
 here::i_am("Presentations/04-data-visualization.Rmd")
 
@@ -148,6 +149,8 @@ First, we’re going to use base plot, i.e., using Base R default libraries. It 
 
 Let's plot the `whr` dataset that we constructed last week. We are going to use the function `plot()`. Before we plot it, let's create a vector called `vars` that contains the variables: `economy_gdp_per_capita`, `happiness_score`, `health_life_expectancy`, and `freedom`.
 
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
 --
 
 ```{r}
@@ -255,18 +258,6 @@ ggplot(data = whr_panel) +    #<<
 
 # Exploratory Analysis
 
-#### Ok, enough chit-chat about the gramar of graphics. Let's start making some plots.
-
-
-```{r, out.width = "65%"}
-ggplot(data = whr_panel) +
-  geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita))  #<<
-```
-
----
-
-# Exploratory Analysis
-
 #### We can also set up our mapping in the `ggplot()` function.
 
 ```{r, out.width = "65%"}
@@ -305,6 +296,8 @@ Both structures will work but this will make a difference if you want to load mo
 
 ### Exercise 2: Create a scatter plot with x = freedom and y = economy_gdp_per_capita.
 
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
 --
 
 ```{r, out.width = "55%"}
@@ -321,7 +314,7 @@ The most common `geoms` are:
 
 * `geom_bar()`, `geom_col()`: bar charts.
 * `geom_boxplot()`: box and whiskers plots.
-* `geom_density()`: density estiamtes.
+* `geom_density()`: density estimates.
 * `geom_jitter()`: jittered points.
 * `geom_line()`: line plots.
 * `geom_point()`: scatter plots.
@@ -339,9 +332,13 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(data = whr_panel, #<<
-       aes(x = happiness_score,
-           y = economy_gdp_per_capita)) +
+ggplot(
+  data = whr_panel, #<<
+  aes(
+    x = happiness_score,           
+    y = economy_gdp_per_capita
+  )    
+) +
   geom_point()
 ```
 
@@ -361,9 +358,13 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,           #<<
-           y = economy_gdp_per_capita)) + #<<
+ggplot(
+  data = whr_panel,
+  aes(  #<<
+    x = happiness_score,           #<<
+    y = economy_gdp_per_capita     #<<
+  )    #<<
+) + #<<
   geom_point()
 ```
 
@@ -371,7 +372,7 @@ ggplot(data = whr_panel,
 
 .pull-right[
 
-Columns to use for `x` and `y`
+Columns (variables) to use for `x` and `y`
 ]
 
 ---
@@ -383,10 +384,14 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,
-           y = economy_gdp_per_capita)) +
-  geom_point()  #<<
+ggplot(
+  data = whr_panel,
+  aes(
+    x = happiness_score,       
+    y = economy_gdp_per_capita
+  )
+) + 
+  geom_point() #<<
 ```
 
 ]
@@ -474,6 +479,8 @@ ggplot(data = whr_panel,
 
 * Keep in mind the type of the variable `year`.
 
+`r countdown(minutes = 1, seconds = 0, bottom = 0, font_size = "2em")`
+
 --
 
 ```{r, out.width = "45%"}
@@ -490,9 +497,8 @@ ggplot(data = whr_panel,
 
 # Exploratory Analysis
 
-### Exercise 3: Map colors per year for the freedom and gdp plot we did before.
+### How do you think we could solve it?
 
-* Keep in mind the type of the variable `year`.
 * Change the variable `year`as: `as.factor(year)`.
 
 --
@@ -581,6 +587,8 @@ ggplot(data = whr_panel,
 # ggplot2: Colors and facets
 
 ### Exercise 4: Use the last plot and add a color aesthetic per region.
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
@@ -698,7 +706,7 @@ We are going to do the following to this plot:
 
 ---
 
-# ggplot2: Labs
+# ggplot2: Labels
 
 
 .panelset[
@@ -995,6 +1003,8 @@ We will use the `ggsave()` function.  You can either include the function after 
 
 The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dpi = ...)`.
 
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
 ```{r, echo = FALSE}
 fig <- whr_panel %>%
   mutate(
@@ -1014,26 +1024,23 @@ fig <- whr_panel %>%
   theme_minimal()
 ```
 
----
-
-# Saving a plot
-
-### How to do it?
+--
 
 ```{r}
-ggsave(fig,
-       filename = here("DataWork",
-                       "Output",
-                       "Raw",
-                       "fig.png"),
-       dpi = 750, scale = 0.8,
-       height = 8, width = 12)
+ggsave(
+  fig,
+  filename = here("DataWork","Output","Raw","fig.png"),
+  dpi = 750, 
+  scale = 0.8,
+  height = 8, 
+  width = 12
+)
 ```
 
 ---
 class: inverse, center, middle
 
-# Thank you~~
+# Thank you~
 
 
 ---
@@ -1094,7 +1101,7 @@ These are generally, html widgets that can be incorporated in to an html documen
 
 Now we’ll use the ggplotly() function from the plotly package to create an interactive graph!
 
-### Exercise 6: Interactive graphs.
+### Extra exercise: Interactive graphs.
 
 * Load the plotly package
 * Pass that object with the last plot you created to the ggplotly() function

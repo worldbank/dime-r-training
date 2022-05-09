@@ -16,6 +16,8 @@
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
@@ -28,7 +30,7 @@ class: center, middle, inverse, title-slide
 # Session 3: Data Wrangling
 ## R for Stata Users
 ### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> November 2021
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> May 2021
 
 ---
 
@@ -106,6 +108,21 @@ In this session, you'll be introduced to some basic concepts of data cleaning in
 
 ---
 
+# Introduction
+
+### Before we start, let's make sure we are all set: 
+
+1. Start a fresh RStudio session.
+2. Open your RStudio project.
+
+### Notes for this session
+
+* Most of our exercises for today focus on the tidyverse. 
+* The setup is a bit different than yesterday. 
+* Since we are "exploring" our data, we sometimes don't need to assign everything to an object. 
+
+---
+
 # Introduction: Packages
 
 ### Another important aspect to consider is R packages. Consider the following: 
@@ -137,7 +154,7 @@ install.packages("tidyverse")
 ```
 
 * Unlike Stata, R packages need to be loaded in each R session that will use them. 
-* That means that for example a functions that comes from the tidyverse cannot be used if the tidyverse meta-package has not been installed and loaded first. 
+* That means that, for example, a function that comes from the tidyverse cannot be used if the tidyverse meta-package has not been installed and loaded first. 
 
 ### To load a package you can run the following command:
 
@@ -148,21 +165,6 @@ library(tidyverse)
 ```
 
 * Notice that we use double quotes for installing but not for loading a package. 
-
----
-
-# Introduction
-
-### Before we start, let's make sure we are all set: 
-
-1. Start a fresh RStudio session.
-2. Open your RStudio project.
-
-### Notes for this session
-
-* Most of our exercises for today focus on the tidyverse. 
-* The setup is a bit different than yesterday. 
-* Since we are "exploring" our data, we sometimes don't need to assign everything to an object. 
 
 ---
 
@@ -177,10 +179,6 @@ library(tidyverse)
 library(tidyverse)
 library(here)       # A package to work with relative file paths
 library(janitor)    # Additional data cleaning tools
-```
-
-```
-## Warning: package 'janitor' was built under R version 4.0.4
 ```
 
 &gt; *Notes*: Remember you should always load your packages before your start coding.
@@ -203,14 +201,18 @@ The goal of this package is to:
 
 # Loading a dataset in R
 
-Before we start wrangling our data, let's read ourdataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to use the World Happiness Report (2015-2018)
+Before we start wrangling our data, let's read our dataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to use the World Happiness Report (2015-2018)
 
 
-### Exercise 1: Load Data. This is a recap from yesterday's session.
+### Exercise 1: Load Data. Recap from yesterday's session.
 
 Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw/Un WHR` folder. Use the following notation for each dataset: `whrYY`. 
 
 * Remember to use `here()` to simplify the folder path. 
+
+<div class="countdown" id="timer_62786262" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
+</div>
 
 --
 
@@ -223,11 +225,9 @@ whr16 &lt;- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2016.csv"
 whr17 &lt;- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv"))
 ```
 
-&gt; Notice the `clean_names()` function and the `pipe (%&gt;%)` operator. More on this in the next slide.
-
 ---
 
-# The pipe %&gt;% operator.
+# The pipe %&gt;% operator
 
 * "Piping" in R can be seen as "**chaining**." This means that we are invoking multiple method calls. 
 * Every time you have invoked a method (a function) this return an object that then is going to be used in the next pipe.
@@ -237,8 +237,8 @@ whr17 &lt;- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv"
 
 ```r
 rony %&gt;% 
-  wake_up(time = "6:30") %&gt;% 
-  get_out_of_bead() %&gt;% 
+  wake_up(time = "5:30") %&gt;% 
+  get_out_of_bed() %&gt;% 
   do_exercise() %&gt;% 
   shower() %&gt;% 
   get_dressed() %&gt;% 
@@ -259,7 +259,7 @@ rony %&gt;%
           shower(
             do_exercise(
               get_out_of_bed(
-                wake_up(me, time = "6:30")
+                wake_up(me, time = "5:30")
               ), 
             )
           )
@@ -272,11 +272,24 @@ rony %&gt;%
 ]
 
 ---
+
+# The pip %&gt;% operator
+
+From R for Data Science by Wickham &amp; Grolemund:
+
+.large[
+
+&gt; Pipes are a powerful tool for clearly expressing a sequence of multiple operations. The point of the pipe is to help you write code in a way that is easier to read and understand. [...]  It focusses on verbs, not nouns. You can read this series of function compositions like it’s a set of imperative actions.
+
+]
+
+
+---
 # The clean_names() function
 
-The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called GDP_per_CApita_2015, the `clean_names()` function will help us fix those messy names. 
+The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called **`GDP_per_CApita_2015`**, the `clean_names()` function will help us fix those messy names. 
 
-&gt; **Pro tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide. It will make sure column names are well-suited for use in R
+&gt; **Tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide. It will make sure column names are well-suited for use in R
 
 
 ```r
@@ -310,9 +323,9 @@ name: exploring
 
 # Exploring a data set
 
-Some useful functions from base R: 
+These are some useful functions from base R: 
 
-* `View()`: open the data set
+* `View()`: open the data set.
 * `class()`: reports object type of type of data stored.
 * `dim()`: reports the size of each one of an object's dimension.
 * `names()`: returns the variable names of a dataset.
@@ -323,7 +336,7 @@ Some useful functions from base R:
 
 Some other useful functions from the tidyverse:
 
-* `glimpse()`: get a glimpse of your data
+* `glimpse()`: get a glimpse of your data.
 
 ---
 
@@ -421,11 +434,11 @@ n_distinct(DATASET$variable, na.rm = TRUE)
 
 The `$` sign is a subsetting operator. In R, we have three subsetting operators (`[[`, `[`, and `$`.). It is often used to access variables in a dataframe. 
 
+The `n_distinct` function allows us to count the number of unique values of a variable length of a vector. We included `na.rm = TRUE`, so we don't count missing values.
+
 ---
 
 # Dimensions of your data
-
-In the last example, we used `n_distinct`. This allows us to count the number of unique values of a variable length of a vector. We included `na.rm = TRUE`, so we don't count missing values.
 
 --
 
@@ -435,6 +448,10 @@ Using the `n_distinct` function, can you tell how many unique values these varia
 
 1. Region
 2. Country
+
+<div class="countdown" id="timer_62786388" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 --
 
@@ -550,6 +567,10 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 * Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint: use the *or* operator (`|`) to add conditions: 
 
+<div class="countdown" id="timer_6278611a" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
 --
 
 
@@ -635,9 +656,7 @@ name: variables
 
 # Creating new variables
 
-### In the tidyverse, we refer to creating variables as mutating
-
-So, we use the `mutate()` function. Let's say we want to have interactions:
+### In the tidyverse, we use the `mutate()` function. Let's say we want to have interactions:
 
 
 ```r
@@ -647,7 +666,7 @@ whr15 %&gt;%
   ) 
 ```
 
-This will add a new variable called `hap_hle` which is the interaction between happiness score and health life expectancy.
+This will add a new variable called `hap_hle` which is the interaction of happiness score and health life expectancy.
 
 ---
 
@@ -781,11 +800,11 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 3 x 4
-##   region             happiness_score health_life_expecta~ trust_government_corr~
-##   &lt;chr&gt;                        &lt;dbl&gt;                &lt;dbl&gt;                  &lt;dbl&gt;
-## 1 Australia and New~            7.28                0.920                 0.393 
-## 2 Central and Easte~            5.33                0.719                 0.0867
-## 3 Eastern Asia                  5.63                0.877                 0.128
+##   region                     happiness_score health_life_expe~ trust_government~
+##   &lt;chr&gt;                                &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;
+## 1 Australia and New Zealand             7.28             0.920            0.393 
+## 2 Central and Eastern Europe            5.33             0.719            0.0867
+## 3 Eastern Asia                          5.63             0.877            0.128
 ```
 ]
 ]
@@ -794,10 +813,14 @@ whr15 %&gt;%
 
 # Creating variables: Exercise
 
-### Exercise 5: Create a variable called year that equals to the year of each dataframe .
+### Exercise 4: Create a variable called year that equals to the year of each dataframe .
 
 * Use `mutate()`
 * Remember to assign it to the same dataframe.
+
+<div class="countdown" id="timer_6278633a" style="top:0;right:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
+</div>
 
 --
 
@@ -843,9 +866,13 @@ rbind(df1, df2, df3) # The base R function
 bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
 ```
 
-### Exercise 6: Append data sets.
+### Exercise 5: Append data sets.
 
 * Use the function `bind_rows` to append the three WHR datasets:
+
+<div class="countdown" id="timer_62786126" style="right:0;bottom:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
+</div>
 
 --
 
@@ -868,11 +895,17 @@ bind_rows(whr15, whr16, whr17)
 
 # Appending and merging data sets
 
-### Exercise 7: Fixing our variables and appending the dfs correctly.
+### Exercise 6: Fixing our variables and appending the data frames correctly.
 
-#### Exercise 7a: 
+--
+
+#### Exercise 6a: 
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
+
+<div class="countdown" id="timer_62786410" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
+</div>
 
 --
 
@@ -891,9 +924,13 @@ We can use the `left_join()` function to merge two dataframes. The function synt
 
 --
 
-#### Exercise 7b:
+#### Exercise 6b:
 
 * Now, we join the `regions` dataframe with the `whr17` dataframe. 
+
+<div class="countdown" id="timer_627862d8" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 --
 
@@ -910,13 +947,17 @@ whr17 &lt;- whr17 %&gt;%
 
 # Appending and merging data sets
 
-#### Exercise 7c: 
+#### Exercise 6c: 
 
 Check if there is any other country without region info:
 
 * Only use pipes %&gt;%
 * And `filter()`
 * Do not assign it to an object.
+
+<div class="countdown" id="timer_62786160" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 --
 
@@ -928,13 +969,12 @@ whr17 %&gt;%
 
 ```
 ## # A tibble: 2 x 14
-##   country         region happiness_rank happiness_score whisker_high whisker_low
-##   &lt;chr&gt;           &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
-## 1 Taiwan Provinc~ NA                 33            6.42         6.49        6.35
-## 2 Hong Kong S.A.~ NA                 71            5.47         5.55        5.39
-## # ... with 8 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
-## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;, generosity &lt;dbl&gt;,
-## #   trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
+##   country      region happiness_rank happiness_score whisker_high whisker_low economy_gdp_per_~
+##   &lt;chr&gt;        &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;             &lt;dbl&gt;
+## 1 Taiwan Prov~ &lt;NA&gt;               33            6.42         6.49        6.35              1.43
+## 2 Hong Kong S~ &lt;NA&gt;               71            5.47         5.55        5.39              1.55
+## # ... with 7 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   generosity &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
 ```
 
 ---
@@ -961,10 +1001,14 @@ Appendix: [case_when and mutate](#case_when) for more information.
 
 Finally, let's keep those relevant variables first and bind those rows. 
 
-### Exercise 8: Bind all rows and create a panel called: `whr_panel`. 
+### Exercise 7: Bind all rows and create a panel called: `whr_panel`. 
 
 * Use `rbind()`
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
+
+<div class="countdown" id="timer_6278624a" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 --
 
@@ -1010,20 +1054,26 @@ The function takes the following structure:
 
 # Saving a dataset
 
-### Exercise 9: Save the dataset.
+### Exercise 8: Save the dataset.
 
 * Use `write_csv()`
 * Use `here()`
+
+<div class="countdown" id="timer_62786101" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+--
 
 
 ```r
 # Save the whr data set
 
-write_csv(whr_panel, 
-          here("DataWork", "DataSets", "Final", "whr_panel.csv")) 
+write_csv(
+  whr_panel, 
+  here("DataWork", "DataSets", "Final", "whr_panel.csv")
+) 
 ```
-
---
 
 * The problem with CSVs is that they cannot differentiate between `strings` and `factors`
 * They also don’t save factor orders
@@ -1044,14 +1094,16 @@ The R equivalent of a `.dta` file is a `.rds` file. It can be saved and loaded u
 ```r
 # Save the data set
 
-write_rds(whr_panel, here("DataWork", "DataSets", "Final", "whr_panel.Rds"))
+write_rds(
+  whr_panel, 
+  here("DataWork", "DataSets", "Final", "whr_panel.Rds")
+)
 ```
 
 ---
 class: inverse, center, middle
 
-# Thank you~~ 
-
+# Thank you~
 
 ---
 class: inverse, center, middle
@@ -1099,13 +1151,13 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 x 8
-##   country   region        year happiness_rank happiness_score economy_gdp_per_c~
-##   &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;
-## 1 Australia Australia a~  2015             10            7.28              1.33 
-## 2 New Zeal~ Australia a~  2015              9            7.29              1.25 
-## 3 Albania   Central and~  2015             95            4.96              0.879
-## 4 Armenia   Central and~  2015            127            4.35              0.768
-## 5 Azerbaij~ Central and~  2015             80            5.21              1.02 
+##   country     region       year happiness_rank happiness_score economy_gdp_per_~
+##   &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;             &lt;dbl&gt;
+## 1 Australia   Australia ~  2015             10            7.28             1.33 
+## 2 New Zealand Australia ~  2015              9            7.29             1.25 
+## 3 Albania     Central an~  2015             95            4.96             0.879
+## 4 Armenia     Central an~  2015            127            4.35             0.768
+## 5 Azerbaijan  Central an~  2015             80            5.21             1.02 
 ## # ... with 2 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;
 ```
 
@@ -1123,13 +1175,13 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 x 8
-##   country    region      year happiness_rank happiness_score economy_gdp_per_ca~
-##   &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;               &lt;dbl&gt;
-## 1 Switzerla~ Western E~  2015              1            7.59                1.40
-## 2 Iceland    Western E~  2015              2            7.56                1.30
-## 3 Denmark    Western E~  2015              3            7.53                1.33
-## 4 Norway     Western E~  2015              4            7.52                1.46
-## 5 Canada     North Ame~  2015              5            7.43                1.33
+##   country     region      year happiness_rank happiness_score economy_gdp_per_c~
+##   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;
+## 1 Switzerland Western E~  2015              1            7.59               1.40
+## 2 Iceland     Western E~  2015              2            7.56               1.30
+## 3 Denmark     Western E~  2015              3            7.53               1.33
+## 4 Norway      Western E~  2015              4            7.52               1.46
+## 5 Canada      North Ame~  2015              5            7.43               1.33
 ## # ... with 2 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;
 ```
 
@@ -1209,15 +1261,14 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 x 9
-##   country  region         year happiness_rank happiness_score economy_gdp_per_c~
-##   &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;
-## 1 Costa R~ Latin Americ~  2015             12            7.23              0.956
-## 2 Mexico   Latin Americ~  2015             14            7.19              1.02 
-## 3 Brazil   Latin Americ~  2015             16            6.98              0.981
-## 4 Venezue~ Latin Americ~  2015             23            6.81              1.04 
-## 5 Panama   Latin Americ~  2015             25            6.79              1.06 
-## # ... with 3 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
-## #   latin_america_car &lt;dbl&gt;
+##   country region  year happiness_rank happiness_score economy_gdp_per~ health_life_exp~ freedom
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Costa ~ Latin~  2015             12            7.23            0.956            0.860   0.634
+## 2 Mexico  Latin~  2015             14            7.19            1.02             0.814   0.482
+## 3 Brazil  Latin~  2015             16            6.98            0.981            0.697   0.490
+## 4 Venezu~ Latin~  2015             23            6.81            1.04             0.721   0.429
+## 5 Panama  Latin~  2015             25            6.79            1.06             0.797   0.542
+## # ... with 1 more variable: latin_america_car &lt;dbl&gt;
 ```
 
 ---
@@ -1231,9 +1282,11 @@ Recall the problem we have with regions in the `whr17` data. We can fix it as fo
 ```r
 whr17 &lt;- whr17 %&gt;% 
   mutate(
-    country = case_when(country == "Hong Kong S.A.R., China" ~ "Hong Kong", 
-                        country == "Taiwan Province of China" ~ "Taiwan",
-                        TRUE ~ country)
+    country = case_when(
+      country == "Hong Kong S.A.R., China" ~ "Hong Kong", 
+      country == "Taiwan Province of China" ~ "Taiwan",
+      TRUE ~ country
+    )
   )
 
 whr17 %&gt;%
@@ -1242,13 +1295,6 @@ whr17 %&gt;%
   select(-region.x) %&gt;% 
   select(country, region, everything()) %&gt;% 
   filter(is.na(region))
-```
-
-```
-## # A tibble: 0 x 8
-## # ... with 8 variables: country &lt;chr&gt;, region &lt;chr&gt;, year &lt;dbl&gt;,
-## #   happiness_rank &lt;dbl&gt;, happiness_score &lt;dbl&gt;, economy_gdp_per_capita &lt;dbl&gt;,
-## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;
 ```
 ---
 class: inverse, center, middle
@@ -1272,7 +1318,7 @@ str(whr_panel$region)
 ```
 
 ```
-##  chr [1:470] "Western Europe" "Western Europe" "Western Europe" ...
+##  chr [1:470] "Western Europe" "Western Europe" "Western Europe" "Western Europe" ...
 ```
 
 ---
@@ -1295,7 +1341,7 @@ If your categorical variable does not need to be ordered, and your string variab
 
 # Factor variables
 
-### Exercise 10: Turn a string variable into a factor.
+### Extra exercise: Turn a string variable into a factor.
 
 * Use the mutate function to create a variable called region_cat containing a categorical version of the region variable.
 * TIP: to do this, you only need the first argument of the factor function.
@@ -1350,18 +1396,16 @@ whr_panel %&gt;%
     names_from = year, 
     values_from = happiness_score
   ) %&gt;% 
-  head(5)
+  head(3)
 ```
 
 ```
-## # A tibble: 5 x 5
+## # A tibble: 3 x 5
 ##   country     region         `2015` `2016` `2017`
 ##   &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
 ## 1 Switzerland Western Europe   7.59   7.51   7.49
 ## 2 Iceland     Western Europe   7.56   7.50   7.50
 ## 3 Denmark     Western Europe   7.53   7.53   7.52
-## 4 Norway      Western Europe   7.52   7.50   7.54
-## 5 Canada      North America    7.43   7.40   7.32
 ```
 ]
 
@@ -1376,18 +1420,16 @@ whr_panel_wide %&gt;%
     names_to = "year",
     values_to = "happiness_score" 
   ) %&gt;% 
-  head(5)
+  head(3)
 ```
 
 ```
-## # A tibble: 5 x 4
+## # A tibble: 3 x 4
 ##   country     region         year  happiness_score
 ##   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;           &lt;dbl&gt;
 ## 1 Switzerland Western Europe 2015             7.59
 ## 2 Switzerland Western Europe 2016             7.51
 ## 3 Switzerland Western Europe 2017             7.49
-## 4 Iceland     Western Europe 2015             7.56
-## 5 Iceland     Western Europe 2016             7.50
 ```
 ] 
 ]
@@ -1395,7 +1437,7 @@ whr_panel_wide %&gt;%
 ---
 class: inverse, center, middle
 
-# Thank you~~ 
+# Thank you~
 
 ---
 exclude: true
