@@ -2,7 +2,7 @@
 title: "Session 2: Introduction to R Programming"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2021"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> May 2022"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -746,7 +746,7 @@ name: mapping-and-iterations
 ```{r, eval=FALSE}
 # Round the values of the following vector
 x <- c(1.2, 2.5, 9.1, 5.8)
-x %>% map(round) # Rounding the vector elements
+x %>% map(round) # Rounding the vector elements (same as map(x, round))
 round(x)         # since R is vectorized, this also works
 ```
 
@@ -1384,5 +1384,5 @@ pagedown::chrome_print("02-intro-to-R-programming.html", output = "02-intro-to-R
 
 # or
 source("https://git.io/xaringan2pdf")
-xaringan_to_pdf("02-intro-to-R-programming.html")
+xaringan_to_pdf("Presentations/02-intro-to-R-programming.html")
 ```
