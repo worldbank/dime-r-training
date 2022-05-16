@@ -2,7 +2,7 @@
 title: "Session 1 - Introduction to R"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2021"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> May 2022"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -615,7 +615,7 @@ To R, each of the columns of the object `whr` is a vector.
 
 ### Calling a vector from a `data.frame` column:
 
-We use the `$` character to call vectors (variables) by their names in a `data.frame`
+We use the `$` character (operator) to extract vectors (variables) by their names in a `data.frame`
 
 For example:
 
