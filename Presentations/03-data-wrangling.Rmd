@@ -780,7 +780,7 @@ bind_rows(whr15, whr16, whr17)
 
 --
 
-### What problems do you think we can have with these approach?
+### What problems do you think we can have with this approach?
 
 --
 
@@ -914,7 +914,7 @@ name: saving
 # Saving a dataset
 
 * The data set you have now is the same data set we’ve been using for earlier sessions, so we can save it now
-* As mentioned before, R data sets are often save as csv.
+* As mentioned before, R data sets are often saved as csv.
 * To save a dataset we can use the `write_csv` function from the tidyverse, or `write.csv` from base R. 
 
 The function takes the following structure: 
