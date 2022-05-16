@@ -27,10 +27,18 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Session 3: Data Wrangling
+]
+.subtitle[
 ## R for Stata Users
+]
+.author[
 ### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> May 2021
+]
+.date[
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> May 2022
+]
 
 ---
 
@@ -210,7 +218,7 @@ Use either of the functions mentioned above and load the three WHR datasets from
 
 * Remember to use `here()` to simplify the folder path. 
 
-<div class="countdown" id="timer_62786262" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b288" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
 
@@ -449,7 +457,7 @@ Using the `n_distinct` function, can you tell how many unique values these varia
 1. Region
 2. Country
 
-<div class="countdown" id="timer_62786388" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b40d" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -567,7 +575,7 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 * Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint: use the *or* operator (`|`) to add conditions: 
 
-<div class="countdown" id="timer_6278611a" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b287" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -818,7 +826,7 @@ whr15 %&gt;%
 * Use `mutate()`
 * Remember to assign it to the same dataframe.
 
-<div class="countdown" id="timer_6278633a" style="top:0;right:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b0e1" style="top:0;right:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
 
@@ -870,7 +878,7 @@ bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to b
 
 * Use the function `bind_rows` to append the three WHR datasets:
 
-<div class="countdown" id="timer_62786126" style="right:0;bottom:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b1ae" style="right:0;bottom:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
 
@@ -903,7 +911,7 @@ bind_rows(whr15, whr16, whr17)
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
 
-<div class="countdown" id="timer_62786410" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b3df" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
 
@@ -928,7 +936,7 @@ We can use the `left_join()` function to merge two dataframes. The function synt
 
 * Now, we join the `regions` dataframe with the `whr17` dataframe. 
 
-<div class="countdown" id="timer_627862d8" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b403" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -955,7 +963,7 @@ Check if there is any other country without region info:
 * And `filter()`
 * Do not assign it to an object.
 
-<div class="countdown" id="timer_62786160" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b1dc" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1006,7 +1014,7 @@ Finally, let's keep those relevant variables first and bind those rows.
 * Use `rbind()`
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
 
-<div class="countdown" id="timer_6278624a" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b26a" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1059,7 +1067,7 @@ The function takes the following structure:
 * Use `write_csv()`
 * Use `here()`
 
-<div class="countdown" id="timer_62786101" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_6282b1bd" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1491,6 +1499,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
