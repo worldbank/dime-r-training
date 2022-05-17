@@ -15,10 +15,28 @@ div.command {
   }
 
 div.exercise {
-    padding: 5px 20px;
+    padding: 2px 20px;
     margin: 20px;
     background-position: 15px center;
     color: #58595B;
     background-color: #e3f5fb;
+    border-radius: 20px;
+  }
+
+div.solution {
+    padding: 2px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #f7fbe3;
+    border-radius: 20px;
+  }
+
+div.notes {
+    padding: 2px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #e8e8e8;
     border-radius: 20px;
   }

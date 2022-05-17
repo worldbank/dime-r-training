@@ -83,9 +83,6 @@ name: intro
 
 - To organize data in a way that it will be easier to analyze it and communicate it.
 
-- To get familiar with the packages bundled into the `tidyverse`.
-
-
 --
 
 ### Things to keep in mind
@@ -98,6 +95,8 @@ name: intro
 1. Every column is a variable.
 2. Every row is an observation.
 3. Every cell is a single value.
+
+Therefore, messy data is any other arrangement of the data.
 
 ---
 
@@ -151,40 +150,42 @@ In this session, you'll be introduced to some basic concepts of data cleaning in
 
 ---
 
-# Introduction: Packages
+# RECAP: Packages
 
 ### To install a package you can run the following command:
 
 
 ```r
 # To Install
-install.packages("tidyverse")
+install.packages("dplyr")
 ```
 
 * Unlike Stata, R packages need to be loaded in each R session that will use them. 
-* That means that, for example, a function that comes from the tidyverse cannot be used if the tidyverse meta-package has not been installed and loaded first. 
+* That means that, for example, a function that comes from the dplyr package cannot be used if the package has not been installed and loaded first. 
 
 ### To load a package you can run the following command:
 
 
 ```r
-# To Install
-library(tidyverse)
+# To load
+library(dplyr)
 ```
 
 * Notice that we use double quotes for installing but not for loading a package. 
 
 ---
 
-# Let's load the two following packages:
+# RECAP: loading packages:
 
 
 ```r
 # If you haven't installed the packages uncomment the next line
-# install.packages("tidyverse")
+# install.packages("dplyr")
+# install.packages("readr")
 # install.packages("here")
 # install.packages("janitor")
-library(tidyverse)
+library(dplyr)
+library(readr)      # To read files
 library(here)       # A package to work with relative file paths
 library(janitor)    # Additional data cleaning tools
 ```
@@ -193,7 +194,7 @@ library(janitor)    # Additional data cleaning tools
 
 ---
 
-# File paths
+# RECAP: File paths
 
 The `here` package allows you to interact with your working directory. It will look for the closest R Project and set its location as the working directory. That's why it is important to set your RStudio project correctly. 
 
@@ -207,31 +208,33 @@ The goal of this package is to:
 
 ---
 
-# Loading a dataset in R
+# RECAP: Loading a dataset in R
 
 Before we start wrangling our data, let's read our dataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to use the World Happiness Report (2015-2018)
 
+.exercise[
 
-### Exercise 1: Load Data. Recap from yesterday's session.
+**Exercise 1:** Loading data using the `here` package:
 
 Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw/Un WHR` folder. Use the following notation for each dataset: `whrYY`. 
 
-* Remember to use `here()` to simplify the folder path. 
+]
 
-<div class="countdown" id="timer_6282b288" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_62841478" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
 
 --
 
-### How to do it? 
-
+.solution[
+**Solution**
 
 ```r
 whr15 &lt;- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2015.csv")) 
 whr16 &lt;- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2016.csv")) 
 whr17 &lt;- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv"))
 ```
+]
 
 ---
 
@@ -267,7 +270,7 @@ rony %&gt;%
           shower(
             do_exercise(
               get_out_of_bed(
-                wake_up(me, time = "5:30")
+                wake_up(rony, time = "5:30")
               ), 
             )
           )
@@ -297,26 +300,26 @@ From R for Data Science by Wickham &amp; Grolemund:
 
 The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called **`GDP_per_CApita_2015`**, the `clean_names()` function will help us fix those messy names. 
 
-&gt; **Tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide. It will make sure column names are well-suited for use in R
+&gt; **Tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide.
 
 
 ```r
 whr15 &lt;- whr15 %&gt;% 
-  clean_names()
+* clean_names()
 whr16 &lt;- whr16 %&gt;% 
-  clean_names() 
+  clean_names()
 whr17 &lt;- whr17 %&gt;% 
   clean_names()
 ```
 
-If we wan to to rename our variable manually, we could use: 
+However, if we wan to to rename our variable manually, we could use: 
 
 
 ```r
 whr15 &lt;- whr15 %&gt;% 
-  rename(
-    var_newname = var_oldname
-  )
+* rename(
+*   var_newname = var_oldname
+* )
 ```
 
 ---
@@ -386,24 +389,24 @@ Use `glimpse()` to get information about your variables (e.g., type, row, column
 
 ```r
 whr15 %&gt;% 
-  glimpse()
+* glimpse()
 ```
 
 ```
 ## Rows: 158
 ## Columns: 12
-## $ country                     &lt;chr&gt; "Switzerland", "Iceland", "Denmark", "Norw~
-## $ region                      &lt;chr&gt; "Western Europe", "Western Europe", "Weste~
-## $ happiness_rank              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,~
-## $ happiness_score             &lt;dbl&gt; 7.587, 7.561, 7.527, 7.522, 7.427, 7.406, ~
-## $ standard_error              &lt;dbl&gt; 0.03411, 0.04884, 0.03328, 0.03880, 0.0355~
-## $ economy_gdp_per_capita      &lt;dbl&gt; 1.39651, 1.30232, 1.32548, 1.45900, 1.3262~
-## $ family                      &lt;dbl&gt; 1.34951, 1.40223, 1.36058, 1.33095, 1.3226~
-## $ health_life_expectancy      &lt;dbl&gt; 0.94143, 0.94784, 0.87464, 0.88521, 0.9056~
-## $ freedom                     &lt;dbl&gt; 0.66557, 0.62877, 0.64938, 0.66973, 0.6329~
-## $ trust_government_corruption &lt;dbl&gt; 0.41978, 0.14145, 0.48357, 0.36503, 0.3295~
-## $ generosity                  &lt;dbl&gt; 0.29678, 0.43630, 0.34139, 0.34699, 0.4581~
-## $ dystopia_residual           &lt;dbl&gt; 2.51738, 2.70201, 2.49204, 2.46531, 2.4517~
+## $ country                     &lt;chr&gt; "Switzerland", "Iceland", "Denmark", "Norw…
+## $ region                      &lt;chr&gt; "Western Europe", "Western Europe", "Weste…
+## $ happiness_rank              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,…
+## $ happiness_score             &lt;dbl&gt; 7.587, 7.561, 7.527, 7.522, 7.427, 7.406, …
+## $ standard_error              &lt;dbl&gt; 0.03411, 0.04884, 0.03328, 0.03880, 0.0355…
+## $ economy_gdp_per_capita      &lt;dbl&gt; 1.39651, 1.30232, 1.32548, 1.45900, 1.3262…
+## $ family                      &lt;dbl&gt; 1.34951, 1.40223, 1.36058, 1.33095, 1.3226…
+## $ health_life_expectancy      &lt;dbl&gt; 0.94143, 0.94784, 0.87464, 0.88521, 0.9056…
+## $ freedom                     &lt;dbl&gt; 0.66557, 0.62877, 0.64938, 0.66973, 0.6329…
+## $ trust_government_corruption &lt;dbl&gt; 0.41978, 0.14145, 0.48357, 0.36503, 0.3295…
+## $ generosity                  &lt;dbl&gt; 0.29678, 0.43630, 0.34139, 0.34699, 0.4581…
+## $ dystopia_residual           &lt;dbl&gt; 2.51738, 2.70201, 2.49204, 2.46531, 2.4517…
 ```
 
 ---
@@ -448,23 +451,22 @@ The `n_distinct` function allows us to count the number of unique values of a va
 
 # Dimensions of your data
 
---
+.exercise[
 
-### Exercise 2: Identify distinct values of a variable in a dataset
-
-Using the `n_distinct` function, can you tell how many unique values these variables of the whr15 dataset have?
+**Exercise 2**: Identify distinct values of a variable in a dataset. Using the `n_distinct` function, can you tell how many unique values these variables in the `whr15` dataset have?
 
 1. Region
 2. Country
+]
 
-<div class="countdown" id="timer_6282b40d" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_628414a1" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
 --
 
-### How to do it? 
-
+.solution[
+**Solution**: 
 
 ```r
 n_distinct(whr15$country, na.rm = TRUE)
@@ -481,6 +483,8 @@ n_distinct(whr15$region, na.rm = TRUE)
 ```
 ## [1] 10
 ```
+]
+
 
 ---
 
@@ -538,6 +542,22 @@ name: wrangling
 
 ---
 
+# Wrangling vs Cleaning
+
+.large[
+
+**Cleaning:**
+
+- Detecting and addressing inconsistencies in a dataset. Removing erroneous data from your data.
+
+**Wrangling:**
+
+- Translating raw data into a more useful form. Unifying messy and complex data.
+
+]
+
+---
+
 # dplyr::filter
 
 - The `filter` function is used to subset rows in a dataset. 
@@ -571,23 +591,24 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 # dplyr::filter
 
-### Exercise 3: Filter the dataset.
+.exercise[
+**Exercise 3:** Filtering. Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint: use the **or** operator (`|`): 
 
-* Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint: use the *or* operator (`|`) to add conditions: 
+]
 
-<div class="countdown" id="timer_6282b287" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_62841519" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
 --
+
+.solution[
 
 
 ```r
 whr15 %&gt;% 
   filter(region == "Eastern Asia" | region == "North America") 
 ```
-
---
 
 A more elegant approach would be to use the `%in%` operator (equivalent to `inlist()` in Stata): 
 
@@ -597,14 +618,16 @@ whr15 %&gt;%
   filter(region %in% c("Eastern Asia", "North America")) 
 ```
 
+]
+
 ---
 
 # dplyr::filter missing cases
 
-If case you want to remove (or identify) the missing cases for a specific variable, you can use `is.na()`. 
+If you want to remove (or identify) missing cases for a specific variable, you can use `is.na()`. 
 
 * This function returns a value of true and false for each value in a data set.
-* If the value is *NA* the is.na() function returns TRUE, otherwise, it returns FALSE.
+* If the value is *NA* the `is.na()` function returns TRUE, otherwise, it returns FALSE.
 * In this way, we can check NA values that can be used for other functions.
 * We can also negate the function using `!is.na()` which indicates that we want to return those observations with no missing values in a variable.
 
@@ -613,39 +636,40 @@ The function syntax in a pipeline is as follows:
 
 ```r
 DATA %&gt;% 
-  filter(is.na(VAR))
+  filter(
+*   is.na(VAR)
+  )
 ```
+
+**What are we returning here?**
 
 --
 
-#### What are we returning here? 
-
-The observations that have missing values for the variable VAR.
+The observations with missing values for the variable VAR.
 
 ---
 
 # dplyr::filter missing cases
 
-Let's try filtering the whr15 data. Let's keep those observations that have information per region, i.e., no missing values.
+Let's try filtering the `whr15` data. Let's keep those observations that have information per region, i.e., no missing values.
 
 
 ```r
 whr15 %&gt;% 
-  filter(!is.na(region)) %&gt;% 
+* filter(!is.na(region)) %&gt;%
   head(5)
 ```
 
 ```
-## # A tibble: 5 x 12
-##   country  region happiness_rank happiness_score standard_error economy_gdp_per~
-##   &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
-## 1 Switzer~ Weste~              1            7.59         0.0341             1.40
-## 2 Iceland  Weste~              2            7.56         0.0488             1.30
-## 3 Denmark  Weste~              3            7.53         0.0333             1.33
-## 4 Norway   Weste~              4            7.52         0.0388             1.46
-## 5 Canada   North~              5            7.43         0.0355             1.33
-## # ... with 6 more variables: family &lt;dbl&gt;, health_life_expectancy &lt;dbl&gt;,
-## #   freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## # A tibble: 5 × 12
+##   country   region happiness_rank happiness_score standard_error economy_gdp_per… family health_life_exp…
+##   &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;  &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Switzerl… Weste…              1            7.59         0.0341             1.40   1.35            0.941
+## 2 Iceland   Weste…              2            7.56         0.0488             1.30   1.40            0.948
+## 3 Denmark   Weste…              3            7.53         0.0333             1.33   1.36            0.875
+## 4 Norway    Weste…              4            7.52         0.0388             1.46   1.33            0.885
+## 5 Canada    North…              5            7.43         0.0355             1.33   1.32            0.906
+## # … with 4 more variables: freedom &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
 ## #   dystopia_residual &lt;dbl&gt;
 ```
 
@@ -664,14 +688,14 @@ name: variables
 
 # Creating new variables
 
-### In the tidyverse, we use the `mutate()` function. Let's say we want to have interactions:
+We use the `mutate()` function to add new variables. For example:
 
 
 ```r
 whr15 %&gt;%
-  mutate(
-    hap_hle = happiness_score * health_life_expectancy, 
-  ) 
+* mutate(
+*   hap_hle = happiness_score * health_life_expectancy,
+* )
 ```
 
 This will add a new variable called `hap_hle` which is the interaction of happiness score and health life expectancy.
@@ -686,11 +710,11 @@ whr15 %&gt;%
   mutate(happiness_score_6 = (happiness_score &gt; 6))
 ```
 
-What do you think is happening to this variable? 
+**What do you think is happening to this variable?**
 
 --
 
-&gt; The variable we created contains either `TRUE` or `FALSE`. &lt;br&gt; If we wanted to have it as a numeric (1 or 0, respectively), we could include `as.numeric()`. However, the point of having logical variables is to treat them as numbers when relevant (for example as dummy variables in a regression) and as categories when relevant (for example in graphs)
+This new variables contains either `TRUE` or `FALSE`. To have it as a numeric variable (1 or 0, respectively), we include the `as.numeric()` function. 
 
 --
 
@@ -702,12 +726,14 @@ whr15 %&gt;%
 
 --
 
-Finally, instead of using a random number such as 6, we can do the following: 
+Finally, instead of using a random number, such as 6, we can do the following: 
 
 
 ```r
 whr15 %&gt;%
-  mutate(happiness_high_mean = as.numeric((happiness_score &gt; mean(happiness_score)))) 
+  mutate(
+    happiness_high_mean = as.numeric((happiness_score &gt; mean(happiness_score)))
+  ) 
 ```
 
 ---
@@ -726,7 +752,7 @@ Similar in nature but:
 
 # Creating variables by groups
 
-In R, we can use `group_by()` before we mutate to group an estimation. So, for this example, we are going to pipe the following functions. 
+In R, we can use `group_by()` before we mutate to group an estimation. For example, we are going to pipe the following functions:
 
 1. Group our data by the `region` variable.
 2. Create a variable that would be the mean of `happiness_score` by each region.
@@ -737,9 +763,9 @@ In R, we can use `group_by()` before we mutate to group an estimation. So, for t
 
 ```r
 DATASET %&gt;% 
-  group_by(GROUPING VARIABLE) %&gt;%
+* group_by(GROUPING VARIABLE) %&gt;%
   mutate(
-    NAME OF NEW VAR = mean(VARIABLE)
+    NAME OF NEW VAR = mean(VARIABLE, na.rm = TRUE)
   ) %&gt;% 
   select(VAR1, VAR2, VAR3, VAR4) 
 ```
@@ -752,7 +778,7 @@ DATASET %&gt;%
 whr15 %&gt;% 
   group_by(region) %&gt;%
   mutate(
-    mean_hap = mean(happiness_score)
+    mean_hap = mean(happiness_score, na.rm = TRUE))
   ) %&gt;% 
   select(country, region, happiness_score, mean_hap) 
 ```
@@ -761,7 +787,7 @@ whr15 %&gt;%
 .panel[.panel-name[Output]
 
 ```
-## # A tibble: 7 x 4
+## # A tibble: 7 × 4
 ## # Groups:   region [2]
 ##   country     region         happiness_score mean_hap
 ##   &lt;chr&gt;       &lt;chr&gt;                    &lt;dbl&gt;    &lt;dbl&gt;
@@ -780,11 +806,11 @@ whr15 %&gt;%
 
 # Creating multiple variables at the same time
 
-We can create multiple variables in an easy way. So, let's imagine that we want to estimate the mean value for the variables: happiness_score, health_life_expectancy, and trust_government_corruption.
+We can create multiple variables in an easy way. Let's imagine that we want to estimate the mean value for the variables: happiness_score, health_life_expectancy, and trust_government_corruption.
 
 #### How we can do it? 
 
-* We can use the function `across()`. It behaves this way: `across(VARS that you want to transform, FUNCTION to execute)`. 
+* We can use the function `across()`. &lt;br&gt; Syntax: `across(VARS that you want to transform, FUNCTION to execute)`. 
 * `across()` should be always use inside `summarise()` or `mutate()`.
 
 .panelset[
@@ -797,7 +823,9 @@ vars &lt;- c("happiness_score", "health_life_expectancy", "trust_government_corr
 whr15 %&gt;%
   group_by(region) %&gt;%
   summarize(
-    across(all_of(vars), mean)
+*   across(
+*     all_of(vars), mean
+*   )
   )
 ```
 
@@ -807,32 +835,33 @@ whr15 %&gt;%
 
 
 ```
-## # A tibble: 3 x 4
-##   region                     happiness_score health_life_expe~ trust_government~
-##   &lt;chr&gt;                                &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;
-## 1 Australia and New Zealand             7.28             0.920            0.393 
-## 2 Central and Eastern Europe            5.33             0.719            0.0867
-## 3 Eastern Asia                          5.63             0.877            0.128
+## # A tibble: 3 × 4
+##   region                     happiness_score health_life_expectancy trust_government_corruption
+##   &lt;chr&gt;                                &lt;dbl&gt;                  &lt;dbl&gt;                       &lt;dbl&gt;
+## 1 Australia and New Zealand             7.28                  0.920                      0.393 
+## 2 Central and Eastern Europe            5.33                  0.719                      0.0867
+## 3 Eastern Asia                          5.63                  0.877                      0.128
 ```
 ]
 ]
 
 ---
 
-# Creating variables: Exercise
+# Creating variables
 
-### Exercise 4: Create a variable called year that equals to the year of each dataframe .
+.exercise[
 
-* Use `mutate()`
-* Remember to assign it to the same dataframe.
+**Exercise 4:** Create a variable called `year` that equals to the year of each dataframe using the `mutate()`. Remember to assign it to the same dataframe.
 
-<div class="countdown" id="timer_6282b0e1" style="top:0;right:0;font-size:2em;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
+<div class="countdown" id="timer_6284169c" style="top:0;right:0;font-size:2em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
+
+]
 
 --
 
-### How to do it?  
+.solution[
 
 
 ```r
@@ -851,7 +880,7 @@ whr17 &lt;- whr17 %&gt;%
     year = 2017
   )
 ```
-
+]
 
 ---
 class: inverse, center, middle
@@ -863,7 +892,7 @@ name: bind
 
 ---
 
-# Appending and merging data sets
+# Appending dataframes
 
 Now that we can identify the observations, we can combine the data set. Here are two functions to append objects by row
 
@@ -873,31 +902,34 @@ rbind(df1, df2, df3) # The base R function
 
 bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
 ```
+.exercise[
+**Exercise 5:** Append data sets. Use the function `bind_rows` to append the three WHR datasets:
 
-### Exercise 5: Append data sets.
-
-* Use the function `bind_rows` to append the three WHR datasets:
-
-<div class="countdown" id="timer_6282b1ae" style="right:0;bottom:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_62841668" style="right:0;bottom:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
 
+]
+
 --
 
-### How to do it?
+.solution[
 
+**Solution:**
 
 ```r
 bind_rows(whr15, whr16, whr17)
 ```
 
---
-
-### What problems do you think we can have with these approach?
+]
 
 --
 
+.notes[
+**Notes**
 * One of the problems with binding rows like this is that, sometimes, some columns are not compatible.
+
+]
 
 ---
 
@@ -911,7 +943,7 @@ bind_rows(whr15, whr16, whr17)
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
 
-<div class="countdown" id="timer_6282b3df" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_62841358" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
 
@@ -936,7 +968,7 @@ We can use the `left_join()` function to merge two dataframes. The function synt
 
 * Now, we join the `regions` dataframe with the `whr17` dataframe. 
 
-<div class="countdown" id="timer_6282b403" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_62841427" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -963,7 +995,7 @@ Check if there is any other country without region info:
 * And `filter()`
 * Do not assign it to an object.
 
-<div class="countdown" id="timer_6282b1dc" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_628415db" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1014,7 +1046,7 @@ Finally, let's keep those relevant variables first and bind those rows.
 * Use `rbind()`
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
 
-<div class="countdown" id="timer_6282b26a" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_628415d3" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1047,7 +1079,7 @@ name: saving
 # Saving a dataset
 
 * The data set you have now is the same data set we’ve been using for earlier sessions, so we can save it now
-* As mentioned before, R data sets are often save as csv.
+* As mentioned before, R data sets are often saved as csv.
 * To save a dataset we can use the `write_csv` function from the tidyverse, or `write.csv` from base R. 
 
 The function takes the following structure: 
@@ -1067,7 +1099,7 @@ The function takes the following structure:
 * Use `write_csv()`
 * Use `here()`
 
-<div class="countdown" id="timer_6282b1bd" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
+<div class="countdown" id="timer_62841537" style="bottom:0;left:0;font-size:2em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
