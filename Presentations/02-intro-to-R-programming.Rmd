@@ -816,7 +816,7 @@ The solution is this:
 ```{r, eval=FALSE}
 df <- data.frame(replicate(70000, sample(1:100, 400, replace=TRUE)))
 
-means <- c()
+col_means_loop <- c()
 
 for (col in df){
   col_means_loop <- append(col_means_loop, mean(col))
@@ -847,7 +847,7 @@ Compare the syntax of the solutions of both exercises:
 
 ```{r, eval=FALSE}
 # Looping exercise
-means <- c()
+col_means_loop <- c()
 
 for (col in df){
   col_means_loop <- append(col_means_loop, mean(col))
