@@ -471,7 +471,7 @@ dim(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -484,7 +484,7 @@ str(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -497,7 +497,7 @@ summary(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -510,7 +510,7 @@ head(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -627,7 +627,7 @@ summary(log(whr$happiness_score))
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -750,7 +750,7 @@ round(x)         # since R is vectorized, this also works
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -803,7 +803,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```  
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -832,7 +832,7 @@ my_list[[2]] # this returns the actual string "hello"
 ```  
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -876,7 +876,7 @@ name: custom-functions
 ```  
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -924,7 +924,7 @@ zscore <- function(x) {
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -961,7 +961,7 @@ whr$freedom_st <- z_scores[[2]]
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
