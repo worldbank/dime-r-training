@@ -127,20 +127,11 @@ In this session, you'll be introduced to some basic concepts of data cleaning in
 
 > There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session.
 
----
 
-# Introduction
-
-### Before we start, let's make sure we are all set: 
+### Before we start, let's make sure we are ready: 
 
 1. Start a fresh RStudio session.
-2. Open your RStudio project.
-
-### Notes for this session
-
-* Most of our exercises for today focus on the tidyverse. 
-* The setup is a bit different than yesterday. 
-* Since we are "exploring" our data, we sometimes don't need to assign everything to an object. 
+2. Open the RStudio project you created yesterday.
 
 ---
 
@@ -174,13 +165,13 @@ knitr::include_graphics("https://www.apple.com/v/app-store/a/images/meta/og__c59
 
 ```{r, echo = TRUE, eval = FALSE, include = TRUE}
 
-# To Install
+# To install
 install.packages("dplyr")
 
 ```
 
 * Unlike Stata, R packages need to be loaded in each R session that will use them. 
-* That means that, for example, a function that comes from the dplyr package cannot be used if the package has not been installed and loaded first. 
+* That means that, for example, a function that comes from the `dplyr` package cannot be used if the package has not been installed and loaded first. 
 
 ### To load a package you can run the following command:
 
@@ -190,11 +181,9 @@ install.packages("dplyr")
 library(dplyr)
 ```
 
-* Notice that we use double quotes for installing but not for loading a package. 
-
 ---
 
-# RECAP: loading packages:
+# RECAP: loading packages
 
 ```{r tverse, cache = FALSE, message = FALSE}
 # If you haven't installed the packages uncomment the next line
@@ -202,7 +191,7 @@ library(dplyr)
 # install.packages("readr")
 # install.packages("here")
 # install.packages("janitor")
-library(dplyr)
+library(dplyr)      # To wrangle data
 library(readr)      # To read files
 library(here)       # A package to work with relative file paths
 library(janitor)    # Additional data cleaning tools
@@ -245,7 +234,9 @@ Use either of the functions mentioned above and load the three WHR datasets from
 --
 
 .solution[
-**Solution**
+
+**Solution:**
+
 ```{r readcsv, message = FALSE}
 whr15 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2015.csv")) 
 whr16 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2016.csv")) 
@@ -300,11 +291,11 @@ rony %>%
 
 ---
 
-# The pip %>% operator
+# The pipe %>% operator
 
 From R for Data Science by Wickham & Grolemund:
 
-.large[
+.medium[
 
 > Pipes are a powerful tool for clearly expressing a sequence of multiple operations. The point of the pipe is to help you write code in a way that is easier to read and understand. [...]  It focusses on verbs, not nouns. You can read this series of function compositions like it’s a set of imperative actions.
 
@@ -312,11 +303,11 @@ From R for Data Science by Wickham & Grolemund:
 
 
 ---
-# The clean_names() function
+# Janitor package: The clean_names() function
 
-The `clean_names()` function helps us big time when our variables names are pretty bad. For example, if we have a variable that is called **`GDP_per_CApita_2015`**, the `clean_names()` function will help us fix those messy names. 
+The `clean_names()` function helps us when our variables names are pretty bad. For example, if we have a variable that is called **`GDP_per_CApita_2015`**, the `clean_names()` function will help us fix those messy names. 
 
-> **Tip**: Use the `clean_names()` function in a pipe after you load a dataset as we did in the last slide.
+> **Tip**: Pipe the `clean_names()` function after you load a dataset.
 
 ```{r clean_names, message = FALSE}
 whr15 <- whr15 %>% 
@@ -399,7 +390,7 @@ name: id
 
 # Dimensions of your data
 
-Let's see first: 
+Let's see first how many columns and observations the dataset has: 
 
 * **Dimensions of your data** (Rows and Columns): 
 
@@ -511,7 +502,7 @@ whr15 %>% filter(region == "Western Europe")
 # dplyr::filter
 
 .exercise[
-**Exercise 3:** Filtering. Use `filter()` to extract only rows in one of these regions: (1) Eastern Asia and (2) North America. Hint: use the **or** operator (`|`): 
+**Exercise 3:** Use `filter()` to extract rows in these regions: (1) Eastern Asia and (2) North America. Hint: use the **or** operator (`|`): 
 
 ]
 
@@ -520,6 +511,8 @@ whr15 %>% filter(region == "Western Europe")
 --
 
 .solution[
+
+**Solution:**
 
 ```{r, eval = FALSE}
 whr15 %>% 
@@ -589,7 +582,7 @@ name: variables
 
 # Creating new variables
 
-We use the `mutate()` function to add new variables. For example:
+We use `mutate()` to create new variables. For example:
 
 ```{r mut, eval=FALSE}
 whr15 %>%
@@ -696,7 +689,7 @@ whr15 %>%
 
 # Creating multiple variables at the same time
 
-We can create multiple variables in an easy way. Let's imagine that we want to estimate the mean value for the variables: happiness_score, health_life_expectancy, and trust_government_corruption.
+We can create multiple variables in an easy way. Let's imagine that we want to estimate the mean value for the variables: `happiness_score`, `health_life_expectancy`, and `trust_government_corruption` .
 
 #### How we can do it? 
 
@@ -755,6 +748,8 @@ whr15 %>%
 
 .solution[
 
+**Solution:**
+
 ```{r}
 whr15 <- whr15 %>% 
   mutate(
@@ -771,6 +766,7 @@ whr17 <- whr17 %>%
     year = 2017
   )
 ```
+
 ]
 
 ---
@@ -815,8 +811,9 @@ bind_rows(whr15, whr16, whr17)
 --
 
 .notes[
+
 **Notes**
-* One of the problems with binding rows like this is that, sometimes, some columns are not compatible.
+* One of the problems with binding rows like this is that, sometimes, some columns are not *fully* compatible.
 
 ]
 
@@ -824,22 +821,34 @@ bind_rows(whr15, whr16, whr17)
 
 # Appending and merging data sets
 
-### Exercise 6: Fixing our variables and appending the data frames correctly.
+.exercise[
 
---
+.medium[
 
-#### Exercise 6a: 
+**Exercise 6:** Fixing our variables and appending the data frames correctly.
+
+]
+
+*Exercise 6a*
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
 
 `r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
 
+]
+
 --
+
+.solution[
+
+**Solution:**
 
 ```{r regions}
 regions <- read_rds(here("DataWork", "DataSets", "Raw", "Un WHR", "regions.RDS"))
 
 ```
+
+]
 
 ---
 
@@ -851,43 +860,76 @@ We can use the `left_join()` function to merge two dataframes. The function synt
 
 --
 
-#### Exercise 6b:
+.exercise[
 
-* Now, we join the `regions` dataframe with the `whr17` dataframe. 
+
+**Exercise 6b:** Join the dataframes: `regions` and `whr17`. 
+
+]
 
 `r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
+.pull-left[
+
+.solution[
+
+**Solution:** 
+
 ```{r}
-whr17 <- whr17 %>% 
-  left_join(regions, by = "country") %>% 
+whr17 <- whr17 %>% #<<
+  left_join(regions, by = "country") %>% #<<
   select(country, region, everything()) 
 ```
 
-> _**Notes**_: Look at the everything() function. It takes all the variables from the dataframe and put them after country and region. In this way, select can be use to **order** columns! 
+]
+
+]
+
+.pull-right[
+
+.notes[
+
+**Notes:**
+
+Look at the `everything()` function. It takes all the variables from the dataframe and put them after country and region. In this way, select can be use to **order** columns! 
+
+]
+
+]
 
 ---
 
 # Appending and merging data sets
 
-#### Exercise 6c: 
+.exercise[
 
-Check if there is any other country without region info:
+**Exercise 6c:** Check if there is any other country without region info:
 
 * Only use pipes %>%
 * And `filter()`
 * Do not assign it to an object.
 
-`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
+]
+
+`r countdown(minutes = 1, seconds = 0, top = 0, font_size = "2em")`
+
 
 --
+
+.solution[
+
+**Solution:**
 
 ```{r}
 whr17 %>% 
   filter(is.na(region))
   
 ```
+
+]
 
 ---
 
@@ -901,7 +943,7 @@ This is due to the name of the countries. The regions dataset doesn't have "Taiw
 
 * My approach would be to: 
 
-1. fix the names of these countries in the whr17 dataset and; 
+1. fix the names of these countries in the `whr17` dataset (a data cleaning task) and; 
 2. merge (left_join) it with the regions dataset.
 
 
@@ -913,14 +955,22 @@ Appendix: [case_when and mutate](#case_when) for more information.
 
 Finally, let's keep those relevant variables first and bind those rows. 
 
-### Exercise 7: Bind all rows and create a panel called: `whr_panel`. 
+.exercise[
+
+**Exercise 7:** Bind all rows and create a panel called: `whr_panel`. 
 
 * Use `rbind()`
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
 
-`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+`r countdown(minutes = 1, seconds = 0, top = 0, font_size = "2em")`
+
+]
 
 --
+
+.solution[
+
+**Solution:**
 
 ```{r}
 keepvars <- c("country", "region", "year", "happiness_rank", 
@@ -933,6 +983,8 @@ whr17 <- select(whr17, all_of(keepvars))
 
 whr_panel <- rbind(whr15, whr16, whr17)    # or bind_rows
 ```
+
+]
 
 ---
 
@@ -947,43 +999,55 @@ name: saving
 
 # Saving a dataset
 
-* The data set you have now is the same data set we’ve been using for earlier sessions, so we can save it now
-* As mentioned before, R data sets are often saved as csv.
-* To save a dataset we can use the `write_csv` function from the tidyverse, or `write.csv` from base R. 
+* The dataset you have is the same data set we’ve been using for earlier sessions, so we can save it now.
+* To save a dataset we can use the `write_csv` function from the `readr` package, or `write.csv` from base R. 
 
-The function takes the following structure: 
+The function takes the following syntax: 
 
 `write_csv(x, file, append = FALSE)`: 
 
 * `x:` the object (usually a data frame) you want to export to CSV
 * `file:` the file path to where you want to save it, including the file name and the format (“.csv”)
-* `append:` If FALSE, will create a new file. If TRUE, will append to an existing file.
 
 ---
 
 # Saving a dataset
 
-### Exercise 8: Save the dataset.
+.exercise[
+
+**Exercise 8:** Saving the dataset as csv format.
 
 * Use `write_csv()`
 * Use `here()`
 
-`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+`r countdown(minutes = 1, seconds = 0, top = 0, font_size = "2em")`
+
+]
 
 --
 
-```{r}
-# Save the whr data set
+.solution[
 
+**Solution:**
+
+```{r}
 write_csv(
-  whr_panel, 
-  here("DataWork", "DataSets", "Final", "whr_panel.csv")
-) 
+  whr_panel, here("DataWork", "DataSets", "Final", "whr_panel.csv")
+)
+
 ```
+
+]
+
+
+
+.notes[
 
 * The problem with CSVs is that they cannot differentiate between `strings` and `factors`
 * They also don’t save factor orders
-* Data attributes (which are beyong the scope of this training, but also useful to document data sets) are also lost.
+* Data attributes (which are beyond the scope of this training, but also useful to document data sets) are also lost.
+
+]
 
 ---
 
@@ -1009,7 +1073,7 @@ write_rds(
 ---
 class: inverse, center, middle
 
-# Thank you~
+# And that's it for this session. Join us next week~
 
 ---
 class: inverse, center, middle
@@ -1179,18 +1243,26 @@ If your categorical variable does not need to be ordered, and your string variab
 
 # Factor variables
 
-### Extra exercise: Turn a string variable into a factor.
+.exercise[
+
+**Extra exercise:** Turn a string variable into a factor.
 
 * Use the mutate function to create a variable called region_cat containing a categorical version of the region variable.
 * TIP: to do this, you only need the first argument of the factor function.
 
+]
+
 --
 
-### How to do it? 
+.solution[
+
+**Solution:**
 
 ```{r}
 whr_panel <- mutate(whr_panel, region_cat = factor(region)) 
 ```
+
+]
 
 --
 
