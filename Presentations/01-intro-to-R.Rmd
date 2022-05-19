@@ -2,7 +2,7 @@
 title: "Session 1 - Introduction to R"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2021"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> May 2022"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -93,29 +93,22 @@ We're glad you're joining us today!
 
 - The sessions include exercises. You will be given 3-4 minutes to solve each exercise before we show the solution
 
-- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez-Ramirez__
-
 ---
 
 # Sessions format
 
 ## Format
+
+- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez-Ramirez__
 
 - The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a message over the chat whenever you need help
 
-- You can also use our Slack workspace to troubleshoot. It is easier to follow direct conversations in Slack, and it also allows you to send screenshots (please send them if you can!)
-
-```{r echo = FALSE, out.width = "60%"}
-knitr::include_graphics("img/slack.png")
-```
-
 ---
 
 # Sessions format
 
 ## Format
 
-- You can join our Slack workspace using [this link](https://join.slack.com/t/worldbank-network/shared_invite/zt-xxcai60m-7_E_oBFFQe1tzrSCTNmEmQ)
 
 - If you have a question feel free to unmute yourself or use the chat to ask it
 
@@ -124,6 +117,8 @@ knitr::include_graphics("img/slack.png")
 - If your connection is good enough, please leave your video on
 
 - The materials of each session will be shared in the OSF page of the course by the end of each session: https://osf.io/86g3b/
+
+- The recordings will be shared in a WB internal link
 
 ---
 
@@ -147,27 +142,6 @@ We assume that you know how to do statistical programming in Stata or that you h
 ## About this session
 
 This first session will present the basic concepts you will need to use R.
-
----
-
-# Introduction
-
-## Sessions
-
-1. Introduction to R
-
-2. Introduction to R programming
-
-3. Data processing
-
-4. Data visualization
-
-5. Descriptive analysis
-
-6. Geospatial data
-
-For the most recent versions of these trainings, visit the DIME-R-training GitHub repository at
-https://github.com/worldbank/dime-r-training
 
 ---
 
@@ -223,9 +197,10 @@ knitr::include_graphics("img/scritpt4.png")
 
 Let's start by loading the data set we'll be using:
 
-## Exercise 1: Import data
+## Exercise 1: Import data manually <font size="5">(`r fa("clock")` 3 min)</font> 
 
-1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - November 2021` > `Data` > `whr_panel.csv`
+
+1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - 2022 May` > `Data` > `whr_panel.csv`
 
 2. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your Rstudio version, it might be `File` > `Import Dataset` > `From CSV`
@@ -339,7 +314,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 Now, let's try some simple manipulations. First, assume we're only interested in data of the year 2016.
 
-## Exercise 2: Subset the data 
+## Exercise 2: Subset the data <font size="5">(`r fa("clock")` 1 min)</font> 
 
 - Subset the data set, keeping only observations where variable `year` equals `2016`.
 
@@ -411,7 +386,7 @@ knitr::include_graphics("img/x_42.png")
 
 # Data in R
 
-## Exercise 3: Create an object
+## Exercise 3: Create an object <font size="5">(`r fa("clock")` 1 min)</font> 
 
 Create a new dataset, called `whr2016`, that is a subset of the `whr` data set containing only data from the year 2016.
 
@@ -454,7 +429,7 @@ knitr::include_graphics("img/environment_2vars_2021.png")
 
 # Data in R
 
-### Important concepts to take note:
+### Important features to take note:
 
 * In R, if you want to change your data, you need to __store the result in an object__ using the arrow operator `<-`
 
@@ -465,7 +440,7 @@ knitr::include_graphics("img/environment_2vars_2021.png")
  whr <- subset(whr, year == 2016)
  ```
  
-__Important:__ This will modify the original object -- `whr` in this case
+__Important:__ This will modify the original object -- `whr` in this case. R will not give you a warning when you're modifying an existing object with `<-`
 
 ---
 
@@ -473,7 +448,7 @@ __Important:__ This will modify the original object -- `whr` in this case
 
 ## Printing a result vs storing a result
 
-Print (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but won't save anything in the memory.
+Print (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but will not save anything in the memory.
 
 ```{r, eval = F}
 # For instance, this will only print the observations that meet the specified condition:
@@ -499,9 +474,38 @@ name: functions
 
 ## Quick intro to functions
 
-`head()`, `View()`, `subset()` and`read.csv()` are functions.
+* `head()`, `View()`, `subset()` and`read.csv()` are functions.
 
-* Functions in R take named arguments (unlike in Stata that you have arguments and options)
+* Functions in R take **named arguments** (unlike in Stata that you have arguments and options)
+
+* Type `help(subset)` in the console to check the arguments of the `subset()` function
+
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/subset_arguments.png")
+```
+
+---
+
+# Functions
+
+## Quick intro to functions
+
+* When we used `subset(whr, year == 2016)` we're implicitily telling R that the `x` argument is `whr` and the `subset` argument is `year == 2016`
+
+* In other words, these two commands will return the same results:
+
+  + `subset(whr, year == 2016)`
+  + `subset(x = whr, subset = year == 2016)`
+
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/subset_arguments.png")
+```
+
+---
+
+# Functions
+
+## Quick intro to functions
 
 * Arguments are always enclosed in parentheses
 
@@ -611,7 +615,7 @@ To R, each of the columns of the object `whr` is a vector.
 
 ### Calling a vector from a `data.frame` column:
 
-We use the `$` character to call vectors (variables) by their names in a `data.frame`
+We use the `$` character (operator) to extract vectors (variables) by their names in a `data.frame`
 
 For example:
 
@@ -744,15 +748,12 @@ It would be beyond the scope of this introduction to go deep into them, but here
 ```{r, include = T, results = "hide"}
 # Use the list() function
 lst <- list(v1, df1, 45)
-
 ```
 Print the list yourself to see how it looks like.
 
 ---
 
 # R objects - Lists
-
-## Lists
 
 ```{r, eval=F}
 lst <- list(v1, df1, 45) # definition of lst
@@ -763,6 +764,30 @@ print(lst)               # checking the content of lst
 knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
+---
+
+# R objects - Lists
+
+You can subset lists using single brackets (`[]`) or double brackets (`[[]]`)
+
+- `my_list[[i]]` will return the actual item in the i-th position
+- `my_list[i]` will return a list with the item in the i-th position
+- Importantly, `[]` can be used to index elements with a numeric vector indicating the positions of the elements to subset
+- `[[]]`, on the other hand, only allows a single index
+
+---
+
+# R objects - Lists
+
+```{r, eval=F}
+lst[[3]]    # returns 45
+lst[3]      # returns a list of one element (45)
+lst[c(1,2)] # returns a list with the first two elements of "lst"
+```
+
+```{r echo=FALSE}
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
 ---
 
 class: inverse, center, middle
@@ -788,13 +813,11 @@ As in Stata, there are two different ways to store numbers. They are different b
 
 ---
 
-# Basic types of data
-
-## Strings
+# Basic types of data - Strings
 
 Now we'll use string data to practice some basic object manipulations in R.
 
-### Exercise 4: Create a vector of strings
+### Exercise 4: Create a vector of strings <font size="5">(`r fa("clock")` 2 min)</font> 
 Create a string vector containing the names of commonly used statistical software:
 ```{r, include = T, results = "hide"}
 
@@ -819,11 +842,10 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
-# Basic types of data
+# Basic types of data - Strings
 
-## Strings
+### Exercise 5: Concatenate strings <font size="5">(`r fa("clock")` 3 min)</font> 
 
-### Exercise 5: Concatenate strings
  1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar <- "can be an option to"`
 
  2. Use the function `paste()` with 3 arguments separated by commas:
@@ -878,7 +900,7 @@ Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as
 
 ## Factors
 
-We'll learn a more about factors in a later session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
+We'll learn more about factors in a later session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
 
 Unlike Stata, in R:
 
@@ -928,7 +950,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ## Booleans
 
-### Exercise 6:
+### Exercise 6 <font size="5">(`r fa("clock")` 3 min)</font> 
 
 Create a boolean vector with the condition of annual income below average:
 
@@ -997,7 +1019,8 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the `whr` data set for the same condition.
 
-### Exercise 7:
+### Exercise 7 <font size="5">(`r fa("clock")` 3 min)</font> 
+
  * Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
 ```{r,  eval = T}
@@ -1132,80 +1155,6 @@ Here are some advantages of R:
 
 ---
 
-# Appendix - Help, Google and Stack Overflow
-
-Help in R works very much like in Stata: the help files usually start with a brief description of the function, explain its syntax and arguments and list a few examples. There are two ways to access help files:
-
-## Exercise 8: Use help
-
-```{r, eval=FALSE}
-# You can use the help() function
-help(summary)
-
-# or its abbreviation
-?summary
-
-```
-
----
-
-# Appendix - Help, Google and Stack Overflow
-
- * The biggest difference, however, is that __R has a much wider user community__ and it has __a lot more online resources__.
-
- * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550 (check http://r4stats.com/articles/popularity/ for more details).
-
- * The most powerful problem-solving tool in R, however, is Google. Searching the something yields tons of results.
- 
- * Often that means a Stack Overflow page where someone asked the same question and several people gave different answers. Here's a typical example:
- https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group
-
----
-
-# Appendix - Useful resources
-
-## Blogs, courses and resources:
-
-* Surviving graduate econometrics with R:
-https://thetarzan.wordpress.com/2011/05/24/surviving-graduate-econometrics-with-r-the-basics-1-of-8/
-
-* CRAN's manuals:
-https://cran.r-project.org/manuals.html
-
-* R programming in Coursera:
-https://www.coursera.org/learn/r-programming
-
-* R programming for dummies:
-http://www.dummies.com/programming/r/
-
-* R bloggers:
-https://www.r-bloggers.com/
-
-* R statistics blog:
-https://www.r-statistics.com/
-
-* The R graph gallery:
-https://www.r-graph-gallery.com/
-
-* R Econ visual library: (developed and maintained by DIME Analytics!)
-https://worldbank.github.io/r-econ-visual-library/
-
----
-
-# Appendix - Useful resources
-
-## Books:
-
-* R for Stata Users - Robert A. Muenchen and Joseph Hilbe
-
-* R Graphics Cookbook - Winston Chang
-https://r-graphics.org/
-
-* R for Data Science - Hadley Wickham and Garrett Grolemund
-https://r4ds.had.co.nz/
-
----
-
 # Appendix - Syntax
 
 R's syntax is a bit heavier than Stata's:
@@ -1237,6 +1186,32 @@ What's in R's memory.
 
 ## The 4th pane
 Can display different things, including plots you create, packages loaded and help files.
+
+---
+
+# Appendix - RStudio vs R GUI
+
+## RStudio
+
+- RStudio is an integrated development environment for R
+
+- It's a software that uses the base R installation of your computer and provides an expanded interface that greatly facilitates R programming
+
+## R GUI
+
+- The basic R Graphic User Interface (GUI) can also be used to program in R. You will find it in your computer with a name similar to `R<version>`, as in `R4.0.2`
+
+- Opening the R GUI allows to work with R in a command line format, where you introduce one R command and the interface executes it and prints any message if needed
+
+- It's very similar to the console panel of RStudio and it also allows to open a script editor, but it will not show you a list of the variables loaded on your environment
+
+---
+
+# Appendix - RStudio vs R GUI
+
+```{r echo = FALSE, out.width = "90%"}
+knitr::include_graphics("img/r-gui.png")
+```
 
 ---
 
@@ -1340,6 +1315,80 @@ as.integer(num)
 round(num)
 
 ```
+
+---
+
+# Appendix - Help, Google and Stack Overflow
+
+Help in R works very much like in Stata: the help files usually start with a brief description of the function, explain its syntax and arguments and list a few examples. There are two ways to access help files:
+
+## Exercise 8: Use help
+
+```{r, eval=FALSE}
+# You can use the help() function
+help(summary)
+
+# or its abbreviation
+?summary
+
+```
+
+---
+
+# Appendix - Help, Google and Stack Overflow
+
+ * The biggest difference, however, is that __R has a much wider user community__ and it has __a lot more online resources__.
+
+ * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550 (check http://r4stats.com/articles/popularity/ for more details).
+
+ * The most powerful problem-solving tool in R, however, is Google. Searching the something yields tons of results.
+ 
+ * Often that means a Stack Overflow page where someone asked the same question and several people gave different answers. Here's a typical example:
+ https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group
+
+---
+
+# Appendix - Useful resources
+
+## Blogs, courses and resources:
+
+* Surviving graduate econometrics with R:
+https://thetarzan.wordpress.com/2011/05/24/surviving-graduate-econometrics-with-r-the-basics-1-of-8/
+
+* CRAN's manuals:
+https://cran.r-project.org/manuals.html
+
+* R programming in Coursera:
+https://www.coursera.org/learn/r-programming
+
+* R programming for dummies:
+http://www.dummies.com/programming/r/
+
+* R bloggers:
+https://www.r-bloggers.com/
+
+* R statistics blog:
+https://www.r-statistics.com/
+
+* The R graph gallery:
+https://www.r-graph-gallery.com/
+
+* R Econ visual library: (developed and maintained by DIME Analytics!)
+https://worldbank.github.io/r-econ-visual-library/
+
+---
+
+# Appendix - Useful resources
+
+## Books:
+
+* R for Stata Users - Robert A. Muenchen and Joseph Hilbe
+
+* R Graphics Cookbook - Winston Chang
+https://r-graphics.org/
+
+* R for Data Science - Hadley Wickham and Garrett Grolemund
+https://r4ds.had.co.nz/
 
 ---
 exclude: true
