@@ -92,7 +92,7 @@ name: intro
 In this session, you’ll learn how to use R to produce insightful, meaningful and (hopefully) nice-looking graphs. In particular, you’ll use a package
 called `ggplot2` from the `tidyverse` meta-package.
 
-Similarly to previous sessions, you can find some references at the end of this presentation that include a more comprehensive discussions on data visualization.
+Similarly to previous sessions, you can find some references at the end of this presentation that include a more comprehensive discussion on data visualization.
 
 ---
 
@@ -213,9 +213,9 @@ ggplot(data = <DATA>) +
 .pull-right[
 
 1. `Data`: The data that you want to visualize
-2. `Layers`: geom_ and stat_ → The geometric shapes and statistical summaries representing the data
+2. `Layers`: geom\_ and stat\_ → The geometric shapes and statistical summaries representing the data
 3. `Aesthetics`: aes() → Aesthetic mappings of the geometric and statistical objects
-4. `Scales` scale_ → Maps between the data and the aesthetic dimensions
+4. `Scales`: scale_ → Maps between the data and the aesthetic dimensions
 5. `Coordinate system`: coord_ → Maps data into the plane of the data rectangle
 6. `Facets`: facet_ → The arrangement of the data into a grid of plots
 7. `Visual themes`: theme() and theme_ → The overall visual defaults of a plot
