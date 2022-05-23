@@ -253,7 +253,7 @@ ggplot(data = <DATA>) +
 
 .vlarge[**There are multiple ways to structure plots with ggplot**]
 
-.medium[For this presentation, I will stick to Thomas Lin Pedersen's decomposition who is one of most prominent developers of the ggplot and gganimate package.<br><br>TThese components can be as layers, this is why we use the `+` sign in our ggplot syntax.]
+.medium[For this presentation, I will stick to Thomas Lin Pedersen's decomposition who is one of most prominent developers of the ggplot and gganimate package.<br><br>These components can be seen as layers, this is why we use the `+` sign in our ggplot syntax.]
 
 ]
 ]
