@@ -27,6 +27,7 @@ library(fontawesome)
 library(here)
 library(xaringanExtra)
 library(countdown)
+library(flair)
 
 here::i_am("Presentations/04-data-visualization.Rmd")
 
@@ -59,23 +60,6 @@ xaringanExtra::use_logo(
 )
 ```
 
-# Table of contents
-
-1. [Introduction](#intro)
-
-2. [Exploratory Analysis](#ea)
-
-4. [`ggplot`](#ggplot)
-
-5. [Saving a plot](#saving)
-
-6. [Homework](#hw)
-
-7. [References and recommendations](#references)
-
-
----
-
 class: inverse, center, middle
 name: intro
 
@@ -85,14 +69,28 @@ name: intro
 
 ---
 
-# Introduction
+# **Today's session**
 
-### Goals of this session
+.box-7.large.sp-after-half[Exploratory Analysis v. Publication/Reporting]
 
-In this session, you’ll learn how to use R to produce insightful, meaningful and (hopefully) nice-looking graphs. In particular, you’ll use a package
-called `ggplot2` from the `tidyverse` meta-package.
+--
+
+.box-5.large.sp-after-half[Data, aesthetics, & the grammar of graphics]
+
+--
+
+.box-3.large.sp-after-half[Aesthetics in extra dimensions, themes, and saving plots]
+
+--
+
+.notes[
+
+.large[
+For this session, you’ll use the `ggplot2` package from the `tidyverse` meta-package.
 
 Similarly to previous sessions, you can find some references at the end of this presentation that include a more comprehensive discussion on data visualization.
+]
+]
 
 ---
 
@@ -100,20 +98,19 @@ Similarly to previous sessions, you can find some references at the end of this 
 
 ### Before we start
 
-* Make sure the packages `ggplot2` and `plotly` are installed and loaded.
-* Load the `whr_panel` data set.
+* Make sure the packages `ggplot2` are installed and loaded. You can load it directly using `library(tidyverse)` or `library(ggplot2)`
+* Load the `whr_panel` data set (remember to use the `here` package) we created last week.
 
 ```{r, warnings = F}
 # Packages
 library(tidyverse)
-library(plotly)
 library(here)
 
-whr_panel <- readRDS(here("DataWork", 
-                          "DataSets", 
-                          "Final", 
-                          "whr_panel.Rds"))
-
+whr_panel <- read_rds(
+  here(
+    "DataWork", "DataSets", "Final", "whr_panel.Rds"
+  )
+)
 ```
 
 
@@ -124,12 +121,11 @@ whr_panel <- readRDS(here("DataWork",
 In our workflow there are usually two distinct uses for plots:
 
 1. **Exploratory analysis**: Quickly visualize your data in an insightful way.
-  * Base R can be used to quickly create (ugly) basic figures
-  * We will also use `ggplot2` to quickly create (less ugly) basic figures.
+  * Base R can be used to quickly create basic figures
+  * We will also use `ggplot2` to quickly create basic figures as well.
 
-2. **Publication/Reporting**: Make pretty graphs for a presentation, a project report, or to just show your boss something other than the laziest graph you could come up with:
+2. **Publication/Reporting**: Make pretty graphs for a presentation, a project report, or papers:
   * We’ll do this using `ggplot2` with more customization. The idea is to create beautiful graphs.
-  * `ggplot2`’s syntax is more complicated, but it’s easier to make your graphs look good with it.
 
 ---
 class: inverse, center, middle
@@ -141,13 +137,17 @@ name: ea
 
 ---
 
-# Base Plot
+# Plot with Base R
 
 First, we’re going to use base plot, i.e., using Base R default libraries. It is easy to use and can produce useful graphs with very few lines of code.
 
-### Exercise 1: Exploratory graph.
+.exercise[**Exericse 1:** Exploratory Analysis. 
 
-Let's plot the `whr` dataset that we constructed last week. We are going to use the function `plot()`. Before we plot it, let's create a vector called `vars` that contains the variables: `economy_gdp_per_capita`, `happiness_score`, `health_life_expectancy`, and `freedom`.
+**(1)** Create a vector called `vars` with the variables: `economy_gdp_per_capita`, `happiness_score`, `health_life_expectancy`, and `freedom`. <br>
+**(2)** Selected all the variables from the vector `vars`  in the `whr_panel` dataframe and assign it to the object `whr_simp`. <br>
+**(3)** Use the `plot()` function typiing: `plot(whr_simp)`
+
+]
 
 `r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
@@ -155,11 +155,9 @@ Let's plot the `whr` dataset that we constructed last week. We are going to use 
 
 ```{r}
 # Vector of variables
-
 vars <- c("economy_gdp_per_capita", "happiness_score", "health_life_expectancy", "freedom")
 
 # Create a subset with only those variables, let's called this subset whr_simp
-
 whr_simp <- whr_panel %>%
   select(all_of(vars))
 
@@ -177,7 +175,7 @@ plot(whr_simp)
 
 # The beauty of ggplot2
 
-### Some advantages of `ggplot2`
+.large[
 
 1. Consistency with the [**Grammar of Graphics**](https://www.springer.com/gp/book/9780387245447)
   * This book is the foundation of several data viz applications: `ggplot2`, `polaris-tableau`, `vega-lite`
@@ -187,12 +185,36 @@ plot(whr_simp)
 
 It is a powerful and easy to use tool (once you understand its logic) that produces complex and multifaceted plots.
 
+]
+
 ---
 
-# ggplot2: structure
+# ggplot2: basic structure (template)
 
-After we have load our dataset. Let's plot something basic. The structure of a basic ggplot is:
+.large[The basic ggplot structure is:]
 
+```{r ggplot-template, echo=FALSE, tidy=FALSE}
+decorate('
+ggplot(data = DATA) +
+  GEOM_FUNCTION(mapping = aes(AESTHETIC MAPPINGS))
+', eval = FALSE) %>% 
+  flair("DATA", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
+  flair("GEOM_FUNCTION", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
+  flair("AESTHETIC MAPPINGS", background = "#FFD0CF", before = "<b>", after = "</b>") %>% 
+  knit_print.with_flair()
+```
+
+.large[Mapping data to aesthetics]
+
+.box-7.medium[Think about colors, sizes, x and y references]
+
+--
+
+.center.medium[We are going to learn how we connect our data to the components of a ggplot]
+
+---
+
+# ggplot2: full structure
 
 .pull-left[
 ```
@@ -201,7 +223,7 @@ ggplot(data = <DATA>) +
      mapping = aes(<MAPPINGS>),
      stat = <STAT>,
      position = <POSITION>
-  ) +
+  ) +z
   <COORDINATE_FUNCTION> +
   <FACET_FUNCTION> +
   <SCALE_FUNTION> +
@@ -229,9 +251,10 @@ ggplot(data = <DATA>) +
 
 .center[
 
-### There are multiple ways to structure plots in ggplot. 
+.vlarge[**There are multiple ways to structure plots with ggplot**]
 
-For this presentation, I will stick to Thomas Lin Pedersen's decomposition who is one of most prominent developers of the ggplot and gganimate package
+.medium[For this presentation, I will stick to Thomas Lin Pedersen's decomposition who is one of most prominent developers of the ggplot and gganimate package.<br><br>TThese components can be as layers, this is why we use the `+` sign in our ggplot syntax.]
+
 ]
 ]
 
@@ -281,7 +304,7 @@ whr_panel %>%  #<<
 
 # Exploratory Analysis
 
-I prefer to use the second way of structuring our ggplot.
+.large[I prefer to use the second way of structuring our ggplot.
 
 1. First, setting our data;
 2. pipe it;
@@ -290,24 +313,36 @@ I prefer to use the second way of structuring our ggplot.
 
 Both structures will work but this will make a difference if you want to load more datasets at the same time, and whether you would like to combine more geoms in the same ggplot. More on this in the following slides.
 
+]
+
 ---
 
 # Exploratory Analysis
 
-### Exercise 2: Create a scatter plot with x = freedom and y = economy_gdp_per_capita.
+.exercise[
+**Exercise 2:** Create a scatter plot with `x = freedom` and `y = economy_gdp_per_capita`.
+]
 
 `r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
+
+.solution[
+
+**Solution:**
 
 ```{r, out.width = "55%"}
 ggplot(data = whr_panel, aes(x = freedom, y = economy_gdp_per_capita)) +
   geom_point()
 ```
 
+]
+
 ---
 
 # Exploratory Analysis
+
+.large[
 
 The most common `geoms` are:
 
@@ -322,6 +357,7 @@ The most common `geoms` are:
 
 > If you want to know more about layers, you can refer to [this](https://ggplot2.tidyverse.org/reference/).
 
+]
 
 ---
 
@@ -405,15 +441,42 @@ How the plot is going to be drawn.
 
 # Exploratory Analysis
 
-We can also **map** colors.
+.medium[We can also **map** colors.]
 
-```{r, out.width = "50%"}
+.pull-left[
+
+```{r, out.width = "50%", echo = FALSE}
+decorate('
+ggplot(
+  data = whr_panel,
+  aes(
+    x = happiness_score,       
+    y = economy_gdp_per_capita,
+    color = region 
+  )
+) + 
+  geom_point() 
+', eval = FALSE) %>%
+  flair("data", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
+  flair_rx("aes|geom_point", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
+  flair_rx("x |y ", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
+  flair("color = region ", background = "#F1E740", before = "<b>", after = "</b>") %>% 
+  knit_print.with_flair()
+```
+
+]
+
+.pull-right[
+
+```{r, out.width = "100%", echo = FALSE}
 ggplot(data = whr_panel,
        aes(x = happiness_score,
            y = economy_gdp_per_capita,
            color = region)) +  #<<
   geom_point()
 ```
+
+]
 
 ---
 
@@ -425,13 +488,36 @@ Let's try to do something different, try, instead of `region`, adding `color = "
 
 --
 
-```{r, out.width = "50%"}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,
-           y = economy_gdp_per_capita,
-           color = "blue")) +  #<<
+.pull-left[
+
+```{r, eval = FALSE}
+ggplot(
+  data = whr_panel,
+  aes(
+    x = happiness_score,
+    y = economy_gdp_per_capita,
+    color = "blue"  #<<
+  )
+) + 
+```
+
+]
+
+.pull-right[
+
+```{r, out.width = "100%", echo = FALSE}
+ggplot(
+  data = whr_panel,
+  aes(
+    x = happiness_score,
+    y = economy_gdp_per_capita,
+    color = "blue"  #<<
+  )
+) + 
   geom_point()
 ```
+
+]
 
 ---
 
@@ -464,34 +550,83 @@ Let's modify our last plot. Let's add `color = "blue"` inside `geom_point()`.
 
 --
 
-```{r, out.width = "50%"}
+.pull-left[
+
+```{r, eval = FALSE}
+ggplot(
+  data = whr_panel,
+  aes(
+    x = happiness_score,
+    y = economy_gdp_per_capita
+  )
+) +
+  geom_point(color = "blue") #<<
+```
+
+]
+
+.pull-right[
+
+```{r, out.width = "100%", echo = FALSE}
 ggplot(data = whr_panel,
        aes(x = happiness_score,
            y = economy_gdp_per_capita)) +
   geom_point(color = "blue") #<<
 ```
 
+]
+
 ---
 
 # Exploratory Analysis
 
-### Exercise 3: Map colors per year for the freedom and gdp plot we did before.
+.exercise[
+**Exercise 3:** Map colors per year for the freedom and gdp plot we did before. Keep in mind the type of the variable `year`.
 
-* Keep in mind the type of the variable `year`.
+]
+
 
 `r countdown(minutes = 1, seconds = 0, bottom = 0, font_size = "2em")`
 
 --
 
-```{r, out.width = "45%"}
+.pull-left[
+
+.solution[
+
+**Solution:**
+
+```{r, echo = FALSE}
+decorate('
+ggplot(
+  data = whr_panel,
+  aes(
+    x = freedom, 
+    y = economy_gdp_per_capita, 
+    color = year
+  )
+) +
+  geom_point()
+', eval = FALSE) %>% 
+  flair("color = year", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
+  knit_print.with_flair()
+```
+
+]
+
+]
+
+.pull-right[
+
+```{r, out.width = "100%", echo = FALSE}
 ggplot(data = whr_panel,
        aes(x = freedom, y = economy_gdp_per_capita, color = year)) +
   geom_point()
 ```
 
---
+]
 
-* How do you think we could solve it?
+
 
 ---
 
@@ -503,11 +638,37 @@ ggplot(data = whr_panel,
 
 --
 
-```{r, out.width = "45%"}
+.pull-left[
+
+```{r, out.width = "45%", echo = FALSE}
+decorate('
+ggplot(
+  data = whr_panel,
+  aes(
+    x = freedom, 
+    y = economy_gdp_per_capita, 
+    color = as.factor(year)
+  )
+) +
+  geom_point()
+', eval = FALSE) %>% 
+  flair("color = as.factor(year)", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
+  knit_print.with_flair()
+```
+
+]
+
+
+.pull-right[
+
+```{r, out.width = "100%", echo = FALSE}
 ggplot(data = whr_panel,
-       aes(x = freedom, y = economy_gdp_per_capita, color = as.factor(year))) + #<<
+       aes(x = freedom, y = economy_gdp_per_capita, color = as.factor(year))) +
   geom_point()
 ```
+
+]
+
 
 ---
 class: inverse, center, middle
@@ -520,6 +681,9 @@ name: ggplot
 ---
 
 # ggplot2: settings
+
+.large[
+
 
 Now, let's try to modify our plots. In the following slides, we are going to:
 
@@ -535,6 +699,7 @@ Now, let's try to modify our plots. In the following slides, we are going to:
 
 1. Modify our theme.
 
+]
 
 
 ---
@@ -586,19 +751,59 @@ ggplot(data = whr_panel,
 
 # ggplot2: Colors and facets
 
-### Exercise 4: Use the last plot and add a color aesthetic per region.
+
+.exercise[
+
+**Exercise 4**: Use the last plot and add a color aesthetic per region.
+
+]
 
 `r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
-```{r, out.width = "55%"}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,  y = economy_gdp_per_capita, color = region)) + #<<
+.pull-left[
+.solution[
+
+**Solution:**
+
+```{r, eval = FALSE}
+
+ggplot(
+  data = whr_panel,
+  aes(
+    x = happiness_score,  
+    y = economy_gdp_per_capita, 
+    color = region #<<
+  )
+) + 
+  geom_point() +
+  facet_wrap(~ region) #<<
+
+```
+
+]
+]
+
+.pull-left[
+
+```{r, echo = FALSE,  out.width = "100%"}
+ggplot(
+  data = whr_panel,
+  aes(
+    x = happiness_score,  
+    y = economy_gdp_per_capita, 
+    color = region #<<
+  )
+) + #<<
   geom_point() +
   facet_wrap(~ region)
 
 ```
+
+]
+
+
 
 ---
 
@@ -616,8 +821,11 @@ whr_panel %>%
   mutate( #<<
     latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE) #<<
   ) %>%  #<<
-  ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) + #<<
+  ggplot(
+    aes(
+      x = happiness_score, y = economy_gdp_per_capita,
+      color = latam) #<<
+  ) + 
   geom_point()
 
 ```
@@ -647,7 +855,7 @@ whr_panel %>%
 
 # ggplot2: geom's sizes
 
-We can also specify the size of a geom, either by a variable or just a number.
+.large[We can also specify the size of a geom, either by a variable or just a number.]
 
 ```{r, out.width = "40%"}
 whr_panel %>%
@@ -693,6 +901,9 @@ ggplot(data = whr_panel,
 
 # ggplot2: Themes
 
+.large[
+
+
 Let's go back to our plot with the `latam` dummy.
 
 We are going to do the following to this plot:
@@ -703,6 +914,7 @@ We are going to do the following to this plot:
 4. Add some annotations.
 5. Modify our legends.
 
+]
 
 ---
 
@@ -880,17 +1092,24 @@ More about these modification can be found [here](https://ggplot2.tidyverse.org/
 
 # ggplot2: Color palettes
 
+.large[
+
 We can also add color palettes using other packages such as: `RColorBrewer, viridis` or funny ones like the `wesanderson` package. So, let's add new colors.
 
 * First, install the `RColorBrewer` package.
+
+]
 
 ```{r}
 # install.packages("RColorBrewer")
 library(RColorBrewer)
 ```
 
+.large[
+
 * Let's add `scale_color_brewer(palette = "Dark2")` to our ggplot.
 
+]
 
 ---
 
@@ -948,6 +1167,9 @@ whr_panel %>%
 
 # ggplot2: Color palettes
 
+.vlarge[
+
+
 My favorite color palettes packages:
 
 1. [ghibli](https://github.com/ewenme/ghibli)
@@ -957,6 +1179,8 @@ My favorite color palettes packages:
 5. [palettetown](https://github.com/timcdlucas/palettetown)
 6. [quickpalette](https://github.com/EmilHvitfeldt/quickpalette)
 7. [wesanderson](https://github.com/karthik/wesanderson)
+
+]
 
 ---
 class: inverse, center, middle
@@ -997,13 +1221,19 @@ Therefore, if you want to plot it again, you can just type `fig` in the console.
 
 # Saving a plot
 
-### Exercise 5: Save our last plot.
-
-We will use the `ggsave()` function.  You can either include the function after your plot or, first, save the ggplot as an object and then save the plot.
+.exercise[**Exercise 5**: Saving a ggplot. Use the `ggsave()` function.  You can either include the function after your plot or, save the ggplot first as an object and then save the plot.
 
 The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dpi = ...)`.
 
+]
+
 `r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
+.notes[
+
+**Solution**:
 
 ```{r, echo = FALSE}
 fig <- whr_panel %>%
@@ -1024,8 +1254,6 @@ fig <- whr_panel %>%
   theme_minimal()
 ```
 
---
-
 ```{r}
 ggsave(
   fig,
@@ -1037,10 +1265,13 @@ ggsave(
 )
 ```
 
+]
+
+
 ---
 class: inverse, center, middle
 
-# Thank you~
+# And that's it for this session. Join us tomorrow for data analysis. Remember to submit your feedback!
 
 
 ---
