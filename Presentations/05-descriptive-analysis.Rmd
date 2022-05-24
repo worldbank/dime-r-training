@@ -482,23 +482,121 @@ summary_stats_table <-
   select(-n_missing, -complete_rate) # remove daulft statistics
 
 # Export to Excel
-quick_xlsx(summary_stats_table,
-           file = here("DataWork",
-                       "Output",
-                       "Raw",
-                       "summary-stats.xlsx"))
-
-# Export to LaTeX
-quick_latex(summary_stats_table,
-           file = here("DataWork",
-                       "Output",
-                       "Raw",
-                       "summary-stats.tex"))
-
+quick_xlsx(
+  summary_stats_table,
+  file = here(
+    "DataWork",
+    "Output",
+    "Raw",
+    "summary-stats.xlsx"
+  )
+)
 ```
 
 ---
 
+# What if I want to export tables to different tabs in Excel?
+
+```{r}
+
+# Start a new workbook
+wb <- createWorkbook()
+
+# Add one sheet to it
+wb <- 
+  as_Workbook(
+    summary_stats_table,
+    Workbook = wb, 
+    sheet = "Summary stats"
+  )
+
+wb <- 
+  as_Workbook(
+    hux("Mock", "table"),
+    Workbook = wb,
+    sheet = "Other sheet"
+  )
+
+saveWorkbook(
+  wb, 
+   file = here(
+    "DataWork",
+    "Output",
+    "Raw",
+    "summary-stats.xlsx"
+  ),
+  overwrite = TRUE
+)
+```
+
+---
+
+# Exporting tables
+
+The code below exports the same table to a self-standing LaTeX document
+
+```{r}
+# Export to LaTeX
+quick_latex(
+  summary_stats_table,
+  file = here(
+    "DataWork",
+    "Output",
+    "Raw",
+    "summary-stats.tex"
+  )
+)
+```
+
+---
+
+# What if I want to export only a table fragment to LaTeX?
+
+```{r}
+summary_stats_table %>%
+  as_hux() # Convert it into a huxtable object #<<
+```
+
+--- 
+
+# What if I want to export only a table fragment to LaTeX?
+
+```{r}
+summary_stats_table %>%
+  as_hux() %>% # Convert it into a huxtable object 
+  print_latex() # See LaTeX code #<<
+```
+
+---
+
+# What if I want to export only a table fragment to LaTeX?
+
+```{r}
+summary_stats_table %>%
+  as_hux() %>% # Convert it into a huxtable object 
+  print_latex() %>% # See LaTeX code 
+  # Save LaTeX code #<<
+  capture.output( #<<
+    file = here( #<<
+      "DataWork", #<<
+      "Output", #<<
+      "Raw", #<<
+      "summary-stats.tex" #<<
+    )
+  ) #<<
+```
+
+---
+
+# What if I want to export only a table fragment to LaTeX?
+
+You will also need to load the required LaTeX packages
+
+```{r}
+report_latex_dependencies()
+```
+
+---
 class: inverse, center, middle
 name: beautifying
 
