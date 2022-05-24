@@ -575,9 +575,17 @@ Other valid output formats include:
 * `.md`
 ]
 
--- 
+---
+
+# Exporting *modelsummary* table
 
 .large[
+Other valid output formats include: 
+
+* `.docx`
+* `.pptx`
+* `.html`
+* `.md`
 * ... but not `.xls`
 ]
 
@@ -725,7 +733,7 @@ census_labelled <-
 # Create a labelled summary table 
 summary_stats_table <-
   datasummary(
-    descriptives,
+    All(census_labelled) ~ N + Mean + SD + Median + Min + Max,
     data = census_labelled,
     output = "huxtable"
   )
@@ -737,6 +745,7 @@ summary_stats_table <-
 
 The code below shows the table `summary_stats_table` can be formatted
 
+.small[
 ```{r, message = FALSE}
 # Format table
  summary_stats_table %>%  
@@ -960,6 +969,9 @@ Using the `census` data, run a regression of the number of divorces on populatio
 ```
 ]
 
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
+
 ---
 
 # Running regressions
@@ -1044,6 +1056,9 @@ Using the `census` data, run a regression of the number of divorces on populatio
   )
 ```
 ]
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
 
 ---
 
@@ -1133,8 +1148,7 @@ By now, you should know how to export this to Excel and LaTeX.
 
 # Formatting regression tables
 
-.small[
-```{r}
+```{r, eval = F}
 huxreg(
   reg1, reg2,
    coefs = c(
@@ -1149,6 +1163,25 @@ huxreg(
    )
 ```
 ]
+
+---
+
+# Formatting regression tables
+
+```{r, echo = F}
+huxreg(
+  reg1, reg2,
+   coefs = c(
+     "Population" = "pop", # Show variable labels instead of names
+     "Urban population"  = "popurban",
+     "Number of marriages" = "marriage"
+   ),
+   statistics = c("N. obs." = "nobs")) %>%
+   add_rows(
+     c("Region FE", "No", "Yes"),
+     after = 7
+   )
+```
 
 ---
 
