@@ -1,11 +1,14 @@
 ---
-title: "Introduction to R Markdown"
-subtitle: "DIME Analytics"
-author: "Presented by Luis Eduardo San Martin"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> February 2022"
+title: "Session 7: Introduction to R Markdown"
+subtitle: "R for Stata Users"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> May 2022"
 output:
   xaringan::moon_reader:
-    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
+    css: ["libs/remark-css/default.css",
+          "libs/remark-css/metropolis.css",
+          "libs/remark-css/metropolis-fonts.css",
+          "libs/remark-css/custom.css"]
     lib_dir: libs
     nature:
       ratio: "16:9"
@@ -72,6 +75,23 @@ xaringanExtra::use_logo(
 - We'll show:
   1. How to write and knit (output) R Markdown documents
   2. How to format text and R code in R Markdown documents
+
+---
+
+# Introduction
+
+- If possible, make sure you have both the package and LaTeX distribution `tinytex` installed
+
+```{r, eval=FALSE}
+# Installing the package
+install.packages("tinytex")
+
+# Installing the distribution
+tinytex::install_tinytex()
+```
+
+- This step is only necessary if you don't have a LaTeX distribution in your computer already
+- If you don't have a LaTeX distribution, you can still follow the exercises and instructions of this session to produce HTML outputs
 
 ---
 
@@ -144,12 +164,14 @@ name: knitting
 
 # Knitting R Markdown documents
 
-## Exercise 1
+.exercise[
+## Exercise 1: Knit an R Markdown document
 
-1. Go to [our R trainings repository](https://osf.io/86g3b/)
-2. In the files panel, download `Introduction to R Markdown...` > `r-markdown-template.Rmd`
+1. Go to [our course repository](https://osf.io/86g3b/)
+2. In the files panel, download `R for Stata Users - 2022 May` > `scripts` > `r-markdown-template.Rmd`
 3. Open this file in RStudio
 4. Click on `Knit`. If RStudio asks you to update some packages, select `Yes`
+]
 
 ---
 
@@ -160,6 +182,14 @@ name: knitting
 
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/r-markdown/rendered-docs.png")
+```
+
+---
+
+# Knitting R Markdown documents
+
+```{r echo = FALSE, out.width = "40%"}
+knitr::include_graphics("img/r-markdown/rendered-pdf.png")
 ```
 
 ---
@@ -194,7 +224,7 @@ knitr::include_graphics("img/r-markdown/markdown-headers.png")
 
 # Markdown - Paragraphs
 
-- Text not preceded by special symbols conform regular paragraphs.
+- Text not preceded by special symbols are regular paragraphs.
 
 ```{r echo = FALSE, out.width = "70%"}
 knitr::include_graphics("img/r-markdown/markdown-paragraphs.png")
@@ -217,17 +247,47 @@ knitr::include_graphics("img/r-markdown/markdown-text-emphasis.png")
 - Markdown allows us to use both ordered and unordered lists.
 
 ```{r echo = FALSE, out.width = "60%"}
-knitr::include_graphics("img/r-markdown/markdown-lists.png")
+knitr::include_graphics("img/r-markdown/markdown-ordered-lists.png")
+```
+
+---
+
+# Markdown - Lists
+
+- Markdown allows us to use both ordered and unordered lists.
+
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/r-markdown/markdown-unordered-lists.png")
 ```
 
 ---
 
 # Markdown - Links
 
-- Lastly, we can also include links as text in Markdown.
+- We can also include links as text in Markdown.
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/r-markdown/markdown-links.png")
+```
+
+---
+
+# Markdown - Tables
+
+- Lastly, we can include tables in Markdown text.
+
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/r-markdown/markdown-tables1.png")
+```
+
+---
+
+# Markdown - Tables
+
+- Lastly, we can include tables in Markdown text.
+
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/r-markdown/markdown-tables2.png")
 ```
 
 ---
@@ -265,16 +325,15 @@ knitr::include_graphics("img/r-markdown/insert-new-r-fenced-block.png")
 
 # Including R code
 
-## Exercise 2
-
-Include the summary of a variable in the document.
+.exercise[
+## Exercise 2: Include the summary of a variable
 
 1. Create a header named `R Code` at the bottom of `markdown-template.Rmd`
-2. Create a new fenced code block where you load the sample dataset `mtcars`
-  + `mtcars` is a built-in dataset
-  + load it with: `data(mtcars)`
+2. Create a new fenced code block where you load the dataset `mtcars`
+  + `mtcars` is a built-in dataset. Load it with: `data(mtcars)`
 3. Inside the same block, get the summary of the variable `mpg` with `summary(mtcars$mpg)`
-4. Knit and check how this is rendered in the resulting file. Note that you'll have to close the PDF document to knit it again
+4. Knit. You'll have to close the PDF document if you have it opened
+]
 
 ---
 
@@ -304,12 +363,12 @@ summary(mtcars$mpg)
 
 # Including R code
 
-## Exercise 3
-
-Omit the code when knitting R code.
+.exercise[
+## Exercise 3: Omit the code when knitting R code.
 
 1. Add the option `echo = FALSE` to the fenced code block created in exercise 2
-2. Knit the document and check the difference
+2. Knit the document and see how it's different now
+]
 
 ---
 
@@ -323,7 +382,7 @@ knitr::include_graphics("img/r-markdown/r-markdown-r-code-echo-F.png")
 
 # Including R code
 
-- To include R code but not the output, we can use the option `eval = FALSE`
+- To include only R code but not the output, we use the option `eval = FALSE`
 
 ````
 ```{r, eval = FALSE}`r ''`
@@ -361,11 +420,10 @@ name: r-plots
 
 # Including R plots
 
-## Exercise 4
+.exercise[
+## Exercise 4: Include an R plot in your document.
 
-Include an R plot in your document.
-
-1. Create a new header named `R Plots` at the bottom of `markdown-template.Rmd`
+1. Create a header named `R Plots` in `markdown-template.Rmd`
 2. Create a new fenced code block with the option `echo` set to `FALSE`
 3. Add the following code inside the new block:
 
@@ -376,6 +434,7 @@ plot(mtcars$wt,
      xlab = "Car weight",
      ylab = "Miles per gallon")
 ```
+]
 
 ---
 
@@ -398,7 +457,7 @@ name: r-inline-code
 
 # Including code inline
 
-- Inline code  is enclosed by backtick followed by an r (``r`) and a single backtick (```)
+- Inline code  is enclosed by backtick followed by an r (``r`) and a single backtick
 - For example:
 
 ~~~
@@ -415,14 +474,15 @@ The mean of mpg is `r mean(mtcars$mpg)`.
 
 # Including code inline
 
+.exercise[
 ## Exercise 5
 
-1. Create a new header named `Inline code` at the bottom of `markdown-template.Rmd`
-2. Add an unordered list with the items:
+1. Create a new header named `Inline code` in `markdown-template.Rmd`
+2. Add an unordered list with the following text and include inline R code to render the corresponding numbers in each case
   + The number of elements in mtcars is:
   + The mean of weight is:
   + The standard deviation is:
-3. Use the functions `nrow()`, `mean()`, and `sd()` in the corresponding list items so that the correct values are rendered. Remember you can select the weight variable like this: `mtcars$wt`
+]
 
 ---
 
@@ -431,6 +491,39 @@ The mean of mpg is `r mean(mtcars$mpg)`.
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/r-markdown/r-markdown-inline-code.png")
 ```
+
+---
+
+# Including code inline
+
+You can use the function `round()` to control the number of decimals displayed.
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/r-markdown/r-markdown-inline-code-rounded.png")
+```
+
+---
+
+# Including code inline
+
+You can also combine R inline code with the markdown syntax for tables to produce statistics tables.
+
+```{r echo = FALSE, out.width = "55%"}
+knitr::include_graphics("img/r-markdown/r-markdown-tables-inline-code.png")
+```
+
+---
+
+class: inverse, center, middle
+name: r-inline-code
+
+# Including TeX outputs from R packages
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Including TeX outputs from R packages
 
 ---
 
@@ -471,6 +564,30 @@ name: annex
 
 ---
 
+# Annex - Naming R code chunks
+
+- You can name R code chunks if you add the name after the `r` in the initial brackets
+- The example below has the name `my-r-code`
+
+````
+```{r my-r-code}`r ''`
+summary(mtcars$mpg)
+```
+````
+
+---
+
+# Annex - Naming R code chunks
+
+- This is very convenient to debug code blocks by clicking on `Output` under the `R Markdown` tab of the console, in case your file has an error
+
+
+```{r echo = FALSE, out.width = "75%"}
+knitr::include_graphics("img/r-markdown/error.png")
+```
+
+---
+
 # Annex - Including images
 
 - The Markdown syntax to include images is: `![Image name](path/to/image)`
@@ -483,6 +600,20 @@ name: annex
 - Renders:
 
 ![R logo](img/r-markdown/r-logo.jpg)
+
+---
+
+# Annex - Including a LaTeX preamble in a PDF-knitted document
+
+- If you want to customize a PDF document in R Markdown, you can include a LaTeX preamble that will be executed when you knit your document
+- To enable this feature, replace `output: pdf_document` with the following code in the section enclosed by the three dashes (`---`) at the beginning of your document
+
+```
+output:
+  pdf_document:
+    includes:
+      in_header: "preamble.tex"
+```
 
 ---
 
