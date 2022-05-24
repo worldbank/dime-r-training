@@ -26,6 +26,7 @@ library(hrbrthemes)
 library(fontawesome)
 library(here)
 library(xaringanExtra)
+library(countdown)
 
 here::i_am("Presentations/05-descriptive-analysis.Rmd")
 
@@ -132,21 +133,21 @@ But that's enough of me talking. Let's get you all to run some code
 
 Load the packages that we will use today
 ```{r, eval = F}
-  # Install new packages
-  install.packages("skimr")
-  install.packages("lfe")
-  install.packages("huxtable")
-  install.packages("openxlsx")
+# Install new packages
+install.packages("skimr")
+install.packages("lfe")
+install.packages("huxtable")
+install.packages("openxlsx")
 ```
 
-```{r, warning = FALSE}
-  # Load packages
-  library(here)
-  library(tidyverse)
-  library(skimr)
-  library(lfe)
-  library(huxtable)
-  library(openxlsx)
+```{r, warning = FALSE, message = FALSE}
+# Load packages
+library(here)
+library(tidyverse)
+library(modelsummary)
+library(lfe)
+library(huxtable)
+library(openxlsx)
 ```
 
 ---
@@ -157,11 +158,18 @@ Load the data that we will use today: Stata's `census` dataset
 ```{r}
   # Load data
    census <-
-    read_rds(here("DataWork",
-                  "DataSets", 
-                  "Final", 
-                  "census.RDS"))
+    read_rds(
+      here(
+        "DataWork",
+        "DataSets", 
+        "Final", 
+        "census.rds"
+      )
+    )
 ```
+
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
 
 ???
 
@@ -199,7 +207,7 @@ name: exploring
 .command[
 ## `summary(x, digits)`
 Equivalent to Stata's `codebook`. Its arguments are:
-
+  
  * **x:** the object you want to summarize, usually a vector or data frame
  * *digits:* the number of decimal digits to be displayed
 ]
@@ -212,6 +220,7 @@ Equivalent to Stata's `codebook`. Its arguments are:
 Use the `summary()` function to describe the `census` data frame.
 ]
 
+`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
 
 ---
 
@@ -241,6 +250,23 @@ summary(census)
 Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
 ]
 
+`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
+
+---
+
+# Summarizing continuous variables
+
+.exercise[
+
+### Exercise `r fa("keyboard")`
+Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
+]
+
+```{r}
+summary(census$pop)
+```
+
+
 ---
 
 # Summarizing categorical variables
@@ -259,6 +285,9 @@ Use the `table()` function to display frequency tables for:
 1. The variable `region` in the `census` data frame
 2. The variables `region` and `state` in the `census` data frame, simultaneously
 ]
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
 
 ---
 
@@ -281,7 +310,7 @@ table(census$region)
 
 --
 
-```{r, echo = FALSE}
+```{r}
 table(census$state, census$region) 
 ```
 
@@ -313,131 +342,192 @@ name: desc_tables
 
 ## Well, then you will need to go beyond base R
 - There are many packages that can be used both for displaying and exporting summary statistics
-- Today we will show you a combination of two packages: `skimr` and `huxtable`
+- Today we will show you a combination of two packages: `modelsummary` and `huxtable`
 - We chose this combination because together, they can perform all the tasks we are interested in
+- In fact, `modelsummary` can perform most of them by itself -- with the exception of exporting formatted tables to Excel
 
 ---
 
-# Exploring datasets with *skimr*
+# Exploring datasets with *modelsummary*
 
 .large[
-- The `skimr` package features are very similar to those of the functions `summary`.
-- It is used to present summary statistics for a dataset.
-- Like `summary`, the statistics presented vary with the class of each variable.
-- `skimr`'s main function is called `skim()`, and its syntax is also very similar to `summary`.
+The package *modelsummary* contains a family of functions called `datasummary` which can be used to create different types of summary statistics tables. These include:
+
+- `datasummary_skim`, to create descriptive statistics tables
+- `datasummary_balance`, to create balance tables
+- `datasummary_correlation`, to create a correlation table
+- `datasummary_crosstab`, to create a twoway tabulation
+- `datasummary`, to create customized descriptive statistics tables
 ]
 
 ---
 
-# Exploring datasets with *skimr*
+# Exploring datasets with *modelsummary*
 
+.command[
+## `datasummary_skim()`
+
+ * **data:** the data set to be summarized, the only required argument
+ * *output:* the type of output desired
+ * *...:* additional options allow for formatting customization, such as including notes and titles
+]
+
+```{r, eval = F}
+datasummary_skim(
+  data,
+  type = "numeric",
+  output = "default",
+  histogram = TRUE,
+  title = NULL,
+  notes = NULL,
+  ...
+)
+```
+
+---
+
+# Exploring datasets with *modelsummary*
+
+.large[
+.exercise[
+### Exercise `r fa("keyboard")`
+
+Use `datasummary_skim()` to create a descriptive statistics table for the `census` data 
+]
+]
+`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
+
+---
+
+# Exploring datasets with *modelsummary*
+
+```{r}
+datasummary_skim(census)
+```
+
+---
+
+# Exploring datasets with *modelsummary*
+
+- *modelsummary* summarizes only numeric variables by default.
+- To summarize categorical variables, use the argument `type`:
 
 ```{r, eval = FALSE}
-skim(census)
+datasummary_skim(census, type = "categorical")
+```
+
+
+```{r, echo = FALSE}
+datasummary_skim(census$region, type = "categorical")
 ```
 
 ---
 
+# Exploring datasets with *modelsummary*
 
-# Exploring datasets with *skimr*
+You can also customize the variables and statistics to include using a **formula** with the `datasummary()` function.
 
+.command[
+## `datasummary()`
 
-.small[
-```{r, echo = F, skimr_include_summary = FALSE}
-skim(census)
-```
+ * **formula:** a two-sided formula to describe the table: rows ~ columns
+ * **data:** the data set to be summarized
+ * *output:* the type of output desired
+ * *...:* additional options allow for formatting customization
+
 ]
-
----
-
-# Exploring datasets with *skimr*
-
-.large[
-The main advantage of `skimr` is that it is designed to fit well with the `tidyverse` syntax and within a data pipeline.
-
-So, for example, if you only want to summarize a few variables, you can write the following:
 
 ```{r, eval = F}
-census %>%
-    skim(pop,
-         popurban,
-         medage,
-         death,
-         marriage,
-         divorce)
+datasummary(
+  var1 + var2 + var3 ~ stat1 + stat2 + stat3 + stat4,
+  data = data
+)
 ```
-]
 
 ---
 
-# Exploring datasets with *skimr*
+# Exploring datasets with *modelsummary*
 
-.small[
-```{r, eval = T, echo = F, skimr_include_summary = FALSE}
-census %>%
-    skim(pop,
-         popurban,
-         medage,
-         death,
-         marriage,
-         divorce)
-```
+.exercise[
+### Exercise `r fa("keyboard")`
+Create a table showing the number of observations, mean, standard deviation, minimum, maximum and median value for all the population, number of deaths, number of marriage and number of divorces in the `census` data.
 ]
 
----
-
-# Customizing *skimr*
-
-You can also create your own _skimr function list (sfl)_ for each class of variables.
-
+.can-edit[
 ```{r, eval = F}
-summary_stats <-
-  skim_with(numeric = sfl(Mean = mean, # Variable name = statistic
-                          Median = median,
-                          SD = sd,
-                          Min = min,
-                          Max = max),
-            append = FALSE) # Remove all default statistics
-
-census %>%
-    summary_stats()
-```
-
-Here are a few functions that can be used within `sfl()`:
-- Center: `mean`, `median`
-- Spread: `sd`, `IQR`, `variance`
-- Range: `min`, `max`, `quantile`
-- Count: `n_complete`, `n_missing`, `length`
-
----
-
-# Customizing *skimr*
-
-.small[
-```{r, eval = T, echo = F, skimr_include_summary = FALSE}
-summary_stats <-
-  skim_with(numeric = sfl(Mean = mean, # Variable name = statistic
-                          Median = median,
-                          SD = sd,
-                          Min = min,
-                          Max = max),
-            append = FALSE) # Remove all default statistics
-
-census %>%
-  summary_stats()
+datasummary(
+  var1 + var2 + var3 ~ stat1 + stat2 + stat3 + stat4,
+  data = data
+)
 ```
 ]
 
+> **Tip:** some of the allowed statistics are N, Mean, SD, Min, Max, Median, P0, P25, P50, P75, P100, Histogram
+
+
+`r countdown(minutes = 1, seconds = 30, left = 0, font_size = "2em")`
+
 ---
 
-# Customizing *skimr*
+# Exploring datasets with *modelsummary*
 
-.small[
 ```{r}
-census %>%
-  summary_stats() %>%
-  yank("numeric") %>% # keep only numeric variables on the table
-  select(-n_missing, -complete_rate) # remove default statistics
+datasummary(
+  pop + death + marriage + divorce ~ N + Mean + SD + Median + Min + Max,
+  data = census
+)
+```
+
+---
+
+# Exploring datasets with *modelsummary*
+
+```{r}
+datasummary(
+  All(census) ~ N + Mean + SD + Median + Min + Max,
+  data = census
+)
+```
+
+---
+
+# Balance tables with *modelsummary*
+
+```{r, eval = FALSE}
+census_rct <-
+  census %>%
+  mutate(
+    treatment = as.numeric(runif(n()) > 0.5)
+  ) %>%
+  select(
+    -starts_with("state")
+  )
+
+datasummary_balance(
+  ~ treatment,
+  data = census_rct
+)
+```
+
+---
+
+# Balance tables with *modelsummary*
+
+.small[
+```{r, echo = FALSE}
+census_rct <-
+  census %>%
+  mutate(
+    treatment = as.numeric(runif(n()) > 0.5)
+  ) %>%
+  select(
+    -starts_with("state")
+  )
+
+datasummary_balance(
+  ~ treatment,
+  data = census_rct
+)
 ```
 ]
 
@@ -452,88 +542,81 @@ name: exporting
 
 ---
 
-# Exporting tables
+# Exporting *modelsummary* table to LaTeX
 
-To export the tables to a different software, we will need a different package, `huxtable`. The easiest way to save tables is through this family of commands:
+To export the tables we created, we can simply use the option `output`:
 
-.command[
-**quick_latex(..., file)**<br>
-**quick_pdf(..., file)**<br>
-**quick_html(..., file)**<br>
-**quick_docx(..., file)**<br>
-**quick_pptx(..., file)**<br>
-**quick_xlsx(..., file)**<br>
-**quick_rtf(..., file)**<br>
-- **...**: the huxtable objects or data frames to be exported
-- *file*: the file path to where the table should be saved, including the file extension
+```{r, message = FALSE, warning = FALSE}
+descriptives <-
+  All(census) ~ N + Mean + SD + Median + Min + Max
+
+datasummary(
+  descriptives,
+  data = census,
+  output = here( # file path to output file  #<<
+    "DataWork", #<<
+    "Output", #<<
+    "Raw", #<<
+    "summary-stats.tex" #<<
+  ) #<<
+)
+```
+
+---
+
+# Exporting *modelsummary* table
+
+.large[
+Other valid output formats include: 
+
+* `.docx`
+* `.pptx`
+* `.html`
+* `.md`
+]
+
+-- 
+
+.large[
+* ... but not `.xls`
+]
+
+---
+
+# Exporting *modelsummary* table to Excel
+
+- To export the table to Excel, we will first convert it into an object of type *huxtable*
+- `huxtable` is another R package, one that allows not only for exporting tables, but also for extensive customization
+- Before getting to the customization part, however, let's export this table:
+
+.small[
+```{r}
+# Create the huxtable object
+summary_stats_table <-
+  datasummary(
+    descriptives,
+    data = census,
+    output = "huxtable"
+  )
+
+# Export it to Excel 
+quick_xlsx( 
+  summary_stats_table, # object to be exported 
+  file = here( # file path to output file  
+    "DataWork", 
+    "Output", 
+    "Raw", 
+    "summary-stats.xlsx" 
+  ) 
+) 
+```
 ]
 
 ---
 
 # Exporting tables
 
-The code below exports the table we just created to Excel and LaTeX
-```{r}
-# Store table so it can be exported twice
-summary_stats_table <-
-  census %>%
-  summary_stats() %>%
-  yank("numeric") %>% # keep only numeric variables on the table
-  select(-n_missing, -complete_rate) # remove daulft statistics
-
-# Export to Excel
-quick_xlsx(
-  summary_stats_table,
-  file = here(
-    "DataWork",
-    "Output",
-    "Raw",
-    "summary-stats.xlsx"
-  )
-)
-```
-
----
-
-# What if I want to export tables to different tabs in Excel?
-
-```{r}
-
-# Start a new workbook
-wb <- createWorkbook()
-
-# Add one sheet to it
-wb <- 
-  as_Workbook(
-    summary_stats_table,
-    Workbook = wb, 
-    sheet = "Summary stats"
-  )
-
-wb <- 
-  as_Workbook(
-    hux("Mock", "table"),
-    Workbook = wb,
-    sheet = "Other sheet"
-  )
-
-saveWorkbook(
-  wb, 
-   file = here(
-    "DataWork",
-    "Output",
-    "Raw",
-    "summary-stats.xlsx"
-  ),
-  overwrite = TRUE
-)
-```
-
----
-
-# Exporting tables
-
-The code below exports the same table to a self-standing LaTeX document
+A similar code can also export the same table to a self-standing LaTeX document
 
 ```{r}
 # Export to LaTeX
@@ -550,49 +633,65 @@ quick_latex(
 
 ---
 
-# What if I want to export only a table fragment to LaTeX?
+# Exporting tables to different Excel tabs
 
+.small[
 ```{r}
-summary_stats_table %>%
-  as_hux() # Convert it into a huxtable object #<<
+# Start a new workbook
+wb <- createWorkbook()
+
+# Add one sheet to it
+wb <-
+  as_Workbook(
+    summary_stats_table,
+    Workbook = wb,
+    sheet = "Summary stats"
+  )
+
+# Add another sheet to it
+wb <-
+  as_Workbook(
+    hux("Mock", "table"),
+    Workbook = wb,
+    sheet = "Other sheet"
+  )
+
+# Save the workbook
+saveWorkbook(
+  wb, # object to be saved
+   file = here( # file path to output file
+    "DataWork",
+    "Output",
+    "Raw",
+    "summary-stats.xlsx"
+  ),
+  overwrite = TRUE # replace existing file
+)
 ```
-
---- 
-
-# What if I want to export only a table fragment to LaTeX?
-
-```{r}
-summary_stats_table %>%
-  as_hux() %>% # Convert it into a huxtable object 
-  print_latex() # See LaTeX code #<<
-```
+]
 
 ---
 
-# What if I want to export only a table fragment to LaTeX?
+# Exporting tables to LaTeX fragment
 
 ```{r}
 summary_stats_table %>%
-  as_hux() %>% # Convert it into a huxtable object 
-  print_latex() %>% # See LaTeX code 
-  # Save LaTeX code #<<
-  capture.output( #<<
-    file = here( #<<
-      "DataWork", #<<
-      "Output", #<<
-      "Raw", #<<
-      "summary-stats.tex" #<<
-    )
-  ) #<<
+  print_latex() %>% # See LaTeX code
+  # Save LaTeX code 
+  capture.output( 
+    file = here( 
+      "DataWork", 
+      "Output", 
+      "Raw", 
+      "summary-stats.tex" 
+    ) 
+  ) 
+
 ```
 
----
+You will also need to load the required LaTeX packages. To copy the code that creates a preamble with all of them, use this code:
 
-# What if I want to export only a table fragment to LaTeX?
-
-You will also need to load the required LaTeX packages
-
-```{r}
+```{r, eval = FALSE}
 report_latex_dependencies()
 ```
 
@@ -608,125 +707,75 @@ name: beautifying
 
 # Beautifying tables
 
-`huxtable` also allows you to edit your table as a data frame in R, and set the formatting so it can be exported with the same layout to multiple software. The code below shows how to do edit `summary_stats_table`
+- `huxtable` also allows you to customize table formatting so it can be exported with the same layout to multiple software
+- Before we do that, however, we will create a version of the data where the variable names are the Stata labels
 
-.small[
-```{r, message=FALSE, eval = F }
-
+```{r, message = FALSE, warning = FALSE}
 # Extract variable labels from data frame
-census_dictionary <-  #<<
-  data.frame("Variable" = attributes(census)$var.labels, #<<
-             "name" = names(census)) #<<
+labels <- names(census)
+names(labels) <- attributes(census)$var.labels
 
-```
-]
+# Rename the variables
+census_labelled <-
+  census %>%
+  rename(
+    labels
+  )
 
----
-
-# Beautifying tables
-
-`huxtable` also allows you to edit your table as a data frame in R, and set the formatting so it can be exported with the same layout to multiple software. The code below shows how to do edit `summary_stats_table`
-
-.small[
-```{r, message=FALSE, eval = F }
-
-# Extract variable labels from data frame
-census_dictionary <-
-  data.frame("Variable" = attributes(census)$var.labels,
-             "name" = names(census))
-
-summary_stats_table <- #<<
-   summary_stats_table %>% #<<
-   rename(name = skim_variable) %>% # Rename var with var names so we can merge the datasets  #<<
-   left_join(census_dictionary) %>% # Merge to variable labels #<<
-   select(-name) %>% # Keep only variable labels instead of names #<<
-   as_hux # Convert it into a huxtable object #<<
-
-```
-]
-
----
-
-# Beautifying tables
-
-`huxtable` also allows you to edit your table as a data frame in R, and set the formatting so it can be exported with the same layout to multiple software. The code below shows how to do edit `summary_stats_table`
-
-.small[
-```{r, message = FALSE, eval = F}
-
-# Extract variable labels from data frame
-census_dictionary <-
-  data.frame("Variable" = attributes(census)$var.labels,
-             "name" = names(census))
-
+# Create a labelled summary table 
 summary_stats_table <-
-   summary_stats_table %>%
-   rename(name = skim_variable) %>% # Rename var with var names so we can merge the datasets
-   left_join(census_dictionary) %>% # Merge to variable labels
-   select(-name) %>% # Keep only variable labels instead of names
-   as_hux # Convert it into a huxtable object
-
-
-summary_stats_table <- #<<
-   summary_stats_table %>%  #<<
-   relocate(Variable) %>%  # Make variable labels the first column #<<
-   set_header_rows(1, TRUE) %>% # Use stats name as table header #<<
-   set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header #<<
-   set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% # Don't round large numbers
-   theme_basic() # Set a theme for quick formatting #<<
-
+  datasummary(
+    descriptives,
+    data = census_labelled,
+    output = "huxtable"
+  )
 ```
-]
 
 ---
 
 # Beautifying tables
 
-`huxtable` also allows you to edit your table as a data frame in R, and set the formatting so it can be exported with the same layout to multiple software. The code below shows how to do edit `summary_stats_table`
+The code below shows the table `summary_stats_table` can be formatted
 
----
-
-# Beautifying tables
-
-.small[
 ```{r, message = FALSE}
-
-# Extract variable labels from data frame
-census_dictionary <-
-  data.frame("Variable" = attributes(census)$var.labels,
-             "name" = names(census))
-
-summary_stats_table <-
-   summary_stats_table %>%
-   rename(name = skim_variable) %>% # Rename var with var names so we can merge the datasets
-   left_join(census_dictionary) %>% # Merge to variable labels
-   select(-name) %>% # Keep only variable labels instead of names
-   as_hux # Convert it into a huxtable object
-
-
-summary_stats_table <-
-   summary_stats_table %>%
-   relocate(Variable) %>%  # Make variable labels the first column
-   set_header_rows(1, TRUE) %>% # Use stats name as table header
-   set_header_cols("Variable", TRUE)  %>%  # Use variable name as row header
-   set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% # Don't round large numbers
-   theme_basic() # Set a theme for quick formatting
-
-# Now export it #<<
-quick_xlsx(summary_stats_table, #<<
-           file = here("DataWork", #<<
-                       "Output", #<<
-                       "Raw", #<<
-                       "summary-stats-basic.xlsx")) #<<
-
-quick_latex(summary_stats_table, #<<
-           file = here("DataWork",  #<<
-                       "Output",  #<<
-                       "Raw",  #<<
-                       "summary-stats-basic.tex")) #<<
+# Format table
+ summary_stats_table %>%  
+   set_header_rows(1, TRUE) %>% # Use first row as table header 
+   set_header_cols(1, TRUE)  %>%  # Use first column as row header 
+   set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% # Don't round large numbers  
+   set_align(1, everywhere, "center") %>% # Centralize cells in first row 
+   theme_basic() # Set a theme for quick formatting 
 
 ```
 ]
+
+---
+
+# Export beautified tables
+
+```{r, message = FALSE}
+quick_xlsx(
+  summary_stats_table,
+  file = here(
+    "DataWork",
+    "Output",
+    "Raw",
+    "summary-stats-basic.xlsx"
+  )
+)
+
+quick_latex(
+  summary_stats_table,
+  file = here(
+    "DataWork",
+    "Output",
+    "Raw",
+    "summary-stats-basic.tex"
+  )
+)
+
+```
+
 ---
 
 # Before
@@ -783,15 +832,17 @@ The "name-value" pairs mentioned under `...` look like this: `new_variable = sta
 # Aggregating observations
 
 ```{r}
-  region_stats <-
-    census %>%
-    group_by(region) %>%
-    summarise(`Number of States` = n_distinct(state),
-              `Total Population` = sum(pop))
+region_stats <-
+  census %>%
+  group_by(region) %>%
+  summarise(
+    `Number of States` = n_distinct(state),
+    `Total Population` = sum(pop)
+  )
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = F}
-  census %>%
+census %>%
   group_by(region) %>%
   summarise(`Number of States` = n_distinct(state),
             `Total Population` = sum(pop)) %>%
@@ -804,8 +855,10 @@ The "name-value" pairs mentioned under `...` look like this: `new_variable = sta
 
 .exercise[
 ### Exercise `r fa("keyboard")`
-Recreate the `region_stats` data set,  now including the average and the standard deviation of the population.
+Recreate the `region_stats` data set, now including the average and the standard deviation of the population.
 ]
+
+`r countdown(minutes = 1, seconds = 30, left = 0, font_size = "2em")`
 
 ---
 
@@ -815,14 +868,16 @@ Recreate the `region_stats` data set,  now including the average and the standar
   region_stats <-
     census %>%
     group_by(region) %>%
-    summarise(`Number of States` = n_distinct(state),
-              `Total Population` = sum(pop),
-              `Average Population` = mean(pop),
-              `SD of Population` = sd(pop))
+    summarise(
+      `Number of States` = n_distinct(state),
+      `Total Population` = sum(pop),
+      `Average Population` = mean(pop),
+      `SD of Population` = sd(pop)
+    )
 ```
 
 ```{r, echo = FALSE, message = F}
-  region_stats%>%
+  region_stats %>%
   kable
 ```
 
@@ -834,6 +889,8 @@ Recreate the `region_stats` data set,  now including the average and the standar
 ### Exercise `r fa("keyboard")`
 Use `huxtable` to format and export the object `region_stats`.
 ]
+
+`r countdown(minutes = 2, seconds = 00, left = 0, font_size = "2em")`
 
 ---
 
@@ -847,18 +904,15 @@ Use `huxtable` to format and export the object `region_stats`.
     set_header_cols("Region", TRUE)  %>%
     theme_bright()
 
-  quick_xlsx(region_stats_table,
-           file = here("DataWork",
-                       "Output",
-                       "Raw",
-                       "region-stats.xlsx"))
-
-  quick_latex(region_stats_table,
-             file = here("DataWork",
-                       "Output",
-                       "Raw",
-                       "region-stats.tex"))
-
+  quick_xlsx(
+    region_stats_table,
+     file = here(
+       "DataWork",
+       "Output",
+       "Raw",
+       "region-stats.xlsx"
+     )
+  )
 ```
 
 ---
@@ -918,8 +972,10 @@ Using the `census` data, run a regression of the number of divorces on populatio
 
 ```{r}
 reg1 <-
-  lm(divorce ~ pop + popurban + marriage,
-     census)
+  lm(
+    divorce ~ pop + popurban + marriage,
+    census
+  )
 ```
 
 
@@ -940,8 +996,10 @@ reg1 <-
 .small[
 ```{r}
 reg1 <-
-  lm(divorce ~ pop + popurban + marriage,
-     census)
+  lm(
+    divorce ~ pop + popurban + marriage,
+    census
+  )
 
 summary(reg1)
 ```
@@ -980,8 +1038,10 @@ Using the `census` data, run a regression of the number of divorces on populatio
 
 .can-edit[
 ```{r, eval = F}
-  felm(y ~ x1 + x2 | fe1 + fe2 | 0 | 0,
-     data)
+  felm(
+    y ~ x1 + x2 | fe1 + fe2 | 0 | 0,
+    data
+  )
 ```
 ]
 
@@ -997,8 +1057,10 @@ Using the `census` data, run a regression of divorce on population, urban popula
 
 ```{r, evalt = FALSE}
 reg2 <-
-  felm(divorce ~ pop + popurban + marriage | region | 0 | 0,
-     census)
+  felm(
+    divorce ~ pop + popurban + marriage | region | 0 | 0,
+    census
+  )
 
 summary(reg2)
 ```
@@ -1010,8 +1072,10 @@ summary(reg2)
 .small[
 ```{r}
 reg2 <-
-  felm(divorce ~ pop + popurban + marriage | region | 0 | 0,
-     census)
+  felm(
+    divorce ~ pop + popurban + marriage | region | 0 | 0,
+    census
+  )
 
 summary(reg2)
 ```
@@ -1071,13 +1135,18 @@ By now, you should know how to export this to Excel and LaTeX.
 
 .small[
 ```{r}
-huxreg(reg1, reg2,
-       coefs = c("Population" = "pop", # Show variable labels instead of names
-                 "Urban population"  = "popurban",
-                 "Number of marriages" = "marriage"),
-       statistics = c("N. obs." = "nobs")) %>%
-       add_rows(c("Region FE", "No", "Yes"),
-                after = 7)
+huxreg(
+  reg1, reg2,
+   coefs = c(
+     "Population" = "pop", # Show variable labels instead of names
+     "Urban population"  = "popurban",
+     "Number of marriages" = "marriage"
+   ),
+   statistics = c("N. obs." = "nobs")) %>%
+   add_rows(
+     c("Region FE", "No", "Yes"),
+     after = 7
+   )
 ```
 ]
 
@@ -1091,8 +1160,8 @@ huxreg(reg1, reg2,
   * Econometrics with R
   https://www.econometrics-with-r.org/index.html
   
-  * Skimr documentation:
-   https://qiushi.rbind.io/post/introduction-to-skimr/
+  * `modelsummary` documentation:
+   https://vincentarelbundock.github.io/modelsummary/index.html
 
   * Introduction to `huxtable`:
   https://cran.r-project.org/web/packages/huxtable/vignettes/huxtable.html
