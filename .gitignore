@@ -49,6 +49,7 @@
 !/**/*.css
 !/**/*.js
 !Presentations/img/**
+!Presentations/www/**
 !Presentations/libs/**/**
 
 # Markdown
