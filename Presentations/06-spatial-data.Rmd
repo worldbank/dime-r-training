@@ -31,6 +31,8 @@ opts_chunk$set(
 library(hrbrthemes)
 library(fontawesome)
 library(xaringanExtra)
+library(countdown)
+
 xaringanExtra::use_panelset()
 xaringanExtra::use_editable()
 xaringanExtra::use_clipboard()
@@ -113,6 +115,8 @@ wb_projects <- read_csv(here("DataWork",
                              "wb_projects.csv"))
 ```
 
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
 ---
 
 class: inverse, center, middle
@@ -179,6 +183,8 @@ worldmap <-
 plot(worldmap)
 ```
 
+`r countdown(minutes = 0, seconds = 30, left = 0, font_size = "2em")`
+
 ---
 
 # Exploring the data
@@ -231,13 +237,13 @@ This object is a list with three main components:
 Explore the dataset in `worldmap` using the functions `head()` and `names()`.
 ]
 
---
-
 .can-edit[
 ```{r, eval = F}
 names()
 ```
 ]
+
+`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
 
 ---
 
@@ -299,12 +305,13 @@ We can treat the data in a geospatial object just like any other data frame
 Explore the `worldmap` data using `summary()`.
 ]
 
---
 .can-edit[
 ```{r, eval = F}
 summary()
 ```
 ]
+
+`r countdown(minutes = 0, seconds = 30, left = 0, font_size = "2em")`
 
 ---
 
@@ -419,6 +426,8 @@ st_as_sf()
 ```
 ]
 
+`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
+
 ---
 
 # Creating an sf object
@@ -487,14 +496,15 @@ Create two objects derived from `worldmap`, but with different projections:
 - Use the Mercator projection (`crs` = `"EPSG:3857"`) to create `worldmap_mercator`
 ]
 
---
-
 .can-edit[
 ```{r, eval = F}
 worldmap_moll <-
 worldmap_mercator <-
 ```
 ]
+
+`r countdown(minutes = 1, seconds = 30, left = 0, font_size = "2em")`
+
 
 ---
 
@@ -655,6 +665,9 @@ ggplot(worldmap) +
 ```
 ]
 
+`r countdown(minutes = 1, left = 0, font_size = "2em")`
+
+
 ---
 
 # Visualizing polygons
@@ -744,6 +757,8 @@ ggplot() +
                   y = ))
 ```
 ]
+
+`r countdown(minutes = 1, left = 0, font_size = "2em")`
 
 ---
 
@@ -1011,8 +1026,6 @@ ggplot() +
 Turn the `wb_projects` object into an `sf` object.
 ]
 
---
-
 .can-edit[
 ```{r, eval = F}
 st_as_sf(x, 
@@ -1021,6 +1034,8 @@ st_as_sf(x,
 
 ```
 ]
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 ---
 
@@ -1050,16 +1065,17 @@ wb_projects <-
 
 ### Exercise `r fa("keyboard")`
 Change the projection of the `wb_projects` object to Mollweid.
-> Tip: use the CRS shortcut `"+proj=moll"`
 ]
 
---
+> Tip: use the CRS shortcut `"+proj=moll"`
 
 .can-edit[
 ```{r, eval = F}
 wb_projects_moll <-
 ```
 ]
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 ---
 
@@ -1204,6 +1220,7 @@ plot(map)
 
 # Useful Resources
 
+.large[
 * [Rspatial](http://rspatial.org/) provides tutorials for many topics in GIS. 
 
 * [Nick Eubank Tutorials](http://www.nickeubank.com/gis-in-r/) -- another great set of tutorials. 
@@ -1213,6 +1230,7 @@ plot(map)
 * [Visualizing geospatial data](https://serialmentor.com/dataviz/geospatial-data.html)
 
 * [Geocomputation with R](https://geocompr.robinlovelace.net/)
+]
 
 ---
 class: inverse, center, middle
