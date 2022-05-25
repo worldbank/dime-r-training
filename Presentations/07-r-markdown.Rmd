@@ -75,23 +75,28 @@ xaringanExtra::use_logo(
 - We'll show:
   1. How to write and knit (output) R Markdown documents
   2. How to format text and R code in R Markdown documents
+  3. How to include regression tables in R Markdown documents
 
 ---
 
 # Introduction
 
-- If possible, make sure you have both the package and LaTeX distribution `tinytex` installed
+- Make sure you have the packages `tinytex`, `stargazer`, and `huxtable` installed
+- Use `tinytex` to install the LaTeX distribution `tinytex`
 
 ```{r, eval=FALSE}
-# Installing the package
+# Installing the packages
 install.packages("tinytex")
+install.packages("stargazer")
 
-# Installing the distribution
+# Loading (you don't have to load tinytex)
+library(stargazer)
+library(huxtable)
+library(dplyr)
+
+# Installing the tinytex LaTeX distribution
 tinytex::install_tinytex()
 ```
-
-- This step is only necessary if you don't have a LaTeX distribution in your computer already
-- If you don't have a LaTeX distribution, you can still follow the exercises and instructions of this session to produce HTML outputs
 
 ---
 
@@ -103,7 +108,8 @@ tinytex::install_tinytex()
 4. [R code](#r-code)
 5. [R plots](#r-plots)
 6. [Inline code](#r-inline-code)
-7. [Annex](#annex)
+7. [Regression outputs](#regression-outputs)
+8. [Annex](#annex)
 
 ---
 
@@ -515,15 +521,155 @@ knitr::include_graphics("img/r-markdown/r-markdown-tables-inline-code.png")
 ---
 
 class: inverse, center, middle
-name: r-inline-code
+name: regression-outputs
 
-# Including TeX outputs from R packages
+# Including regression outputs
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Including TeX outputs from R packages
+# Including regression outputs
+
+- In a previous session, we saw that we can produce LaTeX outputs in R
+- We can use code producing LaTeX outputs along with the code block option `results = "asis"` to display them in the knitted document
+
+---
+
+# Including regression outputs - Stargazer
+
+- First, we'll start with the function `stargazer()` from the package `stargazer`
+- The first argument of `stargazer()` is a regression result
+- We also include the argument `header = FALSE` to omit printing stargazer metadata
+
+---
+
+# Including regression outputs - Stargazer
+
+```{r echo = FALSE, out.width = "95%"}
+knitr::include_graphics("img/r-markdown/r-markdown-stargazer.png")
+```
+
+---
+
+# Including regression outputs - Stargazer
+
+.exercise[
+## Exercise 6
+
+1. Create a new header named `Regressions - Stargazer` in `markdown-template.Rmd`
+2. Add a regression of the variable `mpg` on `wt` and `hp`
+3. Use stargazer's arguments `title = your_title` and `omit = c("Constant")` to customize your table
+  + If your output is HTML instead of PDF, include the argument `type = "html"` in `stargazer()`
+]
+
+---
+
+# Including regression outputs - Stargazer
+
+````
+```{r, echo = FALSE, results = "asis"}`r ''`
+model <- lm(mpg ~ wt + hp, data = mtcars)
+stargazer(model,
+          header = FALSE,
+          title = "Best table ever",
+          omit = c("Constant"))
+```
+````
+
+---
+
+# Including regression outputs - Stargazer
+
+```{r echo = FALSE, out.width = "55%"}
+knitr::include_graphics("img/r-markdown/stargazer-exercise.png")
+```
+
+---
+
+# Including regression outputs - Huxtable
+
+- Remember `huxtable`? we can also use it to include regression tables in R Markdown
+- The advantage of using `huxtable` compared to `stargazer` is that we don't have to define the type of output we're generating with R Markdown. `huxtable` automatically detects it and will transform the output as needed in the resulting document
+- `huxtable` has an important disadvantage, though: it requires to install external libraries in your local LaTeX installation
+
+---
+
+# Including regression outputs - Huxtable
+
+- Conveniently, the library `huxtable` has a function that handles that installation for us:
+
+```{r, eval = FALSE}
+install_latex_dependencies()
+```
+
+- Once this finishes, we can use `huxtable` with R Markdown
+
+---
+
+# Including regression outputs - Huxtable
+
+- For regressions, we use the function `huxreg()` as in the example below
+- Note that the option `results = "asis"` is not used with `huxtable`
+
+```{r echo = FALSE, out.width = "75%"}
+knitr::include_graphics("img/r-markdown/rmarkdown-huxtable-regression.png")
+```
+
+---
+
+# Including regression outputs - Huxtable
+
+.exercise[
+## Exercise 7: Now with Huxtable
+
+1. Create a new header named `Regressions - Huxtable` in `markdown-template.Rmd`
+2. Add a regression of the variable `mpg` on `wt` and `hp` using `huxreg()`
+3. Use huxreg's argument `omit_coefs = c("(Intercept)")` to customize your table
+]
+
+---
+
+# Including regression outputs - Huxtable
+
+````
+```{r, echo = FALSE}`r ''`
+model <- lm(mpg ~ wt + hp, data = mtcars)
+huxreg(model,
+       omit_coefs = c("(Intercept)"))
+```
+````
+
+---
+
+# Including regression outputs - Huxtable
+
+```{r echo = FALSE, out.width = "45%"}
+knitr::include_graphics("img/r-markdown/huxtable-exercise.png")
+```
+
+---
+
+# Including regression outputs - Huxtable
+
+- If you want to include a title in your regression, use the command `set_caption()` with the result of `huxreg()` as argument
+
+````
+```{r, echo = FALSE}`r ''`
+model <- lm(mpg ~ wt + hp, data = mtcars)
+table <- huxreg(model,
+       omit_coefs = c("(Intercept)"))
+table %>% set_caption("Another nice table")
+```
+````
+
+---
+
+# Including regression outputs - Huxtable
+
+```{r echo = FALSE, out.width = "45%"}
+knitr::include_graphics("img/r-markdown/huxtable-with-title.png")
+```
 
 ---
 
@@ -564,9 +710,9 @@ name: annex
 
 ---
 
-# Annex - Naming R code chunks
+# Annex - Naming R code blocks
 
-- You can name R code chunks if you add the name after the `r` in the initial brackets
+- You can name R code blocks if you add the name after the `r` in the initial brackets
 - The example below has the name `my-r-code`
 
 ````
@@ -577,7 +723,7 @@ summary(mtcars$mpg)
 
 ---
 
-# Annex - Naming R code chunks
+# Annex - Naming R code blocks
 
 - This is very convenient to debug code blocks by clicking on `Output` under the `R Markdown` tab of the console, in case your file has an error
 
@@ -605,7 +751,7 @@ knitr::include_graphics("img/r-markdown/error.png")
 
 # Annex - Including a LaTeX preamble in a PDF-knitted document
 
-- If you want to customize a PDF document in R Markdown, you can include a LaTeX preamble that will be executed when you knit your document
+- If you want to further customize a PDF document in R Markdown and you're familiar with LaTeX, you can include a LaTeX preamble that will be executed when you knit your document
 - To enable this feature, replace `output: pdf_document` with the following code in the section enclosed by the three dashes (`---`) at the beginning of your document
 
 ```
@@ -622,3 +768,5 @@ output:
 - [Markdown guide](https://www.markdownguide.org/)
 - [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/basics.html)
 - [An introduction to Stata Markdown](https://osf.io/nam2d/)
+- [Stargazer official manual](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf)
+- [Introduction to Huxtable](https://cran.r-project.org/web/packages/huxtable/vignettes/huxtable.html)
