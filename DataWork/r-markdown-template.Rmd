@@ -2,9 +2,9 @@
 output: pdf_document
 ---
 
-# R Markdown template
+# Markdown template
 
-This is an Markdown template created by DIME Analytics.
+This is a Markdown template created by DIME Analytics.
 It is meant to be a reference to show how text formatting in Markdown is combined with R code to produce R Markdown documents.
 
 # Markdown
@@ -52,4 +52,20 @@ Unordered lists:
 Include the link text in brackets followed by the URL in parentheses.
 Like this:
 
-This is [the WB website](https://www.worldbank.org).
+This is [the WB website](https://www.worldbank.org) and this is the [course repository](https://osf.io/86g3b).
+
+## Tables
+
+Use vertical lines to separate columns and at least three dashes to separate column headers.
+
+|This is column 1|This is column 2|
+|----------------|----------------|
+|Row 1           |Row 1           |
+|Row 2           |Row 2           |
+
+The width of the cells can vary in the markdown text and the output will look the same.
+
+|This is column 1    |This is column 2|
+|---|-----------|
+|Row 1   |Row 1     |
+|Row 2      |Row 2|
