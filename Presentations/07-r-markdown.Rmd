@@ -183,19 +183,19 @@ name: knitting
 
 # Knitting R Markdown documents
 
-- Knitting a file to PDF means that RStudio created a PDF file from an R Markdown file
-- You'll now see this PDF file in the folder where you saved `markdown-template.Rmd`
-
-```{r echo = FALSE, out.width = "80%"}
-knitr::include_graphics("img/r-markdown/rendered-docs.png")
+```{r echo = FALSE, out.width = "40%"}
+knitr::include_graphics("img/r-markdown/rendered-pdf.png")
 ```
 
 ---
 
 # Knitting R Markdown documents
 
-```{r echo = FALSE, out.width = "40%"}
-knitr::include_graphics("img/r-markdown/rendered-pdf.png")
+- Knitting a file to PDF means that RStudio created a PDF file from an R Markdown file
+- You'll now see this PDF file in the folder where you saved `r-markdown-template.Rmd`
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/r-markdown/rendered-docs.png")
 ```
 
 ---
@@ -262,7 +262,7 @@ knitr::include_graphics("img/r-markdown/markdown-ordered-lists.png")
 
 - Markdown allows us to use both ordered and unordered lists.
 
-```{r echo = FALSE, out.width = "60%"}
+```{r echo = FALSE, out.width = "70%"}
 knitr::include_graphics("img/r-markdown/markdown-unordered-lists.png")
 ```
 
@@ -429,7 +429,7 @@ name: r-plots
 .exercise[
 ## Exercise 4: Include an R plot in your document.
 
-1. Create a header named `R Plots` in `markdown-template.Rmd`
+1. Create a header named `R Plots`
 2. Create a new fenced code block with the option `echo` set to `FALSE`
 3. Add the following code inside the new block:
 
@@ -531,7 +531,7 @@ name: regression-outputs
 
 # Including regression outputs
 
-- In a previous session, we saw that we can produce LaTeX outputs in R
+- In a previous session, we saw that we can produce regression tables in LaTeX
 - We can use code producing LaTeX outputs along with the code block option `results = "asis"` to display them in the knitted document
 
 ---
@@ -557,9 +557,9 @@ knitr::include_graphics("img/r-markdown/r-markdown-stargazer.png")
 .exercise[
 ## Exercise 6
 
-1. Create a new header named `Regressions - Stargazer` in `markdown-template.Rmd`
+1. Create a new header named `Regressions - Stargazer` in `r-markdown-template.Rmd`
 2. Add a regression of the variable `mpg` on `wt` and `hp`
-3. Use stargazer's arguments `title = your_title` and `omit = c("Constant")` to customize your table
+3. Use stargazer's arguments `title = "your_title"` and `omit = c("Constant")` to customize your table
   + If your output is HTML instead of PDF, include the argument `type = "html"` in `stargazer()`
 ]
 
