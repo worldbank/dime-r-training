@@ -2,7 +2,7 @@
 title: "Session 2: Introduction to R Programming"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> November 2021"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> May 2022"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -179,7 +179,7 @@ knitr::include_graphics("img/stataheader.jpg")
 
 ---
 
-# R Initial settings
+# Initial settings
 
 * We __don't need to set the memory or the maximum number of variables__ in R
 
@@ -189,7 +189,7 @@ knitr::include_graphics("img/stataheader.jpg")
 
 * In any case, remember that you can see all the objects in your computer's memory at any point in the `Environment` panel
 
-```{r echo = FALSE, out.width = "40%"}
+```{r echo = FALSE, out.width = "65%"}
 knitr::include_graphics("img/environment_2vars_2021.png")
 ```
 
@@ -199,7 +199,7 @@ knitr::include_graphics("img/environment_2vars_2021.png")
 
 .exercise[
 
-### Exercise 1 `r fa("keyboard")`
+### Exercise 1 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
 
 After this, you'll never have to use  the equivalent of `clear all`
 
@@ -277,7 +277,7 @@ setwd("your/path")
 
 .exercise[
 
-### Exercise 2 `r fa("keyboard")`
+### Exercise 2 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
 
 1. On RStudio, select `File` > `New Project...`
 
@@ -308,9 +308,10 @@ knitr::include_graphics("img/dime-r-training-project.png")
 
 # Usage of `here`
 
-- Load the `here` library:
+- Install and load the `here` library:
 
 ```{r, eval=FALSE}
+install.packages("here")
 library(here)
 ```
 
@@ -325,7 +326,7 @@ df <- read.csv(path)
 
 * __Notes:__
 
-  + Your project root is the directory that contains the `.Rproj` file (or `.git` directory if you are using git).
+  + Your project root is the directory that contains the `.Rproj` file
   + The result of `here()` is an absolute path that points to a file or folder location in your computer
 
 ---
@@ -334,9 +335,9 @@ df <- read.csv(path)
 
 .exercise[
 
-### Exercise 3 `r fa("keyboard")`
+### Exercise 3 `r fa("keyboard")` <font size="5">(`r fa("clock")` 3 min)</font>
 
-1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - November 2021` > `Data` > `DataWork.zip`
+1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2022 May` > `Data` > `DataWork.zip`
 
 2. Unzip the file in your RStudio project root folder. This is the folder where the file `dime-r-training-project.Rproj` sits
   
@@ -391,11 +392,11 @@ name: creating-a-document-outline-in-rstudio
 
 .exercise[
 
-### Exercise 4 `r fa("keyboard")`
+### Exercise 4 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
 
 1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
 
-2. Add the following header before `read.csv(...)`: `Part 2: Loading data----`
+2. Before `read.csv(...)`, add the following header: `Part 2: Loading data----`
 
   + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
 
@@ -471,7 +472,7 @@ dim(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -484,7 +485,7 @@ str(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -497,7 +498,7 @@ summary(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -510,7 +511,7 @@ head(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -538,7 +539,7 @@ name: using-packages
 
 * It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
 
-* They can be shared through R's official repository - CRAN (13,000+ packages reviewed and tested).
+* They can be shared through R's official repository - CRAN (18,000+ packages reviewed and tested).
 
 * There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
 
@@ -564,7 +565,7 @@ install.packages("tidyverse",
 
 .exercise[
 
-### Exercise 5 `r fa("keyboard")`
+### Exercise 5 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
 
 1. Load the `tidyverse` meta package in part 1 of your script using `library(tidyverse)`
 2. Run your script
@@ -627,7 +628,7 @@ summary(log(whr$happiness_score))
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -731,10 +732,10 @@ name: mapping-and-iterations
 
 .command[
 
-**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a data frame then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a vector with the results.
+**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a data frame then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a list with the results.
 
   + **X:** a data frame, matrix or vector the function will be applied to
-  + **function:** the function you want to apply to each of the elements of `X`
+  + **function:** the name of the function you want to apply to each of the elements of `X`
 ]
 
 
@@ -745,12 +746,12 @@ name: mapping-and-iterations
 ```{r, eval=FALSE}
 # Round the values of the following vector
 x <- c(1.2, 2.5, 9.1, 5.8)
-x %>% map(round) # Rounding the vector elements
+x %>% map(round) # Rounding the vector elements (same as map(x, round))
 round(x)         # since R is vectorized, this also works
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -771,71 +772,106 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 * The output of `map()` will be always a list
 
+* When it comes to code clarity, `map()` has a few advantages:
+
+ + Loops often have side effect results, like a temporary variable that stays in the environment after the loop finishes
+ + `map()` often involves less lines of code than loops
+
 ---
 
-# Map
+# Map vs looping
 
 .exercise[
 
-### Exercise 6 `r fa("keyboard")`
+### Exercise 6: Looping over a dataframe <font size="5">(`r fa("clock")` 3 min)</font>
 
-1. Select the columns `freedom` and `happiness_score` of `whr`
-  
-  + Use tidyverse's `select()` for this, as in: `whr %>% select(freedom, happiness_score)` 
+- Create a toy dataframe of 70,000 columns and 400 observations using this code
 
-2. Use `map()` to get the maximum value of these columns
+```{r, eval = FALSE}
+df <- data.frame(replicate(70000, sample(1:100, 400, replace=TRUE)))
+```
 
-> Hints:
-  + Remember the syntax of `map()`: `map(X, function)`
-  + Try using pipe concatenation here
-  + The function to get the maximum over a set of numbers is `max`.
+- Create an empty vector named `col_means_loop` where you will store column means with this code: `col_means_loop <- c()`
+- Loop over every column to get the column means and store them in the vector
+
+```{r, eval = FALSE}
+for (column in df) {
+  ....
+}
+```
+
+- Inside the loop:
+
+  + Use `mean()` to get each column mean
+  + Use `append()` to add a new mean to the vector: `col_means_loop <- append(col_means_loop, new_mean)`
 
 ]
 
 ---
 
-# Map
+# Map vs looping
+
+The solution is this:
 
 ```{r, eval=FALSE}
-  whr %>%
-    select(freedom, happiness_score) %>%
-    map(max)
-```  
+df <- data.frame(replicate(70000, sample(1:100, 400, replace=TRUE)))
 
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+col_means_loop <- c()
+
+for (col in df){
+  col_means_loop <- append(col_means_loop, mean(col))
+}
 ```
 
 ---
 
-# List indexing revisited: `[]` vs `[[]]`
+# Map vs looping
 
-* The output of `map()` will be always a list
+.exercise[
 
-* Remember we said yesterday that you could use brackets to index list items? we can also use double brackets
+### Exercise 7: Now use `map()` `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
 
-* While both will return the i-th element, a key difference is that they return different data types:
+- Use `map()` to produce a list with the means of the columns of `df`
+- Store the result in a list named `col_means_map`
 
-  + `[]`: returns a list of one item containing the element selected
-  + `[[]]`: returns the element selected itself
-
-* This difference is crucial when working with `map()`
+> Hint:
+  + Remember the syntax of `map()`: `map(X, function_name)`
+  
+]
 
 ---
 
-# List indexing revisited: `[]` vs `[[]]`
+# Map vs looping
+
+Compare the syntax of the solutions of both exercises:
 
 ```{r, eval=FALSE}
-my_list <- list(1, "hello")
-my_list[2]   # this returns the string "hello" enclosed in another list
-my_list[[2]] # this returns the actual string "hello"
-```  
+# Looping exercise
+col_means_loop <- c()
 
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+for (col in df){
+  col_means_loop <- append(col_means_loop, mean(col))
+}
+
+# Map exercise
+col_means_map <- map(df, mean)
+```
+
+Do you remember which one ran faster?
+
+---
+
+# Map vs looping
+
+Last but not least, remember we said that loops produce side effects?
+
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/loop-side-effects.png")
 ```
 
 ---
+
+# Map vs looping
 
 # Map
 
@@ -876,7 +912,7 @@ name: custom-functions
 ```  
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -885,7 +921,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 .exercise[
 
-### Exercise 7 `r fa("keyboard")`
+### Exercise 8 `r fa("keyboard")` <font size="5">(`r fa("clock")` 2 min)</font>
 
 Create a function named `zscore` that standardizes the values of a vector.
 
@@ -924,7 +960,7 @@ zscore <- function(x) {
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -933,9 +969,11 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 .exercise[
 
-### Exercise 8 `r fa("keyboard")`
+### Exercise 9 `r fa("keyboard")`
 
-1. Use tidyverse's `select()` to select the columns `health_life_expectancy` and `freedom` in `whr`
+1. Subselect the columns `health_life_expectancy` and `freedom` in `whr`
+
+  + Use tidyverse's `select()` for this, as in: `whr %>% select(freedom, happiness_score)` 
 
 2. Use `map()` combined with the `zscore` function to get the z-score of these two columns and assign the resulting list to an object named `z_scores`
 
@@ -961,121 +999,7 @@ whr$freedom_st <- z_scores[[2]]
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-class: inverse, center, middle
-name: indentation
-
-# Indentation
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Indentation
-
-```{r, eval = F}
-# Here's some code
-annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
-ggplot(annualHappy_reg,aes(y = happy_score,x = as.factor(year), color = region, group = region)) +
-geom_line() + geom_point()
-
-```
-
-```{r, eval = F}
-# Here's the same code
-annualHappy_reg <-
-  aggregate(happiness_score ~ year + region,
-            data = whr,
-            FUN = mean)
-
-ggplot(annualHappy_reg,
-       aes(y = happiness_score,
-           x = as.factor(year),
-           color = region,
-           group = region)) +
-geom_line() +
-geom_point()
-
-```
-
----
-
-# Indentation
-
-```{r, eval = T, echo = F, out.width = "60%"}
-annualHappy_reg <-
-  aggregate(happiness_score ~ year + region,
-            data = whr,
-            FUN = mean)
-
-ggplot(annualHappy_reg,
-       aes(y = happiness_score,
-           x = as.factor(year),
-           color = region,
-           group = region)) +
-geom_line() +
-geom_point()
-```
-
----
-
-# Why indent?
-
-* R understands what unindented code says, but it can be __quite difficult for a human being to read it__
-
-* On the other hand, __white space does not have a special meaning for R__, so it will understand code that is more readable for a human being
-
----
-
-# Why indent?
-
-* Indentation in R looks different than in Stata:
-
- - To indent a whole line, you can select that line and press `Tab`
- - To unindent a whole line, you can select that line and press `Shift + Tab`
- - However, this will not always work for different parts of a code in the same line
-
-* In R, we typically don't introduce white space manually
-
-* It's rather introduced by RStudio for us
-
----
-
-# Indentation
-
-.exercise[
-
-### Exercise 9 `r fa("keyboard")`
-
-To see an example of how indenting works in RStudio, let's use an example with `map()`:
-
-```{r, eval = F}
-# An elegant "loop" in R
-map(c(1.2, 2.5, 9.1, 5.8), round)
-```
-
-1. Add a line between the two arguments of the function (the vector of numbers and `round`)
-
-2. Now add a line between the numbers in the vector.
-]
-
----
-
-# Indentation
-
-Note that RStudio formats the different arguments of the function differently:
-
-```{r, eval = F}
-# A much more elegant loop in R
-map(c(1.2,
-      2.5,
-      9.1,
-      5.8),
-    round)
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -1182,21 +1106,6 @@ print("This part is not a comment") # And this is a comment
 3. Use the keyboard shortcut to comment these lines again. What happened?
 
 ]
-
----
-
-# Appendix - Looping
-
-* In Stata, we use `for` loops very frequently
-
-* The equivalent to that in R would be this
-
-```{r, eval = F}
-    # A for loop in R
-    for (number in 1:5) {
-        print(number)
-    }
-```
 
 ---
 
@@ -1363,6 +1272,111 @@ whr %>%
 ```
 
 ---
+
+# Appendix - Indentation
+
+```{r, eval = F}
+# Here's some code
+annualHappy_reg <- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
+ggplot(annualHappy_reg,aes(y = happy_score,x = as.factor(year), color = region, group = region)) +
+geom_line() + geom_point()
+
+```
+
+```{r, eval = F}
+# Here's the same code
+annualHappy_reg <-
+  aggregate(happiness_score ~ year + region,
+            data = whr,
+            FUN = mean)
+
+ggplot(annualHappy_reg,
+       aes(y = happiness_score,
+           x = as.factor(year),
+           color = region,
+           group = region)) +
+geom_line() +
+geom_point()
+
+```
+
+---
+
+# Appendix - Indentation
+
+```{r, eval = T, echo = F, out.width = "60%"}
+annualHappy_reg <-
+  aggregate(happiness_score ~ year + region,
+            data = whr,
+            FUN = mean)
+
+ggplot(annualHappy_reg,
+       aes(y = happiness_score,
+           x = as.factor(year),
+           color = region,
+           group = region)) +
+geom_line() +
+geom_point()
+```
+
+---
+
+# Appendix - Indentation
+
+* R understands what unindented code says, but it can be __quite difficult for a human being to read it__
+
+* On the other hand, __white space does not have a special meaning for R__, so it will understand code that is more readable for a human being
+
+---
+
+# Appendix - Indentation
+
+* Indentation in R looks different than in Stata:
+
+ - To indent a whole line, you can select that line and press `Tab`
+ - To unindent a whole line, you can select that line and press `Shift + Tab`
+ - However, this will not always work for different parts of a code in the same line
+
+* In R, we typically don't introduce white space manually
+
+* It's rather introduced by RStudio for us
+
+---
+
+# Appendix - Assignment 3
+
+.exercise[
+
+### Exercise `r fa("keyboard")`
+
+To see an example of how indenting works in RStudio, let's use an example with `map()`:
+
+```{r, eval = F}
+# An elegant "loop" in R
+map(c(1.2, 2.5, 9.1, 5.8), round)
+```
+
+1. Add a line between the two arguments of the function (the vector of numbers and `round`)
+
+2. Now add a line between the numbers in the vector.
+]
+
+---
+
+# Appendix - Indentation
+
+Note that RStudio formats the different arguments of the function differently:
+
+```{r, eval = F}
+# A much more elegant loop in R
+map(c(1.2,
+      2.5,
+      9.1,
+      5.8),
+    round)
+```
+
+---
 exclude: true
 
 ```{R, pdfs, include = F, eval = F}
@@ -1370,5 +1384,5 @@ pagedown::chrome_print("02-intro-to-R-programming.html", output = "02-intro-to-R
 
 # or
 source("https://git.io/xaringan2pdf")
-xaringan_to_pdf("02-intro-to-R-programming.html")
+xaringan_to_pdf("Presentations/02-intro-to-R-programming.html")
 ```
