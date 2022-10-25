@@ -59,11 +59,20 @@ Formats:
 - [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-spatial-data.pdf)
 - [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/06-spatial-data.Rmd)
 
+[07 - Introduction to R Markdown](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/07-r-markdown.html)
+
+- An introduction to dynamic documents and R Markdown.
+
+Formats:
+- [.html](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/07-r-markdown.html)
+- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/07-r-markdown.pdf)
+- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/07-r-markdown.Rmd)
+
 ## License
 This material is developed under MIT license. See http://adampritchard.mit-license.org/ or see [the `LICENSE` file](https://github.com/worldbank/ietoolkit/blob/master/LICENSE) for details.
 
 ## Main Contact
-Luiza Cardoso de Andrade (lcardoso@worldbank.org) - dimeanalytics@worldbank.org
+Luis Eduardo San Martin - dimeanalytics@worldbank.org
 
 ## Authors
 * Luiza Cardoso de Andrade
