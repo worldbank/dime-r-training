@@ -1,8 +1,8 @@
 ---
-title: "Spatial Data"
-subtitle: "[R for Advanced Stata Users](https://github.com/worldbank)"
+title: "Session 6 - Spatial Data"
+subtitle: "[R for Stata Users](https://github.com/worldbank)"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "DIME |The World Bank <br> `r format(Sys.time(), '%d %B %Y')`"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> May 2022"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
