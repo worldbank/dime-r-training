@@ -1,7 +1,11 @@
 # R for Stata users
 
 ## Background
-This material was developed by the [DIME Analytics](https://www.worldbank.org/en/research/dime/data-and-analytics) team as an introduction to R Statistical Package for its staff. It builds upon knowledge of Stata to explore features of R with impact evaluation applications in mind. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices). All sessions are designed to last 90 minutes.
+This material was developed by the [DIME Analytics](https://www.worldbank.org/en/research/dime/data-and-analytics) team as an introduction to R Statistical Package for its staff.
+
+## Course description
+R is a programming language and software environment for statistical analysis. It is a powerful and flexible tool widely used among statisticians and data scientists, and has a growing user base in economics research. This course is designed to familiarize participants with the language, focusing on common tasks and analysis in development research.
+The course will build upon comparisons to Stata syntax and requires familiarity with the use of do-files, loops and macros. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices). All sessions are designed to last 90 minutes.
 
 ## Training content
 
