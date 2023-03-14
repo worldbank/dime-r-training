@@ -3,7 +3,7 @@
   <head>
     <title>Session 1 - Introduction to R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
+    <meta name="author" content="Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -31,10 +31,10 @@ class: center, middle, inverse, title-slide
 ## R for Stata Users
 ]
 .author[
-### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
+### Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
 ]
 .date[
-### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> May 2022
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2023
 ]
 
 ---
@@ -84,9 +84,9 @@ We're glad you're joining us today!
 
 ## Format
 
-- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Rony Rodriguez-Ramirez__
+- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Marc-Andrea Fiorina__
 
-- The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send them a message over the chat whenever you need help
+- The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send a message over the chat whenever you need help
 
 ---
 
@@ -103,7 +103,7 @@ We're glad you're joining us today!
 
 - The materials of each session will be shared in the OSF page of the course by the end of each session: https://osf.io/86g3b/
 
-- The recordings will be shared in a WB internal link
+- The recordings will be shared each day after the session
 
 ---
 
@@ -147,40 +147,41 @@ name: getting-started
 
 # Getting started - RStudio interface
 
-&lt;img src="img/scritpt1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/script1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Getting started - RStudio interface
 
-&lt;img src="img/scritpt2.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/script2.png" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
 # Getting started - RStudio interface
 
-&lt;img src="img/scritpt3.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/script3.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Getting started - RStudio interface
 
-&lt;img src="img/scritpt4.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/script4.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Getting started - Importing data
 
-Let's start by loading the data set we'll be using:
+Let's start by loading the data we'll be using:
 
-## Exercise 1: Import data manually &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/></svg> 3 min)&lt;/font&gt; 
+## Exercise 1: Import data manually &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt; 
 
 
-1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - 2022 May` &gt; `Data` &gt; `whr_panel.csv`
+1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - 2023 March` &gt; `Data` &gt; `whr_panel.csv`
 
 2. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your Rstudio version, it might be `File` &gt; `Import Dataset` &gt; `From CSV`
 
-3. Assign the name `whr` to the dataset on the import window.
+3. Assign the name `whr` to the dataframe on the import window.
+  + If you solved the exercise correctly, you'll see that RStudio opens a tab with a viewer of the dataframe
 
 ---
 
@@ -227,11 +228,11 @@ name: data-in-r
 
 ## In R:
 
-__R__ works in a completely different way: 
+Datasets are called __dataframes__. R works with them in a different way: 
  
-* You can load __as many datasets as you wish__ or your computer's memory allows
+* You can load __as many dataframes as you wish__ or your computer's memory allows
 
-* Operations will have lasting effects __only if you store them__
+* Operations will have lasting effects __only if you store their results__
 
 ---
 
@@ -239,7 +240,7 @@ __R__ works in a completely different way:
 
 ## In R:
 
-* Everything that exists in R's memory -- variables, datasets, functions -- __is an object__
+* Everything that exists in R's memory -variables, dataframes, functions- __is an object__
 
 * You could think of an object like a chunk of data with some properties that has a name by which you call it
 
@@ -262,7 +263,7 @@ Type the following code __in the Console panel__ and press Enter to explore the 
 View(whr) # &lt;--- Note that the first letter is uppercase
 ```
 
-&lt;img src="img/View.png" width="45%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/View.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -278,9 +279,9 @@ Alternatively we can print the first 6 obs. with `head()`:
 
 Now, let's try some simple manipulations. First, assume we're only interested in data of the year 2016.
 
-## Exercise 2: Subset the data &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/></svg> 1 min)&lt;/font&gt; 
+## Exercise 2: Subset the data &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt; 
 
-- Subset the data set, keeping only observations where variable `year` equals `2016`.
+- Subset the dataframe, keeping only observations where variable `year` equals `2016`.
 
 
 ```r
@@ -349,9 +350,9 @@ From now on, `x` is associated with the stored value (until you replace it, dele
 
 # Data in R
 
-## Exercise 3: Create an object &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/></svg> 1 min)&lt;/font&gt; 
+## Exercise 3: Create an object &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt; 
 
-Create a new dataset, called `whr2016`, that is a subset of the `whr` data set containing only data from the year 2016.
+Create a new dataframe, called `whr2016`, that is a subset of the `whr` dataframe containing only data from the year 2016.
 
 
 ```r
@@ -361,22 +362,9 @@ whr2016 &lt;- subset(whr, year == 2016)
 # Display the 6 first obs. of the new data
 head(whr2016)
 
-# Notice that we still have the original data set intact
+# Notice that we still have the original dataframe intact
 head(whr)
 ```
-
----
-
-# Data in R
-
-
-```r
-whr2016 &lt;- subset(whr, year == 2016)
-head(whr2016)
-head(whr)
-```
-
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -468,7 +456,7 @@ name: functions
 
 * Usually the first argument is the object you want to use the function on, e.g. `subset(whr, ...)`
 
-* Functions usually return values that you can store in an object, print or use directly as an argument of another function.
+* Functions usually return values that you can store in an object, print or use directly as an argument of another function. __They rarely modify an object in-place__
 
 We will explore these ideas in depth in a later session.
 
@@ -499,7 +487,7 @@ This will give you the foundation to explore your data and construct analytical 
 
 * An object is like a global or local in Stata, it's __something you can refer to later__ in your code to get a value
 
-* But while you can only put a number or a string in a global, __you can put anything into an object__: scalars, strings, datasets, vectors, plots, functions, etc.
+* But while you can only put a number or a string in a global, __you can put anything into an object__: scalars, strings, dataframes, vectors, plots, functions
 
 * Objects also have attributes that can be used to manipulate them
 
@@ -513,7 +501,7 @@ Here are the object classes we will cover in this first session:
 
 * __Vectors:__ an uni-dimensional object that __stores a sequence of values of the same class__
 
-* __Data frames:__ a combination of different vectors of the same length (the same as your dataset in Stata)
+* __Dataframes:__ a combination of different vectors of the same length (the same as a dataset in Stata)
 
 * __Lists:__ a multidimensional object that can store several objects __of different classes and dimensions__
 
@@ -562,52 +550,13 @@ v2[1:3] # Prints from the 1st to the 3rd element
 
 ---
 
-# R objects - Vectors
+# R objects - Dataframes
 
-## Vectors
+## Dataframes
 
-To R, each of the columns of the object `whr` is a vector.
+The `whr` and `whr2016` objects are both dataframes. You can also construct a new dataframe from scratch by __combining vectors with the same number of elements__ with the command `data.frame()`.
 
-### Calling a vector from a `data.frame` column:
-
-We use the `$` character (operator) to extract vectors (variables) by their names in a `data.frame`
-
-For example:
-
-
-```r
-# Create a vector with the values of the "year" variable
-year_vector &lt;- whr$year
-
-# See the 3 first elements of the year column
-whr$year[1:3]
-```
-
-```
-## [1] 2015 2015 2015
-```
-
----
-
-# R objects - Vectors
-
-
-```r
-year_vector &lt;- whr$year # creates a vector with the values of the "year" variable
-whr$year[1:3]           # see the 3 first elements of the year column
-```
-
-&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
-
----
-
-# R objects - Data frames
-
-## Data frames
-
-The `whr` and `whr2016` objects are both data frames. You can also construct a new data frame from scratch by __combining vectors with the same number of elements__.
-
-#### Now, type the following code to create a new data frame
+#### Now, type the following code to create a new dataframe
 
 ```r
 # Dataframe created by biding vectors
@@ -626,7 +575,7 @@ df1
 
 ---
 
-# R objects - Data frames
+# R objects - Dataframes
 
 
 ```r
@@ -638,11 +587,11 @@ df1
 
 ---
 
-# R objects - Data frames
+# R objects - Dataframes
 
-## Data frames
+## Dataframes
 
-Since a data frame has two dimensions, you can use indices for both. The first index indicates the row selection and the second indicates the column.
+Since a dataframe has two dimensions, you can use indices for both. The first index indicates the row selection and the second indicates the column.
 
 ### Numeric indexing
 
@@ -659,7 +608,7 @@ whr[45,1]
 
 ---
 
-# R objects - Data frames
+# R objects - Dataframes
 
 
 ```r
@@ -672,9 +621,9 @@ whr[45,1] # Or the 45th element of the first column
 
 ---
 
-# R objects - Data frames
+# R objects - Dataframes
 
-## Data frames
+## Dataframes
 
 Alternatively, you can use the column names for indexing, which is the same as using the `$` sign.
 
@@ -694,12 +643,51 @@ whr[22,"country"] # The same as whr$country[22]
 
 ---
 
-# R objects - Data frames
+# R objects - Dataframes
 
 
 ```r
 # The 22th element of the country column
 whr[22,"country"] # The same as whr$country[22]
+```
+
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+
+---
+
+# R objects - Dataframes
+
+## Vectors in dataframes
+
+To R, each of the columns of the object `whr` is a vector.
+
+### Calling a vector from a dataframe:
+
+We use the `$` character to extract vectors (variables) by their names in a dataframe
+
+For example:
+
+
+```r
+# Create a vector with the values of the "year" variable
+year_vector &lt;- whr$year
+
+# See the 3 first elements of the year column
+whr$year[1:3]
+```
+
+```
+## [1] 2015 2015 2015
+```
+
+---
+
+# R objects - Dataframes
+
+
+```r
+year_vector &lt;- whr$year # creates a vector with the values of the "year" variable
+whr$year[1:3]           # see the 3 first elements of the year column
 ```
 
 &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
@@ -712,9 +700,9 @@ whr[22,"country"] # The same as whr$country[22]
 
 Lists are more complex objects that can contain many objects of __different classes and dimensions__.
 
-The outputs of many functions, a regression for example, are similar to lists.
+The outputs of many functions, a regression for example, are similar to lists (more on this in a later session).
 
-It would be beyond the scope of this introduction to go deep into them, but here's a quick example:
+Here's a quick example:
 
 ### Combine several objects of different types in a list
 
@@ -788,7 +776,7 @@ As in Stata, there are two different ways to store numbers. They are different b
 
 Now we'll use string data to practice some basic object manipulations in R.
 
-### Exercise 4: Create a vector of strings &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/></svg> 2 min)&lt;/font&gt; 
+### Exercise 4: Create a vector of strings &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt; 
 Create a string vector containing the names of commonly used statistical software:
 
 ```r
@@ -814,7 +802,7 @@ str_vec &lt;- c("R", "Python", "SAS", "Excel", "Stata")
 
 # Basic types of data - Strings
 
-### Exercise 5: Concatenate strings &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/></svg> 3 min)&lt;/font&gt; 
+### Exercise 5: Concatenate strings &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt; 
 
  1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar &lt;- "can be an option to"`
 
@@ -932,7 +920,7 @@ boolean_false &lt;- FALSE
 
 ## Booleans
 
-### Exercise 6 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/></svg> 3 min)&lt;/font&gt; 
+### Exercise 6 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt; 
 
 Create a boolean vector with the condition of annual income below average:
 
@@ -1019,9 +1007,9 @@ boolean2 &lt;- c(FALSE, TRUE, TRUE, TRUE, TRUE)   # And this to select every ele
 
 ## Booleans
 
-Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the `whr` data set for the same condition.
+Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the `whr` dataframe for the same condition.
 
-### Exercise 7 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/></svg> 3 min)&lt;/font&gt; 
+### Exercise 7 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt; 
 
  * Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
@@ -1141,26 +1129,26 @@ Some possible disadvantages of Stata:
 
 Here are some advantages of R:
 
-* R is a free and open source software!
+* R is a free and open source software, a huge advantage for open science
 
-* It allows you to have several datasets open simultaneously.
+* It allows you to have several dataframes open simultaneously
   + No need to use `keep`, `preserve`, `restore`
 
-* It can run complex Geographic Information System (GIS) analyses.
+* It can run complex Geographic Information System (GIS) analyses
 
-* You can use it for web scrapping.
+* You can use it for web scrapping and APIs
 
-* You can run machine learning algorithms with it.
+* You can easily run machine learning algorithms with it
 
-* You can create complex Markdown documents. This presentation, for example, is entirely done in R.
+* You can create complex Markdown documents. This presentation, for example, is entirely done in R
 
-* You can create interactive dashboards and online applications with the Shiny package.
+* You can create interactive dashboards and online applications with the Shiny package
 
 ---
 
 # Appendix - Syntax
 
-R's syntax is a bit heavier than Stata's:
+R's syntax is heavier than Stata's:
 
 * Parentheses to separate function names from its arguments.
 * Commas to separate arguments.
