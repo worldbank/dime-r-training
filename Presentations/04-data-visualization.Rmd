@@ -1,8 +1,8 @@
 ---
 title: "Session 4: Data Visualization"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> May 2022"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2023"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -106,9 +106,9 @@ Similarly to previous sessions, you can find some references at the end of this 
 library(tidyverse)
 library(here)
 
-whr_panel <- read_rds(
+whr_panel <- read_csv(
   here(
-    "DataWork", "DataSets", "Final", "whr_panel.Rds"
+    "DataWork", "DataSets", "Final", "whr_panel.csv"
   )
 )
 ```
@@ -141,11 +141,11 @@ name: ea
 
 First, we’re going to use base plot, i.e., using Base R default libraries. It is easy to use and can produce useful graphs with very few lines of code.
 
-.exercise[**Exericse 1:** Exploratory Analysis. 
+.exercise[**Exercise 1:** Exploratory Analysis. 
 
 **(1)** Create a vector called `vars` with the variables: `economy_gdp_per_capita`, `happiness_score`, `health_life_expectancy`, and `freedom`. <br>
-**(2)** Selected all the variables from the vector `vars`  in the `whr_panel` dataframe and assign it to the object `whr_simp`. <br>
-**(3)** Use the `plot()` function typiing: `plot(whr_simp)`
+**(2)** Select all the variables from the vector `vars` in the `whr_panel` dataset and assign to the object `whr_plot`. <br>
+**(3)** Use the `plot()` function: `plot(whr_plot)`
 
 ]
 
@@ -157,8 +157,8 @@ First, we’re going to use base plot, i.e., using Base R default libraries. It 
 # Vector of variables
 vars <- c("economy_gdp_per_capita", "happiness_score", "health_life_expectancy", "freedom")
 
-# Create a subset with only those variables, let's called this subset whr_simp
-whr_simp <- whr_panel %>%
+# Create a subset with only those variables, let's call this subset whr_plot
+whr_plot <- whr_panel %>%
   select(all_of(vars))
 
 ```
@@ -168,7 +168,7 @@ whr_simp <- whr_panel %>%
 # Base Plot
 
 ```{r, out.width = "70%"}
-plot(whr_simp)
+plot(whr_plot)
 ```
 
 ---
@@ -200,8 +200,7 @@ ggplot(data = DATA) +
 ', eval = FALSE) %>% 
   flair("DATA", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
   flair("GEOM_FUNCTION", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
-  flair("AESTHETIC MAPPINGS", background = "#FFD0CF", before = "<b>", after = "</b>") %>% 
-  knit_print.with_flair()
+  flair("AESTHETIC MAPPINGS", background = "#FFD0CF", before = "<b>", after = "</b>")
 ```
 
 .large[Mapping data to aesthetics]
@@ -331,9 +330,10 @@ Both structures will work but this will make a difference if you want to load mo
 
 **Solution:**
 
-```{r, out.width = "55%"}
-ggplot(data = whr_panel, aes(x = freedom, y = economy_gdp_per_capita)) +
-  geom_point()
+```{r, out.width = "45%"}
+whr_panel %>%
+  ggplot() +
+  geom_point(aes(x = freedom, y = economy_gdp_per_capita))
 ```
 
 ]
@@ -368,13 +368,13 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(
-  data = whr_panel, #<<
-  aes(
-    x = happiness_score,           
-    y = economy_gdp_per_capita
-  )    
-) +
+whr_panel %>% #<<
+  ggplot(
+    aes(
+      x = happiness_score,
+      y = economy_gdp_per_capita
+    )
+  ) +
   geom_point()
 ```
 
@@ -394,13 +394,13 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(
-  data = whr_panel,
-  aes(  #<<
-    x = happiness_score,           #<<
-    y = economy_gdp_per_capita     #<<
-  )    #<<
-) + #<<
+whr_panel %>%
+  ggplot(
+    aes( #<<
+      x = happiness_score, #<<
+      y = economy_gdp_per_capita #<<
+    ) #<<
+  ) +
   geom_point()
 ```
 
@@ -420,13 +420,13 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(
-  data = whr_panel,
-  aes(
-    x = happiness_score,       
-    y = economy_gdp_per_capita
-  )
-) + 
+whr_panel %>%
+  ggplot(
+    aes(
+      x = happiness_score,
+      y = economy_gdp_per_capita
+    )
+  ) +
   geom_point() #<<
 ```
 
@@ -447,8 +447,8 @@ How the plot is going to be drawn.
 
 ```{r, out.width = "50%", echo = FALSE}
 decorate('
+whr_panel %>%
 ggplot(
-  data = whr_panel,
   aes(
     x = happiness_score,       
     y = economy_gdp_per_capita,
@@ -457,11 +457,9 @@ ggplot(
 ) + 
   geom_point() 
 ', eval = FALSE) %>%
-  flair("data", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
   flair_rx("aes|geom_point", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
   flair_rx("x |y ", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
-  flair("color = region ", background = "#F1E740", before = "<b>", after = "</b>") %>% 
-  knit_print.with_flair()
+  flair("color = region ", background = "#F1E740", before = "<b>", after = "</b>")
 ```
 
 ]
@@ -469,10 +467,10 @@ ggplot(
 .pull-right[
 
 ```{r, out.width = "100%", echo = FALSE}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,
-           y = economy_gdp_per_capita,
-           color = region)) +  #<<
+whr_panel %>%
+  ggplot(
+    aes(x = happiness_score, y = economy_gdp_per_capita, color = region)
+  ) +  #<<
   geom_point()
 ```
 
@@ -491,14 +489,14 @@ Let's try to do something different, try, instead of `region`, adding `color = "
 .pull-left[
 
 ```{r, eval = FALSE}
-ggplot(
-  data = whr_panel,
-  aes(
-    x = happiness_score,
-    y = economy_gdp_per_capita,
-    color = "blue"  #<<
+whr_panel %>%
+  ggplot(
+    aes(
+      x = happiness_score,
+      y = economy_gdp_per_capita,
+      color = "blue"  #<<
+    )
   )
-) + 
 ```
 
 ]
@@ -553,13 +551,13 @@ Let's modify our last plot. Let's add `color = "blue"` inside `geom_point()`.
 .pull-left[
 
 ```{r, eval = FALSE}
-ggplot(
-  data = whr_panel,
-  aes(
-    x = happiness_score,
-    y = economy_gdp_per_capita
-  )
-) +
+whr_panel %>%
+  ggplot(
+    aes(
+      x = happiness_score,
+      y = economy_gdp_per_capita
+    )
+  ) +
   geom_point(color = "blue") #<<
 ```
 
@@ -598,18 +596,17 @@ ggplot(data = whr_panel,
 
 ```{r, echo = FALSE}
 decorate('
-ggplot(
-  data = whr_panel,
-  aes(
-    x = freedom, 
-    y = economy_gdp_per_capita, 
-    color = year
-  )
-) +
+whr_panel %>%
+  ggplot(
+    aes(
+      x = freedom, 
+      y = economy_gdp_per_capita, 
+      color = year
+    )
+  ) +
   geom_point()
 ', eval = FALSE) %>% 
-  flair("color = year", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
-  knit_print.with_flair()
+  flair("color = year", background = "#CBB5FF", before = "<b>", after = "</b>")
 ```
 
 ]
@@ -642,18 +639,17 @@ ggplot(data = whr_panel,
 
 ```{r, out.width = "45%", echo = FALSE}
 decorate('
-ggplot(
-  data = whr_panel,
-  aes(
-    x = freedom, 
-    y = economy_gdp_per_capita, 
-    color = as.factor(year)
-  )
-) +
+whr_panel %>%
+  ggplot(
+    aes(
+      x = freedom, 
+      y = economy_gdp_per_capita, 
+      color = as.factor(year)
+    )
+  ) +
   geom_point()
 ', eval = FALSE) %>% 
-  flair("color = as.factor(year)", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
-  knit_print.with_flair()
+  flair("color = as.factor(year)", background = "#CBB5FF", before = "<b>", after = "</b>")
 ```
 
 ]
@@ -708,9 +704,8 @@ Now, let's try to modify our plots. In the following slides, we are going to:
 
 
 ```{r, out.width = "65%"}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,
-           y = economy_gdp_per_capita)) +
+whr_panel %>%
+  ggplot(aes(x = happiness_score, y = economy_gdp_per_capita)) +
   geom_point(shape = 5) #<<
 ```
 
@@ -729,8 +724,8 @@ show_point_shapes()+
 # ggplot2: including more geoms
 
 ```{r, out.width = "60%"}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,  y = economy_gdp_per_capita)) +
+whr_panel %>%
+  ggplot(aes(x = happiness_score,  y = economy_gdp_per_capita)) +
   geom_point() +
   geom_smooth()   #<<
 
@@ -741,8 +736,8 @@ ggplot(data = whr_panel,
 # ggplot2: Facets
 
 ```{r, out.width = "55%"}
-ggplot(data = whr_panel,
-       aes(x = happiness_score,  y = economy_gdp_per_capita)) +
+whr_panel %>%
+  ggplot(aes(x = happiness_score,  y = economy_gdp_per_capita)) +
   geom_point() +
   facet_wrap(~ region) #<<
 ```
@@ -769,14 +764,14 @@ ggplot(data = whr_panel,
 
 ```{r, eval = FALSE}
 
-ggplot(
-  data = whr_panel,
-  aes(
-    x = happiness_score,  
-    y = economy_gdp_per_capita, 
-    color = region #<<
-  )
-) + 
+whr_panel %>%
+  ggplot(
+    aes(
+      x = happiness_score,  
+      y = economy_gdp_per_capita, 
+      color = region #<<
+    )
+  ) + 
   geom_point() +
   facet_wrap(~ region) #<<
 
@@ -857,7 +852,7 @@ whr_panel %>%
 
 .large[We can also specify the size of a geom, either by a variable or just a number.]
 
-```{r, out.width = "40%"}
+```{r, out.width = "50%"}
 whr_panel %>%
   filter(year == 2017) %>%
   ggplot(aes(x = happiness_score,  y = economy_gdp_per_capita)) +
@@ -935,8 +930,8 @@ whr_panel %>%
   geom_point() +
   labs(#<<
     x = "Happiness Score", #<<
-    y = "GDP per capita", #<<
-    title = "Happiness Score vs GDP per capita, 2015" #<<
+    y = "GDP per Capita", #<<
+    title = "Happiness Score vs GDP per Capita, 2015" #<<
   ) #<<
 
 ```
@@ -955,8 +950,8 @@ whr_panel %>%
   geom_point() +
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
-    title = "Happiness Score vs GDP per capita, 2015"
+    y = "GDP per Capita",
+    title = "Happiness Score vs GDP per Capita, 2015"
   )
 ```
 ]
@@ -983,9 +978,9 @@ whr_panel %>%
   scale_color_discrete(labels = c("No", "Yes")) +  #<<
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
+    y = "GDP per Capita",
     color = "Country in Latin America\nand the Caribbean", #<<
-    title = "Happiness Score vs GDP per capita, 2015"
+    title = "Happiness Score vs GDP per Capita, 2015"
   )
 
 ```
@@ -1005,9 +1000,9 @@ whr_panel %>%
   scale_color_discrete(labels = c("No", "Yes")) +
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
+    y = "GDP per Capita",
     color = "Country in Latin America\nand the Caribbean",
-    title = "Happiness Score vs GDP per capita, 2015"
+    title = "Happiness Score vs GDP per Capita, 2015"
   )
 ```
 ]
@@ -1033,9 +1028,9 @@ whr_panel %>%
   scale_color_discrete(labels = c("No", "Yes")) +
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
+    y = "GDP per Capita",
     color = "Country in Latin America\nand the Caribbean",
-    title = "Happiness Score vs GDP per capita, 2015"
+    title = "Happiness Score vs GDP per Capita, 2015"
   ) +
   theme_minimal() #<<
 
@@ -1056,9 +1051,9 @@ whr_panel %>%
   scale_color_discrete(labels = c("No", "Yes")) +
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
+    y = "GDP per Capita",
     color = "Country in Latin America\nand the Caribbean",
-    title = "Happiness Score vs GDP per capita, 2015"
+    title = "Happiness Score vs GDP per Capita, 2015"
   ) +
   theme_minimal()
 ```
@@ -1131,9 +1126,9 @@ whr_panel %>%
   scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) + #<<
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
+    y = "GDP per Capita",
     color = "Country in Latin America\nand the Caribbean",
-    title = "Happiness Score vs GDP per capita, 2015"
+    title = "Happiness Score vs GDP per Capita, 2015"
   ) +
   theme_minimal() 
 
@@ -1154,9 +1149,9 @@ whr_panel %>%
   scale_color_brewer(palette = "Dark2", labels = c("No", "Yes")) +
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
+    y = "GDP per Capita",
     color = "Country in Latin America\nand the Caribbean",
-    title = "Happiness Score vs GDP per capita, 2015"
+    title = "Happiness Score vs GDP per Capita, 2015"
   ) +
   theme_minimal()
 ```
@@ -1208,9 +1203,9 @@ fig <- whr_panel %>%
   scale_color_discrete(labels = c("No", "Yes")) +
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
+    y = "GDP per Capita",
     color = "Country in Latin America\nand the Caribbean",
-    title = "Happiness Score vs GDP per capita, 2015"
+    title = "Happiness Score vs GDP per Capita, 2015"
   ) +
   theme_minimal()
 ```
@@ -1247,9 +1242,9 @@ fig <- whr_panel %>%
   scale_color_discrete(labels = c("No", "Yes")) +
   labs(
     x = "Happiness Score",
-    y = "GDP per capita",
+    y = "GDP per Capita",
     color = "Country in Latin America\nand the Caribbean",
-    title = "Happiness Score vs GDP per capita, 2015"
+    title = "Happiness Score vs GDP per Capita, 2015"
   ) +
   theme_minimal()
 ```
