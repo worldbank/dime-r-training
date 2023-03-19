@@ -1,8 +1,8 @@
 ---
 title: "Session 2: Introduction to R Programming"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> May 2022"
+author: "Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2023"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -74,16 +74,13 @@ whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 # Table of contents
 
 1. [Introduction](#introduction)
-2. [Initial settings](#initial-settings)
-3. [File paths](#file-paths)
-4. [Exploring a dataset](#exploring-a-dataset)
-5. [Creating a document outline in RStudio](#creating-a-document-outline-in-rstudio)
-6. [Using packages](#using-packages)
-7. [Functions inception](#functions-inception)
-8. [Mapping and iterations](#mapping-and-iterations)
-9. [Custom functions](#custom-functions)
-10. [Indentation](#indentation)
-11. [Appendix](#appendix)
+1. [Initial settings](#initial-settings)
+1. [File paths](#file-paths)
+1. [Using packages](#using-packages)
+1. [Functions inception](#functions-inception)
+1. [Mapping and iterations](#mapping-and-iterations)
+1. [Custom functions](#custom-functions)
+1. [Appendix](#appendix)
 
 ---
 
@@ -133,7 +130,7 @@ name: initial-settings
 
 * Notice two things:
 
-  1. Your environment is *probably* empty (it's OK if it's not)
+  1. Your environment is *probably* empty (it's okay if it's not)
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/empty_environment.png")
@@ -263,13 +260,13 @@ setwd("your/path")
 
 * Instead, you should use RStudio projects and the `here` library
 
-> __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__.
-
 * RStudio projects let you "bind" your project files to a root directory, regardless of the path to it
 
 * This is crucial because it allows smooth interoperability between different computers where the exact path to the project root directory differs
 
 * Additionally, each RStudio project you work on keeps their own history of commands!
+
+__Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__.
 
 ---
 
@@ -277,21 +274,35 @@ setwd("your/path")
 
 .exercise[
 
-### Exercise 2 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
+### Exercise 2 `r fa("keyboard")` <font size="5">(`r fa("clock")` 3 min)</font>
+
+1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer
+
+1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` > `Data` > `DataWork.zip`
+
+1. Unzip `DataWork.zip` in the folder `dime-r-training-mar2023`
 
 1. On RStudio, select `File` > `New Project...`
 
-2. Select `New Directory` > `New Project`
+2. Select `Existing Directory`
 
-3. Assign the name: `dime-r-training-project` to the project
+3. Browse to the location of `dime-r-training-mar2023` and select `Create Project`
 ]
 
 ---
 
 # RStudio projects
 
-```{r echo = FALSE, out.width = "80%"}
+```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/dime-r-training-project.png")
+```
+
+---
+
+# RStudio projects
+
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/dime-r-training-project-dir.png")
 ```
 
 ---
@@ -308,7 +319,7 @@ knitr::include_graphics("img/dime-r-training-project.png")
 
 # Usage of `here`
 
-- Install and load the `here` library:
+- Install and load `here`
 
 ```{r, eval=FALSE}
 install.packages("here")
@@ -337,13 +348,9 @@ df <- read.csv(path)
 
 ### Exercise 3 `r fa("keyboard")` <font size="5">(`r fa("clock")` 3 min)</font>
 
-1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2022 May` > `Data` > `DataWork.zip`
+1. Go to `File` > `New File` > `R Script` and save this empty script in `DataWork` > `Code` as `exercises-session2.R`
 
-2. Unzip the file in your RStudio project root folder. This is the folder where the file `dime-r-training-project.Rproj` sits
-  
-3. On RStudio, go to `File` > `New File` > `R Script` and save this new empty script in `DataWork` > `Code` as `exercises-session2.R`
-
-5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using `here()`
+1. Load `here` and read the `.csv` file in `DataWork/DataSets/Final/whr_panel.csv` using `here()`
 
   + Use the function `read.csv()` to load the file. The argument for `read.csv()` is the result of `here()`
   + Remember to assign the dataframe you're reading to an object. You can call it `whr` as we did yesterday
@@ -363,155 +370,10 @@ whr <- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 
 # RStudio projects and `here`
 
-If you did the exercise correctly, you should see the `whr` data frame listed in the Environment panel
+If you did the exercise correctly, you should see the `whr` dataframe listed in the Environment panel
 
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/environment_2021.png")
-```
-
----
-
-class: inverse, center, middle
-name: creating-a-document-outline-in-rstudio
-
-# Creating a document outline in RStudio
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Document outline
-
-* RStudio allows you to __create an interactive index__ for your scripts
-
-* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
-
----
-
-# Document outline
-
-.exercise[
-
-### Exercise 4 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
-
-1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
-
-2. Before `read.csv(...)`, add the following header: `Part 2: Loading data----`
-
-  + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
-
-3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
-]
-
----
-
-# Document outline
-
-* The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
-
-* You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
-
-```{r echo = FALSE, out.width = "65%"}
-knitr::include_graphics("img/document-outline.png")
-```
-
----
-
-class: inverse, center, middle
-name: exploring-a-dataset
-
-# Exploring a dataset
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Exploring a dataset
-
-Some useful functions:
-
-* **`View()`:** opens the data set
-
-* **`class()`:** reports object type or type of data stored
-
-* **`dim()`:** reports the size of each one of an object's dimension
-
-* **`names()`:** returns the variable names of a data set
-
-* **`str()`:** general information about the structure of an R object
-
-* **`summary()`:** summary information about the variables in a data frame
-
-* **`head()`:** shows the first few observations in the dataset
-
-* **`tail()`:** shows the last few observations in the dataset
-
----
-
-# Exploring a dataset
-
-```{r, eval = F}
-# View the data set (notice the uppercase "V")
-View(whr)
-```
-
-This is the same as clicking on the object name in the environment panel. It opens a spreadsheet-style data viewer of a dataframe.
-
-```{r echo = FALSE, out.width = "80%"}
-knitr::include_graphics("img/whr_viewer.png")
-```
-
----
-
-# Exploring a dataset
-
-```{r, eval = F}
-# Object type and dimensions
-class(whr)
-dim(whr)
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
-```
-
----
-
-# Exploring a dataset
-
-```{r, eval = F}
-# Object structure
-str(whr)
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
-```
-
----
-
-# Exploring a dataset
-
-```{r, eval = F}
-# Summarize a dataframe
-summary(whr)
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
-```
-
----
-
-# Exploring a dataset
-
-```{r, eval = F}
-# Printing the first rows of a dataframe
-head(whr)
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -527,21 +389,21 @@ name: using-packages
 
 # Packages
 
-* Since there is a lot of people developing for R, it can have many different functionalities.
+* Since there is a lot of people developing for R, it can have many different functionalities
 
-* To make it simpler, these functionalities are bundled into packages.
+* To make it simpler, these functionalities are bundled into packages
 
-* A package is just __a unit of shareable code__.
+* A package is just __a unit of shareable code__
 
 ---
 
 # Packages
 
-* It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
+* It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
 
-* They can be shared through R's official repository - CRAN (18,000+ packages reviewed and tested).
+* They are usually shared through R's official repository - CRAN (19,000+ packages reviewed and tested)
 
-* There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
+* There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN
 
 ---
 
@@ -551,7 +413,7 @@ name: using-packages
 
 ```{r, eval = F}
 # Installing a package
-install.packages("tidyverse",
+install.packages("dplyr",
                  dependencies = TRUE)
 # the dependencies argument also installs all other packages
 # that it may depend upon to run
@@ -565,10 +427,10 @@ install.packages("tidyverse",
 
 .exercise[
 
-### Exercise 5 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
+### Exercise 4 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
 
-1. Load the `tidyverse` meta package in part 1 of your script using `library(tidyverse)`
-2. Run your script
+1. Load the packages `dplyr` and `purrr` in part 1 of your script using `library(dplyr)` and `library(purrr)`
+1. Run your script
 
 ]
 
@@ -579,17 +441,17 @@ install.packages("tidyverse",
 What if this happens?
 
 ```{r echo = FALSE, out.width = "70%"}
-knitr::include_graphics("img/warning_2021.png")
+knitr::include_graphics("img/Warning.png")
 ```
 
 ---
 
 # Warnings vs errors
 
-R has two types of error messages, `warnings` and actual `errors`:
+R has two types of error messages, warnings and actual errors:
 
-  * `Errors` - break your code, usually preventing it from running.
-  * `Warnings` - usually mean that nothing went wrong yet, but you should be careful.
+  * **Errors** - break your code, usually preventing it from running
+  * **Warnings** - your code kept running, but R wants you to be aware of something that might be a problem later
 
 RStudio's default is to print warning messages, but not to stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
 
@@ -653,7 +515,7 @@ knitr::include_graphics("img/statalog.png")
 
 * Metaprogramming is a __very powerful technique__, as you will soon see
 
-* It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
+* It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function can be taken as the input of the outer function
 
 * It can also get quite tricky to follow what a line of code with multiple functions inceptions is doing
 
@@ -718,7 +580,7 @@ name: mapping-and-iterations
 
 * R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
-* In this training we'll introduce `map()`. It is a function part of the tidyverse meta package
+* In this training we'll introduce `map()`. It is a function part of `purrr`,  a package that contains tools for functional programming
 
 * Also, in case you have not noticed yet: __R is vectorized!__ this means that many operations are applied element-wise by default so you don't have to code loops to apply them to each element of a vector or dataframe
 
@@ -726,15 +588,15 @@ name: mapping-and-iterations
 
 # Map
 
-* To use `map()`, you need to either load the package `purrr` eithre by itself or alongside other `tidyverse` packages
+* To use `map()`, you need to load the package `purrr`
 
 * The basic syntax of `map()` is:
 
 .command[
 
-**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a data frame then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a list with the results.
+**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a dataframe then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a list with the results.
 
-  + **X:** a data frame, matrix or vector the function will be applied to
+  + **X:** a dataframe, matrix or vector the function will be applied to
   + **function:** the name of the function you want to apply to each of the elements of `X`
 ]
 
@@ -783,12 +645,12 @@ knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 
 .exercise[
 
-### Exercise 6: Looping over a dataframe <font size="5">(`r fa("clock")` 3 min)</font>
+### Exercise 5: Looping over a dataframe <font size="5">(`r fa("clock")` 3 min)</font>
 
-- Create a toy dataframe of 70,000 columns and 400 observations using this code
+- Create a toy dataframe of 50,000 columns and 400 observations using this code
 
 ```{r, eval = FALSE}
-df <- data.frame(replicate(70000, sample(1:100, 400, replace=TRUE)))
+df <- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 ```
 
 - Create an empty vector named `col_means_loop` where you will store column means with this code: `col_means_loop <- c()`
@@ -814,12 +676,12 @@ for (column in df) {
 The solution is this:
 
 ```{r, eval=FALSE}
-df <- data.frame(replicate(70000, sample(1:100, 400, replace=TRUE)))
+df <- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 
 col_means_loop <- c()
 
-for (col in df){
-  col_means_loop <- append(col_means_loop, mean(col))
+for (column in df){
+  col_means_loop <- append(col_means_loop, mean(column))
 }
 ```
 
@@ -829,15 +691,16 @@ for (col in df){
 
 .exercise[
 
-### Exercise 7: Now use `map()` `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
+### Exercise 6: Now use `map()` `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
 
-- Use `map()` to produce a list with the means of the columns of `df`
-- Store the result in a list named `col_means_map`
+1. Use `map()` to produce a list with the means of the columns of `df`
+1. Store the result in a list named `col_means_map`
 
-> Hint:
-  + Remember the syntax of `map()`: `map(X, function_name)`
-  
 ]
+
+Hints:
+  + Remember the syntax of `map()`: `map(X, function_name)`
+  + The function name inside `map()` shouldn't have parentheses next to it (i.e.: `mean` instead of `mean()`)
 
 ---
 
@@ -863,7 +726,7 @@ Do you remember which one ran faster?
 
 # Map vs looping
 
-Last but not least, remember we said that loops produce side effects?
+Also, remember we said that loops produce side effects?
 
 ```{r echo = FALSE, out.width = "50%"}
 knitr::include_graphics("img/loop-side-effects.png")
@@ -921,7 +784,7 @@ knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 
 .exercise[
 
-### Exercise 8 `r fa("keyboard")` <font size="5">(`r fa("clock")` 2 min)</font>
+### Exercise 7 `r fa("keyboard")` <font size="5">(`r fa("clock")` 2 min)</font>
 
 Create a function named `zscore` that standardizes the values of a vector.
 
@@ -973,16 +836,15 @@ knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 
 1. Subselect the columns `health_life_expectancy` and `freedom` in `whr`
 
-  + Use tidyverse's `select()` for this, as in: `whr %>% select(freedom, happiness_score)` 
+  + Use dplyr's `select()` for this, as in: `whr %>% select(freedom, happiness_score)` 
 
 2. Use `map()` combined with the `zscore` function to get the z-score of these two columns and assign the resulting list to an object named `z_scores`
 
 3. Use list indexing on `z_scores` to generate two new columns in `whr` with the standardized values of `health_life_expectancy` and `freedom`
   
-> **Hints:**
-* Use the pipes (`%>%`) successively
-* Remember that we don't use parenthesis next to the function name we're using `map()` with
-* Remember that we use double brackets instead of single brackets to index the actual elements of a list
+ **Hints:**
+* Don't use parenthesis next to the function name we're using `map()` with
+* Use double brackets instead of single brackets or the symbol `$` to index the elements of a list
 
 ]
 
@@ -1023,11 +885,11 @@ name: appendix
 
 * `.RData` stores the objects in your environment only if you save your workspace, and loads them again in the next RStudio session
 
-* Both files are relative to the working directory where your RStudio session started
+* Both files are stored in the working directory where your RStudio session started
 
 ---
 
-# Appendix - Using packages
+# Appendix - More on packages
 
 Once a package is loaded, you can use its features and functions. Here's a list of some useful packages:
 
@@ -1037,18 +899,10 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 * `stargazer` - awesome latex regression and summary statistics tables
 * `foreign` - reads `.dta` and other formats from inferior statistical software
 * `zoo` - time series and panel data manipulation useful functions
-* `data.table` - some functions to deal with huge data sets
+* `data.table` - some functions to deal with huge dataframes
 * `sp` and `rgeos` - spatial analysis
 * `multiwayvcov` and `sandwich` - clustered and robust standard errors
 * `RODBC`, `RMySQL`, `RPostgresSQL`, `RSQLite` - For relational databases and using SQL in R.
-
----
-
-# Appendix - Resources
-
-* A discussion of folder structure and data managament can be found here: https://dimewiki.worldbank.org/wiki/DataWork_Folder
-
-* For a broader discussion of data management, go to https://dimewiki.worldbank.org/wiki/Data_Management
 
 ---
 
@@ -1071,41 +925,11 @@ https://r4ds.had.co.nz/workflow-projects.html
 
 ---
 
-# Appendix - Commenting
+# Appendix - More on folder management
 
-* To comment a line, write `#` as its first character
+* A discussion of folder structure and data managament can be found here: https://dimewiki.worldbank.org/wiki/DataWork_Folder
 
-```{r, eval=FALSE}
-# This is a comment
-print("But this part is not")
-```
-
-* You can also add `#` halfway through a line to comment whatever comes after it
-
-```{r, eval=FALSE}
-print("This part is not a comment") # And this is a comment
-```
-
-* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
-
-* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
-
----
-
-# Appendix - Assignment 1
-
-.exercise[
-
-### Exercise  `r fa("keyboard")`
-
-1. In your script panel, select all the lines of your script
-
-2. Use the keyboard shortcut to comment these lines.
-  + Shortcut: `Ctrl` + `Shift` + `C`
-
-3. Use the keyboard shortcut to comment these lines again. What happened?
-
-]
+* For a broader discussion of data management, go to https://dimewiki.worldbank.org/wiki/Data_Management
 
 ---
 
@@ -1162,7 +986,7 @@ for (col in colnames(whr)) {
 
 # Appendix - Apply
 
-* Apart from tidyverse's `map()`, base R also has a set of functions that allows users to apply a function to a number of objects without using explicit loops
+* Apart from purrr's `map()`, base R also has a set of functions that allows users to apply a function to a number of objects without using explicit loops
 
 * They're called `apply` and there are many of them, with different use cases
 
@@ -1182,10 +1006,10 @@ sapply(X, FUN, ...)
 
 * Its main arguments are:
 
-  + **X:** a data frame, matrix or vector the function will be applied to
+  + **X:** a dataframe, matrix or vector the function will be applied to
   + **FUN:** the function you want to apply
 
-* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
+* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a dataframe then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
 
 * The output of `sapply()` is usually a vector with the results, but it can be a matrix if the results have more than one dimension
 
@@ -1228,7 +1052,7 @@ apply(X, MARGIN, FUN, ...)
 
 * Arguments:
 
-  + **X:** a data frame (or matrix) the function will be applied to
+  + **X:** a dataframe (or matrix) the function will be applied to
   + **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
   + **FUN:** the function you want to apply
 
@@ -1246,7 +1070,7 @@ apply(matrix, 2, mean) # column means
 
 ---
 
-# Appendix - Assignment 2
+# Appendix - Assignment 1
 
 ### Exercise: Get the row max
 
@@ -1269,6 +1093,64 @@ Solution:
 whr %>%
   select(freedom, happiness_score) %>%
   apply(1, max)
+```
+
+---
+
+# Appendix - Commenting
+
+* To comment a line, write `#` as its first character
+
+```{r, eval=FALSE}
+# This is a comment
+print("But this part is not")
+```
+
+* You can also add `#` halfway through a line to comment whatever comes after it
+
+```{r, eval=FALSE}
+print("This part is not a comment") # And this is a comment
+```
+
+* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
+
+* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
+
+---
+
+# Appendix - Assignment 2
+
+.exercise[
+
+### Exercise  `r fa("keyboard")`
+
+1. In your script panel, select all the lines of your script
+
+2. Use the keyboard shortcut to comment these lines.
+  + Shortcut: `Ctrl` + `Shift` + `C`
+
+3. Use the keyboard shortcut to comment these lines again. What happened?
+
+]
+
+---
+
+# Appendix - Document outline
+
+* RStudio allows you to __create an interactive index__ for your scripts
+
+* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
+
+---
+
+# Appendix - Document outline
+
+* The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
+
+* You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
+
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/document-outline.png")
 ```
 
 ---
@@ -1375,6 +1257,28 @@ map(c(1.2,
       5.8),
     round)
 ```
+
+---
+
+# Appendix - Exploring a dataframe
+
+Some useful functions:
+
+* **`View()`:** opens a visualization of the dataframe
+
+* **`class()`:** reports object type or type of data stored
+
+* **`dim()`:** reports the size of each one of an object's dimension
+
+* **`names()`:** returns the variable names of a dataframe
+
+* **`str()`:** general information about the structure of an R object
+
+* **`summary()`:** summary information about the variables in a dataframe
+
+* **`head()`:** shows the first few observations in the dataframe
+
+* **`tail()`:** shows the last few observations in the dataframe
 
 ---
 exclude: true

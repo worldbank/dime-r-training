@@ -3,7 +3,7 @@
   <head>
     <title>Session 2: Introduction to R Programming</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
+    <meta name="author" content="Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -25,10 +25,18 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Session 2: Introduction to R Programming
+]
+.subtitle[
 ## R for Stata Users
-### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> May 2022
+]
+.author[
+### Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
+]
+.date[
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2023
+]
 
 ---
 
@@ -49,16 +57,13 @@ class: center, middle, inverse, title-slide
 # Table of contents
 
 1. [Introduction](#introduction)
-2. [Initial settings](#initial-settings)
-3. [File paths](#file-paths)
-4. [Exploring a dataset](#exploring-a-dataset)
-5. [Creating a document outline in RStudio](#creating-a-document-outline-in-rstudio)
-6. [Using packages](#using-packages)
-7. [Functions inception](#functions-inception)
-8. [Mapping and iterations](#mapping-and-iterations)
-9. [Custom functions](#custom-functions)
-10. [Indentation](#indentation)
-11. [Appendix](#appendix)
+1. [Initial settings](#initial-settings)
+1. [File paths](#file-paths)
+1. [Using packages](#using-packages)
+1. [Functions inception](#functions-inception)
+1. [Mapping and iterations](#mapping-and-iterations)
+1. [Custom functions](#custom-functions)
+1. [Appendix](#appendix)
 
 ---
 
@@ -108,7 +113,7 @@ name: initial-settings
 
 * Notice two things:
 
-  1. Your environment is *probably* empty (it's OK if it's not)
+  1. Your environment is *probably* empty (it's okay if it's not)
 
 &lt;img src="img/empty_environment.png" width="60%" style="display: block; margin: auto;" /&gt;
 
@@ -166,7 +171,7 @@ Have you ever seen these lines of code before?
 
 .exercise[
 
-### Exercise 1 &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt; &lt;font size="5"&gt;(&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/&gt;&lt;/svg&gt; 1 min)&lt;/font&gt;
+### Exercise 1 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg> &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt;
 
 After this, you'll never have to use  the equivalent of `clear all`
 
@@ -225,13 +230,13 @@ setwd("your/path")
 
 * Instead, you should use RStudio projects and the `here` library
 
-&gt; __Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__.
-
 * RStudio projects let you "bind" your project files to a root directory, regardless of the path to it
 
 * This is crucial because it allows smooth interoperability between different computers where the exact path to the project root directory differs
 
 * Additionally, each RStudio project you work on keeps their own history of commands!
+
+__Important:__ We won't get into the specifics of directory organization here, but we'll assume that all the files you use for a specific project (data, scripts, and outputs) reside in the same project directory. We'll call this the __working directory__.
 
 ---
 
@@ -239,20 +244,32 @@ setwd("your/path")
 
 .exercise[
 
-### Exercise 2 &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt; &lt;font size="5"&gt;(&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/&gt;&lt;/svg&gt; 1 min)&lt;/font&gt;
+### Exercise 2 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg> &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt;
+
+1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer
+
+1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` &gt; `Data` &gt; `DataWork.zip`
+
+1. Unzip `DataWork.zip` in the folder `dime-r-training-mar2023`
 
 1. On RStudio, select `File` &gt; `New Project...`
 
-2. Select `New Directory` &gt; `New Project`
+2. Select `Existing Directory`
 
-3. Assign the name: `dime-r-training-project` to the project
+3. Browse to the location of `dime-r-training-mar2023` and select `Create Project`
 ]
 
 ---
 
 # RStudio projects
 
-&lt;img src="img/dime-r-training-project.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/dime-r-training-project.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# RStudio projects
+
+&lt;img src="img/dime-r-training-project-dir.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -268,7 +285,7 @@ setwd("your/path")
 
 # Usage of `here`
 
-- Install and load the `here` library:
+- Install and load `here`
 
 
 ```r
@@ -297,15 +314,11 @@ df &lt;- read.csv(path)
 
 .exercise[
 
-### Exercise 3 &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt; &lt;font size="5"&gt;(&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/&gt;&lt;/svg&gt; 3 min)&lt;/font&gt;
+### Exercise 3 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg> &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt;
 
-1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2022 May` &gt; `Data` &gt; `DataWork.zip`
+1. Go to `File` &gt; `New File` &gt; `R Script` and save this empty script in `DataWork` &gt; `Code` as `exercises-session2.R`
 
-2. Unzip the file in your RStudio project root folder. This is the folder where the file `dime-r-training-project.Rproj` sits
-  
-3. On RStudio, go to `File` &gt; `New File` &gt; `R Script` and save this new empty script in `DataWork` &gt; `Code` as `exercises-session2.R`
-
-5. Now let's test if that worked. Load the `here` library and read the `csv` file `DataWork/DataSets/Final/whr_panel.csv` using `here()`
+1. Load `here` and read the `.csv` file in `DataWork/DataSets/Final/whr_panel.csv` using `here()`
 
   + Use the function `read.csv()` to load the file. The argument for `read.csv()` is the result of `here()`
   + Remember to assign the dataframe you're reading to an object. You can call it `whr` as we did yesterday
@@ -326,147 +339,9 @@ whr &lt;- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 
 # RStudio projects and `here`
 
-If you did the exercise correctly, you should see the `whr` data frame listed in the Environment panel
+If you did the exercise correctly, you should see the `whr` dataframe listed in the Environment panel
 
 &lt;img src="img/environment_2021.png" width="80%" style="display: block; margin: auto;" /&gt;
-
----
-
-class: inverse, center, middle
-name: creating-a-document-outline-in-rstudio
-
-# Creating a document outline in RStudio
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-
-# Document outline
-
-* RStudio allows you to __create an interactive index__ for your scripts
-
-* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
-
----
-
-# Document outline
-
-.exercise[
-
-### Exercise 4 &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt; &lt;font size="5"&gt;(&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/&gt;&lt;/svg&gt; 1 min)&lt;/font&gt;
-
-1. In your script, add a header before the line where you used `library(here)` with the text: `# Part 1: Loading libraries----`
-
-2. Before `read.csv(...)`, add the following header: `Part 2: Loading data----`
-
-  + Remember: you create a section header by adding at least 4 trailing dashes (`-`), pound (`#`) or equal (`=`) signs in a comment line
-
-3. Note that once you create a section header, an arrow appears right next to the row number. Click on the arrows to see what happens.
-]
-
----
-
-# Document outline
-
-* The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
-
-* You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
-
-&lt;img src="img/document-outline.png" width="65%" style="display: block; margin: auto;" /&gt;
-
----
-
-class: inverse, center, middle
-name: exploring-a-dataset
-
-# Exploring a dataset
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-
-# Exploring a dataset
-
-Some useful functions:
-
-* **`View()`:** opens the data set
-
-* **`class()`:** reports object type or type of data stored
-
-* **`dim()`:** reports the size of each one of an object's dimension
-
-* **`names()`:** returns the variable names of a data set
-
-* **`str()`:** general information about the structure of an R object
-
-* **`summary()`:** summary information about the variables in a data frame
-
-* **`head()`:** shows the first few observations in the dataset
-
-* **`tail()`:** shows the last few observations in the dataset
-
----
-
-# Exploring a dataset
-
-
-```r
-# View the data set (notice the uppercase "V")
-View(whr)
-```
-
-This is the same as clicking on the object name in the environment panel. It opens a spreadsheet-style data viewer of a dataframe.
-
-&lt;img src="img/whr_viewer.png" width="80%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Exploring a dataset
-
-
-```r
-# Object type and dimensions
-class(whr)
-dim(whr)
-```
-
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
-
----
-
-# Exploring a dataset
-
-
-```r
-# Object structure
-str(whr)
-```
-
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
-
----
-
-# Exploring a dataset
-
-
-```r
-# Summarize a dataframe
-summary(whr)
-```
-
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
-
----
-
-# Exploring a dataset
-
-
-```r
-# Printing the first rows of a dataframe
-head(whr)
-```
-
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -481,21 +356,21 @@ name: using-packages
 
 # Packages
 
-* Since there is a lot of people developing for R, it can have many different functionalities.
+* Since there is a lot of people developing for R, it can have many different functionalities
 
-* To make it simpler, these functionalities are bundled into packages.
+* To make it simpler, these functionalities are bundled into packages
 
-* A package is just __a unit of shareable code__.
+* A package is just __a unit of shareable code__
 
 ---
 
 # Packages
 
-* It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP).
+* It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
 
-* They can be shared through R's official repository - CRAN (18,000+ packages reviewed and tested).
+* They are usually shared through R's official repository - CRAN (19,000+ packages reviewed and tested)
 
-* There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN.
+* There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN
 
 ---
 
@@ -506,7 +381,7 @@ name: using-packages
 
 ```r
 # Installing a package
-install.packages("tidyverse",
+install.packages("dplyr",
                  dependencies = TRUE)
 # the dependencies argument also installs all other packages
 # that it may depend upon to run
@@ -520,10 +395,10 @@ install.packages("tidyverse",
 
 .exercise[
 
-### Exercise 5 &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt; &lt;font size="5"&gt;(&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/&gt;&lt;/svg&gt; 1 min)&lt;/font&gt;
+### Exercise 4 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg> &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt;
 
-1. Load the `tidyverse` meta package in part 1 of your script using `library(tidyverse)`
-2. Run your script
+1. Load the packages `dplyr` and `purrr` in part 1 of your script using `library(dplyr)` and `library(purrr)`
+1. Run your script
 
 ]
 
@@ -533,16 +408,16 @@ install.packages("tidyverse",
 
 What if this happens?
 
-&lt;img src="img/warning_2021.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/Warning.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Warnings vs errors
 
-R has two types of error messages, `warnings` and actual `errors`:
+R has two types of error messages, warnings and actual errors:
 
-  * `Errors` - break your code, usually preventing it from running.
-  * `Warnings` - usually mean that nothing went wrong yet, but you should be careful.
+  * **Errors** - break your code, usually preventing it from running
+  * **Warnings** - your code kept running, but R wants you to be aware of something that might be a problem later
 
 RStudio's default is to print warning messages, but not to stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
 
@@ -581,7 +456,7 @@ summary(log_score)
 summary(log(whr$happiness_score))
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -603,7 +478,7 @@ summary(log(whr$happiness_score))
 
 * Metaprogramming is a __very powerful technique__, as you will soon see
 
-* It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function is the same as the input of the outer function
+* It's __also a common source of error__, as you can only use one function inside the other if the output of the inner function can be taken as the input of the outer function
 
 * It can also get quite tricky to follow what a line of code with multiple functions inceptions is doing
 
@@ -676,7 +551,7 @@ name: mapping-and-iterations
 
 * R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
-* In this training we'll introduce `map()`. It is a function part of the tidyverse meta package
+* In this training we'll introduce `map()`. It is a function part of `purrr`,  a package that contains tools for functional programming
 
 * Also, in case you have not noticed yet: __R is vectorized!__ this means that many operations are applied element-wise by default so you don't have to code loops to apply them to each element of a vector or dataframe
 
@@ -684,15 +559,15 @@ name: mapping-and-iterations
 
 # Map
 
-* To use `map()`, you need to either load the package `purrr` eithre by itself or alongside other `tidyverse` packages
+* To use `map()`, you need to load the package `purrr`
 
 * The basic syntax of `map()` is:
 
 .command[
 
-**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a data frame then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a list with the results.
+**`map(X, function, ...)`:** applies `function` to each of the elements of `X`. If `X` is a dataframe then `function` is applied column-wise while if it's a vector or a list it is applied item-wise. The output of `map()` is always a list with the results.
 
-  + **X:** a data frame, matrix or vector the function will be applied to
+  + **X:** a dataframe, matrix or vector the function will be applied to
   + **function:** the name of the function you want to apply to each of the elements of `X`
 ]
 
@@ -709,7 +584,7 @@ x %&gt;% map(round) # Rounding the vector elements (same as map(x, round))
 round(x)         # since R is vectorized, this also works
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -740,13 +615,13 @@ round(x)         # since R is vectorized, this also works
 
 .exercise[
 
-### Exercise 6: Looping over a dataframe &lt;font size="5"&gt;(&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/&gt;&lt;/svg&gt; 3 min)&lt;/font&gt;
+### Exercise 5: Looping over a dataframe &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt;
 
-- Create a toy dataframe of 70,000 columns and 400 observations using this code
+- Create a toy dataframe of 50,000 columns and 400 observations using this code
 
 
 ```r
-df &lt;- data.frame(replicate(70000, sample(1:100, 400, replace=TRUE)))
+df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 ```
 
 - Create an empty vector named `col_means_loop` where you will store column means with this code: `col_means_loop &lt;- c()`
@@ -774,12 +649,12 @@ The solution is this:
 
 
 ```r
-df &lt;- data.frame(replicate(70000, sample(1:100, 400, replace=TRUE)))
+df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 
 col_means_loop &lt;- c()
 
-for (col in df){
-  col_means_loop &lt;- append(col_means_loop, mean(col))
+for (column in df){
+  col_means_loop &lt;- append(col_means_loop, mean(column))
 }
 ```
 
@@ -789,15 +664,16 @@ for (col in df){
 
 .exercise[
 
-### Exercise 7: Now use `map()` &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt; &lt;font size="5"&gt;(&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/&gt;&lt;/svg&gt; 1 min)&lt;/font&gt;
+### Exercise 6: Now use `map()` <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg> &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt;
 
-- Use `map()` to produce a list with the means of the columns of `df`
-- Store the result in a list named `col_means_map`
+1. Use `map()` to produce a list with the means of the columns of `df`
+1. Store the result in a list named `col_means_map`
 
-&gt; Hint:
-  + Remember the syntax of `map()`: `map(X, function_name)`
-  
 ]
+
+Hints:
+  + Remember the syntax of `map()`: `map(X, function_name)`
+  + The function name inside `map()` shouldn't have parentheses next to it (i.e.: `mean` instead of `mean()`)
 
 ---
 
@@ -824,7 +700,7 @@ Do you remember which one ran faster?
 
 # Map vs looping
 
-Last but not least, remember we said that loops produce side effects?
+Also, remember we said that loops produce side effects?
 
 &lt;img src="img/loop-side-effects.png" width="50%" style="display: block; margin: auto;" /&gt;
 
@@ -871,7 +747,7 @@ name: custom-functions
   }
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -879,7 +755,7 @@ name: custom-functions
 
 .exercise[
 
-### Exercise 8 &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt; &lt;font size="5"&gt;(&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"/&gt;&lt;/svg&gt; 2 min)&lt;/font&gt;
+### Exercise 7 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg> &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
 
 Create a function named `zscore` that standardizes the values of a vector.
 
@@ -919,7 +795,7 @@ zscore &lt;- function(x) {
   }
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -927,20 +803,19 @@ zscore &lt;- function(x) {
 
 .exercise[
 
-### Exercise 9 &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
+### Exercise 9 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg>
 
 1. Subselect the columns `health_life_expectancy` and `freedom` in `whr`
 
-  + Use tidyverse's `select()` for this, as in: `whr %&gt;% select(freedom, happiness_score)` 
+  + Use dplyr's `select()` for this, as in: `whr %&gt;% select(freedom, happiness_score)` 
 
 2. Use `map()` combined with the `zscore` function to get the z-score of these two columns and assign the resulting list to an object named `z_scores`
 
 3. Use list indexing on `z_scores` to generate two new columns in `whr` with the standardized values of `health_life_expectancy` and `freedom`
   
-&gt; **Hints:**
-* Use the pipes (`%&gt;%`) successively
-* Remember that we don't use parenthesis next to the function name we're using `map()` with
-* Remember that we use double brackets instead of single brackets to index the actual elements of a list
+ **Hints:**
+* Don't use parenthesis next to the function name we're using `map()` with
+* Use double brackets instead of single brackets or the symbol `$` to index the elements of a list
 
 ]
 
@@ -957,7 +832,7 @@ whr$hle_st &lt;- z_scores[[1]]
 whr$freedom_st &lt;- z_scores[[2]]
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -980,11 +855,11 @@ name: appendix
 
 * `.RData` stores the objects in your environment only if you save your workspace, and loads them again in the next RStudio session
 
-* Both files are relative to the working directory where your RStudio session started
+* Both files are stored in the working directory where your RStudio session started
 
 ---
 
-# Appendix - Using packages
+# Appendix - More on packages
 
 Once a package is loaded, you can use its features and functions. Here's a list of some useful packages:
 
@@ -994,18 +869,10 @@ Once a package is loaded, you can use its features and functions. Here's a list 
 * `stargazer` - awesome latex regression and summary statistics tables
 * `foreign` - reads `.dta` and other formats from inferior statistical software
 * `zoo` - time series and panel data manipulation useful functions
-* `data.table` - some functions to deal with huge data sets
+* `data.table` - some functions to deal with huge dataframes
 * `sp` and `rgeos` - spatial analysis
 * `multiwayvcov` and `sandwich` - clustered and robust standard errors
 * `RODBC`, `RMySQL`, `RPostgresSQL`, `RSQLite` - For relational databases and using SQL in R.
-
----
-
-# Appendix - Resources
-
-* A discussion of folder structure and data managament can be found here: https://dimewiki.worldbank.org/wiki/DataWork_Folder
-
-* For a broader discussion of data management, go to https://dimewiki.worldbank.org/wiki/Data_Management
 
 ---
 
@@ -1028,43 +895,11 @@ https://r4ds.had.co.nz/workflow-projects.html
 
 ---
 
-# Appendix - Commenting
+# Appendix - More on folder management
 
-* To comment a line, write `#` as its first character
+* A discussion of folder structure and data managament can be found here: https://dimewiki.worldbank.org/wiki/DataWork_Folder
 
-
-```r
-# This is a comment
-print("But this part is not")
-```
-
-* You can also add `#` halfway through a line to comment whatever comes after it
-
-
-```r
-print("This part is not a comment") # And this is a comment
-```
-
-* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
-
-* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
-
----
-
-# Appendix - Assignment 1
-
-.exercise[
-
-### Exercise  &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
-
-1. In your script panel, select all the lines of your script
-
-2. Use the keyboard shortcut to comment these lines.
-  + Shortcut: `Ctrl` + `Shift` + `C`
-
-3. Use the keyboard shortcut to comment these lines again. What happened?
-
-]
+* For a broader discussion of data management, go to https://dimewiki.worldbank.org/wiki/Data_Management
 
 ---
 
@@ -1149,7 +984,7 @@ for (col in colnames(whr)) {
 
 # Appendix - Apply
 
-* Apart from tidyverse's `map()`, base R also has a set of functions that allows users to apply a function to a number of objects without using explicit loops
+* Apart from purrr's `map()`, base R also has a set of functions that allows users to apply a function to a number of objects without using explicit loops
 
 * They're called `apply` and there are many of them, with different use cases
 
@@ -1170,10 +1005,10 @@ sapply(X, FUN, ...)
 
 * Its main arguments are:
 
-  + **X:** a data frame, matrix or vector the function will be applied to
+  + **X:** a dataframe, matrix or vector the function will be applied to
   + **FUN:** the function you want to apply
 
-* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a data frame then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
+* `sapply()` applies the function (`FUN`) to all the elements of `X`. If `X` is a dataframe then the function is applied column-wise, while if it's a vector or a list it is applied item-wise
 
 * The output of `sapply()` is usually a vector with the results, but it can be a matrix if the results have more than one dimension
 
@@ -1219,7 +1054,7 @@ apply(X, MARGIN, FUN, ...)
 
 * Arguments:
 
-  + **X:** a data frame (or matrix) the function will be applied to
+  + **X:** a dataframe (or matrix) the function will be applied to
   + **MARGIN:** 1 to apply the function to all rows or 2 to apply the function to all columns
   + **FUN:** the function you want to apply
 
@@ -1238,7 +1073,7 @@ apply(matrix, 2, mean) # column means
 
 ---
 
-# Appendix - Assignment 2
+# Appendix - Assignment 1
 
 ### Exercise: Get the row max
 
@@ -1263,6 +1098,64 @@ whr %&gt;%
   select(freedom, happiness_score) %&gt;%
   apply(1, max)
 ```
+
+---
+
+# Appendix - Commenting
+
+* To comment a line, write `#` as its first character
+
+
+```r
+# This is a comment
+print("But this part is not")
+```
+
+* You can also add `#` halfway through a line to comment whatever comes after it
+
+
+```r
+print("This part is not a comment") # And this is a comment
+```
+
+* In Stata, you can use `/*` and `*/` to comment in the middle of a line's code. That is not possible in R: everything that comes after `#` will always be a comment
+
+* To comment a selection of lines, press `Ctrl` + `Shift` + `C`
+
+---
+
+# Appendix - Assignment 2
+
+.exercise[
+
+### Exercise  <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg>
+
+1. In your script panel, select all the lines of your script
+
+2. Use the keyboard shortcut to comment these lines.
+  + Shortcut: `Ctrl` + `Shift` + `C`
+
+3. Use the keyboard shortcut to comment these lines again. What happened?
+
+]
+
+---
+
+# Appendix - Document outline
+
+* RStudio allows you to __create an interactive index__ for your scripts
+
+* To add a section to your code, create a commented line with the title of your section and add at least 4 trailing dashes (`----`), pound signs (`####`) or equal signs (`====`) after it
+
+---
+
+# Appendix - Document outline
+
+* The outline can be accessed by clicking on the button on the top right corner of the script window. You can use it to jump from one section to another
+
+* You can also use the keyboard shortcuts `Alt + L` (`Cmd + Option + L` on Mac) and `Alt + Shift + L` to collapse and expand sections
+
+&lt;img src="img/document-outline.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1297,7 +1190,7 @@ geom_point()
 
 # Appendix - Indentation
 
-&lt;img src="02-intro-to-R-programming_files/figure-html/unnamed-chunk-63-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-to-R-programming_files/figure-html/unnamed-chunk-54-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1327,7 +1220,7 @@ geom_point()
 
 .exercise[
 
-### Exercise &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="rfa" style="height:0.75em;fill:currentColor;position:relative;"&gt;&lt;path d="M528 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM128 180v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm-336 96v-40c0-6.627-5.373-12-12-12H76c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12zm288 0v-40c0-6.627-5.373-12-12-12H172c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h232c6.627 0 12-5.373 12-12zm96 0v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12z"/&gt;&lt;/svg&gt;
+### Exercise <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 64H64C28.65 64 0 92.65 0 128v256c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V128C576 92.65 547.3 64 512 64zM528 384c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V128c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V384zM140 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 157.3 146.7 152 140 152zM196 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 194.7 189.3 200 196 200zM276 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 194.7 269.3 200 276 200zM356 200h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 194.7 349.3 200 356 200zM460 152h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 157.3 466.7 152 460 152zM140 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C152 237.3 146.7 232 140 232zM196 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C184 274.7 189.3 280 196 280zM276 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C264 274.7 269.3 280 276 280zM356 280h24c6.656 0 12-5.344 12-12v-24c0-6.656-5.344-12-12-12h-24c-6.656 0-12 5.344-12 12v24C344 274.7 349.3 280 356 280zM460 232h-24c-6.656 0-12 5.344-12 12v24c0 6.656 5.344 12 12 12h24c6.656 0 12-5.344 12-12v-24C472 237.3 466.7 232 460 232zM400 320h-224C167.1 320 160 327.1 160 336V352c0 8.875 7.125 16 16 16h224c8.875 0 16-7.125 16-16v-16C416 327.1 408.9 320 400 320z"/></svg>
 
 To see an example of how indenting works in RStudio, let's use an example with `map()`:
 
@@ -1357,6 +1250,28 @@ map(c(1.2,
       5.8),
     round)
 ```
+
+---
+
+# Appendix - Exploring a dataframe
+
+Some useful functions:
+
+* **`View()`:** opens a visualization of the dataframe
+
+* **`class()`:** reports object type or type of data stored
+
+* **`dim()`:** reports the size of each one of an object's dimension
+
+* **`names()`:** returns the variable names of a dataframe
+
+* **`str()`:** general information about the structure of an R object
+
+* **`summary()`:** summary information about the variables in a dataframe
+
+* **`head()`:** shows the first few observations in the dataframe
+
+* **`tail()`:** shows the last few observations in the dataframe
 
 ---
 exclude: true
@@ -1410,6 +1325,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
