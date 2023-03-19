@@ -1216,7 +1216,7 @@ Therefore, if you want to plot it again, you can just type `fig` in the console.
 
 # Saving a plot
 
-.exercise[**Exercise 5**: Saving a ggplot. Use the `ggsave()` function.  You can either include the function after your plot or, save the ggplot first as an object and then save the plot.
+.exercise[**Exercise 5**: Save a ggplot under the name `fig_*YOUR INITIALS*`. Use the `ggsave()` function. You can either include the function after your plot or, save the ggplot first as an object and then save the plot.
 
 The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dpi = ...)`.
 
@@ -1252,7 +1252,7 @@ fig <- whr_panel %>%
 ```{r}
 ggsave(
   fig,
-  filename = here("DataWork","Output","Raw","fig.png"),
+  filename = here("DataWork","Output","Raw","fig_MA.png"),
   dpi = 750, 
   scale = 0.8,
   height = 8, 
