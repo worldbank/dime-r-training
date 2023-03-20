@@ -65,7 +65,7 @@ xaringanExtra::use_logo(
 ```
 
 ```{r echo = FALSE, include = FALSE, eval = TRUE}
-whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
+whr <- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 ```
 
 # Table of contents
@@ -205,7 +205,7 @@ Let's start by loading the data we'll be using:
 2. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your Rstudio version, it might be `File` > `Import Dataset` > `From CSV`
 
-3. Assign the name `whr` to the dataframe on the import window.
+3. Assign the name `whr` to the data on the import window.
   + If you solved the exercise correctly, you'll see that RStudio opens a tab with a viewer of the dataframe
 
 ---
@@ -295,7 +295,7 @@ View(whr) # <--- Note that the first letter is uppercase
 
 ```
 
-```{r echo = FALSE, out.width = "40%"}
+```{r echo = FALSE, out.width = "50%"}
 knitr::include_graphics("img/View.png")
 ```
 
@@ -306,7 +306,7 @@ knitr::include_graphics("img/View.png")
 Alternatively we can print the first 6 obs. with `head()`:
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -342,7 +342,7 @@ head(whr)
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -370,7 +370,7 @@ x <- 42
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -407,7 +407,7 @@ head(whr)
 
 # Data in R
 
-You can also see that your environment panel now has two `Data` objects:
+You can also see that your environment panel now has two data objects:
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/environment_2vars_2021.png")
@@ -575,7 +575,7 @@ v2 <- 1:5          # Alternative way to create an evenly spaced vector
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -589,7 +589,7 @@ v2[1:3] # Prints from the 1st to the 3rd element
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -617,7 +617,7 @@ df1
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -652,7 +652,7 @@ whr[45,1] # Or the 45th element of the first column
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -667,7 +667,6 @@ Alternatively, you can use the column names for indexing, which is the same as u
 ```{r}
 # The 22th element of the country column
 whr[22,"country"] # The same as whr$country[22]
-
 ```
 
 ---
@@ -680,7 +679,7 @@ whr[22,"country"] # The same as whr$country[22]
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -700,10 +699,6 @@ For example:
 ```{r}
 # Create a vector with the values of the "year" variable
 year_vector <- whr$year
-
-# See the 3 first elements of the year column
-whr$year[1:3]
-
 ```
 
 ---
@@ -712,11 +707,10 @@ whr$year[1:3]
 
 ```{r, eval=F}
 year_vector <- whr$year # creates a vector with the values of the "year" variable
-whr$year[1:3]           # see the 3 first elements of the year column
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -748,7 +742,7 @@ print(lst)               # checking the content of lst
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -767,13 +761,13 @@ You can subset lists using single brackets (`[]`) or double brackets (`[[]]`)
 # R objects - Lists
 
 ```{r, eval=F}
+lst <- list(v1, df1, 45)
 lst[[3]]    # returns 45
 lst[3]      # returns a list of one element (45)
-lst[c(1,2)] # returns a list with the first two elements of "lst"
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 ---
 
@@ -802,45 +796,18 @@ As in Stata, there are two different ways to store numbers. They are different b
 
 # Basic types of data - Strings
 
-Now we'll use string data to practice some basic object manipulations in R.
+### Exercise 4: Concatenate strings <font size="5">(`r fa("clock")` 3 min)</font> 
 
-### Exercise 4: Create a vector of strings <font size="5">(`r fa("clock")` 2 min)</font> 
-Create a string vector containing the names of commonly used statistical software:
-```{r, include = T, results = "hide"}
+1. Create the following vector of strings: `str_vec <- c("R", "Python", "SAS", "Excel", "Stata")`
 
-# Creating string vector
-str_vec <- c("R", "Python", "SAS", "Excel", "Stata")
-```
+1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar <- "can be an option to"`
 
-Now print them to check them out.
-
----
-
-# Basic types of data - Strings
-
-```{r, eval=F}
-# Creating string vector
-str_vec <- c("R", "Python", "SAS", "Excel", "Stata")
-```
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# Basic types of data - Strings
-
-### Exercise 5: Concatenate strings <font size="5">(`r fa("clock")` 3 min)</font> 
-
- 1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar <- "can be an option to"`
-
- 2. Use the function `paste()` with 3 arguments separated by commas:
+1. Use the function `paste()` with 3 arguments separated by commas:
   + The first argument as the 1st element of `str_vec`.
   + The second argument as the `str_scalar`.
   + The third argument as the 5th element of `str_vec`.
 
- 3. If you're not sure where to start, type:
+1. If you're not sure where to start, type:
 ```{r, eval=FALSE}
 help(paste)
 ```
@@ -850,12 +817,13 @@ help(paste)
 # Basic types of data - Strings
 
 ```{r, eval=F}
+str_vec <- c("R", "Python", "SAS", "Excel", "Stata")
 str_scalar <- "can be an option to"       # creating str_scalar
 paste(str_vec[1], str_scalar, str_vec[5]) # using paste()
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -880,20 +848,6 @@ Factors are __numeric categorical values with text labels__, equivalent to label
 ## Booleans
 
 Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as values. They are automatically generated when performing logical operations.
-
----
-
-# Advanced types of data
-
-## Factors
-
-We'll learn more about factors in a later session, since they are important for the kind of analysis we usually do. For now, here are two important things to keep in mind when using them.
-
-Unlike Stata, in R:
-
-1. __You use the labels to refer to factors__
-
-2. __You cannot choose the underlying values__
 
 ---
 
@@ -928,7 +882,7 @@ boolean_false <- FALSE
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -937,7 +891,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ## Booleans
 
-### Exercise 6 <font size="5">(`r fa("clock")` 3 min)</font> 
+### Exercise 5 <font size="5">(`r fa("clock")` 3 min)</font> 
 
 Create a boolean vector with the condition of annual income below average:
 
@@ -959,7 +913,7 @@ head(inc_below_avg) # See the 6 first elements of the vector
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -995,7 +949,7 @@ boolean2 <- c(FALSE, TRUE, TRUE, TRUE, TRUE)   # And this to select every elemen
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -1006,7 +960,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the `whr` dataframe for the same condition.
 
-### Exercise 7 <font size="5">(`r fa("clock")` 3 min)</font> 
+### Exercise 6 <font size="5">(`r fa("clock")` 3 min)</font> 
 
  * Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
@@ -1033,7 +987,7 @@ whr$rank_low[inc_below_avg] <- 1
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 ```
 
 ---
@@ -1309,7 +1263,7 @@ round(num)
 
 Help in R works very much like in Stata: the help files usually start with a brief description of the function, explain its syntax and arguments and list a few examples. There are two ways to access help files:
 
-## Exercise 8: Use help
+## Exercise 7: Use help
 
 ```{r, eval=FALSE}
 # You can use the help() function
