@@ -1,6 +1,7 @@
 ## R for Stata Users
 ## March 2023
 ## Exercise solutions 
+## Session: Introduction to R
 
 ## Exercise 1 ====
 whr <- read.csv("/path/to/data/file")
