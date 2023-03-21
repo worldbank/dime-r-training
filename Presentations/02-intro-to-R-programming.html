@@ -155,15 +155,15 @@ Have you ever seen these lines of code before?
 
 # Initial settings
 
+Have you ever seen these lines of code before?
+
+&lt;img src="img/stataheader.jpg" width="40%" style="display: block; margin: auto;" /&gt;
+
 * We __don't need to set the memory or the maximum number of variables__ in R
 
 * The equivalent of `set more off` is the default
 
 * The equivalent of `clear all` is not a default setting, but we'll change that in exercise 1
-
-* In any case, remember that you can see all the objects in your computer's memory at any point in the `Environment` panel
-
-&lt;img src="img/environment_2vars_2021.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -248,7 +248,7 @@ __Important:__ We won't get into the specifics of directory organization here, b
 
 1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer
 
-1. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` &gt; `Data` &gt; `DataWork.zip`
+1. Go to https://osf.io/86g3b/ and download the file in: `R for Stata Users - 2023 March` &gt; `Data` &gt; `DataWork.zip`
 
 1. Unzip `DataWork.zip` in the folder `dime-r-training-mar2023`
 
@@ -279,17 +279,17 @@ __Important:__ We won't get into the specifics of directory organization here, b
 
 * It uses the root project directory to build paths to files easily
 
-* Similar to RStudio projects, it allows for interoperability between different computers where the absolute path to the same file is not the same
+* It allows for interoperability between different computers where the absolute path to the same file is not the same
 
 ---
 
 # Usage of `here`
 
-- Install and load `here`
+- Load `here`
 
 
 ```r
-install.packages("here")
+install.packages("here") # install first if you don't have it
 library(here)
 ```
 
@@ -366,7 +366,7 @@ name: using-packages
 
 # Packages
 
-* It may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
+* Packages may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
 
 * They are usually shared through R's official repository - CRAN (19,000+ packages reviewed and tested)
 
@@ -549,6 +549,10 @@ name: mapping-and-iterations
 ## [1] 3
 ```
 
+---
+
+# Map
+
 * R, however, has a set of functions that allows users to loop through an object __in a more efficient way__, without using explicit loops
 
 * In this training we'll introduce `map()`. It is a function part of `purrr`,  a package that contains tools for functional programming
@@ -599,6 +603,10 @@ round(x)         # since R is vectorized, this also works
   + Imagine you ask a yes/no question to a group of people
   + You can collect the answers by asking each one of them individually -- __this is looping__
   + Otherwise, you can ask them to raise their hands and collect all answers at once -- __this is `map()`__
+
+---
+
+# Map vs looping
 
 * The output of a loop is the regular output of the operation you're repeating, times the number of iterations you did
 
@@ -683,7 +691,10 @@ Compare the syntax of the solutions of both exercises:
 
 
 ```r
-# Looping exercise
+# Dataframe creation
+df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
+
+# Loop exercise
 col_means_loop &lt;- c()
 
 for (col in df){
