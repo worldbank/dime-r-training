@@ -348,8 +348,6 @@ df <- read.csv(path)
 
 ### Exercise 3 `r fa("keyboard")` <font size="5">(`r fa("clock")` 3 min)</font>
 
-1. Go to `File` > `New File` > `R Script` and save this empty script in `DataWork` > `Code` as `exercises-session2.R`
-
 1. Load `here` and read the `.csv` file in `DataWork/DataSets/Final/whr_panel.csv` using `here()`
 
   + Use the function `read.csv()` to load the file. The argument for `read.csv()` is the result of `here()`
@@ -843,7 +841,7 @@ knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
 
 .exercise[
 
-### Exercise 9 `r fa("keyboard")`
+### Exercise 8 `r fa("keyboard")`
 
 1. Subselect the columns `health_life_expectancy` and `freedom` in `whr`
 
@@ -1133,7 +1131,7 @@ print("This part is not a comment") # And this is a comment
 
 .exercise[
 
-### Exercise  `r fa("keyboard")`
+### Exercise `r fa("keyboard")`
 
 1. In your script panel, select all the lines of your script
 
