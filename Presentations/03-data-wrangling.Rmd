@@ -102,17 +102,13 @@ name: intro
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
-1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer
+1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer.
 
-2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` > `Data` > `DataWork.zip`
+2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` > `Data` > `dime-r-training-mar2023.zip`.
 
-3. Unzip `DataWork.zip` in the folder `dime-r-training-mar2023`
+3. Unzip `dime-r-training-mar2023.zip`.
 
-4. On RStudio, select `File` > `New Project...`
-
-5. Select `Existing Directory`
-
-6. Browse to the location of `dime-r-training-mar2023` and select `Create Project`
+4. Open the `dime-r-training-mar2023` R project.
 ]
 
 ]
