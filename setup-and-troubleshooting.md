@@ -7,7 +7,7 @@
     + If you completed the RStudio projects exercise of session 2: instructions [here](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.html?panelset=if-you-attended-session-2#4)
     + If you did not attend session 2: instructions [here](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/03-data-wrangling.html?panelset=if-you-did-not-attend-session-2#4)
 
-2. Try loading the following packages depending on the sessions you will attend **before the sessions**. If you don't have the packages installed, install using `install.packages("package-name")`.
+2. Try loading the following packages depending on the sessions you will attend **before the sessions**. If you don't have the packages installed, install using `install.packages("package-name")`. If you do not know what package loading or installation is, you will have to check the recording of [session 1](https://osf.io/yausg) and [session 2](https://osf.io/uqa6m), otherwise you will not be able to follow the contents of sessions 3-7.
     + Used in all sessions: `tidyverse`, `here`
     + Data wrangling: `janitor`
     + Descriptive analysis: `huxtable`, `modelsummary`, `lfe`, `openxlsx`, `skimr`
