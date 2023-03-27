@@ -1,7 +1,7 @@
 ---
 title: "Descriptive Analysis"
 subtitle: "[R for Stata Users](https://github.com/worldbank)"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
+author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina"
 date: "DIME |The World Bank <br> `r format(Sys.time(), '%d %B %Y')`"
 output:
   xaringan::moon_reader:
@@ -70,6 +70,29 @@ htmltools::tagList(
 )
 ```
 
+# Introduction
+
+### Initial Setup
+
+.panelset[
+
+.panel[.panel-name[If You Attended Session 2]
+1. Go to the `dime-r-training-mar2023` folder that you created yesterday, and open the `dime-r-training-mar2023` R project that you created there.
+]
+
+.panel[.panel-name[If You Did Not Attend Session 2]
+1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer.
+
+2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` > `Data` > `dime-r-training-mar2023.zip`.
+
+3. Unzip `dime-r-training-mar2023.zip`.
+
+4. Open the `dime-r-training-mar2023` R project.
+]
+
+]
+
+---
 # Table of contents
 
 .vlarge[
@@ -107,14 +130,14 @@ I think most of you here know me already and have heard my spiel before, but sin
 
 Anything that requires
 `r fa("paste", fill = "#ac142a")` Copy-pasting
-`r fa("paint-brush", fill = "#ac142a")` Manual formatting after exported
+`r fa("paintbrush", fill = "#ac142a")` Manual formatting after exported
 
 --
 
 ## .green[Reproducible]
 
 `r fa("r-project", fill = "#046307")` R Markdown: dynamic document containing code and text that is exported directly from R into PDF, HTML, Word, Power Point and other formats 
-`r fa("file-alt", fill= "#046307")` LaTeX: typesetting system used for scientific publications that automatically reloads tables and figures every time the document is rendered 
+`r fa("file-lines", fill= "#046307")` LaTeX: typesetting system used for scientific publications that automatically reloads tables and figures every time the document is rendered 
 
 ???
 
@@ -137,7 +160,8 @@ Load the packages that we will use today
 ```{r, eval = F}
 # Install new packages
 install.packages("modelsummary")
-install.packages("lfe")
+install.packages("fixest")
+install.packages("janitor")
 install.packages("huxtable")
 install.packages("openxlsx")
 ```
@@ -147,7 +171,8 @@ install.packages("openxlsx")
 library(here)
 library(tidyverse)
 library(modelsummary)
-library(lfe)
+library(fixest)
+library(janitor)
 library(huxtable)
 library(openxlsx)
 ```
@@ -256,6 +281,10 @@ Use the `summary()` function to display summary statistics for a continuous vari
 
 `r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
 
+???
+
+Note that we have already summarized continuous and categorical variables when summarizing the entire data frame. But this is a reminder of how to select a single column inside a data frame. So choose are continuous variables you can find and summarize only that variable.
+
 ---
 
 # Summarizing continuous variables
@@ -276,7 +305,7 @@ summary(census$pop)
 # Summarizing categorical variables
 
 .command[
-## `table()`
+## `tabyl()`
 Equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments are vectors to be tabulated.
 ]
 
@@ -284,7 +313,7 @@ Equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments
 
 .exercise[
 ### Exercise `r fa("keyboard")`
-Use the `table()` function to display frequency tables for:
+Use the `tabyl()` function to display frequency tables for:
 
 1. The variable `region` in the `census` data frame
 2. The variables `region` and `state` in the `census` data frame, simultaneously
@@ -302,23 +331,25 @@ Use the `table()` function to display frequency tables for:
 --
 
 ```{r}
-table(census$region)
+census %>% 
+  tabyl(region)
 ```
-
-
 ---
 
-# Summarizing continuous variables
+# Summarizing categorical variables
 
 ## Two way tabulation
 
 --
 
 ```{r, eval = F}
-table(census$state, census$region) 
+census %>%
+  tabyl(state, region)
 ```
 ```{r, echo = F}
-table(census$state[1:14], census$region[1:14]) 
+census %>%
+  filter(substring(state, 1, 1) %in% c("A", "C")) %>%
+  tabyl(state, region)
 ```
 
 
@@ -347,7 +378,7 @@ name: desc_tables
 
 --
 
-## Well, then you will need to go beyond base R
+## Well, then you will need a few more packages
 - There are many packages that can be used both for displaying and exporting summary statistics
 - Today we will show you a combination of two packages: `modelsummary` and `huxtable`
 - We chose this combination because together, they can perform all the tasks we are interested in
@@ -399,7 +430,7 @@ datasummary_skim(
 .exercise[
 ### Exercise `r fa("keyboard")`
 
-Use `datasummary_skim()` to create a descriptive statistics table for the `census` data 
+Use `datasummary_skim()` to create a descriptive statistics table for the `census` data. 
 ]
 ]
 `r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
@@ -1096,23 +1127,29 @@ summary(reg1)
 
 # Running regressions
 
-The `lfe` command `felm` allows for more flexibility in model specification
+The `feols` command from package `fixest` allows for more flexibility in model specification
 
 .command[
-## felm(formula, data, subset, weights, ...)
+## feols(formula, data, subset, weights, ...)
 
 - **formula:**	an object of class "formula" containing a symbolic description of the model
 - **data:** a data frame containing the variables indicated in the formula
+- *vcov:* one of "iid", "hetero" (or "HC1"), "cluster", "twoway", "NW" (or "newey_west"), "DK" (or "driscoll_kraay"), or "conley"
 - *subset:* an optional vector specifying a subset of observations to be used in the regression
 - *weights:* an optional vector of weights to be used in the regression
+- *cluster:* a list of vectors, a character vector of variable names, a formula or an integer vector specifying how to cluster standard errors
+- ...
 ]
 
-Formulas for `felm` are more complex, and take the following format:
-`y ~ x1 + x2 | fe1 + fe2 | (Q|W ~ iv3+iv4) | clu1 + clu2`
+---
+
+# Running regressions
+
+Formulas for `feols` are more complex, and take the following format:
+`y ~ x1 + x2 | fe1 + fe2 | x3 ~ iv3`
 - `y ~ x1 + x2` takes all the same formulas as `lm`
 - `fe1 + fe2` list the variables to be included as fixed effects
-- `(Q|W ~ iv3 + iv4)` uses instruments `iv3` and `iv4` for variables `Q` and `W`
-- ` clu1 + clu2` indicates that standard errors should be clustered using variables `clu1` and `clu2`
+- `x3 ~ iv3` uses instrument `iv3` for variable `x3`
 
 ---
 
@@ -1125,8 +1162,8 @@ Using the `census` data, run a regression of the number of divorces on populatio
 
 .can-edit[
 ```{r, eval = F}
-felm(
-  y ~ x1 + x2 | fe1 + fe2 | 0 | 0,
+feols(
+  y ~ x1 + x2 | fe1 + fe2,
   data
 )
 ```
@@ -1147,13 +1184,18 @@ Using the `census` data, run a regression of divorce on population, urban popula
 
 ```{r, eval = FALSE}
 reg2 <-
-  felm(
-    divorce ~ pop + popurban + marriage | region | 0 | 0,
-    census
+  feols(
+    divorce ~ pop + popurban + marriage | region,
+    census,
+    se = "iid"
   )
 
 summary(reg2)
 ```
+
+???
+
+Note that feols uses clusters standard errors by default. To avoid this behavior, se `se = "iid"`
 
 ---
 
@@ -1162,9 +1204,10 @@ summary(reg2)
 .small[
 ```{r}
 reg2 <-
-  felm(
-    divorce ~ pop + popurban + marriage | region | 0 | 0,
-    census
+  feols(
+    divorce ~ pop + popurban + marriage | region,
+    census,
+    se = "iid"
   )
 
 summary(reg2)
@@ -1178,7 +1221,6 @@ summary(reg2)
 .large[
 - Whenever a factor is included in the list of covariates, it is treated as a categorical variable, i.e., as if you had written `i.x` in Stata.
 - Whenever a boolean is included in the list of covariates, it is treated as a dummy variable, where `TRUE` is `1` and `FALSE` is `0`.
-- `felm` also allows for bootstrapping, but this is beyong the scope of this session.
 ]
 
 ---
