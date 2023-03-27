@@ -682,15 +682,15 @@ summary_stats_table <-
   )
 
 # Export it to Excel 
-quick_xlsx( 
-  summary_stats_table, # object to be exported 
-  file = here( # file path to output file  
-    "DataWork", 
-    "Output", 
-    "Raw", 
-    "summary-stats.xlsx" 
-  ) 
-) 
+quick_xlsx(
+  summary_stats_table, # object to be exported
+  file = here( # file path to output file
+    "DataWork",
+    "Output",
+    "Raw",
+    "summary-stats.xlsx"
+  )
+)
 ```
 ]
 
@@ -760,14 +760,14 @@ saveWorkbook(
 summary_stats_table %>%
   print_latex() %>% # See LaTeX code
   # Save LaTeX code 
-  capture.output( 
-    file = here( 
-      "DataWork", 
-      "Output", 
-      "Raw", 
-      "summary-stats.tex" 
-    ) 
-  ) 
+  capture.output(
+    file = here(
+      "DataWork",
+      "Output",
+      "Raw",
+      "summary-stats.tex"
+    )
+  )
 
 ```
 
