@@ -243,7 +243,7 @@ Equivalent to Stata's `codebook`. Its arguments are:
 
 .exercise[
 
-### Exercise `r fa("keyboard")`
+### Exercise 1 `r fa("keyboard")`
 Use the `summary()` function to describe the `census` data frame.
 ]
 
@@ -275,7 +275,7 @@ summary(census)
 
 .exercise[
 
-### Exercise `r fa("keyboard")`
+### Exercise 2 `r fa("keyboard")`
 Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
 ]
 
@@ -291,7 +291,7 @@ Note that we have already summarized continuous and categorical variables when s
 
 .exercise[
 
-### Exercise `r fa("keyboard")`
+### Exercise 3 `r fa("keyboard")`
 Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
 ]
 
@@ -312,7 +312,7 @@ Equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments
 --
 
 .exercise[
-### Exercise `r fa("keyboard")`
+### Exercise 4 `r fa("keyboard")`
 Use the `tabyl()` function to display frequency tables for:
 
 1. The variable `region` in the `census` data frame
@@ -328,19 +328,16 @@ Use the `tabyl()` function to display frequency tables for:
 
 ## One way tabulation
 
---
-
 ```{r}
 census %>% 
   tabyl(region)
 ```
+
 ---
 
 # Summarizing categorical variables
 
 ## Two way tabulation
-
---
 
 ```{r, eval = F}
 census %>%
@@ -428,7 +425,7 @@ datasummary_skim(
 
 .large[
 .exercise[
-### Exercise `r fa("keyboard")`
+### Exercise 5 `r fa("keyboard")`
 
 Use `datasummary_skim()` to create a descriptive statistics table for the `census` data. 
 ]
@@ -496,7 +493,7 @@ datasummary(
 # Exploring datasets with *modelsummary*
 
 .exercise[
-### Exercise `r fa("keyboard")`
+### Exercise 6 `r fa("keyboard")`
 Create a table showing the number of observations, mean, standard deviation, minimum, maximum and median value for all the population, number of deaths, number of marriage and number of divorces in the `census` data.
 ]
 
@@ -899,140 +896,6 @@ quick_xlsx(
 ---
 
 class: inverse, center, middle
-name: aggregating
-
-# Aggregating observations
-
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Aggregating observations
-
-.large[
-- If you want to show aggregated statistics, the function `summarise` is a powerful tool.
-- It is similar to `datasummary` in that it calculates a series of statistics for a data frame.
-- However, it does not have pre-defined statistics, so it requires more manual input.
-- On the other hand, its output is a regular data frame, so it is also useful to create constructed data sets.
-- Its Stata equivalent would be `collapse`
-]
-
----
-
-# Aggregating observations
-
-.command[
-## `summarise(.data, ...,)`
-
-- **data**: the data frame to be summarized
-- **...**: Name-value pairs of summary functions. The name will be the name of the variable in the result.
-]
-
---
-
-The "name-value" pairs mentioned under `...` look like this: `new_variable = function(existing_variable)`, where possible functions include:
-
-- Center: `mean()`, `median()`
-- Spread: `sd()`, `IQR()`, `mad()`
-- Range: `min()`, `max()`, `quantile()`
-- Count: `n()`, `n_distinct()`
-
----
-
-# Aggregating observations
-
-.pull-left[
-```{r}
-region_stats <-
-  census %>%
-  group_by(region) %>%
-  summarise(
-    `Number of States` = n_distinct(state),
-    `Total Population` = sum(pop)
-  )
-```
-]
-
-.pull-right[
-```{r, echo = FALSE, message = FALSE, warning = F}
-census %>%
-  group_by(region) %>%
-  summarise(`Number of States` = n_distinct(state),
-            `Total Population` = sum(pop)) %>%
-  kable
-```
-]
-
----
-
-# Aggregating observations
-
-.exercise[
-### Exercise `r fa("keyboard")`
-Recreate the `region_stats` data set, now including the average and the standard deviation of the population.
-]
-
-`r countdown(minutes = 1, seconds = 30, left = 0, font_size = "2em")`
-
----
-
-# Aggregating observations
-
-```{r, message = F}
-  region_stats <-
-    census %>%
-    group_by(region) %>%
-    summarise(
-      `Number of States` = n_distinct(state),
-      `Total Population` = sum(pop),
-      `Average Population` = mean(pop),
-      `SD of Population` = sd(pop)
-    )
-```
-
-```{r, echo = FALSE, message = F}
-  region_stats %>%
-  kable
-```
-
----
-
-# Aggregating observations
-
-.exercise[
-### Exercise `r fa("keyboard")`
-Use `huxtable` to format and export the object `region_stats`.
-]
-
-`r countdown(minutes = 2, seconds = 00, left = 0, font_size = "2em")`
-
----
-
-# Aggregating observations
-
-```{r}
-  region_stats_table <-
-    region_stats %>%
-    rename(Region = region) %>%
-    as_hux %>%
-    set_header_cols("Region", TRUE)  %>%
-    theme_bright()
-
-  quick_xlsx(
-    region_stats_table,
-     file = here(
-       "DataWork",
-       "Output",
-       "Raw",
-       "region-stats.xlsx"
-     )
-  )
-```
-
----
-
-class: inverse, center, middle
 name: regressing
 
 # Ok, can we run some regressions now?!
@@ -1064,7 +927,7 @@ Formulas can take three specifications:
 # Running regressions
 
 .exercise[
-### Exercise `r fa("keyboard")`
+### Exercise 7 `r fa("keyboard")`
 Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages.
 ]
 
@@ -1083,7 +946,7 @@ Using the `census` data, run a regression of the number of divorces on populatio
 # Running regressions
 
 .exercise[
-### Exercise `r fa("keyboard")`
+### Exercise 8 `r fa("keyboard")`
 Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages.
 ]
 
@@ -1156,7 +1019,7 @@ Formulas for `feols` are more complex, and take the following format:
 # Running regressions
 
 .exercise[
-### Exercise `r fa("keyboard")`
+### Exercise 9 `r fa("keyboard")`
 Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages controlling for region fixed effects.
 ]
 
@@ -1178,7 +1041,7 @@ feols(
 
 
 .exercise[
-### Exercise `r fa("keyboard")`
+### Exercise 10 `r fa("keyboard")`
 Using the `census` data, run a regression of divorce on population, urban population and number of marriages controlling for region fixed effects.
 ]
 
@@ -1302,6 +1165,20 @@ huxreg(
 
 ---
 
+# Exporting regression tables
+
+.exercise[
+### Exercise 11 `r fa("keyboard")`
+
+Export a regression table with the results of your estimations using `lm` and `feols`:
+
+- Use `huxreg` to combine `reg1` and `reg2`.
+- Use `quick_xlsx` or `quick_latex` to export the output of `huxreg` to your preferred format.
+]
+
+
+---
+
 
 
 # References and recommendations
@@ -1318,6 +1195,12 @@ huxreg(
 
   * Using `huxtable` for regression tables:
   https://cran.r-project.org/web/packages/huxtable/vignettes/huxreg.html
+  
+  * Sample code for tables in R:
+  https://github.com/RRMaximiliano/r-latex-tables-sum-stats
+  
+  * More sample code for tables in R:
+  https://evalsp20.classes.andrewheiss.com/reference/regtables/
 
   * Johns Hopkins Exploratory Data Analysis at Coursera:
   https://www.coursera.org/learn/exploratory-data-analysis
@@ -1339,3 +1222,144 @@ huxreg(
 class: inverse, center, middle
 
 # Thank you!
+
+---
+
+class: inverse, center, middle
+
+# Appendix
+
+---
+
+class: inverse, center, middle
+name: aggregating
+
+# Aggregating observations
+
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Aggregating observations
+
+.large[
+- If you want to show aggregated statistics, the function `summarise` is a powerful tool.
+- It is similar to `datasummary` in that it calculates a series of statistics for a data frame.
+- However, it does not have pre-defined statistics, so it requires more manual input.
+- On the other hand, its output is a regular data frame, so it is also useful to create constructed data sets.
+- Its Stata equivalent would be `collapse`
+]
+
+---
+
+# Aggregating observations
+
+.command[
+## `summarise(.data, ...,)`
+
+- **data**: the data frame to be summarized
+- **...**: Name-value pairs of summary functions. The name will be the name of the variable in the result.
+]
+
+--
+
+The "name-value" pairs mentioned under `...` look like this: `new_variable = function(existing_variable)`, where possible functions include:
+
+- Center: `mean()`, `median()`
+- Spread: `sd()`, `IQR()`, `mad()`
+- Range: `min()`, `max()`, `quantile()`
+- Count: `n()`, `n_distinct()`
+
+---
+
+# Aggregating observations
+
+.pull-left[
+```{r}
+region_stats <-
+  census %>%
+  group_by(region) %>%
+  summarise(
+    `Number of States` = n_distinct(state),
+    `Total Population` = sum(pop)
+  )
+```
+]
+
+.pull-right[
+```{r, echo = FALSE, message = FALSE, warning = F}
+census %>%
+  group_by(region) %>%
+  summarise(`Number of States` = n_distinct(state),
+            `Total Population` = sum(pop)) %>%
+  kable
+```
+]
+
+---
+
+# Aggregating observations
+
+.exercise[
+### Exercise 12 `r fa("keyboard")`
+Recreate the `region_stats` data set, now including the average and the standard deviation of the population.
+]
+
+`r countdown(minutes = 1, seconds = 30, left = 0, font_size = "2em")`
+
+---
+
+# Aggregating observations
+
+```{r, message = F}
+  region_stats <-
+    census %>%
+    group_by(region) %>%
+    summarise(
+      `Number of States` = n_distinct(state),
+      `Total Population` = sum(pop),
+      `Average Population` = mean(pop),
+      `SD of Population` = sd(pop)
+    )
+```
+
+```{r, echo = FALSE, message = F}
+  region_stats %>%
+  kable
+```
+
+---
+
+# Aggregating observations
+
+.exercise[
+### Exercise 13 `r fa("keyboard")`
+Use `huxtable` to format and export the object `region_stats`.
+]
+
+`r countdown(minutes = 2, seconds = 00, left = 0, font_size = "2em")`
+
+---
+
+# Aggregating observations
+
+```{r}
+  region_stats_table <-
+    region_stats %>%
+    rename(Region = region) %>%
+    as_hux %>%
+    set_header_cols("Region", TRUE)  %>%
+    theme_bright()
+
+  quick_xlsx(
+    region_stats_table,
+     file = here(
+       "DataWork",
+       "Output",
+       "Raw",
+       "region-stats.xlsx"
+     )
+  )
+```
+
