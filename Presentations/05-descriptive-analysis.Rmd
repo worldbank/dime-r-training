@@ -333,6 +333,10 @@ census %>%
   tabyl(region)
 ```
 
+???
+
+Note that this and other tables that we will create during this session look more polished in the presentation than when you print them to the console. That's because the commands have a pre-defined printing option for RMArkdown, which was used to create this presentation
+
 ---
 
 # Summarizing categorical variables
