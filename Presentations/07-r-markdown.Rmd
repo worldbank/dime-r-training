@@ -928,3 +928,11 @@ output:
 - [An introduction to Stata Markdown](https://osf.io/nam2d/)
 - [Stargazer official manual](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf)
 - [Introduction to Huxtable](https://cran.r-project.org/web/packages/huxtable/vignettes/huxtable.html)
+
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("07-r-markdown.html", output = "07-r-markdown.pdf")
+
+```
