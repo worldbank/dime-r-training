@@ -1,8 +1,8 @@
 ---
-title: "Session 7: Introduction to R Markdown"
+title: "Session 6: Introduction to R Markdown"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> May 2022"
+author: "Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2023"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css",
@@ -69,6 +69,55 @@ xaringanExtra::use_logo(
 }
 ```
 
+# Preamble
+
+- Make sure you have the packages `tinytex`, `stargazer`, and `huxtable` installed
+
+```{r, eval=FALSE}
+# Packages we used for other sessions, install only if needed
+install.packages("dplyr")
+install.packages("huxtable")
+
+# New packages
+install.packages("tinytex")
+install.packages("stargazer")
+
+# No need to load the packages for now
+```
+
+---
+
+# Preamble <font size="5">(`r fa("clock")` 5 min)</font>
+
+- Use `tinytex` to install LaTeX
+- If you're using a WB computer:
+
+1. Download this file: https://osf.io/sehzg
+1. Run `tinytex:::install_prebuilt("location/to/file.zip")` (notice the triple colon)
+
+- If you're not:
+
+1. Run `tinytex::install_tinytex()`
+
+---
+
+# Preamble
+
+This will take a while. Leave it running
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/r-markdown/installing-tinytex.png")
+```
+
+---
+
+# Preamble
+
+- LaTeX can be unpredictable in WB computers. It's possible that this didn't work
+- Don't worry for now, just follow the approppriate instructions we'll specify in the exercises
+
+---
+
 # Introduction
 
 - This is an **introduction** to R Markdown
@@ -76,27 +125,6 @@ xaringanExtra::use_logo(
   1. How to write and knit (output) R Markdown documents
   2. How to format text and R code in R Markdown documents
   3. How to include regression tables in R Markdown documents
-
----
-
-# Introduction
-
-- Make sure you have the packages `tinytex`, `stargazer`, and `huxtable` installed
-- Use `tinytex` to install the LaTeX distribution `tinytex`
-
-```{r, eval=FALSE}
-# Installing the packages
-install.packages("tinytex")
-install.packages("stargazer")
-
-# Loading (you don't have to load tinytex)
-library(stargazer)
-library(huxtable)
-library(dplyr)
-
-# Installing the tinytex LaTeX distribution
-tinytex::install_tinytex()
-```
 
 ---
 
@@ -171,11 +199,12 @@ name: knitting
 # Knitting R Markdown documents
 
 .exercise[
-## Exercise 1: Knit an R Markdown document
+## Exercise 1: Knit an R Markdown document <font size="5">(`r fa("clock")` 2 min, leave it running)</font>
 
-1. Go to [our course repository](https://osf.io/86g3b/)
-2. In the files panel, download `R for Stata Users - 2022 May` > `scripts` > `r-markdown-template.Rmd`
+1. Go to the course repository: https://osf.io/86g3b/
+2. In the files panel, download `R for Stata Users - 2023 March` > `scripts` > `r-markdown-template.Rmd`
 3. Open this file in RStudio
+  + If the installation of tinytex didn't work, change line 2 to: `output: html_document`
 4. Click on `Knit`. If RStudio asks you to update some packages, select `Yes`
 ]
 
@@ -183,20 +212,13 @@ name: knitting
 
 # Knitting R Markdown documents
 
-```{r echo = FALSE, out.width = "40%"}
-knitr::include_graphics("img/r-markdown/rendered-pdf.png")
+Note that this might take a while
+
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/r-markdown/rendering.png")
 ```
 
----
-
-# Knitting R Markdown documents
-
-- Knitting a file to PDF means that RStudio created a PDF file from an R Markdown file
-- You'll now see this PDF file in the folder where you saved `r-markdown-template.Rmd`
-
-```{r echo = FALSE, out.width = "80%"}
-knitr::include_graphics("img/r-markdown/rendered-docs.png")
-```
+We'll continue with markdown syntax while it finishes
 
 ---
 
@@ -298,6 +320,19 @@ knitr::include_graphics("img/r-markdown/markdown-tables2.png")
 
 ---
 
+# Exercise 1 results
+
+- If exercise 1 worked, you'll now see this PDF file (or HTML) in the folder where you saved `r-markdown-template.Rmd`
+
+```{r echo = FALSE, out.width = "50%"}
+knitr::include_graphics("img/r-markdown/rendered-docs.png")
+```
+
+- If it's still running, let it run until it finishes
+- If it failed, try again after changing `output: html_document` in line 2
+
+---
+
 class: inverse, center, middle
 name: r-code
 
@@ -332,14 +367,27 @@ knitr::include_graphics("img/r-markdown/insert-new-r-fenced-block.png")
 # Including R code
 
 .exercise[
-## Exercise 2: Include the summary of a variable
+## Exercise 2: Include the summary of a variable <font size="5">(`r fa("clock")` 2 min)</font>
 
-1. Create a header named `R Code` at the bottom of `markdown-template.Rmd`
+1. Create a header named `R Code` at the bottom of `r-markdown-template.Rmd`
 2. Create a new fenced code block where you load the dataset `mtcars`
   + `mtcars` is a built-in dataset. Load it with: `data(mtcars)`
 3. Inside the same block, get the summary of the variable `mpg` with `summary(mtcars$mpg)`
 4. Knit. You'll have to close the PDF document if you have it opened
 ]
+
+---
+
+# Including R code
+
+````
+## R Code
+
+```{r}`r ''`
+data(mtcars)
+summary(mtcars$mpg)
+```
+````
 
 ---
 
@@ -356,7 +404,22 @@ knitr::include_graphics("img/r-markdown/r-markdown-r-code.png")
 - Note that the output echoes both the code and the output
 - What if we wanted to include the output but not the code?
 - We use the argument `echo = FALSE` in the fenced code block for that
-- Code block arguments are separated by commas inside the curly brackets, as in:
+- Code block arguments are separated by commas inside the curly brackets, as in: `{r, echo = FALSE}`
+
+---
+
+# Including R code
+
+.exercise[
+## Exercise 3: Omit the code when knitting R code <font size="5">(`r fa("clock")` 1 min)</font>
+
+1. Add the option `echo = FALSE` to the fenced code block created in exercise 2
+2. Knit the document and see how it's different now
+]
+
+---
+
+# Including R code
 
 ````
 ```{r, echo = FALSE}`r ''`
@@ -364,17 +427,6 @@ data(mtcars)
 summary(mtcars$mpg)
 ```
 ````
-
----
-
-# Including R code
-
-.exercise[
-## Exercise 3: Omit the code when knitting R code.
-
-1. Add the option `echo = FALSE` to the fenced code block created in exercise 2
-2. Knit the document and see how it's different now
-]
 
 ---
 
@@ -427,10 +479,10 @@ name: r-plots
 # Including R plots
 
 .exercise[
-## Exercise 4: Include an R plot in your document.
+## Exercise 4: Include an R plot in your document <font size="5">(`r fa("clock")` 2 min)</font>
 
 1. Create a header named `R Plots`
-2. Create a new fenced code block with the option `echo` set to `FALSE`
+2. Create a new fenced code block with the option `echo = FALSE`
 3. Add the following code inside the new block:
 
 ```{r, eval = FALSE}
@@ -441,6 +493,22 @@ plot(mtcars$wt,
      ylab = "Miles per gallon")
 ```
 ]
+
+---
+
+# Including R plots
+
+````
+# R plots
+
+```{r, echo = FALSE}`r ''`
+plot(mtcars$wt,
+     mtcars$mpg,
+     main = "Plot example",
+     xlab = "Car weight",
+     ylab = "Miles per gallon")
+```
+````
 
 ---
 
@@ -481,14 +549,26 @@ The mean of mpg is `r mean(mtcars$mpg)`.
 # Including code inline
 
 .exercise[
-## Exercise 5
+## Exercise 5 <font size="5">(`r fa("clock")` 2 min)</font>
 
 1. Create a new header named `Inline code` in `markdown-template.Rmd`
 2. Add an unordered list with the following text and include inline R code to render the corresponding numbers in each case
-  + The number of elements in mtcars is:
-  + The mean of weight is:
-  + The standard deviation is:
+  + The number of elements in mtcars is: (use function `nrow(mtcars)`)
+  + The mean of weight is: (use function `mean(mtcars$wt)`)
+  + The standard deviation is: (use function `sd(mtcars$wt)`)
 ]
+
+---
+
+# Including code inline
+
+~~~
+# Inline code
+
+- The number of elements in mtcars is `r knitr::inline_expr("nrow(mtcars)")`
+- The mean of weight is `r knitr::inline_expr("mean(mtcars$wt)")`
+- The standard deviation is `r knitr::inline_expr("sd(mtcars$wt)")`
+~~~
 
 ---
 
@@ -504,9 +584,39 @@ knitr::include_graphics("img/r-markdown/r-markdown-inline-code.png")
 
 You can use the function `round()` to control the number of decimals displayed.
 
+~~~
+# Inline code
+
+- The number of elements in mtcars is `r knitr::inline_expr("nrow(mtcars)")`
+- The mean of weight is `r knitr::inline_expr("round(mean(mtcars$wt), 1)")`
+- The standard deviation is `r knitr::inline_expr("round(sd(mtcars$wt), 2)")`
+~~~
+
+---
+
+# Including code inline
+
+You can use the function `round()` to control the number of decimals displayed.
+
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/r-markdown/r-markdown-inline-code-rounded.png")
 ```
+
+---
+
+# Including code inline
+
+You can also combine R inline code with the markdown syntax for tables to produce statistics tables.
+
+~~~
+# Inline code in tables
+
+|Column: weight| Value                       |
+|--------------|-----------------------------|
+|N             |`r knitr::inline_expr("nrow(mtcars)")`             |
+|Mean          |`r knitr::inline_expr("round(mean(mtcars$wt), 1)")`|
+|SD            |`r knitr::inline_expr("round(sd(mtcars$wt), 2)")`  |
+~~~
 
 ---
 
@@ -540,7 +650,27 @@ name: regression-outputs
 
 - First, we'll start with the function `stargazer()` from the package `stargazer`
 - The first argument of `stargazer()` is a regression result
-- We also include the argument `header = FALSE` to omit printing stargazer metadata
+- We also include the arguments `echo = FALSE` and `message = FALSE` in the code block to omit printing the code and messages that appear when loading stargazer
+- In `stargazer()` we include `header = FALSE` to omit printing stargazer metadata
+
+**Important:** When using external packages in RMarkdown, you need to have them loaded in a code block regardless of if they're already loaded in your current session. Libraries have to load again for each knit.
+
+---
+
+# Including regression outputs - Stargazer
+
+````
+```{r, echo = FALSE, message = FALSE, results = "asis"}`r ''`
+# Loading stargazer
+library(stargazer)
+
+# Creating a simple regression
+model <- lm(mpg ~ cyl + hp, data = mtcars)
+
+# Printing it with stargazer
+stargazer(model, header = FALSE) # add: type = "html" if knitting to HTML
+```
+````
 
 ---
 
@@ -555,11 +685,13 @@ knitr::include_graphics("img/r-markdown/r-markdown-stargazer.png")
 # Including regression outputs - Stargazer
 
 .exercise[
-## Exercise 6
+## Exercise 6 <font size="5">(`r fa("clock")` 3 min)</font>
 
 1. Create a new header named `Regressions - Stargazer` in `r-markdown-template.Rmd`
-2. Add a regression of the variable `mpg` on `wt` and `hp`
-3. Use stargazer's arguments `title = "your_title"` and `omit = c("Constant")` to customize your table
+1. Add a new code block with the arguments `echo = FALSE` and `results = "asis"`
+1. Load stargazer in the code block
+1. Add a regression of the variable `mpg` on `wt` and `hp`
+1. Use stargazer's arguments `header = FALSE`, `title = "your_title"` and `omit = c("Constant")` to customize your table
   + If your output is HTML instead of PDF, include the argument `type = "html"` in `stargazer()`
 ]
 
@@ -568,7 +700,10 @@ knitr::include_graphics("img/r-markdown/r-markdown-stargazer.png")
 # Including regression outputs - Stargazer
 
 ````
-```{r, echo = FALSE, results = "asis"}`r ''`
+# Regressions - Stargazer
+
+```{r, echo = FALSE, message = FALSE, results = "asis"}`r ''`
+library(stargazer)
 model <- lm(mpg ~ wt + hp, data = mtcars)
 stargazer(model,
           header = FALSE,
@@ -597,13 +732,29 @@ knitr::include_graphics("img/r-markdown/stargazer-exercise.png")
 
 # Including regression outputs - Huxtable
 
-- Conveniently, the library `huxtable` has a function that handles that installation for us:
+- Conveniently, the library `huxtable` has a function that handles that installation for us (needed only if you're knitting to PDF)
 
 ```{r, eval = FALSE}
-install_latex_dependencies()
+# Only if you're knitting to PDF:
+huxtable::install_latex_dependencies()
 ```
 
 - Once this finishes, we can use `huxtable` with R Markdown
+
+---
+
+# Including regression outputs - Huxtable
+
+- For regressions, we use the function `huxreg()` as in the example below
+- Note that the option `results = "asis"` is not used with `huxtable`
+
+````
+```{r, echo = FALSE, warning = FALSE}`r ''`
+library(huxtable)
+model <- lm(mpg ~ wt + hp, data = mtcars)
+huxreg(model)
+```
+````
 
 ---
 
@@ -621,11 +772,13 @@ knitr::include_graphics("img/r-markdown/rmarkdown-huxtable-regression.png")
 # Including regression outputs - Huxtable
 
 .exercise[
-## Exercise 7: Now with Huxtable
+## Exercise 7: Now with Huxtable <font size="5">(`r fa("clock")` 2 min)</font>
 
-1. Create a new header named `Regressions - Huxtable` in `markdown-template.Rmd`
-2. Add a regression of the variable `mpg` on `wt` and `hp` using `huxreg()`
-3. Use huxreg's argument `omit_coefs = c("(Intercept)")` to customize your table
+1. Create a new header named `Regressions - Huxtable` in `r-markdown-template.Rmd`
+1. Add a new code block with the argument `echo = FALSE`
+1. Load huxtable in the code block
+1. Add a regression table of the variable `mpg` on `wt` and `hp` using `huxreg()`
+1. Use huxreg's argument `omit_coefs = c("(Intercept)")` to customize your table
 ]
 
 ---
@@ -633,7 +786,10 @@ knitr::include_graphics("img/r-markdown/rmarkdown-huxtable-regression.png")
 # Including regression outputs - Huxtable
 
 ````
-```{r, echo = FALSE}`r ''`
+# Regressions - Huxtable
+
+```{r, echo = FALSE, warning = FALSE}`r ''`
+library(huxtable)
 model <- lm(mpg ~ wt + hp, data = mtcars)
 huxreg(model,
        omit_coefs = c("(Intercept)"))
@@ -655,7 +811,9 @@ knitr::include_graphics("img/r-markdown/huxtable-exercise.png")
 - If you want to include a title in your regression, use the command `set_caption()` with the result of `huxreg()` as argument
 
 ````
-```{r, echo = FALSE}`r ''`
+```{r, echo = FALSE, warning = FALSE}`r ''`
+library(huxtable)
+library(dplyr)
 model <- lm(mpg ~ wt + hp, data = mtcars)
 table <- huxreg(model,
        omit_coefs = c("(Intercept)"))
@@ -749,7 +907,7 @@ knitr::include_graphics("img/r-markdown/error.png")
 
 ---
 
-# Annex - Including a LaTeX preamble in a PDF-knitted document
+# Annex - Including a LaTeX preamble in a PDF doc
 
 - If you want to further customize a PDF document in R Markdown and you're familiar with LaTeX, you can include a LaTeX preamble that will be executed when you knit your document
 - To enable this feature, replace `output: pdf_document` with the following code in the section enclosed by the three dashes (`---`) at the beginning of your document
@@ -770,3 +928,11 @@ output:
 - [An introduction to Stata Markdown](https://osf.io/nam2d/)
 - [Stargazer official manual](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf)
 - [Introduction to Huxtable](https://cran.r-project.org/web/packages/huxtable/vignettes/huxtable.html)
+
+---
+exclude: true
+
+```{R, pdfs, include = F, eval = F}
+pagedown::chrome_print("07-r-markdown.html", output = "07-r-markdown.pdf")
+
+```

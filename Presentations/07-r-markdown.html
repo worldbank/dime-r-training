@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Session 7: Introduction to R Markdown</title>
+    <title>Session 6: Introduction to R Markdown</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
+    <meta name="author" content="Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -25,10 +25,18 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Session 7: Introduction to R Markdown
+.title[
+# Session 6: Introduction to R Markdown
+]
+.subtitle[
 ## R for Stata Users
-### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> May 2022
+]
+.author[
+### Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
+]
+.date[
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> March 2023
+]
 
 ---
 
@@ -47,6 +55,54 @@ class: center, middle, inverse, title-slide
 }
 &lt;/style&gt;
 
+# Preamble
+
+- Make sure you have the packages `tinytex`, `stargazer`, and `huxtable` installed
+
+
+```r
+# Packages we used for other sessions, install only if needed
+install.packages("dplyr")
+install.packages("huxtable")
+
+# New packages
+install.packages("tinytex")
+install.packages("stargazer")
+
+# No need to load the packages for now
+```
+
+---
+
+# Preamble &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 5 min)&lt;/font&gt;
+
+- Use `tinytex` to install LaTeX
+- If you're using a WB computer:
+
+1. Download this file: https://osf.io/sehzg
+1. Run `tinytex:::install_prebuilt("location/to/file.zip")` (notice the triple colon)
+
+- If you're not:
+
+1. Run `tinytex::install_tinytex()`
+
+---
+
+# Preamble
+
+This will take a while. Leave it running
+
+&lt;img src="img/r-markdown/installing-tinytex.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Preamble
+
+- LaTeX can be unpredictable in WB computers. It's possible that this didn't work
+- Don't worry for now, just follow the approppriate instructions we'll specify in the exercises
+
+---
+
 # Introduction
 
 - This is an **introduction** to R Markdown
@@ -54,28 +110,6 @@ class: center, middle, inverse, title-slide
   1. How to write and knit (output) R Markdown documents
   2. How to format text and R code in R Markdown documents
   3. How to include regression tables in R Markdown documents
-
----
-
-# Introduction
-
-- Make sure you have the packages `tinytex`, `stargazer`, and `huxtable` installed
-- Use `tinytex` to install the LaTeX distribution `tinytex`
-
-
-```r
-# Installing the packages
-install.packages("tinytex")
-install.packages("stargazer")
-
-# Loading (you don't have to load tinytex)
-library(stargazer)
-library(huxtable)
-library(dplyr)
-
-# Installing the tinytex LaTeX distribution
-tinytex::install_tinytex()
-```
 
 ---
 
@@ -148,11 +182,12 @@ name: knitting
 # Knitting R Markdown documents
 
 .exercise[
-## Exercise 1: Knit an R Markdown document
+## Exercise 1: Knit an R Markdown document &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min, leave it running)&lt;/font&gt;
 
-1. Go to [our course repository](https://osf.io/86g3b/)
-2. In the files panel, download `R for Stata Users - 2022 May` &gt; `scripts` &gt; `r-markdown-template.Rmd`
+1. Go to the course repository: https://osf.io/86g3b/
+2. In the files panel, download `R for Stata Users - 2023 March` &gt; `scripts` &gt; `r-markdown-template.Rmd`
 3. Open this file in RStudio
+  + If the installation of tinytex didn't work, change line 2 to: `output: html_document`
 4. Click on `Knit`. If RStudio asks you to update some packages, select `Yes`
 ]
 
@@ -160,16 +195,11 @@ name: knitting
 
 # Knitting R Markdown documents
 
-&lt;img src="img/r-markdown/rendered-pdf.png" width="40%" style="display: block; margin: auto;" /&gt;
+Note that this might take a while
 
----
+&lt;img src="img/r-markdown/rendering.png" width="70%" style="display: block; margin: auto;" /&gt;
 
-# Knitting R Markdown documents
-
-- Knitting a file to PDF means that RStudio created a PDF file from an R Markdown file
-- You'll now see this PDF file in the folder where you saved `r-markdown-template.Rmd`
-
-&lt;img src="img/r-markdown/rendered-docs.png" width="80%" style="display: block; margin: auto;" /&gt;
+We'll continue with markdown syntax while it finishes
 
 ---
 
@@ -255,6 +285,17 @@ name: markdown
 
 ---
 
+# Exercise 1 results
+
+- If exercise 1 worked, you'll now see this PDF file (or HTML) in the folder where you saved `r-markdown-template.Rmd`
+
+&lt;img src="img/r-markdown/rendered-docs.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+- If it's still running, let it run until it finishes
+- If it failed, try again after changing `output: html_document` in line 2
+
+---
+
 class: inverse, center, middle
 name: r-code
 
@@ -287,14 +328,27 @@ name: r-code
 # Including R code
 
 .exercise[
-## Exercise 2: Include the summary of a variable
+## Exercise 2: Include the summary of a variable &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
 
-1. Create a header named `R Code` at the bottom of `markdown-template.Rmd`
+1. Create a header named `R Code` at the bottom of `r-markdown-template.Rmd`
 2. Create a new fenced code block where you load the dataset `mtcars`
   + `mtcars` is a built-in dataset. Load it with: `data(mtcars)`
 3. Inside the same block, get the summary of the variable `mpg` with `summary(mtcars$mpg)`
 4. Knit. You'll have to close the PDF document if you have it opened
 ]
+
+---
+
+# Including R code
+
+````
+## R Code
+
+```{r}
+data(mtcars)
+summary(mtcars$mpg)
+```
+````
 
 ---
 
@@ -309,7 +363,22 @@ name: r-code
 - Note that the output echoes both the code and the output
 - What if we wanted to include the output but not the code?
 - We use the argument `echo = FALSE` in the fenced code block for that
-- Code block arguments are separated by commas inside the curly brackets, as in:
+- Code block arguments are separated by commas inside the curly brackets, as in: `{r, echo = FALSE}`
+
+---
+
+# Including R code
+
+.exercise[
+## Exercise 3: Omit the code when knitting R code &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt;
+
+1. Add the option `echo = FALSE` to the fenced code block created in exercise 2
+2. Knit the document and see how it's different now
+]
+
+---
+
+# Including R code
 
 ````
 ```{r, echo = FALSE}
@@ -317,17 +386,6 @@ data(mtcars)
 summary(mtcars$mpg)
 ```
 ````
-
----
-
-# Including R code
-
-.exercise[
-## Exercise 3: Omit the code when knitting R code.
-
-1. Add the option `echo = FALSE` to the fenced code block created in exercise 2
-2. Knit the document and see how it's different now
-]
 
 ---
 
@@ -376,10 +434,10 @@ name: r-plots
 # Including R plots
 
 .exercise[
-## Exercise 4: Include an R plot in your document.
+## Exercise 4: Include an R plot in your document &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
 
 1. Create a header named `R Plots`
-2. Create a new fenced code block with the option `echo` set to `FALSE`
+2. Create a new fenced code block with the option `echo = FALSE`
 3. Add the following code inside the new block:
 
 
@@ -391,6 +449,22 @@ plot(mtcars$wt,
      ylab = "Miles per gallon")
 ```
 ]
+
+---
+
+# Including R plots
+
+````
+# R plots
+
+```{r, echo = FALSE}
+plot(mtcars$wt,
+     mtcars$mpg,
+     main = "Plot example",
+     xlab = "Car weight",
+     ylab = "Miles per gallon")
+```
+````
 
 ---
 
@@ -429,14 +503,26 @@ The mean of mpg is 20.090625.
 # Including code inline
 
 .exercise[
-## Exercise 5
+## Exercise 5 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
 
 1. Create a new header named `Inline code` in `markdown-template.Rmd`
 2. Add an unordered list with the following text and include inline R code to render the corresponding numbers in each case
-  + The number of elements in mtcars is:
-  + The mean of weight is:
-  + The standard deviation is:
+  + The number of elements in mtcars is: (use function `nrow(mtcars)`)
+  + The mean of weight is: (use function `mean(mtcars$wt)`)
+  + The standard deviation is: (use function `sd(mtcars$wt)`)
 ]
+
+---
+
+# Including code inline
+
+~~~
+# Inline code
+
+- The number of elements in mtcars is `r nrow(mtcars)`
+- The mean of weight is `r mean(mtcars$wt)`
+- The standard deviation is `r sd(mtcars$wt)`
+~~~
 
 ---
 
@@ -450,7 +536,37 @@ The mean of mpg is 20.090625.
 
 You can use the function `round()` to control the number of decimals displayed.
 
+~~~
+# Inline code
+
+- The number of elements in mtcars is `r nrow(mtcars)`
+- The mean of weight is `r round(mean(mtcars$wt), 1)`
+- The standard deviation is `r round(sd(mtcars$wt), 2)`
+~~~
+
+---
+
+# Including code inline
+
+You can use the function `round()` to control the number of decimals displayed.
+
 &lt;img src="img/r-markdown/r-markdown-inline-code-rounded.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Including code inline
+
+You can also combine R inline code with the markdown syntax for tables to produce statistics tables.
+
+~~~
+# Inline code in tables
+
+|Column: weight| Value                       |
+|--------------|-----------------------------|
+|N             |`r nrow(mtcars)`             |
+|Mean          |`r round(mean(mtcars$wt), 1)`|
+|SD            |`r round(sd(mtcars$wt), 2)`  |
+~~~
 
 ---
 
@@ -482,7 +598,27 @@ name: regression-outputs
 
 - First, we'll start with the function `stargazer()` from the package `stargazer`
 - The first argument of `stargazer()` is a regression result
-- We also include the argument `header = FALSE` to omit printing stargazer metadata
+- We also include the arguments `echo = FALSE` and `message = FALSE` in the code block to omit printing the code and messages that appear when loading stargazer
+- In `stargazer()` we include `header = FALSE` to omit printing stargazer metadata
+
+**Important:** When using external packages in RMarkdown, you need to have them loaded in a code block regardless of if they're already loaded in your current session. Libraries have to load again for each knit.
+
+---
+
+# Including regression outputs - Stargazer
+
+````
+```{r, echo = FALSE, message = FALSE, results = "asis"}
+# Loading stargazer
+library(stargazer)
+
+# Creating a simple regression
+model &lt;- lm(mpg ~ cyl + hp, data = mtcars)
+
+# Printing it with stargazer
+stargazer(model, header = FALSE) # add: type = "html" if knitting to HTML
+```
+````
 
 ---
 
@@ -495,11 +631,13 @@ name: regression-outputs
 # Including regression outputs - Stargazer
 
 .exercise[
-## Exercise 6
+## Exercise 6 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt;
 
 1. Create a new header named `Regressions - Stargazer` in `r-markdown-template.Rmd`
-2. Add a regression of the variable `mpg` on `wt` and `hp`
-3. Use stargazer's arguments `title = "your_title"` and `omit = c("Constant")` to customize your table
+1. Add a new code block with the arguments `echo = FALSE` and `results = "asis"`
+1. Load stargazer in the code block
+1. Add a regression of the variable `mpg` on `wt` and `hp`
+1. Use stargazer's arguments `header = FALSE`, `title = "your_title"` and `omit = c("Constant")` to customize your table
   + If your output is HTML instead of PDF, include the argument `type = "html"` in `stargazer()`
 ]
 
@@ -508,7 +646,10 @@ name: regression-outputs
 # Including regression outputs - Stargazer
 
 ````
-```{r, echo = FALSE, results = "asis"}
+# Regressions - Stargazer
+
+```{r, echo = FALSE, message = FALSE, results = "asis"}
+library(stargazer)
 model &lt;- lm(mpg ~ wt + hp, data = mtcars)
 stargazer(model,
           header = FALSE,
@@ -535,14 +676,30 @@ stargazer(model,
 
 # Including regression outputs - Huxtable
 
-- Conveniently, the library `huxtable` has a function that handles that installation for us:
+- Conveniently, the library `huxtable` has a function that handles that installation for us (needed only if you're knitting to PDF)
 
 
 ```r
-install_latex_dependencies()
+# Only if you're knitting to PDF:
+huxtable::install_latex_dependencies()
 ```
 
 - Once this finishes, we can use `huxtable` with R Markdown
+
+---
+
+# Including regression outputs - Huxtable
+
+- For regressions, we use the function `huxreg()` as in the example below
+- Note that the option `results = "asis"` is not used with `huxtable`
+
+````
+```{r, echo = FALSE, warning = FALSE}
+library(huxtable)
+model &lt;- lm(mpg ~ wt + hp, data = mtcars)
+huxreg(model)
+```
+````
 
 ---
 
@@ -558,11 +715,13 @@ install_latex_dependencies()
 # Including regression outputs - Huxtable
 
 .exercise[
-## Exercise 7: Now with Huxtable
+## Exercise 7: Now with Huxtable &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
 
-1. Create a new header named `Regressions - Huxtable` in `markdown-template.Rmd`
-2. Add a regression of the variable `mpg` on `wt` and `hp` using `huxreg()`
-3. Use huxreg's argument `omit_coefs = c("(Intercept)")` to customize your table
+1. Create a new header named `Regressions - Huxtable` in `r-markdown-template.Rmd`
+1. Add a new code block with the argument `echo = FALSE`
+1. Load huxtable in the code block
+1. Add a regression table of the variable `mpg` on `wt` and `hp` using `huxreg()`
+1. Use huxreg's argument `omit_coefs = c("(Intercept)")` to customize your table
 ]
 
 ---
@@ -570,7 +729,10 @@ install_latex_dependencies()
 # Including regression outputs - Huxtable
 
 ````
-```{r, echo = FALSE}
+# Regressions - Huxtable
+
+```{r, echo = FALSE, warning = FALSE}
+library(huxtable)
 model &lt;- lm(mpg ~ wt + hp, data = mtcars)
 huxreg(model,
        omit_coefs = c("(Intercept)"))
@@ -590,7 +752,9 @@ huxreg(model,
 - If you want to include a title in your regression, use the command `set_caption()` with the result of `huxreg()` as argument
 
 ````
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
+library(huxtable)
+library(dplyr)
 model &lt;- lm(mpg ~ wt + hp, data = mtcars)
 table &lt;- huxreg(model,
        omit_coefs = c("(Intercept)"))
@@ -680,7 +844,7 @@ summary(mtcars$mpg)
 
 ---
 
-# Annex - Including a LaTeX preamble in a PDF-knitted document
+# Annex - Including a LaTeX preamble in a PDF doc
 
 - If you want to further customize a PDF document in R Markdown and you're familiar with LaTeX, you can include a LaTeX preamble that will be executed when you knit your document
 - To enable this feature, replace `output: pdf_document` with the following code in the section enclosed by the three dashes (`---`) at the beginning of your document
@@ -749,6 +913,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

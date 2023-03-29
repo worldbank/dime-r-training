@@ -1,5 +1,5 @@
 ---
-output: pdf_document
+output: pdf_document #change to html_document if Latex is not installed
 title: Markdown template
 ---
 
@@ -68,3 +68,66 @@ The width of the cells can vary in the markdown text and the output will look th
 |---|-----------|
 |Row 1   |Row 1     |
 |Row 2      |Row 2|
+
+<!-- Exercise 1 -->
+<!-- No code needed, just change line 2 if necessary -->
+
+<!-- Exercise 2 -->
+
+# R Code
+
+```{r}
+data(mtcars)
+summary(mtcars$mpg)
+```
+
+<!-- Exercise 3 -->
+
+```{r, echo = FALSE}
+data(mtcars)
+summary(mtcars$mpg)
+```
+
+<!-- Exercise 4 -->
+
+# R plots
+
+```{r, echo = FALSE}
+plot(mtcars$wt,
+     mtcars$mpg,
+     main = "Plot example",
+     xlab = "Car weight",
+     ylab = "Miles per gallon")
+```
+
+<!-- Exercise 5 -->
+<!-- Note that inline code doesn't go in code blocks -->
+
+# Inline code
+- The number of elements in mtcars is `r nrow(mtcars)`
+- The mean of weight is `r mean(mtcars$wt)`
+- The standard deviation is `r sd(mtcars$wt)`
+
+<!-- Exercise 6 -->
+
+# Regressions - Stargazer
+
+```{r, echo = FALSE, message = FALSE, results = "asis"}
+library(stargazer)
+model <- lm(mpg ~ wt + hp, data = mtcars)
+stargazer(model,
+          header = FALSE,
+          title = "Best table ever",
+          omit = c("Constant"))
+```
+
+<!-- Exercise 7 -->
+
+# Regressions - Huxtable
+
+```{r, echo = FALSE, warning = FALSE}
+library(huxtable)
+model <- lm(mpg ~ wt + hp, data = mtcars)
+huxreg(model,
+       omit_coefs = c("(Intercept)"))
+```
