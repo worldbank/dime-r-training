@@ -1,0 +1,133 @@
+---
+output: pdf_document #change to html_document if Latex is not installed
+title: Markdown template
+---
+
+This is a Markdown template created by DIME Analytics.
+It is meant to be a reference to show how text formatting in Markdown is combined with R code to produce R Markdown documents.
+
+# Markdown
+
+##  Headers
+
+# This is a header
+## Subheader 1
+### Subheader 2
+#### Subheader 3
+
+## Paragraphs
+
+This is a line of text.
+This is another line in the same paragraph.
+
+New paragraphs are separated by two line breaks.
+
+## Text emphasis
+
+Text in italics goes between *asterisks* or _underscores_.
+
+Text in bold goes between **two asterisks** or __two underscores__.
+
+You can combine asterisks and underscores to **emphasize with italics and bold _at the same time_**.
+
+Strikethrough text ~~uses two tildes~~.
+
+## Lists
+
+Ordered lists:
+
+1. Include a number and a dot before every item
+2. Also remember to include a blank line before the beginning of the list
+1. The actual number does not matter, the item will have the correct order number
+
+Unordered lists:
+
+* You can use an asterisk
++ Or a plus symbol
+- Or a minus symbol
+
+## Links
+
+Include the link text in brackets followed by the URL in parentheses.
+Like this:
+
+This is [the WB website](https://www.worldbank.org) and this is the [course repository](https://osf.io/86g3b).
+
+## Tables
+
+Use vertical lines to separate columns and at least three dashes to separate column headers.
+
+|This is column 1|This is column 2|
+|----------------|----------------|
+|Row 1           |Row 1           |
+|Row 2           |Row 2           |
+
+The width of the cells can vary in the markdown text and the output will look the same.
+
+|This is column 1    |This is column 2|
+|---|-----------|
+|Row 1   |Row 1     |
+|Row 2      |Row 2|
+
+<!-- Exercise 1 -->
+<!-- No code needed, just change line 2 if necessary -->
+
+<!-- Exercise 2 -->
+
+# R Code
+
+```{r}
+data(mtcars)
+summary(mtcars$mpg)
+```
+
+<!-- Exercise 3 -->
+
+```{r, echo = FALSE}
+data(mtcars)
+summary(mtcars$mpg)
+```
+
+<!-- Exercise 4 -->
+
+# R plots
+
+```{r, echo = FALSE}
+plot(mtcars$wt,
+     mtcars$mpg,
+     main = "Plot example",
+     xlab = "Car weight",
+     ylab = "Miles per gallon")
+```
+
+<!-- Exercise 5 -->
+<!-- Note that inline code doesn't go in code blocks -->
+
+# Inline code
+- The number of elements in mtcars is `r nrow(mtcars)`
+- The mean of weight is `r mean(mtcars$wt)`
+- The standard deviation is `r sd(mtcars$wt)`
+
+<!-- Exercise 6 -->
+
+# Regressions - Stargazer
+
+```{r, echo = FALSE, message = FALSE, results = "asis"}
+library(stargazer)
+model <- lm(mpg ~ wt + hp, data = mtcars)
+stargazer(model,
+          header = FALSE,
+          title = "Best table ever",
+          omit = c("Constant"))
+```
+
+<!-- Exercise 7 -->
+
+# Regressions - Huxtable
+
+```{r, echo = FALSE, warning = FALSE}
+library(huxtable)
+model <- lm(mpg ~ wt + hp, data = mtcars)
+huxreg(model,
+       omit_coefs = c("(Intercept)"))
+```
