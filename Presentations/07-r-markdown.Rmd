@@ -74,14 +74,15 @@ xaringanExtra::use_logo(
 - Make sure you have the packages `tinytex`, `stargazer`, and `huxtable` installed
 
 ```{r, eval=FALSE}
-# Installing the packages
+# Packages we used for other sessions, install only if needed
+install.packages("dplyr")
+install.packages("huxtable")
+
+# New packages
 install.packages("tinytex")
 install.packages("stargazer")
 
-# Loading (you don't have to load tinytex)
-library(stargazer)
-library(huxtable)
-library(dplyr)
+# No need to load the packages for now
 ```
 
 ---
@@ -102,7 +103,17 @@ library(dplyr)
 
 # Preamble
 
-- LaTeX can be unpredictable. It's possible that this didn't work
+This will take a while. Leave it running
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/r-markdown/installing-tinytex.png")
+```
+
+---
+
+# Preamble
+
+- LaTeX can be unpredictable in WB computers. It's possible that this didn't work
 - Don't worry for now, just follow the approppriate instructions we'll specify in the exercises
 
 ---
@@ -311,8 +322,7 @@ knitr::include_graphics("img/r-markdown/markdown-tables2.png")
 
 # Exercise 1 results
 
-- Knitting a file to PDF means that RStudio created a PDF file from an R Markdown file
-- If exercise 1 worked, you'll now see this PDF file in the folder where you saved `r-markdown-template.Rmd`
+- If exercise 1 worked, you'll now see this PDF file (or HTML) in the folder where you saved `r-markdown-template.Rmd`
 
 ```{r echo = FALSE, out.width = "50%"}
 knitr::include_graphics("img/r-markdown/rendered-docs.png")
@@ -359,7 +369,7 @@ knitr::include_graphics("img/r-markdown/insert-new-r-fenced-block.png")
 .exercise[
 ## Exercise 2: Include the summary of a variable <font size="5">(`r fa("clock")` 2 min)</font>
 
-1. Create a subheader named `R Code` at the bottom of `markdown-template.Rmd`
+1. Create a header named `R Code` at the bottom of `r-markdown-template.Rmd`
 2. Create a new fenced code block where you load the dataset `mtcars`
   + `mtcars` is a built-in dataset. Load it with: `data(mtcars)`
 3. Inside the same block, get the summary of the variable `mpg` with `summary(mtcars$mpg)`
@@ -371,6 +381,8 @@ knitr::include_graphics("img/r-markdown/insert-new-r-fenced-block.png")
 # Including R code
 
 ````
+## R Code
+
 ```{r}`r ''`
 data(mtcars)
 summary(mtcars$mpg)
@@ -470,7 +482,7 @@ name: r-plots
 ## Exercise 4: Include an R plot in your document <font size="5">(`r fa("clock")` 2 min)</font>
 
 1. Create a header named `R Plots`
-2. Create a new fenced code block with the option `echo` set to `FALSE`
+2. Create a new fenced code block with the option `echo = FALSE`
 3. Add the following code inside the new block:
 
 ```{r, eval = FALSE}
@@ -487,6 +499,8 @@ plot(mtcars$wt,
 # Including R plots
 
 ````
+# R plots
+
 ```{r, echo = FALSE}`r ''`
 plot(mtcars$wt,
      mtcars$mpg,
@@ -654,7 +668,7 @@ library(stargazer)
 model <- lm(mpg ~ cyl + hp, data = mtcars)
 
 # Printing it with stargazer
-stargazer(model, header = FALSE)
+stargazer(model, header = FALSE) # add: type = "html" if knitting to HTML
 ```
 ````
 
@@ -677,7 +691,7 @@ knitr::include_graphics("img/r-markdown/r-markdown-stargazer.png")
 1. Add a new code block with the arguments `echo = FALSE` and `results = "asis"`
 1. Load stargazer in the code block
 1. Add a regression of the variable `mpg` on `wt` and `hp`
-1. Use stargazer's arguments `title = "your_title"` and `omit = c("Constant")` to customize your table
+1. Use stargazer's arguments `header = FALSE`, `title = "your_title"` and `omit = c("Constant")` to customize your table
   + If your output is HTML instead of PDF, include the argument `type = "html"` in `stargazer()`
 ]
 
@@ -718,9 +732,10 @@ knitr::include_graphics("img/r-markdown/stargazer-exercise.png")
 
 # Including regression outputs - Huxtable
 
-- Conveniently, the library `huxtable` has a function that handles that installation for us:
+- Conveniently, the library `huxtable` has a function that handles that installation for us (needed only if you're knitting to PDF)
 
 ```{r, eval = FALSE}
+# Only if you're knitting to PDF:
 huxtable::install_latex_dependencies()
 ```
 
@@ -759,10 +774,10 @@ knitr::include_graphics("img/r-markdown/rmarkdown-huxtable-regression.png")
 .exercise[
 ## Exercise 7: Now with Huxtable <font size="5">(`r fa("clock")` 2 min)</font>
 
-1. Create a new header named `Regressions - Huxtable` in `markdown-template.Rmd`
+1. Create a new header named `Regressions - Huxtable` in `r-markdown-template.Rmd`
 1. Add a new code block with the argument `echo = FALSE`
 1. Load huxtable in the code block
-1. Add a regression of the variable `mpg` on `wt` and `hp` using `huxreg()`
+1. Add a regression table of the variable `mpg` on `wt` and `hp` using `huxreg()`
 1. Use huxreg's argument `omit_coefs = c("(Intercept)")` to customize your table
 ]
 
@@ -798,6 +813,7 @@ knitr::include_graphics("img/r-markdown/huxtable-exercise.png")
 ````
 ```{r, echo = FALSE, warning = FALSE}`r ''`
 library(huxtable)
+library(dplyr)
 model <- lm(mpg ~ wt + hp, data = mtcars)
 table <- huxreg(model,
        omit_coefs = c("(Intercept)"))

@@ -61,14 +61,15 @@ class: center, middle, inverse, title-slide
 
 
 ```r
-# Installing the packages
+# Packages we used for other sessions, install only if needed
+install.packages("dplyr")
+install.packages("huxtable")
+
+# New packages
 install.packages("tinytex")
 install.packages("stargazer")
 
-# Loading (you don't have to load tinytex)
-library(stargazer)
-library(huxtable)
-library(dplyr)
+# No need to load the packages for now
 ```
 
 ---
@@ -89,7 +90,15 @@ library(dplyr)
 
 # Preamble
 
-- LaTeX can be unpredictable. It's possible that this didn't work
+This will take a while. Leave it running
+
+&lt;img src="img/r-markdown/installing-tinytex.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Preamble
+
+- LaTeX can be unpredictable in WB computers. It's possible that this didn't work
 - Don't worry for now, just follow the approppriate instructions we'll specify in the exercises
 
 ---
@@ -278,8 +287,7 @@ name: markdown
 
 # Exercise 1 results
 
-- Knitting a file to PDF means that RStudio created a PDF file from an R Markdown file
-- If exercise 1 worked, you'll now see this PDF file in the folder where you saved `r-markdown-template.Rmd`
+- If exercise 1 worked, you'll now see this PDF file (or HTML) in the folder where you saved `r-markdown-template.Rmd`
 
 &lt;img src="img/r-markdown/rendered-docs.png" width="50%" style="display: block; margin: auto;" /&gt;
 
@@ -322,7 +330,7 @@ name: r-code
 .exercise[
 ## Exercise 2: Include the summary of a variable &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
 
-1. Create a subheader named `R Code` at the bottom of `markdown-template.Rmd`
+1. Create a header named `R Code` at the bottom of `r-markdown-template.Rmd`
 2. Create a new fenced code block where you load the dataset `mtcars`
   + `mtcars` is a built-in dataset. Load it with: `data(mtcars)`
 3. Inside the same block, get the summary of the variable `mpg` with `summary(mtcars$mpg)`
@@ -334,6 +342,8 @@ name: r-code
 # Including R code
 
 ````
+## R Code
+
 ```{r}
 data(mtcars)
 summary(mtcars$mpg)
@@ -427,7 +437,7 @@ name: r-plots
 ## Exercise 4: Include an R plot in your document &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
 
 1. Create a header named `R Plots`
-2. Create a new fenced code block with the option `echo` set to `FALSE`
+2. Create a new fenced code block with the option `echo = FALSE`
 3. Add the following code inside the new block:
 
 
@@ -445,6 +455,8 @@ plot(mtcars$wt,
 # Including R plots
 
 ````
+# R plots
+
 ```{r, echo = FALSE}
 plot(mtcars$wt,
      mtcars$mpg,
@@ -604,7 +616,7 @@ library(stargazer)
 model &lt;- lm(mpg ~ cyl + hp, data = mtcars)
 
 # Printing it with stargazer
-stargazer(model, header = FALSE)
+stargazer(model, header = FALSE) # add: type = "html" if knitting to HTML
 ```
 ````
 
@@ -625,7 +637,7 @@ stargazer(model, header = FALSE)
 1. Add a new code block with the arguments `echo = FALSE` and `results = "asis"`
 1. Load stargazer in the code block
 1. Add a regression of the variable `mpg` on `wt` and `hp`
-1. Use stargazer's arguments `title = "your_title"` and `omit = c("Constant")` to customize your table
+1. Use stargazer's arguments `header = FALSE`, `title = "your_title"` and `omit = c("Constant")` to customize your table
   + If your output is HTML instead of PDF, include the argument `type = "html"` in `stargazer()`
 ]
 
@@ -664,10 +676,11 @@ stargazer(model,
 
 # Including regression outputs - Huxtable
 
-- Conveniently, the library `huxtable` has a function that handles that installation for us:
+- Conveniently, the library `huxtable` has a function that handles that installation for us (needed only if you're knitting to PDF)
 
 
 ```r
+# Only if you're knitting to PDF:
 huxtable::install_latex_dependencies()
 ```
 
@@ -704,10 +717,10 @@ huxreg(model)
 .exercise[
 ## Exercise 7: Now with Huxtable &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
 
-1. Create a new header named `Regressions - Huxtable` in `markdown-template.Rmd`
+1. Create a new header named `Regressions - Huxtable` in `r-markdown-template.Rmd`
 1. Add a new code block with the argument `echo = FALSE`
 1. Load huxtable in the code block
-1. Add a regression of the variable `mpg` on `wt` and `hp` using `huxreg()`
+1. Add a regression table of the variable `mpg` on `wt` and `hp` using `huxreg()`
 1. Use huxreg's argument `omit_coefs = c("(Intercept)")` to customize your table
 ]
 
@@ -741,6 +754,7 @@ huxreg(model,
 ````
 ```{r, echo = FALSE, warning = FALSE}
 library(huxtable)
+library(dplyr)
 model &lt;- lm(mpg ~ wt + hp, data = mtcars)
 table &lt;- huxreg(model,
        omit_coefs = c("(Intercept)"))
