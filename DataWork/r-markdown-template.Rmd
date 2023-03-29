@@ -1,8 +1,7 @@
 ---
 output: pdf_document
+title: Markdown template
 ---
-
-# Markdown template
 
 This is a Markdown template created by DIME Analytics.
 It is meant to be a reference to show how text formatting in Markdown is combined with R code to produce R Markdown documents.
