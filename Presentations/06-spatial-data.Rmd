@@ -349,7 +349,9 @@ plot(worldmap)
 worldmap@proj4string
 ```
 
---
+---
+
+# Spatial data structure: projection
 
 .center[
 ![](img/westwing.jpg)
@@ -858,7 +860,7 @@ ggmap(africa_basemap)
 
 # Customizing basemaps
 
-`r fa("map-marked-alt",  fill = "#D38C28")` You can also use other image sources than Stamen Maps with the `get_map` function:
+`r fa("map-location-dot",  fill = "#D38C28")` You can also use other image sources than Stamen Maps with the `get_map` function:
 - Google Maps (`"google"`), OpenStreetMap (`"osm"`), Stamen Maps (`"stamen"`)
 
 --
@@ -870,7 +872,7 @@ ggmap(africa_basemap)
 
 --
 
-`r fa("paint-brush",  fill = "#D38C28")` Finally, you can use the options `color` and `alpha` to change from black and white to color and increase transparency 
+`r fa("paintbrush",  fill = "#D38C28")` Finally, you can use the options `color` and `alpha` to change from black and white to color and increase transparency 
 of the basemap.
 
 ---
