@@ -81,7 +81,7 @@
   
   ggsave(
       fig,
-      filename = here("DataWork","Output","Raw","fig_MA.png"),
+      filename = here("DataWork","Output","Raw","fig.png"),
       dpi = 750, 
       scale = 0.8,
       height = 8, 
