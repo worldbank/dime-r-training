@@ -1,4 +1,4 @@
-# R for Stata Users — Session 3 — Data Wrangling
+# R for Stata Users — Session 7 — Data Wrangling
 
   ## 1. Setup ----
 

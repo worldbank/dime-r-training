@@ -69,6 +69,30 @@ name: intro
 
 ---
 
+# Introduction
+
+### Initial Setup
+
+.panelset[
+
+.panel[.panel-name[If You Attended Session 2]
+1. Go to the `dime-r-training-mar2023` folder that you created yesterday, and open the `dime-r-training-mar2023` R project that you created there.
+]
+
+.panel[.panel-name[If You Did Not Attend Session 2]
+1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer.
+
+2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` > `Data` > `dime-r-training-mar2023.zip`.
+
+3. Unzip `dime-r-training-mar2023.zip`.
+
+4. Open the `dime-r-training-mar2023` R project.
+]
+
+]
+
+---
+
 # **Today's session**
 
 .box-7.large.sp-after-half[Exploratory Analysis v. Publication/Reporting]
