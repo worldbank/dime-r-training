@@ -1,5 +1,5 @@
 ---
-title: "Session 7: Data Visualization"
+title: "Session 4: Data Visualization"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina"
 date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2023"
@@ -29,7 +29,7 @@ library(xaringanExtra)
 library(countdown)
 library(flair)
 
-here::i_am("Presentations/07-data-visualization.Rmd")
+here::i_am("Presentations/04-data-visualization.Rmd")
 
 options(htmltools.dir.version = FALSE)
 opts_chunk$set(
