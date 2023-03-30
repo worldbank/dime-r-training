@@ -1,4 +1,4 @@
-# R for Stata Users — Session 7 — Data Wrangling
+# R for Stata Users Session 7 Data visualization
 
   ## 1. Setup ----
 
