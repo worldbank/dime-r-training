@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Session 1 - Introduction to R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Luis Eduardo San Martin" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Session 1 - Introduction to R
+]
+.subtitle[
+## R training - Georgia RS-WB DIME
+]
+.author[
+### Luis Eduardo San Martin
+]
+.date[
+### The World Bank | September 2023
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+&lt;/style&gt;
+
+# Table of contents //
+
+1. [Introduction](#intro)
+1. [Data work](#data-work)
+1. [Statistical programming](#statistical-programming)
+1. [Writing R code](#writing-r-code)
+1. [Data in R](#data-in-r)
+1. [Functions in R](#functions-in-r)
+1. [Wrapping up](#wrapping-up)
+
+---
+
+class: inverse, center, middle
+name: intro
+
+# Introduction // 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Introduction
+
+## About this training
+
+- This is an **introduction** to data work and statistical programming in R
+
+- The training does not require any background in statistical programming
+
+- The training does not require participants to have taken the online training conducted in April 2023 and there is a recap of some of the topics covered then
+
+- A computer with R and RStudio installed is required to complete the exercises
+
+- Internet connection is required to download training materials
+
+---
+
+# Introduction
+
+## Learning objectives
+
+By the end of the training, you will know:
+
+- How to approach data work through statistical programming using R and RStudio
+
+- How to apply data wrangling and create outputs with descriptive statistics and data visualization by developing and running reproducible R code
+
+---
+
+# Introduction
+
+## About this session
+
+- This session will get you started in how to approach statistical programming tasks using R and RStudio
+
+---
+
+class: inverse, center, middle
+name: data-work-statistical-programming
+
+# Data work and statistical programming // 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Data work
+
+For the context of this training, we'll call data work everything that:
+
+1. Starts with a data input
+1. Runs some process with the data
+1. Produces an output with the result
+
+&lt;img src="img/session1/data-work.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Statistical programming
+
+- Programming consists of producing instructions to a computer to do something
+- In the context of data work, that "something" is statistical analysis or mathematical operations
+- Hence, statistical programming consists of producing instructions so our computers will conduct statistical analysis on data
+
+&lt;img src="img/session1/data-work-with-instructions.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Statistical programming
+
+- You can think of statistical programming as writing a recipe
+
+&lt;img src="img/session1/data-work-and-cooking.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Statistical programming
+
+## Why use R
+
+.pull-left[
+- Statistical programming can be implemented through many different software. Other options are Stata and Python
+- We recommend using R for these reasons:
+  + R is free
+  + R was designed specifically for statistical programming
+  + There is a large worldwide community of R users. This means you can easily look for help or examples of code in the internet
+]
+
+.pull-right[
+&lt;img src="img/session1/software-logos.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Statistical programming
+
+## How to write R code?
+
+- The rest of today's session focuses on the basics of writing R code
+
+- We'll use RStudio to write R code in this training
+
+---
+
+# Statistical programming
+
+## How to write R code?
+
+- Now open RStudio in your computer
+
+- Please make sure you're opening RStudio and not R
+
+&lt;img src="img/session1/r-rstudio.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Statistical programming
+
+## How to write R code?
+
+- Now open RStudio in your computer
+
+- Please make sure you're opening RStudio and not R
+
+&lt;img src="img/session1/rstudio.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Questions? // 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+class: inverse, center, middle
+name: writing-r-code
+
+# Writing R code // 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Writing R code
+
+## RStudio interface
+
+&lt;img src="img/session1/rstudio-panels.png" width="74%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Writing R code
+
+## Exercise 1: writing code in the console
+
+1. Write the following code in the console of RStudio
+
+  + `print("gamarjoba")`
+  + Make sure to include the quotes: `" "`
+
+2. Press Enter to run the code
+
+&lt;img src="img/session1/console.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Writing R code
+
+&lt;img src="img/session1/exercise1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Writing R code
+
+## Exercise 2: writing a short script
+
+.pull-left[
+1- Write or copy the following text into the script section of RStudio
+
+
+```r
+x1 &lt;- 100
+x2 &lt;- 50
+x3 &lt;- x1 + x2
+print(x3)
+```
+  
+2- Select the text you introduced with your mouse
+
+3- Press "Run"
+]
+.pull-right[
+&lt;img src="img/session1/script.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+# Writing R code // 
+
+&lt;img src="img/session1/exercise2.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Writing R code //
+
+## R scripts
+
+.pull-left[
+- Writing and running code from the console will execute it immediately
+]
+
+.pull-right[
+&lt;img src="img/session1/exercise1.png" width="110%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Writing R code //
+
+## R scripts
+
+.pull-left[
+- Writing and running code from the console will execute it immediately
+
+- Writing code in the script panel allow us to write multiple lines of code and execute them later
+
+  + Each line is executed in order
+  
+  + The line and the results will show in the console
+  
+- **Important:** for the rest of the training, remember to always introduce your code in the script (and not in the console) so you can keep record of what you did
+]
+
+.pull-right[
+&lt;img src="img/session1/exercise2.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Writing R code //
+
+## R scripts
+
+- In other words: scripts contain the instructions you give to your computer when doing data work
+
+&lt;img src="img/session1/data-work-script.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Writing R code //
+
+## Creating objects in R
+
+- Remember we also mentioned the environment panel? that's where R keeps track of objects
+
+- Objects are representations of data that currently exist in R's memory
+
+  + A single number can be an object
+  + A word can be an object
+  + Even an entire data file can be an object
+
+- We create objects in R with the arrow operator (`&lt;-`)
+
+- In exercise 2, we created objects each time we used `&lt;-`
+
+- After an object is created, we can refer to it using its name:
+
+
+
+
+```r
+print(x3 + 8)
+```
+
+```
+## [1] 158
+```
+
+---
+
+# Writing R code //
+
+## Creating objects in R
+
+- After any objects are created, they will show in the environment panel
+
+&lt;img src="img/session1/environment.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Writing R code //
+
+- Now we know how to use RStudio to write R code and produce scripts
+
+- We haven't still introduced the data to our data work. That comes next
+
+---
+
+class: inverse, center, middle
+name: data-in-r
+
+# Data in R //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+---
+
+# Data in R //
+
+## Exercise 3: Loading data into R
+
+ 1 - Go to this page: https://XXXXX and download the file `XXXX.csv`
+ 
+ ADD SCREENSHOT
+
+---
+
+# Data in R //
+
+## Exercise 3: Loading data into R
+
+ 2 - In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `XXXX.csv`
+
+  + If you don't know where the file is, check in the `Downloads` folder
+
+.pull-left[
+&lt;img src="img/session1/import_data1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+ADD IMAGE OF FILE IN DOWNLOADS FOLDER
+]
+
+---
+
+# Data in R //
+
+## Exercise 3: Loading data into R
+
+3 - Make sure to select `Heading` &gt; `Yes` in the next window
+
+4 - Select `Import`
+
+UPDATE IMAGE WITH NEW DATASET
+
+&lt;img src="img/session1/import3.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data in R //
+
+- If you did this correctly, you will note that a viewer of the data now appears in RStudio
+- You can click on the `x` next to `ADD DATAFRAME NAME` to return to the script
+- To open the viewer again, use the code: `View(DATAFRAME NAME)` (notice the uppercase "V")
+
+UPDATE DATA VIEWER IMAGE
+
+&lt;img src="img/session1/data-viewer.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data in R //
+
+- Additionally, you will now see an object named `ADD DATAFRAME NAME` in your environment
+
+UPDATE IMAGE
+
+&lt;img src="img/session1/environment2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data in R //
+
+- Remember we mentioned objects before? For R, `DATAFRAME NAME` is an object just like `x1`, `x2`, or `x3`
+
+- The difference is that `DATAFRAME NAME` is not a single number like `x1`, but a collection of numeric values similar to an Excel spreadsheet. In R, this type of objects are called **dataframes**
+
+- From now, we will refer to data loaded into R as **dataframes**
+
+&lt;img src="img/session1/environment2.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data in R //
+
+- Since dataframes are also objects, we can refer to them with their names (exm: `DATAFRAME NAME`)
+
+- We'll see an example of that in the next exercise
+
+---
+
+# Data in R //
+
+## A note about this dataframe
+
+Understanding the data you use is very important. For this training, DATAFRAME is an example dataframe  with ADD WHAT KIND OF DATA
+
+- EXPLAIN VARIABLES
+- EXPLAIN VARIABLES
+
+ADD IMAGE
+
+---
+
+# Data in R //
+
+## Exercise 4: Subset the data
+
+1. Use the following code to subset `DATAFRAME NAME` and leave only the observations in XXXX: `NEW_DF &lt;- subset(DATAFRAME NAME, VAR == VALUE)`
+
+  + Note that we are using the arrow operator (`&lt;-`) to store the result
+  + Note that there are **two equal signs** in the condition, not one
+  
+2. Use `View(NEW_DF)` to visualize the dataframe again and see how it changed (note the uppercase "V")
+
+---
+
+# Data in R //
+
+USE IMAGE OF NEW DF
+
+&lt;img src="img/session1/data-viewer2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data in R //
+
+There is an important difference between using `&lt;-` and not using it
+
+- Not using `&lt;-` **simply displays the result** in the console. The input dataframe will remain unchanged and the result **will not be stored**
+
+
+```r
+subset(ADD)
+```
+
+ADD IMAGE
+
+---
+
+# Data in R //
+
+- Using `&lt;-` tells R that we want to **store the result in a new object**, which is the object at the left side of the arrow. This time the result will not be printed in the console but the new dataframe will show in the environment panel
+
+
+```r
+NEW_DF &lt;- subset(ADD)
+```
+
+ADD IMAGE
+
+---
+
+# Data in R //
+
+- R can store multiple dataframes in the environment. This is analogous to having different spreadsheets in the same Excel window
+
+- Always remember that dataframes are just objects in R. R differentiates which dataframe the code refers to with the dataframe name
+
+UPDATE IMAGE
+
+&lt;img src="img/session1/multiple-dataframes.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+name: object-types
+
+# Object types //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Object types
+
+- The objects in your environment have different types depending on the type of data they represent
+
+- Different types of objects allow to apply different operations to them or apply the same operation in a different way
+
+- For instance, compare what happens if you run the following code:
+
+
+```r
+x1 + 2
+```
+
+
+```r
+#DATAFRAME + 2
+```
+
+---
+
+# Object types
+
+- You can always check the type of an object with the function `FUNCTION`
+
+
+```r
+#ADD FUNCTION OF A X1 AND SHOW ITS NUMERIC
+```
+
+---
+
+# Object types
+
+We have worked with two classes of object until now:
+
+- **Numeric:** single number values we can use for mathematical operations. The objects `x1`, `x2`, and `x3` are numeric. They are similar to values you would store in a single Excel cell
+
+- **Dataframe:** a collection of values organized in rows and columns. `ADD DATAFRAMES HERE` are dataframes. They are similar to an Excel spreadsheet
+
+For the next two exercises, we will learn about two other object types.
+
+---
+
+# Object types
+
+## Vectors
+
+- Vectors are a collection of values **with a single dimension**, instead of being organized in rows and columns as dataframes
+
+- You can think of a vector in R as a single column in an Excel spreadsheet or an R dataframe
+
+- You can create vectors with the function `c()`, the vector elements are separated by commas
+
+
+```r
+c(4, 8, 2, 5)
+```
+
+---
+
+# Object types
+
+## Exercise 5: create and operate vectors
+
+1. Create a vector with the elements 3, 8, and 10 and name it `v1`
+
+2. Create a second vector with the elements 7, 2, and 5 and name it `v2`
+
+  + Remember to use the arrow operator `&lt;-` to store the result
+  + Separate the elements of the function `c()` with commas
+
+3. Create a third vector named `result1` with the sum of `v1` and `v2`: `result1 &lt;- v1 + v2`
+
+4. Lastlym create a fourth vector named `result2` with the sum of `v2` plus ten: `result2 &lt;- v2 + 10`
+
+---
+
+# Object types
+
+ADD IMAGE
+
+---
+
+# Object types
+
+Notice two things:
+
+1.- Operating two vectors applies the operation **element-wise**
+
+ADD IMAGE FROM GDRIVE, V1 + V2 = RESULT1
+
+---
+
+# Object types
+
+2.- Operating a vector with a numeric object will apply the **same operation to every element of the vector**
+
+ADD IMAGE
+
+---
+
+# Object types
+
+## Character strings
+
+- The last type we will review today are character strings
+
+- They are collections of alphanumeric characters usually representing words or texts, or just characters in general
+
+
+```r
+s1 &lt;- "gamarjoba"
+print(s1)
+```
+
+- Strings characters are **always enclosed in quotes** (`" "`)
+
+- They are usually referred to as just **strings**
+
+---
+
+# Object types
+
+## Exercise 6: create and operate character strings
+
+1. Create a character string object with the words `"Georgia has great"` and name it `words1`
+
+2. Create a second string with the words `"wine"` and name it `words2`
+
+  + Don't forget to use `&lt;-` to create the string objects
+  + Remember to include the quotes: `" "`
+
+3. Use the following code to concatenate `words1` and `words2`, save the result in `words_result`, and print it:
+
+
+```r
+words_result &lt;- paste(words1, words2)
+print(words_result)
+```
+
+---
+
+# Object types
+
+&lt;img src="img/session1/ex6.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Object types
+
+&lt;img src="img/session1/ex6-environment.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+name: functions-in-r
+
+# Functions in R //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Functions in R //
+
+- Functions are how we apply operations to objects in R
+
+- We have used a few functions in the previous exercises. For example, `subset()` and `paste()` are functions
+
+- Everything that has a name plus parentheses is a function in R
+
+UPDATE IMAGE IF TIME ALLOWS
+
+&lt;img src="img/session1/function.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Functions in R //
+
+Functions have the following syntax:
+
+UPDATE IMAGE IF TIME ALLOWS
+
+&lt;img src="img/session1/function-syntax.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+- **Function name:** the name we use to call a function. It goes before the parentheses
+
+- **Arguments:** inputs and specifications for the function to be applied.
+
+  + Arguments go inside the parentheses
+  + The first argument is the object you apply the function on
+
+---
+
+# Functions in R //
+
+- The results of a function can always be stored in an object with the arrow operator (`&lt;-`)
+
+&lt;img src="img/session1/function-stored.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+- As we saw previously, the results of a function will only be printed in the console if you don't store them
+
+---
+
+# Functions in R //
+
+## Exercise 7: Using the function `summary()`
+
+1. Compute the summary statistics of the variables of `ADD DATAFRAME` and save the result with `summary_table &lt;- summary(ADD DATAFRAME)`
+
+2. Print the stored result with `print(summary_table)`
+
+---
+
+# Functions in R //
+
+Note that this code is both creating a new object (with `summary_table &lt;- summary(sample_vat)`) and printing the result in the console (with `print(summary_table)`)
+
+&lt;img src="img/session1/summary-result.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Questions? //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+class: inverse, center, middle
+name: wrapping-up
+
+# Wrapping up //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Wrapping up //
+
+## Add code comments!
+
+- Every line of code that starts with the pound symbol (`#`) will be ignored when R executes the code
+
+- This means that you can add any clarifying comment with `#`. These are called **code comments**
+
+- It's always a good practice to add code comments for yourself to later remember what the code is doing or to explain your code to others if you'll share it
+
+---
+
+# Wrapping up
+
+- Try adding code comments to your script so you will remember which part corresponds to each exercise
+
+ADD IMAGE
+
+---
+
+# Wrapping up //
+
+## Always save your work!
+
+- Click the floppy disk icon to save your work
+- Select a location for your file and remember where you're saving it
+
+UPDATE IMAGE
+
+&lt;img src="img/session1/save.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up //
+
+## This session
+
+This first session focused on the basics for writing R code
+
+&lt;img src="img/session1/day1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up //
+
+## Next session
+
+In the next session we will learn how to get data ready to be exported as outputs
+
+ADD IMAGE
+
+---
+
+class: inverse, center, middle
+name: statistical-programming
+
+# Thanks! // ADD GAMARJOBA // ¡Gracias!
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
