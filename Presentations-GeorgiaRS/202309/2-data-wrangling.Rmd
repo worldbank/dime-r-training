@@ -1,0 +1,104 @@
+---
+title: "Session 2 - Data wrangling"
+subtitle: "R training - Georgia RS-WB DIME"
+author: "Luis Eduardo San Martin"
+date: "The World Bank | September 2023"
+output:
+  xaringan::moon_reader:
+    css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+# Load packages
+library(knitr)
+library(xaringanExtra)
+library(here)
+here::i_am("1-introduction-to-r.Rmd")
+options(htmltools.dir.version = FALSE)
+opts_chunk$set(
+  fig.align = "center",
+  fig.height = 4,
+  dpi = 300,
+  cache = T
+  )
+xaringanExtra::use_panelset()
+xaringanExtra::use_webcam()
+xaringanExtra::use_clipboard()
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+xaringanExtra::use_logo(
+  image_url = here("img",
+                   "lightbulb.png"),
+  exclude_class = c("inverse", 
+                    "hide_logo"),
+  width = "50px"
+)
+```
+
+```{css, echo = F, eval = T}
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+```
+
+# Table of contents //
+
+1. About this session
+1. ADD
+
+---
+
+Libraries
+
+---
+
+How this session fits in data work
+
+---
+
+Work case
+
+---
+
+Approaching data wrangling and structuring tasks
+
+---
+
+Case 1: Produce list of XX higher taxpayers in region XX
+
+---
+
+Exporting result
+
+---
+
+Case 2: region totals of something (VAT liability)
+
+--- 
+
+Case 3: Total liability over different years (join needed)
+
+---
+
+Wrapping up: summary of the data operations reviewed
+
+---
+
+Wrapping up: other data operations
+
+---
+
+Wrapping up: tomorrow
