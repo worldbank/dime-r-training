@@ -50,28 +50,30 @@ class: center, middle, inverse, title-slide
 }
 &lt;/style&gt;
 
-# Table of contents //
+# Table of contents // სარჩევი
 
 1. [Introduction](#intro)
-1. [Data work](#data-work)
+1. [Data work and statistical programming](#data-work)
 1. [Statistical programming](#statistical-programming)
 1. [Writing R code](#writing-r-code)
 1. [Data in R](#data-in-r)
+1. [Object types](#object-types)
 1. [Functions in R](#functions-in-r)
 1. [Wrapping up](#wrapping-up)
+1. [Appendix](#appendix)
 
 ---
 
 class: inverse, center, middle
 name: intro
 
-# Introduction // 
+# Introduction // შესავალი
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Introduction
+# Introduction // შესავალი
 
 ## About this training
 
@@ -79,15 +81,13 @@ name: intro
 
 - The training does not require any background in statistical programming
 
-- The training does not require participants to have taken the online training conducted in April 2023 and there is a recap of some of the topics covered then
-
 - A computer with R and RStudio installed is required to complete the exercises
 
 - Internet connection is required to download training materials
 
 ---
 
-# Introduction
+# Introduction // შესავალი
 
 ## Learning objectives
 
@@ -99,24 +99,16 @@ By the end of the training, you will know:
 
 ---
 
-# Introduction
-
-## About this session
-
-- This session will get you started in how to approach statistical programming tasks using R and RStudio
-
----
-
 class: inverse, center, middle
-name: data-work-statistical-programming
+name: data-work
 
-# Data work and statistical programming // 
+# Data work and statistical programming // სტატისტიკური პროგრამირება
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Data work
+# Data work // მონაცემთა მუშაობა
 
 For the context of this training, we'll call data work everything that:
 
@@ -128,7 +120,7 @@ For the context of this training, we'll call data work everything that:
 
 ---
 
-# Statistical programming
+# Statistical programming // პროგრამირება
 
 - Programming consists of producing instructions to a computer to do something
 - In the context of data work, that "something" is statistical analysis or mathematical operations
@@ -138,7 +130,7 @@ For the context of this training, we'll call data work everything that:
 
 ---
 
-# Statistical programming
+# Statistical programming // პროგრამირება
 
 - You can think of statistical programming as writing a recipe
 
@@ -146,7 +138,7 @@ For the context of this training, we'll call data work everything that:
 
 ---
 
-# Statistical programming
+# Statistical programming // პროგრამირება
 
 ## Why use R
 
@@ -164,7 +156,7 @@ For the context of this training, we'll call data work everything that:
 
 ---
 
-# Statistical programming
+# Statistical programming // პროგრამირება
 
 ## How to write R code?
 
@@ -174,7 +166,7 @@ For the context of this training, we'll call data work everything that:
 
 ---
 
-# Statistical programming
+# Statistical programming // პროგრამირება
 
 ## How to write R code?
 
@@ -186,7 +178,7 @@ For the context of this training, we'll call data work everything that:
 
 ---
 
-# Statistical programming
+# Statistical programming // პროგრამირება
 
 ## How to write R code?
 
@@ -200,7 +192,7 @@ For the context of this training, we'll call data work everything that:
 
 class: inverse, center, middle
 
-# Questions? // 
+# Questions? // კითხვები?
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
@@ -209,13 +201,13 @@ class: inverse, center, middle
 class: inverse, center, middle
 name: writing-r-code
 
-# Writing R code // 
+# Writing R code // R კოდის დაწერა
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Writing R code
+# Writing R code // R კოდის დაწერა
 
 ## RStudio interface
 
@@ -223,7 +215,7 @@ name: writing-r-code
 
 ---
 
-# Writing R code
+# Writing R code // R კოდის დაწერა
 
 ## Exercise 1: writing code in the console
 
@@ -238,13 +230,13 @@ name: writing-r-code
 
 ---
 
-# Writing R code
+# Writing R code // R კოდის დაწერა
 
 &lt;img src="img/session1/exercise1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Writing R code
+# Writing R code // R კოდის დაწერა
 
 ## Exercise 2: writing a short script
 
@@ -268,13 +260,13 @@ print(x3)
 ]
 ---
 
-# Writing R code // 
+# Writing R code // R კოდის დაწერა
 
 &lt;img src="img/session1/exercise2.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Writing R code //
+# Writing R code // R კოდის დაწერა
 
 ## R scripts
 
@@ -288,7 +280,7 @@ print(x3)
 
 ---
 
-# Writing R code //
+# Writing R code // R კოდის დაწერა
 
 ## R scripts
 
@@ -310,7 +302,7 @@ print(x3)
 
 ---
 
-# Writing R code //
+# Writing R code // R კოდის დაწერა
 
 ## R scripts
 
@@ -320,7 +312,7 @@ print(x3)
 
 ---
 
-# Writing R code //
+# Writing R code // R კოდის დაწერა
 
 ## Creating objects in R
 
@@ -351,7 +343,7 @@ print(x3 + 8)
 
 ---
 
-# Writing R code //
+# Writing R code // R კოდის დაწერა
 
 ## Creating objects in R
 
@@ -361,7 +353,7 @@ print(x3 + 8)
 
 ---
 
-# Writing R code //
+# Writing R code // R კოდის დაწერა
 
 - Now we know how to use RStudio to write R code and produce scripts
 
@@ -372,40 +364,41 @@ print(x3 + 8)
 class: inverse, center, middle
 name: data-in-r
 
-# Data in R //
+# Data in R // მონაცემები R
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
 ## Exercise 3: Loading data into R
 
- 1 - Go to this page: https://XXXXX and download the file `XXXX.csv`
+ 1.- Go to this page: https://osf.io/2apht and download the file `small_business_2019.csv`
  
- ADD SCREENSHOT
+&lt;img src="img/session1/osf-screenshot.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
 ## Exercise 3: Loading data into R
 
- 2 - In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `XXXX.csv`
+ 2.- In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `small_business_2019.csv`
 
-  + If you don't know where the file is, check in the `Downloads` folder
+  + If you don't know where the file is, check in your `Downloads` folder
 
 .pull-left[
 &lt;img src="img/session1/import_data1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-ADD IMAGE OF FILE IN DOWNLOADS FOLDER
+&lt;img src="img/session1/downloads.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
 ## Exercise 3: Loading data into R
 
@@ -413,39 +406,33 @@ ADD IMAGE OF FILE IN DOWNLOADS FOLDER
 
 4 - Select `Import`
 
-UPDATE IMAGE WITH NEW DATASET
-
 &lt;img src="img/session1/import3.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
 - If you did this correctly, you will note that a viewer of the data now appears in RStudio
-- You can click on the `x` next to `ADD DATAFRAME NAME` to return to the script
-- To open the viewer again, use the code: `View(DATAFRAME NAME)` (notice the uppercase "V")
-
-UPDATE DATA VIEWER IMAGE
+- You can click on the `x` next to `small_business_2019` to return to the script
+- To open the viewer again, use the code: `View(small_business_2019)` (notice the uppercase "V")
 
 &lt;img src="img/session1/data-viewer.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
-- Additionally, you will now see an object named `ADD DATAFRAME NAME` in your environment
-
-UPDATE IMAGE
+- Additionally, you will now see an object named `small_business_2019` in your environment
 
 &lt;img src="img/session1/environment2.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
-- Remember we mentioned objects before? For R, `DATAFRAME NAME` is an object just like `x1`, `x2`, or `x3`
+- Remember we mentioned objects before? For R, `small_business_2019` is an object just like `x1`, `x2`, or `x3`
 
-- The difference is that `DATAFRAME NAME` is not a single number like `x1`, but a collection of numeric values similar to an Excel spreadsheet. In R, this type of objects are called **dataframes**
+- The difference is that `small_business_2019` is not a single number like `x1`, but a collection of numeric values similar to an Excel spreadsheet. In R, this type of objects are called **dataframes**
 
 - From now, we will refer to data loaded into R as **dataframes**
 
@@ -453,49 +440,51 @@ UPDATE IMAGE
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
-- Since dataframes are also objects, we can refer to them with their names (exm: `DATAFRAME NAME`)
+- Since dataframes are also objects, we can refer to them with their names (exm: `small_business_2019`)
 
 - We'll see an example of that in the next exercise
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
 ## A note about this dataframe
 
-Understanding the data you use is very important. For this training, DATAFRAME is an example dataframe  with ADD WHAT KIND OF DATA
+Understanding the data you use is very important. For this training, `small_business_2019` is an example dataframe with business income data for 2019
 
-- EXPLAIN VARIABLES
-- EXPLAIN VARIABLES
+- `modified_id` is a business identifier
+- `region` is region where the business is
+- `income` is the income the business reported in 2019
 
-ADD IMAGE
+&lt;img src="img/session1/data-viewer.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
 ## Exercise 4: Subset the data
 
-1. Use the following code to subset `DATAFRAME NAME` and leave only the observations in XXXX: `NEW_DF &lt;- subset(DATAFRAME NAME, VAR == VALUE)`
+1. Use the following code to subset `small_business_2019` and leave only the observations in the region named "Guria": `df_guria &lt;- subset(small_business_2019, region == "Guria")`
 
   + Note that we are using the arrow operator (`&lt;-`) to store the result
   + Note that there are **two equal signs** in the condition, not one
+  + Also note that you need to write `"Guria"` enclosed in quotes and with uppercase `G`, because that's how it is in the data
   
-2. Use `View(NEW_DF)` to visualize the dataframe again and see how it changed (note the uppercase "V")
+2. Use `View(df_guria)` to visualize the dataframe again and see how it changed (note the uppercase "V")
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
-USE IMAGE OF NEW DF
-
-&lt;img src="img/session1/data-viewer2.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session1/data-viewer2.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
+
+## Storing results in R
 
 There is an important difference between using `&lt;-` and not using it
 
@@ -503,33 +492,35 @@ There is an important difference between using `&lt;-` and not using it
 
 
 ```r
-subset(ADD)
+subset(small_business_2019, region == "Guria")
 ```
 
-ADD IMAGE
+&lt;img src="img/session1/console-subset.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
+
+## Storing results in R
 
 - Using `&lt;-` tells R that we want to **store the result in a new object**, which is the object at the left side of the arrow. This time the result will not be printed in the console but the new dataframe will show in the environment panel
 
 
+
+
 ```r
-NEW_DF &lt;- subset(ADD)
+df_guria &lt;- subset(small_business_2019, region == "Guria")
 ```
 
-ADD IMAGE
+&lt;img src="img/session1/environment3.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data in R //
+# Data in R // მონაცემები R
 
 - R can store multiple dataframes in the environment. This is analogous to having different spreadsheets in the same Excel window
 
 - Always remember that dataframes are just objects in R. R differentiates which dataframe the code refers to with the dataframe name
-
-UPDATE IMAGE
 
 &lt;img src="img/session1/multiple-dataframes.png" width="95%" style="display: block; margin: auto;" /&gt;
 
@@ -538,56 +529,58 @@ UPDATE IMAGE
 class: inverse, center, middle
 name: object-types
 
-# Object types //
+# Object types // ობიექტების ტიპები
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Object types
+# Object types // ობიექტების ტიპები
 
 - The objects in your environment have different types depending on the type of data they represent
 
 - Different types of objects allow to apply different operations to them or apply the same operation in a different way
 
-- For instance, compare what happens if you run the following code:
-
-
-```r
-x1 + 2
-```
-
-
-```r
-#DATAFRAME + 2
-```
-
 ---
 
-# Object types
+# Object types // ობიექტების ტიპები
 
-- You can always check the type of an object with the function `FUNCTION`
+- You can always check the type of an object with the function `class()`
+
+
 
 
 ```r
-#ADD FUNCTION OF A X1 AND SHOW ITS NUMERIC
+class(x1)
 ```
 
+```
+## [1] "numeric"
+```
+
+
+```r
+class(df_guria)
+```
+
+```
+## [1] "data.frame"
+```
 ---
 
-# Object types
+# Object types // ობიექტების ტიპები
 
 We have worked with two classes of object until now:
 
 - **Numeric:** single number values we can use for mathematical operations. The objects `x1`, `x2`, and `x3` are numeric. They are similar to values you would store in a single Excel cell
 
-- **Dataframe:** a collection of values organized in rows and columns. `ADD DATAFRAMES HERE` are dataframes. They are similar to an Excel spreadsheet
+- **Dataframe:** a collection of values organized in rows and columns. `small_business_2019` and `df_guria` are dataframes. They are similar to an Excel spreadsheet
 
-For the next two exercises, we will learn about two other object types.
+In the next exercise we will learn about another object type.
 
 ---
 
-# Object types
+# Object types // ობიექტების ტიპები
 
 ## Vectors
 
@@ -599,64 +592,237 @@ For the next two exercises, we will learn about two other object types.
 
 
 ```r
-c(4, 8, 2, 5)
+my_vector &lt;- c(4, 8, 2, 5)
 ```
 
 ---
 
-# Object types
+# Object types // ობიექტების ტიპები
 
 ## Exercise 5: create and operate vectors
 
-1. Create a vector with the elements 3, 8, and 10 and name it `v1`
+1- Create a vector with the elements 3, 8, and 10 and name it `v1`:
 
-2. Create a second vector with the elements 7, 2, and 5 and name it `v2`
 
-  + Remember to use the arrow operator `&lt;-` to store the result
-  + Separate the elements of the function `c()` with commas
+```r
+v1 &lt;- c(3, 8, 10)
+```
 
-3. Create a third vector named `result1` with the sum of `v1` and `v2`: `result1 &lt;- v1 + v2`
+2- Create a second vector with the elements 7, 2, and 5 and name it `v2`
 
-4. Lastlym create a fourth vector named `result2` with the sum of `v2` plus ten: `result2 &lt;- v2 + 10`
+
+```r
+v2 &lt;- c(7, 2, 5)
+```
+
+3- Create a third vector named `result1` with the sum of `v1` and `v2`:
+
+
+```r
+result1 &lt;- v1 + v2
+```
+
+4- Lastly, create a fourth vector named `result2` with the sum of `v2` plus ten:
+
+
+```r
+result2 &lt;- v2 + 10
+```
+
+5- Print `result1` and `result2` and observe the results
 
 ---
 
-# Object types
+# Object types // ობიექტების ტიპები
 
-ADD IMAGE
+&lt;img src="img/session1/ex5.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Object types
+# Object types // ობიექტების ტიპები
+
+&lt;img src="img/session1/ex5-2.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Object types // ობიექტების ტიპები
 
 Notice two things:
 
 1.- Operating two vectors applies the operation **element-wise**
 
-ADD IMAGE FROM GDRIVE, V1 + V2 = RESULT1
-
----
-
-# Object types
+&lt;img src="img/session1/element-wise-vector.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 2.- Operating a vector with a numeric object will apply the **same operation to every element of the vector**
 
-ADD IMAGE
+&lt;img src="img/session1/same-operation-vector.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Object types
+class: inverse, center, middle
+name: functions-in-r
 
-## Character strings
+# Functions in R // ფუნქციონირებს R
 
-- The last type we will review today are character strings
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
-- They are collections of alphanumeric characters usually representing words or texts, or just characters in general
+---
+
+# Functions in R // ფუნქციონირებს R
+
+- Functions are how we apply operations to objects in R
+
+- We have used a few functions in the previous exercises. For example, `subset()` and `paste()` are functions
+
+- Everything that has a name plus parentheses is a function in R
+
+
+&lt;img src="img/session1/function.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Functions in R // ფუნქციონირებს R
+
+Functions have the following syntax:
+
+&lt;img src="img/session1/function-syntax.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+- **Function name:** the name we use to call a function. It goes before the parentheses
+
+- **Arguments:** inputs and specifications for the function to be applied.
+
+  + Arguments go inside the parentheses
+  + The first argument is the object you apply the function on
+
+---
+
+# Functions in R // ფუნქციონირებს R
+
+- The results of a function can always be stored in an object with the arrow operator (`&lt;-`)
+
+&lt;img src="img/session1/function-stored.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+- As we saw previously, the results of a function will only be printed in the console if you don't store them
+
+---
+
+# Functions in R // ფუნქციონირებს R
+
+## Exercise 6: Using the function `summary()`
+
+1. Compute the summary statistics of the variables of `small_business_2019` and save the result with `summary_table &lt;- summary(small_business_2019)`
+
+2. Print the stored result with `print(summary_table)`
+
+---
+
+# Functions in R // ფუნქციონირებს R
+
+Note that this code is both creating a new object (with `summary_table &lt;- summary(small_business_2019)`) and printing the result in the console (with `print(small_business_2019)`)
+
+&lt;img src="img/session1/summary-result.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Questions? // კითხვები?
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+class: inverse, center, middle
+name: wrapping-up
+
+# Wrapping up // შეფუთვა
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Add code comments!
+
+- Every line of code that starts with the pound symbol (`#`) will be ignored when R executes the code
+
+- This means that you can add any clarifying comment with `#`. These are called **code comments**
+
+- It's always a good practice to add code comments for yourself to later remember what the code is doing or to explain your code to others if you'll share it
+
+---
+
+# Wrapping up // შეფუთვა
+
+- Try adding code comments to your script so you will remember which part corresponds to each exercise
+
+&lt;img src="img/session1/code-comments.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Always save your work!
+
+- Click the floppy disk icon to save your work
+- Select a location for your file and remember where you're saving it
+
+&lt;img src="img/session1/save.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up // შეფუთვა
+
+## This session
+
+This first session focused on the basics for writing R code
+
+&lt;img src="img/session1/session1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Next session
+
+In the next session we will learn how to get data ready to be exported as outputs
+
+&lt;img src="img/session1/session2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Thanks! // მადლობა! // ¡Gracias! // Obrigado!
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+class: inverse, center, middle
+name: appendix
+
+# Appendix // დანართი
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Appendix // დანართი
+
+## Object types: character strings
+
+- Character strings are collections of alphanumeric characters usually representing words or texts, or just characters in general
 
 
 ```r
 s1 &lt;- "gamarjoba"
 print(s1)
+```
+
+```
+## [1] "gamarjoba"
 ```
 
 - Strings characters are **always enclosed in quotes** (`" "`)
@@ -665,9 +831,9 @@ print(s1)
 
 ---
 
-# Object types
+# Appendix // დანართი
 
-## Exercise 6: create and operate character strings
+## Exercise: create and operate character strings
 
 1. Create a character string object with the words `"Georgia has great"` and name it `words1`
 
@@ -686,162 +852,19 @@ print(words_result)
 
 ---
 
-# Object types
+# Appendix // დანართი
 
-&lt;img src="img/session1/ex6.png" width="95%" style="display: block; margin: auto;" /&gt;
+## Object types: character strings
 
----
-
-# Object types
-
-&lt;img src="img/session1/ex6-environment.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session1/ex6.png" width="45%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-class: inverse, center, middle
-name: functions-in-r
+# Appendix // დანართი
 
-# Functions in R //
+## Object types: character strings
 
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-
-# Functions in R //
-
-- Functions are how we apply operations to objects in R
-
-- We have used a few functions in the previous exercises. For example, `subset()` and `paste()` are functions
-
-- Everything that has a name plus parentheses is a function in R
-
-UPDATE IMAGE IF TIME ALLOWS
-
-&lt;img src="img/session1/function.png" width="95%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Functions in R //
-
-Functions have the following syntax:
-
-UPDATE IMAGE IF TIME ALLOWS
-
-&lt;img src="img/session1/function-syntax.png" width="95%" style="display: block; margin: auto;" /&gt;
-
-- **Function name:** the name we use to call a function. It goes before the parentheses
-
-- **Arguments:** inputs and specifications for the function to be applied.
-
-  + Arguments go inside the parentheses
-  + The first argument is the object you apply the function on
-
----
-
-# Functions in R //
-
-- The results of a function can always be stored in an object with the arrow operator (`&lt;-`)
-
-&lt;img src="img/session1/function-stored.png" width="95%" style="display: block; margin: auto;" /&gt;
-
-- As we saw previously, the results of a function will only be printed in the console if you don't store them
-
----
-
-# Functions in R //
-
-## Exercise 7: Using the function `summary()`
-
-1. Compute the summary statistics of the variables of `ADD DATAFRAME` and save the result with `summary_table &lt;- summary(ADD DATAFRAME)`
-
-2. Print the stored result with `print(summary_table)`
-
----
-
-# Functions in R //
-
-Note that this code is both creating a new object (with `summary_table &lt;- summary(sample_vat)`) and printing the result in the console (with `print(summary_table)`)
-
-&lt;img src="img/session1/summary-result.png" width="75%" style="display: block; margin: auto;" /&gt;
-
----
-
-class: inverse, center, middle
-
-# Questions? //
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-
-class: inverse, center, middle
-name: wrapping-up
-
-# Wrapping up //
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-
-# Wrapping up //
-
-## Add code comments!
-
-- Every line of code that starts with the pound symbol (`#`) will be ignored when R executes the code
-
-- This means that you can add any clarifying comment with `#`. These are called **code comments**
-
-- It's always a good practice to add code comments for yourself to later remember what the code is doing or to explain your code to others if you'll share it
-
----
-
-# Wrapping up
-
-- Try adding code comments to your script so you will remember which part corresponds to each exercise
-
-ADD IMAGE
-
----
-
-# Wrapping up //
-
-## Always save your work!
-
-- Click the floppy disk icon to save your work
-- Select a location for your file and remember where you're saving it
-
-UPDATE IMAGE
-
-&lt;img src="img/session1/save.png" width="65%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Wrapping up //
-
-## This session
-
-This first session focused on the basics for writing R code
-
-&lt;img src="img/session1/day1.png" width="90%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Wrapping up //
-
-## Next session
-
-In the next session we will learn how to get data ready to be exported as outputs
-
-ADD IMAGE
-
----
-
-class: inverse, center, middle
-name: statistical-programming
-
-# Thanks! // ADD GAMARJOBA // ¡Gracias!
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+&lt;img src="img/session1/ex6-environment.png" width="60%" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
