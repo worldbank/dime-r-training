@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Session 3 - Descriptive statistics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Luis Eduardo San Martin" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Session 3 - Descriptive statistics
+]
+.subtitle[
+## R training - Georgia RS-WB DIME
+]
+.author[
+### Luis Eduardo San Martin
+]
+.date[
+### The World Bank | September 2023
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+&lt;/style&gt;
+
+# Table of contents // სარჩევი
+
+- ADD
+
+---
+
+# Introduction
+
+- We learned yesterday how to conduct statistical programming and export the results in `.csv` files
+- However, sometime we might need more refined tables than simple (and ugly) CSVs
+
+ADD IMAGE, DATA WORK PIPELINE AND IN OUTPUTS THERE'S A CSV AND A NICE EXCEL
+
+---
+
+# Introduction
+
+- That's what today's session is about, along with an explanation of the pipes (`%&gt;%`)
+
+SAME IMAGE
+
+---
+
+# Introduction
+
+## Exercise 1a: Getting the libraries for today's session
+
+We're going to use two R libraries in this session: `modelsummary` and `huxtable`.
+
+1. Install `modelsummary` and `huxtable`:
+
+
+```r
+install.packages("modelsummary")
+install.packages("huxtable")
+```
+
+ADD IMAGE OF CONSOLE INSTALLING
+
+---
+
+# Introduction
+
+## Exercise 1b: Download and load the data we'll use
+
+1. Go to https://www.osf.io/XXXXX and download the file
+
+1. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `XXXXX.csv`
+
+  + If you don't know where the file is, remember to check in your `Downloads` folder
+
+1. Select `Import`
+
+1. Go to https://www.osf.io/XXX, download the file, and repeat steps 2-3
+  
+ADD SCREENSHOT OF IMPORT BOX
+
+---
+
+# Introduction
+
+You should have two dataframes loaded in the environment after this.
+
+ADD IMAGE
+
+---
+
+# Introduction
+
+## Recap: always know your data!
+
+---
+
+class: inverse, center, middle
+name: piping
+
+# Piping //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Piping
+
+- Before we start producing more refined outputs, we need to cover piping
+
+- You probably remember this piece of code from one of yesterday's exercise:
+
+
+```r
+# Filter only businesses in Tbilisi:
+temp1 &lt;- filter(small_business_2019, region == "Tbilisi")
+
+# Sort previous result by income, descending order:
+temp2 &lt;- arrange(temp1, -income)
+
+# Keep only the 50 first businesses after sorting:
+df_tbilisi_50 &lt;- filter(temp2, row_number() &lt;= 50)
+```
+
+---
+
+# Piping
+
+This code works, but the problem with it is that it makes us generate unnecessary intermediate dataframes (`temp1`, `temp2`) that store results temporarily
+
+&lt;img src="img/session3/temp_dfs.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Piping
+
+Instead, we can use pipes to **pass the results of a function and apply a new function on top of it**
+
+.pull-left[
+
+```r
+# Filter only businesses in Tbilisi:
+temp1 &lt;- filter(small_business_2019,
+                region == "Tbilisi")
+
+# Sort previous result by income, descending order:
+temp2 &lt;- arrange(temp1,
+                 -income)
+
+# Keep only the 50 first businesses after sorting:
+df_tbilisi_50 &lt;- filter(temp2,
+                        row_number() &lt;= 50)
+```
+]
+
+.pull-right[
+
+```r
+# The same but with pipes:
+df_tbilisi_50 &lt;- filter(small_business_2019,
+                        region == "Tbilisi") %&gt;%
+  arrange(-income) %&gt;%
+  filter(row_number() &lt;= 50)
+```
+]
+
+---
+
+# Piping
+
+.pull-left[
+
+```r
+# Filter only businesses in Tbilisi:
+temp1 &lt;- filter(small_business_2019,
+                region == "Tbilisi")
+
+# Sort previous result by income, descending order:
+temp2 &lt;- arrange(temp1,
+                 -income)
+
+# Keep only the 50 first businesses after sorting:
+df_tbilisi_50 &lt;- filter(temp2,
+                        row_number() &lt;= 50)
+```
+]
+
+.pull-right[
+
+```r
+# The same but with pipes:
+df_tbilisi_50 &lt;- filter(small_business_2019,
+                        region == "Tbilisi") %&gt;%
+  arrange(-income) %&gt;%
+  filter(row_number() &lt;= 50)
+```
+]
+
+There are several important details to notice here:
+
+1.- The resulting dataframe `df_tbilisi_50` is **the same in both cases**
+
+---
+
+
+# Piping
+
+.pull-left[
+
+```r
+# Filter only businesses in Tbilisi:
+temp1 &lt;- filter(small_business_2019,
+                region == "Tbilisi")
+
+# Sort previous result by income, descending order:
+temp2 &lt;- arrange(temp1,
+                 -income)
+
+# Keep only the 50 first businesses after sorting:
+df_tbilisi_50 &lt;- filter(temp2,
+                        row_number() &lt;= 50)
+```
+]
+
+.pull-right[
+
+```r
+# The same but with pipes:
+df_tbilisi_50 &lt;- filter(small_business_2019,
+                        region == "Tbilisi") %&gt;%
+  arrange(-income) %&gt;%
+  filter(row_number() &lt;= 50)
+```
+]
+
+2.- The name of the resulting dataframe is now defined in the first line of this data wrangling operation. This is because **R evaluates lines with consecutive pipes as if they were a single line**
+
+---
+
+# Piping
+
+.pull-left[
+
+```r
+# Filter only businesses in Tbilisi:
+temp1 &lt;- filter(small_business_2019,
+                region == "Tbilisi")
+
+# Sort previous result by income, descending order:
+temp2 &lt;- arrange(temp1,
+                 -income)
+
+# Keep only the 50 first businesses after sorting:
+df_tbilisi_50 &lt;- filter(temp2,
+                        row_number() &lt;= 50)
+```
+]
+
+.pull-right[
+
+```r
+# The same but with pipes:
+df_tbilisi_50 &lt;- filter(small_business_2019,
+                        region == "Tbilisi") %&gt;%
+  arrange(-income) %&gt;%
+  filter(row_number() &lt;= 50)
+```
+]
+
+There are several important details to notice here:
+
+3.- Notice that the functions `arrange()` and `filter()` used after the pipes now have only **one argument instead of two**. This is because when using pipes the first argument is implied to be result of the function before the pipes
+
+---
+
+# Piping
+
+## Exercise 2: filtering and sorting revisited
+
+1. Apply the same filtering and sorting now with pipes
+
+
+```r
+df_tbilisi_50 &lt;- filter(small_business_2019,
+                        region == "Tbilisi") %&gt;%
+  arrange(-income) %&gt;%
+  filter(row_number() &lt;= 50)
+```
+
+---
+
+# Piping
+
+Now we will not have any annoying intermediate results stored in our environment!
+
+.pull-left[
+
+```r
+# The same but with pipes:
+df_tbilisi_50 &lt;- filter(small_business_2019,
+                        region == "Tbilisi") %&gt;%
+  arrange(-income) %&gt;%
+  filter(row_number() &lt;= 50)
+```
+]
+
+.pull-right[
+&lt;img src="img/session3/env-pipes.png" width="75%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Piping
+
+Lastly, we can also add more formatting to this code to improve its clarity even more:
+
+.pull-left[
+
+```r
+# Previous solution
+df_tbilisi_50 &lt;- filter(small_business_2019,
+                        region == "Tbilisi") %&gt;%
+  arrange(-income) %&gt;%
+  filter(row_number() &lt;= 50)
+```
+]
+
+.pull-right[
+
+```r
+# The same with better spacing
+df_tbilisi_50 &lt;-
+  small_business_2019 %&gt;%
+  filter(region == "Tbilisi") %&gt;%
+  arrange(-income) %&gt;%
+  filter(row_number() &lt;= 50)
+```
+]
+
+---
+
+# Piping
+
+ADD SOMETHING ON GOOD CODE AND CODE CLARITY? AND ELEGANT?
+
+---
+
+# Piping
+
+## Always use pipes!
+
+Now that you now about the power of the pipes, use them wisely!
+
+.pull-left[
+- Remember that pipes are part of the library `dplyr`, you need to load it before using them
+
+- Pipes also improve code clarity drastically
+
+- Many R coders use pipes and internet examples assume you know them
+
+- **We'll use pipes now in the next examples and exercises of the rest of this training**
+]
+
+.pull-right[
+&lt;img src="img/session3/pipes-joke.png" width="45%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+name: quick-summary-stats
+
+# Quick summary statistics //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Quick summary statistics
+
+We learned yesterday how to produce dataframes with results and export them.
+
+## But what if you want to ... ?
+
+- ...export results in a different format (example: Excel)
+
+- ...further customize which rows and columns to display in a result
+
+- ...format the results you export
+
+---
+
+# Quick summary statistics
+
+## You will need `modelsummary` and `huxtable` for this
+
+- These libraries allow you to export results in a customized way
+
+- We chose a combination of both because together they export a large range of output types and allow fine-grained customization of outputs
+
+ADD IMAGE, FROM UGLY CSV TO NICE EXCEL WITH LIBRARY BADGES
+
+---
+
+# Quick summary statistics //
+
+We'll start by introducing the function `datasummary_skim()` from `modelsummary`
+
+.command[
+## `datasummary_skim(data, output, ...)`
+
+ * **data:** the data set to be summarized, the only required argument
+ * **output:** the type of output desired
+ * **... :** additional options allow for formatting customization, such as including notes and titles
+]
+
+For example:
+
+
+```r
+datasummary_skim(
+  data,
+  output = "default",
+  type = "numeric",
+  title = NULL,
+  notes = NULL,
+  ...
+)
+```
+
+---
+
+# Quick summary statistics //
+
+## Exercise 3: Calculate quick summary statistics
+
+1. Use `datasummary_skim()` to create a descriptive statistics table for `XXXX`
+
+
+```r
+datasummary_skim(XXXXX)
+```
+
+---
+
+# Quick summary statistics //
+
+You should be seeing this result in the lower right panel of RStudio.
+
+
+```r
+datasummary_skim(XXXXX)
+```
+
+DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
+
+---
+
+# Quick summary statistics
+
+- Most functions of `modelsummary` summarize only numeric variables by default
+
+- To summarize categorical variables, use the argument `type = "categorical"`
+
+
+```r
+datasummary_skim(XXXXX, type = "categorical")
+```
+
+DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
+
+---
+
+# Quick summary statistics
+
+- `datasummary_skim()` is convenient because it's fast, easy, and shows a lot of information
+
+
+```r
+datasummary_skim(XXXXX)
+```
+
+DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
+
+- But what if we wanted to customize what to show? that's when we use `datasummary()` instead, also from the library `modelsummary`
+
+---
+
+class: inverse, center, middle
+name: customized-summary-stats
+
+# Customized summary statistics //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Customized summary statistics //
+
+`datasummary()` is very similar to `data_summary_skim()`. The only difference is that it requires a **formula argument**.
+
+.command[
+## `datasummary(formula, data, output)`
+
+ * **formula:** a two-sided formula to describe the table as: rows ~ columns
+ * **data:** the data set to be summarized
+ * **output:** the type of output desired
+ * **... :** additional options allow for formatting customization
+
+]
+
+
+```r
+datasummary(
+  var1 + var2 + var3 ~ stat1 + stat2 + stat3 + stat4,
+  data = data
+)
+```
+
+---
+
+# Customized summary statistics //
+
+## Exercise 4: 
+
+Create a summary statistics table showing the nuber of observations, mean, standard deviation, minimum, and maximum for variables XXX, XXX, XXX, and XXX of the dataframe `XXX`
+
+1. Use `datasummary()` for this:
+
+
+```r
+datasummary(
+  XX + XX + XX ~ N + Mean + SD + Min + Max,
+  XXXXX
+)
+```
+
+---
+
+# Customized summary statistics //
+
+
+```r
+datasummary(
+  XX + XX + XX ~ N + Mean + SD + Min + Max,
+  XXXXX
+)
+```
+
+REMOVE EVAL= FALSE O SHOW RESULTS
+
+---
+
+# Customized summary statistics //
+
+
+```r
+datasummary(
+  XX + XX + XX ~ N + Mean + SD + Min + Max, # this is the formula
+  XXXXXX                                    # this is the data
+)
+```
+
+Some notes:
+
+- The arguments **formula** and **data** are mandatory for `datasummary()`
+- All other arguments are optional (like `title = *some-title*`, to add a table title)
+- The formula should always be defined as: rows ~ columns
+- The rows and columns in the formula are separated by a plus (`+`) sign
+
+---
+
+# Customized summary statistics //
+
+
+```r
+datasummary(
+  XX + XX + XX ~ N + Mean + SD + Min + Max, # this is the formula
+  XXXXXX                                    # this is the data
+)
+```
+
+In this exercise we used the statistics N (number of observations), mean, SD (standard deviation), Min (minimum), and Max (maximum). Other statistics you can include are:
+
+| Statistic | Keyword |
+| --------- | ------- |
+|Median|`Median`|
+|25th percentile|`P25`|
+|75th percentile|`P75`|
+|In general: percentile XX| `PXX`|
+|Small histogram|`Histogram`|
+
+---
+
+class: inverse, center, middle
+name: exporting-tables
+
+# Exporting tables //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Exporting tables //
+
+Remember that both `datasummary_skim()` and `datasummary()` had an optional argument named *output*? We can  use it to specify a file path for an output file.
+
+For example:
+
+
+```r
+datasummary_skim(XXXXX,
+                 output = "quick_stats.docx")
+```
+
+Will export the result to the `Documents` folder (in Windows) in a Word file named `quick_stats.docx`
+
+---
+
+# Exporting tables //
+
+The file type of the output is dictated by the file extension. For example:
+
+| File name | File extension | Output type |
+| --------- | -------------- | ----------- |
+|"quick_stats.docx"|`.docx`|Word|
+|"quick_stats.pptx"|`.pptx`|Power Point|
+|"quick_stats.html"|`.html`|HTML (to open in a web explorer)|
+|"quick_stats.tex"|`.tex`|Latex|
+|"quick_stats.md"|`.md`|Markdown|
+
+Noticed that we're missing Excel?
+
+---
+
+# Exporting tables //
+
+## That's because the functions of `modelsummary` can't export to Excel
+
+- Nonetheless, we can use the library `huxtable` as an intermediary to transform results from `modelsummary` functions to Excel files
+
+- `huxtable` is a package for exporting tables in general that allows you to **customize the output you're exporting**
+
+- We'll know how to use it in the next exercise
+
+---
+
+# Exporting tables //
+
+## Exercise 5: Export a table to Excel
+
+1. Run the following code to export the result of `datasummary_skim()` to Excel:
+
+
+```r
+# Store the table in a new object
+stats_table &lt;- datasummary_skim(XXXXX, output = "huxtable")
+
+# Export this new object to Excel with quick_xlsx()
+quick_xlsx(stats_table, "quick_stats.xlsx")
+```
+
+---
+
+# Exporting tables //
+
+Now the result will show in your `Documents` folder
+
+ADD SCREENSHOT
+
+---
+
+# Exporting tables //
+
+
+```r
+# Store the table in a new object
+stats_table &lt;- datasummary_skim(XXXXX, output = "huxtable")
+
+# Export this new object to Excel with quick_xlsx()
+quick_xlsx(stats_table, "quick_stats.xlsx")
+```
+
+Some comments about this code:
+
+- `quick_xlsx()` is a function from `huxtable`. The first argument is the object we export and the second is the file name. We could also use a file path here
+
+- Note that we now use the argument `output = "huxtable"` in `datasummary_skim()`. This tells R that the output should be an object type that we can operate later with `huxtable` functions, such as `quick_xlsx()`
+
+---
+
+class: inverse, center, middle
+name: customizing-table-outputs
+
+# Customizing table outputs //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Customizing table outputs //
+
+The code belows shows how the table `stats_table` can be formatted:
+
+.pull-left[
+
+```r
+# We start with stats_table:
+stats_table %&gt;%
+  # Use first row as table header
+  set_header_rows(1, TRUE) %&gt;%
+  # Use first column as row header
+  set_header_cols(1, TRUE)  %&gt;%
+  # Don't round large numbers
+  set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;%
+  # Center cells in first row
+  set_align(1, everywhere, "center") %&gt;%
+  # Set a theme for quick formatting
+  theme_basic()
+```
+]
+
+.pull-right[
+.small[
+
+```r
+# Format table
+ stats_table %&gt;%  
+   set_header_rows(1, TRUE) %&gt;% # Use first row as table header 
+   set_header_cols(1, TRUE)  %&gt;%  # Use first column as row header 
+   set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;% # Don't round large numbers  
+   set_align(1, everywhere, "center") %&gt;% # Centralize cells in first row 
+   theme_basic() # Set a theme for quick formatting 
+```
+]
+]
+
+---
+
+# Customizing table outputs //
+
+## Exercise 6: Export a customized table to Excel
+
+.pull-left[
+1. Customize `stats_table` in a new object called `stats_table_custom`
+
+
+```r
+stats_table_custom &lt;- stats_table %&gt;%
+  # Use first row as table header
+  set_header_rows(1, TRUE) %&gt;%
+  # Use first column as row header
+  set_header_cols(1, TRUE)  %&gt;%
+  # Don't round large numbers
+  set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;%
+  # Center cells in first row
+  set_align(1, everywhere, "center") %&gt;%
+  # Set a theme for quick formatting
+  theme_basic()
+```
+]
+
+.pull-right[
+2. Export `stats_table_custom` to a file named `stats-custom.xlsx` with `quick_xlsx()`
+
+
+```r
+quick_xlsx(
+  stats_table_custom,
+  "stats-custom.xlsx"
+  )
+)
+```
+]
+
+---
+
+# Customizing table outputs //
+
+SCREENSHOT OF OUTPUT IN DOCUMENTS FOLDER
+
+ALSO SCREENSHOT OF TABLE OPENED IN EXCEL
+
+---
+
+# Customizing table outputs //
+
+Notice that here in the first part of the exercise we stored the result in a new object
+
+
+```r
+stats_table_custom &lt;- stats_table %&gt;%  # &lt;---- here
+  set_header_rows(1, TRUE) %&gt;%
+  set_header_cols(1, TRUE)  %&gt;%
+  set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;%
+  set_align(1, everywhere, "center") %&gt;%
+  theme_basic()
+```
+
+This is the object that we export later with `quick_xslx()`
+
+
+```r
+quick_xlsx(
+  stats_table_custom,
+  "stats-custom.xlsx"
+  )
+)
+```
+
+---
+
+# Customizing table outputs //
+
+.pull-left[
+## Before
+]
+
+.pull-right[
+## After
+]
+
+---
+
+# Customizing table outputs //
+
+We used `theme_basic()` to give a minimalist, basic theme to the table. Other available themes are:
+
+ADD IMAGE
+
+---
+
+class: inverse, center, middle
+name: wrapping-up
+
+# Wrapping up //
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Wrapping up //
+
+## Save your work!
+
+Click the floppy disk to save the script you wrote in this session.
+
+ADD IMAGE
+
+---
+
+# Wrapping up //
+
+## What else is available?
+
+- This was a short overview of how `modelsummary` and `huxtable` work together to produce professional-looking table outputs in R
+
+- Other formatting options are:
+
+  + Export in new Excel tabs instead of new files
+  + Change variable and row names
+  + Change the width of columns or height of rows
+  + Color cells
+  + Use text formatting like bold or italics
+  
+- This is explained in the libraries documentation:
+
+  + `modelsummary` documentation: https://modelsummary.com/index.html
+  + `huxtable` documentation: https://hughjonesd.github.io/huxtable/
+  
+---
+
+# Wrapping up //
+
+## This session
+
+ADD IMAGE OF PIPELINE ENDING IN EXCEL EXPORTED OUTPUT
+
+---
+
+# Wrapping up //
+
+## Next session (last one)
+
+ADD IMAGE OF PIPELINE ENDING IN VISUALIZATIONS
+
+---
+
+class: inverse, center, middle
+
+# Thanks! // მადლობა! // ¡Gracias! // Obrigado!
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
