@@ -5,7 +5,8 @@ x3 <- x1 + x2
 print(x3)
 
 # Exercise 4
-df_guria <- subset(small_business_2019, region == "Guria")
+df_guria <- subset(small_business_2019,
+                   region == "Guria")
 View(df_guria)
 
 # Exercise 5

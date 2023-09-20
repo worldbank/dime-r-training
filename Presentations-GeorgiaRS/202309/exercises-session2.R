@@ -1,6 +1,5 @@
 # Exercise 3
 library(dplyr)
-library(tidyr)
 
 # Exercise 5
 temp1 <- filter(small_business_2019, region == "Tbilisi")
