@@ -53,28 +53,34 @@ class: center, middle, inverse, title-slide
 
 # Table of contents // სარჩევი
 
-- ADD
+- [Introduction](#intro)
+- [The grammar of graphics](#grammar-of-graphics)
+- [Bar plots](#bar-plots)
+- [Line plots](#line-plots)
+- [Text encodings](#text-encodings)
+- [Scatter plots](#scatter-plots)
+- [Wrapping up](#wrapping-up)
 
 ---
 
 class: inverse, center, middle
 name: intro
 
-# Introduction //
+# Introduction // გაცნობა
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 ## About this session
 
-ADD IMAGE OF DATA WORK PIPELINE WITH DATA VIS AS OUTPUTS
+&lt;img src="img/session4/data-work-data-vis.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 ## Data visualization in the data work pipeline
 
@@ -88,7 +94,7 @@ ADD IMAGE OF DATA WORK PIPELINE WITH DATA VIS AS OUTPUTS
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 ## Data visualization in R
 
@@ -111,70 +117,70 @@ ADD IMAGE OF DATA WORK PIPELINE WITH DATA VIS AS OUTPUTS
 class: inverse, center, middle
 name: grammar-of-graphics
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-&lt;img src="img/session4/grammar-of-graphics.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session4/grammar-of-graphics.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-&lt;img src="img/session4/grammar-of-graphics2.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session4/grammar-of-graphics2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-ADD IMAGE: AES AND X AXIS
+&lt;img src="img/session4/grammar-of-graphics3x.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-ADD IMAGE: AES AND Y AXIS
+&lt;img src="img/session4/grammar-of-graphics3y.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-ADD IMAGE: GEOM_COL
+&lt;img src="img/session4/grammar-of-graphics4gc.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-ADD IMAGE: LABS()
+&lt;img src="img/session4/grammar-of-graphics4l.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 class: inverse, center, middle
 name: bar-plots
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ## Exercise 1a: Create a basic bar plot
 
@@ -200,17 +206,17 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 
 
 This result should be displayed in the lower right panel of your RStudio window
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 This plot looks acceptable but it can be improved:
 
@@ -223,12 +229,12 @@ This plot looks acceptable but it can be improved:
 ]
 
 .pull-right[
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ## Exercise 1b: Improve your bar plot
 
@@ -253,15 +259,15 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 Now this looks better:
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ## Exercise 1c: save your plot
 
@@ -271,26 +277,31 @@ Now that your plot looks good, you can save it into an output with `ggsave()`
 
 
 ```r
-ggsave("vat_liability_small_2019.png")
+ggsave("vat_liability_small_2019.png",
+       width = 20,
+       height = 10,
+       units = "cm")
 ```
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 .pull-left[
 - `ggsave()` by default saves the last plot your produced
 
 - The first argument in `ggsave()` is the name of the file we save the plot into. We can also use file paths here
+
+- The rest are optional arguments that define the dimensions of the image you export, it's better to define them so the image has the correct proportions and text size
 ]
 
 .pull-right[
-ADD IMAGE SCREENSHOT
+&lt;img src="img/session4/ggsave-ex1.png" width="95%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ## A note about syntax
 
@@ -338,13 +349,13 @@ ggplot(small_business_2019_all) +
 class: inverse, center, middle
 name: line-plots
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 - In data visualization, we call **encodings** to the geometry selected to represent the data visually
 
@@ -356,23 +367,27 @@ name: line-plots
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 - Line plots are a nice option to encode numeric values and include different categories of a second variable at the same time
 
-ADD PLOT FROM EXERCISE
 
-# Line plots //
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-23-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Line plots // ხაზის ნაკვეთები
 
 - However, they also usually require some additional data wrangling compared to bar plots: data should be collapsed at the level specified in the x-axis and grouping variable
 
 - This is going to be clearer in the next exercise. The plot we'll produce is below
 
-ADD PLOT FROM EXERCISE
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-24-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ## Exercise 2a: Collapse your data at the month-group level
 
@@ -388,15 +403,19 @@ df_group_month &lt;- small_business_2019_all %&gt;%
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
+.pull-left[
 The result will look like this, you can explore it with `View(df_group_month)`.
+]
 
-ADD SCREENSHOT
+.pull-right[
+&lt;img src="img/session4/df-group-month.png" width="85%" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ## Exercise 2b: Create a line plot of VAT liability by month and group
 
@@ -415,25 +434,23 @@ ggplot(df_group_month) +
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 Your result possibly looks like this:
 
-
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-19-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-28-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
-Something looks off, doesn't it? We need to **make the legend labels and x-axis texts smaller** for them without overlapping each other and to **remove the centering of the title* so it's not cropped
+Something looks off, doesn't it? We need to **make the legend labels and x-axis texts smaller** for them without overlapping each other and to **remove the centering of the title** so it's not cropped
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-20-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-29-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ## Exercise 2c: Continue improving your plot
 
@@ -459,27 +476,35 @@ ggplot(df_group_month) +
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-21-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-30-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ## Exercise 2d: save your plot
 
-Use `ggsave("vat_liability_small_2019_by_group.png")` to save your plot
+Use this code to save your plot:
+
+
+```r
+ggsave("vat_liability_small_2019_by_group.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
-ADD SCREENSHOT
+&lt;img src="img/session4/ggsave-ex2.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 Choosing the right encoding for your data can be tricky. It depends on what you want to show in your plot and how much information you want it to show
 
@@ -487,11 +512,11 @@ Choosing the right encoding for your data can be tricky. It depends on what you 
   + Line plots can show more information and includes multiple groups to add an additional dimension to your data, but they are not visually appealing when your data varies a lot from one category to another
 
 .pull-left[
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-33-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -499,13 +524,13 @@ Choosing the right encoding for your data can be tricky. It depends on what you 
 class: inverse, center, middle
 name: text-encodings
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 - Geometric shapes such as bars and plots are not the only way to encode data in plots
 
@@ -515,11 +540,11 @@ name: text-encodings
 
 
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-25-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-36-1.png" width="57%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 - Using text encodings in a bar plot is nice
 
@@ -527,11 +552,11 @@ name: text-encodings
 
 - We'll see this in the next exercise
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-26-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-37-1.png" width="57%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 ## Exercise 3a: Collapse your data at the month level
 
@@ -547,15 +572,15 @@ df_month &lt;- small_business_2019_all %&gt;%
 
 ---
 
-# Text encodings
+# Text encodings // ტექსტური დაშიფვრები
 
 This is the result, you can use `View(df_month)` to display it
 
-ADD SCREENSHOT
+&lt;img src="img/session4/df-month.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 ## Exercise 3b: Add encodings to your bar plot
 
@@ -581,15 +606,15 @@ Use the collapsed dataframe `df_month` and the former code from exercise 1 to ad
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 This is result is nice but the text encodings have several decimal places. We can improve it by rounding `total` with the function `round()`
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-29-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-41-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 ## Exercise 3c: Improve your plot once again
 
@@ -614,30 +639,38 @@ Replace `total` with `round(total)` in `geom_text()`. The result should be:
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-31-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-43-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Text encodings
+# Text encodings // ტექსტური დაშიფვრები
 
 ## Don't forget to save your plot!
 
-Use `ggsave("vat_liability_small_2019_text.png")` to save this last plot
+Use this code to save this last plot:
+
+
+```r
+ggsave("vat_liability_small_2019_text.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
 
 ---
 
 class: inverse, center, middle
 name: scatter-plots
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 - We're going to explore one more type of encoding for data visualizations: **scatter plots**
 
@@ -645,11 +678,11 @@ name: scatter-plots
 
 - We use the encoding `geom_line()` for scatterplots
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-32-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-45-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 ## Exercise 4: Create a scatter plot
 
@@ -669,19 +702,22 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-34-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-47-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 Lastly, remember to save your scatter plot with:
 
 
 ```r
-ggsave("scatter_age_vat.png")
+ggsave("scatter_age_vat.png",
+       width = 20,
+       height = 10,
+       units = "cm"))
 ```
 
 ---
@@ -689,13 +725,13 @@ ggsave("scatter_age_vat.png")
 class: inverse, center, middle
 name: wrapping-up
 
-# Wrapping up //
+# Wrapping up // შეფუთვა
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Other encodings in `ggplot2`
 
@@ -715,33 +751,33 @@ This table lists several of the most popular encoding types in `ggplot2`
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Save your code!
 
 Click on the floppy disk to save your code in a location that you will remember.
 
-IMAGE
+&lt;img src="img/session4/save.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Data work pipeline
 
-IMAGE WITH CHECKS IN EACH STAGE OF PIPELINE
+&lt;img src="img/session4/data-work-final.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Looking ahead
 
-IMAGE WITH SQL DATABASE AS INPUT
+&lt;img src="img/session4/data-work-expanded.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Looking ahead
 

@@ -60,28 +60,36 @@ xaringanExtra::use_logo(
 
 # Table of contents // სარჩევი
 
-- ADD
+- [Introduction](#intro)
+- [The grammar of graphics](#grammar-of-graphics)
+- [Bar plots](#bar-plots)
+- [Line plots](#line-plots)
+- [Text encodings](#text-encodings)
+- [Scatter plots](#scatter-plots)
+- [Wrapping up](#wrapping-up)
 
 ---
 
 class: inverse, center, middle
 name: intro
 
-# Introduction //
+# Introduction // გაცნობა
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 ## About this session
 
-ADD IMAGE OF DATA WORK PIPELINE WITH DATA VIS AS OUTPUTS
+```{r echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/session4/data-work-data-vis.png")
+```
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 ## Data visualization in the data work pipeline
 
@@ -97,7 +105,7 @@ knitr::include_graphics("img/session4/data-vis.png")
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 ## Data visualization in R
 
@@ -122,74 +130,82 @@ knitr::include_graphics("img/session4/ggplot2.png")
 class: inverse, center, middle
 name: grammar-of-graphics
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-```{r echo = FALSE, out.width="95%"}
+```{r echo = FALSE, out.width="100%"}
 knitr::include_graphics("img/session4/grammar-of-graphics.png")
 ```
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-```{r echo = FALSE, out.width="95%"}
+```{r echo = FALSE, out.width="100%"}
 knitr::include_graphics("img/session4/grammar-of-graphics2.png")
 ```
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-ADD IMAGE: AES AND X AXIS
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics3x.png")
+```
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-ADD IMAGE: AES AND Y AXIS
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics3y.png")
+```
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-ADD IMAGE: GEOM_COL
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics4gc.png")
+```
 
 ---
 
-# The grammar of graphics //
+# The grammar of graphics // გრაფიკის გრამატიკა
 
 ## The grammar of graphics in `ggplot2`
 
-ADD IMAGE: LABS()
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics4l.png")
+```
 
 ---
 
 class: inverse, center, middle
 name: bar-plots
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ## Exercise 1a: Create a basic bar plot
 
@@ -213,7 +229,7 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ```{r echo=FALSE}
 small_business_2019_all <- read.csv("data/small_business_2019_all.csv")
@@ -231,7 +247,7 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 This plot looks acceptable but it can be improved:
 
@@ -255,7 +271,7 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ## Exercise 1b: Improve your bar plot
 
@@ -279,7 +295,7 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 Now this looks better:
 
@@ -300,7 +316,7 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ## Exercise 1c: save your plot
 
@@ -309,26 +325,33 @@ Now that your plot looks good, you can save it into an output with `ggsave()`
 1. Use this code to save your plot:
 
 ```{r eval = FALSE}
-ggsave("vat_liability_small_2019.png")
+ggsave("vat_liability_small_2019.png",
+       width = 20,
+       height = 10,
+       units = "cm")
 ```
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 .pull-left[
 - `ggsave()` by default saves the last plot your produced
 
 - The first argument in `ggsave()` is the name of the file we save the plot into. We can also use file paths here
+
+- The rest are optional arguments that define the dimensions of the image you export, it's better to define them so the image has the correct proportions and text size
 ]
 
 .pull-right[
-ADD IMAGE SCREENSHOT
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session4/ggsave-ex1.png")
+```
 ]
 
 ---
 
-# Bar plots //
+# Bar plots // ბარის ნაკვეთები
 
 ## A note about syntax
 
@@ -374,13 +397,13 @@ ggplot(small_business_2019_all) +
 class: inverse, center, middle
 name: line-plots
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 - In data visualization, we call **encodings** to the geometry selected to represent the data visually
 
@@ -392,23 +415,54 @@ name: line-plots
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 - Line plots are a nice option to encode numeric values and include different categories of a second variable at the same time
 
-ADD PLOT FROM EXERCISE
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+df_group_month <- small_business_2019_all %>%
+  select(group, taxperiod, vat_liability) %>%
+  group_by(group, taxperiod) %>%
+  summarize(total = sum(vat_liability))
+```
 
-# Line plots //
+```{r echo=FALSE, out.width="65%"}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(legend.text = element_text(size = 7), # don't forget the comma!
+        axis.text.x=element_text(size=6))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
 
 - However, they also usually require some additional data wrangling compared to bar plots: data should be collapsed at the level specified in the x-axis and grouping variable
 
 - This is going to be clearer in the next exercise. The plot we'll produce is below
 
-ADD PLOT FROM EXERCISE
+```{r echo=FALSE, out.width="65%"}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(legend.text = element_text(size = 7), # don't forget the comma!
+        axis.text.x=element_text(size=6))
+```
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ## Exercise 2a: Collapse your data at the month-group level
 
@@ -423,15 +477,21 @@ df_group_month <- small_business_2019_all %>%
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
+.pull-left[
 The result will look like this, you can explore it with `View(df_group_month)`.
+]
 
-ADD SCREENSHOT
+.pull-right[
+```{r echo = FALSE, out.width="85%"}
+knitr::include_graphics("img/session4/df-group-month.png")
+```
+]
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ## Exercise 2b: Create a line plot of VAT liability by month and group
 
@@ -449,16 +509,9 @@ ggplot(df_group_month) +
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 Your result possibly looks like this:
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-df_group_month <- small_business_2019_all %>%
-  select(group, taxperiod, vat_liability) %>%
-  group_by(group, taxperiod) %>%
-  summarize(total = sum(vat_liability))
-```
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, out.width="75%"}
 ggplot(df_group_month) +
@@ -474,9 +527,9 @@ ggplot(df_group_month) +
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
-Something looks off, doesn't it? We need to **make the legend labels and x-axis texts smaller** for them without overlapping each other and to **remove the centering of the title* so it's not cropped
+Something looks off, doesn't it? We need to **make the legend labels and x-axis texts smaller** for them without overlapping each other and to **remove the centering of the title** so it's not cropped
 
 ```{r echo=FALSE, out.width="75%"}
 ggplot(df_group_month) +
@@ -492,7 +545,7 @@ ggplot(df_group_month) +
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ## Exercise 2c: Continue improving your plot
 
@@ -518,7 +571,7 @@ ggplot(df_group_month) +
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ```{r echo=FALSE, out.width="75%"}
 ggplot(df_group_month) +
@@ -535,21 +588,30 @@ ggplot(df_group_month) +
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 ## Exercise 2d: save your plot
 
-Use `ggsave("vat_liability_small_2019_by_group.png")` to save your plot
+Use this code to save your plot:
+
+```{r eval=FALSE}
+ggsave("vat_liability_small_2019_by_group.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
-ADD SCREENSHOT
+```{r echo = FALSE, out.width="50%"}
+knitr::include_graphics("img/session4/ggsave-ex2.png")
+```
 
 ---
 
-# Line plots //
+# Line plots // ხაზის ნაკვეთები
 
 Choosing the right encoding for your data can be tricky. It depends on what you want to show in your plot and how much information you want it to show
 
@@ -589,13 +651,13 @@ ggplot(df_group_month) +
 class: inverse, center, middle
 name: text-encodings
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 - Geometric shapes such as bars and plots are not the only way to encode data in plots
 
@@ -610,7 +672,7 @@ name: text-encodings
     summarize(total = sum(vat_liability))
 ```
 
-```{r echo=FALSE, out.width="60%"}
+```{r echo=FALSE, out.width="57%"}
   ggplot(df_month) +
     aes(x = taxperiod,
         y = total) +
@@ -628,7 +690,7 @@ name: text-encodings
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 - Using text encodings in a bar plot is nice
 
@@ -636,7 +698,7 @@ name: text-encodings
 
 - We'll see this in the next exercise
 
-```{r echo=FALSE, out.width="60%"}
+```{r echo=FALSE, out.width="57%"}
   ggplot(df_month) +
     aes(x = taxperiod,
         y = total) +
@@ -654,7 +716,7 @@ name: text-encodings
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 ## Exercise 3a: Collapse your data at the month level
 
@@ -669,15 +731,17 @@ df_month <- small_business_2019_all %>%
 
 ---
 
-# Text encodings
+# Text encodings // ტექსტური დაშიფვრები
 
 This is the result, you can use `View(df_month)` to display it
 
-ADD SCREENSHOT
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session4/df-month.png")
+```
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 ## Exercise 3b: Add encodings to your bar plot
 
@@ -702,7 +766,7 @@ Use the collapsed dataframe `df_month` and the former code from exercise 1 to ad
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 This is result is nice but the text encodings have several decimal places. We can improve it by rounding `total` with the function `round()`
 
@@ -725,7 +789,7 @@ This is result is nice but the text encodings have several decimal places. We ca
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 ## Exercise 3c: Improve your plot once again
 
@@ -749,7 +813,7 @@ Replace `total` with `round(total)` in `geom_text()`. The result should be:
 
 ---
 
-# Text encodings //
+# Text encodings // ტექსტური დაშიფვრები
 
 ```{r echo=FALSE, out.width="75%"}
   ggplot(df_month) +
@@ -769,24 +833,31 @@ Replace `total` with `round(total)` in `geom_text()`. The result should be:
 
 ---
 
-# Text encodings
+# Text encodings // ტექსტური დაშიფვრები
 
 ## Don't forget to save your plot!
 
-Use `ggsave("vat_liability_small_2019_text.png")` to save this last plot
+Use this code to save this last plot:
+
+```{r eval=FALSE}
+ggsave("vat_liability_small_2019_text.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
 
 ---
 
 class: inverse, center, middle
 name: scatter-plots
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 - We're going to explore one more type of encoding for data visualizations: **scatter plots**
 
@@ -794,7 +865,7 @@ name: scatter-plots
 
 - We use the encoding `geom_line()` for scatterplots
 
-```{r echo=FALSE, out.width="70%"}
+```{r echo=FALSE, out.width="55%"}
 ggplot(small_business_2019_all) +
   aes(x = age,
       y = vat_liability) +
@@ -807,7 +878,7 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 ## Exercise 4: Create a scatter plot
 
@@ -826,7 +897,7 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 ```{r echo=FALSE, out.width="80%"}
 ggplot(small_business_2019_all) +
@@ -841,12 +912,15 @@ ggplot(small_business_2019_all) +
 
 ---
 
-# Scatter plots //
+# Scatter plots // გაფანტავს ნაკვეთებს
 
 Lastly, remember to save your scatter plot with:
 
 ```{r eval=FALSE}
-ggsave("scatter_age_vat.png")
+ggsave("scatter_age_vat.png",
+       width = 20,
+       height = 10,
+       units = "cm"))
 ```
 
 ---
@@ -854,13 +928,13 @@ ggsave("scatter_age_vat.png")
 class: inverse, center, middle
 name: wrapping-up
 
-# Wrapping up //
+# Wrapping up // შეფუთვა
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Other encodings in `ggplot2`
 
@@ -880,33 +954,39 @@ This table lists several of the most popular encoding types in `ggplot2`
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Save your code!
 
 Click on the floppy disk to save your code in a location that you will remember.
 
-IMAGE
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session4/save.png")
+```
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Data work pipeline
 
-IMAGE WITH CHECKS IN EACH STAGE OF PIPELINE
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session4/data-work-final.png")
+```
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Looking ahead
 
-IMAGE WITH SQL DATABASE AS INPUT
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session4/data-work-expanded.png")
+```
 
 ---
 
-# Wrapping up
+# Wrapping up // შეფუთვა
 
 ## Looking ahead
 
