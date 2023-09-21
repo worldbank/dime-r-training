@@ -1,3 +1,7 @@
+# Data
+small_business_2019     <- read.csv("data/small_business_2019.csv")
+small_business_2019_age <- read.csv("data/small_business_2019_age.csv")
+
 # Exercise 3
 library(dplyr)
 

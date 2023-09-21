@@ -62,28 +62,47 @@ xaringanExtra::use_logo(
 
 # Table of contents // სარჩევი
 
-- ADD
+- [Introduction](#intro)
+- [Piping](#piping)
+- [Quick summary statistics](#quick-summary-stats)
+- [Customized summary statistics](#customized-summary-stats)
+- [Exporting table](#exporting-tables)
+- [Customizing table outputs](#customiing-table-outputs)
+- [Wrapping up](#wrapping-up)
 
 ---
 
-# Introduction
+class: inverse, center, middle
+name: intro
+
+# Introduction // გაცნობა
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Introduction // გაცნობა
 
 - We learned yesterday how to conduct statistical programming and export the results in `.csv` files
 - However, sometime we might need more refined tables than simple (and ugly) CSVs
 
-ADD IMAGE, DATA WORK PIPELINE AND IN OUTPUTS THERE'S A CSV AND A NICE EXCEL
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session3/data-work-descriptive-stats.png")
+```
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 - That's what today's session is about, along with an explanation of the pipes (`%>%`)
 
-SAME IMAGE
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session3/data-work-descriptive-stats.png")
+```
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 ## Exercise 1a: Getting the libraries for today's session
 
@@ -96,46 +115,64 @@ install.packages("modelsummary")
 install.packages("huxtable")
 ```
 
-ADD IMAGE OF CONSOLE INSTALLING
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session3/install.png")
+```
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
 
 ## Exercise 1b: Download and load the data we'll use
 
-1. Go to https://www.osf.io/XXXXX and download the file
+.pull-left[
+1. Go to https://osf.io/z8snr and download the file
 
-1. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and select the file `XXXXX.csv`
+1. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and select the file `small_business_2019_all.csv`
 
   + If you don't know where the file is, remember to check in your `Downloads` folder
 
 1. Select `Import`
+]
 
-1. Go to https://www.osf.io/XXX, download the file, and repeat steps 2-3
-  
-ADD SCREENSHOT OF IMPORT BOX
-
----
-
-# Introduction
-
-You should have two dataframes loaded in the environment after this.
-
-ADD IMAGE
+.pull-right[
+```{r echo = FALSE, out.width="85%"}
+knitr::include_graphics("img/session3/import.png")
+```
+]
 
 ---
 
-# Introduction
+# Introduction // გაცნობა
+
+You should have one dataframe loaded in the environment after this.
+
+```{r echo = FALSE, out.width="90%"}
+knitr::include_graphics("img/session3/environment.png")
+```
+
+---
+
+# Introduction // გაცნობა
 
 ## Recap: always know your data!
+
+- This data is similar to the one we used before
+- Every row is one business in one tax period (month)
+- `modified_id` is a business identifier
+- We also have information about the region, firm age, monthly income, VAT liability
+- There is one more variable we didn't see before: `group` contains the group the firm was assigned to in a random experiment
+
+```{r echo = FALSE, out.width="40%"}
+knitr::include_graphics("img/session3/df.png")
+```
 
 ---
 
 class: inverse, center, middle
 name: piping
 
-# Piping //
+# Piping
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
@@ -236,7 +273,6 @@ There are several important details to notice here:
 
 ---
 
-
 # Piping
 
 .pull-left[
@@ -297,8 +333,6 @@ df_tbilisi_50 <- filter(small_business_2019,
 ```
 ]
 
-There are several important details to notice here:
-
 3.- Notice that the functions `arrange()` and `filter()` used after the pipes now have only **one argument instead of two**. This is because when using pipes the first argument is implied to be result of the function before the pipes
 
 ---
@@ -333,7 +367,7 @@ df_tbilisi_50 <- filter(small_business_2019,
 ]
 
 .pull-right[
-```{r echo = FALSE, out.width="75%"}
+```{r echo = FALSE, out.width="85%"}
 knitr::include_graphics("img/session3/env-pipes.png")
 ```
 ]
@@ -369,7 +403,30 @@ df_tbilisi_50 <-
 
 # Piping
 
-ADD SOMETHING ON GOOD CODE AND CODE CLARITY? AND ELEGANT?
+.pull-left[
+```{r eval=FALSE}
+# Previous solution
+df_tbilisi_50 <- filter(small_business_2019,
+                        region == "Tbilisi") %>%
+  arrange(-income) %>%
+  filter(row_number() <= 50)
+```
+]
+
+.pull-right[
+```{r eval=FALSE}
+# The same with better spacing
+df_tbilisi_50 <-
+  small_business_2019 %>%
+  filter(region == "Tbilisi") %>%
+  arrange(-income) %>%
+  filter(row_number() <= 50)
+```
+]
+
+- Good code is code that is both correct (does what it's supposed to) and it's easy to understand
+
+- Piping is **instrumental for writing good code in R**
 
 ---
 
@@ -400,7 +457,7 @@ knitr::include_graphics("img/session3/pipes-joke.png")
 class: inverse, center, middle
 name: quick-summary-stats
 
-# Quick summary statistics //
+# Quick summary statistics // სწრაფი შემაჯამებელი სტატისტიკა
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
@@ -428,11 +485,13 @@ We learned yesterday how to produce dataframes with results and export them.
 
 - We chose a combination of both because together they export a large range of output types and allow fine-grained customization of outputs
 
-ADD IMAGE, FROM UGLY CSV TO NICE EXCEL WITH LIBRARY BADGES
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session3/csv-to-excel.png")
+```
 
 ---
 
-# Quick summary statistics //
+# Quick summary statistics
 
 We'll start by introducing the function `datasummary_skim()` from `modelsummary`
 
@@ -459,27 +518,31 @@ datasummary_skim(
 
 ---
 
-# Quick summary statistics //
+# Quick summary statistics
 
 ## Exercise 3: Calculate quick summary statistics
 
-1. Use `datasummary_skim()` to create a descriptive statistics table for `XXXX`
+1. Load `modelsummary` with `library(modelsummary)`
 
-```{r eval = FALSE}
-datasummary_skim(XXXXX)
+1. Use `datasummary_skim()` to create a descriptive statistics table for `small_business_all`
+
+```{r echo=FALSE}
+small_business_2019_all <- read.csv("data/small_business_2019_all.csv")
+```
+
+```{r eval=FALSE}
+datasummary_skim(small_business_2019_all)
 ```
 
 ---
 
-# Quick summary statistics //
+# Quick summary statistics
 
 You should be seeing this result in the lower right panel of RStudio.
 
-```{r eval = FALSE}
-datasummary_skim(XXXXX)
+```{r echo=FALSE}
+datasummary_skim(small_business_2019_all)
 ```
-
-DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
 
 ---
 
@@ -489,11 +552,17 @@ DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
 
 - To summarize categorical variables, use the argument `type = "categorical"`
 
-```{r eval = FALSE}
-datasummary_skim(XXXXX, type = "categorical")
+```{r eval=FALSE}
+datasummary_skim(small_business_2019_all, type = "categorical")
 ```
 
-DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
+---
+
+# Quick summary statistics
+
+```{r echo=FALSE}
+datasummary_skim(small_business_2019_all, type = "categorical")
+```
 
 ---
 
@@ -501,11 +570,9 @@ DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
 
 - `datasummary_skim()` is convenient because it's fast, easy, and shows a lot of information
 
-```{r eval = FALSE}
-datasummary_skim(XXXXX)
+```{r echo = FALSE}
+datasummary_skim(small_business_2019_all)
 ```
-
-DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
 
 - But what if we wanted to customize what to show? that's when we use `datasummary()` instead, also from the library `modelsummary`
 
@@ -514,13 +581,13 @@ DROP EVAL=FALSE HERE SO RESULT IS DISPLAYED
 class: inverse, center, middle
 name: customized-summary-stats
 
-# Customized summary statistics //
+# Customized summary statistics // მორგებული შემაჯამებელი სტატისტიკა
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Customized summary statistics //
+# Customized summary statistics
 
 `datasummary()` is very similar to `data_summary_skim()`. The only difference is that it requires a **formula argument**.
 
@@ -543,42 +610,40 @@ datasummary(
 
 ---
 
-# Customized summary statistics //
+# Customized summary statistics
 
 ## Exercise 4: 
 
-Create a summary statistics table showing the nuber of observations, mean, standard deviation, minimum, and maximum for variables XXX, XXX, XXX, and XXX of the dataframe `XXX`
+Create a summary statistics table showing the nuber of observations, mean, standard deviation, minimum, and maximum for variables `age`, `income`, and `vat_liability` of the dataframe `small_business_2019_all`
 
 1. Use `datasummary()` for this:
 
 ```{r eval=FALSE}
 datasummary(
-  XX + XX + XX ~ N + Mean + SD + Min + Max,
-  XXXXX
+  age + income + vat_liability ~ N + Mean + SD + Min + Max,
+  small_business_2019_all
 )
 ```
 
 ---
 
-# Customized summary statistics //
+# Customized summary statistics
 
-```{r eval=FALSE}
+```{r echo=FALSE}
 datasummary(
-  XX + XX + XX ~ N + Mean + SD + Min + Max,
-  XXXXX
+  age + income + vat_liability ~ N + Mean + SD + Min + Max,
+  small_business_2019_all
 )
 ```
 
-REMOVE EVAL= FALSE O SHOW RESULTS
-
 ---
 
-# Customized summary statistics //
+# Customized summary statistics
 
 ```{r eval=FALSE}
 datasummary(
-  XX + XX + XX ~ N + Mean + SD + Min + Max, # this is the formula
-  XXXXXX                                    # this is the data
+  age + income + vat_liability ~ N + Mean + SD + Min + Max, # this is the formula
+  small_business_2019_all                                   # this is the data
 )
 ```
 
@@ -591,12 +656,12 @@ Some notes:
 
 ---
 
-# Customized summary statistics //
+# Customized summary statistics
 
 ```{r eval=FALSE}
 datasummary(
-  XX + XX + XX ~ N + Mean + SD + Min + Max, # this is the formula
-  XXXXXX                                    # this is the data
+  age + income + vat_liability ~ N + Mean + SD + Min + Max, # this is the formula
+  small_business_2019_all                                   # this is the data
 )
 ```
 
@@ -615,20 +680,20 @@ In this exercise we used the statistics N (number of observations), mean, SD (st
 class: inverse, center, middle
 name: exporting-tables
 
-# Exporting tables //
+# Exporting tables // მაგიდების ექსპორტი
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Exporting tables //
+# Exporting tables // მაგიდების ექსპორტი
 
-Remember that both `datasummary_skim()` and `datasummary()` had an optional argument named *output*? We can  use it to specify a file path for an output file.
+Remember that both `datasummary_skim()` and `datasummary()` have an optional argument named *output*? We can  use it to specify a file path for an output file.
 
 For example:
 
 ```{r eval=FALSE}
-datasummary_skim(XXXXX,
+datasummary_skim(small_business_2019_all,
                  output = "quick_stats.docx")
 ```
 
@@ -636,7 +701,7 @@ Will export the result to the `Documents` folder (in Windows) in a Word file nam
 
 ---
 
-# Exporting tables //
+# Exporting tables // მაგიდების ექსპორტი
 
 The file type of the output is dictated by the file extension. For example:
 
@@ -652,7 +717,7 @@ Noticed that we're missing Excel?
 
 ---
 
-# Exporting tables //
+# Exporting tables // მაგიდების ექსპორტი
 
 ## That's because the functions of `modelsummary` can't export to Excel
 
@@ -664,38 +729,52 @@ Noticed that we're missing Excel?
 
 ---
 
-# Exporting tables //
+# Exporting tables // მაგიდების ექსპორტი
 
 ## Exercise 5: Export a table to Excel
+
+1. Load `huxtable` with `library(huxtable)`
 
 1. Run the following code to export the result of `datasummary_skim()` to Excel:
 
 ```{r eval=FALSE}
 # Store the table in a new object
-stats_table <- datasummary_skim(XXXXX, output = "huxtable")
+stats_table <- datasummary_skim(small_business_2019_all, output = "huxtable")
 
 # Export this new object to Excel with quick_xlsx()
-quick_xlsx(stats_table, "quick_stats.xlsx")
+quick_xlsx(stats_table, file = "quick_stats.xlsx")
 ```
 
 ---
 
-# Exporting tables //
+# Exporting tables // მაგიდების ექსპორტი
 
 Now the result will show in your `Documents` folder
 
-ADD SCREENSHOT
+```{r echo = FALSE, out.width="65%"}
+knitr::include_graphics("img/session3/quick-stats-output.png")
+```
 
 ---
 
-# Exporting tables //
+# Exporting tables // მაგიდების ექსპორტი
+
+And you can open it with Excel for further customization if you want
+
+```{r echo = FALSE, out.width="65%"}
+knitr::include_graphics("img/session3/quick-stats-excel.png")
+```
+
+---
+
+# Exporting tables // მაგიდების ექსპორტი
 
 ```{r eval=FALSE}
 # Store the table in a new object
-stats_table <- datasummary_skim(XXXXX, output = "huxtable")
+stats_table <- datasummary_skim(small_business_2019_all, output = "huxtable")
 
 # Export this new object to Excel with quick_xlsx()
-quick_xlsx(stats_table, "quick_stats.xlsx")
+quick_xlsx(stats_table, file = "quick_stats.xlsx")
 ```
 
 Some comments about this code:
@@ -709,15 +788,15 @@ Some comments about this code:
 class: inverse, center, middle
 name: customizing-table-outputs
 
-# Customizing table outputs //
+# Customizing table outputs // ცხრილის შედეგების მორგება
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Customizing table outputs //
+# Customizing table outputs
 
-The code belows shows how the table `stats_table` can be formatted:
+The code below shows how the table `stats_table` can be formatted:
 
 .pull-left[
 ```{r eval=FALSE}
@@ -738,7 +817,9 @@ stats_table %>%
 
 .pull-right[
 .small[
-```{r, eval = F, message = F}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stats_table <- datasummary_skim(small_business_2019_all, output = "huxtable")
+
 # Format table
  stats_table %>%  
    set_header_rows(1, TRUE) %>% # Use first row as table header 
@@ -752,12 +833,12 @@ stats_table %>%
 
 ---
 
-# Customizing table outputs //
+# Customizing table outputs
 
 ## Exercise 6: Export a customized table to Excel
 
 .pull-left[
-1. Customize `stats_table` in a new object called `stats_table_custom`
+1.- Customize `stats_table` in a new object called `stats_table_custom`
 
 ```{r eval = FALSE}
 stats_table_custom <- stats_table %>%
@@ -775,28 +856,27 @@ stats_table_custom <- stats_table %>%
 ]
 
 .pull-right[
-2. Export `stats_table_custom` to a file named `stats-custom.xlsx` with `quick_xlsx()`
+2.- Export `stats_table_custom` to a file named `stats-custom.xlsx` with `quick_xlsx()`
 
 ```{r eval=FALSE}
 quick_xlsx(
   stats_table_custom,
-  "stats-custom.xlsx"
+  file = "stats-custom.xlsx"
   )
-)
 ```
 ]
 
 ---
 
-# Customizing table outputs //
+# Customizing table outputs
 
-SCREENSHOT OF OUTPUT IN DOCUMENTS FOLDER
-
-ALSO SCREENSHOT OF TABLE OPENED IN EXCEL
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session3/stats-custom.png")
+```
 
 ---
 
-# Customizing table outputs //
+# Customizing table outputs
 
 Notice that here in the first part of the exercise we stored the result in a new object
 
@@ -814,86 +894,110 @@ This is the object that we export later with `quick_xslx()`
 ```{r eval=FALSE}
 quick_xlsx(
   stats_table_custom,
-  "stats-custom.xlsx"
+  file = "stats-custom.xlsx"
   )
-)
 ```
 
 ---
 
-# Customizing table outputs //
+# Customizing table outputs
 
 .pull-left[
-## Before
+**Before:**
+
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session3/quick-stats-excel.png")
+```
 ]
 
 .pull-right[
-## After
+**After:**
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session3/stats-custom.png")
+```
 ]
 
 ---
 
-# Customizing table outputs //
+# Customizing table outputs
 
-We used `theme_basic()` to give a minimalist, basic theme to the table. Other available themes are:
+We used `theme_basic()` to give a minimalistic, basic theme to the table. Other available themes are:
 
-ADD IMAGE
+```{r echo = FALSE, out.width="75%"}
+knitr::include_graphics("img/session3/themes.png")
+```
 
 ---
 
 class: inverse, center, middle
 name: wrapping-up
 
-# Wrapping up //
+# Wrapping up // შეფუთვა
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Wrapping up //
+# Wrapping up // შეფუთვა
 
 ## Save your work!
 
 Click the floppy disk to save the script you wrote in this session.
 
-ADD IMAGE
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session3/save.png")
+```
 
 ---
 
-# Wrapping up //
+# Wrapping up // შეფუთვა
 
 ## What else is available?
 
 - This was a short overview of how `modelsummary` and `huxtable` work together to produce professional-looking table outputs in R
 
-- Other formatting options are:
+- Other formatting options are: (all from `huxtable`)
 
-  + Export in new Excel tabs instead of new files
-  + Change variable and row names
-  + Change the width of columns or height of rows
-  + Color cells
-  + Use text formatting like bold or italics
-  
-- This is explained in the libraries documentation:
+| Formatting | Command |
+|------------|---------|
+|Export in new Excel tabs instead of new files|`as_Workbook()`|
+|Change row names|`add_rownames()`|
+|Change column names|`add_colnames()`|
+|Cells in bold|`set_bold()`|
+|Cells in italics|`set_italic()`|
+|Cell font size|`font_size()`|
+|Cell color|`background_color()`|
+
+---
+
+# Wrapping up // შეფუთვა
+
+## What else is available?
+
+More of this is explained in the libraries documentation:
 
   + `modelsummary` documentation: https://modelsummary.com/index.html
   + `huxtable` documentation: https://hughjonesd.github.io/huxtable/
   
 ---
 
-# Wrapping up //
+# Wrapping up // შეფუთვა
 
 ## This session
 
-ADD IMAGE OF PIPELINE ENDING IN EXCEL EXPORTED OUTPUT
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session3/data-work-descriptive-stats.png")
+```
 
 ---
 
-# Wrapping up //
+# Wrapping up // შეფუთვა
 
 ## Next session (last one)
 
-ADD IMAGE OF PIPELINE ENDING IN VISUALIZATIONS
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session4/data-work-data-vis.png")
+```
 
 ---
 
