@@ -3,7 +3,7 @@
   <head>
     <title>Session 3: Data Wrangling</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina" />
+    <meta name="author" content="DIME Analytics" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -14,8 +14,8 @@
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
     <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
@@ -34,10 +34,10 @@ class: center, middle, inverse, title-slide
 ## R for Stata Users
 ]
 .author[
-### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina
+### DIME Analytics
 ]
 .date[
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> March 2023
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> March 2024
 ]
 
 ---
@@ -105,7 +105,7 @@ name: intro
 
 ### Goals of this session
 
-- To organize data in a way that it will be easier to analyze it and communicate it.
+- To organize data in a way that it will be easier to analyze and communicate it.
 
 --
 
@@ -202,6 +202,10 @@ library(here)       # A package to work with relative file paths
 library(janitor)    # Additional data cleaning tools
 ```
 
+```
+## Warning: package 'janitor' was built under R version 4.3.1
+```
+
 &gt; *Notes*: Remember you should always load your packages before your start coding.
 
 ---
@@ -210,13 +214,29 @@ library(janitor)    # Additional data cleaning tools
 
 The `here` package allows you to interact with your working directory. It will look for the closest R Project and set its location as the working directory. That's why it is important to set your RStudio project correctly. 
 
+.pull-left[
+
 The goal of this package is to:
 
 - Easily reference your files in project-oriented workflows. 
 
+Using `here`:
 
-&lt;img src="https://raw.githubusercontent.com/allisonhorst/stats-illustrations/main/rstats-artwork/here.png" width="40%" style="display: block; margin: auto;" /&gt;
+- Load the library.
+- Use `here()` for relative file paths.
 
+
+```r
+  path &lt;- here("data", "raw", "data-file.csv")
+  df &lt;- read.csv(path)
+```
+]
+
+
+
+.pull-right[
+&lt;img src="https://raw.githubusercontent.com/allisonhorst/stats-illustrations/main/rstats-artwork/here.png" width="85%" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 
@@ -232,7 +252,7 @@ Use either of the functions mentioned above and load the three WHR datasets from
 
 ]
 
-<div class="countdown" id="timer_a228ea05" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_b73b199e" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -253,7 +273,7 @@ whr17 &lt;- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv"
 
 ---
 
-# The pipe %&gt;% operator
+# The pipe %&gt;% (or |&gt;) operator
 
 * "Piping" in R can be seen as "**chaining**." This means that we are invoking multiple method calls. 
 * Every time you have invoked a method (a function) this return an object that then is going to be used in the next pipe.
@@ -309,6 +329,16 @@ From R for Data Science by Wickham &amp; Grolemund:
 
 ]
 
+--
+
+#### (only for 🤓 nerds:)
+
+* The `%&gt;%` pipe is part of the `magrittr` package. `R v4.1.0` adds a *native pipe* via `|&gt;`. you could use it like
+
+
+```r
+whr15|&gt; mean(variable, na.rm = T)
+```
 
 ---
 # Janitor package: The clean_names() function
@@ -377,22 +407,23 @@ whr15
 
 ```
 ## # A tibble: 158 × 12
-##    country region happi…¹ happi…² stand…³ econo…⁴ family healt…⁵ freedom trust…⁶
-##    &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Switze… Weste…       1    7.59  0.0341    1.40   1.35   0.941   0.666   0.420
-##  2 Iceland Weste…       2    7.56  0.0488    1.30   1.40   0.948   0.629   0.141
-##  3 Denmark Weste…       3    7.53  0.0333    1.33   1.36   0.875   0.649   0.484
-##  4 Norway  Weste…       4    7.52  0.0388    1.46   1.33   0.885   0.670   0.365
-##  5 Canada  North…       5    7.43  0.0355    1.33   1.32   0.906   0.633   0.330
-##  6 Finland Weste…       6    7.41  0.0314    1.29   1.32   0.889   0.642   0.414
-##  7 Nether… Weste…       7    7.38  0.0280    1.33   1.28   0.893   0.616   0.318
-##  8 Sweden  Weste…       8    7.36  0.0316    1.33   1.29   0.911   0.660   0.438
-##  9 New Ze… Austr…       9    7.29  0.0337    1.25   1.32   0.908   0.639   0.429
-## 10 Austra… Austr…      10    7.28  0.0408    1.33   1.31   0.932   0.651   0.356
-## # … with 148 more rows, 2 more variables: generosity &lt;dbl&gt;,
-## #   dystopia_residual &lt;dbl&gt;, and abbreviated variable names ¹​happiness_rank,
-## #   ²​happiness_score, ³​standard_error, ⁴​economy_gdp_per_capita,
-## #   ⁵​health_life_expectancy, ⁶​trust_government_corruption
+##    country     region              happiness_rank happiness_score standard_error
+##    &lt;chr&gt;       &lt;chr&gt;                        &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Switzerland Western Europe                   1            7.59         0.0341
+##  2 Iceland     Western Europe                   2            7.56         0.0488
+##  3 Denmark     Western Europe                   3            7.53         0.0333
+##  4 Norway      Western Europe                   4            7.52         0.0388
+##  5 Canada      North America                    5            7.43         0.0355
+##  6 Finland     Western Europe                   6            7.41         0.0314
+##  7 Netherlands Western Europe                   7            7.38         0.0280
+##  8 Sweden      Western Europe                   8            7.36         0.0316
+##  9 New Zealand Australia and New …              9            7.29         0.0337
+## 10 Australia   Australia and New …             10            7.28         0.0408
+## # ℹ 148 more rows
+## # ℹ 7 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
 ```
 
 ---
@@ -474,7 +505,7 @@ The `n_distinct` function allows us to count the number of unique values of a va
 2. Region
 ]
 
-<div class="countdown" id="timer_a6dd3f49" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_6481c16f" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -574,6 +605,40 @@ name: wrangling
 
 ---
 
+# Wrangling your data
+
+For data wrangling you will frequently use one tidyverse package called dplyr. 
+
+* [`dplyr`](https://dplyr.tidyverse.org) is part of the [`tidyverse`](https://www.tidyverse.org) package family.
+
+* You are ***highly encouraged*** to read through [Hadley Wickham's chapter](https://r4ds.had.co.nz/transform.html). It's clear and concise.
+
+--
+
+* Also check out this great "cheatsheet" [here](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf).
+
+--
+
+
+* The package is organized around a set of **verbs**, i.e. *actions* to be taken.
+
+* We operate on `data.frames` or `tibbles` (*nicer looking* data.frames.)
+
+--
+
+* All *verbs* work as follows:
+
+`$$\text{verb}(\underbrace{\text{data.frame}}_{\text{1st argument}}, \underbrace{\text{what to do}}_\text{2nd argument})$$`
+
+--
+
+* Alternatively you can (should) use the `pipe` operator `%&gt;%`:
+
+`$$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %&gt;% }}_{\text{"pipe" operator}} \text{verb}(\underbrace{\text{what to do}}_\text{2nd argument})$$`
+
+
+---
+
 # dplyr::filter
 
 - The `filter` function is used to subset rows in a dataset. 
@@ -585,22 +650,23 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 ```
 ## # A tibble: 21 × 12
-##    country region happi…¹ happi…² stand…³ econo…⁴ family healt…⁵ freedom trust…⁶
-##    &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Switze… Weste…       1    7.59  0.0341    1.40   1.35   0.941   0.666   0.420
-##  2 Iceland Weste…       2    7.56  0.0488    1.30   1.40   0.948   0.629   0.141
-##  3 Denmark Weste…       3    7.53  0.0333    1.33   1.36   0.875   0.649   0.484
-##  4 Norway  Weste…       4    7.52  0.0388    1.46   1.33   0.885   0.670   0.365
-##  5 Finland Weste…       6    7.41  0.0314    1.29   1.32   0.889   0.642   0.414
-##  6 Nether… Weste…       7    7.38  0.0280    1.33   1.28   0.893   0.616   0.318
-##  7 Sweden  Weste…       8    7.36  0.0316    1.33   1.29   0.911   0.660   0.438
-##  8 Austria Weste…      13    7.2   0.0375    1.34   1.30   0.890   0.624   0.187
-##  9 Luxemb… Weste…      17    6.95  0.0350    1.56   1.22   0.919   0.616   0.378
-## 10 Ireland Weste…      18    6.94  0.0368    1.34   1.37   0.895   0.618   0.287
-## # … with 11 more rows, 2 more variables: generosity &lt;dbl&gt;,
-## #   dystopia_residual &lt;dbl&gt;, and abbreviated variable names ¹​happiness_rank,
-## #   ²​happiness_score, ³​standard_error, ⁴​economy_gdp_per_capita,
-## #   ⁵​health_life_expectancy, ⁶​trust_government_corruption
+##    country     region         happiness_rank happiness_score standard_error
+##    &lt;chr&gt;       &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Switzerland Western Europe              1            7.59         0.0341
+##  2 Iceland     Western Europe              2            7.56         0.0488
+##  3 Denmark     Western Europe              3            7.53         0.0333
+##  4 Norway      Western Europe              4            7.52         0.0388
+##  5 Finland     Western Europe              6            7.41         0.0314
+##  6 Netherlands Western Europe              7            7.38         0.0280
+##  7 Sweden      Western Europe              8            7.36         0.0316
+##  8 Austria     Western Europe             13            7.2          0.0375
+##  9 Luxembourg  Western Europe             17            6.95         0.0350
+## 10 Ireland     Western Europe             18            6.94         0.0368
+## # ℹ 11 more rows
+## # ℹ 7 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
 ```
 
 ---
@@ -612,7 +678,7 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 ]
 
-<div class="countdown" id="timer_1e30e822" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_a34412ac" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -681,17 +747,17 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 × 12
-##   country  region happi…¹ happi…² stand…³ econo…⁴ family healt…⁵ freedom trust…⁶
-##   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Switzer… Weste…       1    7.59  0.0341    1.40   1.35   0.941   0.666   0.420
-## 2 Iceland  Weste…       2    7.56  0.0488    1.30   1.40   0.948   0.629   0.141
-## 3 Denmark  Weste…       3    7.53  0.0333    1.33   1.36   0.875   0.649   0.484
-## 4 Norway   Weste…       4    7.52  0.0388    1.46   1.33   0.885   0.670   0.365
-## 5 Canada   North…       5    7.43  0.0355    1.33   1.32   0.906   0.633   0.330
-## # … with 2 more variables: generosity &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, and
-## #   abbreviated variable names ¹​happiness_rank, ²​happiness_score,
-## #   ³​standard_error, ⁴​economy_gdp_per_capita, ⁵​health_life_expectancy,
-## #   ⁶​trust_government_corruption
+##   country     region         happiness_rank happiness_score standard_error
+##   &lt;chr&gt;       &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+## 1 Switzerland Western Europe              1            7.59         0.0341
+## 2 Iceland     Western Europe              2            7.56         0.0488
+## 3 Denmark     Western Europe              3            7.53         0.0333
+## 4 Norway      Western Europe              4            7.52         0.0388
+## 5 Canada      North America               5            7.43         0.0355
+## # ℹ 7 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
 ```
 
 &gt; Notice that we are negating the function, i.e., `!is.na()`
@@ -709,7 +775,7 @@ name: variables
 
 # Creating new variables
 
-We use `mutate()` to create new variables. For example:
+We use `dplyr::mutate()` to create new variables. For example:
 
 
 ```r
@@ -761,7 +827,7 @@ whr15 %&gt;%
 
 # Creating variables by groups
 
-In R, we can use `group_by()` before we mutate to group an estimation. For example, we are going to pipe the following functions:
+In R, we can use `dplyr::group_by()` before we mutate to group an estimation. For example, we are going to pipe the following functions:
 
 1. Group our data by the `region` variable.
 2. Create a variable that would be the mean of `happiness_score` by each region.
@@ -846,12 +912,12 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 3 × 4
-##   region                     happiness_score health_life_expectancy trust_gove…¹
-##   &lt;chr&gt;                                &lt;dbl&gt;                  &lt;dbl&gt;        &lt;dbl&gt;
-## 1 Australia and New Zealand             7.28                  0.920       0.393 
-## 2 Central and Eastern Europe            5.33                  0.719       0.0867
-## 3 Eastern Asia                          5.63                  0.877       0.128 
-## # … with abbreviated variable name ¹​trust_government_corruption
+##   region           happiness_score health_life_expectancy trust_government_cor…¹
+##   &lt;chr&gt;                      &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
+## 1 Australia and N…            7.28                  0.920                 0.393 
+## 2 Central and Eas…            5.33                  0.719                 0.0867
+## 3 Eastern Asia                5.63                  0.877                 0.128 
+## # ℹ abbreviated name: ¹​trust_government_corruption
 ```
 ]
 ]
@@ -864,7 +930,7 @@ whr15 %&gt;%
 
 **Exercise 4:** Create a variable called `year` that equals to the year of each dataframe using the `mutate()`. Remember to assign it to the same dataframe.
 
-<div class="countdown" id="timer_101785cf" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_a18bc93e" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -909,12 +975,12 @@ Now that we can identify the observations, we can combine the data set. Here are
 ```r
 rbind(df1, df2, df3) # The base R function
 
-bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
+bind_rows(df1, df2, df3) # The dplyr function, making some improvements to base R
 ```
 .exercise[
 **Exercise 5:** Append data sets. Use the function `bind_rows` to append the three WHR datasets:
 
-<div class="countdown" id="timer_ff091339" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
+<div class="countdown" id="timer_2de1fcc9" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -958,7 +1024,7 @@ bind_rows(whr15, whr16, whr17)
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
 
-<div class="countdown" id="timer_cc8fdcd2" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_4ad4a483" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -982,7 +1048,7 @@ regions &lt;- read_rds(here("DataWork", "DataSets", "Raw", "Un WHR", "regions.RD
 
 # Appending and merging data sets
 
-We can use the `left_join()` function to merge two dataframes. The function syntax is: `left_join(a_df, another_df, by = c("id_col1"))`. 
+We can use the `dplyr::left_join()` function to merge two dataframes. The function syntax is: `left_join(a_df, another_df, by = c("id_col1"))`. 
 
 &gt; A left join takes all the values from the first table, and looks for matches in the second table. If it finds a match, it adds the data from the second table; if not, it adds missing values. It is the equivalent of `merge, keep(master matched)` in Stata.
 
@@ -995,7 +1061,7 @@ We can use the `left_join()` function to merge two dataframes. The function synt
 
 ]
 
-<div class="countdown" id="timer_3e4bc553" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_a13c8072" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1046,7 +1112,7 @@ Look at the `everything()` function. It takes all the variables from the datafra
 
 ]
 
-<div class="countdown" id="timer_c7460d17" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_e45ebe46" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1066,14 +1132,13 @@ whr17 %&gt;%
 
 ```
 ## # A tibble: 2 × 14
-##   country  region happi…¹ happi…² whisk…³ whisk…⁴ econo…⁵ family healt…⁶ freedom
-##   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Taiwan … &lt;NA&gt;        33    6.42    6.49    6.35    1.43   1.38   0.794   0.361
-## 2 Hong Ko… &lt;NA&gt;        71    5.47    5.55    5.39    1.55   1.26   0.943   0.491
-## # … with 4 more variables: generosity &lt;dbl&gt;, trust_government_corruption &lt;dbl&gt;,
-## #   dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;, and abbreviated variable names
-## #   ¹​happiness_rank, ²​happiness_score, ³​whisker_high, ⁴​whisker_low,
-## #   ⁵​economy_gdp_per_capita, ⁶​health_life_expectancy
+##   country         region happiness_rank happiness_score whisker_high whisker_low
+##   &lt;chr&gt;           &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Taiwan Provinc… &lt;NA&gt;               33            6.42         6.49        6.35
+## 2 Hong Kong S.A.… &lt;NA&gt;               71            5.47         5.55        5.39
+## # ℹ 8 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, dystopia_residual &lt;dbl&gt;, year &lt;dbl&gt;
 ```
 
 ]
@@ -1109,7 +1174,7 @@ Finally, let's keep those relevant variables first and bind those rows.
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
 * Use `rbind()`
 
-<div class="countdown" id="timer_d9a10684" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_043d3556" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1171,7 +1236,7 @@ The function takes the following syntax:
 * Use `write_csv()`
 * Use `here()`
 
-<div class="countdown" id="timer_994d6fd8" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_57a0d59b" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1227,7 +1292,7 @@ write_rds(
 ---
 class: inverse, center, middle
 
-# And that's it for this session. Join us next week~
+# And that's it for this session. Join us tomorrow!! 
 
 ---
 class: inverse, center, middle
@@ -1275,15 +1340,14 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 × 8
-##   country     region                year happi…¹ happi…² econo…³ healt…⁴ freedom
-##   &lt;chr&gt;       &lt;chr&gt;                &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Australia   Australia and New Z…  2015      10    7.28   1.33    0.932   0.651
-## 2 New Zealand Australia and New Z…  2015       9    7.29   1.25    0.908   0.639
-## 3 Albania     Central and Eastern…  2015      95    4.96   0.879   0.813   0.357
-## 4 Armenia     Central and Eastern…  2015     127    4.35   0.768   0.730   0.198
-## 5 Azerbaijan  Central and Eastern…  2015      80    5.21   1.02    0.640   0.370
-## # … with abbreviated variable names ¹​happiness_rank, ²​happiness_score,
-## #   ³​economy_gdp_per_capita, ⁴​health_life_expectancy
+##   country     region  year happiness_rank happiness_score economy_gdp_per_capita
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;                  &lt;dbl&gt;
+## 1 Australia   Austr…  2015             10            7.28                  1.33 
+## 2 New Zealand Austr…  2015              9            7.29                  1.25 
+## 3 Albania     Centr…  2015             95            4.96                  0.879
+## 4 Armenia     Centr…  2015            127            4.35                  0.768
+## 5 Azerbaijan  Centr…  2015             80            5.21                  1.02 
+## # ℹ 2 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;
 ```
 
 ]
@@ -1300,15 +1364,14 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 × 8
-##   country     region          year happiness_r…¹ happi…² econo…³ healt…⁴ freedom
-##   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Switzerland Western Europe  2015             1    7.59    1.40   0.941   0.666
-## 2 Iceland     Western Europe  2015             2    7.56    1.30   0.948   0.629
-## 3 Denmark     Western Europe  2015             3    7.53    1.33   0.875   0.649
-## 4 Norway      Western Europe  2015             4    7.52    1.46   0.885   0.670
-## 5 Canada      North America   2015             5    7.43    1.33   0.906   0.633
-## # … with abbreviated variable names ¹​happiness_rank, ²​happiness_score,
-## #   ³​economy_gdp_per_capita, ⁴​health_life_expectancy
+##   country     region  year happiness_rank happiness_score economy_gdp_per_capita
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;                  &lt;dbl&gt;
+## 1 Switzerland Weste…  2015              1            7.59                   1.40
+## 2 Iceland     Weste…  2015              2            7.56                   1.30
+## 3 Denmark     Weste…  2015              3            7.53                   1.33
+## 4 Norway      Weste…  2015              4            7.52                   1.46
+## 5 Canada      North…  2015              5            7.43                   1.33
+## # ℹ 2 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;
 ```
 
 You can also use `slice_head` and `slice_tail` to select the first or last rows respectively. Or `slice_sample` to randomly draw n rows.
@@ -1339,7 +1402,7 @@ whr15 %&gt;%
 ##  8 Western Europe            Sweden                   8
 ##  9 Australia and New Zealand New Zealand              9
 ## 10 Australia and New Zealand Australia               10
-## # … with 148 more rows
+## # ℹ 148 more rows
 ```
 
 ]
@@ -1387,15 +1450,15 @@ whr15 %&gt;%
 
 ```
 ## # A tibble: 5 × 9
-##   country    region         year happi…¹ happi…² econo…³ healt…⁴ freedom latin…⁵
-##   &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Costa Rica Latin Americ…  2015      12    7.23   0.956   0.860   0.634       1
-## 2 Mexico     Latin Americ…  2015      14    7.19   1.02    0.814   0.482       1
-## 3 Brazil     Latin Americ…  2015      16    6.98   0.981   0.697   0.490       1
-## 4 Venezuela  Latin Americ…  2015      23    6.81   1.04    0.721   0.429       1
-## 5 Panama     Latin Americ…  2015      25    6.79   1.06    0.797   0.542       1
-## # … with abbreviated variable names ¹​happiness_rank, ²​happiness_score,
-## #   ³​economy_gdp_per_capita, ⁴​health_life_expectancy, ⁵​latin_america_car
+##   country    region   year happiness_rank happiness_score economy_gdp_per_capita
+##   &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;                  &lt;dbl&gt;
+## 1 Costa Rica Latin …  2015             12            7.23                  0.956
+## 2 Mexico     Latin …  2015             14            7.19                  1.02 
+## 3 Brazil     Latin …  2015             16            6.98                  0.981
+## 4 Venezuela  Latin …  2015             23            6.81                  1.04 
+## 5 Panama     Latin …  2015             25            6.79                  1.06 
+## # ℹ 3 more variables: health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   latin_america_car &lt;dbl&gt;
 ```
 
 ---
@@ -1572,7 +1635,7 @@ whr_panel_wide %&gt;%
 ---
 class: inverse, center, middle
 
-# Thank you~
+# Thank you!!
 
 ---
 exclude: true

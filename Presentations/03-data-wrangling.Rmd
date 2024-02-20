@@ -1,8 +1,8 @@
 ---
 title: "Session 3: Data Wrangling"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2023"
+author: "DIME Analytics"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2024"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -119,7 +119,7 @@ name: intro
 
 ### Goals of this session
 
-- To organize data in a way that it will be easier to analyze it and communicate it.
+- To organize data in a way that it will be easier to analyze and communicate it.
 
 --
 
@@ -228,15 +228,30 @@ library(janitor)    # Additional data cleaning tools
 
 The `here` package allows you to interact with your working directory. It will look for the closest R Project and set its location as the working directory. That's why it is important to set your RStudio project correctly. 
 
+.pull-left[
+
 The goal of this package is to:
 
 - Easily reference your files in project-oriented workflows. 
 
+Using `here`:
 
-```{r here, echo = FALSE, out.width = "40%"}
+- Load the library.
+- Use `here()` for relative file paths.
+
+```{r, eval=FALSE}
+  path <- here("data", "raw", "data-file.csv")
+  df <- read.csv(path)
+```
+]
+
+
+
+.pull-right[
+```{r here, echo = FALSE, out.width = "85%"}
 knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/stats-illustrations/main/rstats-artwork/here.png")
 ```
-
+]
 
 ---
 
@@ -269,7 +284,7 @@ whr17 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv"))
 
 ---
 
-# The pipe %>% operator
+# The pipe %>% (or |>) operator
 
 * "Piping" in R can be seen as "**chaining**." This means that we are invoking multiple method calls. 
 * Every time you have invoked a method (a function) this return an object that then is going to be used in the next pipe.
@@ -324,6 +339,15 @@ From R for Data Science by Wickham & Grolemund:
 
 ]
 
+--
+
+#### (only for 🤓 nerds:)
+
+* The `%>%` pipe is part of the `magrittr` package. `R v4.1.0` adds a *native pipe* via `|>`. you could use it like
+
+```{r, eval=FALSE}
+whr15|> mean(variable, na.rm = T)
+```
 
 ---
 # Janitor package: The clean_names() function
@@ -511,6 +535,40 @@ name: wrangling
 
 ---
 
+# Wrangling your data
+
+For data wrangling you will frequently use one tidyverse package called dplyr. 
+
+* [`dplyr`](https://dplyr.tidyverse.org) is part of the [`tidyverse`](https://www.tidyverse.org) package family.
+
+* You are ***highly encouraged*** to read through [Hadley Wickham's chapter](https://r4ds.had.co.nz/transform.html). It's clear and concise.
+
+--
+
+* Also check out this great "cheatsheet" [here](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf).
+
+--
+
+
+* The package is organized around a set of **verbs**, i.e. *actions* to be taken.
+
+* We operate on `data.frames` or `tibbles` (*nicer looking* data.frames.)
+
+--
+
+* All *verbs* work as follows:
+
+$$\text{verb}(\underbrace{\text{data.frame}}_{\text{1st argument}}, \underbrace{\text{what to do}}_\text{2nd argument})$$
+
+--
+
+* Alternatively you can (should) use the `pipe` operator `%>%`:
+
+$$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %>% }}_{\text{"pipe" operator}} \text{verb}(\underbrace{\text{what to do}}_\text{2nd argument})$$
+
+
+---
+
 # dplyr::filter
 
 - The `filter` function is used to subset rows in a dataset. 
@@ -605,7 +663,7 @@ name: variables
 
 # Creating new variables
 
-We use `mutate()` to create new variables. For example:
+We use `dplyr::mutate()` to create new variables. For example:
 
 ```{r mut, eval=FALSE}
 whr15 %>%
@@ -653,7 +711,7 @@ whr15 %>%
 
 # Creating variables by groups
 
-In R, we can use `group_by()` before we mutate to group an estimation. For example, we are going to pipe the following functions:
+In R, we can use `dplyr::group_by()` before we mutate to group an estimation. For example, we are going to pipe the following functions:
 
 1. Group our data by the `region` variable.
 2. Create a variable that would be the mean of `happiness_score` by each region.
@@ -792,7 +850,7 @@ Now that we can identify the observations, we can combine the data set. Here are
 ```{r eval = FALSE}
 rbind(df1, df2, df3) # The base R function
 
-bind_rows(df1, df2, df3) # The tidyverse function, making some improvements to base R
+bind_rows(df1, df2, df3) # The dplyr function, making some improvements to base R
 ```
 .exercise[
 **Exercise 5:** Append data sets. Use the function `bind_rows` to append the three WHR datasets:
@@ -860,7 +918,7 @@ regions <- read_rds(here("DataWork", "DataSets", "Raw", "Un WHR", "regions.RDS")
 
 # Appending and merging data sets
 
-We can use the `left_join()` function to merge two dataframes. The function syntax is: `left_join(a_df, another_df, by = c("id_col1"))`. 
+We can use the `dplyr::left_join()` function to merge two dataframes. The function syntax is: `left_join(a_df, another_df, by = c("id_col1"))`. 
 
 > A left join takes all the values from the first table, and looks for matches in the second table. If it finds a match, it adds the data from the second table; if not, it adds missing values. It is the equivalent of `merge, keep(master matched)` in Stata.
 
@@ -1079,7 +1137,7 @@ write_rds(
 ---
 class: inverse, center, middle
 
-# And that's it for this session. Join us next week~
+# And that's it for this session. Join us tomorrow!! 
 
 ---
 class: inverse, center, middle
@@ -1342,7 +1400,7 @@ whr_panel_wide %>%
 ---
 class: inverse, center, middle
 
-# Thank you~
+# Thank you!!
 
 ---
 exclude: true
