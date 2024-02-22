@@ -84,17 +84,17 @@ name: intro
 .panelset[
 
 .panel[.panel-name[If You Attended Session 2]
-1. Go to the `dime-r-training-mar2023` folder that you created yesterday, and open the `dime-r-training-mar2023` R project that you created there.
+1. Go to the `dime-r-training-mar2024` folder that you created yesterday, and open the `dime-r-training-mar2024` R project that you created there.
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
-1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer.
+1. Create a folder named `dime-r-training-mar2024` in your preferred location in your computer.
 
-2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` &gt; `Data` &gt; `dime-r-training-mar2023.zip`.
+2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2024 March` &gt; `Data` &gt; `dime-r-training-mar2024.zip`.
 
-3. Unzip `dime-r-training-mar2023.zip`.
+3. Unzip `dime-r-training-mar2024.zip`.
 
-4. Open the `dime-r-training-mar2023` R project.
+4. Open the `dime-r-training-mar2024` R project.
 ]
 
 ]
@@ -116,9 +116,10 @@ name: intro
 - In most cases, your datasets won't be `tidy`. 
 
 &gt; **Tidy data**: A dataset is said to be tidy if it satisfies the following conditions: 
-1. Every column is a variable.
-2. Every row is an observation.
-3. Every cell is a single value.
+
+&lt;img src="img/tidy_data.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+
 
 Therefore, messy data is any other arrangement of the data.
 
@@ -202,10 +203,6 @@ library(here)       # A package to work with relative file paths
 library(janitor)    # Additional data cleaning tools
 ```
 
-```
-## Warning: package 'janitor' was built under R version 4.3.1
-```
-
 &gt; *Notes*: Remember you should always load your packages before your start coding.
 
 ---
@@ -252,7 +249,7 @@ Use either of the functions mentioned above and load the three WHR datasets from
 
 ]
 
-<div class="countdown" id="timer_b73b199e" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_079633fe" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -505,7 +502,7 @@ The `n_distinct` function allows us to count the number of unique values of a va
 2. Region
 ]
 
-<div class="countdown" id="timer_6481c16f" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_b5751bcc" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -678,7 +675,7 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 ]
 
-<div class="countdown" id="timer_a34412ac" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_cad237e2" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -930,7 +927,7 @@ whr15 %&gt;%
 
 **Exercise 4:** Create a variable called `year` that equals to the year of each dataframe using the `mutate()`. Remember to assign it to the same dataframe.
 
-<div class="countdown" id="timer_a18bc93e" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_71deb93a" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -980,7 +977,7 @@ bind_rows(df1, df2, df3) # The dplyr function, making some improvements to base 
 .exercise[
 **Exercise 5:** Append data sets. Use the function `bind_rows` to append the three WHR datasets:
 
-<div class="countdown" id="timer_2de1fcc9" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
+<div class="countdown" id="timer_0b8fe9e6" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -1024,7 +1021,7 @@ bind_rows(whr15, whr16, whr17)
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
 
-<div class="countdown" id="timer_4ad4a483" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_74a88893" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -1061,7 +1058,7 @@ We can use the `dplyr::left_join()` function to merge two dataframes. The functi
 
 ]
 
-<div class="countdown" id="timer_a13c8072" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_d698390f" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1112,7 +1109,7 @@ Look at the `everything()` function. It takes all the variables from the datafra
 
 ]
 
-<div class="countdown" id="timer_e45ebe46" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_e57621eb" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1174,7 +1171,7 @@ Finally, let's keep those relevant variables first and bind those rows.
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
 * Use `rbind()`
 
-<div class="countdown" id="timer_043d3556" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_f9e9daba" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1236,7 +1233,7 @@ The function takes the following syntax:
 * Use `write_csv()`
 * Use `here()`
 
-<div class="countdown" id="timer_57a0d59b" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_1436b0ad" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>

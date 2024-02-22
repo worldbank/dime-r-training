@@ -98,17 +98,17 @@ name: intro
 .panelset[
 
 .panel[.panel-name[If You Attended Session 2]
-1. Go to the `dime-r-training-mar2023` folder that you created yesterday, and open the `dime-r-training-mar2023` R project that you created there.
+1. Go to the `dime-r-training-mar2024` folder that you created yesterday, and open the `dime-r-training-mar2024` R project that you created there.
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
-1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer.
+1. Create a folder named `dime-r-training-mar2024` in your preferred location in your computer.
 
-2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` > `Data` > `dime-r-training-mar2023.zip`.
+2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2024 March` > `Data` > `dime-r-training-mar2024.zip`.
 
-3. Unzip `dime-r-training-mar2023.zip`.
+3. Unzip `dime-r-training-mar2024.zip`.
 
-4. Open the `dime-r-training-mar2023` R project.
+4. Open the `dime-r-training-mar2024` R project.
 ]
 
 ]
@@ -130,9 +130,12 @@ name: intro
 - In most cases, your datasets won't be `tidy`. 
 
 > **Tidy data**: A dataset is said to be tidy if it satisfies the following conditions: 
-1. Every column is a variable.
-2. Every row is an observation.
-3. Every cell is a single value.
+
+```{r, echo = FALSE, out.width="30%"}
+knitr::include_graphics("img/tidy_data.png")
+```
+
+
 
 Therefore, messy data is any other arrangement of the data.
 
