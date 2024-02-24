@@ -4,14 +4,14 @@
 This material was developed by the [DIME Analytics](https://www.worldbank.org/en/research/dime/data-and-analytics) team as an introduction to R Statistical Package for its staff.
 
 ## Course description
-R is a programming language and software environment for statistical analysis. It is a powerful and flexible tool widely used among statisticians and data scientists, and has a growing user base in economics research. This course is designed to familiarize participants with the language, focusing on common tasks and analysis in development research.
+R is a programming language for statistical analysis and data science. It is a powerful and flexible tool widely used among statisticians and data scientists, and has a growing user base in economics research. This course is designed to familiarize participants with the language, focusing on common tasks and analysis in development research, and showing how to use R through RStudio, a popular integrated development environment for R.
 The course will build upon comparisons to Stata syntax and requires familiarity with the use of do-files, loops and macros. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices). All sessions are designed to last 90 minutes.
 
 ## Training content
 
 [01 - Introduction to R](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/01-intro-to-R.html)
 
-- Introduction to RStudio, R syntax, objects and classes.
+- Introduction to the RStudio interface, R syntax, objects and classes.
 
 Formats:
 - [.html](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/01-intro-to-R.html)
@@ -38,7 +38,7 @@ Formats:
 
 [04 - Data visualization](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/04-data-visualization.html)
 
-- An introduction to creating and export graphs in ggplot2.
+- An introduction to creating and export graphs in `ggplot2`.
 
 Formats:
 - [.html](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/04-data-visualization.html)
@@ -80,8 +80,9 @@ Luis Eduardo San Martin - dimeanalytics@worldbank.org
 
 ## Authors
 * Luiza Cardoso de Andrade
-* Robert A. Marty
-* Leonardo Teixeira Viotti
-* Rony Rodriguez-Ramirez
-* Luis Eduardo San Martin
 * Marc-Andrea Fiorina
+* Robert A. Marty
+* Maria Reyes Retana Torre
+* Rony Rodriguez Ramirez
+* Luis Eduardo San Martin
+* Leonardo Teixeira Viotti
