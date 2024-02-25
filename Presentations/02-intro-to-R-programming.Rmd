@@ -510,7 +510,7 @@ summary(log(whr$happiness_score))
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -661,7 +661,7 @@ round(x)         # since R is vectorized, this also works
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -828,7 +828,7 @@ name: custom-functions
 ```  
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -876,7 +876,7 @@ zscore <- function(x) {
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -914,7 +914,7 @@ whr$freedom_st <- z_scores[[2]]
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
