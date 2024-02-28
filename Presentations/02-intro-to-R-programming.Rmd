@@ -130,7 +130,7 @@ name: initial-settings
 
 * Notice two things:
 
-  1. Your environment is *probably* empty (it's okay if it's not)
+  1. Your environment is *probably* empty (it's OK if it's not)
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/empty_environment.png")
@@ -586,7 +586,7 @@ Now that you now about the power of the pipes, use them wisely!
 .pull-left[
 - Remember that pipes are part of the library `dplyr`, you need to load it before using them
 
-- Pipes also avoid the hassle of having to save intermediate results in new objects in nthe environment, improving efficiency
+- Pipes also avoid the hassle of having to save intermediate results in new objects in the environment, improving efficiency
 
 - Many R coders use pipes and internet examples assume you know them
 
