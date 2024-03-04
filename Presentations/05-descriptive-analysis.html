@@ -3,7 +3,7 @@
   <head>
     <title>Descriptive Analysis</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dime Analytics" />
+    <meta name="author" content="Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Maria Reyes Retana, Rony Rodriguez Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -13,7 +13,7 @@
     <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x63b379ac33b4b46999e184f6a9af905","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"d7c429107a814ac9b79c7f9a4be05642","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -42,10 +42,10 @@ class: center, middle, inverse, title-slide
 ## <a href="https://github.com/worldbank">R for Stata Users</a>
 ]
 .author[
-### Dime Analytics
+### Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Maria Reyes Retana, Rony Rodriguez Ramirez, Luis Eduardo San Martin, Leonardo Viotti
 ]
 .date[
-### DIME |The World Bank <br> 22 February 2024
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2024
 ]
 
 ---
@@ -64,13 +64,26 @@ class: center, middle, inverse, title-slide
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
-1. Create a folder named `dime-r-training-mar2024` in your preferred location in your computer.
 
-2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2024 March` &gt; `Data` &gt; `dime-r-training-mar2024.zip`.
+ 1. Open RStudio.
 
-3. Unzip `dime-r-training-mar2024.zip`.
+ 2. Type in the following lines, replacing “YOURFILEPATHHERE” with a file path where the file path where you will place this R project. 
 
-4. Open the `dime-r-training-mar2024` R project.
+
+```r
+install.packages("usethis")
+library(usethis)
+usethis::use_course(
+    "https://github.com/worldbank/dime-r-training/archive/main.zip",
+    destdir = "YOURFILEPATHHERE"
+)
+```
+
+ 3\. In the console, type in the requisite number to delete the .zip file (we don't need it anymore)
+
+ 4\. A new RStudio environment will open. Use this for the session today. 
+  
+  
 ]
 
 ]
@@ -166,7 +179,12 @@ library(openxlsx)
 
 Load the data that we will use today: Stata's `census` dataset
 
-**Tip**: Use here, as we saw in the data wrangling session. 
+**Tip**: Use `here`, as we saw in the data wrangling session. 
+
+<div class="countdown" id="timer_6091d0b8" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 --
 
@@ -184,10 +202,7 @@ Load the data that we will use today: Stata's `census` dataset
     )
 ```
 
-<div class="countdown" id="timer_630300ac" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+
 
 
 ???
@@ -260,7 +275,7 @@ Equivalent to Stata's `codebook`. Its arguments are:
 Use the `summary()` function to describe the `census` data frame.
 ]
 
-<div class="countdown" id="timer_1d3f3e6b" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_ce413e8f" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -309,6 +324,12 @@ summary(census)
 
 ---
 
+# Exploring a dataset
+
+ &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+
+---
+
 # Summarizing continuous variables
 
 .large[
@@ -327,7 +348,7 @@ summary(census)
 Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
 ]
 
-<div class="countdown" id="timer_c24b1ee6" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_591a914e" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -356,6 +377,11 @@ summary(census$pop)
 ##   401851  1169218  3066433  4518149  5434033 23667902
 ```
 
+---
+
+# Summarizing continuous variables
+
+ &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -379,7 +405,7 @@ Use the `tabyl()` function to display frequency tables for:
 2. The variables `region` and `state` in the `census` data frame, simultaneously
 ]
 
-<div class="countdown" id="timer_2c8c8999" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_f4059619" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -397,7 +423,7 @@ census %&gt;%
   tabyl(region)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-7">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-10">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">region</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">n</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">percent</th></tr>
 <tr>
@@ -426,7 +452,7 @@ Note that this and other tables that we will create during this session look mor
 census %&gt;%
   tabyl(state, region)
 ```
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-9">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-12">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">state</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">NE</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">N Cntrl</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">South</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">West</th></tr>
 <tr>
@@ -519,6 +545,7 @@ datasummary_skim(
 
 ---
 
+
 # Exploring datasets with *modelsummary*
 
 .large[
@@ -528,7 +555,7 @@ datasummary_skim(
 Use `datasummary_skim()` to create a descriptive statistics table for the `census` data. 
 ]
 ]
-<div class="countdown" id="timer_c70e953e" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_87182080" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -804,6 +831,14 @@ datasummary_skim(census)
 ]
 
 
+
+
+---
+
+# Exploring datasets with *modelsummary*
+
+ &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+
 ---
 
 # Exploring datasets with *modelsummary*
@@ -896,7 +931,7 @@ datasummary(
 &gt; **Tip:** some of the allowed statistics are N, Mean, SD, Min, Max, Median, P0, P25, P50, P75, P100, Histogram
 
 
-<div class="countdown" id="timer_d0113c40" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_9300785f" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
 </div>
@@ -1140,102 +1175,102 @@ datasummary_balance(
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; pop &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 4687597.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5094638.8 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 4319231.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 4331823.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -368365.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1333103.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6127525.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6824185.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3828416.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3351348.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2299109.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1850820.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; poplt5 &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 337423.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 372049.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 313194.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 284545.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -24229.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 92989.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 421233.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 474619.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 285582.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 244984.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -135650.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 129353.6 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; pop5_17 &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 972731.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1029800.8 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 914514.3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 891489.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -58217.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 271720.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1241312.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1354292.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 819368.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 718505.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -421944.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 370167.5 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; pop18p &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3377443.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3699939.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3091523.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3160228.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -285919.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 970175.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4464979.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5000055.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2723465.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2393654.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1741514.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1352924.9 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; pop65p &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 532111.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 559335.3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 482962.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 525170.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -49149.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 153553.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 710303.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 793981.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 423445.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 365507.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -286858.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 214112.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; popurban &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3601891.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 4613802.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3007026.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3450209.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -594864.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1142793.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5063526.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6138886.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2584564.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2587414.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2478961.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1644284.7 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; medage &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 29.8 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.0 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 29.3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; death &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 40277.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 41903.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 38530.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 42473.3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -1746.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11977.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 53856.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60274.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33310.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29745.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -20546.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16354.9 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; marriage &lt;/td&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 53111.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 51283.3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 41350.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 36744.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -11761.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 12494.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 65459.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 59965.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40091.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35439.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -25368.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16601.5 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;box-shadow: 0px 1.5px"&gt; divorce &lt;/td&gt;
    &lt;td style="text-align:left;box-shadow: 0px 1.5px"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 26431.9 &lt;/td&gt;
-   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 30134.2 &lt;/td&gt;
-   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 20448.3 &lt;/td&gt;
-   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 17582.6 &lt;/td&gt;
-   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; -5983.6 &lt;/td&gt;
-   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 6861.0 &lt;/td&gt;
+   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 32523.5 &lt;/td&gt;
+   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 35141.1 &lt;/td&gt;
+   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 19889.1 &lt;/td&gt;
+   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 18701.3 &lt;/td&gt;
+   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; -12634.4 &lt;/td&gt;
+   &lt;td style="text-align:right;box-shadow: 0px 1.5px"&gt; 9608.3 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
@@ -1250,40 +1285,40 @@ datasummary_balance(
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; region &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; NE &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 18.5 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 17.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.3 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt;  &lt;/td&gt;
    &lt;td style="text-align:right;"&gt;  &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; N Cntrl &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 22.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 26.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt;  &lt;/td&gt;
    &lt;td style="text-align:right;"&gt;  &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; South &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 33.3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 30.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37.1 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt;  &lt;/td&gt;
    &lt;td style="text-align:right;"&gt;  &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; West &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 25.9 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 26.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.0 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt;  &lt;/td&gt;
    &lt;td style="text-align:right;"&gt;  &lt;/td&gt;
   &lt;/tr&gt;
@@ -1535,7 +1570,7 @@ summary_stats_table %&gt;%
 
 .pull-right[
 .small[
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-31">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-35">
 <col><col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: bold;"> </th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">N</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Mean</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">SD</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Median</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Min</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: bold;">Max</th></tr>
 <tr>
@@ -1656,7 +1691,7 @@ Using the `census` data, run a regression of the number of divorces on populatio
 ```
 ]
 
-<div class="countdown" id="timer_2dd7c213" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_a1e46f05" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1779,7 +1814,7 @@ feols(
 ```
 ]
 
-<div class="countdown" id="timer_65c76ab3" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_d148c8db" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1889,7 +1924,7 @@ name: reg_tables
 huxreg(reg1, reg2)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-39">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-43">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2)</th></tr>
 <tr>
@@ -1948,7 +1983,7 @@ huxreg(
 ]
 
 .pull-right[
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-41">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-45">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2)</th></tr>
 <tr>
@@ -1986,7 +2021,7 @@ Export a regression table with the results of your estimations using `lm` and `f
 - Use `quick_xlsx` or `quick_latex` to export the output of `huxreg` to your preferred format.
 ]
 
-<div class="countdown" id="timer_b09d69f7" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_f401c08f" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -2175,7 +2210,7 @@ region_stats &lt;-
 Recreate the `region_stats` data set, now including the average and the standard deviation of the population.
 ]
 
-<div class="countdown" id="timer_abf1e547" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_9b129475" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
 </div>
@@ -2248,7 +2283,7 @@ Recreate the `region_stats` data set, now including the average and the standard
 Use `huxtable` to format and export the object `region_stats`.
 ]
 
-<div class="countdown" id="timer_9dc410f2" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_f6992531" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
