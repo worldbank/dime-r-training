@@ -3,7 +3,7 @@
   <head>
     <title>Session 1 - Introduction to R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Maria Reyes Retana, Rony Rodriguez Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
+    <meta name="author" content="DIME Analytics" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -31,7 +31,7 @@ class: center, middle, inverse, title-slide
 ## R for Stata Users
 ]
 .author[
-### Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Maria Reyes Retana, Rony Rodriguez Ramirez, Luis Eduardo San Martin, Leonardo Viotti
+### DIME Analytics
 ]
 .date[
 ### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2024
@@ -76,7 +76,7 @@ We're glad you're joining us today!
 
 - These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
 
-- The sessions include exercises. If time allows, you will be given 3-4 minutes to solve each exercise before we show the solution
+- The sessions include exercises. If time allows, you will be given a few minutes to solve each exercise before we show the solution
 
 ---
 
@@ -84,7 +84,7 @@ We're glad you're joining us today!
 
 ## Format
 
-- Every session has two TAs. For this session, our TA is __Maria (Mer) Reyes Retana__
+- Every session has a TA. For this session, our TA is __Maria (Mer) Reyes Retana__
 
 - The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send a message over the chat whenever you need help
 
@@ -179,7 +179,7 @@ Let's start by loading the data we'll be using:
 2. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and open the `whr_panel.csv` file. 
   + Depending on your version of RStudio, it might be `File` &gt; `Import Dataset` &gt; `From CSV`
 
-3. Leave the name `whr_panel` to the data on the import window.
+3. Assign the name `whr` to the data on the Import Dataset window.
 
 4. If you solved the exercise correctly, you'll see that RStudio opens a tab with a viewer of the dataframe
 
@@ -808,7 +808,7 @@ R also has other more complex ways of storing data. These are the most used:
 
 Factors are __numeric categorical values with text labels__, equivalent to labeled variables in Stata. Turning strings into factors makes it easier to run different analyses on them and also uses less space in your memory.
 
-##    
+## Booleans
 
 Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as values. They are automatically generated when performing logical operations.
 
@@ -875,10 +875,6 @@ inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_cap
 
 # See the 6 first elements of the vector
 head(inc_below_avg)
-```
-
-```
-## [1] FALSE FALSE FALSE FALSE FALSE FALSE
 ```
 
 ---
@@ -990,19 +986,20 @@ Instead of indexing the lines with the boolean vector `inc_below_avg`, we could 
 ```r
 # Replace with 1 those obs that meet the condition
 whr$rank_low[inc_below_avg] &lt;- 1 
-# is the same as
-whr$rank_low[whr$happiness_score &lt; mean(whr$economy_gdp_per_capita)] &lt;- 1 
+
+# This is the same as
+whr$rank_low[whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita)] &lt;- 1 
 
 # This in stata would be:
-# gen     rank_low = 0
-# replace rank_low = 1 if (...)
+#     gen     rank_low = 0
+#     replace rank_low = 1 if economy_gdp_per_capita &lt; mean(economy_gdp_per_capita)
 ```
 
 ---
 
 class: inverse, center, middle
 
-# Thank you!
+# Thank you! Gracias!
 
 ---
 
