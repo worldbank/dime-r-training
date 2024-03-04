@@ -3,7 +3,7 @@
   <head>
     <title>Session 1 - Introduction to R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
+    <meta name="author" content="DIME Analytics" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -14,8 +14,8 @@
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
@@ -31,10 +31,10 @@ class: center, middle, inverse, title-slide
 ## R for Stata Users
 ]
 .author[
-### Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
+### DIME Analytics
 ]
 .date[
-### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2023
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2024
 ]
 
 ---
@@ -76,7 +76,7 @@ We're glad you're joining us today!
 
 - These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
 
-- The sessions include exercises. You will be given 3-4 minutes to solve each exercise before we show the solution
+- The sessions include exercises. If time allows, you will be given a few minutes to solve each exercise before we show the solution
 
 ---
 
@@ -84,7 +84,7 @@ We're glad you're joining us today!
 
 ## Format
 
-- Every session has two TAs. For this session, our TAs are __Luiza Cardoso De Andrade__ and __Marc-Andrea Fiorina__
+- Every session has a TA. For this session, our TA is __Maria (Mer) Reyes Retana__
 
 - The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send a message over the chat whenever you need help
 
@@ -93,7 +93,6 @@ We're glad you're joining us today!
 # Sessions format
 
 ## Format
-
 
 - If you have a question feel free to unmute yourself or use the chat to ask it
 
@@ -172,16 +171,17 @@ name: getting-started
 
 Let's start by loading the data we'll be using:
 
-## Exercise 1: Import data manually &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt; 
+## Exercise 1: Import data manually &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt; 
 
 
-1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - 2023 March` &gt; `Data` &gt; `whr_panel.csv`
+1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - 2024 March` &gt; `Data` &gt; `whr_panel.csv`
 
 2. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and open the `whr_panel.csv` file. 
-  + Depending on your Rstudio version, it might be `File` &gt; `Import Dataset` &gt; `From CSV`
+  + Depending on your version of RStudio, it might be `File` &gt; `Import Dataset` &gt; `From CSV`
 
-3. Assign the name `whr` to the data on the import window.
-  + If you solved the exercise correctly, you'll see that RStudio opens a tab with a viewer of the dataframe
+3. Assign the name `whr` to the data on the Import Dataset window.
+
+4. If you solved the exercise correctly, you'll see that RStudio opens a tab with a viewer of the dataframe
 
 ---
 
@@ -199,7 +199,7 @@ Let's start by loading the data we'll be using:
 
 # Getting started - RStudio interface
 
-&lt;img src="img/environment_2021.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/environment_whr.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -263,7 +263,7 @@ Type the following code __in the Console panel__ and press Enter to explore the 
 View(whr) # &lt;--- Note that the first letter is uppercase
 ```
 
-&lt;img src="img/View.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/View.png" width="53%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -271,7 +271,7 @@ View(whr) # &lt;--- Note that the first letter is uppercase
 
 Alternatively we can print the first 6 obs. with `head()`:
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -279,7 +279,7 @@ Alternatively we can print the first 6 obs. with `head()`:
 
 Now, let's try some simple manipulations. First, assume we're only interested in data of the year 2016.
 
-## Exercise 2: Subset the data &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt; 
+## Exercise 2: Subset the data &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 1 min)&lt;/font&gt; 
 
 - Subset the dataframe, keeping only observations where variable `year` equals `2016`.
 
@@ -308,7 +308,7 @@ subset(whr, year == 2016)
 head(whr)
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -336,7 +336,7 @@ x &lt;- 42
 x &lt;- 42
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -350,7 +350,7 @@ From now on, `x` is associated with the stored value (until you replace it, dele
 
 # Data in R
 
-## Exercise 3: Create an object &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt; 
+## Exercise 3: Create an object &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 1 min)&lt;/font&gt; 
 
 Create a new dataframe, called `whr2016`, that is a subset of the `whr` dataframe containing only data from the year 2016.
 
@@ -372,7 +372,7 @@ head(whr)
 
 You can also see that your environment panel now has two data objects:
 
-&lt;img src="img/environment_2vars_2021.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/environment_2vars.png" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 # Data in R
@@ -389,7 +389,7 @@ You can also see that your environment panel now has two data objects:
  whr &lt;- subset(whr, year == 2016)
  ```
  
-__Important:__ This will modify the original object -- `whr` in this case. R will not give you a warning when you're modifying an existing object with `&lt;-`
+__Important:__ This will modify the original object —`whr` in this case. R will not give you a warning when you're modifying an existing object with `&lt;-`
 
 ---
 
@@ -397,7 +397,7 @@ __Important:__ This will modify the original object -- `whr` in this case. R wil
 
 ## Printing a result vs storing a result
 
-Print (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but will not save anything in the memory.
+Printing (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but will not save anything in the memory.
 
 
 ```r
@@ -458,7 +458,7 @@ name: functions
 
 * Functions usually return values that you can store in an object, print or use directly as an argument of another function. __They rarely modify an object in-place__
 
-We will explore these ideas in depth in a later session.
+We will explore more of these characteristics in the next sessions
 
 ---
 
@@ -509,11 +509,10 @@ Here are the object classes we will cover in this first session:
 
 # R objects - Vectors
 
-## Vectors
-
 A vector is an uni-dimensional object composed by one or more elements of the same type.
 
 #### Use the following code to create vectors in two different ways
+
 
 ```r
 # Creating a vector with the c() function
@@ -533,7 +532,7 @@ v1 &lt;- c(1,2,3,4,5) # Creating a vector with the c() function
 v2 &lt;- 1:5          # Alternative way to create an evenly spaced vector
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -541,22 +540,22 @@ v2 &lt;- 1:5          # Alternative way to create an evenly spaced vector
 
 #### You can use brackets for indexing vector elements
 
+
 ```r
 v2[4]   # Prints the 4th element of the vector
 v2[1:3] # Prints from the 1st to the 3rd element
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
 # R objects - Dataframes
 
-## Dataframes
-
 The `whr` and `whr2016` objects are both dataframes. You can also construct a new dataframe from scratch by __combining vectors with the same number of elements__ with the command `data.frame()`.
 
 #### Now, type the following code to create a new dataframe
+
 
 ```r
 # Dataframe created by biding vectors
@@ -583,17 +582,16 @@ df1 &lt;- data.frame(v1,v2) #creates a df by binding to existing vectors
 df1
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
 # R objects - Dataframes
 
-## Dataframes
-
 Since a dataframe has two dimensions, you can use indices for both. The first index indicates the row selection and the second indicates the column.
 
 ### Numeric indexing
+
 
 ```r
 # The first column of whr
@@ -602,7 +600,7 @@ whr[,1]
 # The 45th row of whr
 whr[45,]
 
-# Or the 45th element of the first column
+# The 45th element of the first column
 whr[45,1]
 ```
 
@@ -617,17 +615,16 @@ whr[45,]  # The 45th row of whr
 whr[45,1] # Or the 45th element of the first column
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
 # R objects - Dataframes
 
-## Dataframes
-
 Alternatively, you can use the column names for indexing, which is the same as using the `$` sign.
 
 ### Names indexing
+
 
 ```r
 # The 22th element of the country column
@@ -648,7 +645,7 @@ whr[22,"country"] # The same as whr$country[22]
 whr[22,"country"] # The same as whr$country[22]
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -679,13 +676,11 @@ year_vector &lt;- whr$year
 year_vector &lt;- whr$year # creates a vector with the values of the "year" variable
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
 # R objects - Lists
-
-## Lists
 
 Lists are more complex objects that can contain many objects of __different classes and dimensions__.
 
@@ -694,6 +689,7 @@ The outputs of many functions, a regression for example, are similar to lists (m
 Here's a quick example:
 
 ### Combine several objects of different types in a list
+
 
 ```r
 # Use the list() function
@@ -711,7 +707,7 @@ lst &lt;- list(v1, df1, 45) # definition of lst
 print(lst)               # checking the content of lst
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -735,7 +731,7 @@ lst[[3]]    # returns 45
 lst[3]      # returns a list of one element (45)
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 ---
 
 class: inverse, center, middle
@@ -763,7 +759,7 @@ As in Stata, there are two different ways to store numbers. They are different b
 
 # Basic types of data - Strings
 
-### Exercise 4: Concatenate strings &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt; 
+### Exercise 4: Concatenate strings &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt; 
 
 1. Create the following vector of strings: `str_vec &lt;- c("R", "Python", "SAS", "Excel", "Stata")`
 
@@ -791,7 +787,7 @@ str_scalar &lt;- "can be an option to"       # creating str_scalar
 paste(str_vec[1], str_scalar, str_vec[5]) # using paste()
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
@@ -862,15 +858,13 @@ boolean_true  &lt;- TRUE
 boolean_false &lt;- FALSE
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
-# Advanced types of data
+# Advanced types of data - Booleans
 
-## Booleans
-
-### Exercise 5 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt; 
+## Exercise 5 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt; 
 
 Create a boolean vector with the condition of annual income below average:
 
@@ -883,10 +877,6 @@ inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_cap
 head(inc_below_avg)
 ```
 
-```
-## [1] FALSE FALSE FALSE FALSE FALSE FALSE
-```
-
 ---
 
 # Advanced types of data - Booleans
@@ -897,13 +887,11 @@ inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_cap
 head(inc_below_avg) # See the 6 first elements of the vector
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
-# Advanced types of data
-
-## Booleans
+# Advanced types of data - Booleans
 
 We can use boolean vectors to index elements:
 
@@ -949,17 +937,15 @@ boolean1 &lt;- c(TRUE, FALSE, FALSE, FALSE, TRUE) # We'll use this to select the
 boolean2 &lt;- c(FALSE, TRUE, TRUE, TRUE, TRUE)   # And this to select every element but the first
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
-# Advanced types of data
-
-## Booleans
+# Advanced types of data - Booleans
 
 Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the `whr` dataframe for the same condition.
 
-### Exercise 6 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt; 
+### Exercise 6 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt; 
 
  * Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
@@ -988,13 +974,11 @@ whr$rank_low[inc_below_avg] &lt;- 1
 # this ^ turns its values to 1, for the observations with a TRUE value in inc_below_avg
 ```
 
-&lt;iframe src="https://luizaandrade.shinyapps.io/learnr/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
 ---
 
-# Advanced types of data
-
-## Booleans
+# Advanced types of data - Booleans
 
 Instead of indexing the lines with the boolean vector `inc_below_avg`, we could also use the boolean condition itself:
 
@@ -1002,19 +986,20 @@ Instead of indexing the lines with the boolean vector `inc_below_avg`, we could 
 ```r
 # Replace with 1 those obs that meet the condition
 whr$rank_low[inc_below_avg] &lt;- 1 
-# is the same as
-whr$rank_low[whr$happiness_score &lt; mean(whr$economy_gdp_per_capita)] &lt;- 1 
+
+# This is the same as
+whr$rank_low[whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita)] &lt;- 1 
 
 # This in stata would be:
-# gen     rank_low = 0
-# replace rank_low = 1 if (...)
+#     gen     rank_low = 0
+#     replace rank_low = 1 if economy_gdp_per_capita &lt; mean(economy_gdp_per_capita)
 ```
 
 ---
 
 class: inverse, center, middle
 
-# Thank you!
+# Thank you! Gracias!
 
 ---
 
