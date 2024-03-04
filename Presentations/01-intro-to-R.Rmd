@@ -1323,7 +1323,7 @@ https://r4ds.had.co.nz/
 exclude: true
 
 ```{R, pdfs, include = F, eval = F}
-pagedown::chrome_print("01-intro-to-R.html", output = "01-intro-to-R.pdf")
+pagedown::chrome_print("Presentations/01-intro-to-R.html", output = "Presentations/01-intro-to-R.pdf")
 
 # or
 source("https://git.io/xaringan2pdf")
