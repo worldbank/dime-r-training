@@ -1,7 +1,7 @@
 ---
 title: "Session 2: Introduction to R Programming"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Maria Reyes Retana, Rony Rodriguez Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
+author: "DIME Analytics"
 date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2024"
 output:
   xaringan::moon_reader:
@@ -76,7 +76,7 @@ whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 1. [Introduction](#introduction)
 1. [Initial settings](#initial-settings)
 1. [File paths](#file-paths)
-1. [Using libraries](#using-packages)
+1. [Using Packages](#using-packages)
 1. [Functions inception](#functions-inception)
 1. [Mapping and iterations](#mapping-and-iterations)
 1. [Custom functions](#custom-functions)
@@ -377,17 +377,17 @@ knitr::include_graphics("img/environment_2021.png")
 class: inverse, center, middle
 name: using-packages
 
-# Using libraries
+# Using packages
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Libraries
+# Packages
 
 - Installing R in your computer gives you access to its basic functions
 
-- Additionally, you can also install libraries. Libraries are packages of additional R functions that allow you to do:
+- Additionally, you can also install packages. Packages are code with additional R functions that allow you to do:
 
   + Operations that basic R functions don't do (example: work with geographic data)
   
@@ -395,7 +395,7 @@ name: using-packages
 
 ---
 
-# Libraries
+# Packages
 
 In a nutshell:
 
@@ -405,16 +405,16 @@ knitr::include_graphics("img/r-libraries.png")
 
 ---
 
-# Libraries
+# Packages
 
-* You can install libraries with the command `install.packages()`. Libraries are also commonly called "packages" in R programming
+* You can install packages with the command `install.packages()`. packages are also commonly called "libraries" in R programming
 
 ```{r, eval = F}
 # Installing a package
 install.packages("dplyr")
 ```
 
-* You only have to install a library once, but you have to __load them every new session__ with `library()`
+* You only have to install a package once, but you have to __load them every new session__ with `library()`
 
 ```{r, eval = F}
 # Installing a package
@@ -423,15 +423,15 @@ library(dplyr)
 
 ---
 
-# Libraries
+# Packages
 
-- Library installation:
+- Package installation:
 
 ```{r echo = FALSE, out.width="37%"}
 knitr::include_graphics("img/installation.png")
 ```
 
-- Library loading:
+- Package loading:
 
 ```{r echo = FALSE, out.width="37%"}
 knitr::include_graphics("img/loading.png")
@@ -1337,7 +1337,7 @@ Some useful functions:
 exclude: true
 
 ```{R, pdfs, include = F, eval = F}
-pagedown::chrome_print("02-intro-to-R-programming.html", output = "02-intro-to-R-programming.pdf")
+pagedown::chrome_print("Presentations/02-intro-to-R-programming.html", output = "Presentations/02-intro-to-R-programming.pdf")
 
 # or
 source("https://git.io/xaringan2pdf")
