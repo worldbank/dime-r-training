@@ -1,8 +1,8 @@
 ---
 title: "Session 2: Introduction to R Programming"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2023"
+author: "DIME Analytics"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2024"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -76,7 +76,7 @@ whr <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 1. [Introduction](#introduction)
 1. [Initial settings](#initial-settings)
 1. [File paths](#file-paths)
-1. [Using packages](#using-packages)
+1. [Using Packages](#using-packages)
 1. [Functions inception](#functions-inception)
 1. [Mapping and iterations](#mapping-and-iterations)
 1. [Custom functions](#custom-functions)
@@ -130,7 +130,7 @@ name: initial-settings
 
 * Notice two things:
 
-  1. Your environment is *probably* empty (it's okay if it's not)
+  1. Your environment is *probably* empty (it's OK if it's not)
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/empty_environment.png")
@@ -162,7 +162,7 @@ knitr::include_graphics("img/rhistory.png")
   1. Your environment is *probably* empty (it's OK if it's not)
   1. Go to the `Console` panel and use the up and down keys to navigate through previously executed commands. They are saved by default in a file named `.Rhistory` that you might have noticed
   
-* We'd usually want these two things -- an __empty environment__ and the __history of commands__ executed in previous sessions -- to be present every time we open a new RStudio session
+* We usually want these two things —an __empty environment__ and the __history of commands__ executed in previous sessions— to be present every time we open a new RStudio session
 
 ---
 
@@ -188,7 +188,7 @@ knitr::include_graphics("img/stataheader.jpg")
 
 * The equivalent of `set more off` is the default
 
-* The equivalent of `clear all` is not a default setting, but we'll change that in exercise 1
+* The equivalent of `clear` is not always default setting, but we'll make sure it is set in exercise 1
 
 ---
 
@@ -216,15 +216,15 @@ After this, you'll never have to use  the equivalent of `clear all`
 # Initial settings
 
 ```{r echo = FALSE, out.width = "90%"}
-knitr::include_graphics("img/options1_2021.png")
+knitr::include_graphics("img/options1.png")
 ```
 
 ---
 
 # Initial settings
 
-```{r echo = FALSE, out.width = "48%"}
-knitr::include_graphics("img/options2_2021.png")
+```{r echo = FALSE, out.width = "60%"}
+knitr::include_graphics("img/options2.png")
 ```
 
 ---
@@ -276,17 +276,17 @@ __Important:__ We won't get into the specifics of directory organization here, b
 
 ### Exercise 2 `r fa("keyboard")` <font size="5">(`r fa("clock")` 3 min)</font>
 
-1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer
+1. Create a folder named `dime-r-training-202403` in your preferred location in your computer
 
-1. Go to https://osf.io/86g3b/ and download the file in: `R for Stata Users - 2023 March` > `Data` > `DataWork.zip`
+1. Go to https://osf.io/86g3b/ and download the file in: `R for Stata Users - 2024 March` > `Data` > `DataWork.zip`
 
-1. Unzip `DataWork.zip` in the folder `dime-r-training-mar2023`
+1. Unzip `DataWork.zip` in your folder `dime-r-training-202403`
 
 1. On RStudio, select `File` > `New Project...`
 
-2. Select `Existing Directory`
+1. Select `Existing Directory`
 
-3. Browse to the location of `dime-r-training-mar2023` and select `Create Project`
+1. Browse to the location of `dime-r-training-202403` and select `Create Project`
 ]
 
 ---
@@ -328,11 +328,11 @@ library(here)
 
 - Now you'll be able to use `here()` to point the location of every file relative to your project root
 
-  + For example, to load a `csv` file located in: `C:/WBG/project-root-name/data/raw/data-file.csv`, you should use:
+  + For example, to load a `csv` file located in: `C:/WBG/project-root/data/raw/data-file.csv`, you should use:
   
 ```{r, eval=FALSE}
 path <- here("data", "raw", "data-file.csv")
-df <- read.csv(path)
+df   <- read.csv(path)
 ```
 
 * __Notes:__
@@ -348,16 +348,14 @@ df <- read.csv(path)
 
 ### Exercise 3 `r fa("keyboard")` <font size="5">(`r fa("clock")` 3 min)</font>
 
-1. Load `here` and read the `.csv` file in `DataWork/DataSets/Final/whr_panel.csv` using `here()`
+1. Go to `File` > `New File` > `R Script` to open a new script
+
+1. In the new script, load `here` and read the `.csv` file in `DataWork/DataSets/Final/whr_panel.csv` using `here()`
 
   + Use the function `read.csv()` to load the file. The argument for `read.csv()` is the result of `here()`
   + Remember to assign the dataframe you're reading to an object. You can call it `whr` as we did yesterday
 
 ]
-
----
-
-# File paths
 
 ```{r, eval=FALSE}
 library(here)
@@ -387,37 +385,57 @@ name: using-packages
 
 # Packages
 
-* Since there is a lot of people developing for R, it can have many different functionalities
+- Installing R in your computer gives you access to its basic functions
 
-* To make it simpler, these functionalities are bundled into packages
+- Additionally, you can also install packages. Packages are code with additional R functions that allow you to do:
 
-* A package is just __a unit of shareable code__
-
----
-
-# Packages
-
-* Packages may contain new functions, but also more complex functionalities, such as a Graphic User Interface (GUI) or settings for parallel processing (similar to Stata MP)
-
-* They are usually shared through R's official repository - CRAN (19,000+ packages reviewed and tested)
-
-* There are many other online sources such as GitHub, but it's important to be careful, as these probably haven't gone through a review process as rigorous as those in CRAN
+  + Operations that basic R functions don't do (example: work with geographic data)
+  
+  + Operations that basic R functions do, but easier (example: data wrangling)
 
 ---
 
 # Packages
 
-* To install and use packages you can either do it with the user interface or by the command prompt.
+In a nutshell:
+
+```{r echo = FALSE, out.width = "99%"}
+knitr::include_graphics("img/r-libraries.png")
+```
+
+---
+
+# Packages
+
+* You can install packages with the command `install.packages()`. packages are also commonly called "libraries" in R programming
 
 ```{r, eval = F}
 # Installing a package
-install.packages("dplyr",
-                 dependencies = TRUE)
-# the dependencies argument also installs all other packages
-# that it may depend upon to run
+install.packages("dplyr")
 ```
 
-* You only have to install a package once, but you have to __load them every new session__.
+* You only have to install a package once, but you have to __load them every new session__ with `library()`
+
+```{r, eval = F}
+# Installing a package
+library(dplyr)
+```
+
+---
+
+# Packages
+
+- Package installation:
+
+```{r echo = FALSE, out.width="37%"}
+knitr::include_graphics("img/installation.png")
+```
+
+- Package loading:
+
+```{r echo = FALSE, out.width="37%"}
+knitr::include_graphics("img/loading.png")
+```
 
 ---
 
@@ -427,10 +445,16 @@ install.packages("dplyr",
 
 ### Exercise 4 `r fa("keyboard")` <font size="5">(`r fa("clock")` 1 min)</font>
 
-1. Load the packages `dplyr` and `purrr` in part 1 of your script using `library(dplyr)` and `library(purrr)`
-1. Run your script
+1. Load the packages `dplyr` and `purrr` using `library(dplyr)` and `library(purrr)`
 
 ]
+
+__Note:__ There is no need to install `dplyr` and `purrr` as they are part of the meta-library `tidyverse`, which we asked to install before this course. If you didn't have the chance to install `tidyverse`, then install `dplyr` and `purrr` with:
+
+```{r, eval=FALSE}
+install.packages("dplyr")
+install.packages("purrr")
+```
 
 ---
 
@@ -451,7 +475,7 @@ R has two types of error messages, warnings and actual errors:
   * **Errors** - break your code, usually preventing it from running
   * **Warnings** - your code kept running, but R wants you to be aware of something that might be a problem later
 
-RStudio's default is to print warning messages, but not to stop the code at the lines where they occur. You can configure R to stop at warnings if you want.
+RStudio prints warning messages but it doesn't stop the code excution if warnings occur.
 
 ---
 
@@ -467,8 +491,6 @@ name: functions-inception
 # A function inside a function
 
 * In R, you can __write one function inside another__
-
-* In fact, you have already done this several times in this course
 
 * Here's an example:
 
@@ -488,7 +510,7 @@ summary(log(whr$happiness_score))
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -547,11 +569,35 @@ knitr::include_graphics("img/statalog.png")
     mean()
 ```
 
-Just remember:
+In other words:
 
 * `x %>% f()` is the same as `f(x)`
 
 * `x %>% f() %>% g()` is the same as `g(f(x))`
+
+---
+
+# Piping
+
+## Always use pipes!
+
+Now that you now about the power of the pipes, use them wisely!
+
+.pull-left[
+- Remember that pipes are part of the library `dplyr`, you need to load it before using them
+
+- Pipes also avoid the hassle of having to save intermediate results in new objects in the environment, improving efficiency
+
+- Many R coders use pipes and internet examples assume you know them
+
+- **We'll use pipes now in the next examples and exercises of the rest of this training**
+]
+
+.pull-right[
+```{r echo = FALSE, out.width="45%"}
+knitr::include_graphics("img/pipes-joke.png")
+```
+]
 
 ---
 
@@ -615,7 +661,7 @@ round(x)         # since R is vectorized, this also works
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -745,8 +791,6 @@ knitr::include_graphics("img/loop-side-effects.png")
 
 # Map vs looping
 
-# Map
-
 * `map()` looks nice, doesn't it?
 
 * But what about cases when it's impossible to implement the operations I want to apply in only one function? Do I have to use `for` loops then?
@@ -784,7 +828,7 @@ name: custom-functions
 ```  
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -832,7 +876,7 @@ zscore <- function(x) {
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -870,7 +914,7 @@ whr$freedom_st <- z_scores[[2]]
 ```
 
 ```{r echo=FALSE}
-knitr::include_app("https://luizaandrade.shinyapps.io/learnr/")
+knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 ```
 
 ---
@@ -1293,7 +1337,7 @@ Some useful functions:
 exclude: true
 
 ```{R, pdfs, include = F, eval = F}
-pagedown::chrome_print("02-intro-to-R-programming.html", output = "02-intro-to-R-programming.pdf")
+pagedown::chrome_print("Presentations/02-intro-to-R-programming.html", output = "Presentations/02-intro-to-R-programming.pdf")
 
 # or
 source("https://git.io/xaringan2pdf")
