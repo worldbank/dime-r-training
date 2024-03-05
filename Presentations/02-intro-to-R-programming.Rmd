@@ -557,16 +557,14 @@ knitr::include_graphics("img/statalog.png")
 
 ```{r, eval = F}
   # 1: Doing it the long way -----------------------------
-  log_score <- log(whr$happy_score)
+  log_score <- log(whr$happiness_score)
   mean(log_score)
 
   # 2: Shortcut to get to the same place -----------------
-  mean(log(whr$happy_score))
+  mean(log(whr$happiness_score))
 
   # 3: Now with pipes ------------------------------------
-  whr$happy_score %>%
-    log() %>%
-    mean()
+  whr$happiness_score %>% log() %>% mean()
 ```
 
 In other words:
@@ -733,7 +731,11 @@ df <- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 col_means_loop <- c()
 
 for (column in df){
-  col_means_loop <- append(col_means_loop, mean(column))
+  
+  new_mean <- mean(column)
+  
+  col_means_loop <- append(col_means_loop, new_mean)
+  
 }
 ```
 
