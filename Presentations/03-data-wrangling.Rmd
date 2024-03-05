@@ -131,7 +131,7 @@ usethis::use_course(
 
 ### Goals of this session
 
-- To organize data in a way that it will be easier to analyze and communicate it.
+- To organize data in a manner that makes it easier to analyze and communicate.
 
 --
 
@@ -190,7 +190,7 @@ knitr::include_graphics("https://images-na.ssl-images-amazon.com/images/I/81F-QC
 
 .pull-right[
 
-#### R packages are apps in your phone
+#### R packages are apps on your phone
 
 ```{r, echo = FALSE, out.width="80%"}
 knitr::include_graphics("https://www.apple.com/v/app-store/a/images/meta/og__c59t0pflacq6.png?202009232211")
@@ -218,7 +218,7 @@ install.packages("dplyr")
 ```{r, echo = TRUE, eval = FALSE, include = TRUE}
 
 # To load
-library(tidyverse)
+library(dplyr)
 ```
 
 ---
@@ -380,7 +380,7 @@ whr17 <- whr17 %>%
   clean_names()
 ```
 
-However, if we wan to to rename our variable manually, we could use: 
+However, if we want to to rename our variable manually, we could use: 
 
 ```{r manual_names, eval=FALSE}
 
@@ -674,9 +674,9 @@ whr15 %>%
 > Notice that we are negating the function, i.e., `!is.na()`
 <br> In case we want to keep the observations that contains missing information we will only use `is.na()`. 
 
---- 
+---
 
-# dplyr::filter missing cases
+# dplyr::filter  missing cases
 
 ```{r echo=FALSE}
 knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
@@ -969,7 +969,13 @@ We can use the `dplyr::left_join()` function to merge two dataframes. The functi
 
 > A left join takes all the values from the first table, and looks for matches in the second table. If it finds a match, it adds the data from the second table; if not, it adds missing values. It is the equivalent of `merge, keep(master matched)` in Stata.
 
---
+```{r, echo = FALSE, out.width="70%"}
+knitr::include_graphics("img/left_join.png")
+```
+
+---
+
+# Appending and merging data sets
 
 .exercise[
 
@@ -1096,6 +1102,19 @@ whr_panel <- rbind(whr15, whr16, whr17)    # or bind_rows
 ```
 
 ]
+
+---
+
+# Appending and merging data sets
+
+There are other types of joins in the `dplyr` package. We won't get into detail, but here are some examples. 
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/join_types.png")
+```
+
+You can also check [this chapter](https://r4ds.hadley.nz/joins.html), which is very clear. 
+
 
 ---
 
