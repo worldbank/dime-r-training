@@ -1,5 +1,4 @@
 ## R for Stata Users
-## March 2023
 ## Exercise solutions 
 ## Session: Introduction to R
 
