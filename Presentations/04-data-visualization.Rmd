@@ -2,7 +2,7 @@
 title: "Session 4: Data Visualization"
 subtitle: "R for Stata Users"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2023"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2024"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -20,13 +20,12 @@ output:
 ```{r setup, include = FALSE}
 
 # Load packages
-library(knitr)
-library(tidyverse)
-library(hrbrthemes)
-library(fontawesome)
-library(here)
-library(xaringanExtra)
-library(countdown)
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(
+    knitr, tidyverse, hrbrthemes, fontawesome, here, xaringanExtra, countdown, ggpubr
+)
+
+if(!require(flair)) devtools::install_github("r-for-educators/flair")
 library(flair)
 
 here::i_am("Presentations/04-data-visualization.Rmd")
@@ -76,17 +75,23 @@ name: intro
 .panelset[
 
 .panel[.panel-name[If You Attended Session 2]
-1. Go to the `dime-r-training-mar2023` folder that you created yesterday, and open the `dime-r-training-mar2023` R project that you created there.
+1. Go to the `dime-r-training-main` folder that you created yesterday, and open the `dime-r-training-main` R project that you created there.
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
-1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer.
+1. Copy/paste the following code into a new RStudio script, **replacing "YOURFOLDERPATHHERE" with the folder within which you'll place this R project:
+```{r, eval = FALSE}
+library(usethis)
+use_course(
+    url = "https://github.com/worldbank/dime-r-training/archive/main.zip",
+    destdir = "YOURFOLDERPATHHERE"
+)
+```
 
-2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` > `Data` > `dime-r-training-mar2023.zip`.
+2. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
 
-3. Unzip `dime-r-training-mar2023.zip`.
+3. A new RStudio environment will open. Use this for the session today.
 
-4. Open the `dime-r-training-mar2023` R project.
 ]
 
 ]
@@ -167,8 +172,8 @@ First, we’re going to use base plot, i.e., using Base R default libraries. It 
 
 .exercise[**Exercise 1:** Exploratory Analysis. 
 
-**(1)** Create a vector called `vars` with the variables: `economy_gdp_per_capita`, `happiness_score`, `health_life_expectancy`, and `freedom`. <br>
-**(2)** Select all the variables from the vector `vars` in the `whr_panel` dataset and assign to the object `whr_plot`. <br>
+**(1)** Create a vector called `vars` with the strings: `"economy_gdp_per_capita"`, `"happiness_score"`, `"health_life_expectancy"`, and `"freedom"`. <br>
+**(2)** Select all the variables from the vector `vars` in the `whr_panel` dataset and assign to the object `whr_plot`. Hint: use `select(all_of(vars))` for this. <br>
 **(3)** Use the `plot()` function: `plot(whr_plot)`
 
 ]
@@ -180,7 +185,6 @@ First, we’re going to use base plot, i.e., using Base R default libraries. It 
 ```{r}
 # Vector of variables
 vars <- c("economy_gdp_per_capita", "happiness_score", "health_life_expectancy", "freedom")
-
 # Create a subset with only those variables, let's call this subset whr_plot
 whr_plot <- whr_panel %>%
   select(all_of(vars))
@@ -520,7 +524,8 @@ whr_panel %>%
       y = economy_gdp_per_capita,
       color = "blue"  #<<
     )
-  )
+  ) +
+  geom_point()
 ```
 
 ]
@@ -836,10 +841,16 @@ Let's imagine now, that we would like to transform a variable before plotting.
 
 
 ```{r, out.width = "55%", eval = FALSE}
-whr_panel %>%
+
+whr_panel <- whr_panel %>%
   mutate( #<<
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE) #<<
-  ) %>%  #<<
+    latam = region == "Latin America and Caribbean" #<<
+  ) #<<
+
+whr_panel %>%
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
+  ) %>%
   ggplot(
     aes(
       x = happiness_score, y = economy_gdp_per_capita,
@@ -855,12 +866,21 @@ whr_panel %>%
 
 
 ```{r, out.width = "55%", echo = FALSE}
-whr_panel %>%
+
+whr_panel <- whr_panel %>%
   mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+    latam = region == "Latin America and Caribbean" #<<
+  )
+
+whr_panel %>%
+  filter(
+      !is.na(latam)
   ) %>%
-  ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
-             color = latam)) +
+  ggplot(
+    aes(
+      x = happiness_score, y = economy_gdp_per_capita,
+      color = latam)
+  ) + 
   geom_point()
 
 ```
@@ -903,12 +923,13 @@ ggplot(data = whr_panel,
 
 .panel[.panel-name[Log]
 
-```{r, out.width = "50%"}
+```{r, out.width = "45%"}
 ggplot(data = whr_panel,
        aes(x = happiness_score,
            y = economy_gdp_per_capita)) +
   geom_point() +
-  scale_x_log10() #<<
+  scale_x_continuous(limits = c(0, 10), #<<
+                     breaks = c(0, 2, 4, 6, 8, 10)) #<<
 ```
 
 ]
@@ -945,8 +966,8 @@ We are going to do the following to this plot:
 
 ```{r, out.width = "40%", eval = FALSE}
 whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%  #<<
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -965,8 +986,8 @@ whr_panel %>%
 .panel[.panel-name[Plot]
 ```{r, out.width = "60%", echo = FALSE}
 whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -992,8 +1013,8 @@ whr_panel %>%
 
 ```{r, out.width = "40%", eval = FALSE}
 whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -1014,8 +1035,8 @@ whr_panel %>%
 .panel[.panel-name[Plot]
 ```{r, out.width = "70%", echo = FALSE}
 whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -1042,8 +1063,8 @@ whr_panel %>%
 
 ```{r, out.width = "60%", eval = FALSE}
 whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -1065,8 +1086,8 @@ whr_panel %>%
 .panel[.panel-name[Plot]
 ```{r, out.width = "70%", echo = FALSE}
 whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -1140,8 +1161,8 @@ library(RColorBrewer)
 
 ```{r, out.width = "60%", eval = FALSE}
 whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -1163,8 +1184,8 @@ whr_panel %>%
 .panel[.panel-name[Plot]
 ```{r, out.width = "70%", echo = FALSE}
 whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -1217,8 +1238,8 @@ Remember that in R we can always assign our functions to an object. In this case
 
 ```{r, eval = FALSE}
 fig <- whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
@@ -1256,8 +1277,8 @@ The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dp
 
 ```{r, echo = FALSE}
 fig <- whr_panel %>%
-  mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+  filter(
+      !is.na(latam) # Make sure that we don't include missing values in our graph
   ) %>%
   filter(year == 2015) %>%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita,
