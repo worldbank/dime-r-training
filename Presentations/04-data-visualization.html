@@ -185,7 +185,7 @@ First, we’re going to use base plot, i.e., using Base R default libraries. It 
 
 ]
 
-<div class="countdown" id="timer_7fa10abd" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_d192904d" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -365,7 +365,7 @@ Both structures will work but this will make a difference if you want to load mo
 **Exercise 2:** Create a scatter plot with `x = freedom` and `y = economy_gdp_per_capita`.
 ]
 
-<div class="countdown" id="timer_72802581" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_ac5cef18" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -529,7 +529,8 @@ whr_panel %&gt;%
       y = economy_gdp_per_capita,
 *     color = "blue"
     )
-  )
+  ) +
+  geom_point()
 ```
 
 ]
@@ -603,7 +604,7 @@ whr_panel %&gt;%
 ]
 
 
-<div class="countdown" id="timer_f9c23798" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
+<div class="countdown" id="timer_51ef3998" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -751,7 +752,7 @@ whr_panel %&gt;%
 
 ]
 
-<div class="countdown" id="timer_08827076" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_4581f252" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -803,7 +804,7 @@ Let's imagine now, that we would like to transform a variable before plotting.
 ```r
 whr_panel &lt;- whr_panel %&gt;%
 * mutate(
-*   latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+*   latam = region == "Latin America and Caribbean"
 * )
 
 whr_panel %&gt;%
@@ -874,10 +875,11 @@ ggplot(data = whr_panel,
        aes(x = happiness_score,
            y = economy_gdp_per_capita)) +
   geom_point() +
-* scale_x_log10()
+* scale_x_continuous(limits = c(0, 10),
+*                    breaks = c(0, 2, 4, 6, 8, 10))
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-32-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-32-1.png" width="45%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1153,7 +1155,7 @@ The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dp
 
 ]
 
-<div class="countdown" id="timer_23606d5d" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_3d58a7c8" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>

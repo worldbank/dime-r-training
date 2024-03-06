@@ -26,6 +26,7 @@ pacman::p_load(
 )
 
 if(!require(flair)) devtools::install_github("r-for-educators/flair")
+library(flair)
 
 here::i_am("Presentations/04-data-visualization.Rmd")
 
@@ -523,7 +524,8 @@ whr_panel %>%
       y = economy_gdp_per_capita,
       color = "blue"  #<<
     )
-  )
+  ) +
+  geom_point()
 ```
 
 ]
@@ -842,7 +844,7 @@ Let's imagine now, that we would like to transform a variable before plotting.
 
 whr_panel <- whr_panel %>%
   mutate( #<<
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE) #<<
+    latam = region == "Latin America and Caribbean" #<<
   ) #<<
 
 whr_panel %>%
@@ -867,7 +869,7 @@ whr_panel %>%
 
 whr_panel <- whr_panel %>%
   mutate(
-    latam = ifelse(region == "Latin America and Caribbean", TRUE, FALSE)
+    latam = region == "Latin America and Caribbean" #<<
   )
 
 whr_panel %>%
@@ -921,12 +923,13 @@ ggplot(data = whr_panel,
 
 .panel[.panel-name[Log]
 
-```{r, out.width = "50%"}
+```{r, out.width = "45%"}
 ggplot(data = whr_panel,
        aes(x = happiness_score,
            y = economy_gdp_per_capita)) +
   geom_point() +
-  scale_x_log10() #<<
+  scale_x_continuous(limits = c(0, 10), #<<
+                     breaks = c(0, 2, 4, 6, 8, 10)) #<<
 ```
 
 ]
