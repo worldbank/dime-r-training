@@ -55,19 +55,181 @@ htmltools::tagList(
 # Table of contents
 
 .vlarge[
-1. Loading and exploring spatial data
-2. Spatial data structure
-3. Simple features
-4. Visualizing spatial data
-5. Why projections matters
-6. Basic spatial operations
+1. Overview of GIS concepts
+2. Load and explore polygons, polylines, and points
+3. Static maps
+4. Interactive maps
+5. Spatial operations applied on one dataset
+6. Spatial operations applied on multiple datasets
+]
+
+---
+
+# Overview of GIS conceps
+
+__Spatial data:__ The two main types of spatial data are __vector data__ and __raster data__
+
+.pull-left[
+__Vector data__
+* Points, lines, or polygons
+* Common file formats include shapefiles (.shp) and geojsons (.geojson)
+* Examples: polygons on countries, polylines of roads, points of schools
+]
+
+.pull-right[
+__Raster data__
+* Spatially referenced grid
+* Common file format is a geotif (.tif)
+* Example: Satellite imagery of nighttime lights
+]
+
+.center[
+<img src="img/Simple_vector_map.svg.png"  width = 300>
+<img src="img/raster.png"  width = 300>
 ]
 
 
 ---
 
-class: inverse, center, middle
-name: setting
+# Coordinate Reference Systems (CRS)
+
+* Coordinate reference systems use pairs of numbers to define a location on the earth
+* For example, the World Bank is at a latitude of 38.89 and a longitude of -77.04
+
+.center[
+<img src="img/googlemaps_worldbank.png"  width = 700>
+]
+
+---
+
+# Coordinate Reference Systems (CRS)
+
+There are many different coordinate reference systems, which can be grouped into __geographic__ and __projected__ coordinate reference systems. Geographic systems live on a sphere, while projected systems are “projected” onto a flat surface.
+
+.center[
+<img src="img/geo_proj_crs.png"  width = 800>
+]
+
+---
+
+# Geographic Coordinate Systems
+
+.pull-left[
+__Units:__ Defined by latitude and longitude, which measure angles and units are typically in decimal degrees. (Eg, angle is latitude from the equator).
+
+__Latitude & Longitude:__ 
+* On a grid X = longitude, Y = latitude; sometimes represented as (longitude, latitude). 
+* Also has become convention to report them in alphabetical order: (latitude, longitude) — such as in Google Maps.
+* Valid range of latitude: -90 to 90
+* Valid range of longitude: -180 to 180
+* __{Tip}__ Latitude sounds (and looks!) like latter.
+]
+
+.center[
+<img src="img/longlat.png"  width = 500>
+]
+
+---
+
+# Geographic Coordinate Systems
+
+.pull-left[
+__Distance on a sphere__
+
+* At the equator (latitude = 0), a 1 decimal degree longitude distance is about 111km; towards the poles (latitude = -90 or 90), a 1 decimal degree longitude distance converges to 0 km. 
+* We must be careful (ie, use algorithms that account for a spherical earth) to calculate distances! The distance along a sphere is referred to as a [great circle distance](https://en.wikipedia.org/wiki/Great-circle_distance).
+* Options for spherical distance calculations
+- Formulas such as [haversine distance](https://en.wikipedia.org/wiki/Haversine_formula)
+- [s2](http://s2geometry.io/) (Google library for working with spherical geometries)
+]
+
+.pull-right[
+
+.center[
+<img src="img/longitude_distance.png"  width = 300>
+]
+
+.center[
+<img src="img/greatcircle.png"  width = 400>
+]
+
+]
+
+
+---
+
+# Geographic Coordinate Systems
+
+.pull-left[
+__Datums__
+* __Is the earth flat?__ No!
+* __Is the earth a sphere?__ No!
+* __Is the earth a lumpy ellipsoid?__ [Yes!](https://oceanservice.noaa.gov/facts/earth-round.html#:~:text=The%20Earth%20is%20an%20irregularly%20shaped%20ellipsoid.&text=While%20the%20Earth%20appears%20to,unique%20and%20ever%2Dchanging%20shape.)
+
+The earth is a lumpy ellipsoid, a bit flattened at the poles. 
+* A [datum](https://www.maptoaster.com/maptoaster-topo-nz/articles/projection/datum-projection.html) is a model of the earth that is used in mapping. One of the most common datums is [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System), which is used by the Global Positional System (GPS). 
+* A datum is a reference ellipsoid that approximates the shape of the earth.
+* Other datums exist, and the latitude and longitude values for a specific location will be different depending on the datum.
+]
+
+.pull-right[
+
+.center[
+<img src="img/datum1.png"  width = 300>
+]
+
+.center[
+<img src="img/datum2.png"  width = 300>
+]
+
+]
+
+---
+
+# Projected Coordinate Systems
+
+.pull-left[
+Projected coordinate systems project spatial data from a 3D to 2D surface.
+
+__Distortions:__ Projections will distort some combination of distance, area, shape or direction. Different projections can minimize distorting some aspect at the expense of others. 
+
+__Units:__ When projected, points are represented as “northings” and “eastings.” Values are often represented in meters, where northings/eastings are the meter distance from some reference point. Consequently, values can be very large!
+
+]
+
+.pull-right[
+Click [here](https://www.youtube.com/watch?v=eLqC3FNNOaI) to see why Toby & CJ are confused (hint: projections!) 
+
+.center[
+<img src="img/westwing.png"  width = 400>
+]
+
+.center[
+<img src="img/mercator_galls.png"  width = 400>
+]
+
+]
+
+
+---
+
+# Projected Coordinate Systems
+
+.center[
+<img src="img/map_xkcd.png"  width = 1000>
+]
+
+---
+
+# Coordinate Reference Systems
+
+Whenever have spatial data, need to know which coordinate reference system (CRS) the data is in.
+
+* You wouldn’t say __“I am 5 away”__
+* You would say __“I am 5 [miles / kilometers / minutes / hours] away”__ (units!)
+* Similarly, a “complete” way to describe location would be: I am at __6.51 latitude, 3.52 longitude using the WGS 84 CRS__
+
+---
 
 # Setting the stage
 
@@ -80,8 +242,7 @@ name: setting
 Install new packages
 ```{r, eval = F}
 install.packages(c("sf",
-                   "leaflet",
-                   "ggmap"),
+                   "leaflet"),
                  dependencies = TRUE)
 ```
 
@@ -92,7 +253,6 @@ library(here)
 library(tidyverse)
 library(sf)
 library(leaflet)
-library(ggmap)
 ```
 
 ---
@@ -100,9 +260,8 @@ library(ggmap)
 # Introduction
 
 - This session could be a whole course on its own, but we only have an hour and half.
-- To narrow our subject, we will focus on only one type of spatial data, vector data (typical file formats include shapefiles and geojsons). 
+- To narrow our subject, we will focus on only one type of spatial data, vector data.
 - This is the most common type of spatial data that non-GIS experts will encounter in their work.
-- We will focus mostly on how to visualize spatial data, although we will also cover some simple geometry operations.
 - We will use the `sf` package, which is the tidyverse-compatible package for geospatial data in R.
 - For visualizing, we'll rely on `ggplot2` for static maps and `leaflet` for interactive maps
 - If you want to know more about geospatial data in R, we recommend the book [https://geocompr.robinlovelace.net/](Geocomputation with R), by Robin Lovelace, Jakub Nowosad, and Jannes Muenchow.
@@ -220,92 +379,45 @@ ggplot() +
 
 .exercise[
 
-**Exercise 1:** Load the roads data `osm_lagos_roads.geojson` and name the object `roads_sf`
-
+**Exercise:** 
+* Load the roads data `osm_lagos_roads.geojson` and name the object `roads_sf`
+* Look at the first few observations
+* Check the coordinate reference system
+* Map the polyline
 ]
 
-`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
 .solution[
 **Solution**: 
+```{r, eval = F}
+roads_sf <- st_read(here("DataWork", "DataSets", "Final", "osm_lagos_roads.geojson"))
+
+head(roads_sf)
+
+st_crs(roads_sf)
+
+ggplot() +
+  geom_sf(data = roads_sf)
+```
+]
+
+---
+
+# Load and explore polyline
+
 ```{r}
 roads_sf <- 
   st_read(here("DataWork",
                "DataSets",
                "Final",
                "osm_lagos_roads.geojson"))
-```
-]
 
-
----
-
-# Load and explore polyline
-
-.exercise[
-
-**Exercise 2:** Look at first few observations
-
-]
-
-`r countdown(minutes = 0, seconds = 20, left = 0, font_size = "2em")`
-
---
-
-.solution[
-**Solution**: 
-```{r}
-head(roads_sf)
-```
-]
-
-
----
-
-# Load and explore polyline
-
-.exercise[
-
-**Exercise 1:** Check the coordinate reference system
-
-]
-
-`r countdown(minutes = 0, seconds = 30, left = 0, font_size = "2em")`
-
---
-
-.solution[
-**Solution**: 
-```{r}
-st_crs(roads_sf)
-```
-]
-
-
----
-
-# Load and explore polyline
-
-.exercise[
-
-**Exercise 1:** Map the polyline
-
-]
-
-`r countdown(minutes = 0, seconds = 30, left = 0, font_size = "2em")`
-
---
-
-.solution[
-**Solution**: 
-```{r, out.width = "50%"}
 ggplot() +
   geom_sf(data = roads_sf)
 ```
-]
-
 
 ---
 
@@ -313,11 +425,11 @@ ggplot() +
 
 .exercise[
 
-**Exercise 1:** Determine length of each line (hint: function similar to `st_area`)
+**Exercise:** Determine length of each line (hint: use `st_length`)
 
 ]
 
-`r countdown(minutes = 0, seconds = 30, left = 0, font_size = "2em")`
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
@@ -471,10 +583,12 @@ We use the `leaflet` package to make interactive maps. Leaflet is a JavaScript l
 * Start with `leaflet()` (instead of `ggplot()`)
 * Add spatial layers, defining type of layer (similar to geometries)
 
-```{r l1, out.height = "50%", out.width = "80%"}
+
+```{r l1, out.height = "40%", out.width = "50%"}
 leaflet() %>%
   addTiles() # Basemap
 ```
+
 
 ---
 
@@ -485,10 +599,10 @@ We use the `leaflet` package to make interactive maps. Leaflet is a JavaScript l
 * Start with `leaflet()` (instead of `ggplot()`)
 * Add spatial layers, defining type of layer (similar to geometries)
 
-```{r l2, out.height = "50%", out.width = "80%"}
+```{r l2, out.height = "40%", out.width = "50%"}
 leaflet() %>%
   addTiles() %>%
-  addPolygons(data = lagos_sf)
+  addPolygons(data = lagos_sf) 
 ```
 
 ---
@@ -497,71 +611,86 @@ leaflet() %>%
 
 Add a pop-up
 
-```{r l3, out.height = "50%", out.width = "80%"}
+```{r l3, out.height = "40%", out.width = "50%"}
 leaflet() %>%
   addTiles() %>%
   addPolygons(data = lagos_sf,
-              popup = ~NAME_2)
+              popup = ~NAME_2) 
 ```
 
---- 
+---
 
 # Interactive map
 
 Add more than one layer
 
-```{r l4, out.height = "50%", out.width = "80%"}
+```{r l4, out.height = "40%", out.width = "50%"}
 leaflet() %>%
-  addTiles() %>%
-  addPolygons(data = lagos_sf,
-              popup = ~NAME_2) %>%
-  addCircles(data = schools_sf,
-             popup = ~name,
-             color = "black") 
+ addTiles() %>%
+ addPolygons(data = lagos_sf,
+             popup = ~NAME_2) %>%
+ addCircles(data = schools_sf,
+            popup = ~name,
+            color = "black")
 ```
 
 ---
 
-
-# Map points objects
+# Interactive map of roads
 
 .exercise[
 
-**Exercise:** Create a leaflet map with roads. (__Hint:__ Use `addPolylines()`)
-
-`r countdown(minutes = 0, seconds = 30, left = 0, font_size = "2em")`
+**Exercise:** Create a leaflet map with roads, using the `roads_sf` dataset. (__Hint:__ Use `addPolylines()`)
 
 ]
 
-
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
 
 --
 
 .solution[
 
 **Solution**: 
-
 ```{r, eval = F}
 leaflet() %>%
-addTiles() %>%
-addPolylines(data = roads_sf)
+ addTiles() %>%
+ addPolylines(data = roads_sf)
 ```
 
 ]
 
 ---
 
-# Interactive map
+# Interactive map of roads
 
-We can spent lots of time going over what we can done with leaflet (adding colors, adding legends, etc) - but that would take up too much time. [This resource](https://rstudio.github.io/leaflet/articles/colors.html) provides helpful tutorials.
+```{r l5, out.height = "40%", out.width = "50%"}
+leaflet() %>%
+ addTiles() %>%
+ addPolylines(data = roads_sf)
+```
 
---- 
+---
+
+# Interactive maps
+
+We can spent lots of time going over what we can done with leaflet - but that would take up too much time. [This resource](https://rstudio.github.io/leaflet/articles/colors.html) provides helpful tutorials for things like:
+* Changing the basemap 
+* Adding colors
+* Adding a legend
+* And much more!
+
+---
 
 # Spatial operations applied on single dataset
 
-Blank slide
+* `st_transform`: Transform CRS
+* `st_buffer`: Buffer point/line/polygon
+* `st_combine`: Dissolve by attribute
+* `st_convex_hull `: Create convex hull
+* `st_centroid`: Create new sf object that uses the centroid
+* `st_drop_geometry`: Drop geometry; convert from sf to dataframe
 
---- 
+---
 
 # Transform CRS
 
@@ -570,12 +699,10 @@ We want to compute the length of roads in Lagos using the roads dataset. The roa
 ```{r}
 schools_utm_sf <- st_transform(schools_sf, 32632)
 
-schools_sf$geometry %>% head() %>% print()
-
-schools_utm_sf$geometry %>% head() %>% print()
+schools_utm_sf$geometry %>% head(2) %>% print()
 ```
 
---- 
+---
 
 # Buffer
 
@@ -589,38 +716,45 @@ ggplot() +
   geom_sf(data = schools_1km_sf)
 ```
 
---- 
+---
 
 # Dissolve by an attribute
 
 Below we have the second administrative regions of Nigeria. Using this dataset, let's create a new object at the first administrative region level.
 
-```{r, out.width = "50%"}
+```{r, out.width = "30%"}
 nga1_sf <- nga_sf %>%
   group_by(NAME_1) %>%
-  summarise(geometry = st_union(geometry)) %>%
+  summarise(geometry = st_combine(geometry)) %>%
   ungroup()
 
 ggplot() +
   geom_sf(data = nga1_sf)
 ```
 
---- 
+---
 
-# Convex hull
+# Convex Hull
 
 __Simple definition:__ Get the outer-most coordinates of a shape and connect-the-dots.
 
 __Formal definition:__ A convex hull of a shape the smallest "convex set" that contains it. (A [convex set](https://en.wikipedia.org/wiki/Convex_set) is where a straight line can be drawn anywhere in the space and the space fully contains the line).
 
-.center[
-![Convex](img/Convex_polygon_illustration1.svg.png){ width=40% }
-![Not Convex](img/220px-Convex_polygon_illustration2.svg.png){ width=40% }
+.pull-left[
+__Convex__
+
+![Convex](img/Convex_polygon_illustration1.svg.png)
+]
+
+.pull-right[
+__Not convex__
+
+![Not Convex](img/220px-Convex_polygon_illustration2.svg.png)
 ]
 
 __Source:__ [Wikipedia](https://en.wikipedia.org/wiki/Convex_set)
 
---- 
+---
 
 # Convex hull
 
@@ -635,77 +769,48 @@ schools_chull1_sf <- schools_sf %>%
 nrow(schools_chull1_sf)
 ```
 
---- 
+---
 
 # Convex hull
 
 __Correct__
 
-```{r l6, out.height = "50%"}
+```{r, out.width = "40%"}
 schools_chull2_sf <- schools_sf %>%
   summarise(geometry = st_combine(geometry)) %>%
   st_convex_hull()
 
-schools_chull2_sf %>% nrow() %>% print()
-
-leaflet() %>%
-  addTiles() %>%
-  addPolygons(data = schools_chull2_sf) %>%
-  addCircles(data = schools_sf, color = "red") 
+ggplot() +
+  geom_sf(data = schools_chull2_sf) +
+  geom_sf(data = schools_sf, color = "red")
 ```
 
---- 
+---
 
 # Determine centroid
 
 Sometimes we want to represent a polygon or polyline as a single point. For this, we can compute the centroid (ie, geographic center) of a polygon/polyline.
 
 .center[
-![Centroid](img/220px-Triangle.Centroid.svg.png){ width=40% }
+![Centroid](img/220px-Triangle.Centroid.svg.png)
 ]
 
 __Source:__ [Wikipedia](https://en.wikipedia.org/wiki/Centroid)
 
---- 
+---
 
 # Determine centroid
 
-```{r}
-nga_center_sf <- nga_sf %>%
-st_centroid()
+Determine centroid of Nigeria ADM2s
+
+```{r, out.width = "40%"}
+nga_c_sf <- st_centroid(nga_sf)
 
 ggplot() +
-geom_sf(data = nga_center_sf)
+  geom_sf(data = nga_c_sf)
 ```
 
---- 
-
-# Map points objects
-
-.exercise[
-
-**Exercise:** Create a roads object where (1) roads are buffered by 10 meters and (2) road types are dissolved (using `highway` variable), so the dataset contains one row per road type
-
-`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
-
-]
-
---
-
-.solution[
-**Solution**: 
-```{r}
-rd_type_buff_sf <- roads_sf %>%
-st_buffer(dist = 10) %>%
-group_by(highway) %>%
-summarise(geometry = st_combine(geometry)) %>%
-ungroup()
-
-nrow(rd_type_buff_sf)
-```
-]
-
---- 
+---
 
 # Remove geometry
 
@@ -713,10 +818,11 @@ __Incorrect approach__
 
 ```{r}
 lagos_sf %>% 
-  select(-geometry)
+  select(-geometry) %>%
+  head()
 ```
 
---- 
+---
 
 # Remove geometry
 
@@ -724,16 +830,59 @@ __Correct__
 
 ```{r}
 lagos_sf %>% 
-  st_drop_geometry()
+  st_drop_geometry() %>%
+  head()
 ```
 
---- 
+---
 
-# Spatial operations: using multiple datasets
+# Grab coordinates
 
-Blank slide
+Create a matrix of coordinates
 
---- 
+```{r}
+schools_sf %>% 
+  st_coordinates() %>%
+  head()
+```
+
+---
+
+# Exercise
+
+.exercise[
+
+**Exercise:** Create a polyline of all trunk roads in Lagos, and buffer the poyline by 10 meters. In `roads_sf`, the `highway` variable notes road types.
+
+]
+
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
+.solution[
+
+**Solution**: 
+```{r}
+roads_sf %>%
+  filter(highway == "trunk") %>%
+  summarise(geometry = st_combine(geometry)) %>%
+  st_buffer(dist = 10)
+```
+
+]
+
+---
+
+# Spatial operations using multiple datasets
+
+* `st_distance`
+* `st_intersects`
+* `st_intersection` 
+* `st_difference` 
+* `st_join`
+
+---
 
 # Distances
 
@@ -750,7 +899,32 @@ dist_mat <- st_distance(schools_sf, motor_sf)
 dist_mat %>% apply(1, min) %>% head()
 ```
 
---- 
+---
+
+# Distances
+
+There are multiple ways to calculate distances!
+
+* __Great circle:__ sf, by default, uses s2 to computer distance (in meters) when data has a geographic CRS
+* __Great circle:__ Other formulas beyond s2, such as Haversine, Vincenty, etc. See the [geosphere](https://cran.r-project.org/web/packages/geosphere/geosphere.pdf) and [geodist](https://cran.r-project.org/web/packages/geodist/geodist.pdf) packages.
+* __Projected:__ We can use a projected CRS, where units are in meters already.
+
+```{r}
+# s2
+d1 <- st_distance(schools_sf[1,], schools_sf[2,])
+
+# Nigeria-specific CRS
+schools_utm_sf <- st_transform(schools_sf, 32632)
+d2 <- st_distance(schools_utm_sf[1,], schools_utm_sf[2,])
+
+# World mercator
+schools_merc_sf <- st_transform(schools_sf, 3395)
+d3 <- st_distance(schools_merc_sf[1,], schools_merc_sf[2,])
+
+print(c(d1, d2, d3))
+```
+
+---
 
 # Intersects
 
@@ -758,19 +932,10 @@ For this example we'll determine which of Lagos's second administrative division
 
 ```{r}
 # Sparse matrix
-st_intersects(lagos_sf, motor_sf)
+st_intersects(lagos_sf, motor_sf) %>% print()
 ```
 
---- 
-
-# Intersects
-
-```{r}
-# Matrix
-st_intersects(lagos_sf, motor_sf, sparse = F)
-```
-
---- 
+---
 
 # Intersects
 
@@ -778,16 +943,18 @@ Take `max` (`FALSE` corresponds to 0 and `TRUE` corresponds to 1). So taking max
 
 ```{r}
 # Matrix
-st_intersects(lagos_sf, motor_sf, sparse = F) %>% apply(1, max)
+st_intersects(lagos_sf, motor_sf, sparse = F) %>% 
+  apply(1, max) %>%
+  head()
 ```
 
---- 
+---
 
 # Intersection
 
 We have roads for all of Lagos. Here, we want to create new roads object that __only includes__ roads in the Eti-Osa unit.
 
-```{r}
+```{r, out.width = "40%"}
 etis_sf <- lagos_sf %>%
   filter(NAME_2 == "Eti-Osa")
 
@@ -797,13 +964,13 @@ ggplot() +
   geom_sf(data = roads_etis_sf)
 ```
 
---- 
+---
 
 # Difference
 
 We have roads for all of Lagos. Here, we want to create new roads object that __excludes__ roads in the Eti-Osa unit.
 
-```{r}
+```{r, out.width = "40%"}
 roads_notetis_sf <- st_difference(roads_sf, etis_sf)
 
 ggplot() +
@@ -811,17 +978,17 @@ ggplot() +
   geom_sf(data = roads_notetis_sf) 
 ```
 
---- 
+---
 
 # Overlay
 
 Intersections and differencing are __overlay__ functions
 
 .center[
-![Overlay](img/overlay_examples.png){ width=40% }
+![Overlay](img/overlay_examples.png)
 ]
 
---- 
+---
 
 # Spatial join
 
@@ -832,7 +999,7 @@ Check the variable names. No names of second administrative divison :(
 names(schools_sf)
 ```
 
---- 
+---
 
 # Spatial join
 
@@ -841,10 +1008,14 @@ Use `st_join` to add attributes from `lagos_sf` to `schools_sf`.
 ```{r}
 schools_lagos_sf <- st_join(schools_sf, lagos_sf)
 
-names(schools_lagos_sf)
+schools_lagos_sf %>% 
+  names() %>% 
+  print() %>%
+  tail(10)
 ```
 
---- 
+
+---
 
 # Spatial join
 
@@ -852,11 +1023,7 @@ names(schools_lagos_sf)
 
 **Exercise:** Make static map using of Lagos administrative areas, where each administrative area polygon displays the number of schools.
 
-`r countdown(minutes = 5, seconds = 0, left = 0, font_size = "2em")`
-
 ]
-
-
 
 --
 
@@ -871,20 +1038,27 @@ n_school_df <- schools_lagos_sf %>%
   ungroup()
 
 ## Merge info with lagos_sf
-lagos_sch_sf <- lagos_sf %>% 
-  left_join(n_school_df, by = "NAME_2")
+lagos_sch_sf <- lagos_sf %>% left_join(n_school_df, by = "NAME_2")
 
 ## Map
-ggplot() +
+p <- ggplot() +
   geom_sf(data = lagos_sch_sf,
           aes(fill = n_school))
 ```
 
 ]
 
-# OTHER
+---
 
-.center[
-![Geoms](img/geometryops.PNG){ width=40% }
-]
+# Spatial join
+
+```{r, out.width = "65%"}
+ggplot() +
+  geom_sf(data = lagos_sch_sf,
+          aes(fill = n_school)) +
+  labs(fill = "N\nSchools") +
+  scale_fill_distiller(palette = "YlOrRd") +
+  theme_void()
+```
+
 
