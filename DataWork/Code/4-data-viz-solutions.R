@@ -5,13 +5,11 @@
 # install.packages("tidyverse")
 # install.packages("here")
 # install.packages("janitor")
-# install.packages("ggplot2)
 
-  library(tidyverse)
+  library(tidyverse) # note that ggplot is included in tidyverse
   library(here)
   library(janitor)
-  library(ggplot2)
-  
+
   ## 2. Data Import ----
   
   whr_panel <- read_csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
