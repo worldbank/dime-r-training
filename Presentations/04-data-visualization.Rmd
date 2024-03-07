@@ -331,7 +331,7 @@ whr_panel %>%  #<<
 
 # Exploratory Analysis
 
-.large[I prefer to use the second way of structuring our ggplot.
+.large[I prefer to use the last way of structuring our ggplot.
 
 1. First, setting our data;
 2. pipe it;
@@ -910,7 +910,7 @@ whr_panel %>%
 
 
 .panelset[
-.panel[.panel-name[Linear]
+.panel[.panel-name[Unscaled]
 
 ```{r, out.width = "50%"}
 ggplot(data = whr_panel,
@@ -921,7 +921,7 @@ ggplot(data = whr_panel,
 
 ]
 
-.panel[.panel-name[Log]
+.panel[.panel-name[Scaled]
 
 ```{r, out.width = "45%"}
 ggplot(data = whr_panel,
