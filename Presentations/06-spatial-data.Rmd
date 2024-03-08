@@ -225,9 +225,11 @@ Click [here](https://www.youtube.com/watch?v=eLqC3FNNOaI) to see why Toby & CJ a
 
 # Referencing coordinate reference systems
 
+.large[
 * There are many ways to reference coordinate systems, some of which are verbose. 
 * __PROJ__ (Library for projections) way of referencing WGS84 `+proj=longlat +datum=WGS84 +no_defs +type=crs`
 * __[EPSG](https://epsg.io/)__ Assigns numeric code to CRSs to make it easier to reference. Here, WGS84 is `4326`. __sf package in R relies in ESPG__
+]
 
 ---
 
@@ -1129,4 +1131,10 @@ ggplot() +
   theme_void()
 ```
 
+---
 
+# Thank you!
+
+.center[
+<img src="img/werner_projection.jpg"  width = 500>
+]
