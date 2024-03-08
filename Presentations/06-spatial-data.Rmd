@@ -191,6 +191,8 @@ The earth is a lumpy ellipsoid, a bit flattened at the poles.
 .pull-left[
 Projected coordinate systems project spatial data from a 3D to 2D surface.
 
+__Datums still relevant:__ Projections start from some representation of the earth. Many projections (eg, [UTM](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system)) use the WGS84 datum as a starting point (ie, reference datum), then project it onto a flat surface. 
+
 __Distortions:__ Projections will distort some combination of distance, area, shape or direction. Different projections can minimize distorting some aspect at the expense of others. 
 
 __Units:__ When projected, points are represented as “northings” and “eastings.” Values are often represented in meters, where northings/eastings are the meter distance from some reference point. Consequently, values can be very large!
@@ -218,6 +220,14 @@ Click [here](https://www.youtube.com/watch?v=eLqC3FNNOaI) to see why Toby & CJ a
 .center[
 <img src="img/map_xkcd.png"  width = 1000>
 ]
+
+---
+
+# Referencing coordinate reference systems
+
+* There are many ways to reference coordinate systems, some of which are verbose. 
+* __PROJ__ (Library for projections) way of referencing WGS84 `+proj=longlat +datum=WGS84 +no_defs +type=crs`
+* __[EPSG](https://epsg.io/)__ Assigns numeric code to CRSs to make it easier to reference. Here, WGS84 is `4326`. __sf package in R relies in ESPG__
 
 ---
 
@@ -252,9 +262,9 @@ And load them
 ```{r, eval = TRUE, message = FALSE, warning = FALSE}
 library(here)
 library(tidyverse)
-library(sf)
-library(leaflet)
-library(geosphere)
+library(sf)        # Simple features
+library(leaflet)   # Interactive map
+library(geosphere) # Great circle distances
 ```
 
 ---
@@ -495,7 +505,7 @@ names(schools_df)
 
 We define the (1) coordinates (longitude and latitude) and (2) CRS. __Note:__ We must determine the CRS from the data metadata. This dataset comes from OpenStreetMaps, which uses WGS:4326.
 
-__Bad things will happen if we assign the wrong CRS. VERY BAD, TERRIBLE, HORRIBLE THINGS.__ 
+__Assigning the incorrect CRS is one of the most common sources of issues I see with geospatial work. If something looks weird, check the CRS!__ 
 
 ```{r}
 schools_sf <- st_as_sf(schools_df, 
@@ -551,8 +561,7 @@ ggplot() +
 * Units are in decimal degrees. 
 * The length (eg, meters) between degrees of longitude shrinks as we go towards the equator. 
 * `geom_point` thinks 1 degree distance is the same for latitudes and longitudes (dumb!). 
-* `geom_sf` is smart and knows that we are in `WGS:4326` (spherical CRS), and adjust map show distances are more accurate (smart!).
-
+* `geom_sf` is knows that we are in `WGS:4326` (spherical CRS), and adjusts map to minimize distortions (smart!). 
 ]
 
 ---
@@ -708,12 +717,16 @@ We can spent lots of time going over what we can done with leaflet - but that wo
 * `st_convex_hull `: Create convex hull
 * `st_centroid`: Create new sf object that uses the centroid
 * `st_drop_geometry`: Drop geometry; convert from sf to dataframe
+* `st_coordinates`: Get matrix of coordinates
+* `st_bbox`: Get bounding box
 
 ---
 
 # Transform CRS
 
 We want to compute the length of roads in Lagos using the roads dataset. The roads dataset is currently in a geographic CRS (WGS84), where the units are in decimal degrees. We'll tranform the CRS to a projected CRS that is suitable for Nigeria ([EPSG:32632](https://epsg.io/32632)), and where the units will be in meters.
+
+__Note that coordinate values are large!__ Values are large because units are in meters. Large coordinate values suggest projected CRS; latitude is between -90 and 90 and longitude is between -180 and 180.
 
 ```{r}
 schools_utm_sf <- st_transform(schools_sf, 32632)
@@ -867,6 +880,15 @@ schools_sf %>%
 
 ---
 
+# Get bounding box
+
+```{r}
+schools_sf %>% 
+  st_bbox() 
+```
+
+---
+
 # Exercise
 
 .exercise[
@@ -895,11 +917,11 @@ roads_sf %>%
 
 # Spatial operations using multiple datasets
 
-* `st_distance`
-* `st_intersects`
-* `st_intersection` 
-* `st_difference` 
-* `st_join`
+* `st_distance`: Calculate distances.
+* `st_intersects`: Indicates whether simple features intersect.
+* `st_intersection`: Cut one spatial object based on another.
+* `st_difference`: Remove part of spatial object based on another.  
+* `st_join`: Spatial join (ie, add attributes of one dataframe to another based on location). 
 
 ---
 
@@ -925,7 +947,7 @@ dist_mat %>% apply(1, min) %>% head()
 There are multiple ways to calculate distances!
 
 * __Great circle:__ sf, by default, uses s2 to computer distance (in meters) when data has a geographic CRS
-* __Great circle:__ Other formulas beyond s2, such as Haversine, Vincenty, and Karney’s method. See the [geosphere](https://cran.r-project.org/web/packages/geosphere/geosphere.pdf) and [geodist](https://cran.r-project.org/web/packages/geodist/geodist.pdf) packages. Vincenty is more precise than Haversine, and Karney's method is more precise than Vincenty's method. Greater precision comes with heavy computation. For more information, see [here](https://rspatial.org/raster/sphere/2-distance.html)
+* __Great circle:__ Other formulas beyond s2, such as Haversine, Vincenty, and Karney’s method. See the [geosphere](https://cran.r-project.org/web/packages/geosphere/geosphere.pdf) and [geodist](https://cran.r-project.org/web/packages/geodist/geodist.pdf) packages. Vincenty is more precise than Haversine, and Karney's method is more precise than Vincenty's method. Greater precision comes with heavy computation. For more information, see [here](https://rspatial.org/raster/sphere/2-distance.html).
 * __Projected:__ We can use a projected CRS, where units are in meters already.
 
 ---
@@ -1049,7 +1071,7 @@ names(schools_sf)
 
 # Spatial join
 
-Use `st_join` to add attributes from `lagos_sf` to `schools_sf`.
+Use `st_join` to add attributes from `lagos_sf` to `schools_sf`. `st_join` is similar to other join methods (eg, `left_join`); instead of joining on a varible, we join based on location.
 
 ```{r}
 schools_lagos_sf <- st_join(schools_sf, lagos_sf)
