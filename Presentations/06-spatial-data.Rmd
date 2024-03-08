@@ -54,7 +54,7 @@ htmltools::tagList(
 
 # Table of contents
 
-.vlarge[
+.large[
 1. Overview of GIS concepts
 2. Load and explore polygons, polylines, and points
 3. Static maps
@@ -278,7 +278,6 @@ library(geosphere) # Great circle distances
 - This is the most common type of spatial data that non-GIS experts will encounter in their work.
 - We will use the `sf` package, which is the tidyverse-compatible package for geospatial data in R.
 - For visualizing, we'll rely on `ggplot2` for static maps and `leaflet` for interactive maps
-- If you want to know more about geospatial data in R, we recommend the book [https://geocompr.robinlovelace.net/](Geocomputation with R), by Robin Lovelace, Jakub Nowosad, and Jannes Muenchow.
 
 ---
 
@@ -1130,6 +1129,16 @@ ggplot() +
   scale_fill_distiller(palette = "YlOrRd") +
   theme_void()
 ```
+
+---
+
+# Resources
+
+.large[
+* [sf package cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf)
+* [Spatial Data Science with Applications in R](https://r-spatial.org/book/)
+* [Geocomputation with R](https://r.geocompx.org/)
+]
 
 ---
 
