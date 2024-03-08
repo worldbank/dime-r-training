@@ -242,7 +242,8 @@ Whenever have spatial data, need to know which coordinate reference system (CRS)
 Install new packages
 ```{r, eval = F}
 install.packages(c("sf",
-                   "leaflet"),
+                   "leaflet",
+                   "geosphere"),
                  dependencies = TRUE)
 ```
 
@@ -253,6 +254,7 @@ library(here)
 library(tidyverse)
 library(sf)
 library(leaflet)
+library(geosphere)
 ```
 
 ---
@@ -265,6 +267,23 @@ library(leaflet)
 - We will use the `sf` package, which is the tidyverse-compatible package for geospatial data in R.
 - For visualizing, we'll rely on `ggplot2` for static maps and `leaflet` for interactive maps
 - If you want to know more about geospatial data in R, we recommend the book [https://geocompr.robinlovelace.net/](Geocomputation with R), by Robin Lovelace, Jakub Nowosad, and Jannes Muenchow.
+
+---
+
+### Setup
+
+1. Copy/paste the following code into a new RStudio script, **replacing "YOURFOLDERPATHHERE" with the folder within which you'll place this R project:
+```{r, eval = FALSE}
+library(usethis)
+use_course(
+  url = "https://github.com/worldbank/dime-r-training/archive/main.zip",
+  destdir = "YOURFOLDERPATHHERE"
+)
+```
+
+2. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
+
+3. A new RStudio environment will open. Use this for the session today.
 
 ---
 
@@ -626,12 +645,12 @@ Add more than one layer
 
 ```{r l4, out.height = "40%", out.width = "50%"}
 leaflet() %>%
- addTiles() %>%
- addPolygons(data = lagos_sf,
-             popup = ~NAME_2) %>%
- addCircles(data = schools_sf,
-            popup = ~name,
-            color = "black")
+  addTiles() %>%
+  addPolygons(data = lagos_sf,
+              popup = ~NAME_2) %>%
+  addCircles(data = schools_sf,
+             popup = ~name,
+             color = "black")
 ```
 
 ---
@@ -653,8 +672,8 @@ leaflet() %>%
 **Solution**: 
 ```{r, eval = F}
 leaflet() %>%
- addTiles() %>%
- addPolylines(data = roads_sf)
+  addTiles() %>%
+  addPolylines(data = roads_sf)
 ```
 
 ]
@@ -665,8 +684,8 @@ leaflet() %>%
 
 ```{r l5, out.height = "40%", out.width = "50%"}
 leaflet() %>%
- addTiles() %>%
- addPolylines(data = roads_sf)
+  addTiles() %>%
+  addPolylines(data = roads_sf)
 ```
 
 ---
@@ -906,23 +925,50 @@ dist_mat %>% apply(1, min) %>% head()
 There are multiple ways to calculate distances!
 
 * __Great circle:__ sf, by default, uses s2 to computer distance (in meters) when data has a geographic CRS
-* __Great circle:__ Other formulas beyond s2, such as Haversine, Vincenty, etc. See the [geosphere](https://cran.r-project.org/web/packages/geosphere/geosphere.pdf) and [geodist](https://cran.r-project.org/web/packages/geodist/geodist.pdf) packages.
+* __Great circle:__ Other formulas beyond s2, such as Haversine, Vincenty, and Karney’s method. See the [geosphere](https://cran.r-project.org/web/packages/geosphere/geosphere.pdf) and [geodist](https://cran.r-project.org/web/packages/geodist/geodist.pdf) packages. Vincenty is more precise than Haversine, and Karney's method is more precise than Vincenty's method. Greater precision comes with heavy computation. For more information, see [here](https://rspatial.org/raster/sphere/2-distance.html)
 * __Projected:__ We can use a projected CRS, where units are in meters already.
 
+---
+
+# Distances
+
+.pull-left[
 ```{r}
 # s2
-d1 <- st_distance(schools_sf[1,], schools_sf[2,])
+st_distance(schools_sf[1,], schools_sf[2,]) %>% 
+  as.numeric()
 
 # Nigeria-specific CRS
 schools_utm_sf <- st_transform(schools_sf, 32632)
-d2 <- st_distance(schools_utm_sf[1,], schools_utm_sf[2,])
+st_distance(schools_utm_sf[1,], schools_utm_sf[2,]) %>% 
+  as.numeric()
 
 # World mercator
 schools_merc_sf <- st_transform(schools_sf, 3395)
-d3 <- st_distance(schools_merc_sf[1,], schools_merc_sf[2,])
-
-print(c(d1, d2, d3))
+st_distance(schools_merc_sf[1,], schools_merc_sf[2,]) %>% 
+  as.numeric()
 ```
+
+]
+
+.pull-right[
+```{r}
+# Haversine
+distHaversine(
+  p1 = schools_sf[1,] %>% st_coordinates,
+  p2 = schools_sf[2,] %>% st_coordinates)
+
+# Vincenty's method
+distVincentySphere(
+  p1 = schools_sf[1,] %>% st_coordinates,
+  p2 = schools_sf[2,] %>% st_coordinates)
+
+# Karney’s method 
+distGeo(p1 = schools_sf[1,] %>% st_coordinates,
+        p2 = schools_sf[2,] %>% st_coordinates)
+```
+
+]
 
 ---
 
@@ -1021,7 +1067,7 @@ schools_lagos_sf %>%
 
 .exercise[
 
-**Exercise:** Make static map using of Lagos administrative areas, where each administrative area polygon displays the number of schools.
+**Exercise:** Make a static map using of Lagos administrative areas, where each administrative area polygon displays the number of schools.
 
 ]
 
