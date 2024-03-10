@@ -1,8 +1,8 @@
 ---
 title: "Descriptive Analysis"
 subtitle: "[R for Stata Users](https://github.com/worldbank)"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina"
-date: "DIME |The World Bank <br> `r format(Sys.time(), '%d %B %Y')`"
+author: "Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Maria Reyes Retana, Rony Rodriguez Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2024"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -77,17 +77,29 @@ htmltools::tagList(
 .panelset[
 
 .panel[.panel-name[If You Attended Session 2]
-1. Go to the `dime-r-training-mar2023` folder that you created yesterday, and open the `dime-r-training-mar2023` R project that you created there.
+1. Go to the `dime-r-training-mar2024` folder that you created yesterday, and open the `dime-r-training-mar2024` R project that you created there.
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
-1. Create a folder named `dime-r-training-mar2023` in your preferred location in your computer.
 
-2. Go to the [OSF page of the course](https://osf.io/86g3b/) and download the file in: `R for Stata Users - 2023 March` > `Data` > `dime-r-training-mar2023.zip`.
+ 1. Open RStudio.
 
-3. Unzip `dime-r-training-mar2023.zip`.
+ 2. Type in the following lines, replacing “YOURFILEPATHHERE” with a file path where the file path where you will place this R project. 
 
-4. Open the `dime-r-training-mar2023` R project.
+```{r, eval=FALSE}
+install.packages("usethis")
+library(usethis)
+usethis::use_course(
+    "https://github.com/worldbank/dime-r-training/archive/main.zip",
+    destdir = "YOURFILEPATHHERE"
+)
+```
+
+ 3\. In the console, type in the requisite number to delete the .zip file (we don't need it anymore)
+
+ 4\. A new RStudio environment will open. Use this for the session today. 
+  
+  
 ]
 
 ]
@@ -107,8 +119,6 @@ htmltools::tagList(
 
 
 ???
-
-Good morning, for those of you who don't know me, my name is Luiza Andrade and I am a Data Coordinator with the DIME Analytics team. 
 
 I'm here to talk to you about creating tables in R. Although in terms of data analysis this is very similar to data visualization, in the sense that what we are doing is trying to display information about the data in the most concise and informative manner, the tools and packages required to implement the two are very different. Which is why we separated them into two sessions.
 
@@ -182,6 +192,13 @@ library(openxlsx)
 # Setting the stage
 
 Load the data that we will use today: Stata's `census` dataset
+
+**Tip**: Use `here`, as we saw in the data wrangling session. 
+
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
 ```{r}
   # Load data
    census <-
@@ -195,7 +212,7 @@ Load the data that we will use today: Stata's `census` dataset
     )
 ```
 
-`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
 
 
 ???
@@ -209,6 +226,8 @@ Then we will load the packages for today: tidyverse, as usual, and two new packa
 Finally, let's load some data. This dataset is probably already familiar to most of you: it's Stata's built-in 1980 census data at state level.
 
 Double-check that you can see this dataset in your environment pane. Now, can someone tell me something about this dataset and how to get a little bit of information about it?
+
+We discussed it in the data wrangling session. 
 
 ---
 
@@ -261,6 +280,14 @@ summary(census)
 
 ---
 
+# Exploring a dataset
+
+ ```{r echo=FALSE}
+ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+ ```
+
+---
+
 # Summarizing continuous variables
 
 .large[
@@ -299,14 +326,24 @@ Use the `summary()` function to display summary statistics for a continuous vari
 summary(census$pop)
 ```
 
+---
+
+# Summarizing continuous variables
+
+ ```{r echo=FALSE}
+ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+ ```
 
 ---
 
 # Summarizing categorical variables
 
 .command[
-## `tabyl()`
+## `tabyl(x, ...)`
 Equivalent to `tabulate` in Stata, creates a frequency table. Its main arguments are vectors to be tabulated.
+
+ * **x:** the object you want to summarize, usually a vector or data frame
+ * *...* additional options as show_na, or show_missing_levels. 
 ]
 
 --
@@ -404,10 +441,10 @@ The package *modelsummary* contains a family of functions called `datasummary` w
 # Exploring datasets with *modelsummary*
 
 .command[
-## `datasummary_skim()`
+## `datasummary_skim(data, output, ....)`
 
  * **data:** the data set to be summarized, the only required argument
- * *output:* the type of output desired
+ * **output:** the type of output desired
  * *...:* additional options allow for formatting customization, such as including notes and titles
 ]
 
@@ -424,6 +461,7 @@ datasummary_skim(
 ```
 
 ---
+
 
 # Exploring datasets with *modelsummary*
 
@@ -452,6 +490,16 @@ datasummary_skim(census)
 ]
 
 
+
+
+---
+
+# Exploring datasets with *modelsummary*
+
+ ```{r echo=FALSE}
+ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+ ```
+
 ---
 
 # Exploring datasets with *modelsummary*
@@ -476,7 +524,7 @@ datasummary_skim(census$region, type = "categorical")
 You can also customize the variables and statistics to include using a **formula** with the `datasummary()` function.
 
 .command[
-## `datasummary()`
+## `datasummary(formula, data, output, ...)`
 
  * **formula:** a two-sided formula to describe the table: rows ~ columns
  * **data:** the data set to be summarized
@@ -1180,6 +1228,37 @@ Export a regression table with the results of your estimations using `lm` and `f
 - Use `quick_xlsx` or `quick_latex` to export the output of `huxreg` to your preferred format.
 ]
 
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
+.pull-left[
+```{r}
+# Combine regression results with huxreg
+reg_table <- huxreg(reg1, reg2)
+
+# Export to Excel
+quick_xlsx(reg_table,  file = here(
+                               "DataWork",
+                               "Output",
+                               "Raw",
+                               "regression_table.xlsx"))
+
+
+```
+
+]
+
+.pull-right[
+```{r}
+# Or, export to LaTeX
+quick_latex(reg_table, file = here(
+                               "DataWork",
+                               "Output",
+                               "Raw",
+                               "regression_table.tex"))
+```
+]
 
 ---
 
