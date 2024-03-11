@@ -2,7 +2,7 @@
 title: "Session 6 - Spatial Data"
 subtitle: "[R for Stata Users](https://github.com/worldbank)"
 author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> May 2022"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2024"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -262,9 +262,9 @@ use_course(
 )
 ```
 
-2. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
+2\. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
 
-3. A new RStudio environment will open. Use this for the session today.
+3\. A new RStudio environment will open. Use this for the session today.
 
 ---
 
@@ -555,7 +555,7 @@ ggplot() +
 * Units are in decimal degrees. 
 * The length (eg, meters) between degrees of longitude shrinks as we go towards the equator. 
 * `geom_point` thinks 1 degree distance is the same for latitudes and longitudes (dumb!). 
-* `geom_sf` is knows that we are in `WGS:4326` (spherical CRS), and adjusts map to minimize distortions (smart!). 
+* `geom_sf` knows that we are in `WGS:4326` (spherical CRS), and adjusts map to minimize distortions (smart!). 
 ]
 
 ---
@@ -565,10 +565,12 @@ ggplot() +
 Lets make a better static map.
 
 ```{r, out.width = "50%"}
+# Adding a variable with squared km
 lagos_sf <- lagos_sf %>%
   mutate(area_m = lagos_sf %>% st_area() %>% as.numeric(),
          area_km = area_m / 1000^2)
 
+# Plotting
 ggplot() +
   geom_sf(data = lagos_sf,
           aes(fill = area_km)) +
