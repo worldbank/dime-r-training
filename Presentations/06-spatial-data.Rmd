@@ -138,9 +138,7 @@ __Distance on a sphere__
 
 * At the equator (latitude = 0), a 1 decimal degree longitude distance is about 111km; towards the poles (latitude = -90 or 90), a 1 decimal degree longitude distance converges to 0 km. 
 * We must be careful (ie, use algorithms that account for a spherical earth) to calculate distances! The distance along a sphere is referred to as a [great circle distance](https://en.wikipedia.org/wiki/Great-circle_distance).
-* Options for spherical distance calculations
-- Formulas such as [haversine distance](https://en.wikipedia.org/wiki/Haversine_formula)
-- [s2](http://s2geometry.io/) (Google library for working with spherical geometries)
+* Multiple for spherical distance calculations, with trade-off between accuracy & complexity. (See distance section for details).
 ]
 
 .pull-right[
@@ -191,11 +189,11 @@ The earth is a lumpy ellipsoid, a bit flattened at the poles.
 .pull-left[
 Projected coordinate systems project spatial data from a 3D to 2D surface.
 
-__Datums still relevant:__ Projections start from some representation of the earth. Many projections (eg, [UTM](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system)) use the WGS84 datum as a starting point (ie, reference datum), then project it onto a flat surface. 
-
 __Distortions:__ Projections will distort some combination of distance, area, shape or direction. Different projections can minimize distorting some aspect at the expense of others. 
 
 __Units:__ When projected, points are represented as “northings” and “eastings.” Values are often represented in meters, where northings/eastings are the meter distance from some reference point. Consequently, values can be very large!
+
+__Datums still relevant:__ Projections start from some representation of the earth. Many projections (eg, [UTM](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system)) use the WGS84 datum as a starting point (ie, reference datum), then project it onto a flat surface. 
 
 ]
 
@@ -228,7 +226,7 @@ Click [here](https://www.youtube.com/watch?v=eLqC3FNNOaI) to see why Toby & CJ a
 .large[
 * There are many ways to reference coordinate systems, some of which are verbose. 
 * __PROJ__ (Library for projections) way of referencing WGS84 `+proj=longlat +datum=WGS84 +no_defs +type=crs`
-* __[EPSG](https://epsg.io/)__ Assigns numeric code to CRSs to make it easier to reference. Here, WGS84 is `4326`. __sf package in R relies in ESPG__
+* __[EPSG](https://epsg.io/)__ Assigns numeric code to CRSs to make it easier to reference. Here, WGS84 is `4326`. 
 ]
 
 ---
@@ -243,13 +241,34 @@ Whenever have spatial data, need to know which coordinate reference system (CRS)
 
 ---
 
-# Setting the stage
+# Introduction
 
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+- This session could be a whole course on its own, but we only have an hour and half.
+- To narrow our subject, we will focus on only one type of spatial data, vector data.
+- This is the most common type of spatial data that non-GIS experts will encounter in their work.
+- We will use the `sf` package, which is the tidyverse-compatible package for geospatial data in R.
+- For visualizing, we'll rely on `ggplot2` for static maps and `leaflet` for interactive maps
 
 ---
 
-# Setting the stage
+# Setup
+
+1. Copy/paste the following code into a new RStudio script, __replacing "YOURFOLDERPATHHERE" with the folder within which you'll place this R project__:
+```{r, eval = FALSE}
+library(usethis)
+use_course(
+  url = "https://github.com/worldbank/dime-r-training/archive/main.zip",
+  destdir = "YOURFOLDERPATHHERE"
+)
+```
+
+2. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
+
+3. A new RStudio environment will open. Use this for the session today.
+
+---
+
+# Setup
 
 Install new packages
 ```{r, eval = F}
@@ -269,36 +288,10 @@ library(leaflet)   # Interactive map
 library(geosphere) # Great circle distances
 ```
 
----
-
-# Introduction
-
-- This session could be a whole course on its own, but we only have an hour and half.
-- To narrow our subject, we will focus on only one type of spatial data, vector data.
-- This is the most common type of spatial data that non-GIS experts will encounter in their work.
-- We will use the `sf` package, which is the tidyverse-compatible package for geospatial data in R.
-- For visualizing, we'll rely on `ggplot2` for static maps and `leaflet` for interactive maps
 
 ---
 
-### Setup
-
-1. Copy/paste the following code into a new RStudio script, **replacing "YOURFOLDERPATHHERE" with the folder within which you'll place this R project:
-```{r, eval = FALSE}
-library(usethis)
-use_course(
-  url = "https://github.com/worldbank/dime-r-training/archive/main.zip",
-  destdir = "YOURFOLDERPATHHERE"
-)
-```
-
-2. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
-
-3. A new RStudio environment will open. Use this for the session today.
-
----
-
-# Setup
+# Load and explore polylines, polylines, and points
 
 The main package we'll rely on is the `sf` (simple features) package. With `sf`, spatial data is structured similarly to a __dataframe__; however, each row is associated with a __geometry__. Geometries can be one of the below types.
 
