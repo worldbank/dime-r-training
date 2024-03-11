@@ -138,7 +138,7 @@ __Distance on a sphere__
 
 * At the equator (latitude = 0), a 1 decimal degree longitude distance is about 111km; towards the poles (latitude = -90 or 90), a 1 decimal degree longitude distance converges to 0 km. 
 * We must be careful (ie, use algorithms that account for a spherical earth) to calculate distances! The distance along a sphere is referred to as a [great circle distance](https://en.wikipedia.org/wiki/Great-circle_distance).
-* Multiple for spherical distance calculations, with trade-off between accuracy & complexity. (See distance section for details).
+* Multiple options for spherical distance calculations, with trade-off between accuracy & complexity. (See distance section for details).
 ]
 
 .pull-right[
