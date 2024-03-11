@@ -5,7 +5,7 @@ img.leaflet-tile {
   border-radius: 0;
   border: none;
 }
-.leaflet .info {
+.info {
   padding: 6px 8px;
   font: 14px/16px Arial, Helvetica, sans-serif;
   background: white;
@@ -13,17 +13,17 @@ img.leaflet-tile {
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   border-radius: 5px;
 }
-.leaflet .legend {
+.legend {
   line-height: 18px;
   color: #555;
 }
-.leaflet .legend svg text {
+.legend svg text {
   fill: #555;
 }
-.leaflet .legend svg line {
+.legend svg line {
   stroke: #555;
 }
-.leaflet .legend i {
+.legend i {
   width: 18px;
   height: 18px;
   margin-right: 4px;
