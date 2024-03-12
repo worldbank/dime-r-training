@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Session 6: Introduction to R Markdown</title>
+    <title>Session 7: Introduction to R Markdown</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti" />
+    <meta name="author" content="DIME Analytics" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -14,8 +14,8 @@
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
@@ -26,16 +26,16 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Session 6: Introduction to R Markdown
+# Session 7: Introduction to R Markdown
 ]
 .subtitle[
 ## R for Stata Users
 ]
 .author[
-### Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti
+### DIME Analytics
 ]
 .date[
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> March 2023
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> March 2024
 ]
 
 ---
@@ -74,29 +74,12 @@ install.packages("stargazer")
 
 ---
 
-# Preamble &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 5 min)&lt;/font&gt;
+# Preamble &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 5 min)&lt;/font&gt;
 
-- Use `tinytex` to install LaTeX
-- If you're using a WB computer:
+- Use `tinytex` to install LaTeX with: `tinytex::install_tinytex()`
+- This will take a while. Leave it running:
 
-1. Download this file: https://osf.io/sehzg
-1. Run `tinytex:::install_prebuilt("location/to/file.zip")` (notice the triple colon)
-
-- If you're not:
-
-1. Run `tinytex::install_tinytex()`
-
----
-
-# Preamble
-
-This will take a while. Leave it running
-
-&lt;img src="img/r-markdown/installing-tinytex.png" width="80%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Preamble
+&lt;img src="img/r-markdown/installing-tinytex.png" width="58%" style="display: block; margin: auto;" /&gt;
 
 - LaTeX can be unpredictable in WB computers. It's possible that this didn't work
 - Don't worry for now, just follow the approppriate instructions we'll specify in the exercises
@@ -175,20 +158,19 @@ name: knitting
 - The text follows Markdown's syntax
 - The code and outputs follow R's syntax
 - Knitting an R Markdown document is rendering the text and code portions into a single output
-- The output can be a PDF, Word, or HTML document
+- The output can be a PDF, Word, HTML document, or others
 
 ---
 
 # Knitting R Markdown documents
 
 .exercise[
-## Exercise 1: Knit an R Markdown document &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min, leave it running)&lt;/font&gt;
+## Exercise 1: Knit an R Markdown document &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 2 min, leave it running)&lt;/font&gt;
 
-1. Go to the course repository: https://osf.io/86g3b/
-2. In the files panel, download `R for Stata Users - 2023 March` &gt; `scripts` &gt; `r-markdown-template.Rmd`
-3. Open this file in RStudio
+1. Download the file `r-markdown-template.Rmd` from : https://osf.io/7g6t9/
+1. Open this file in RStudio
   + If the installation of tinytex didn't work, change line 2 to: `output: html_document`
-4. Click on `Knit`. If RStudio asks you to update some packages, select `Yes`
+1. Click on `Knit`. If RStudio asks you to update some packages, select `Yes`
 ]
 
 ---
@@ -319,7 +301,7 @@ name: r-code
 
 # Including R code
 
-- To add new block, you can type the fences directly, go to `Insert` &gt; `R` in the script panel of RStudio, or type `CTRL` + `ALT` + `i`
+- To add new block, you can type the fences directly, or go to `Insert` &gt; `R` in the script panel of RStudio, or type `CTRL` + `ALT` + `i`
 
 &lt;img src="img/r-markdown/insert-new-r-fenced-block.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -328,13 +310,13 @@ name: r-code
 # Including R code
 
 .exercise[
-## Exercise 2: Include the summary of a variable &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
+## Exercise 2: Include the summary of a variable &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 2 min)&lt;/font&gt;
 
 1. Create a header named `R Code` at the bottom of `r-markdown-template.Rmd`
 2. Create a new fenced code block where you load the dataset `mtcars`
   + `mtcars` is a built-in dataset. Load it with: `data(mtcars)`
 3. Inside the same block, get the summary of the variable `mpg` with `summary(mtcars$mpg)`
-4. Knit. You'll have to close the PDF document if you have it opened
+4. Knit. You'll have to **close the PDF document if you have it opened**
 ]
 
 ---
@@ -360,6 +342,16 @@ summary(mtcars$mpg)
 
 # Including R code
 
+- What about running only the code block and not knitting the document?
+- You can do that with the <svg aria-hidden="true" role="img" viewBox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg> icon at the upper right corner of the block
+- The other icon (<svg aria-hidden="true" role="img" viewBox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg><svg aria-hidden="true" role="img" viewBox="0 0 320 512" style="height:1em;width:0.62em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z"/></svg>) will run all previous code blocks until this block
+
+&lt;img src="img/r-markdown/run-chunk.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Including R code
+
 - Note that the output echoes both the code and the output
 - What if we wanted to include the output but not the code?
 - We use the argument `echo = FALSE` in the fenced code block for that
@@ -370,7 +362,7 @@ summary(mtcars$mpg)
 # Including R code
 
 .exercise[
-## Exercise 3: Omit the code when knitting R code &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 1 min)&lt;/font&gt;
+## Exercise 3: Omit the code when knitting R code &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 1 min)&lt;/font&gt;
 
 1. Add the option `echo = FALSE` to the fenced code block created in exercise 2
 2. Knit the document and see how it's different now
@@ -434,7 +426,7 @@ name: r-plots
 # Including R plots
 
 .exercise[
-## Exercise 4: Include an R plot in your document &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
+## Exercise 4: Include an R plot in your document &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 2 min)&lt;/font&gt;
 
 1. Create a header named `R Plots`
 2. Create a new fenced code block with the option `echo = FALSE`
@@ -498,12 +490,14 @@ The mean of mpg is `r mean(mtcars$mpg)`.
 The mean of mpg is 20.090625.
 ````
 
+- Note that inline code doesn't go enclosed in code blocks, it's just regular Markdown text
+
 ---
 
 # Including code inline
 
 .exercise[
-## Exercise 5 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
+## Exercise 5 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 2 min)&lt;/font&gt;
 
 1. Create a new header named `Inline code` in `markdown-template.Rmd`
 2. Add an unordered list with the following text and include inline R code to render the corresponding numbers in each case
@@ -631,7 +625,7 @@ stargazer(model, header = FALSE) # add: type = "html" if knitting to HTML
 # Including regression outputs - Stargazer
 
 .exercise[
-## Exercise 6 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 3 min)&lt;/font&gt;
+## Exercise 6 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt;
 
 1. Create a new header named `Regressions - Stargazer` in `r-markdown-template.Rmd`
 1. Add a new code block with the arguments `echo = FALSE` and `results = "asis"`
@@ -715,7 +709,7 @@ huxreg(model)
 # Including regression outputs - Huxtable
 
 .exercise[
-## Exercise 7: Now with Huxtable &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/></svg> 2 min)&lt;/font&gt;
+## Exercise 7: Now with Huxtable &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 2 min)&lt;/font&gt;
 
 1. Create a new header named `Regressions - Huxtable` in `r-markdown-template.Rmd`
 1. Add a new code block with the argument `echo = FALSE`
@@ -858,6 +852,48 @@ output:
 
 ---
 
+# Annex - Complete regression table using Stargazer
+.pull-left[
+.tiny[
+````
+```{r, echo = FALSE, message = FALSE, results = "asis"}
+library(stargazer)
+reg1 &lt;- lm(mpg ~ wt + hp, data = mtcars)
+reg2 &lt;- lm(mpg ~ wt + hp + factor(gear), data = mtcars)
+reg3 &lt;- lm(qsec ~ wt + hp, data = mtcars)
+reg4 &lt;- lm(qsec ~ wt + hp + factor(gear), data = mtcars)
+
+stargazer(reg1,
+          reg2,
+          reg3,
+          reg4,
+          title = "Best table ever",
+          keep = c('wt', 'hp'),
+          covariate.labels = c('Weight',
+                               'Horsepower'),
+          dep.var.labels = c('Miles per Gallon',
+                             '1/4 Mile Time'),
+          dep.var.caption = '',
+          add.lines = list(c('N Gears FE', 'No', 'Yes', 'No', 'Yes')),
+          keep.stat = c('n', 'adj.rsq'),
+          header = FALSE,
+          notes = 'Standard errors in parentheses')
+```
+````
+]
+]
+.pull-right[
+&lt;img src="img/r-markdown/full-table-stargazer.png" width="99%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Annex - Complete regression table using Stargazer
+
+&lt;img src="img/r-markdown/full-table-stargazer.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
 # Annex - Looking ahead
 
 - [Markdown guide](https://www.markdownguide.org/)
@@ -865,6 +901,11 @@ output:
 - [An introduction to Stata Markdown](https://osf.io/nam2d/)
 - [Stargazer official manual](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf)
 - [Introduction to Huxtable](https://cran.r-project.org/web/packages/huxtable/vignettes/huxtable.html)
+
+---
+exclude: true
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -122,6 +122,8 @@ stargazer(model,
 ```
 
 <!-- Exercise 7 -->
+<!-- Remember that you might have to run first: huxtable::install_latex_dependencies() -->
+<!-- Check slide 61 for more information -->
 
 # Regressions - Huxtable
 
@@ -130,4 +132,31 @@ library(huxtable)
 model <- lm(mpg ~ wt + hp, data = mtcars)
 huxreg(model,
        omit_coefs = c("(Intercept)"))
+```
+
+<!-- Bonus track: Complete regression table in Stargazer -->
+
+# Full regression table in Stargazer
+
+```{r, echo = FALSE, message = FALSE, results = "asis"}
+library(stargazer)
+reg1 <- lm(mpg ~ wt + hp, data = mtcars)
+reg2 <- lm(mpg ~ wt + hp + factor(gear), data = mtcars)
+reg3 <- lm(qsec ~ wt + hp, data = mtcars)
+reg4 <- lm(qsec ~ wt + hp + factor(gear), data = mtcars)
+stargazer(reg1,
+          reg2,
+          reg3,
+          reg4,
+          title = "Best table ever",
+          keep = c('wt', 'hp'),
+          covariate.labels = c('Weight',
+                               'Horsepower'),
+          dep.var.labels = c('Miles per Gallon',
+                             '1/4 Mile Time'),
+          dep.var.caption = '',
+          add.lines = list(c('N Gears FE', 'No', 'Yes', 'No', 'Yes')),
+          keep.stat = c('n', 'adj.rsq'),
+          header = FALSE,
+          notes = 'Standard errors in parentheses')
 ```

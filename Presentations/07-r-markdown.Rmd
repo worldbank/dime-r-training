@@ -1,8 +1,8 @@
 ---
-title: "Session 6: Introduction to R Markdown"
+title: "Session 7: Introduction to R Markdown"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2023"
+author: "DIME Analytics"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2024"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css",
@@ -89,29 +89,12 @@ install.packages("stargazer")
 
 # Preamble <font size="5">(`r fa("clock")` 5 min)</font>
 
-- Use `tinytex` to install LaTeX
-- If you're using a WB computer:
+- Use `tinytex` to install LaTeX with: `tinytex::install_tinytex()`
+- This will take a while. Leave it running:
 
-1. Download this file: https://osf.io/sehzg
-1. Run `tinytex:::install_prebuilt("location/to/file.zip")` (notice the triple colon)
-
-- If you're not:
-
-1. Run `tinytex::install_tinytex()`
-
----
-
-# Preamble
-
-This will take a while. Leave it running
-
-```{r echo = FALSE, out.width = "80%"}
+```{r echo = FALSE, out.width = "58%"}
 knitr::include_graphics("img/r-markdown/installing-tinytex.png")
 ```
-
----
-
-# Preamble
 
 - LaTeX can be unpredictable in WB computers. It's possible that this didn't work
 - Don't worry for now, just follow the approppriate instructions we'll specify in the exercises
@@ -192,7 +175,7 @@ name: knitting
 - The text follows Markdown's syntax
 - The code and outputs follow R's syntax
 - Knitting an R Markdown document is rendering the text and code portions into a single output
-- The output can be a PDF, Word, or HTML document
+- The output can be a PDF, Word, HTML document, or others
 
 ---
 
@@ -201,11 +184,10 @@ name: knitting
 .exercise[
 ## Exercise 1: Knit an R Markdown document <font size="5">(`r fa("clock")` 2 min, leave it running)</font>
 
-1. Go to the course repository: https://osf.io/86g3b/
-2. In the files panel, download `R for Stata Users - 2023 March` > `scripts` > `r-markdown-template.Rmd`
-3. Open this file in RStudio
+1. Download the file `r-markdown-template.Rmd` from : https://osf.io/7g6t9/
+1. Open this file in RStudio
   + If the installation of tinytex didn't work, change line 2 to: `output: html_document`
-4. Click on `Knit`. If RStudio asks you to update some packages, select `Yes`
+1. Click on `Knit`. If RStudio asks you to update some packages, select `Yes`
 ]
 
 ---
@@ -356,7 +338,7 @@ name: r-code
 
 # Including R code
 
-- To add new block, you can type the fences directly, go to `Insert` > `R` in the script panel of RStudio, or type `CTRL` + `ALT` + `i`
+- To add new block, you can type the fences directly, or go to `Insert` > `R` in the script panel of RStudio, or type `CTRL` + `ALT` + `i`
 
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/r-markdown/insert-new-r-fenced-block.png")
@@ -373,7 +355,7 @@ knitr::include_graphics("img/r-markdown/insert-new-r-fenced-block.png")
 2. Create a new fenced code block where you load the dataset `mtcars`
   + `mtcars` is a built-in dataset. Load it with: `data(mtcars)`
 3. Inside the same block, get the summary of the variable `mpg` with `summary(mtcars$mpg)`
-4. Knit. You'll have to close the PDF document if you have it opened
+4. Knit. You'll have to **close the PDF document if you have it opened**
 ]
 
 ---
@@ -395,6 +377,18 @@ summary(mtcars$mpg)
 
 ```{r echo = FALSE, out.width = "80%"}
 knitr::include_graphics("img/r-markdown/r-markdown-r-code.png")
+```
+
+---
+
+# Including R code
+
+- What about running only the code block and not knitting the document?
+- You can do that with the `r fa("play")` icon at the upper right corner of the block
+- The other icon (`r fa("play")``r fa("pause")`) will run all previous code blocks until this block
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/r-markdown/run-chunk.png")
 ```
 
 ---
@@ -543,6 +537,8 @@ The mean of mpg is `r knitr::inline_expr("mean(mtcars$mpg)")`.
 ````
 The mean of mpg is `r mean(mtcars$mpg)`.
 ````
+
+- Note that inline code doesn't go enclosed in code blocks, it's just regular Markdown text
 
 ---
 
@@ -921,6 +917,52 @@ output:
 
 ---
 
+# Annex - Complete regression table using Stargazer
+.pull-left[
+.tiny[
+````
+```{r, echo = FALSE, message = FALSE, results = "asis"}`r ''`
+library(stargazer)
+reg1 <- lm(mpg ~ wt + hp, data = mtcars)
+reg2 <- lm(mpg ~ wt + hp + factor(gear), data = mtcars)
+reg3 <- lm(qsec ~ wt + hp, data = mtcars)
+reg4 <- lm(qsec ~ wt + hp + factor(gear), data = mtcars)
+
+stargazer(reg1,
+          reg2,
+          reg3,
+          reg4,
+          title = "Best table ever",
+          keep = c('wt', 'hp'),
+          covariate.labels = c('Weight',
+                               'Horsepower'),
+          dep.var.labels = c('Miles per Gallon',
+                             '1/4 Mile Time'),
+          dep.var.caption = '',
+          add.lines = list(c('N Gears FE', 'No', 'Yes', 'No', 'Yes')),
+          keep.stat = c('n', 'adj.rsq'),
+          header = FALSE,
+          notes = 'Standard errors in parentheses')
+```
+````
+]
+]
+.pull-right[
+```{r echo = FALSE, out.width = "99%"}
+knitr::include_graphics("img/r-markdown/full-table-stargazer.png")
+```
+]
+
+---
+
+# Annex - Complete regression table using Stargazer
+
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/r-markdown/full-table-stargazer.png")
+```
+
+---
+
 # Annex - Looking ahead
 
 - [Markdown guide](https://www.markdownguide.org/)
@@ -934,5 +976,4 @@ exclude: true
 
 ```{R, pdfs, include = F, eval = F}
 pagedown::chrome_print("07-r-markdown.html", output = "07-r-markdown.pdf")
-
 ```
