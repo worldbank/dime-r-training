@@ -409,8 +409,6 @@ ggplot() +
 * Map the polyline
 ]
 
-`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
-
 --
 
 .solution[
