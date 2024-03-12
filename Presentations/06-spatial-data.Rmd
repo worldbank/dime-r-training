@@ -495,7 +495,7 @@ names(schools_df)
 
 # Convert to spatial object
 
-We define the (1) coordinates (longitude and latitude) and (2) CRS. __Note:__ We must determine the CRS from the data metadata. This dataset comes from OpenStreetMaps, which uses WGS:4326.
+We define the (1) coordinates (longitude and latitude) and (2) CRS. __Note:__ We must determine the CRS from the data metadata. This dataset comes from OpenStreetMaps, which uses EPSG:4326.
 
 __Assigning the incorrect CRS is one of the most common sources of issues I see with geospatial work. If something looks weird, check the CRS!__ 
 
@@ -553,7 +553,7 @@ ggplot() +
 * Units are in decimal degrees. 
 * The length (eg, meters) between degrees of longitude shrinks as we go towards the equator. 
 * `geom_point` thinks 1 degree distance is the same for latitudes and longitudes (dumb!). 
-* `geom_sf` knows that we are in `WGS:4326` (spherical CRS), and adjusts map to minimize distortions (smart!). 
+* `geom_sf` knows that we are in `EPSG:4326` (spherical CRS), and adjusts map to minimize distortions (smart!). 
 ]
 
 ---
