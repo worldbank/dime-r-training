@@ -139,7 +139,6 @@ huxreg(model,
 # Full regression table in Stargazer
 
 ```{r, echo = FALSE, message = FALSE, results = "asis"}
-library(stargazer)
 reg1 <- lm(mpg ~ wt + hp, data = mtcars)
 reg2 <- lm(mpg ~ wt + hp + factor(gear), data = mtcars)
 reg3 <- lm(qsec ~ wt + hp, data = mtcars)

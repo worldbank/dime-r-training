@@ -74,8 +74,7 @@ xaringanExtra::use_logo(
 - Make sure you have the packages `tinytex`, `stargazer`, and `huxtable` installed
 
 ```{r, eval=FALSE}
-# Packages we used for other sessions, install only if needed
-install.packages("dplyr")
+# Package we used for other sessions, install only if needed
 install.packages("huxtable")
 
 # New packages
@@ -143,10 +142,31 @@ name: dynamic-documents
 
 # Dynamic documents
 
-- Code and documentation is produced together
+- Code outputs and text are fully integrated
 
-```{r echo = FALSE, out.width = "100%"}
-knitr::include_graphics("img/dynamic-docs-in-R.png")
+```{r echo = FALSE, out.width = "95%"}
+knitr::include_graphics("img/r-markdown/dynamic-docs-in-R.png")
+```
+
+---
+
+# Dynamic documents
+
+- You can format the text and code outputs as much as you need
+
+```{r echo = FALSE, out.width = "85%"}
+knitr::include_graphics("img/r-markdown/plot-example.png")
+```
+
+---
+
+# Dynamic documents
+
+- Each document element and formatting is defined by R and Markdown code
+- You can define the document type you need
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("img/r-markdown/word-example.png")
 ```
 
 ---
@@ -155,7 +175,7 @@ knitr::include_graphics("img/dynamic-docs-in-R.png")
 
 - Increased research transparency. Documents are fully reproducible
 - No more copying and pasting outputs from R to a document editor
-- Nice option for simple documents that don't require a lot of formatting
+- Nice option for simple documents that don't require a lot of formatting, but you can also customize your documents as needed
 - Can include code snippets
 
 ---
@@ -210,6 +230,14 @@ name: markdown
 # Markdown
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Markdown
+
+```{r echo = FALSE, out.width = "100%"}
+knitr::include_graphics("img/r-markdown/r-markdown.png")
+```
 
 ---
 
