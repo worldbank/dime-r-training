@@ -306,11 +306,11 @@ The main package we'll rely on is the `sf` (simple features) package. With `sf`,
 The first thing we will do in this session is to recreate this data set:
 
 ```{r}
-nga_sf <- 
+country_sf <- 
   st_read(here("DataWork",
                "DataSets",
                "Final",
-               "gadm_nga_2.geojson"))
+               "country.geojson"))
 ```
 
 ---
@@ -320,7 +320,7 @@ nga_sf <-
 Look at first few observations
 
 ```{r, eval = T}
-head(nga_sf)
+head(country_sf)
 ```
 
 ---
@@ -330,7 +330,7 @@ head(nga_sf)
 Number of rows
 
 ```{r, eval = T}
-nrow(nga_sf)
+nrow(country_sf)
 ```
 
 ---
@@ -340,7 +340,7 @@ nrow(nga_sf)
 Check coordinate reference system
 
 ```{r, eval = T}
-st_crs(nga_sf)
+st_crs(country_sf)
 ```
 
 ---
@@ -351,7 +351,7 @@ Plot the data. To plot using `ggplot2`, we use the `geom_sf` geometry.
 
 ```{r, eval = T, out.width = "60%"}
 ggplot() +
-  geom_sf(data = nga_sf)
+  geom_sf(data = country_sf)
 ```
 
 ---
@@ -361,7 +361,7 @@ ggplot() +
 We want the area of each location, but we don't have a variable for area
 
 ```{r, eval = T}
-names(nga_sf)
+names(country_sf)
 ```
 
 ---
@@ -371,18 +371,18 @@ names(nga_sf)
 Determine area. Note the CRS is spherical (WGS84), but `st_area` gives area in meters squared. R uses s2 geomety for this.
 
 ```{r, eval = T}
-st_area(nga_sf) 
+st_area(country_sf) 
 ```
 
 ---
 
 # Operations similar to dataframes
 
-Create new dataset that is just lagos
+Create new dataset that captures locations for one administrative region
 
 ```{r, eval = T}
-lagos_sf <- nga_sf %>% 
-  filter(NAME_1 == "Lagos")
+city_sf <- country_sf %>% 
+  filter(NAME_1 == "Nairobi")
 ```
 
 ---
@@ -393,7 +393,7 @@ Plot the dataframe
 
 ```{r, eval = T, out.width = "65%"}
 ggplot() +
-  geom_sf(data = lagos_sf)
+  geom_sf(data = city_sf)
 ```
 
 ---
@@ -403,7 +403,7 @@ ggplot() +
 .exercise[
 
 **Exercise:** 
-* Load the roads data `osm_lagos_roads.geojson` and name the object `roads_sf`
+* Load the roads data `roads.geojson` and name the object `roads_sf`
 * Look at the first few observations
 * Check the coordinate reference system
 * Map the polyline
@@ -414,7 +414,7 @@ ggplot() +
 .solution[
 **Solution**: 
 ```{r, eval = F}
-roads_sf <- st_read(here("DataWork", "DataSets", "Final", "osm_lagos_roads.geojson"))
+roads_sf <- st_read(here("DataWork", "DataSets", "Final", "roads.geojson"))
 
 head(roads_sf)
 
@@ -434,7 +434,7 @@ roads_sf <-
   st_read(here("DataWork",
                "DataSets",
                "Final",
-               "osm_lagos_roads.geojson"))
+               "roads.geojson"))
 
 ggplot() +
   geom_sf(data = roads_sf)
@@ -465,14 +465,14 @@ st_length(roads_sf)
 
 # Load and explore point data
 
-We'll load a dataset of the location of schools in Lagos
+We'll load a dataset of the location of schools
 
 ```{r}
 schools_df <- 
   read_csv(here("DataWork",
                 "DataSets",
                 "Final",
-                "osm_lagos_schools.csv"))
+                "schools.csv"))
 ```
 
 ---
@@ -564,13 +564,13 @@ Lets make a better static map.
 
 ```{r, out.width = "50%"}
 # Adding a variable with squared km
-lagos_sf <- lagos_sf %>%
-  mutate(area_m = lagos_sf %>% st_area() %>% as.numeric(),
+city_sf <- city_sf %>%
+  mutate(area_m = city_sf %>% st_area() %>% as.numeric(),
          area_km = area_m / 1000^2)
 
 # Plotting
 ggplot() +
-  geom_sf(data = lagos_sf,
+  geom_sf(data = city_sf,
           aes(fill = area_km)) +
   labs(fill = "Area") +
   scale_fill_distiller(palette = "Blues") + 
@@ -585,7 +585,7 @@ Lets add another spatial layer
 
 ```{r, out.width = "40%"}
 ggplot() +
-  geom_sf(data = lagos_sf,
+  geom_sf(data = city_sf,
           aes(fill = area_km)) +
   geom_sf(data = schools_sf,
           aes(color = "Schools")) +
@@ -624,7 +624,7 @@ We use the `leaflet` package to make interactive maps. Leaflet is a JavaScript l
 ```{r l2, out.height = "40%", out.width = "50%"}
 leaflet() %>%
   addTiles() %>%
-  addPolygons(data = lagos_sf) 
+  addPolygons(data = city_sf) 
 ```
 
 ---
@@ -636,7 +636,7 @@ Add a pop-up
 ```{r l3, out.height = "40%", out.width = "50%"}
 leaflet() %>%
   addTiles() %>%
-  addPolygons(data = lagos_sf,
+  addPolygons(data = city_sf,
               popup = ~NAME_2) 
 ```
 
@@ -649,7 +649,7 @@ Add more than one layer
 ```{r l4, out.height = "40%", out.width = "50%"}
 leaflet() %>%
   addTiles() %>%
-  addPolygons(data = lagos_sf,
+  addPolygons(data = city_sf,
               popup = ~NAME_2) %>%
   addCircles(data = schools_sf,
              popup = ~name,
@@ -718,7 +718,7 @@ We can spent lots of time going over what we can done with leaflet - but that wo
 
 # Transform CRS
 
-We want to compute the length of roads in Lagos using the roads dataset. The roads dataset is currently in a geographic CRS (WGS84), where the units are in decimal degrees. We'll tranform the CRS to a projected CRS that is suitable for Nigeria ([EPSG:32632](https://epsg.io/32632)), and where the units will be in meters.
+The schools dataset is currently in a geographic CRS (WGS84), where the units are in decimal degrees. We'll tranform the CRS to a projected CRS ([EPSG:32632](https://epsg.io/32632)), and where the units will be in meters.
 
 __Note that coordinate values are large!__ Values are large because units are in meters. Large coordinate values suggest projected CRS; latitude is between -90 and 90 and longitude is between -180 and 180.
 
@@ -746,16 +746,16 @@ ggplot() +
 
 # Dissolve by an attribute
 
-Below we have the second administrative regions of Nigeria. Using this dataset, let's create a new object at the first administrative region level.
+Below we have the second administrative regions. Using this dataset, let's create a new object at the first administrative region level.
 
 ```{r, out.width = "30%"}
-nga1_sf <- nga_sf %>%
+country_1_sf <- country_sf %>%
   group_by(NAME_1) %>%
   summarise(geometry = st_combine(geometry)) %>%
   ungroup()
 
 ggplot() +
-  geom_sf(data = nga1_sf)
+  geom_sf(data = country_1_sf)
 ```
 
 ---
@@ -827,13 +827,13 @@ __Source:__ [Wikipedia](https://en.wikipedia.org/wiki/Centroid)
 
 # Determine centroid
 
-Determine centroid of Nigeria ADM2s
+Determine centroid of second administrative regions
 
 ```{r, out.width = "40%"}
-nga_c_sf <- st_centroid(nga_sf)
+country_c_sf <- st_centroid(country_sf)
 
 ggplot() +
-  geom_sf(data = nga_c_sf)
+  geom_sf(data = country_c_sf)
 ```
 
 ---
@@ -843,7 +843,7 @@ ggplot() +
 __Incorrect approach__
 
 ```{r}
-lagos_sf %>% 
+city_sf %>% 
   select(-geometry) %>%
   head()
 ```
@@ -855,7 +855,7 @@ lagos_sf %>%
 __Correct__
 
 ```{r}
-lagos_sf %>% 
+city_sf %>% 
   st_drop_geometry() %>%
   head()
 ```
@@ -887,7 +887,7 @@ schools_sf %>%
 
 .exercise[
 
-**Exercise:** Create a polyline of all trunk roads in Lagos, and buffer the poyline by 10 meters. In `roads_sf`, the `highway` variable notes road types.
+**Exercise:** Create a polyline of all trunk roads, and buffer the poyline by 10 meters. In `roads_sf`, the `highway` variable notes road types.
 
 ]
 
@@ -990,11 +990,11 @@ distGeo(p1 = schools_sf[1,] %>% st_coordinates,
 
 # Intersects
 
-For this example we'll determine which of Lagos's second administrative divisions intersects with a motorway.
+For this example we'll determine which second administrative divisions intersects with a motorway.
 
 ```{r}
 # Sparse matrix
-st_intersects(lagos_sf, motor_sf) %>% print()
+st_intersects(city_sf, motor_sf) %>% print()
 ```
 
 ---
@@ -1005,7 +1005,7 @@ Take `max` (`FALSE` corresponds to 0 and `TRUE` corresponds to 1). So taking max
 
 ```{r}
 # Matrix
-st_intersects(lagos_sf, motor_sf, sparse = F) %>% 
+st_intersects(city_sf, motor_sf, sparse = F) %>% 
   apply(1, max) %>%
   head()
 ```
@@ -1014,30 +1014,30 @@ st_intersects(lagos_sf, motor_sf, sparse = F) %>%
 
 # Intersection
 
-We have roads for all of Lagos. Here, we want to create new roads object that __only includes__ roads in the Eti-Osa unit.
+We have roads for the full city. Here, we want to create new roads object that __only includes__ roads in one unit.
 
 ```{r, out.width = "40%"}
-etis_sf <- lagos_sf %>%
-  filter(NAME_2 == "Eti-Osa")
+loc_sf <- city_sf %>%
+  head(1)
 
-roads_etis_sf <- st_intersection(roads_sf, etis_sf)
+roads_loc_sf <- st_intersection(roads_sf, loc_sf)
 
 ggplot() +
-  geom_sf(data = roads_etis_sf)
+  geom_sf(data = roads_loc_sf)
 ```
 
 ---
 
 # Difference
 
-We have roads for all of Lagos. Here, we want to create new roads object that __excludes__ roads in the Eti-Osa unit.
+We have roads for all of the city. Here, we want to create new roads object that __excludes__ roads in one unit.
 
 ```{r, out.width = "40%"}
-roads_notetis_sf <- st_difference(roads_sf, etis_sf)
+roads_notloc_sf <- st_difference(roads_sf, loc_sf)
 
 ggplot() +
-  geom_sf(data = etis_sf, fill = NA, color = "red") +
-  geom_sf(data = roads_notetis_sf) 
+  geom_sf(data = loc_sf, fill = NA, color = "red") +
+  geom_sf(data = roads_notloc_sf) 
 ```
 
 ---
@@ -1065,12 +1065,12 @@ names(schools_sf)
 
 # Spatial join
 
-Use `st_join` to add attributes from `lagos_sf` to `schools_sf`. `st_join` is similar to other join methods (eg, `left_join`); instead of joining on a varible, we join based on location.
+Use `st_join` to add attributes from `city_sf` to `schools_sf`. `st_join` is similar to other join methods (eg, `left_join`); instead of joining on a varible, we join based on location.
 
 ```{r}
-schools_lagos_sf <- st_join(schools_sf, lagos_sf)
+schools_city_sf <- st_join(schools_sf, city_sf)
 
-schools_lagos_sf %>% 
+schools_city_sf %>% 
   names() %>% 
   print() %>%
   tail(10)
@@ -1083,7 +1083,7 @@ schools_lagos_sf %>%
 
 .exercise[
 
-**Exercise:** Make a static map using of Lagos administrative areas, where each administrative area polygon displays the number of schools.
+**Exercise:** Make a static map using of administrative areas, where each administrative area polygon displays the number of schools.
 
 ]
 
@@ -1093,18 +1093,18 @@ schools_lagos_sf %>%
 **Solution**: 
 ```{r}
 ## Dataframe of number of schools per NAME_2
-n_school_df <- schools_lagos_sf %>%
+n_school_df <- schools_city_sf %>%
   st_drop_geometry() %>%
   group_by(NAME_2) %>%
   summarise(n_school = n()) %>%
   ungroup()
 
-## Merge info with lagos_sf
-lagos_sch_sf <- lagos_sf %>% left_join(n_school_df, by = "NAME_2")
+## Merge info with city_sf
+city_sch_sf <- city_sf %>% left_join(n_school_df, by = "NAME_2")
 
 ## Map
 p <- ggplot() +
-  geom_sf(data = lagos_sch_sf,
+  geom_sf(data = city_sch_sf,
           aes(fill = n_school))
 ```
 
@@ -1116,7 +1116,7 @@ p <- ggplot() +
 
 ```{r, out.width = "65%"}
 ggplot() +
-  geom_sf(data = lagos_sch_sf,
+  geom_sf(data = city_sch_sf,
           aes(fill = n_school)) +
   labs(fill = "N\nSchools") +
   scale_fill_distiller(palette = "YlOrRd") +
