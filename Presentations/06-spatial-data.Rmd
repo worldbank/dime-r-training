@@ -533,28 +533,6 @@ ggplot() +
                  y = latitude))
 ```
 
----
-
-# Map points objects
-
-.exercise[
-
-**Question:** Why do the maps look different? Map using `sf` looks a bit squished!
-
-]
-
-`r countdown(minutes = 0, seconds = 30, left = 0, font_size = "2em")`
-
---
-
-.solution[
-**Solution**: 
-
-* Units are in decimal degrees. 
-* The length (eg, meters) between degrees of longitude shrinks as we go towards the equator. 
-* `geom_point` thinks 1 degree distance is the same for latitudes and longitudes (dumb!). 
-* `geom_sf` knows that we are in `EPSG:4326` (spherical CRS), and adjusts map to minimize distortions (smart!). 
-]
 
 ---
 
