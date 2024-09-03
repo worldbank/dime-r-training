@@ -576,6 +576,44 @@ ggplot() +
 
 ---
 
+# Another static map
+
+.exercise[
+
+**Exercise:** Make a static map of roads, coloring each road by its type. (__Hint:__ The `highway` variable indicates the type).
+
+]
+
+`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
+.solution[
+**Solution**: 
+```{r}
+ggplot() +
+  geom_sf(data = roads_sf,
+          aes(color = highway)) +
+  theme_void() +
+  labs(color = "Road Type")
+```
+]
+
+---
+
+# Another static map
+
+```{r}
+ggplot() +
+  geom_sf(data = roads_sf,
+          aes(color = highway)) +
+  theme_void() +
+  labs(color = "Road Type")
+```
+
+
+---
+
 # Interactive map
 
 We use the `leaflet` package to make interactive maps. Leaflet is a JavaScript library, but the `leaflet` R package allows making interactive maps using R. Use of leaflet somewhat mimics how we use ggplot.
@@ -738,6 +776,32 @@ ggplot() +
 
 ---
 
+# Exercise
+
+.exercise[
+
+**Exercise:** Create a polyline of all trunk roads (dissolve it using `st_combine`), and buffer the polyline by 10 meters. In `roads_sf`, the `highway` variable notes road types.
+
+]
+
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
+.solution[
+
+**Solution**: 
+```{r}
+roads_sf %>%
+  filter(highway == "trunk") %>%
+  summarise(geometry = st_combine(geometry)) %>%
+  st_buffer(dist = 10)
+```
+
+]
+
+---
+
 # Convex Hull
 
 __Simple definition:__ Get the outer-most coordinates of a shape and connect-the-dots.
@@ -861,32 +925,6 @@ schools_sf %>%
 
 ---
 
-# Exercise
-
-.exercise[
-
-**Exercise:** Create a polyline of all trunk roads, and buffer the poyline by 10 meters. In `roads_sf`, the `highway` variable notes road types.
-
-]
-
-`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
-
---
-
-.solution[
-
-**Solution**: 
-```{r}
-roads_sf %>%
-  filter(highway == "trunk") %>%
-  summarise(geometry = st_combine(geometry)) %>%
-  st_buffer(dist = 10)
-```
-
-]
-
----
-
 # Spatial operations using multiple datasets
 
 * `st_distance`: Calculate distances.
@@ -913,6 +951,36 @@ dist_mat %>% apply(1, min) %>% head()
 ```
 
 ---
+
+# Exercise
+
+.exercise[
+
+**Exercise:** Calculate the distance from the centroid of each second administrtaive division to the nearest trunk road.
+
+]
+
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
+.solution[
+
+**Solution**: 
+```{r}
+city_cent_sf <- city_sf %>% st_centroid()
+
+trunk_sf <- roads_sf %>%
+  filter(highway == "trunk")
+
+# Matrix: distance of each school to each motorway
+dist_mat <- st_distance(city_cent_sf, trunk_sf)
+
+# Take minimun distance for each school
+dist_mat %>% apply(1, min) %>% head()
+```
+
+]
 
 # Distances
 
@@ -990,6 +1058,34 @@ st_intersects(city_sf, motor_sf, sparse = F) %>%
 
 ---
 
+# Exercise
+
+.exercise[
+
+**Exercise:** Determine which motorways intersect with a trunk road
+
+]
+
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
+.solution[
+
+**Solution**: 
+```{r, eval = F}
+trunk_sf <- roads_sf %>% filter(highway == "trunk")
+motor_sf <- roads_sf %>% filter(highway == "motorway")
+
+st_intersects(motor_sf, trunk_sf, sparse = F) %>% 
+    apply(1, max) %>%
+    head()
+```
+
+]
+
+---
+
 # Intersection
 
 We have roads for the full city. Here, we want to create new roads object that __only includes__ roads in one unit.
@@ -1030,6 +1126,48 @@ Intersections and differencing are __overlay__ functions
 
 ---
 
+# Exercise
+
+.exercise[
+
+**Exercise:** Create a map of schools that are within 1km of a motorway. 
+
+
+]
+
+`r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
+
+--
+
+.solution[
+
+**Solution**: 
+```{r, eval = F}
+motor_1km_sf <- roads_sf %>% 
+  filter(highway == "motorway") %>%
+  st_buffer(dist = 1000)
+
+schools_nr_motor_sf <- schools_sf %>%
+  st_intersection(motor_1km_sf)
+
+leaflet() %>%
+  addTiles() %>%
+  addCircles(data = schools_nr_motor_sf)
+```
+
+]
+
+---
+
+# Exercise
+
+Note that there are multiple approaches we could have used for creating a map of schools that are within 1km of a trunk road. 
+
+1. Buffer trunk roads by 1km and do a spatial intersection with schools 
+2. Calculate the distance of each school to the nearest trunk road, then filter schools that are within 1km of a trunk road
+
+---
+
 # Spatial join
 
 We have a dataset of schools. The school dataframe contains information such as the school name, but not on the administrative region it's in. To add data on the administrative region that the school is in, we'll perform a spatial join.
@@ -1061,7 +1199,7 @@ schools_city_sf %>%
 
 .exercise[
 
-**Exercise:** Make a static map using of administrative areas, where each administrative area polygon displays the number of schools.
+**Exercise:** Make a static map using of administrative areas, where each administrative area polygon displays the number of schools within the administrative area.
 
 ]
 
@@ -1100,6 +1238,14 @@ ggplot() +
   scale_fill_distiller(palette = "YlOrRd") +
   theme_void()
 ```
+
+---
+
+# Spatial join
+
+Let's outsource to [chatGPT](https://chatgpt.com/) (or [gemini](https://gemini.google.com/app) or your other favorite AI). Try entering the below prompt into chatGPT to see how it does. Does chatGPT give a correct answer? Do you need to modify chatGPT's output to make it work?
+
+_In R, I have an sf points object of schools called schools_sf. I also have the second administrative divisions of a city as an sf polygon called city_sf and where each location is uniquely defined by the variable NAME_2. Make a static map using of administrative areas, where each administrative area polygon displays the number of schools within the administrative area. Provide R code for this._
 
 ---
 

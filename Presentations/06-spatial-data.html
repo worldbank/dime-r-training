@@ -7,7 +7,7 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x1810ad9d2964da7a7d84462cc799f5b","expires":14}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xc04b5d81ac747318536a6d27d51a529","expires":14}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -612,7 +612,7 @@ ggplot() +
 
 ]
 
-<div class="countdown" id="timer_fa4a0ba1" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_d4c5f8cb" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1436,31 +1436,6 @@ ggplot() +
 
 &lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-22-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
----
-
-# Map points objects
-
-.exercise[
-
-**Question:** Why do the maps look different? Map using `sf` looks a bit squished!
-
-]
-
-<div class="countdown" id="timer_77d14115" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
-</div>
-
---
-
-.solution[
-**Solution**: 
-
-* Units are in decimal degrees. 
-* The length (eg, meters) between degrees of longitude shrinks as we go towards the equator. 
-* `geom_point` thinks 1 degree distance is the same for latitudes and longitudes (dumb!). 
-* `geom_sf` knows that we are in `EPSG:4326` (spherical CRS), and adjusts map to minimize distortions (smart!). 
-]
 
 ---
 
@@ -1507,6 +1482,53 @@ ggplot() +
 ```
 
 &lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-24-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Another static map
+
+.exercise[
+
+**Exercise:** Make a static map of roads, coloring each road by its type. (__Hint:__ The `highway` variable indicates the type).
+
+]
+
+<div class="countdown" id="timer_ce5984b5" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+--
+
+.solution[
+**Solution**: 
+
+```r
+ggplot() +
+  geom_sf(data = roads_sf,
+          aes(color = highway)) +
+  theme_void() +
+  labs(color = "Road Type")
+```
+
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Another static map
+
+
+```r
+ggplot() +
+  geom_sf(data = roads_sf,
+          aes(color = highway)) +
+  theme_void() +
+  labs(color = "Road Type")
+```
+
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
@@ -1594,7 +1616,7 @@ leaflet() %&gt;%
 
 ]
 
-<div class="countdown" id="timer_7e2c8e73" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_af3732f3" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1696,7 +1718,7 @@ ggplot() +
   geom_sf(data = schools_1km_sf)
 ```
 
-&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-27-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-29-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1715,7 +1737,47 @@ ggplot() +
   geom_sf(data = country_1_sf)
 ```
 
-&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-28-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-30-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Exercise
+
+.exercise[
+
+**Exercise:** Create a polyline of all trunk roads (dissolve it using `st_combine`), and buffer the polyline by 10 meters. In `roads_sf`, the `highway` variable notes road types.
+
+]
+
+<div class="countdown" id="timer_c2b1aec1" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+--
+
+.solution[
+
+**Solution**: 
+
+```r
+roads_sf %&gt;%
+  filter(highway == "trunk") %&gt;%
+  summarise(geometry = st_combine(geometry)) %&gt;%
+  st_buffer(dist = 10)
+```
+
+```
+## Simple feature collection with 1 feature and 0 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 36.68359 ymin: -1.430867 xmax: 37.07692 ymax: -1.204784
+## Geodetic CRS:  WGS 84
+##                         geometry
+## 1 MULTIPOLYGON (((36.76646 -1...
+```
+
+]
 
 ---
 
@@ -1776,7 +1838,7 @@ ggplot() +
   geom_sf(data = schools_sf, color = "red")
 ```
 
-&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-30-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-33-1.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1810,7 +1872,7 @@ ggplot() +
   geom_sf(data = country_c_sf)
 ```
 
-&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-31-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-34-1.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1924,46 +1986,6 @@ schools_sf %&gt;%
 
 ---
 
-# Exercise
-
-.exercise[
-
-**Exercise:** Create a polyline of all trunk roads, and buffer the poyline by 10 meters. In `roads_sf`, the `highway` variable notes road types.
-
-]
-
-<div class="countdown" id="timer_f0cd51ef" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
---
-
-.solution[
-
-**Solution**: 
-
-```r
-roads_sf %&gt;%
-  filter(highway == "trunk") %&gt;%
-  summarise(geometry = st_combine(geometry)) %&gt;%
-  st_buffer(dist = 10)
-```
-
-```
-## Simple feature collection with 1 feature and 0 fields
-## Geometry type: MULTIPOLYGON
-## Dimension:     XY
-## Bounding box:  xmin: 36.68359 ymin: -1.430867 xmax: 37.07692 ymax: -1.204784
-## Geodetic CRS:  WGS 84
-##                         geometry
-## 1 MULTIPOLYGON (((36.76646 -1...
-```
-
-]
-
----
-
 # Spatial operations using multiple datasets
 
 * `st_distance`: Calculate distances.
@@ -1995,6 +2017,50 @@ dist_mat %&gt;% apply(1, min) %&gt;% head()
 ```
 
 ---
+
+# Exercise
+
+.exercise[
+
+**Exercise:** Calculate the distance from the centroid of each second administrtaive division to the nearest trunk road.
+
+]
+
+<div class="countdown" id="timer_53b679fc" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+--
+
+.solution[
+
+**Solution**: 
+
+```r
+city_cent_sf &lt;- city_sf %&gt;% st_centroid()
+```
+
+```
+## Warning: st_centroid assumes attributes are constant over geometries
+```
+
+```r
+trunk_sf &lt;- roads_sf %&gt;%
+  filter(highway == "trunk")
+
+# Matrix: distance of each school to each motorway
+dist_mat &lt;- st_distance(city_cent_sf, trunk_sf)
+
+# Take minimun distance for each school
+dist_mat %&gt;% apply(1, min) %&gt;% head()
+```
+
+```
+## [1] 2127.34583 2215.07338  929.39785 5642.60850 2015.55906   19.97698
+```
+
+]
 
 # Distances
 
@@ -2128,6 +2194,38 @@ st_intersects(city_sf, motor_sf, sparse = F) %&gt;%
 
 ---
 
+# Exercise
+
+.exercise[
+
+**Exercise:** Determine which motorways intersect with a trunk road
+
+]
+
+<div class="countdown" id="timer_f63cd994" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+--
+
+.solution[
+
+**Solution**: 
+
+```r
+trunk_sf &lt;- roads_sf %&gt;% filter(highway == "trunk")
+motor_sf &lt;- roads_sf %&gt;% filter(highway == "motorway")
+
+st_intersects(motor_sf, trunk_sf, sparse = F) %&gt;% 
+    apply(1, max) %&gt;%
+    head()
+```
+
+]
+
+---
+
 # Intersection
 
 We have roads for the full city. Here, we want to create new roads object that __only includes__ roads in one unit.
@@ -2150,7 +2248,7 @@ ggplot() +
   geom_sf(data = roads_loc_sf)
 ```
 
-&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-42-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-46-1.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -2174,7 +2272,7 @@ ggplot() +
   geom_sf(data = roads_notloc_sf) 
 ```
 
-&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-43-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-47-1.png" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -2185,6 +2283,52 @@ Intersections and differencing are __overlay__ functions
 .center[
 ![Overlay](img/overlay_examples.png)
 ]
+
+---
+
+# Exercise
+
+.exercise[
+
+**Exercise:** Create a map of schools that are within 1km of a motorway. 
+
+
+]
+
+<div class="countdown" id="timer_3a915a53" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+--
+
+.solution[
+
+**Solution**: 
+
+```r
+motor_1km_sf &lt;- roads_sf %&gt;% 
+  filter(highway == "motorway") %&gt;%
+  st_buffer(dist = 1000)
+
+schools_nr_motor_sf &lt;- schools_sf %&gt;%
+  st_intersection(motor_1km_sf)
+
+leaflet() %&gt;%
+  addTiles() %&gt;%
+  addCircles(data = schools_nr_motor_sf)
+```
+
+]
+
+---
+
+# Exercise
+
+Note that there are multiple approaches we could have used for creating a map of schools that are within 1km of a trunk road. 
+
+1. Buffer trunk roads by 1km and do a spatial intersection with schools 
+2. Calculate the distance of each school to the nearest trunk road, then filter schools that are within 1km of a trunk road
 
 ---
 
@@ -2237,7 +2381,7 @@ schools_city_sf %&gt;%
 
 .exercise[
 
-**Exercise:** Make a static map using of administrative areas, where each administrative area polygon displays the number of schools.
+**Exercise:** Make a static map using of administrative areas, where each administrative area polygon displays the number of schools within the administrative area.
 
 ]
 
@@ -2279,7 +2423,15 @@ ggplot() +
   theme_void()
 ```
 
-&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-47-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-spatial-data_files/figure-html/unnamed-chunk-52-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Spatial join
+
+Let's outsource to [chatGPT](https://chatgpt.com/) (or [gemini](https://gemini.google.com/app) or your other favorite AI). Try entering the below prompt into chatGPT to see how it does. Does chatGPT give a correct answer? Do you need to modify chatGPT's output to make it work?
+
+_In R, I have an sf points object of schools called schools_sf. I also have the second administrative divisions of a city as an sf polygon called city_sf and where each location is uniquely defined by the variable NAME_2. Make a static map using of administrative areas, where each administrative area polygon displays the number of schools within the administrative area. Provide R code for this._
 
 ---
 
