@@ -362,7 +362,7 @@ knitr::include_graphics("img/session2/ex4.png")
 
 ## Note: loading data with a function
 
-- You can also load Excel data with the function `read.xlsx()` instead of using this point-and-click approach
+- You can also load Excel files with the function `read.xlsx()` instead of using this point-and-click approach
 
 - The **argument** of `read.xlsx()` is the path in your computer where your data is. For example
 
