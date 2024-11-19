@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Session 2 - Data wrangling</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="María Reyes Retana" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Session 2 - Data wrangling
+]
+.subtitle[
+## R training
+]
+.author[
+### María Reyes Retana
+]
+.date[
+### The World Bank | December 2024
+]
+
+---
+
+
+
+
+&lt;img src="img/template.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;style type="text/css"&gt;
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+&lt;/style&gt;
+
+# Table of contents 
+
+1. [About this session](#about-this-session)
+1. [R packages](#r-packages)
+1. [Data wrangling](#data-wrangling)
+1. [Filtering and sorting](#filtering-sorting)
+1. [Merging dataframes](#merging)
+1. [Exporting outputs](#exporting-outputs)
+1. [Wrapping up](#wrapping-up)
+1. [Appendinx](#appendix)
+
+---
+
+class: inverse, center, middle
+name: about-this-session
+
+# About this session 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# About this session 
+
+&lt;img src="img/session2/data-work-script.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# About this session 
+
+&lt;img src="img/session2/session2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+name: r-packages
+
+# R Packages
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# R Packages
+
+- Installing R in your computer gives you access to its basic functions
+
+- Additionally, you can also install packages. Packages are a collection of R functions that allow you to do:
+
+  + Operations that basic R functions don't do (example: work with geographic data)
+  
+  + Operations that basic R functions do, but easier (example: data wrangling)
+  
+- They contain code that other R users have prepared for the community.
+
+---
+
+# R Packages 
+
+In a nutshell:
+
+&lt;img src="img/session2/r-libraries.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# R Packages
+
+## Installing R Packages
+
+- Installing packages is usually simple, but it can be challenging in institutional network connections such as the World Bank.
+
+- The next exercise will set up RStudio so that it can install R Packages without problems
+
+---
+
+# R Packages
+
+## Exercise 1: Setting up the installation of packages
+
+1 - In RStudio, go to `Tools` &gt;&gt; `Global Options...`
+
+&lt;img src="img/session2/global-options.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# R Packages
+
+## Exercise 1: Setting up the installation of R Packages
+
+.pull-left[
+2 - Select `Packages` in the left pane
+
+3 - Uncheck `Use secure download method for HTTP`
+
+4 - Click `OK`
+
+You will not see any changes in your RStudio window after this, but now you'll be able to install packages.
+]
+
+.pull-right[
+&lt;img src="img/session2/packages-options.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# R Packages
+
+We'll use two package in today's session: `dplyr` (really useful library for data wrangling) and `openxlsx` (to work with Excel files)  
+
+## Exercise 2: Installing R Packages
+
+1. Install the R Packages by using `install.packages()`
+
+ + `install.packages("dplyr")`
+ + `install.packages("openxlsx")`
+ + Note the quotes (`" "`) in the packages names
+ + **Introduce this code in the console**, not the script panel
+
+.pull-left[
+&lt;img src="img/session2/dplyr-install.png" width="85%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="img/session2/open-install.png" width="85%" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+
+# R packages 
+
+## Installing packages
+
+&lt;img src="img/session2/installing-dplyr.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# R packages
+
+Now that `dplyr` and `openxlsx ` are installed, we only need to load them to start using the functions they have.
+
+## Exercise 3: Loading packages
+
+.pull-left[
+1. Open a new script with `File` &gt;&gt; `New File` &gt;&gt; `R Script`
+
+1. Load the packages with: 
+
+
+``` r
+library(dplyr)
+library(openxlsx)
+```
+
+  + Run this code from the new script you just opened
+  + Notice that we don't use quotes in the package names this time
+]
+.pull-right[
+&lt;img src="img/session2/loading-dplyr.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# R packages 
+
+- Library installation:
+
+&lt;img src="img/session2/installation.png" width="37%" style="display: block; margin: auto;" /&gt;
+
+- Library loading:
+
+&lt;img src="img/session2/loading.png" width="37%" style="display: block; margin: auto;" /&gt;
+
+- You install R packages only once in your computer
+
+- You load packages every time you open a new RStudio window (only load the packages you will use)
+
+---
+
+class: inverse, center, middle
+name: data-wrangling
+
+# Data wrangling 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Data wrangling 
+
+## Getting your data ready
+
+- Data is rarely in a format where it can be converted in an output right away
+
+- In statistical programming, the process of transforming data into a condition where it's ready to be converted into an output is called **data wrangling**
+
+&lt;img src="img/session2/data-wrangling.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data wrangling 
+
+## Getting your data ready
+
+- Data wrangling is one of the most crucial and time-consuming aspects of data work
+
+- It involves not only coding, but also the mental exercise of thinking  what is the shape and condition that your dataframe needs to have in order to produce your desired output
+
+&lt;img src="img/session2/data-wrangling-reasoning.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data wrangling 
+
+## Getting your data ready
+
+.pull-left[
+- As we said before we'll use `dplyr` and `tidyr` for data wrangling in this training
+
+- You can also use basic R, but we recommend these packages because its functions are easier to use
+]
+.pull-right[
+&lt;img src="img/session2/dplyr.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Data wrangling 
+
+## Exercise 4: Loading data
+
+Note that this part of this is the same exercise we did in session 1, but it's okay to repeat it in order to start using a new RStudio session. **If you have RStudio open, start by closing the window and opening RStudio again**.
+
+.pull-left[
+1. Inyou new RStudio window, go to `File` &gt; `Import Dataset` &gt; `From Excel` and select again the file `department_staff_list.xslx`
+
+  + if you don't know where the file is, check in the `Downloads` folder
+  + if you need to download it again, it's here: https://osf.io/2apht 
+
+1. Make sure to select `Heading` &gt; `Yes` in the next window
+
+1. Select `Import`
+
+1. Download this new file: https://osf.io/v6psa and repeat steps 1-3  with it
+
+]
+.pull-right[
+
+&lt;img src="img/session1/import3.png" width="85%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Data wrangling 
+
+
+
+&lt;img src="img/session2/ex4.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data wrangling 
+
+## Note: loading data with a function
+
+- You can also load Excel data with the function `read.xlsx()` instead of using this point-and-click approach
+
+- The **argument** of `read.xlsx()` is the path in your computer where your data is. For example
+
+
+``` r
+department_staff_list &lt;- read.xlsx("C:/Users/wb614536/Downloads/department_staff_list.xlsx")
+```
+
+- As usual, you need to save the result of `read.xlsx()` into a dataframe object with the arrow operator (`&lt;-`) for it to be stored in the environment
+
+---
+
+# Data wrangling 
+
+## Recap: knowing your data
+
+- Dataframe `department_staff_list` is the same dataframe we used last session that contains the data from your department. 
+
+
+``` r
+glimpse(department_staff_list)
+```
+
+```
+## Rows: 8,754
+## Columns: 6
+## $ ID                  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,…
+## $ sex                 &lt;chr&gt; "Female", "Male", "Female", "Female", "Female", "F…
+## $ current_grade       &lt;chr&gt; "Director Fin. &amp; Admin.", "Deputy Director (Admin.…
+## $ senior_junior_staff &lt;chr&gt; "senior", "senior", "senior", "senior", "senior", …
+## $ department          &lt;chr&gt; "State Protocol Dept", "State Protocol Dept", "Sta…
+## $ years_of_service    &lt;dbl&gt; 30.220397, 16.049281, 33.968515, 11.553730, 21.180…
+```
+
+---
+
+# Data wrangling 
+
+## Recap: knowing your data
+
+- Now we are introducing a second dataset that only has the ID number (one that I invented), and the age of that person. 
+
+
+``` r
+glimpse(department_staff_age)
+```
+
+```
+## Rows: 8,754
+## Columns: 2
+## $ ID  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,…
+## $ age &lt;dbl&gt; 60.15058, 41.74949, 59.43053, 50.55989, 51.28268, 45.22656, 41.900…
+```
+
+---
+
+# Data wrangling 
+
+- We will only use this second dataframe in one of the next exercises, but we load it now because it's in general a good practice to have data loaded into the memory so it's ready to be used.
+
+- For the next exercises, we will face mention scenarios that could show up in doing your annual reports on in day-to-day operations.
+
+---
+
+# The pipe ( %&gt;% ) operator
+
+
+- Before diving into data wrangling, we will to introduce a **super useful tool**:  
+  **the pipe (`%&gt;%`)**.
+
+- The pipe is part of the `dplyr` package. It helps to write code in a way that is easier to read and understand.
+
+- Reading and understanding multiple operations can be difficult.
+
+- The pipe operator (**%&gt;%**) can help with this.  
+
+---
+
+# The pipe operator
+
+
+- With the pipe, code reads from left to right, top to bottom, which is more intuitive.
+
+- %&gt;% can be read as "then" and simplifies code structure. 
+
+For example let's see at this mock get to work sequence example: 
+
+**Without pipe ( %&gt;% )** (hard to read and understand the sequence)
+
+
+``` r
+go_to_work(make_breakfast(work_out(brush_teeth(wake_up(Mer)))))
+```
+
+**With pipe ( %&gt;% )** (the order is clear)
+
+
+``` r
+Mer %&gt;% 
+  wake_up() %&gt;%
+  brush_teeth() %&gt;%
+  work_out() %&gt;%
+  make_breakfast() %&gt;%
+  go_to_work()
+```
+
+---
+
+# The pipe
+
+Normally the functions that we will use are organized around a set of verbs, or actions to be taken. 
+
+--
+
+* Most *verbs* work as follows:
+
+
+`$$\text{verb}(\underbrace{\text{data.frame}}_{\text{1st argument}}, \underbrace{\text{what to do}}_\text{2nd argument})$$`
+
+--
+
+* Alternatively you can (**should**) use the `pipe` operator `%&gt;%`:
+
+`$$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %&gt;% }}_{\text{"pipe" operator}} \text{verb}(\underbrace{\text{what to do}}_\text{2nd argument})$$`
+
+We will start using the pipe from this point. Please ask if something is not clear.
+
+**Tip**💡: Use Shift + Ctrl/Cmd + M as a shortcut for the pipe operator.
+
+---
+
+# Questions?
+
+![](https://media.giphy.com/media/XHVmD4RyXgSjd8aUMb/giphy.gif?cid=790b7611auicodssx8z4zly6u6z5k4pd0r1i13drege3yunc&amp;ep=v1_gifs_search&amp;rid=giphy.gif&amp;ct=g)
+
+---
+
+class: inverse, center, middle
+name: filtering-sorting
+
+# Filtering and sorting 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Filtering and sorting 
+
+&lt;img src="img/session2/filter.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+
+## Data work request
+
+**Scenario 1**: Imagine you want to include in the annual reports, the number of total female employees in the department staff:
+
+---
+
+# Filtering and sorting 
+
+## Data work request
+
+.pull-left[
+*We will use the data from our dataframe department_staff_list*
+]
+.pull-right[
+*For this we can filter the Female rows from the sex category*
+]
+
+&lt;img src="img/session2/filtering-sorting-planning.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Filtering and sorting 
+
+## Data work request
+
+Now let's say that we are also interested at a first glance of the females that recently joined the department. We would have to do the following 
+
+1. Keeping only the female employees
+1. Sorting by years of service
+
+
+---
+
+# Filtering and sorting 
+
+## 1. Keeping only the female employees
+
+Use `filter()` for this:
+
+
+``` r
+department_female &lt;- department_staff_list %&gt;% # pipe takes data as first argument "and then"
+                          filter(sex == "Female") # we filter by Female
+```
+
+Remember that we said we were starting to use the pipe (%&gt;%). The pipe takes our data as the first argument, and then we need to pass only the instruction (filter)
+
+&lt;img src="img/session2/filtering-sorting1.png" width="45%" style="display: block; margin: auto;" /&gt;
+---
+
+# Filtering and sorting 
+
+## 2. Sorting by years of service
+
+Use the function `arrange()` to sort. Sortings are ascending by default in R (this will get us from less years of service to more years of service). 
+
+
+``` r
+department_female &lt;- department_staff_list %&gt;%  
+                          filter(sex == "Female") %&gt;% # pipe takes previous instruction "and then"
+                          arrange(years_of_service)  # arrange by years of service
+```
+
+&lt;img src="img/session2/filtering-sorting2.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Filtering and sorting 
+
+## Exercise 5: Now let's do it.. filter and sort your data
+
+We can write the whole code for this in our exercise script. (You can copy and paste the code below)
+
+1.- Filter by `Female`:
+
+2.- Sort by `years_of_service`:
+
+
+``` r
+department_female &lt;- department_staff_list %&gt;% 
+                      filter( sex == "Female") %&gt;% 
+                      arrange(years_of_service)
+```
+
+---
+
+# Filtering and sorting 
+
+Some notes:
+
+.pull-left[
+- `filter()` and `arrange()` are all functions from `dplyr`. Remember you have to always load `dplyr` first with `library(dplyr)` to be able to use them
+- The resulting dataframe is `department_female`
+]
+.pull-right[
+&lt;img src="img/session2/ex5.png" width="95%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+# Filtering and sorting
+
+- Filtering and sorting are two very common data wrangling operations in statistical programming
+
+- Now we'll review a new data wrangling operation that is also quite common and useful: **mutate**, which basically means creating new variables
+
+---
+
+class: inverse, center, middle
+name: mutate
+
+# Mutate
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Mutate
+
+- `mutate` will take a statement like this:
+
+
+
+``` r
+mutate(variable_name = some_calculation)
+```
+
+- And attach variable_name at the end of the dataset.
+
+&lt;img src="img/session2/mutate.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Mutate
+
+## Example
+
+Using our data frame let's say that we want to include a variable that for any reason instead of years of service we want days of service. We would do this by doing the following: 
+
+
+``` r
+example_mutate &lt;- department_staff_list %&gt;% 
+  mutate(days_of_service = years_of_service*365)
+```
+
+We will not use that variable for our datawork examples, but this is a really useful data wrangling function. 
+
+---
+
+class: inverse, center, middle
+name: merging
+
+# Merging dataframes
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+
+# Merging dataframes
+
+Merging data is a common task in data analysis, especially when working with large datasets. 
+
+Let's see how it would apply to our dataframes.
+
+## Data work request
+
+**Scenario 2:**
+
+*Let's imagine that for our annual report we are also interested in the age distribution from the employees*
+
+---
+
+# Merging dataframes
+
+## Data work request
+
+.pull-left[
+*Use the data `department_staff_list` that you already know with the department_staff_age*
+]
+.pull-right[
+*We want to include the `age` variable to our dataframe*
+]
+
+&lt;img src="img/session2/merging-planning.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Merging dataframes
+
+To do this we will use `left_join()` to merge the dataframes:
+
+- The arguments of the function are 1. our previous selected data (passed by the pipe) and 2. the dataframe we want to merge to the first one
+
+
+``` r
+deparment_staff_list_age &lt;- deparment_staff_list %&gt;% # Our original data frame " %&gt;% and then" 
+                            left_join(department_staff_age) # our second data frame
+```
+
+
+&lt;img src="img/session2/merging.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Merging dataframes
+
+## Exercise 6: Now let's do it. 
+
+- You can copy and paste the code to your exercise script. 
+
+
+``` r
+deparment_age &lt;- department_staff_list %&gt;% # Our original data frame "and then" 
+                left_join(department_staff_age) # our second data frame
+```
+&lt;img src="img/session2/exercise6.png" width="95%" style="display: block; margin: auto;" /&gt;
+---
+
+# group_by() and summarize()
+
+We use this when we want to aggregate your data (by groups).
+
+This is one of the most commons operations. Sometimes we want to calculate statistics by groups 
+
+&lt;img src="img/session2/group_by.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Grouping and summarizing 
+
+## Data work request
+
+**Let's say that we are interested again in the number of employees by department**
+
+We will use our department_staff_list dataset to do this. 
+
+1. The first step is to define the group, in this case `department`
+
+
+``` r
+employees_by_deparment &lt;- department_staff_list %&gt;% 
+  group_by(department)
+```
+
+If we **only** do this, this won't do anything, to complete the function we need to use this with `summarise()`
+
+---
+
+# Grouping and summarizing 
+
+## Data work request
+
+summarize works in a similar way to mutate:
+
+
+``` r
+variable_name = some_calculation
+```
+
+In this case the `some_calculation` will be to count the number of employees
+
+
+``` r
+employees_by_deparment &lt;- department_staff_list %&gt;% 
+  group_by(department) %&gt;% 
+  summarise(number = n()) 
+```
+
+---
+# Grouping and summarizing 
+
+## Data work request
+
+This will create the following dataframe/table:
+
+
+```
+## # A tibble: 23 × 2
+##    department                      number
+##    &lt;chr&gt;                            &lt;int&gt;
+##  1 Births &amp; Deaths                    179
+##  2 Bureau of Languages                 59
+##  3 Co-operatives                      293
+##  4 Controller &amp; Accountant General   3776
+##  5 Department of Comm Devt            109
+##  6 Dept of Children                   101
+##  7 Dept of Gender                     101
+##  8 Dept of Labour                     293
+##  9 Factories Inspectorate             122
+## 10 Feeder Roads                       103
+## # ℹ 13 more rows
+```
+
+---
+
+# More wrangling operations
+
+These were two examples we chose to show different possible data wrangling operations. A summary of these and other common operations are:
+
+| Operation | Function in `dplyr` |
+| --------- | ------------------- |
+| Subset columns | `select()`|
+| Subset rows (based on condition) | `filter()` |
+| Create new columns | `mutate()` |
+| Create new columns based on condition | `mutate()` and `case_when()` |
+| Create new rows | `add_row()` |
+| Merge dataframes | `inner_join()`, `left_join()`, `right_join()`, `full_join()` |
+| Append dataframes | `bind_rows()` |
+| Deduplicate | `distinct()` |
+| Collapse and create summary indicators | `group_by()`, `summarize()` |
+| Pass a result as the first argument for the next function | `%&gt;%` (operator, not function)|
+
+---
+
+class: inverse, center, middle
+name: exporting-outputs
+
+# Exporting outputs 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Exporting outputs 
+
+- Until now, we've seen full examples of part 1 and 2 of the data work pipeline
+- What about exporting outputs?
+
+&lt;img src="img/session2/data-work-progress.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+- We'll see this in the next exercise
+
+---
+
+# Exporting outputs 
+
+## Exporting dataframes
+
+- We can export it as an Excel file with the function `write.xlsx()`
+
+- `write.xlsx()` creates a Excel file with the dataframe
+
+- It takes two basic arguments:
+
+  1. The name of the object you want to export
+  1. A file path to export the object to
+
+---
+
+# Exporting outputs 
+
+## Exercise 7: Export `employees_by_deparment` 
+
+1. Use this code to export the results of the last two exercises:
+
+
+``` r
+write.xslx(employees_by_deparment,
+          "employees_by_deparment",
+          row.names = FALSE)
+```
+
+---
+
+# Exporting outputs 
+
+Now `employees_by_deparment.xlsx` (probably in your `Documents` folder).
+
+&lt;img src="img/session2/exported-csv.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Exporting outputs 
+
+## Some notes on file paths
+
+- The second argument of `write.xlsx()` specifies the file path we export the dataframe to
+
+
+``` r
+write.xslx(employees_by_deparment,
+          "employees_by_deparment",
+          row.names = FALSE)
+```
+
+- You can include any path in your computer and R will write the file in that location
+
+  + For example: `"C:/Users/wb614536/OneDrive - WBG/Desktop`" exports the file to the desktop of my computer (this will not work in other computers)
+  
+  + Note that file paths in R use forward slashes (`/`). Back slashes (`\`) **do not work in R**
+
+---
+
+# Exporting outputs 
+
+Our data pipeline has been fully implemented at this point. Great!
+
+&lt;img src="img/session2/data-work-final-table.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+name: wrapping-up
+
+# Wrapping up 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Wrapping up 
+
+## Don't forget to save your work!
+
+- If you haven't, add code comments with `#` to differentiate your solutions for each exercise
+- Click the floppy disk to save your work
+- Make sure to remember where you're saving your file
+
+&lt;img src="img/session2/save.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up 
+
+## Data work pipeline
+
+&lt;img src="img/session2/data-work-final.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up 
+
+## Data work pipeline
+
+&lt;img src="img/session2/data-work-day-2.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+class: inverse, center, middle
+
+# Thanks! // ¡Gracias! // Obrigado!
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+&lt;img src="img/session2/r_superstar.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+name: appendix
+
+# Appendix 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Appendix 
+
+## Keeping only relevant columns
+
+Imaging I only want a list with ID and department. 
+
+Use `select()` for this:
+
+
+``` r
+temp1 &lt;- department_staff_list %&gt;% 
+          select(ID, department)
+```
+
+---
+
+# Appendix 
+## Calculating aggregated columns: total and average income
+
+Use `summarize()` combined with `sum()` and `mean()`:
+
+For our current data this does not apply, but this will be really useful for budget dataframes.
+
+This would look something like this
+
+
+``` r
+budget_2024 &lt;- budget_data %&gt;% 
+                group_by(year, product) %&gt;% 
+                summarise(total = sum(income),
+                average = mean(income))
+```
+
+---
+
+# Useful links 
+
+- **R for Data Science** by Hadley Wickham and Garrett Grolemund  
+  - Comprehensive introduction to data wrangling and visualization.  
+  - [Read it online for free](https://r4ds.had.co.nz/).  
+
+- **Tidyverse Cookbook**  
+  - Practical solutions for common data wrangling tasks.  
+  - [Tidyverse Cookbook GitHub](https://github.com/Tidyverse/tidyverse-cookbook).
+  
+- **Tidyverse Cheat Sheets**  
+  - Official cheat sheets for `dplyr`, `tidyr`, and other Tidyverse packages.  
+  - [Tidyverse Resources](https://www.tidyverse.org/resources/).  
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
