@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Session 3 - Descriptive statistics</title>
+    <title>Session 3 - Descriptive Statistics</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luis Eduardo San Martin" />
+    <meta name="author" content="María Reyes Retana" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -16,8 +16,6 @@
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
     <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
-    <script src="libs/kePrint/kePrint.js"></script>
-    <link href="libs/lightable/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
     <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
@@ -28,19 +26,20 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Session 3 - Descriptive statistics
+# Session 3 - Descriptive Statistics
 ]
 .subtitle[
-## R training - Georgia RS-WB DIME
+## R Training
 ]
 .author[
-### Luis Eduardo San Martin
+### María Reyes Retana
 ]
 .date[
-### The World Bank | September 2023
+### The World Bank | January 2025
 ]
 
 ---
+
 
 
 
@@ -53,7 +52,9 @@ class: center, middle, inverse, title-slide
 }
 &lt;/style&gt;
 
-# Table of contents // სარჩევი
+&lt;img src="img/template.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+# Table of contents 
 
 - [Introduction](#intro)
 - [Piping](#piping)
@@ -68,55 +69,94 @@ class: center, middle, inverse, title-slide
 class: inverse, center, middle
 name: intro
 
-# Introduction // გაცნობა
+# Introduction 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Introduction // გაცნობა
+# Introduction 
 
 - We learned yesterday how to conduct statistical programming and export the results in `.csv` files
-- However, sometime we might need more refined tables than simple (and ugly) CSVs
+- However, sometime we might need more refined tables than simple (and ugly) csvs
 
 &lt;img src="img/session3/data-work-descriptive-stats.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Introduction // გაცნობა
+# Introduction 
 
-- That's what today's session is about, along with an explanation of the pipes (`%&gt;%`)
+- That's what today's session is about, along with an introduction of the pipe (`%&gt;%`)
 
 &lt;img src="img/session3/data-work-descriptive-stats.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Introduction // გაცნობა
+# Introduction 
 
-## Exercise 1a: Getting the libraries for today's session
+## Relevance to your work
 
-We're going to use two R libraries in this session: `modelsummary` and `huxtable`.
+In your **annual reports**, you often include:
+- Summary tables like **revenue by year**, **spending across categories**, or **staff counts by department**.
+- These tables help summarize key trends and patterns for decision-makers.
+
+&lt;img src="img/session3/programmed_psrl_2023.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+- Today, we will practice **creating similar summary tables** using mock data.
+- While we’re using a simple dataset today, the same steps can be applied to your own data for reports.
+
+---
+
+# Introduction 
+
+## Exercise 1a: Getting the packages for today's session
+
+We're going to use two R packages in this session: `modelsummary`, `huxtable` and ` dplyr`.
 
 1. Install `modelsummary` and `huxtable`:
 
 
-```r
+``` r
 install.packages("modelsummary")
 install.packages("huxtable")
 ```
 
 &lt;img src="img/session3/install.png" width="55%" style="display: block; margin: auto;" /&gt;
 
+## Exercise 1b: Download and load the data we'll use
+
+1. First of all let's open a script. `File`&gt;`New File`&gt;`R Script`
+
+&lt;img src="img/session3/r-script.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+2. Add the packages we will use today 
+
+
+``` r
+library(modelsummary)
+library(huxtable)
+library(readxl)
+library(dplyr)
+```
+
+3. Load the data we will use. (remember our two methods point click and code)
+
+
+``` r
+department_staff &lt;- read.csv("data/department_staff_final.csv")
+```
+
+
 ---
 
-# Introduction // გაცნობა
+# Introduction 
 
 ## Exercise 1b: Download and load the data we'll use
 
 .pull-left[
 1. Go to https://osf.io/z8snr and download the file
 
-1. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `small_business_2019_all.csv`
+1. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `department_staff_final.csv`
 
   + If you don't know where the file is, remember to check in your `Downloads` folder
 
@@ -129,7 +169,7 @@ install.packages("huxtable")
 
 ---
 
-# Introduction // გაცნობა
+# Introduction 
 
 You should have one dataframe loaded in the environment after this.
 
@@ -137,17 +177,27 @@ You should have one dataframe loaded in the environment after this.
 
 ---
 
-# Introduction // გაცნობა
+# Introduction 
 
 ## Recap: always know your data!
 
-- This data is similar to the one we used before
-- Every row is one business in one tax period (month)
-- `modified_id` is a business identifier
-- We also have information about the region, firm age, monthly income, VAT liability
-- There is one more variable we didn't see before: `group` contains the group the firm was assigned to in a random experiment
+- This is the data that we used yesterday! 
 
-&lt;img src="img/session3/df.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+``` r
+glimpse(department_staff)
+```
+
+```
+## Rows: 8,645
+## Columns: 6
+## $ sex                 &lt;chr&gt; "Female", "Male", "Female", "Female", "Female", "F…
+## $ current_grade       &lt;chr&gt; "Director Fin. &amp; Admin.", "Deputy Director (Admin.…
+## $ senior_junior_staff &lt;chr&gt; "senior", "senior", "senior", "senior", "senior", …
+## $ department          &lt;chr&gt; "State Protocol Dept", "State Protocol Dept", "Sta…
+## $ years_of_service    &lt;dbl&gt; 30.220397, 16.049281, 33.968515, 11.553730, 21.180…
+## $ age                 &lt;dbl&gt; 60.15058, 41.74949, 59.43053, 50.55989, 51.28268, …
+```
 
 ---
 
@@ -160,65 +210,121 @@ name: piping
 
 ---
 
-# Piping
-
-- Before we start producing more refined outputs, we need to cover piping
-
-- You probably remember this piece of code from one of yesterday's exercise:
+# The pipe ( %&gt;% ) operator
 
 
-```r
-# Filter only businesses in Tbilisi:
-temp1 &lt;- filter(small_business_2019, region == "Tbilisi")
+- Before diving into the contents of today's session, we will to introduce a **super useful tool**:  
+  **the pipe (`%&gt;%`)**.
 
-# Sort previous result by income, descending order:
-temp2 &lt;- arrange(temp1, -income)
+- The pipe is part of the `dplyr` package. It helps to write code in a way that is easier to read and understand.
 
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 &lt;- filter(temp2, row_number() &lt;= 50)
+- Reading and understanding multiple operations can be difficult.
+
+- The pipe operator (**%&gt;%**) can help with this.  
+
+---
+
+# The pipe operator
+
+
+- With the pipe, code reads from left to right, top to bottom, which is more intuitive.
+
+- %&gt;% can be read as "then" and simplifies code structure. 
+
+For example let's see at this mock get to work sequence example: 
+
+**Without pipe ( %&gt;% )** (hard to read and understand the sequence)
+
+
+``` r
+go_to_work(make_breakfast(work_out(brush_teeth(wake_up(Mer)))))
+```
+
+**With pipe ( %&gt;% )** (the order is clear)
+
+
+``` r
+Mer %&gt;% 
+  wake_up() %&gt;%
+  brush_teeth() %&gt;%
+  work_out() %&gt;%
+  make_breakfast() %&gt;%
+  go_to_work()
 ```
 
 ---
 
-# Piping
+# The pipe
 
-This code works, but the problem with it is that it makes us generate unnecessary intermediate dataframes (`temp1`, `temp2`) that store results temporarily
+As we saw yesterday the functions are normally organized around a set of verbs, or actions to be taken. 
+
+--
+
+* Most *verbs* work as follows:
+
+
+`$$\text{verb}(\underbrace{\text{data.frame}}_{\text{1st argument}}, \underbrace{\text{what to do}}_\text{2nd argument})$$`
+
+--
+
+* Alternatively you can (**should**) use the `pipe` operator `%&gt;%`:
+
+`$$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %&gt;% }}_{\text{"pipe" operator}} \text{verb}(\underbrace{\text{what to do}}_\text{2nd argument})$$`
+
+We will start using the pipe from this point. Please ask if something is not clear.
+
+**Tip**💡: Use Shift + Ctrl/Cmd + M as a shortcut for the pipe operator.
+
+---
+
+# The pipe
+
+- You probably remember this piece of code from one of yesterday's exercise:
+
+
+``` r
+# Filter only female employees:
+temp1 &lt;-  filter(department_staff_list, sex == "Female") # filter by female
+
+# Sort previous result by years of service
+department_female &lt;- arrange(temp1, years_of_service) # order by years of service
+```
+
+---
+
+# The pipe
+
+This code works, but the problem with it is that it makes us generate unnecessary intermediate dataframes (`temp1`) that store results temporarily
 
 &lt;img src="img/session3/temp_dfs.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Piping
+# The pipe
 
-Instead, we can use pipes to **pass the results of a function and apply a new function on top of it**
+Instead, we can use pipes to **pass the results of a function and apply a new function on top of it** (just like Mer's waking up sequence)
 
 .pull-left[
 
-```r
-# Filter only businesses in Tbilisi:
-temp1 &lt;- filter(small_business_2019,
-                region == "Tbilisi")
+``` r
+# Filter only female employees:
+temp1 &lt;-  filter(department_staff_list, sex == "Female") # filter by female
 
-# Sort previous result by income, descending order:
-temp2 &lt;- arrange(temp1,
-                 -income)
-
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 &lt;- filter(temp2,
-                        row_number() &lt;= 50)
+# Sort previous result by years of service
+department_female &lt;- arrange(temp1, years_of_service) # order by years of service
 ```
 ]
 
 .pull-right[
 
-```r
+``` r
 # The same but with pipes:
-df_tbilisi_50 &lt;- filter(small_business_2019,
-                        region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
+department_female &lt;- filter(department_staff_list, sex == "Female") %&gt;% 
+                     arrange(years_of_service)
 ```
 ]
+
+- The usefulness of the pipe (%&gt;%) becomes more evident when the code starts to get more complicated. 
 
 ---
 
@@ -226,35 +332,27 @@ df_tbilisi_50 &lt;- filter(small_business_2019,
 
 .pull-left[
 
-```r
-# Filter only businesses in Tbilisi:
-temp1 &lt;- filter(small_business_2019,
-                region == "Tbilisi")
+``` r
+# Filter only female employees:
+temp1 &lt;-  filter(department_staff_list, sex == "Female") # filter by female
 
-# Sort previous result by income, descending order:
-temp2 &lt;- arrange(temp1,
-                 -income)
-
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 &lt;- filter(temp2,
-                        row_number() &lt;= 50)
+# Sort previous result by years of service
+department_female &lt;- arrange(temp1, years_of_service) # order by years of service
 ```
 ]
 
 .pull-right[
 
-```r
+``` r
 # The same but with pipes:
-df_tbilisi_50 &lt;- filter(small_business_2019,
-                        region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
+department_female &lt;- filter(department_staff_list, sex == "Female") %&gt;% 
+                     arrange(years_of_service)
 ```
 ]
 
 There are several important details to notice here:
 
-1.- The resulting dataframe `df_tbilisi_50` is **the same in both cases**
+1.- The resulting dataframe `department_female` is **the same in both cases**
 
 ---
 
@@ -262,67 +360,25 @@ There are several important details to notice here:
 
 .pull-left[
 
-```r
-# Filter only businesses in Tbilisi:
-temp1 &lt;- filter(small_business_2019,
-                region == "Tbilisi")
+``` r
+# Filter only female employees:
+temp1 &lt;-  filter(department_staff_list, sex == "Female") # filter by female
 
-# Sort previous result by income, descending order:
-temp2 &lt;- arrange(temp1,
-                 -income)
-
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 &lt;- filter(temp2,
-                        row_number() &lt;= 50)
+# Sort previous result by years of service
+department_female &lt;- arrange(temp1, years_of_service) # order by years of service
 ```
 ]
 
 .pull-right[
 
-```r
+``` r
 # The same but with pipes:
-df_tbilisi_50 &lt;- filter(small_business_2019,
-                        region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
+department_female &lt;- filter(department_staff_list, sex == "Female") %&gt;% 
+                     arrange(years_of_service)
 ```
 ]
 
-2.- The name of the resulting dataframe is now defined in the first line of this data wrangling operation. This is because **R evaluates lines with consecutive pipes as if they were a single line**
-
----
-
-# Piping
-
-.pull-left[
-
-```r
-# Filter only businesses in Tbilisi:
-temp1 &lt;- filter(small_business_2019,
-                region == "Tbilisi")
-
-# Sort previous result by income, descending order:
-temp2 &lt;- arrange(temp1,
-                 -income)
-
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 &lt;- filter(temp2,
-                        row_number() &lt;= 50)
-```
-]
-
-.pull-right[
-
-```r
-# The same but with pipes:
-df_tbilisi_50 &lt;- filter(small_business_2019,
-                        region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
-```
-]
-
-3.- Notice that the functions `arrange()` and `filter()` used after the pipes now have only **one argument instead of two**. This is because when using pipes the first argument is implied to be result of the function before the pipes
+2.- Notice that the functions `arrange()` and `filter()` used after the pipes now have only **one argument instead of two**. This is because when using pipes the first argument is implied to be result of the function before the pipes
 
 ---
 
@@ -332,12 +388,12 @@ df_tbilisi_50 &lt;- filter(small_business_2019,
 
 1. Apply the same filtering and sorting now with pipes
 
+**Solution**
 
-```r
-df_tbilisi_50 &lt;- filter(small_business_2019,
-                        region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
+
+``` r
+department_female &lt;- filter(department_staff, sex == "Female") %&gt;% 
+                     arrange(years_of_service)
 ```
 
 ---
@@ -345,77 +401,6 @@ df_tbilisi_50 &lt;- filter(small_business_2019,
 # Piping
 
 Now we will not have any annoying intermediate results stored in our environment!
-
-.pull-left[
-
-```r
-# The same but with pipes:
-df_tbilisi_50 &lt;- filter(small_business_2019,
-                        region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
-```
-]
-
-.pull-right[
-&lt;img src="img/session3/env-pipes.png" width="85%" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Piping
-
-Lastly, we can also add more formatting to this code to improve its clarity even more:
-
-.pull-left[
-
-```r
-# Previous solution
-df_tbilisi_50 &lt;- filter(small_business_2019,
-                        region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
-```
-]
-
-.pull-right[
-
-```r
-# The same with better spacing
-df_tbilisi_50 &lt;-
-  small_business_2019 %&gt;%
-  filter(region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
-```
-]
-
----
-
-# Piping
-
-.pull-left[
-
-```r
-# Previous solution
-df_tbilisi_50 &lt;- filter(small_business_2019,
-                        region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
-```
-]
-
-.pull-right[
-
-```r
-# The same with better spacing
-df_tbilisi_50 &lt;-
-  small_business_2019 %&gt;%
-  filter(region == "Tbilisi") %&gt;%
-  arrange(-income) %&gt;%
-  filter(row_number() &lt;= 50)
-```
-]
 
 - Good code is code that is both correct (does what it's supposed to) and it's easy to understand
 
@@ -448,13 +433,93 @@ Now that you now about the power of the pipes, use them wisely!
 class: inverse, center, middle
 name: quick-summary-stats
 
-# Quick summary statistics // სწრაფი შემაჯამებელი სტატისტიკა
+# Quick summary statistics 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
+# Quick Summary Statistics  
+
+## Refresher: Grouping and Summarizing Data  
+
+Yesterday, we learned how to:  
+1. **Group data** using `group_by()`  
+2. **Summarize** results with `summarise()`  
+
+This is a powerful tool to create **summary tables**—such as totals, averages, or counts—that are essential for your annual reports.
+
+### Example  
+
+
+``` r
+# Summarize total revenue by month
+summary_table &lt;- psrl_data %&gt;%
+  group_by(Month) %&gt;%
+  summarise(Total_Revenue = sum(Revenue, na.rm = TRUE))
+
+print(summary_table)
+```
+
+---
+
+# Quick summary statistics 
+
+
+
+Applying This to Your Work
+.pull-left[
+**Annual Report Table**  
+![Programmed PSRL for 2023](img/session3/programmed_psrl_2023.png)  
+*Monthly totals for different products.*
+]
+
+.pull-right[
+**Code to Recreate the Table**  
+
+
+``` r
+# Summarize all numeric columns by Month
+summary_table &lt;- psrl_data %&gt;%
+  group_by(Month) %&gt;%
+  summarise(across(where(is.numeric), \(x) sum(x, na.rm = TRUE)))
+```
+]
+
+---
+
+# Quick summary statistics 
+
+
+``` r
+# Print the summary table
+print(summary_table)
+```
+
+```
+## # A tibble: 12 × 8
+##    Month  Diesel   LPG Petrol MGO_F Gas_Oil Unified_Naphtha Total
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;
+##  1 Apr-23    140    70    115    40      35              22   422
+##  2 Aug-23    170    85    135    48      45              30   513
+##  3 Dec-23    200   100    155    60      55              40   610
+##  4 Feb-23    130    65    105    35      30              18   383
+##  5 Jan-23    120    60    100    30      25              15   350
+##  6 Jul-23    160    80    130    50      42              28   490
+##  7 Jun-23    155    78    125    45      40              26   469
+##  8 Mar-23    125    63    110    33      28              20   379
+##  9 May-23    150    75    120    42      38              24   449
+## 10 Nov-23    190    95    150    58      52              38   583
+## 11 Oct-23    180    90    145    55      50              35   555
+## 12 Sep-23    165    83    140    47      48              32   515
+```
+
+
+---
+
 # Quick summary statistics
+
+## Beyond Basic Summaries: Customizing Your Results
 
 We learned yesterday how to produce dataframes with results and export them.
 
@@ -495,7 +560,7 @@ We'll start by introducing the function `datasummary_skim()` from `modelsummary`
 For example:
 
 
-```r
+``` r
 datasummary_skim(
   data,
   output = "default",
@@ -514,13 +579,13 @@ datasummary_skim(
 
 1. Load `modelsummary` with `library(modelsummary)`
 
-1. Use `datasummary_skim()` to create a descriptive statistics table for `small_business_all`
+1. Use `datasummary_skim()` to create a descriptive statistics table for `department_staff`
 
 
 
 
-```r
-datasummary_skim(small_business_2019_all)
+``` r
+datasummary_skim(department_staff)
 ```
 
 ---
@@ -529,143 +594,7 @@ datasummary_skim(small_business_2019_all)
 
 You should be seeing this result in the lower right panel of RStudio.
 
-&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Unique (#) &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Missing (%) &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Mean &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; SD &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Min &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Median &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Max &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt;    &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; modified_id &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 984 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5448915.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3758602.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 19832.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5008712.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 12296912.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.71" y="3.22" width="3.62" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="5.33" y="7.10" width="3.62" height="4.56" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="8.95" y="7.52" width="3.62" height="4.14" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.57" y="7.52" width="3.62" height="4.14" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="16.19" y="6.84" width="3.62" height="4.83" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="19.81" y="7.05" width="3.62" height="4.62" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="23.43" y="7.94" width="3.62" height="3.72" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="27.05" y="9.04" width="3.62" height="2.62" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.67" y="9.72" width="3.62" height="1.94" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="34.29" y="9.20" width="3.62" height="2.47" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.91" y="4.95" width="3.62" height="6.71" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="41.53" y="8.04" width="3.62" height="3.62" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="45.15" y="11.03" width="3.62" height="0.63" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; taxperiod &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 201906.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 201901.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 201907.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 201912.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="5.82" y="7.44" width="4.04" height="4.22" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="9.86" y="8.19" width="4.04" height="3.47" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="13.90" y="6.64" width="4.04" height="5.02" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="17.94" y="7.17" width="4.04" height="4.49" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.98" y="8.03" width="4.04" height="3.63" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="26.02" y="6.85" width="4.04" height="4.81" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.06" y="7.12" width="4.04" height="4.54" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="34.10" y="6.00" width="4.04" height="5.67" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="38.14" y="6.91" width="4.04" height="4.76" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="42.18" y="7.28" width="4.04" height="4.38" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; age &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 30 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 14.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 13.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 30.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="0.25" y="6.61" width="3.07" height="5.05" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="3.31" y="5.27" width="3.07" height="6.39" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="6.38" y="3.22" width="3.07" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="9.44" y="5.82" width="3.07" height="5.84" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.51" y="5.43" width="3.07" height="6.23" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="15.57" y="5.98" width="3.07" height="5.68" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="18.64" y="6.69" width="3.07" height="4.97" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.70" y="6.06" width="3.07" height="5.60" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="24.77" y="6.53" width="3.07" height="5.13" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="27.83" y="7.72" width="3.07" height="3.95" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.90" y="7.08" width="3.07" height="4.58" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="33.96" y="6.77" width="3.07" height="4.89" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.03" y="6.61" width="3.07" height="5.05" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="40.09" y="7.24" width="3.07" height="4.42" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="43.16" y="8.98" width="3.07" height="2.68" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; income &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 721 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3283.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8242.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 906.8 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 139394.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="3.22" width="3.19" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="4.97" y="11.32" width="3.19" height="0.34" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="8.15" y="11.52" width="3.19" height="0.15" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="11.34" y="11.60" width="3.19" height="0.063" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="14.53" y="11.64" width="3.19" height="0.027" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="17.72" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="20.91" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="24.10" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="27.28" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.47" y="11.66" width="3.19" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="33.66" y="11.66" width="3.19" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="36.85" y="11.66" width="3.19" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="40.04" y="11.66" width="3.19" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="43.23" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; vat_liability &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 721 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 591.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1483.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 163.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 25091.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="3.22" width="3.54" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="5.32" y="11.38" width="3.54" height="0.29" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="8.86" y="11.56" width="3.54" height="0.099" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.41" y="11.60" width="3.54" height="0.063" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="15.95" y="11.64" width="3.54" height="0.018" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="19.49" y="11.65" width="3.54" height="0.0090" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="23.03" y="11.64" width="3.54" height="0.018" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="26.58" y="11.65" width="3.54" height="0.0090" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.12" y="11.66" width="3.54" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="33.66" y="11.66" width="3.54" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.20" y="11.66" width="3.54" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="40.75" y="11.66" width="3.54" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="44.29" y="11.65" width="3.54" height="0.0090" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+&lt;img src="img/session3/datasummary_skim.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -676,242 +605,21 @@ You should be seeing this result in the lower right panel of RStudio.
 - To summarize categorical variables, use the argument `type = "categorical"`
 
 
-```r
-datasummary_skim(small_business_2019_all, type = "categorical")
+``` r
+datasummary_skim(department_staff, type = "categorical")
 ```
 
 ---
 
 # Quick summary statistics
 
-&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt;    &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; N &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; % &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; region &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Guria &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 259 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 25.9 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; ImereTI-Racha-Lechkhum-kv.SvaneTi &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 37 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.7 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; KaxeTi &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 270 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Kvemo KarTli &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.9 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Samegrelo-Z.SvaneTi &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.8 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Samtskhe-Javakheti &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.7 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Shida KarTli &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 17 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.7 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Tbilisi &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 373 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 37.3 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; group &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; No notifications to be sent &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 286 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Notification sent on Day 13 and Day 15 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 226 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Notification sent only on Day 13 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 247 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 24.7 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Notification sent only on Day 15 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 241 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 24.1 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+&lt;img src="img/session3/datasummary_cat.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Quick summary statistics
 
 - `datasummary_skim()` is convenient because it's fast, easy, and shows a lot of information
-
-&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Unique (#) &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Missing (%) &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Mean &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; SD &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Min &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Median &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Max &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt;    &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; modified_id &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 984 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5448915.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3758602.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 19832.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5008712.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 12296912.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.71" y="3.22" width="3.62" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="5.33" y="7.10" width="3.62" height="4.56" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="8.95" y="7.52" width="3.62" height="4.14" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.57" y="7.52" width="3.62" height="4.14" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="16.19" y="6.84" width="3.62" height="4.83" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="19.81" y="7.05" width="3.62" height="4.62" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="23.43" y="7.94" width="3.62" height="3.72" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="27.05" y="9.04" width="3.62" height="2.62" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.67" y="9.72" width="3.62" height="1.94" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="34.29" y="9.20" width="3.62" height="2.47" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.91" y="4.95" width="3.62" height="6.71" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="41.53" y="8.04" width="3.62" height="3.62" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="45.15" y="11.03" width="3.62" height="0.63" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; taxperiod &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 201906.7 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 201901.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 201907.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 201912.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="5.82" y="7.44" width="4.04" height="4.22" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="9.86" y="8.19" width="4.04" height="3.47" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="13.90" y="6.64" width="4.04" height="5.02" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="17.94" y="7.17" width="4.04" height="4.49" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.98" y="8.03" width="4.04" height="3.63" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="26.02" y="6.85" width="4.04" height="4.81" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.06" y="7.12" width="4.04" height="4.54" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="34.10" y="6.00" width="4.04" height="5.67" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="38.14" y="6.91" width="4.04" height="4.76" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="42.18" y="7.28" width="4.04" height="4.38" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; age &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 30 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 14.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 13.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 30.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="0.25" y="6.61" width="3.07" height="5.05" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="3.31" y="5.27" width="3.07" height="6.39" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="6.38" y="3.22" width="3.07" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="9.44" y="5.82" width="3.07" height="5.84" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.51" y="5.43" width="3.07" height="6.23" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="15.57" y="5.98" width="3.07" height="5.68" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="18.64" y="6.69" width="3.07" height="4.97" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.70" y="6.06" width="3.07" height="5.60" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="24.77" y="6.53" width="3.07" height="5.13" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="27.83" y="7.72" width="3.07" height="3.95" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.90" y="7.08" width="3.07" height="4.58" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="33.96" y="6.77" width="3.07" height="4.89" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.03" y="6.61" width="3.07" height="5.05" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="40.09" y="7.24" width="3.07" height="4.42" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="43.16" y="8.98" width="3.07" height="2.68" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; income &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 721 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3283.9 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8242.4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 906.8 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 139394.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="3.22" width="3.19" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="4.97" y="11.32" width="3.19" height="0.34" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="8.15" y="11.52" width="3.19" height="0.15" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="11.34" y="11.60" width="3.19" height="0.063" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="14.53" y="11.64" width="3.19" height="0.027" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="17.72" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="20.91" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="24.10" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="27.28" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.47" y="11.66" width="3.19" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="33.66" y="11.66" width="3.19" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="36.85" y="11.66" width="3.19" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="40.04" y="11.66" width="3.19" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="43.23" y="11.65" width="3.19" height="0.0091" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; vat_liability &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 721 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 591.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1483.6 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 163.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 25091.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
-    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
-      fill: none;
-      stroke: #000000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-miterlimit: 10.00;
-    }
-    .svglite text {
-      white-space: pre;
-    }
-  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
-&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="3.22" width="3.54" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="5.32" y="11.38" width="3.54" height="0.29" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="8.86" y="11.56" width="3.54" height="0.099" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.41" y="11.60" width="3.54" height="0.063" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="15.95" y="11.64" width="3.54" height="0.018" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="19.49" y="11.65" width="3.54" height="0.0090" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="23.03" y="11.64" width="3.54" height="0.018" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="26.58" y="11.65" width="3.54" height="0.0090" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.12" y="11.66" width="3.54" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="33.66" y="11.66" width="3.54" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.20" y="11.66" width="3.54" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="40.75" y="11.66" width="3.54" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="44.29" y="11.65" width="3.54" height="0.0090" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
-&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 
 - But what if we wanted to customize what to show? that's when we use `datasummary()` instead, also from the library `modelsummary`
 
@@ -920,7 +628,7 @@ datasummary_skim(small_business_2019_all, type = "categorical")
 class: inverse, center, middle
 name: customized-summary-stats
 
-# Customized summary statistics // მორგებული შემაჯამებელი სტატისტიკა
+# Customized summary statistics
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
@@ -941,7 +649,7 @@ name: customized-summary-stats
 ]
 
 
-```r
+``` r
 datasummary(
   var1 + var2 + var3 ~ stat1 + stat2 + stat3 + stat4,
   data = data
@@ -954,70 +662,28 @@ datasummary(
 
 ## Exercise 4: 
 
-Create a summary statistics table showing the nuber of observations, mean, standard deviation, minimum, and maximum for variables `age`, `income`, and `vat_liability` of the dataframe `small_business_2019_all`
+Create a summary statistics table showing the number of observations, mean, standard deviation, minimum, and maximum for variables `years_of_service` of the dataframe `department_staff`
 
 1. Use `datasummary()` for this:
 
 
-```r
+``` r
 datasummary(
-  age + income + vat_liability ~ N + Mean + SD + Min + Max,
-  small_business_2019_all
+  years_of_service  ~ N + Mean + SD + Min + Max,
+  department_staff
 )
 ```
 
----
-
-# Customized summary statistics
-
-&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; N &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Mean &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; SD &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Min &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Max &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; age &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1000 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 14.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.37 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 30.00 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; income &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1000 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3283.87 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8242.45 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 139394.52 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; vat_liability &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1000 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 591.10 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1483.64 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 25091.01 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
+&lt;img src="img/session3/custom.png" width="55%" style="display: block; margin: auto;" /&gt;
 ---
 
 # Customized summary statistics
 
 
-```r
+``` r
 datasummary(
-  age + income + vat_liability ~ N + Mean + SD + Min + Max, # this is the formula
-  small_business_2019_all                                   # this is the data
+   years_of_service  ~ N + Mean + SD + Min + Max, # this is the formula
+   department_staff                         # this is the data
 )
 ```
 
@@ -1033,10 +699,10 @@ Some notes:
 # Customized summary statistics
 
 
-```r
+``` r
 datasummary(
-  age + income + vat_liability ~ N + Mean + SD + Min + Max, # this is the formula
-  small_business_2019_all                                   # this is the data
+  years_of_service  ~ N + Mean + SD + Min + Max, # this is the formula
+  department_staff                          # this is the data
 )
 ```
 
@@ -1055,29 +721,31 @@ In this exercise we used the statistics N (number of observations), mean, SD (st
 class: inverse, center, middle
 name: exporting-tables
 
-# Exporting tables // მაგიდების ექსპორტი
+# Exporting tables 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Exporting tables // მაგიდების ექსპორტი
+# Exporting tables 
 
 Remember that both `datasummary_skim()` and `datasummary()` have an optional argument named *output*? We can  use it to specify a file path for an output file.
 
 For example:
 
 
-```r
-datasummary_skim(small_business_2019_all,
+``` r
+datasummary_skim(department_staff,
                  output = "quick_stats.docx")
 ```
 
-Will export the result to the `Documents` folder (in Windows) in a Word file named `quick_stats.docx`
+Will export the result to the `Documents` folder (in Windows) in a Word file named `quick_stats.docx` 
+
+*Note* for this code to work we would need to install an extra package  `pandoc`
 
 ---
 
-# Exporting tables // მაგიდების ექსპორტი
+# Exporting tables 
 
 The file type of the output is dictated by the file extension. For example:
 
@@ -1093,7 +761,7 @@ Noticed that we're missing Excel?
 
 ---
 
-# Exporting tables // მაგიდების ექსპორტი
+# Exporting tables 
 
 ## That's because the functions of `modelsummary` can't export to Excel
 
@@ -1105,18 +773,18 @@ Noticed that we're missing Excel?
 
 ---
 
-# Exporting tables // მაგიდების ექსპორტი
+# Exporting tables 
 
 ## Exercise 5: Export a table to Excel
 
-1. Load `huxtable` with `library(huxtable)`
+1. Load `huxtable` with `library(huxtable)` (we already did this at the beginning of the session)
 
 1. Run the following code to export the result of `datasummary_skim()` to Excel:
 
 
-```r
+``` r
 # Store the table in a new object
-stats_table &lt;- datasummary_skim(small_business_2019_all, output = "huxtable")
+stats_table &lt;- datasummary_skim(department_staff, output = "huxtable")
 
 # Export this new object to Excel with quick_xlsx()
 quick_xlsx(stats_table, file = "quick_stats.xlsx")
@@ -1124,7 +792,7 @@ quick_xlsx(stats_table, file = "quick_stats.xlsx")
 
 ---
 
-# Exporting tables // მაგიდების ექსპორტი
+# Exporting tables 
 
 Now the result will show in your `Documents` folder
 
@@ -1132,7 +800,7 @@ Now the result will show in your `Documents` folder
 
 ---
 
-# Exporting tables // მაგიდების ექსპორტი
+# Exporting tables 
 
 And you can open it with Excel for further customization if you want
 
@@ -1140,12 +808,12 @@ And you can open it with Excel for further customization if you want
 
 ---
 
-# Exporting tables // მაგიდების ექსპორტი
+# Exporting tables
 
 
-```r
+``` r
 # Store the table in a new object
-stats_table &lt;- datasummary_skim(small_business_2019_all, output = "huxtable")
+stats_table &lt;- datasummary_skim(department_staff, output = "huxtable")
 
 # Export this new object to Excel with quick_xlsx()
 quick_xlsx(stats_table, file = "quick_stats.xlsx")
@@ -1162,7 +830,7 @@ Some comments about this code:
 class: inverse, center, middle
 name: customizing-table-outputs
 
-# Customizing table outputs // ცხრილის შედეგების მორგება
+# Customizing table outputs 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
@@ -1174,7 +842,7 @@ The code below shows how the table `stats_table` can be formatted:
 
 .pull-left[
 
-```r
+``` r
 # We start with stats_table:
 stats_table %&gt;%
   # Use first row as table header
@@ -1186,25 +854,19 @@ stats_table %&gt;%
   # Center cells in first row
   set_align(1, everywhere, "center") %&gt;%
   # Set a theme for quick formatting
-  theme_basic()
+  theme_blue()
 ```
 ]
 
 .pull-right[
 .small[
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-46">
+<table class="huxtable" data-quarto-disable-processing="true" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  ">
 <col><col><col><col><col><col><col><col><tr>
-<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: bold;"> </th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Unique (#)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Missing (%)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Mean</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">SD</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Min</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Median</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: bold;">Max</th></tr>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);"> </span></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">Unique</span></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">Missing Pct.</span></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">Mean</span></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">SD</span></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">Min</span></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">Median</span></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">Max</span></th></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">modified_id</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">      984</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  5448915</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3758602</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    19832</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  5008712</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;"> 12296912</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">years_of_service</span></th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(212, 230, 241); font-weight: normal;">     2916</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(212, 230, 241); font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(212, 230, 241); font-weight: normal;">       15</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(212, 230, 241); font-weight: normal;">       10</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(212, 230, 241); font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(212, 230, 241); font-weight: normal;">       14</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(212, 230, 241); font-weight: normal;">       51</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">taxperiod</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       12</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   201907</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        3</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   201901</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   201907</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">   201912</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">age</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       30</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       14</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        8</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        1</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       13</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">       30</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">income</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">      721</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     3284</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     8242</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">      907</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">   139395</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">vat_liability</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">      721</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">      591</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     1484</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">      163</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">    25091</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(84, 153, 199); font-weight: bold;"><span style="color: rgb(255, 255, 255);">age</span></th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(169, 204, 227); font-weight: normal;">     5998</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(169, 204, 227); font-weight: normal;">        0</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(169, 204, 227); font-weight: normal;">       44</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(169, 204, 227); font-weight: normal;">        9</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(169, 204, 227); font-weight: normal;">       18</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(169, 204, 227); font-weight: normal;">       44</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 1pt 1pt 1pt; border-top-color: rgb(255, 255, 255);  border-right-color: rgb(255, 255, 255);  border-bottom-color: rgb(255, 255, 255);  border-left-color: rgb(255, 255, 255); padding: 6pt 6pt 6pt 6pt; background-color: rgb(169, 204, 227); font-weight: normal;">       67</td></tr>
 </table>
 
 ]
@@ -1220,7 +882,7 @@ stats_table %&gt;%
 1.- Customize `stats_table` in a new object called `stats_table_custom`
 
 
-```r
+``` r
 stats_table_custom &lt;- stats_table %&gt;%
   # Use first row as table header
   set_header_rows(1, TRUE) %&gt;%
@@ -1231,7 +893,7 @@ stats_table_custom &lt;- stats_table %&gt;%
   # Center cells in first row
   set_align(1, everywhere, "center") %&gt;%
   # Set a theme for quick formatting
-  theme_basic()
+  theme_blue()
 ```
 ]
 
@@ -1239,7 +901,7 @@ stats_table_custom &lt;- stats_table %&gt;%
 2.- Export `stats_table_custom` to a file named `stats-custom.xlsx` with `quick_xlsx()`
 
 
-```r
+``` r
 quick_xlsx(
   stats_table_custom,
   file = "stats-custom.xlsx"
@@ -1260,19 +922,19 @@ quick_xlsx(
 Notice that here in the first part of the exercise we stored the result in a new object
 
 
-```r
+``` r
 stats_table_custom &lt;- stats_table %&gt;%  # &lt;---- here
   set_header_rows(1, TRUE) %&gt;%
   set_header_cols(1, TRUE)  %&gt;%
   set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;%
   set_align(1, everywhere, "center") %&gt;%
-  theme_basic()
+  theme_blue()
 ```
 
 This is the object that we export later with `quick_xslx()`
 
 
-```r
+``` r
 quick_xlsx(
   stats_table_custom,
   file = "stats-custom.xlsx"
@@ -1298,22 +960,44 @@ quick_xlsx(
 
 # Customizing table outputs
 
-We used `theme_basic()` to give a minimalistic, basic theme to the table. Other available themes are:
+We used `theme_blue()`. Other available themes are:
 
 &lt;img src="img/session3/themes.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Use it on your work
+
+### Key Takeaways:
+- This was a **basic example** with a few variables from your staff list, but the **possibilities are endless**.
+- With this and the contents from yesterday's session, you can create **summaries** of **anything you can think of**.
+
+### Real-World Example:
+ **Annual Report: Programmed vs. Billings for 2023 (In GH¢)**
+
+&lt;img src="img/session3/annual_report.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+- If we have the data, you can easily create summaries like this directly in R.
+- Once written, the code can be re-used for the next year or quarter.
+
+---
+
+# Questions?
+
+![](https://media.giphy.com/media/XHVmD4RyXgSjd8aUMb/giphy.gif?cid=790b7611auicodssx8z4zly6u6z5k4pd0r1i13drege3yunc&amp;ep=v1_gifs_search&amp;rid=giphy.gif&amp;ct=g)
+
 
 ---
 
 class: inverse, center, middle
 name: wrapping-up
 
-# Wrapping up // შეფუთვა
+# Wrapping up 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
 ---
 
-# Wrapping up // შეფუთვა
+# Wrapping up
 
 ## Save your work!
 
@@ -1323,7 +1007,7 @@ Click the floppy disk to save the script you wrote in this session.
 
 ---
 
-# Wrapping up // შეფუთვა
+# Wrapping up 
 
 ## What else is available?
 
@@ -1343,7 +1027,7 @@ Click the floppy disk to save the script you wrote in this session.
 
 ---
 
-# Wrapping up // შეფუთვა
+# Wrapping up 
 
 ## What else is available?
 
@@ -1354,7 +1038,7 @@ More of this is explained in the libraries documentation:
   
 ---
 
-# Wrapping up // შეფუთვა
+# Wrapping up 
 
 ## This session
 
@@ -1362,7 +1046,7 @@ More of this is explained in the libraries documentation:
 
 ---
 
-# Wrapping up // შეფუთვა
+# Wrapping up 
 
 ## Next session (last one)
 
@@ -1372,9 +1056,10 @@ More of this is explained in the libraries documentation:
 
 class: inverse, center, middle
 
-# Thanks! // მადლობა! // ¡Gracias! // Obrigado!
+# Thanks! // ¡Gracias! // Obrigado!
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+&lt;img src="img/session3/you-can-r.png" width="80%" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

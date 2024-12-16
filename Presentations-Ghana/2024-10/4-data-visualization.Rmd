@@ -2,7 +2,7 @@
 title: "Session 4 - Data visualization"
 subtitle: "R training"
 author: "María Reyes Retana"
-date: "The World Bank | December 2024"
+date: "The World Bank | January 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css",
@@ -70,9 +70,8 @@ knitr::include_graphics("img/template.png")
 - [Introduction](#intro)
 - [The grammar of graphics](#grammar-of-graphics)
 - [Bar plots](#bar-plots)
+- [Pie charts](#pie-charts)
 - [Line plots](#line-plots)
-- [Text encodings](#text-encodings)
-- [Scatter plots](#scatter-plots)
 - [Wrapping up](#wrapping-up)
 
 ---
@@ -112,6 +111,43 @@ knitr::include_graphics("img/session4/data-vis.png")
 
 ---
 
+# Introduction
+
+## From Your Annual Reports  
+
+In your annual reports, the most common visualizations include:  
+
+1. **Bar Graphs**: Used to compare categories (e.g., spending across departments or revenue by month).  
+2. **Pie Charts**: Used to show proportions (e.g., product share, budget breakdown).  
+
+.pull-left[
+**Bar Graph Example**  
+![Bar Graph](img/session4/bar-chart.png)
+]
+
+.pull-right[
+**Pie Chart Example**  
+![Pie Chart](img/session4/pie-chart.png)
+]
+
+---
+
+# Introduction
+
+## What You Will Learn  
+
+Today, I will teach you how to:  
+
+1. **Recreate these common visualizations** (and more) using code.  
+2. Build clean and reproducible charts that you can easily include in your annual reports.  
+3. Explore additional visualization techniques to make your data more impactful.  
+
+We will keep using the data we have been using from the beginning to keep this simple, but the code could be recycled to fit the data of your annual reports. 
+
+Let’s get started!  
+
+---
+
 # Introduction  
 
 ## Data visualization in R
@@ -134,6 +170,14 @@ knitr::include_graphics("img/session4/ggplot2.png")
 
 ---
 
+# ggplot2
+
+```{r echo = FALSE, out.width="70%"}
+knitr::include_graphics("img/session4/ggplot2-dib.png")
+```
+
+---
+
 class: inverse, center, middle
 name: grammar-of-graphics
 
@@ -143,11 +187,45 @@ name: grammar-of-graphics
 
 ---
 
+# The grammar of graphics
+
+## What is ggplot2?  
+
+- **ggplot2** is a powerful and flexible tool for creating data visualizations in R.  
+- It combines **philosophy + functions** into a well-organized framework.  
+
+### Things to Keep in Mind:  
+1. ggplot2 may feel like **a lot to learn**, but let's do it step by step. 
+2. Today, we’ll cover the basics, but you’ll also get resources to keep exploring on your own.  
+
+---
+
+# The grammar of graphics
+
+## The Structure of ggplot2  
+
+Creating a plot with ggplot2 requires **three basic components**:  
+
+1. **Data**: The dataset you want to visualize.  
+2. **Aesthetics (aes)**: How you map your data to visual elements (e.g., x-axis, y-axis, color).  
+3. **Geometry (geom)**: The type of plot you want (e.g., bar graph, scatter plot).  
+
+(and many more but we will keep it simple in this presentation)
+
+---
+
 # The grammar of graphics  
 
 ## The grammar of graphics in `ggplot2`
 
-```{r echo = FALSE, out.width="100%"}
+I will use the table of employees by department we created in session two to start with this.
+
+```{r}
+employees_by_department <- read.csv("data/employees_by_department.csv")
+```
+
+
+```{r echo = FALSE, out.width="60%"}
 knitr::include_graphics("img/session4/grammar-of-graphics.png")
 ```
 
@@ -157,7 +235,7 @@ knitr::include_graphics("img/session4/grammar-of-graphics.png")
 
 ## The grammar of graphics in `ggplot2`
 
-```{r echo = FALSE, out.width="100%"}
+```{r echo = FALSE, out.width="70%"}
 knitr::include_graphics("img/session4/grammar-of-graphics2.png")
 ```
 
@@ -167,7 +245,7 @@ knitr::include_graphics("img/session4/grammar-of-graphics2.png")
 
 ## The grammar of graphics in `ggplot2`
 
-```{r echo = FALSE, out.width="100%"}
+```{r echo = FALSE, out.width="70%"}
 knitr::include_graphics("img/session4/grammar-of-graphics3x.png")
 ```
 
@@ -177,7 +255,7 @@ knitr::include_graphics("img/session4/grammar-of-graphics3x.png")
 
 ## The grammar of graphics in `ggplot2`
 
-```{r echo = FALSE, out.width="100%"}
+```{r echo = FALSE, out.width="70%"}
 knitr::include_graphics("img/session4/grammar-of-graphics3y.png")
 ```
 
@@ -187,7 +265,7 @@ knitr::include_graphics("img/session4/grammar-of-graphics3y.png")
 
 ## The grammar of graphics in `ggplot2`
 
-```{r echo = FALSE, out.width="100%"}
+```{r echo = FALSE, out.width="70%"}
 knitr::include_graphics("img/session4/grammar-of-graphics4gc.png")
 ```
 
@@ -197,7 +275,7 @@ knitr::include_graphics("img/session4/grammar-of-graphics4gc.png")
 
 ## The grammar of graphics in `ggplot2`
 
-```{r echo = FALSE, out.width="100%"}
+```{r echo = FALSE, out.width="70%"}
 knitr::include_graphics("img/session4/grammar-of-graphics4l.png")
 ```
 
@@ -227,11 +305,11 @@ library(ggplot2)
 1. Produce a basic bar plot with the following code:
 
 ```{r eval = FALSE}
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
   geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month")
+  labs(title = "Number of employees by department, 2024")
 ```
 
 ---
@@ -239,40 +317,43 @@ ggplot(small_business_2019_all) +
 # Bar plots  
 
 ```{r echo=FALSE}
-small_business_2019_all <- read.csv("data/small_business_2019_all.csv")
+employees_by_department <- read.csv("data/employees_by_department.csv")
 ```
 
 This result should be displayed in the lower right panel of your RStudio window
 
 ```{r echo=FALSE, out.width="70%"}
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = income) +
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
   geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month")
+  labs(title = "Number of employees by department, 2024")
 ```
 
 ---
 
 # Bar plots  
 
-This plot looks acceptable but it can be improved:
+This plot doesn't look great yet!
 
 .pull-left[
-- `taxperiod` is a variable representing months but R doesn't know it and it's showing the x-axis with decimals. We need to tell R that those values shouldn't be changed
+- `department` is too crowded as the names are long, but R does not know this. We need to tell R that those labels should be rotated
 
 - We can center the title
 
-- We should add axis labels (instead of just "vat_liability" and "taxperiod") 
+- We should add axis labels (instead of just variable names)
+
+- We can add color
 ]
 
 .pull-right[
 ```{r echo=FALSE, out.width="100%"}
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
   geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month")
+  labs(title = "Number of employees by department, 2024") 
+  
 ```
 ]
 
@@ -285,19 +366,20 @@ ggplot(small_business_2019_all) +
 1. Use the following code to improve the aesthetics of your plot
 
 ```{r eval=FALSE}
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month",
-       # x-axis title
-       x = "Month",
-       # y-axis title
-       y = "Georgian Lari") +
-  # telling R not to break the x-axis
-  scale_x_continuous(breaks = 201901:201912) +
-  # centering plot title
-  theme(plot.title = element_text(hjust = 0.5))
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
+  geom_col(fill = "#9370DB") + #<< 
+  labs(
+    title = "Number of employees by department, 2024", # title
+    x = "Department",   #<< 
+    y = "Number"    #<< 
+  ) +
+  # Title and subtitles
+  theme(
+    plot.title = element_text(hjust = 0.5),  #<< 
+    axis.text.x = element_text(angle = 45, hjust = 1) #<< 
+  )
 ```
 
 ---
@@ -307,32 +389,91 @@ ggplot(small_business_2019_all) +
 Now this looks better:
 
 ```{r echo=FALSE, out.width="70%"}
-ggplot(small_business_2019_all) +
-  # transforming taxperiod to categorical value with as.factor()
-  aes(x = as.factor(taxperiod),
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month",
-       # x-axis title
-       x = "Month",
-       # y-axis title
-       y = "VAT liability") +
-  # centering plot title
-  theme(plot.title = element_text(hjust = 0.5))
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
+  geom_col(fill = "#9370DB") +
+  labs(
+    title = "Number of employees by department, 2024",
+    # x-axis title
+    x = "Department",
+    # y-axis title
+    y = "Number"
+  ) +
+  # Centering plot title
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotating x-axis labels
+  )
 ```
 
 ---
 
 # Bar plots 
 
-## Exercise 1c: save your plot
+## Exercise 1c: Improve your bar plot
+
+But we can actually make this even better. I would reorder by amount of employees, and add labels. 
+
+```{r, eval=FALSE}
+# Create the bar plot
+ggplot(employees_by_department) +
+  aes(x = reorder(department, -number), y = number) + #<<  # Reorder bars by `number`
+  geom_col(fill = "#9370DB") +
+    geom_text( #<< 
+    aes(label = number), #<< 
+    angle = 90 #<< 
+  ) + #<< 
+  labs(
+    title = "Number of employees by department, 2024",
+    x = "Department",
+    y = "Number"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels
+  )
+```
+
+---
+
+# Bar plots
+
+Now this is ready to be in one of your reports. 
+
+```{r, echo=FALSE}
+# Create the bar plot
+ggplot(employees_by_department) +
+  aes(x = reorder(department, -number), y = number) + #<<  # Reorder bars by `number`
+  geom_col(fill = "#9370DB") +
+    geom_text( #<< 
+    aes(label = number), #<< 
+    angle = 90 #<< 
+  ) + #<< 
+  labs(
+    title = "Number of employees by department, 2024",
+    x = "Department",
+    y = "Number"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels
+  )
+```
+
+
+---
+
+# Bar plots 
+
+## Exercise 1d: save your plot
 
 Now that your plot looks good, you can save it into an output with `ggsave()`
 
 1. Use this code to save your plot:
 
 ```{r eval = FALSE}
-ggsave("vat_liability_small_2019.png",
+ggsave("employees_by_department.png",
        width = 20,
        height = 10,
        units = "cm")
@@ -358,46 +499,146 @@ knitr::include_graphics("img/session4/ggsave-ex1.png")
 
 ---
 
-# Bar plots  
+# You Did Your First Plot! 🎉  
 
-## A note about syntax
+## The Possibilities Are Endless  
 
-- Data visualization usually requires several iterations to add new elements to your initial code and improve your plot
+- Congratulations on creating your **first plot**!  
+- From here, you can explore countless options to visualize your data:  
+  - Bar graphs, line plots, scatterplots, pie charts, and more.  
+- Experimentation is key! Don’t be afraid to try new things or make mistakes.  
 
-- `ggplot2` adds new elements to a visualization with the symbol `+`
+## You Have the Power 💪  
 
-- More customization means that your code can easily become quite long. Using spaces and line breaks helps for clarity, but **there is just no way around it**
+- Data visualization is a skill that grows with practice.  
+- Use online resources and communities like:  
+  - [ggplot2 Documentation](https://ggplot2.tidyverse.org/)  
+  - [ggplot presentation](https://pkg.garrickadenbuie.com/gentle-ggplot2)
 
-- In programming this is known as **heavy syntax**
+---
 
-.pull-left[
-.small[
-```{r eval = FALSE}
-# Exercise 1:
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month")
+# Now the sky is the limit! 🎉  
+
+.pull-center[
+![](https://media.giphy.com/media/5C472t1RGNuq4/giphy.gif?cid=790b76118bi2mzh4evmg1ohc9xiot3g9fdv7mi1u96xeb4s5&ep=v1_gifs_search&rid=giphy.gif&ct=g)  
+]
+
+---
+
+class: inverse, center, middle
+name: pie-charts
+
+# Pie charts
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Pie charts
+
+## From Bar Plots to Pie Charts  
+
+- We just created a **bar plot** to visualize the number of employees by department.  
+- Let’s now use the **same data** to create a **pie chart**, a common way to show proportions.  
+
+### Geoms and Graph Types  
+Remember: The **geom** controls the type of graph we create.  
+- **`geom_col()`**: Creates bar plots.  
+- **`geom_bar()`** with **coord_polar()**: Converts data into a pie chart.  
+
+---
+
+# Pie Charts  
+
+## Exercise 2a: Create a Pie Chart  
+
+1. Use the following code to create a pie chart:
+
+```{r, eval=FALSE}
+ggplot(employees_by_department) +
+  aes(x = "", y = number, fill = department) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Proportion of employees by department, 2024"
+  ) +
+  theme_void()
 ```
-]
-]
+---
 
-.pull-right[
-.small[
-```{r eval=FALSE}
-# Exercise 2
-ggplot(small_business_2019_all) +
-  aes(x = as.factor(taxperiod),
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month",
-       x = "Month",
-       y = "Georgian Lari") +
-  theme(plot.title = element_text(hjust = 0.5))
+# Pie chart
+
+You should see this on your Plots panel.
+
+```{r, echo=FALSE, out.width="60%"}
+ggplot(employees_by_department) +
+  aes(x = "", y = number, fill = department) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Proportion of employees by department, 2024"
+  ) +
+  theme_void()
 ```
-]
-]
+
+---
+
+# Pie chart
+
+## Exercise 2b
+
+The chart is alright, but we can customize it further.. What about changing the colors? 
+
+
+```{r, eval=FALSE}
+ggplot(employees_by_department) +
+  aes(x = "", y = number, fill = department) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Proportion of employees by department, 2024"
+  ) +
+  theme_void() +
+  scale_fill_viridis_d(option = "D") #<<
+```
+
+---
+
+# Pie chart
+
+## Exercise 2c
+
+Now this is ready to go into our report, so let's save it. 
+
+```{r, echo=FALSE, out.width="60%"}
+ggplot(employees_by_department) +
+  aes(x = "", y = number, fill = department) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Proportion of employees by department, 2024"
+  ) +
+  theme_void() +
+  scale_fill_viridis_d(option = "D") #<<
+```
+
+
+---
+
+# Pie chart
+
+## Exercise 2c
+
+Now this is ready to go into our report, so let's save it. 
+
+```{r, eval=FALSE}
+ggsave("employees_by_department_pie.png")
+```
+
+```{r echo = FALSE, out.width="40%"}
+knitr::include_graphics("img/session4/ggsave-ex2.png")
+```
+
 
 ---
 
@@ -412,522 +653,59 @@ name: line-plots
 
 # Line plots 
 
-- In data visualization, we call **encodings** to the geometry selected to represent the data visually
+Another Common Plot: Line Plots  
 
-- In the previous examples, we did that when we used `geom_col()`. This tells R that our encoding to represent the data is **bars** (also called columns)
+- **Line plots** are commonly used to show **trends over time** or changes across a sequence.  
+- Examples include visualizing **monthly sales**, **yearly growth**, or **temperature changes**.  
 
-- `ggplot2` has several different options for encodings in data visualization, for example: **lines**
 
-- The encoding for lines in `ggplot2` is `geom_lines()`
+**Description**  
+- Each point represents a value at a specific time.  
+- Lines connect the points to show a continuous trend.  
 
----
 
-# Line plots  
-
-- Line plots are a nice option to encode numeric values and include different categories of a second variable at the same time
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-df_group_month <- small_business_2019_all %>%
-  select(group, taxperiod, vat_liability) %>%
-  group_by(group, taxperiod) %>%
-  summarize(total = sum(vat_liability))
-```
-
-```{r echo=FALSE, out.width="65%"}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(legend.text = element_text(size = 7), # don't forget the comma!
-        axis.text.x=element_text(size=6))
-```
 
 ---
 
 # Line plots 
-
-- However, they also usually require some additional data wrangling compared to bar plots: data should be collapsed at the level specified in the x-axis and grouping variable
-
-- This is going to be clearer in the next exercise. The plot we'll produce is below
-
-```{r echo=FALSE, out.width="65%"}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(legend.text = element_text(size = 7), # don't forget the comma!
-        axis.text.x=element_text(size=6))
-```
-
----
-
-# Line plots  
-
-## Exercise 2a: Collapse your data at the month-group level
-
-Use the following code to create a dataframe collapsed at the month-group level and calculate the total VAT liability for each group in each month
-
-```{r eval = FALSE}
-df_group_month <- small_business_2019_all %>%
-  select(group, taxperiod, vat_liability) %>%
-  group_by(group, taxperiod) %>%
-  summarize(total = sum(vat_liability))
-```
-
----
-
-# Line plots 
-
 .pull-left[
-The result will look like this, you can explore it with `View(df_group_month)`.
-]
+**Code Example**  
 
-.pull-right[
-```{r echo = FALSE, out.width="85%"}
-knitr::include_graphics("img/session4/df-group-month.png")
-```
-]
+```{r, eval=FALSE}
+library(ggplot2)
 
----
-
-# Line plots  
-
-## Exercise 2b: Create a line plot of VAT liability by month and group
-
-```{r eval=FALSE}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Line plots 
-
-Your result possibly looks like this:
-
-```{r echo=FALSE, warning=FALSE, message=FALSE, out.width="75%"}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Line plots 
-
-Something looks off, doesn't it? We need to **make the legend labels and x-axis texts smaller** for them without overlapping each other and to **remove the centering of the title** so it's not cropped
-
-```{r echo=FALSE, out.width="75%"}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Line plots  
-## Exercise 2c: Continue improving your plot
-
-1. Add the argument `legend.text=element_text(size=7)` inside `theme()` to decrease the legend text size
-1. Add the argument `axis.text.x=element_text(size=6)` inside `theme()` to decrease the x-axis text size
-  + note that both arguments need to be separated by a comma
-1. Remove `plot.title = element_text(hjust = 0.5)` from `theme()` to remove the centering of the plot title
-
-The result should be this:
-
-```{eval=FALSE}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(legend.text = element_text(size = 7), # don't forget the comma!
-        axis.text.x=element_text(size=6))
-```
-
----
-
-# Line plots  
-
-```{r echo=FALSE, out.width="75%"}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(legend.text = element_text(size = 7), # don't forget the comma!
-        axis.text.x=element_text(size=6))
-```
-
----
-
-# Line plots 
-
-## Exercise 2d: save your plot
-
-Use this code to save your plot:
-
-```{r eval=FALSE}
-ggsave("vat_liability_small_2019_by_group.png",
-       width = 20,
-       height = 10,
-       units = "cm")
-```
-
----
-
-# Line plots 
-
-```{r echo = FALSE, out.width="50%"}
-knitr::include_graphics("img/session4/ggsave-ex2.png")
-```
-
----
-
-# Line plots  
-
-Choosing the right encoding for your data can be tricky. It depends on what you want to show in your plot and how much information you want it to show
-
-  + Bar plots show less information than line plots in general, but they are good for cases when you have only one numeric variable and one categorical variable to show
-  + Line plots can show more information and includes multiple groups to add an additional dimension to your data, but they are not visually appealing when your data varies a lot from one category to another
-
-.pull-left[
-```{r echo=FALSE, out.width="100%"}
-ggplot(small_business_2019_all) +
-  aes(x = as.factor(taxperiod),
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month",
-       x = "Month",
-       y = "Georgian Lari") +
-  theme(plot.title = element_text(hjust = 0.5))
+# Using built-in `economics` dataset from ggplot2
+ggplot(economics) +
+  aes(x = date, y = unemploy) +
+  geom_line(color = "#9370DB", size = 1) +
+  labs(
+    title = "Unemployment Over Time",
+    x = "Date",
+    y = "Number of Unemployed"
+  ) +
+  theme_minimal()
 ```
 ]
 
 .pull-right[
-```{r echo=FALSE, out.width="100%"}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(legend.text = element_text(size = 7), # don't forget the comma!
-        axis.text.x=element_text(size=6))
+**Output Example**  
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+# Using built-in `economics` dataset from ggplot2
+ggplot(economics) +
+  aes(x = date, y = unemploy) +
+  geom_line(color = "#9370DB", size = 1) +
+  labs(
+    title = "Unemployment Over Time",
+    x = "Date",
+    y = "Number of Unemployed"
+  ) +
+  theme_minimal()
 ```
 ]
 
----
-
-class: inverse, center, middle
-name: text-encodings
-
-# Text encodings  
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Text encodings 
-
-- Geometric shapes such as bars and plots are not the only way to encode data in plots
-
-- We can also use text directly to represent information in the plot as in the example below. This is called **text encodings**
-
-- Text encodings can be combined with geometric encodings to highlight information or provide important additional details to your visualization
-
-```{r echo=FALSE}
-  df_month <- small_business_2019_all %>%
-    select(taxperiod, vat_liability) %>%
-    group_by(taxperiod) %>%
-    summarize(total = sum(vat_liability))
-```
-
-```{r echo=FALSE, out.width="57%"}
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    geom_text(aes(label = round(total)),
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Text encodings  
-
-- Using text encodings in a bar plot is nice
-
-- However, it also requires additional data wrangling: the data needs to be collapsed at the same level of the x-axis to be able to add encodings
-
-- We'll see this in the next exercise
-
-```{r echo=FALSE, out.width="57%"}
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    geom_text(aes(label = round(total)),
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Text encodings 
-
-## Exercise 3a: Collapse your data at the month level
-
-This is similar to what we did for exercise 2a, except that this time the collapsing is at month level instead of the month-group level. Use the code below to store the collapsed dataframe in `month_df`
-
-```{r eval=FALSE}
-df_month <- small_business_2019_all %>%
-    select(taxperiod, vat_liability) %>%
-    group_by(taxperiod) %>%
-    summarize(total = sum(vat_liability))
-```
-
----
-
-# Text encodings  
-
-This is the result, you can use `View(df_month)` to display it
-
-```{r echo = FALSE, out.width="55%"}
-knitr::include_graphics("img/session4/df-month.png")
-```
-
----
-
-# Text encodings  
-
-## Exercise 3b: Add encodings to your bar plot
-
-Use the collapsed dataframe `df_month` and the former code from exercise 1 to add encodings to your bar plot. The result is the code below:
-
-```{r eval=FALSE}
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    # Note that the text encodings are added here
-    geom_text(aes(label = total),
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Text encodings  
-
-This is result is nice but the text encodings have several decimal places. We can improve it by rounding `total` with the function `round()`
-
-```{r echo=FALSE, out.width="75%"}
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    # Note that the text encodings are added here
-    geom_text(aes(label = total),
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Text encodings  
-
-## Exercise 3c: Improve your plot once again
-
-Replace `total` with `round(total)` in `geom_text()`. The result should be:
-
-```{r eval=FALSE}
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    geom_text(aes(label = round(total)), # <--- the change goes here
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Text encodings  
-
-```{r echo=FALSE, out.width="75%"}
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    geom_text(aes(label = round(total)), # <--- the change goes here
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Text encodings 
-
-## Don't forget to save your plot!
-
-Use this code to save this last plot:
-
-```{r eval=FALSE}
-ggsave("vat_liability_small_2019_text.png",
-       width = 20,
-       height = 10,
-       units = "cm")
-```
-
----
-
-class: inverse, center, middle
-name: scatter-plots
-
-# Scatter plots 
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
----
-
-# Scatter plots  
-
-- We're going to explore one more type of encoding for data visualizations: **scatter plots**
-
-- Scatter plots are useful when you have two continuous numeric variables and want to show that there might to a correlation between them or visualize outliers (values that stand out from the rest because they are very extreme)
-
-- We use the encoding `geom_line()` for scatterplots
-
-```{r echo=FALSE, out.width="55%"}
-ggplot(small_business_2019_all) +
-  aes(x = age,
-      y = vat_liability) +
-  geom_point() +
-  labs(title = "VAT liability versus age for small businesses in 2019",
-       x = "Age of firm (years)",
-       y = "VAT liability") +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Scatter plots  
-
-## Exercise 4: Create a scatter plot
-
-Use the following code to reproduce the scatter plot of the last slide:
-
-```{r eval=FALSE}
-ggplot(small_business_2019_all) +
-  aes(x = age,
-      y = vat_liability) +
-  geom_point() +
-  labs(title = "VAT liability versus age for small businesses in 2019",
-       x = "Age of firm (years)",
-       y = "VAT liability") +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Scatter plots  
-
-```{r echo=FALSE, out.width="80%"}
-ggplot(small_business_2019_all) +
-  aes(x = age,
-      y = vat_liability) +
-  geom_point() +
-  labs(title = "VAT liability versus age for small businesses in 2019",
-       x = "Age of firm (years)",
-       y = "VAT liability") +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Scatter plots  
-
-Lastly, remember to save your scatter plot with:
-
-```{r eval=FALSE}
-ggsave("scatter_age_vat.png",
-       width = 20,
-       height = 10,
-       units = "cm"))
-```
 
 ---
 
@@ -942,9 +720,9 @@ name: wrapping-up
 
 # Wrapping up  
 
-## Other encodings in `ggplot2`
+## More in `ggplot2` 
 
-This table lists several of the most popular encoding types in `ggplot2`
+This table lists several of the most popular encoding types in `ggplot2`. Also see more [here](https://ggplot2.tidyverse.org/reference/)
 
 | Encoding | Function in `ggplot2` |
 | -------- | --------------------- |
@@ -972,40 +750,48 @@ knitr::include_graphics("img/session4/save.png")
 
 ---
 
-# Wrapping up 
+# Wrap-Up: Looking Ahead 🚀  
 
-## Data work pipeline
+## Key Takeaways  
 
-```{r echo = FALSE, out.width="95%"}
-knitr::include_graphics("img/session4/data-work-final.png")
-```
-
----
-
-# Wrapping up  
-
-## Looking ahead
-
-```{r echo = FALSE, out.width="95%"}
-knitr::include_graphics("img/session4/data-work-expanded.png")
-```
+- Today, you learned how **data + code** can create powerful visualizations and tables for your annual reports.  
+- **Why this matters:**  
+   - Code is **reusable**: Use it for next quarters or years without starting from scratch.  
+   - Code is **transparent**: Everyone can see and verify all the calculations.  
 
 ---
 
-# Wrapping up  
+# Wrap-Up: Looking Ahead 🚀  
 
-## Looking ahead
+## From Data to Annual Reports  
 
-- [Connecting R with SQL databases](https://solutions.posit.co/connections/db/getting-started/connect-to-database/). Some libraries:
-  + `dbConnect`
-  + `dbplyr`
-  + `DBI`
+.pull-center[
+**Data + Code** → **Annual Report**  
+![](img/data_code_report.png)  
+*Reproducible workflows save time and improve accuracy.*  
+]
 
-- [More on data wrangling](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/03-data-wrangling.html#1). More libraries:
-  + `tidyr`
-  + `janitor`
+## What’s Next?  
 
-- [More on data visualization](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/04-data-visualization.html#1)
+- **Tomorrow**: Bring your own data, graphs, or tables.  
+   - We’ll have a **long hands-on session** where you can:  
+     - Ask questions about how to code specific visualizations or tables.  
+     - Work with your own data to make real progress.  
+
+---
+
+# Wrap-Up: Looking Ahead 🚀  
+
+## Final Thoughts 💡  
+
+- This is **new and challenging**, but it’s also incredibly **powerful** and **useful**.  
+- The only way to get better is to **keep practicing**.  
+- Experiment, google/chatgpt-it, ask questions, and remember—this will make your reports clearer, faster, and less error-prone!  
+
+Keep going—you’ve got this! 
+
+![](https://media.giphy.com/media/kF9C1IrWKrltu/giphy.gif?cid=ecf05e47wy5wj5rjlofflyz9z3p0xgl9a7r5asamv89oy299&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
 
 ---
 
@@ -1014,3 +800,24 @@ class: inverse, center, middle
 # Thanks! // ¡Gracias! // Obrigado!
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+```{r echo = FALSE, out.width="60%"}
+knitr::include_graphics("img/session4/welcome-r.png")
+```
+
+---
+
+# Resources for Data Visualization 📚  
+
+## Learn More About ggplot2  
+
+- **ggplot2 Documentation**  
+  [ggplot2.tidyverse.org](https://ggplot2.tidyverse.org)  
+
+- **R Graphics Cookbook** (Online resource for practical examples)  
+  [r-graphics.org](https://r-graphics.org)  
+
+- **R for Data Science**: Chapter on Data Visualization  
+  [r4ds.had.co.nz](https://r4ds.had.co.nz/data-visualisation.html)  
+
+- **ggplot2 Cheatsheet** (Quick reference for all functions)  
+  [Download the cheatsheet here](https://github.com/rstudio/cheatsheets/raw/main/data-visualization-2.1.pdf)  

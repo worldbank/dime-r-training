@@ -1,125 +1,81 @@
 # Data
-small_business_2019_all <- read.csv("data/small_business_2019_all.csv")
+employees_by_department <- read.csv("data/employees_by_department.csv")
 
 # Exercise 1a
 library(ggplot2)
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
+
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
   geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month")
+  labs(title = "Number of employees by department, 2024")
 
 # Exercise 1b
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month",
-       # x-axis title
-       x = "Month",
-       # y-axis title
-       y = "Georgian Lari") +
-  # telling R not to break the x-axis
-  scale_x_continuous(breaks = 201901:201912) +
-  # centering plot title
-  theme(plot.title = element_text(hjust = 0.5))
-
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
+  geom_col(fill = "#9370DB") +
+  labs(
+    title = "Number of employees by department, 2024",
+    # x-axis title
+    x = "Department",
+    # y-axis title
+    y = "Number"
+  ) +
+  # Centering plot title
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotating x-axis labels
+  )
 # Exercise 1c
-ggsave("vat_liability_small_2019.png",
+
+ggplot(employees_by_department) +
+  aes(x = reorder(department, -number), y = number) + #<<  # Reorder bars by `number`
+  geom_col(fill = "#9370DB") +
+  geom_text( #<< 
+    aes(label = number), #<< 
+    angle = 90 #<< 
+  ) + #<< 
+  labs(
+    title = "Number of employees by department, 2024",
+    x = "Department",
+    y = "Number"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels
+  )
+
+# Exercise 1d
+ggsave("employees_by_department.png",
        width = 20,
        height = 10,
        units = "cm")
 
 # Exercise 2a
-df_group_month <- small_business_2019_all %>%
-  select(group, taxperiod, vat_liability) %>%
-  group_by(group, taxperiod) %>%
-  summarize(total = sum(vat_liability))
 
-# Exercise 2b
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(plot.title = element_text(hjust = 0.5))
+ggplot(employees_by_department) +
+  aes(x = "", y = number, fill = department) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Proportion of employees by department, 2024"
+  ) +
+  theme_void()
 
-# Exercise 2c
-  ggplot(df_group_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_line(aes(color = group)) +
-    labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(legend.text = element_text(size = 7),
-          axis.text.x = element_text(size = 6))
-  
-# Exercise 2d
-  ggsave("vat_liability_small_2019_by_group.png",
-         width = 20,
-         height = 10,
-         units = "cm")
+# Exercise 2b 
 
-# Exercise 3a
-df_month <- small_business_2019_all %>%
-  select(taxperiod, vat_liability) %>%
-  group_by(taxperiod) %>%
-  summarize(total = sum(vat_liability))
+ggplot(employees_by_department) +
+  aes(x = "", y = number, fill = department) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Proportion of employees by department, 2024"
+  ) +
+  theme_void() +
+  scale_fill_viridis_d(option = "D")
 
-# Exercise 3b
-ggplot(df_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_col() +
-  geom_text(aes(label = total),
-            position = position_dodge(width = 1),
-            vjust = -0.5,
-            size = 3) +
-  labs(title = "Total VAT liability of small businesses in 2019 by month",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(plot.title = element_text(hjust = 0.5))
+#Exercise 2c
 
-# Exercise 3c
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    geom_text(aes(label = round(total)),
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
+ggsave("employees_by_department_pie.png")
 
-# Saving
-ggsave("vat_liability_small_2019_text.png",
-       width = 20,
-       height = 10,
-       units = "cm")
-
-# Exercise 4
-  ggplot(small_business_2019_all) +
-    aes(x = age,
-        y = vat_liability) +
-    geom_point() +
-    labs(title = "VAT liability versus age for small businesses in 2019",
-         x = "Age of firm (years)",
-         y = "VAT liability") +
-    theme(plot.title = element_text(hjust = 0.5))
-
-# Saving
-  ggsave("scatter_age_vat.png",
-         width = 20,
-         height = 10,
-         units = "cm")
-  
