@@ -67,7 +67,7 @@ knitr::include_graphics("img/template.png")
 # Table of contents 
 
 1. [Introduction](#intro)
-1. [Data work and Statistical Programming](#data-work)
+1. [Government Analytics and Statistical Programming](#data-work)
 1. [Statistical Programming](#statistical-programming)
 1. [Writing R code](#writing-r-code)
 1. [Object Types](#object-types)
@@ -91,7 +91,7 @@ name: intro
 
 ## About this training
 
-- This is an **introduction** to data work and statistical programming in R
+- This is an **introduction** to government analytics and statistical programming in R
 
 - The training does not require any background in statistical programming
 
@@ -109,7 +109,7 @@ By the end of the training, you will know:
 
 - How to write **basic** R code
   
-- A notion of how to conduct data work in R and how it differentiates from Excel
+- A notion of how to conduct Government analytics in R and how it differentiates from Excel
 
 ![Description of GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWN5OHVrMjkwNHY4YTltZGlqcHhjM2pybmpudWN4YXJ4aDEzN3d0NCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/2IudUHdI075HL02Pkk/giphy.gif)
 
@@ -119,32 +119,32 @@ By the end of the training, you will know:
 class: inverse, center, middle
 name: data-work
 
-# Data work and Statistical Programming 
+# Government Analytics and Statistical Programming 
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Data work 
+# Government Analytics 
 
-For the context of this training, we'll call data work everything that:
+For the context of this training, we'll call Government analytics everything that:
 
 1. Starts with a data input
 1. Runs some process with the data
 1. Produces an output with the result
 
-```{r echo = FALSE, out.width="90%"}
+```{r echo = FALSE, out.width="70%"}
 knitr::include_graphics("img/session1/data-work.png")
 ```
 
 ---
 
-# Data work
+# Government Analytics
 
-- It's also possible to do data work with Excel
-- However, we will show in this training why using statistical programming (through R) is a better way of conducting data work
+- It's also possible to do Government analytics with Excel
+- However, we will show in this training why using statistical programming (through R) is a better way of conducting Government analytics
 
-```{r echo = FALSE, out.width="90%"}
+```{r echo = FALSE, out.width="70%"}
 knitr::include_graphics("img/session1/data-work-excel-r.png")
 ```
 
@@ -174,7 +174,7 @@ knitr::include_graphics("img/session1/code-workflow.png")
 # Statistical Programming 
 
 - Programming consists of producing instructions to a computer to do something
-- In the context of data work, that "something" is statistical analysis or mathematical operations
+- In the context of Government analytics, that "something" is statistical analysis or mathematical operations
 - Hence, statistical programming consists of producing instructions so our computers will conduct statistical analysis on data
 
 ```{r echo = FALSE, out.width="70%"}
@@ -467,7 +467,7 @@ knitr::include_graphics("img/session1/exercise2.png")
 
 ## R scripts
 
-- In other words: scripts contain the instructions you give to your computer when doing data work
+- In other words: scripts contain the instructions you give to your computer when doing Government analytics
 
 ```{r echo = FALSE, out.width="80%"}
 knitr::include_graphics("img/session1/data-work-script.png")
@@ -640,6 +640,8 @@ print(sum_example)
 ```
 
 
+❎In Excel: This is as when you have a column of numbers in Excel and want to calculate their total
+
 ---
 
 # Functions in R 
@@ -658,7 +660,7 @@ knitr::include_graphics("img/session1/sum-result.png")
 
 - We also know about objects and functions.
 
-- We haven't still introduced the data to our data work. That comes next
+- We haven't still introduced the data to our Government analytics. That comes next
 
 ![](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXg3NW5jd2MzY2ZweDlnbjI4c3dnMnI3dTVvbml0aTY3ampraDViYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y9XCVEKx02Q3tyHSD5/giphy.gif)
  
@@ -678,7 +680,7 @@ name: data-in-r
 
 ## Exercise 4: Loading data into R
 
- 1.- Go to this page: https://osf.io/2apht and download the file `department_staff_list.xlsx`
+ 1.- Go to this page: https://osf.io/g2ezw and download the file `department_staff_list.csv`
  
 ```{r echo = FALSE, out.width="60%"}
 knitr::include_graphics("img/session1/osf-screenshot.png")
@@ -692,7 +694,7 @@ knitr::include_graphics("img/session1/osf-screenshot.png")
 
 There are different ways of importing data to R, one is using the point and click. Let's start with that one. 
 
- 2.- In RStudio, go to `File` > `Import Dataset` > `From Excel` and select the file `department_staff_list.xlsx`
+ 2.- In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and select the file `department_staff_list.csv`
 
   + If you don't know where the file is, check in your `Downloads` folder
 
@@ -720,7 +722,7 @@ knitr::include_graphics("img/session1/downloads.png")
 
 5 - You will see that the second way to read it by code (using functions), and is what R is doing for you in the background. 
 
-```{r echo = FALSE, out.width="40%"}
+```{r echo = FALSE, out.width="30%"}
 knitr::include_graphics("img/session1/import3.png")
 ```
 
@@ -753,7 +755,7 @@ knitr::include_graphics("img/session1/environment2.png")
 
 # Data in R 
 
-- Since dataframes are also objects, we can refer to them with their names (exm: `department_staff_list.xlsx`)
+- Since dataframes are also objects, we can refer to them with their names (exm: `department_staff_list.csv`)
 
 - We'll see an example of that in the next exercise
 
@@ -768,8 +770,7 @@ knitr::include_graphics("img/session1/environment2.png")
 - Let's use another function to see what's in there
 
 ```{r, echo=FALSE, include=FALSE, message=FALSE}
-library("readxl")
-department_staff_list <- read_xlsx("data/department_staff_list.xlsx")
+department_staff_list <- read.csv("data/department_staff_list.csv")
 ```
 
 
@@ -781,19 +782,23 @@ glimpse(department_staff_list)
 
 # Data in R 
 
-## Exercise 5: Subset the data
+## Exercise 5: Using our data
 
-1. Use the following code to subset `department_staff_list` and leave only the observations who are "Female":
+Imagine you want to quickly find out all the distinct departments listed in your staff dataset. In ❎ Excel, you might manually scroll or use 'Remove Duplicates.' In R, you can use the unique() function for this purpose.
+
+1. Use the following code to find all the unique departments in `department_staff_list`:
 
 ```{r, echo=TRUE, include=TRUE, message=FALSE, warning=FALSE}
-df_female <- subset(department_staff_list, sex == "Female")
+unique_departments <- unique(department_staff_list$department)
+```
+  + Note that $ is used to access the `department` column from the dataset.
+  + Note that we are using the arrow operator (`<-`) to store the result
+  
+2.\ Use `print(unique_departments)`to display the unique departments:
+```{r, echo=TRUE, include=TRUE, message=FALSE, warning=FALSE}
+print(unique_departments)
 ```
 
-  + Note that we are using the arrow operator (`<-`) to store the result
-  + Note that there are **two equal signs** in the condition, not one
-  + Also note that you need to write `"Female"` enclosed in quotes and with uppercase `F`, because that's how it is in the data
-  
-2. Use `View(df_female)` to visualize the dataframe again and see how it changed (note the uppercase "V")
 
 ---
 
@@ -814,7 +819,7 @@ There is an important difference between using `<-` and not using it
 - Not using `<-` **simply displays the result** in the console. The input dataframe will remain unchanged and the result **will not be stored**
 
 ```{r}
-subset(department_staff_list, sex == "Female")
+unique(department_staff_list$department)
 ```
 ---
 
@@ -825,18 +830,18 @@ subset(department_staff_list, sex == "Female")
 - Using `<-` tells R that we want to **store the result in a new object**, which is the object at the left side of the arrow. This time the result will not be printed in the console but the new dataframe will show in the environment panel
 
 ```{r echo=FALSE, message=FALSE}
-department_staff_list <- read_xlsx("data/department_staff_list.xlsx")
+department_staff_list <- read.csv("data/department_staff_list.csv")
 ```
 
 ```{r, message=FALSE}
-df_female <- subset(department_staff_list, sex == "Female")
+unique_departments <- unique(department_staff_list$department)
 ```
 
 ---
 
 # Data in R 
 
-- R can store multiple dataframes in the environment. This is analogous to having different spreadsheets in the same Excel window
+- R can store multiple dataframes in the environment. This is analogous to having different spreadsheets in the same ❎Excel window
 
 - Always remember that dataframes are just objects in R. R differentiates which dataframe the code refers to with the dataframe name
 
@@ -905,7 +910,7 @@ knitr::include_graphics("img/session1/save.png")
 
 This first session focused on the basics for writing R code
 
-```{r echo = FALSE, out.width="90%"}
+```{r echo = FALSE, out.width="55%"}
 knitr::include_graphics("img/session1/session1.png")
 ```
 
@@ -916,7 +921,7 @@ knitr::include_graphics("img/session1/session1.png")
 
 In the next session we will learn how to get data ready to be exported as outputs
 
-```{r echo = FALSE, out.width="90%"}
+```{r echo = FALSE, out.width="60%"}
 knitr::include_graphics("img/session1/session2.png")
 ```
 

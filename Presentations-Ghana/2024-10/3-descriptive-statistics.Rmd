@@ -97,7 +97,7 @@ name: intro
 - However, sometime we might need more refined tables than simple (and ugly) csvs
 
 ```{r echo = FALSE, out.width="95%"}
-knitr::include_graphics("img/session3/data-work-descriptive-stats.png")
+knitr::include_graphics("img/session3/data-work-final-table.png")
 ```
 
 ---
@@ -107,7 +107,7 @@ knitr::include_graphics("img/session3/data-work-descriptive-stats.png")
 - That's what today's session is about, along with an introduction of the pipe (`%>%`)
 
 ```{r echo = FALSE, out.width="95%"}
-knitr::include_graphics("img/session3/data-work-descriptive-stats.png")
+knitr::include_graphics("img/session3/data-work-final-table.png")
 ```
 
 ---
@@ -166,7 +166,7 @@ library(dplyr)
 3. Load the data we will use. (remember our two methods point click and code)
 
 ```{r}
-department_staff <- read.csv("data/department_staff_final.csv")
+department_staff_final <- read.csv("data/department_staff_final.csv")
 ```
 
 
@@ -177,7 +177,7 @@ department_staff <- read.csv("data/department_staff_final.csv")
 ## Exercise 1b: Download and load the data we'll use
 
 .pull-left[
-1. Go to https://osf.io/z8snr and download the file
+1. Go to https://osf.io/zqa6j and download the file
 
 1. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and select the file `department_staff_final.csv`
 
@@ -211,7 +211,7 @@ knitr::include_graphics("img/session3/environment.png")
 - This is the data that we used yesterday! 
 
 ```{r, echo=TRUE}
-glimpse(department_staff)
+glimpse(department_staff_final)
 ```
 
 ---
@@ -399,9 +399,11 @@ department_female <- filter(department_staff_list, sex == "Female") %>%
 **Solution**
 
 ```{r eval=FALSE}
-department_female <- filter(department_staff, sex == "Female") %>% 
+department_female <- filter(department_staff_final, sex == "Female") %>% 
                      arrange(years_of_service)
 ```
+
+* Note: that our dataframe now is named `depatment_staf_final` (is the joined dataframe from yesterday's session)
 
 ---
 
@@ -704,6 +706,9 @@ Some notes:
 - The formula should always be defined as: rows ~ columns
 - The rows and columns in the formula are separated by a plus (`+`) sign
 
+
+In Excel ❎ you would need to calculate each of the statistics in a new table, by selecting the data and using the appropriate formula.
+
 ---
 
 # Customized summary statistics
@@ -811,11 +816,13 @@ knitr::include_graphics("img/session3/quick-stats-output.png")
 
 # Exporting tables 
 
-And you can open it with Excel for further customization if you want
+And you can open it with Excel for further customization if you want...
 
 ```{r echo = FALSE, out.width="65%"}
 knitr::include_graphics("img/session3/quick-stats-excel.png")
 ```
+
+- However... remember that any manual changes will be hard to track affecting the  reproducibility of your work. 
 
 ---
 

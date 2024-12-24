@@ -186,7 +186,7 @@ We'll use one package in today's session: `dplyr` (really useful library for dat
 
 # R packages
 
-Now that `dplyr` and `openxlsx ` are installed, we only need to load them to start using the functions they have.
+Now that `dplyr` is installed, we only need to load them to start using the functions they have.
 
 ## Exercise 3: Loading packages
 
@@ -250,7 +250,7 @@ name: data-wrangling
 
 ## Getting your data ready
 
-- Data wrangling is one of the most crucial and time-consuming aspects of data work
+- Data wrangling is one of the most crucial and time-consuming aspects of Government analytics
 
 - It involves not only coding, but also the mental exercise of thinking  what is the shape and condition that your dataframe needs to have in order to produce your desired output
 
@@ -283,13 +283,13 @@ Note that this part of this is the same exercise we did in session 1, but it's o
 1. Inyou new RStudio window, go to `File` &gt; `Import Dataset` &gt; `From Text(base)` and select again the file `department_staff_list.csv`
 
   + if you don't know where the file is, check in the `Downloads` folder
-  + if you need to download it again, it's here: https://osf.io/2apht 
+  + if you need to download it again, it's here: https://osf.io/g2ezw 
 
 1. Make sure to select `Heading` &gt; `Yes` in the next window
 
 1. Select `Import`
 
-1. Download this new file: https://osf.io/v6psa and repeat steps 1-3  with it
+1. Download this new file: https://osf.io/tvfyr and repeat steps 1-3  with it
 
 ]
 .pull-right[
@@ -317,10 +317,22 @@ Note that this part of this is the same exercise we did in session 1, but it's o
 
 
 ``` r
-department_staff_list &lt;- read.csv("C:/Users/wb614536/Downloads/department_staff_list.csv")
+department_staff_list &lt;-read.csv("C:/Users/wb614536/Downloads/department_staff_list.csv")
 ```
 
 - As usual, you need to save the result of `read.csv()` into a dataframe object with the arrow operator (`&lt;-`) for it to be stored in the environment
+
+---
+
+# Note on file paths 
+
+- A **file path** tells R where to find your file on your computer. It is like giving R the directions to your file.
+
+- If you downloaded the data and haven't moved it, the data path for the deparment_list dataset will be probably something like: `"C:/Users/wb614536/Downloads/department_staff_list.csv"`
+
+- You can find the path of a file by right-clicking&gt;properties&gt;and seeing the location, or by 
+
+&lt;img src="img/session2/path.png" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -372,7 +384,7 @@ glimpse(department_staff_age)
 
 - We will only use this second dataframe in one of the next exercises, but we load it now because it's in general a good practice to have data loaded into the memory so it's ready to be used.
 
-- For the next exercises, we will face mention scenarios that could show up in doing your annual reports on in day-to-day operations.
+- For the next exercises, we will propose scenarios that could show up while doing your annual reports or in day-to-day operations.
 
 - We will do everything using **functions** from the `dplyr` package, that is already in our environment. 
 
@@ -392,15 +404,17 @@ name: filtering-sorting
 &lt;img src="img/session2/filter.png" width="85%" style="display: block; margin: auto;" /&gt;
 
 
-## Data work request
+## Government analytics request
 
 **Scenario 1**: Imagine you want to include in the annual reports, the number of total female employees in the department staff:
+
+❎In Excel:  The command that we will learn here, is similar to using filter in Excel.
 
 ---
 
 # Filtering and sorting 
 
-## Data work request
+## Government analytics request
 
 .pull-left[
 *We will use the data from our dataframe department_staff_list*
@@ -415,12 +429,14 @@ name: filtering-sorting
 
 # Filtering and sorting 
 
-## Data work request
+## Government analytics request
 
 Now let's say that we are also interested at a first glance of the females that recently joined the department. We would have to do the following 
 
 1. Keeping only the female employees
 1. Sorting by years of service
+
+❎In Excel:  We would filter and then use arrange by years of service. 
 
 
 ---
@@ -532,7 +548,7 @@ Using our data frame let's say that we want to include a variable that instead o
 example_mutate &lt;-  mutate(department_staff_list, days_of_service = years_of_service*365)
 ```
 
-We will not use that variable for our datawork examples, but this is a really useful data wrangling function. 
+We will not use that variable for our government analytics examples, but this is a really useful data wrangling function. 
 
 ---
 
@@ -559,7 +575,7 @@ Merging data is a common task in data analysis, especially when working with dat
 
 Let's see how it would apply to our dataframes.
 
-## Data work request
+## Government analytics request
 
 **Scenario 2:**
 
@@ -569,7 +585,7 @@ Let's see how it would apply to our dataframes.
 
 # Merging dataframes
 
-## Data work request
+## Government analytics request
 
 .pull-left[
 *Use the data `department_staff_list` that you already know with the department_staff_age*
@@ -623,7 +639,7 @@ This is one of the most commons operations. Sometimes we want to calculate stati
 
 # Grouping and summarizing 
 
-## Data work request
+## Government analytics request
 
 **Let's say that we are interested again in the number of employees by department**
 
@@ -642,7 +658,7 @@ If we **only** do this, this won't do anything, to complete the function we need
 
 # Grouping and summarizing 
 
-## Data work request
+## Government analytics request
 
 summarize works in a similar way to mutate:
 
@@ -662,7 +678,7 @@ employees_by_department &lt;- summarise(temp1, number = n())
 ---
 # Grouping and summarizing 
 
-## Data work request
+## Government analytics request
 
 This will create the following dataframe/table:
 
@@ -717,7 +733,7 @@ name: exporting-outputs
 
 # Exporting outputs 
 
-- Until now, we've seen full examples of part 1 and 2 of the data work pipeline
+- Until now, we've seen full examples of part 1 and 2 of the Government analytics pipeline
 - What about exporting outputs?
 
 &lt;img src="img/session2/data-work-progress.png" width="90%" style="display: block; margin: auto;" /&gt;
@@ -812,7 +828,7 @@ name: wrapping-up
 
 # Wrapping up 
 
-## Data work pipeline
+## Government analytics pipeline
 
 &lt;img src="img/session2/data-work-final.png" width="85%" style="display: block; margin: auto;" /&gt;
 
@@ -820,7 +836,7 @@ name: wrapping-up
 
 # Wrapping up 
 
-## Data work pipeline
+## Government analytics pipeline
 
 &lt;img src="img/session2/data-work-day-2.png" width="85%" style="display: block; margin: auto;" /&gt;
 

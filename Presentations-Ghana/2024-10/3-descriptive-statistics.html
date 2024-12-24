@@ -80,7 +80,7 @@ name: intro
 - We learned yesterday how to conduct statistical programming and export the results in `.csv` files
 - However, sometime we might need more refined tables than simple (and ugly) csvs
 
-&lt;img src="img/session3/data-work-descriptive-stats.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session3/data-work-final-table.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -88,7 +88,7 @@ name: intro
 
 - That's what today's session is about, along with an introduction of the pipe (`%&gt;%`)
 
-&lt;img src="img/session3/data-work-descriptive-stats.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session3/data-work-final-table.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -143,7 +143,7 @@ library(dplyr)
 
 
 ``` r
-department_staff &lt;- read.csv("data/department_staff_final.csv")
+department_staff_final &lt;- read.csv("data/department_staff_final.csv")
 ```
 
 
@@ -154,7 +154,7 @@ department_staff &lt;- read.csv("data/department_staff_final.csv")
 ## Exercise 1b: Download and load the data we'll use
 
 .pull-left[
-1. Go to https://osf.io/z8snr and download the file
+1. Go to https://osf.io/zqa6j and download the file
 
 1. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `department_staff_final.csv`
 
@@ -185,7 +185,7 @@ You should have one dataframe loaded in the environment after this.
 
 
 ``` r
-glimpse(department_staff)
+glimpse(department_staff_final)
 ```
 
 ```
@@ -392,9 +392,11 @@ department_female &lt;- filter(department_staff_list, sex == "Female") %&gt;%
 
 
 ``` r
-department_female &lt;- filter(department_staff, sex == "Female") %&gt;% 
+department_female &lt;- filter(department_staff_final, sex == "Female") %&gt;% 
                      arrange(years_of_service)
 ```
+
+* Note: that our dataframe now is named `depatment_staf_final` (is the joined dataframe from yesterday's session)
 
 ---
 
@@ -694,6 +696,9 @@ Some notes:
 - The formula should always be defined as: rows ~ columns
 - The rows and columns in the formula are separated by a plus (`+`) sign
 
+
+In Excel ❎ you would need to calculate each of the statistics in a new table, by selecting the data and using the appropriate formula.
+
 ---
 
 # Customized summary statistics
@@ -802,9 +807,11 @@ Now the result will show in your `Documents` folder
 
 # Exporting tables 
 
-And you can open it with Excel for further customization if you want
+And you can open it with Excel for further customization if you want...
 
 &lt;img src="img/session3/quick-stats-excel.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+- However... remember that any manual changes will be hard to track affecting the  reproducibility of your work. 
 
 ---
 
