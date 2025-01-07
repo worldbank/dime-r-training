@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Session 4 - Data visualization</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Luis Eduardo San Martin" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Session 4 - Data visualization
+]
+.subtitle[
+## R training - Georgia RS-WB DIME
+]
+.author[
+### Luis Eduardo San Martin
+]
+.date[
+### The World Bank | September 2023
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+&lt;/style&gt;
+
+# Table of contents // სარჩევი
+
+- [Introduction](#intro)
+- [The grammar of graphics](#grammar-of-graphics)
+- [Bar plots](#bar-plots)
+- [Line plots](#line-plots)
+- [Text encodings](#text-encodings)
+- [Scatter plots](#scatter-plots)
+- [Wrapping up](#wrapping-up)
+
+---
+
+class: inverse, center, middle
+name: intro
+
+# Introduction // გაცნობა
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Introduction // გაცნობა
+
+## About this session
+
+&lt;img src="img/session4/data-work-data-vis.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Introduction // გაცნობა
+
+## Data visualization in the data work pipeline
+
+- Compared to other kind of outputs, data visualization involves an extra step after data wrangling: producing the visualization itself
+
+- We also us R code to produce data visualizations
+
+- The input for that code is a wrangled dataframe, dataframe that is ready to be used
+
+&lt;img src="img/session4/data-vis.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Introduction // გაცნობა
+
+## Data visualization in R
+
+.pull-left[
+- We'll use the package `ggplot2` to create data visualizations
+
+- `ggplot2` greatly facilitates producing plots in R
+
+  + It follows a syntax based on a description of the plot you want to obtain
+  
+  + This syntax is called **grammar of graphics**, a benchmark method of data visualization definition in statistical programming
+]
+
+.pull-right[
+&lt;img src="img/session4/ggplot2.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+name: grammar-of-graphics
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics3x.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics3y.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics4gc.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics4l.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+name: bar-plots
+
+# Bar plots // ბარის ნაკვეთები
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+## Exercise 1a: Create a basic bar plot
+
+1. Open a new script for this session by clicking on `File` &gt;&gt; `New File` &gt;&gt; `R Script`
+
+1. Load `ggplot2`
+
+
+```r
+library(ggplot2)
+```
+
+1. Produce a basic bar plot with the following code:
+
+
+```r
+ggplot(small_business_2019_all) +
+  aes(x = taxperiod,
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month")
+```
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+
+
+This result should be displayed in the lower right panel of your RStudio window
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+This plot looks acceptable but it can be improved:
+
+.pull-left[
+- `taxperiod` is a variable representing months but R doesn't know it and it's showing the x-axis with decimals. We need to tell R that those values shouldn't be changed
+
+- We can center the title
+
+- We should add axis labels (instead of just "vat_liability" and "taxperiod") 
+]
+
+.pull-right[
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+## Exercise 1b: Improve your bar plot
+
+1. Use the following code to improve the aesthetics of your plot
+
+
+```r
+ggplot(small_business_2019_all) +
+  aes(x = taxperiod,
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month",
+       # x-axis title
+       x = "Month",
+       # y-axis title
+       y = "Georgian Lari") +
+  # telling R not to break the x-axis
+  scale_x_continuous(breaks = 201901:201912) +
+  # centering plot title
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+Now this looks better:
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+## Exercise 1c: save your plot
+
+Now that your plot looks good, you can save it into an output with `ggsave()`
+
+1. Use this code to save your plot:
+
+
+```r
+ggsave("vat_liability_small_2019.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+.pull-left[
+- `ggsave()` by default saves the last plot your produced
+
+- The first argument in `ggsave()` is the name of the file we save the plot into. We can also use file paths here
+
+- The rest are optional arguments that define the dimensions of the image you export, it's better to define them so the image has the correct proportions and text size
+]
+
+.pull-right[
+&lt;img src="img/session4/ggsave-ex1.png" width="95%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+## A note about syntax
+
+- Data visualization usually requires several iterations to add new elements to your initial code and improve your plot
+
+- `ggplot2` adds new elements to a visualization with the symbol `+`
+
+- More customization means that your code can easily become quite long. Using spaces and line breaks helps for clarity, but **there is just no way around it**
+
+- In programming this is known as **heavy syntax**
+
+.pull-left[
+.small[
+
+```r
+# Exercise 1:
+ggplot(small_business_2019_all) +
+  aes(x = taxperiod,
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month")
+```
+]
+]
+
+.pull-right[
+.small[
+
+```r
+# Exercise 2
+ggplot(small_business_2019_all) +
+  aes(x = as.factor(taxperiod),
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month",
+       x = "Month",
+       y = "Georgian Lari") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+]
+]
+
+---
+
+class: inverse, center, middle
+name: line-plots
+
+# Line plots // ხაზის ნაკვეთები
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+- In data visualization, we call **encodings** to the geometry selected to represent the data visually
+
+- In the previous examples, we did that when we used `geom_col()`. This tells R that our encoding to represent the data is **bars** (also called columns)
+
+- `ggplot2` has several different options for encodings in data visualization, for example: **lines**
+
+- The encoding for lines in `ggplot2` is `geom_lines()`
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+- Line plots are a nice option to encode numeric values and include different categories of a second variable at the same time
+
+
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-23-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+- However, they also usually require some additional data wrangling compared to bar plots: data should be collapsed at the level specified in the x-axis and grouping variable
+
+- This is going to be clearer in the next exercise. The plot we'll produce is below
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-24-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+## Exercise 2a: Collapse your data at the month-group level
+
+Use the following code to create a dataframe collapsed at the month-group level and calculate the total VAT liability for each group in each month
+
+
+```r
+df_group_month &lt;- small_business_2019_all %&gt;%
+  select(group, taxperiod, vat_liability) %&gt;%
+  group_by(group, taxperiod) %&gt;%
+  summarize(total = sum(vat_liability))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+.pull-left[
+The result will look like this, you can explore it with `View(df_group_month)`.
+]
+
+.pull-right[
+&lt;img src="img/session4/df-group-month.png" width="85%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+## Exercise 2b: Create a line plot of VAT liability by month and group
+
+
+```r
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+Your result possibly looks like this:
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-28-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+Something looks off, doesn't it? We need to **make the legend labels and x-axis texts smaller** for them without overlapping each other and to **remove the centering of the title** so it's not cropped
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-29-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+## Exercise 2c: Continue improving your plot
+
+1. Add the argument `legend.text=element_text(size=7)` inside `theme()` to decrease the legend text size
+1. Add the argument `axis.text.x=element_text(size=6)` inside `theme()` to decrease the x-axis text size
+  + note that both arguments need to be separated by a comma
+1. Remove `plot.title = element_text(hjust = 0.5)` from `theme()` to remove the centering of the plot title
+
+The result should be this:
+
+```{eval=FALSE}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(legend.text = element_text(size = 7), # don't forget the comma!
+        axis.text.x=element_text(size=6))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-30-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+## Exercise 2d: save your plot
+
+Use this code to save your plot:
+
+
+```r
+ggsave("vat_liability_small_2019_by_group.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+&lt;img src="img/session4/ggsave-ex2.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+Choosing the right encoding for your data can be tricky. It depends on what you want to show in your plot and how much information you want it to show
+
+  + Bar plots show less information than line plots in general, but they are good for cases when you have only one numeric variable and one categorical variable to show
+  + Line plots can show more information and includes multiple groups to add an additional dimension to your data, but they are not visually appealing when your data varies a lot from one category to another
+
+.pull-left[
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-33-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+name: text-encodings
+
+# Text encodings // ტექსტური დაშიფვრები
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+- Geometric shapes such as bars and plots are not the only way to encode data in plots
+
+- We can also use text directly to represent information in the plot as in the example below. This is called **text encodings**
+
+- Text encodings can be combined with geometric encodings to highlight information or provide important additional details to your visualization
+
+
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-36-1.png" width="57%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+- Using text encodings in a bar plot is nice
+
+- However, it also requires additional data wrangling: the data needs to be collapsed at the same level of the x-axis to be able to add encodings
+
+- We'll see this in the next exercise
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-37-1.png" width="57%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+## Exercise 3a: Collapse your data at the month level
+
+This is similar to what we did for exercise 2a, except that this time the collapsing is at month level instead of the month-group level. Use the code below to store the collapsed dataframe in `month_df`
+
+
+```r
+df_month &lt;- small_business_2019_all %&gt;%
+    select(taxperiod, vat_liability) %&gt;%
+    group_by(taxperiod) %&gt;%
+    summarize(total = sum(vat_liability))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+This is the result, you can use `View(df_month)` to display it
+
+&lt;img src="img/session4/df-month.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+## Exercise 3b: Add encodings to your bar plot
+
+Use the collapsed dataframe `df_month` and the former code from exercise 1 to add encodings to your bar plot. The result is the code below:
+
+
+```r
+  ggplot(df_month) +
+    aes(x = taxperiod,
+        y = total) +
+    geom_col() +
+    # Note that the text encodings are added here
+    geom_text(aes(label = total),
+              position = position_dodge(width = 1),
+              vjust = -0.5,
+              size = 3) +
+    labs(title = "Total VAT liability of small businesses in 2019 by month",
+         x = "Month",
+         y = "Georgian Lari") +
+    scale_x_continuous(breaks = 201901:201912) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+This is result is nice but the text encodings have several decimal places. We can improve it by rounding `total` with the function `round()`
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-41-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+## Exercise 3c: Improve your plot once again
+
+Replace `total` with `round(total)` in `geom_text()`. The result should be:
+
+
+```r
+  ggplot(df_month) +
+    aes(x = taxperiod,
+        y = total) +
+    geom_col() +
+    geom_text(aes(label = round(total)), # &lt;--- the change goes here
+              position = position_dodge(width = 1),
+              vjust = -0.5,
+              size = 3) +
+    labs(title = "Total VAT liability of small businesses in 2019 by month",
+         x = "Month",
+         y = "Georgian Lari") +
+    scale_x_continuous(breaks = 201901:201912) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-43-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+## Don't forget to save your plot!
+
+Use this code to save this last plot:
+
+
+```r
+ggsave("vat_liability_small_2019_text.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
+
+---
+
+class: inverse, center, middle
+name: scatter-plots
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+- We're going to explore one more type of encoding for data visualizations: **scatter plots**
+
+- Scatter plots are useful when you have two continuous numeric variables and want to show that there might to a correlation between them or visualize outliers (values that stand out from the rest because they are very extreme)
+
+- We use the encoding `geom_line()` for scatterplots
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-45-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+## Exercise 4: Create a scatter plot
+
+Use the following code to reproduce the scatter plot of the last slide:
+
+
+```r
+ggplot(small_business_2019_all) +
+  aes(x = age,
+      y = vat_liability) +
+  geom_point() +
+  labs(title = "VAT liability versus age for small businesses in 2019",
+       x = "Age of firm (years)",
+       y = "VAT liability") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-47-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+Lastly, remember to save your scatter plot with:
+
+
+```r
+ggsave("scatter_age_vat.png",
+       width = 20,
+       height = 10,
+       units = "cm"))
+```
+
+---
+
+class: inverse, center, middle
+name: wrapping-up
+
+# Wrapping up // შეფუთვა
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Other encodings in `ggplot2`
+
+This table lists several of the most popular encoding types in `ggplot2`
+
+| Encoding | Function in `ggplot2` |
+| -------- | --------------------- |
+| Bars | `geom_col()` |
+| Lines | `geom_line()` |
+| Points (scatterplot) | `geom_point()` |
+| Area | `geom_area()` |
+| Histogram | `geom_histogram()` |
+| Floating labels (texts) | `geom_text()` |
+| Box plot | `geom_boxplot()` |
+| Pie chart | `geom_bar() + coord_polar()` |
+| Smoothed line | `geom_smooth()` |
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Save your code!
+
+Click on the floppy disk to save your code in a location that you will remember.
+
+&lt;img src="img/session4/save.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Data work pipeline
+
+&lt;img src="img/session4/data-work-final.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Looking ahead
+
+&lt;img src="img/session4/data-work-expanded.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Looking ahead
+
+- [Connecting R with SQL databases](https://solutions.posit.co/connections/db/getting-started/connect-to-database/). Some libraries:
+  + `dbConnect`
+  + `dbplyr`
+  + `DBI`
+
+- [More on data wrangling](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/03-data-wrangling.html#1). More libraries:
+  + `tidyr`
+  + `janitor`
+
+- [More on data visualization](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/04-data-visualization.html#1)
+
+---
+
+class: inverse, center, middle
+
+# Thanks! // მადლობა! // ¡Gracias! // Obrigado!
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

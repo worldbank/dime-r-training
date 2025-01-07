@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Sessão 1 - Introdução ao R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Luis Eduardo San Martin" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/remark-css/default.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis.css" type="text/css" />
+    <link rel="stylesheet" href="libs/remark-css/metropolis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Sessão 1 - Introdução ao R
+]
+.subtitle[
+## Treinamento em R- SEFAZ RGS -WB DIME
+]
+.author[
+### Luis Eduardo San Martin
+]
+.date[
+### The World Bank | Fevereiro 2025
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+&lt;/style&gt;
+
+# Tabela de Conteúdos
+
+1. [Introdução](#intro)  
+1. [Trabalho com dados e programação estatística](#data-work)  
+1. [Programação estatística](#statistical-programming)  
+1. [Escrevendo código em R](#writing-r-code)  
+1. [Dados no R](#data-in-r)  
+1. [Tipos de objetos](#object-types)  
+1. [Funções no R](#functions-in-r)  
+1. [Concluindo](#wrapping-up)  
+1. [Apêndice](#appendix)  
+
+
+---
+
+class: inverse, center, middle
+name: intro
+
+# Introdução
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Introdução
+
+## Sobre este treinamento
+
+- Esta é uma **introdução** ao trabalho com dados e programação estatística em R
+
+- O treinamento não exige nenhum conhecimento prévio em programação estatística
+
+- É necessário um computador com R e RStudio instalados para completar os exercícios
+
+- Conexão com a internet é necessária para baixar os materiais do treinamento
+
+---
+
+# Introdução
+
+## Objetivos de aprendizado
+
+Ao final do treinamento, você saberá:
+
+- Como abordar o trabalho com dados por meio da programação estatística utilizando R e RStudio
+
+- Como aplicar manipulação de dados e criar resultados com estatísticas descritivas e visualização de dados, desenvolvendo e executando código R reproduzível
+
+---
+
+class: inverse, center, middle
+name: data-work
+
+# 
+Trabalho com dados e programação estatística
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Trabalho com dados
+
+Para o contexto deste treinamento, chamaremos de trabalho com dados tudo aquilo que:
+
+1. Começa com uma entrada de dados
+2. Realiza algum processo com os dados
+3. Produz uma saída com o resultado
+
+&lt;img src="img/session1/data-work.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Programação estatística
+
+- Programação consiste em produzir instruções para um computador realizar algo
+
+- No contexto do trabalho com dados, esse "algo" é análise estatística ou operações matemáticas
+
+- Portanto, programação estatística consiste em produzir instruções para que nossos computadores realizem análise estatística sobre os dados
+
+&lt;img src="img/session1/data-work-with-instructions.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Programação estatística
+
+- Você pode pensar na programação estatística como escrever uma receita
+
+&lt;img src="img/session1/data-work-and-cooking.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Programação estatística
+
+## Por que usar o R?
+
+.pull-left[
+- A programação estatística pode ser implementada através de diversos softwares. Outras opções são Stata e Python
+- Recomendamos o uso do R por estes motivos:
+  + O R é gratuito
+  + O R foi desenvolvido especificamente para programação estatística
+  + Existe uma grande comunidade mundial de usuários de R. Isso significa que você pode facilmente buscar ajuda ou exemplos de código na internet
+]
+
+.pull-right[
+&lt;img src="img/session1/software-logos.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Programação estatística
+
+## Como escrever código em R?
+
+- O restante da sessão de hoje foca nos conceitos básicos de escrita de código em R
+
+- Usaremos o RStudio para escrever o código em R neste treinamento
+
+---
+
+# Programação estatística
+
+## Como escrever código em R?
+
+- Agora abra o RStudio em seu computador
+
+- Por favor, certifique-se de que está abrindo o RStudio e não o R
+
+&lt;img src="img/session1/r-rstudio.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Programação estatística
+
+## Como escrever código em R?
+
+- Agora abra o RStudio em seu computador
+
+- Por favor, certifique-se de que está abrindo o RStudio e não o R
+
+&lt;img src="img/session1/rstudio.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Dúvidas?
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+class: inverse, center, middle
+name: writing-r-code
+
+# Escrevendo código em R
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Escrevendo código em R
+
+## RStudio interface
+
+&lt;img src="img/session1/rstudio-panels.png" width="74%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Escrevendo código em R
+
+## Exercício 1: escrevendo código no console
+
+1. Escreva o seguinte código no console do RStudio
+  + print("Oi!")
+  + Certifique-se de incluir as aspas: " "
+
+2. Pressione Enter para rodar o código
+
+&lt;img src="img/session1/console.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Escrevendo código em R
+
+&lt;img src="img/session1/exercise1-2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Escrevendo código em R
+## Exercício 2: escrevendo um script curto
+
+.pull-left[
+1- Escreva ou copie o seguinte texto na seção de script do RStudio:
+
+
+```r
+x1 &lt;- 100
+x2 &lt;- 50
+x3 &lt;- x1 + x2
+print(x3)
+```
+  
+2- Selecione o texto que você introduziu com o mouse
+
+3- Pressione "Run"
+]
+.pull-right[
+&lt;img src="img/session1/script.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+# Escrevendo código em R
+
+&lt;img src="img/session1/exercise2.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Escrevendo código em R
+
+## R scripts
+
+.pull-left[
+- Escrever e executar código no console fará com que ele seja executado imediatamente
+]
+
+.pull-right[
+&lt;img src="img/session1/exercise1-2.png" width="110%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Escrevendo código em R
+
+## R scripts
+
+.pull-left[
+- Escrever e executar código no console fará com que ele seja executado imediatamente
+
+- Escrever código no painel de script nos permite escrever várias linhas de código e executá-las depois
+
+  + Cada linha é executada na ordemr
+  
+  + A linha e os resultados aparecerão no console
+  
+- **Importante**: para o restante do treinamento, lembre-se de sempre introduzir seu código no script (e não no console) para que você possa manter um registro do que fez
+]
+
+.pull-right[
+&lt;img src="img/session1/exercise2.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Escrevendo código em R
+
+
+## R scripts
+
+- Em outras palavras: os scripts contêm as instruções que você dá ao seu computador ao realizar o trabalho com dados
+&lt;img src="img/session1/data-work-script.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Escrevendo código em R
+
+## Criando objetos no R
+
+- Lembra do painel de ambiente que mencionamos? É lá que o R mantém o controle dos objetos
+
+- Objetos são representações dos dados que existem atualmente na memória do R
+
+  + Um único número pode ser um objeto
+  + Uma palavra pode ser um objeto
+  + Até mesmo um arquivo de dados inteiro pode ser um objeto
+
+- Criamos objetos no R com o operador de seta (`&lt;-`)
+
+- No exercício 2, criamos objetos cada vez que usamos `&lt;-`
+
+- Depois que um objeto é criado, podemos nos referir a ele usando seu nome:
+
+
+
+
+```r
+print(x3 + 8)
+```
+
+```
+## [1] 158
+```
+
+---
+
+# Escrevendo código em R
+
+## Criando objetos no R
+
+- Após a criação de qualquer objeto, ele aparecerá no painel de ambiente
+
+&lt;img src="img/session1/environment.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Escrevendo código em R
+
+- Agora sabemos como usar o RStudio para escrever código em R e criar scripts
+
+- Ainda não introduzimos os dados no nosso trabalho com dados. Isso vem a seguir
+
+---
+
+class: inverse, center, middle
+name: data-in-r
+
+# Dados no R
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Dados no R
+
+## Exercício 3: Carregando dados no R
+
+ 1.- Vá para esta página: https://osf.io/2apht e baixe o arquivo `small_business_2019_br.csv` &lt;span style="color:red"&gt; WE NEED TO UPDATE THIS DIRECTORY.&lt;/span&gt;
+ 
+&lt;img src="img/session1/osf-screenshot.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+
+## Exercício 3: Carregando dados no R
+
+ 2.No RStudio, vá em `File` &gt; `Import Dataset` &gt; `From Text (base)` e selecione o arquivo  `small_business_2019_br.csv`
+
+  + Se você não souber onde está o arquivo, verifique na sua pasta `Downloads`
+
+.pull-left[
+&lt;img src="img/session1/import_data1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="img/session1/downloads-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Dados no R
+
+## Exercício 3: Carregando dados no R
+
+3 - Certifique-se de selecionar `Heading` &gt; `Yes` na próxima janela
+
+4 - Selecione `Import`
+
+&lt;img src="img/session1/import3-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+
+- Se você fez isso corretamente, perceberá que um visualizador dos dados agora aparece no RStudio
+- Você pode clicar no `x` o lado de `small_business_2019_br` para voltar ao script 
+- Para abrir o visualizador novamente, use o código: `View(small_business_2019_br)` (note o "V" maiúsculo)
+
+&lt;img src="img/session1/data-viewer-br.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+
+- Além disso, agora você verá um objeto chamado `small_business_2019_br` no seu painel de ambiente
+
+&lt;img src="img/session1/environment2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+
+- Lembra que mencionamos os objetos antes? Para o R, `small_business_2019_br` é um objeto assim como `x1`, `x2`, ou `x3`
+
+- A diferença é que `small_business_2019_br` não é um único número como `x1`, mas uma coleção de valores numéricos semelhantes a uma planilha do Excel. No R, esse tipo de objeto é chamado **dataframes**
+
+- A partir de agora, vamos nos referir aos dados carregados no R como **dataframes**
+
+&lt;img src="img/session1/environment2.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+
+- Como os dataframes também são objetos, podemos nos referir a eles pelos seus nomes (exm: `small_business_2019_br`)
+
+- Veremos um exemplo disso no próximo exercício
+
+---
+
+# Dados no R
+
+## A note about this dataframe
+
+Compreender os dados que você usa é muito importante. Para este treinamento, `small_business_2019_br` é um dataframe de exemplo com dados de receita de negócios para 2019
+
+- `modified_id` é o identificador do negócio
+- `region` é a região onde o negócio está localizado
+- `income` é a receita que o negócio reportou em 2019
+
+&lt;img src="img/session1/data-viewer-br.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+
+## Exercício 4: Subconjunto de dados
+
+1. Use o seguinte código para criar um subconjunto de `small_business_2019_br` mantendo apenas as observações na região chamada:  "Pelotas": `df_pelotas &lt;- subset(small_business_2019_br, region == "Pelotas")`
+
+  + Note que estamos usando o operador de seta (`&lt;-`) para armazenar o resultado
+  + Note que há **dois sinais de igual** na condição, não um
+  + Também note que você precisa escrever `"Pelotas"` entre aspas e com a letra `P`, pois é assim que está nos dados
+  
+2. Use `View(df_pelotas)` para visualizar o dataframe novamente e ver como ele mudou (note a letra maiúscula "V")
+
+---
+
+# Dados no R
+
+&lt;img src="img/session1/data-viewer2-br.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+## Armazenando resultados no R
+
+Há uma diferença importante entre usar  `&lt;-` e não usá-lo
+
+-Não usar `&lt;-` **simplesmente exibe o resultado no console**. O dataframe de entrada permanecerá inalterado e o resultado **não será armazenado**
+
+
+```r
+subset(small_business_2019_br, region == "Pelotas")
+```
+
+&lt;img src="img/session1/console-subset-br.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+
+## Armazenando resultados no R
+
+- Using `&lt;-` informa ao R que queremos armazenar o resultado em **um novo objeto**, que é o objeto à esquerda da seta. Dessa vez, o resultado não será impresso no console, mas o novo dataframe aparecerá no painel de ambiente
+
+
+
+
+```r
+df_pelotas &lt;- subset(small_business_2019_br, region == "Pelotas")
+```
+
+&lt;img src="img/session1/environment3-br.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dados no R
+
+- O R pode armazenar múltiplos dataframes no ambiente. Isso é análogo a ter diferentes planilhas na mesma janela do Excel.
+
+- Lembre-se sempre de que dataframes são apenas objetos no R. O R diferencia a qual dataframe o código se refere pelo nome do dataframe.
+
+&lt;img src="img/session1/multiple-dataframes-br.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+name: object-types
+
+# Tipos de objetos no R
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Tipos de objetos no R
+
+- Os objetos no seu ambiente possuem diferentes tipos, dependendo do tipo de dado que representam.
+
+- Diferentes tipos de objetos permitem aplicar diferentes operações a eles ou aplicar a mesma operação de maneira diferente.
+---
+
+# Tipos de objetos no R
+
+- Você pode sempre verificar o tipo de um objeto com a função `class()`
+
+
+
+
+```r
+class(x1)
+```
+
+```
+## [1] "numeric"
+```
+
+
+```r
+class(df_pelotas)
+```
+
+```
+## [1] "data.frame"
+```
+---
+
+# Tipos de objetos no R
+
+Até agora, trabalhamos com duas classes de objetos:
+
+- **Numérico:** valores numéricos únicos que podemos usar em operações matemáticas. Os objetos `x1`, `x2`, and `x3` são numéricos. Eles são semelhantes aos valores que você armazenaria em uma célula única do Excel
+
+- **Dataframe:** uma coleção de valores organizados em linhas e colunas. `small_business_2019_br` and `df_pelotas` são dataframes. Eles são semelhantes a uma planilha do Excel.
+
+No próximo exercício, aprenderemos sobre outro tipo de objeto.
+
+---
+
+# Tipos de objetos no R
+
+## Vectors
+
+-Vetores são uma coleção de valores com **uma única dimensão**, em vez de serem organizados em linhas e colunas como dataframes
+
+- Você pode pensar em um vetor no R como uma única coluna em uma planilha do Excel ou em um dataframe do R
+
+- Você pode criar vetores com a função `c()`, e os elementos do vetor são separados por vírgulas.
+
+
+```r
+my_vector &lt;- c(4, 8, 2, 5)
+```
+
+---
+
+# Tipos de objetos no R
+
+## Exercício 5: criar e operar vetores
+
+1- Crie um vetor com os elementos 3, 8 e 10 e nomeie-o como `v1`:
+
+
+```r
+v1 &lt;- c(3, 8, 10)
+```
+
+2- Crie um segundo vetor com os elementos 7, 2 e 5 e nomeie-o como `v2`
+
+
+```r
+v2 &lt;- c(7, 2, 5)
+```
+
+3- Crie um terceiro vetor chamado `result1` om a soma de `v1` e `v2`:
+
+
+```r
+result1 &lt;- v1 + v2
+```
+
+4- Por fim, crie um quarto vetor chamado `result2` om a soma de `v2` mais dez:
+
+
+```r
+result2 &lt;- v2 + 10
+```
+
+5- Print `result1` and `result2` and observe the results
+
+---
+
+# Tipos de objetos no R
+
+&lt;img src="img/session1/ex5-br.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Tipos de objetos no R
+
+&lt;img src="img/session1/ex5-2-br.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Tipos de objetos no R
+
+Observe duas coisas:
+
+1.- Operar com dois vetores aplica a operação **elemento por elemento** &lt;span style="color:red"&gt; (CHECK TRANSLATION FROM element-wise**)&lt;/span&gt; 
+
+&lt;img src="img/session1/element-wise-vector.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+2.- Operar um vetor com um objeto numérico **aplicará a mesma operação a cada elemento do vetor**
+
+&lt;img src="img/session1/same-operation-vector.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+name: functions-in-r
+
+# Funções no R
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Funções no R
+
+- Funções são como aplicamos operações a objetos no R
+
+- Usamos algumas funções nos exercícios anteriores. Por exemplo, `subset()` e`paste()` são funções
+
+- Tudo o que tem um nome seguido de parênteses é uma função no R
+
+
+&lt;img src="img/session1/function.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Funções no R
+
+As funções têm a seguinte sintaxe:
+
+&lt;img src="img/session1/function-syntax-br.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+- **Nome da função:** o nome que usamos para chamar uma função. Ele fica antes dos parênteses.
+
+- **Argumentos:** entradas e especificações para a função ser aplicada.
+
+  + Os argumentos ficam dentro dos parênteses.
+  + O primeiro argumento é o objeto sobre o qual a função será aplicada.
+
+---
+
+# Funções no R
+
+- O resultado de uma função pode sempre ser armazenado em um objeto utilizando o operador de seta (`&lt;-`)
+
+&lt;img src="img/session1/function-stored-br.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+- Como vimos anteriormente, os resultados de uma função só serão impressos no console se você não os armazenar
+
+---
+
+# Funções no R
+
+## Exercício 6: Usando a função `summary()`
+
+1. Calcule as estatísticas descritivas das variáveis de  `small_business_2019_br` e armazene o resultado com `summary_table &lt;- summary(small_business_2019_br)`
+
+2. Imprima o resultado armazenado com `print(summary_table)`
+
+---
+
+# Funções no R
+
+Observe que este código está tanto criando um novo objeto (com `summary_table &lt;- summary(small_business_2019_br)`) quanto imprimindo o resultado no console (com `print(small_business_2019_br)`)
+
+&lt;img src="img/session1/summary-result.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Perguntas?
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+class: inverse, center, middle
+name: wrapping-up
+
+# Finalizando 
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Finalizando 
+
+## Adicione comentários no código!
+
+- Toda linha de código que começa com o símbolo de cerquilha (`#`) será ignorada quando o R executar o código
+
+-Isso significa que você pode adicionar qualquer comentário explicativo com `#`. Esses são chamados de **comentários no código**
+
+- É sempre uma boa prática adicionar comentários no código para lembrar o que o código está fazendo mais tarde ou para explicar seu código para outras pessoas, caso você vá compartilhá-lo
+
+---
+
+# Finalizando 
+
+- Tente adicionar comentários no código ao seu script para lembrar qual parte corresponde a cada exercício.
+
+&lt;img src="img/session1/code-comments.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Finalizando 
+
+## Sempre salve seu trabalho!
+
+- Clique no ícone do disquete para salvar seu trabalho.
+- Selecione um local para o seu arquivo e lembre-se de onde está salvando.
+
+&lt;img src="img/session1/save.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Finalizando 
+
+## Esta sessão
+
+Esta primeira sessão focou nos fundamentos para escrever código em R
+
+&lt;img src="img/session1/session1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Finalizando 
+
+## Próxima sessão
+
+Na próxima sessão, aprenderemos como preparar os dados para serem exportados como resultados
+
+
+
+
+
+
+&lt;img src="img/session1/session2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Thanks! // ¡Gracias! // Obrigado!
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+class: inverse, center, middle
+name: appendix
+
+# Appendix // დანართი
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Appendix // დანართი
+
+## Tipos de objetos: cadeias de caracteres
+
+- As cadeias de caracteres são coleções de caracteres alfanuméricos, geralmente representando palavras ou textos, ou apenas caracteres em geral.
+
+
+```r
+s1 &lt;- "Oi!"
+print(s1)
+```
+
+```
+## [1] "Oi!"
+```
+
+- As cadeias de caracteres **sempre ficam entre aspas** (`" "`)
+
+- Elas são geralmente chamadas apenas de **strings**
+
+---
+
+# Appendix // დანართი
+
+## Exercise: create and operate character strings
+
+1. Create a character string object with the words `"Georgia has great"` and name it `words1`
+
+2. Create a second string with the words `"wine"` and name it `words2`
+
+  + Don't forget to use `&lt;-` to create the string objects
+  + Remember to include the quotes: `" "`
+
+3. Use the following code to concatenate `words1` and `words2`, save the result in `words_result`, and print it:
+
+
+```r
+words_result &lt;- paste(words1, words2)
+print(words_result)
+```
+
+---
+
+# Appendix // დანართი
+
+## Object types: character strings
+
+&lt;img src="img/session1/ex6.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Appendix // დანართი
+
+## Object types: character strings
+
+&lt;img src="img/session1/ex6-environment.png" width="60%" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
