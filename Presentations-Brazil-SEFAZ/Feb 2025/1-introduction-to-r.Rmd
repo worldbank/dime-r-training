@@ -1,7 +1,7 @@
----
+--- 
 title: "Sessão 1 - Introdução ao R"
 subtitle: "Treinamento em R- SEFAZ RGS -WB DIME"
-author: "Luis Eduardo San Martin"
+author: "Thiago Scot"
 date: "The World Bank | Fevereiro 2025"
 output:
   xaringan::moon_reader:
@@ -12,6 +12,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      
 ---
 
 ```{r setup, include = FALSE}
@@ -107,8 +108,7 @@ Ao final do treinamento, você saberá:
 class: inverse, center, middle
 name: data-work
 
-# 
-Trabalho com dados e programação estatística
+# Trabalho com dados e programação estatística
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
@@ -406,7 +406,7 @@ name: data-in-r
 
 ## Exercício 3: Carregando dados no R
 
- 1.- Vá para esta página: https://osf.io/2apht e baixe o arquivo `small_business_2019_br.csv` <span style="color:red"> WE NEED TO UPDATE THIS DIRECTORY.</span>
+ 1.- Vá para esta página: https://osf.io/2apht e baixe o arquivo `small_business_2019_br.csv` <span style="color:red"> WE NEED TO UPDATE THIS PATH.</span>
  
 ```{r echo = FALSE, out.width="60%"}
 knitr::include_graphics("img/session1/osf-screenshot.png")
@@ -630,7 +630,7 @@ No próximo exercício, aprenderemos sobre outro tipo de objeto.
 
 # Tipos de objetos no R
 
-## Vectors
+## Vetores
 
 -Vetores são uma coleção de valores com **uma única dimensão**, em vez de serem organizados em linhas e colunas como dataframes
 
@@ -729,7 +729,7 @@ name: functions-in-r
 
 
 ```{r echo = FALSE, out.width="95%"}
-knitr::include_graphics("img/session1/function.png")
+knitr::include_graphics("img/session1/function-br.png")
 ```
 
 ---
@@ -866,7 +866,7 @@ knitr::include_graphics("img/session1/session2.png")
 
 class: inverse, center, middle
 
-# Thanks! // ¡Gracias! // Obrigado!
+# Obrigado! // Thanks! // ¡Gracias! 
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
@@ -875,13 +875,13 @@ class: inverse, center, middle
 class: inverse, center, middle
 name: appendix
 
-# Appendix // დანართი
+# Appendix 
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Appendix // დანართი
+# Appendix 
 
 ## Tipos de objetos: cadeias de caracteres
 
@@ -898,8 +898,7 @@ print(s1)
 
 ---
 
-# Appendix // დანართი
-
+# Appendix 
 ## Exercise: create and operate character strings
 
 1. Create a character string object with the words `"Georgia has great"` and name it `words1`
@@ -918,8 +917,7 @@ print(words_result)
 
 ---
 
-# Appendix // დანართი
-
+# Appendix 
 ## Object types: character strings
 
 ```{r echo = FALSE, out.width="45%"}
@@ -928,7 +926,7 @@ knitr::include_graphics("img/session1/ex6.png")
 
 ---
 
-# Appendix // დანართი
+# Appendix 
 
 ## Object types: character strings
 
