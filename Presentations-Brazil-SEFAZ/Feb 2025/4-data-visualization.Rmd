@@ -1,0 +1,1010 @@
+---
+title: "Session 4 - Data visualization"
+subtitle: "R training - Georgia RS-WB DIME"
+author: "Luis Eduardo San Martin"
+date: "The World Bank | September 2023"
+output:
+  xaringan::moon_reader:
+    css: ["libs/remark-css/default.css",
+          "libs/remark-css/metropolis.css",
+          "libs/remark-css/metropolis-fonts.css",
+          "libs/remark-css/custom.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+# Load packages
+library(knitr)
+library(xaringanExtra)
+library(here)
+library(ggplot2)
+here::i_am("3-descriptive-statistics.Rmd")
+options(htmltools.dir.version = FALSE)
+opts_chunk$set(
+  fig.align = "center",
+  fig.height = 4,
+  dpi = 300,
+  cache = T
+  )
+xaringanExtra::use_panelset()
+xaringanExtra::use_webcam()
+xaringanExtra::use_clipboard()
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+xaringanExtra::use_logo(
+  image_url = here("img",
+                   "lightbulb.png"),
+  exclude_class = c("inverse", 
+                    "hide_logo"),
+  width = "50px"
+)
+```
+
+```{css, echo = F, eval = T}
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+```
+
+# Table of contents // სარჩევი
+
+- [Introduction](#intro)
+- [The grammar of graphics](#grammar-of-graphics)
+- [Bar plots](#bar-plots)
+- [Line plots](#line-plots)
+- [Text encodings](#text-encodings)
+- [Scatter plots](#scatter-plots)
+- [Wrapping up](#wrapping-up)
+
+---
+
+class: inverse, center, middle
+name: intro
+
+# Introduction // გაცნობა
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Introduction // გაცნობა
+
+## About this session
+
+```{r echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/session4/data-work-data-vis.png")
+```
+
+---
+
+# Introduction // გაცნობა
+
+## Data visualization in the data work pipeline
+
+- Compared to other kind of outputs, data visualization involves an extra step after data wrangling: producing the visualization itself
+
+- We also us R code to produce data visualizations
+
+- The input for that code is a wrangled dataframe, dataframe that is ready to be used
+
+```{r echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/session4/data-vis.png")
+```
+
+---
+
+# Introduction // გაცნობა
+
+## Data visualization in R
+
+.pull-left[
+- We'll use the package `ggplot2` to create data visualizations
+
+- `ggplot2` greatly facilitates producing plots in R
+
+  + It follows a syntax based on a description of the plot you want to obtain
+  
+  + This syntax is called **grammar of graphics**, a benchmark method of data visualization definition in statistical programming
+]
+
+.pull-right[
+```{r echo = FALSE, out.width="70%"}
+knitr::include_graphics("img/session4/ggplot2.png")
+```
+]
+
+---
+
+class: inverse, center, middle
+name: grammar-of-graphics
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics.png")
+```
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics2.png")
+```
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics3x.png")
+```
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics3y.png")
+```
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics4gc.png")
+```
+
+---
+
+# The grammar of graphics // გრაფიკის გრამატიკა
+
+## The grammar of graphics in `ggplot2`
+
+```{r echo = FALSE, out.width="100%"}
+knitr::include_graphics("img/session4/grammar-of-graphics4l.png")
+```
+
+---
+
+class: inverse, center, middle
+name: bar-plots
+
+# Bar plots // ბარის ნაკვეთები
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+## Exercise 1a: Create a basic bar plot
+
+1. Open a new script for this session by clicking on `File` >> `New File` >> `R Script`
+
+1. Load `ggplot2`
+
+```{r eval=FALSE}
+library(ggplot2)
+```
+
+1. Produce a basic bar plot with the following code:
+
+```{r eval = FALSE}
+ggplot(small_business_2019_all) +
+  aes(x = taxperiod,
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month")
+```
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+```{r echo=FALSE}
+small_business_2019_all <- read.csv("data/small_business_2019_all.csv")
+```
+
+This result should be displayed in the lower right panel of your RStudio window
+
+```{r echo=FALSE, out.width="70%"}
+ggplot(small_business_2019_all) +
+  aes(x = taxperiod,
+      y = income) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month")
+```
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+This plot looks acceptable but it can be improved:
+
+.pull-left[
+- `taxperiod` is a variable representing months but R doesn't know it and it's showing the x-axis with decimals. We need to tell R that those values shouldn't be changed
+
+- We can center the title
+
+- We should add axis labels (instead of just "vat_liability" and "taxperiod") 
+]
+
+.pull-right[
+```{r echo=FALSE, out.width="100%"}
+ggplot(small_business_2019_all) +
+  aes(x = taxperiod,
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month")
+```
+]
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+## Exercise 1b: Improve your bar plot
+
+1. Use the following code to improve the aesthetics of your plot
+
+```{r eval=FALSE}
+ggplot(small_business_2019_all) +
+  aes(x = taxperiod,
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month",
+       # x-axis title
+       x = "Month",
+       # y-axis title
+       y = "Georgian Lari") +
+  # telling R not to break the x-axis
+  scale_x_continuous(breaks = 201901:201912) +
+  # centering plot title
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+Now this looks better:
+
+```{r echo=FALSE, out.width="70%"}
+ggplot(small_business_2019_all) +
+  # transforming taxperiod to categorical value with as.factor()
+  aes(x = as.factor(taxperiod),
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month",
+       # x-axis title
+       x = "Month",
+       # y-axis title
+       y = "VAT liability") +
+  # centering plot title
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+## Exercise 1c: save your plot
+
+Now that your plot looks good, you can save it into an output with `ggsave()`
+
+1. Use this code to save your plot:
+
+```{r eval = FALSE}
+ggsave("vat_liability_small_2019.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+.pull-left[
+- `ggsave()` by default saves the last plot your produced
+
+- The first argument in `ggsave()` is the name of the file we save the plot into. We can also use file paths here
+
+- The rest are optional arguments that define the dimensions of the image you export, it's better to define them so the image has the correct proportions and text size
+]
+
+.pull-right[
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session4/ggsave-ex1.png")
+```
+]
+
+---
+
+# Bar plots // ბარის ნაკვეთები
+
+## A note about syntax
+
+- Data visualization usually requires several iterations to add new elements to your initial code and improve your plot
+
+- `ggplot2` adds new elements to a visualization with the symbol `+`
+
+- More customization means that your code can easily become quite long. Using spaces and line breaks helps for clarity, but **there is just no way around it**
+
+- In programming this is known as **heavy syntax**
+
+.pull-left[
+.small[
+```{r eval = FALSE}
+# Exercise 1:
+ggplot(small_business_2019_all) +
+  aes(x = taxperiod,
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month")
+```
+]
+]
+
+.pull-right[
+.small[
+```{r eval=FALSE}
+# Exercise 2
+ggplot(small_business_2019_all) +
+  aes(x = as.factor(taxperiod),
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month",
+       x = "Month",
+       y = "Georgian Lari") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+]
+]
+
+---
+
+class: inverse, center, middle
+name: line-plots
+
+# Line plots // ხაზის ნაკვეთები
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+- In data visualization, we call **encodings** to the geometry selected to represent the data visually
+
+- In the previous examples, we did that when we used `geom_col()`. This tells R that our encoding to represent the data is **bars** (also called columns)
+
+- `ggplot2` has several different options for encodings in data visualization, for example: **lines**
+
+- The encoding for lines in `ggplot2` is `geom_lines()`
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+- Line plots are a nice option to encode numeric values and include different categories of a second variable at the same time
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+df_group_month <- small_business_2019_all %>%
+  select(group, taxperiod, vat_liability) %>%
+  group_by(group, taxperiod) %>%
+  summarize(total = sum(vat_liability))
+```
+
+```{r echo=FALSE, out.width="65%"}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(legend.text = element_text(size = 7), # don't forget the comma!
+        axis.text.x=element_text(size=6))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+- However, they also usually require some additional data wrangling compared to bar plots: data should be collapsed at the level specified in the x-axis and grouping variable
+
+- This is going to be clearer in the next exercise. The plot we'll produce is below
+
+```{r echo=FALSE, out.width="65%"}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(legend.text = element_text(size = 7), # don't forget the comma!
+        axis.text.x=element_text(size=6))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+## Exercise 2a: Collapse your data at the month-group level
+
+Use the following code to create a dataframe collapsed at the month-group level and calculate the total VAT liability for each group in each month
+
+```{r eval = FALSE}
+df_group_month <- small_business_2019_all %>%
+  select(group, taxperiod, vat_liability) %>%
+  group_by(group, taxperiod) %>%
+  summarize(total = sum(vat_liability))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+.pull-left[
+The result will look like this, you can explore it with `View(df_group_month)`.
+]
+
+.pull-right[
+```{r echo = FALSE, out.width="85%"}
+knitr::include_graphics("img/session4/df-group-month.png")
+```
+]
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+## Exercise 2b: Create a line plot of VAT liability by month and group
+
+```{r eval=FALSE}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+Your result possibly looks like this:
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, out.width="75%"}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+Something looks off, doesn't it? We need to **make the legend labels and x-axis texts smaller** for them without overlapping each other and to **remove the centering of the title** so it's not cropped
+
+```{r echo=FALSE, out.width="75%"}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+## Exercise 2c: Continue improving your plot
+
+1. Add the argument `legend.text=element_text(size=7)` inside `theme()` to decrease the legend text size
+1. Add the argument `axis.text.x=element_text(size=6)` inside `theme()` to decrease the x-axis text size
+  + note that both arguments need to be separated by a comma
+1. Remove `plot.title = element_text(hjust = 0.5)` from `theme()` to remove the centering of the plot title
+
+The result should be this:
+
+```{eval=FALSE}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(legend.text = element_text(size = 7), # don't forget the comma!
+        axis.text.x=element_text(size=6))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+```{r echo=FALSE, out.width="75%"}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(legend.text = element_text(size = 7), # don't forget the comma!
+        axis.text.x=element_text(size=6))
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+## Exercise 2d: save your plot
+
+Use this code to save your plot:
+
+```{r eval=FALSE}
+ggsave("vat_liability_small_2019_by_group.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+```{r echo = FALSE, out.width="50%"}
+knitr::include_graphics("img/session4/ggsave-ex2.png")
+```
+
+---
+
+# Line plots // ხაზის ნაკვეთები
+
+Choosing the right encoding for your data can be tricky. It depends on what you want to show in your plot and how much information you want it to show
+
+  + Bar plots show less information than line plots in general, but they are good for cases when you have only one numeric variable and one categorical variable to show
+  + Line plots can show more information and includes multiple groups to add an additional dimension to your data, but they are not visually appealing when your data varies a lot from one category to another
+
+.pull-left[
+```{r echo=FALSE, out.width="100%"}
+ggplot(small_business_2019_all) +
+  aes(x = as.factor(taxperiod),
+      y = vat_liability) +
+  geom_col() +
+  labs(title = "Total VAT liability of small businesses in 2019 by month",
+       x = "Month",
+       y = "Georgian Lari") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+]
+
+.pull-right[
+```{r echo=FALSE, out.width="100%"}
+ggplot(df_group_month) +
+  aes(x = taxperiod,
+      y = total) +
+  geom_line(aes(color = group)) +
+  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
+       x = "Month",
+       y = "Georgian Lari") +
+  scale_x_continuous(breaks = 201901:201912) +
+  theme(legend.text = element_text(size = 7), # don't forget the comma!
+        axis.text.x=element_text(size=6))
+```
+]
+
+---
+
+class: inverse, center, middle
+name: text-encodings
+
+# Text encodings // ტექსტური დაშიფვრები
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+- Geometric shapes such as bars and plots are not the only way to encode data in plots
+
+- We can also use text directly to represent information in the plot as in the example below. This is called **text encodings**
+
+- Text encodings can be combined with geometric encodings to highlight information or provide important additional details to your visualization
+
+```{r echo=FALSE}
+  df_month <- small_business_2019_all %>%
+    select(taxperiod, vat_liability) %>%
+    group_by(taxperiod) %>%
+    summarize(total = sum(vat_liability))
+```
+
+```{r echo=FALSE, out.width="57%"}
+  ggplot(df_month) +
+    aes(x = taxperiod,
+        y = total) +
+    geom_col() +
+    geom_text(aes(label = round(total)),
+              position = position_dodge(width = 1),
+              vjust = -0.5,
+              size = 3) +
+    labs(title = "Total VAT liability of small businesses in 2019 by month",
+         x = "Month",
+         y = "Georgian Lari") +
+    scale_x_continuous(breaks = 201901:201912) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+- Using text encodings in a bar plot is nice
+
+- However, it also requires additional data wrangling: the data needs to be collapsed at the same level of the x-axis to be able to add encodings
+
+- We'll see this in the next exercise
+
+```{r echo=FALSE, out.width="57%"}
+  ggplot(df_month) +
+    aes(x = taxperiod,
+        y = total) +
+    geom_col() +
+    geom_text(aes(label = round(total)),
+              position = position_dodge(width = 1),
+              vjust = -0.5,
+              size = 3) +
+    labs(title = "Total VAT liability of small businesses in 2019 by month",
+         x = "Month",
+         y = "Georgian Lari") +
+    scale_x_continuous(breaks = 201901:201912) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+## Exercise 3a: Collapse your data at the month level
+
+This is similar to what we did for exercise 2a, except that this time the collapsing is at month level instead of the month-group level. Use the code below to store the collapsed dataframe in `month_df`
+
+```{r eval=FALSE}
+df_month <- small_business_2019_all %>%
+    select(taxperiod, vat_liability) %>%
+    group_by(taxperiod) %>%
+    summarize(total = sum(vat_liability))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+This is the result, you can use `View(df_month)` to display it
+
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session4/df-month.png")
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+## Exercise 3b: Add encodings to your bar plot
+
+Use the collapsed dataframe `df_month` and the former code from exercise 1 to add encodings to your bar plot. The result is the code below:
+
+```{r eval=FALSE}
+  ggplot(df_month) +
+    aes(x = taxperiod,
+        y = total) +
+    geom_col() +
+    # Note that the text encodings are added here
+    geom_text(aes(label = total),
+              position = position_dodge(width = 1),
+              vjust = -0.5,
+              size = 3) +
+    labs(title = "Total VAT liability of small businesses in 2019 by month",
+         x = "Month",
+         y = "Georgian Lari") +
+    scale_x_continuous(breaks = 201901:201912) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+This is result is nice but the text encodings have several decimal places. We can improve it by rounding `total` with the function `round()`
+
+```{r echo=FALSE, out.width="75%"}
+  ggplot(df_month) +
+    aes(x = taxperiod,
+        y = total) +
+    geom_col() +
+    # Note that the text encodings are added here
+    geom_text(aes(label = total),
+              position = position_dodge(width = 1),
+              vjust = -0.5,
+              size = 3) +
+    labs(title = "Total VAT liability of small businesses in 2019 by month",
+         x = "Month",
+         y = "Georgian Lari") +
+    scale_x_continuous(breaks = 201901:201912) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+## Exercise 3c: Improve your plot once again
+
+Replace `total` with `round(total)` in `geom_text()`. The result should be:
+
+```{r eval=FALSE}
+  ggplot(df_month) +
+    aes(x = taxperiod,
+        y = total) +
+    geom_col() +
+    geom_text(aes(label = round(total)), # <--- the change goes here
+              position = position_dodge(width = 1),
+              vjust = -0.5,
+              size = 3) +
+    labs(title = "Total VAT liability of small businesses in 2019 by month",
+         x = "Month",
+         y = "Georgian Lari") +
+    scale_x_continuous(breaks = 201901:201912) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+```{r echo=FALSE, out.width="75%"}
+  ggplot(df_month) +
+    aes(x = taxperiod,
+        y = total) +
+    geom_col() +
+    geom_text(aes(label = round(total)), # <--- the change goes here
+              position = position_dodge(width = 1),
+              vjust = -0.5,
+              size = 3) +
+    labs(title = "Total VAT liability of small businesses in 2019 by month",
+         x = "Month",
+         y = "Georgian Lari") +
+    scale_x_continuous(breaks = 201901:201912) +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Text encodings // ტექსტური დაშიფვრები
+
+## Don't forget to save your plot!
+
+Use this code to save this last plot:
+
+```{r eval=FALSE}
+ggsave("vat_liability_small_2019_text.png",
+       width = 20,
+       height = 10,
+       units = "cm")
+```
+
+---
+
+class: inverse, center, middle
+name: scatter-plots
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+- We're going to explore one more type of encoding for data visualizations: **scatter plots**
+
+- Scatter plots are useful when you have two continuous numeric variables and want to show that there might to a correlation between them or visualize outliers (values that stand out from the rest because they are very extreme)
+
+- We use the encoding `geom_line()` for scatterplots
+
+```{r echo=FALSE, out.width="55%"}
+ggplot(small_business_2019_all) +
+  aes(x = age,
+      y = vat_liability) +
+  geom_point() +
+  labs(title = "VAT liability versus age for small businesses in 2019",
+       x = "Age of firm (years)",
+       y = "VAT liability") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+## Exercise 4: Create a scatter plot
+
+Use the following code to reproduce the scatter plot of the last slide:
+
+```{r eval=FALSE}
+ggplot(small_business_2019_all) +
+  aes(x = age,
+      y = vat_liability) +
+  geom_point() +
+  labs(title = "VAT liability versus age for small businesses in 2019",
+       x = "Age of firm (years)",
+       y = "VAT liability") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+```{r echo=FALSE, out.width="80%"}
+ggplot(small_business_2019_all) +
+  aes(x = age,
+      y = vat_liability) +
+  geom_point() +
+  labs(title = "VAT liability versus age for small businesses in 2019",
+       x = "Age of firm (years)",
+       y = "VAT liability") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+---
+
+# Scatter plots // გაფანტავს ნაკვეთებს
+
+Lastly, remember to save your scatter plot with:
+
+```{r eval=FALSE}
+ggsave("scatter_age_vat.png",
+       width = 20,
+       height = 10,
+       units = "cm"))
+```
+
+---
+
+class: inverse, center, middle
+name: wrapping-up
+
+# Wrapping up // შეფუთვა
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Other encodings in `ggplot2`
+
+This table lists several of the most popular encoding types in `ggplot2`
+
+| Encoding | Function in `ggplot2` |
+| -------- | --------------------- |
+| Bars | `geom_col()` |
+| Lines | `geom_line()` |
+| Points (scatterplot) | `geom_point()` |
+| Area | `geom_area()` |
+| Histogram | `geom_histogram()` |
+| Floating labels (texts) | `geom_text()` |
+| Box plot | `geom_boxplot()` |
+| Pie chart | `geom_bar() + coord_polar()` |
+| Smoothed line | `geom_smooth()` |
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Save your code!
+
+Click on the floppy disk to save your code in a location that you will remember.
+
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session4/save.png")
+```
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Data work pipeline
+
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session4/data-work-final.png")
+```
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Looking ahead
+
+```{r echo = FALSE, out.width="95%"}
+knitr::include_graphics("img/session4/data-work-expanded.png")
+```
+
+---
+
+# Wrapping up // შეფუთვა
+
+## Looking ahead
+
+- [Connecting R with SQL databases](https://solutions.posit.co/connections/db/getting-started/connect-to-database/). Some libraries:
+  + `dbConnect`
+  + `dbplyr`
+  + `DBI`
+
+- [More on data wrangling](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/03-data-wrangling.html#1). More libraries:
+  + `tidyr`
+  + `janitor`
+
+- [More on data visualization](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/04-data-visualization.html#1)
+
+---
+
+class: inverse, center, middle
+
+# Thanks! // მადლობა! // ¡Gracias! // Obrigado!
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>

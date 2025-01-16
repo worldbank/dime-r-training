@@ -1,0 +1,251 @@
+.vlarge { 
+  font-size: 200% 
+}
+
+.large { 
+  font-size: 150% 
+}
+
+.medium { 
+  font-size: 120% 
+}
+
+.small { 
+  font-size: 70% 
+}
+
+.red {
+  color: #ac142a
+}
+
+.green{
+  color: #046307
+}
+
+.cell-center {
+  text-align: center;
+}
+
+div.command {
+    padding: 5px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #fdeccf;
+    border-radius: 10px;
+  }
+
+div.exercise {
+    padding: 2px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #e3f5fb;
+    border-radius: 20px;
+  }
+
+div.solution {
+    padding: 2px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #f7fbe3;
+    border-radius: 20px;
+  }
+
+div.notes {
+    padding: 2px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #e8e8e8;
+    border-radius: 20px;
+  }
+
+div.extra_container {
+    padding: 2px 20px;
+    margin: 20px;
+    background-position: 15px center;
+    color: #58595B;
+    background-color: #e8fbe8;
+    border-radius: 20px;
+  }
+
+.sp-after {
+  margin-bottom: 1em !important;
+}
+
+.sp-after-half {
+  margin-bottom: 0.7em !important;
+}
+
+/* 
+Coloring and inverse coloring in title bars and content boxes
+*/
+.box-1,
+.section-title-1 {
+  background-color: #0D0887;
+}
+
+.box-2,
+.section-title-2 {
+  background-color: #5601A4;
+}
+
+.box-3,
+.section-title-3 {
+  background-color: #900DA4;
+}
+
+.box-4,
+.section-title-4 {
+  background-color: #BF3984;
+}
+
+.box-5,
+.section-title-5 {
+  background-color: #E16462;
+}
+
+.box-6,
+.section-title-6 {
+  background-color: #F89441;
+}
+
+.box-7,
+.section-title-7 {
+  background-color: #FCCE25;
+}
+
+.box-inv-1,
+.section-title-inv-1 {
+  background-color: #B2B1F9;
+}
+
+.box-inv-2,
+.section-title-inv-2 {
+  background-color: #CBB5FF;
+}
+
+.box-inv-3,
+.section-title-inv-3 {
+  background-color: #EFB3FF;
+}
+
+.box-inv-4,
+.section-title-inv-4 {
+  background-color: #FFC0DC;
+}
+
+.box-inv-5,
+.section-title-inv-5 {
+  background-color: #FFD0CF;
+}
+
+.box-inv-6,
+.section-title-inv-6 {
+  background-color: #FFDFD1;
+}
+
+.box-inv-7,
+.section-title-inv-7 {
+  background-color: #FFF0D4;
+}
+
+.box-inv-1,
+.title-inv-1 h1,
+.section-title-inv-1 h1 {
+  color: #0D0887;
+}
+
+.box-inv-2,
+.title-inv-2 h1,
+.section-title-inv-2 h1 {
+  color: #5601A4;
+}
+
+.box-inv-3,
+.title-inv-3 h1,
+.section-title-inv-3 h1 {
+  color: #900DA4;
+}
+
+.box-inv-4,
+.title-inv-4 h1,
+.section-title-inv-4 h1 {
+  color: #BF3984;
+}
+
+.box-inv-5,
+.title-inv-5 h1,
+.section-title-inv-5 h1 {
+  color: #E16462;
+}
+
+.box-inv-6,
+.title-inv-6 h1,
+.section-title-inv-6 h1 {
+  color: #F89441;
+}
+
+.box-inv-7,
+.title-inv-7 h1,
+.section-title-inv-7 h1 {
+  color: #FCCE25;
+}
+
+.box-7, .box-6, .box-5, .box-4, .box-3, .box-2, .box-1, .title-7 h1, .title-6 h1, .title-5 h1, .title-4 h1, .title-3 h1, .title-2 h1, .title-1 h1, .section-title h1 {
+  color: #FFFFFF;
+}
+
+.box-7, .box-inv-7, .box-6, .box-inv-6, .box-5, .box-inv-5, .box-4, .box-inv-4, .box-3, .box-inv-3, .box-2, .box-inv-2, .box-1, .box-inv-1 {
+  margin: 0em auto;
+  overflow: hidden;
+  padding: 0.1em 0.4em;
+  font-weight: 600;
+  display: table;
+  text-align: center;
+}
+
+.float-left {
+  text-align: left;
+}
+
+.float-right {
+  text-align: right;
+}
+
+.float-left .box-1, .float-left .box-inv-1,
+.float-right .box-1, .float-right .box-inv-1 {
+  display: inline;
+}
+
+.float-left .box-2, .float-left .box-inv-2,
+.float-right .box-2, .float-right .box-inv-2 {
+  display: inline;
+}
+
+.float-left .box-3, .float-left .box-inv-3,
+.float-right .box-3, .float-right .box-inv-3 {
+  display: inline;
+}
+
+.float-left .box-4, .float-left .box-inv-4,
+.float-right .box-4, .float-right .box-inv-4 {
+  display: inline;
+}
+
+.float-left .box-5, .float-left .box-inv-5,
+.float-right .box-5, .float-right .box-inv-5 {
+  display: inline;
+}
+
+.float-left .box-6, .float-left .box-inv-6,
+.float-right .box-6, .float-right .box-inv-6 {
+  display: inline;
+}
+
+.float-left .box-7, .float-left .box-inv-7,
+.float-right .box-7, .float-right .box-inv-7 {
+  display: inline;
+}
