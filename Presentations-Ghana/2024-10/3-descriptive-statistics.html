@@ -102,8 +102,8 @@ In your **annual reports**, you often include:
 
 &lt;img src="img/session3/programmed_psrl_2023.png" width="45%" style="display: block; margin: auto;" /&gt;
 
-- Today, we will practice **creating similar summary tables** using mock data.
-- While we’re using a simple dataset today, the same steps can be applied to your own data for reports.
+- Today, we will practice **creating similar summary tables** using our staff list data.
+- While we’re using a simple dataset today, the same steps can be applied to your own data for reports with many more variables.
 
 ---
 
@@ -111,14 +111,18 @@ In your **annual reports**, you often include:
 
 ## Exercise 1a: Getting the packages for today's session
 
-We're going to use two R packages in this session: `modelsummary`, `huxtable` and ` dplyr`.
+We're going to use several R packages in this session: `modelsummary`, `huxtable` and ` dplyr` (you already have this). You can download the solutions 3 from the materials package, were I listed all the packages you need to install, and the instructions. You can start with the script as your base for today's exercise. 
 
-1. Install `modelsummary` and `huxtable`:
+1. Install needed packages: (the package modelsummary has many dependencies)
 
 
 ``` r
 install.packages("modelsummary")
 install.packages("huxtable")
+install.packages("ggplot2")
+install.packages("rstudioapi")
+install.packages("openxlsx")
+install.packages("dplyr")
 ```
 
 &lt;img src="img/session3/install.png" width="55%" style="display: block; margin: auto;" /&gt;
@@ -135,7 +139,9 @@ install.packages("huxtable")
 ``` r
 library(modelsummary)
 library(huxtable)
-library(readxl)
+library(ggplot2)
+library(rstudioapi)
+library(openxlsx)
 library(dplyr)
 ```
 
@@ -146,7 +152,6 @@ library(dplyr)
 department_staff_final &lt;- read.csv("data/department_staff_final.csv")
 ```
 
-
 ---
 
 # Introduction 
@@ -154,7 +159,7 @@ department_staff_final &lt;- read.csv("data/department_staff_final.csv")
 ## Exercise 1b: Download and load the data we'll use
 
 .pull-left[
-1. Go to https://osf.io/zqa6j and download the file
+1. Go to https://osf.io/rk9ht and download the file
 
 1. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `department_staff_final.csv`
 
@@ -181,7 +186,7 @@ You should have one dataframe loaded in the environment after this.
 
 ## Recap: always know your data!
 
-- This is the data that we used yesterday! 
+- This is the data that we created yesterday! (after merging the age data)
 
 
 ``` r
@@ -664,14 +669,14 @@ datasummary(
 
 ## Exercise 4: 
 
-Create a summary statistics table showing the number of observations, mean, standard deviation, minimum, and maximum for variables `years_of_service` of the dataframe `department_staff`
+Create a summary statistics table showing the number of observations, mean, minimum, and maximum for variables `years_of_service` of the dataframe `department_staff`
 
 1. Use `datasummary()` for this:
 
 
 ``` r
 datasummary(
-  years_of_service  ~ N + Mean + SD + Min + Max,
+  years_of_service  ~ N + Mean + Min + Max,
   department_staff
 )
 ```

@@ -76,6 +76,34 @@ knitr::include_graphics("img/template.png")
 
 ---
 
+# Introduction  
+
+## Access to Training Materials  
+
+All the materials for this training are available at the following link:  
+[https://osf.io/r3fn5/](https://osf.io/r3fn5/)  
+
+Here’s what you will find there:  
+
+- 📂 **Data**: All datasets we’ll use throughout the training sessions.  
+- 📑 **Slides**: The presentation slides for each session.  
+- ✏️ **Solutions**: Will be added to the folder after each session.  
+
+---
+
+# Introduction  
+
+## Course Structure  
+
+This training will cover the basics of coding in R. Below is the structure of the course:  
+
+- 📅 **Day 1**: Introduction to R – Get familiar with the R environment and basic syntax. 
+- 🛠 **Day 2**: **Data Wrangling – Learn to clean and transform data effectively.**  
+- 📊 **Day 3**: Descriptive Statistics – Explore methods to summarize and analyze data.  
+- 📈 **Day 4**: Data Visualization – Create meaningful and impactful data visualizations. 
+
+---
+
 class: inverse, center, middle
 name: about-this-session
 
@@ -136,66 +164,22 @@ knitr::include_graphics("img/session2/r-libraries.png")
 
 # R Packages
 
-## Installing R Packages
+We'll use two packages in today's session: `dplyr` and `readr` (really useful library for data cleaning and wrangling).  
 
-- Installing packages is usually simple, but it can be challenging in institutional network connections such as the World Bank.
-
-- The next exercise will set up RStudio so that it can install R Packages without problems
-
----
-
-# R Packages
-
-## Exercise 1: Setting up the installation of packages
-
-1 - In RStudio, go to `Tools` >> `Global Options...`
-
-```{r echo = FALSE, out.width="60%"}
-knitr::include_graphics("img/session2/global-options.png")
-```
-
----
-
-# R Packages
-
-## Exercise 1: Setting up the installation of R Packages
-
-.pull-left[
-2 - Select `Packages` in the left pane
-
-3 - Uncheck `Use secure download method for HTTP`
-
-4 - Click `OK`
-
-You will not see any changes in your RStudio window after this, but now you'll be able to install packages.
-]
-
-.pull-right[
-```{r echo = FALSE, out.width="90%"}
-knitr::include_graphics("img/session2/packages-options.png")
-```
-]
-
----
-
-# R Packages
-
-We'll use one package in today's session: `dplyr` (really useful library for data wrangling).  
-
-## Exercise 2: Installing R Packages
+## Exercise 1: Installing R Packages
 
 1. Install the R Packages by using `install.packages()`
 
  + `install.packages("dplyr")`
- + Note the quotes (`" "`) in the packages names
+ + `install.packages("readr")`
+ +  Note the quotes (`" "`) in the packages names
  + **Introduce this code in the console**, not the script panel
-
+ 
 .pull-left[
 ```{r echo = FALSE, out.width="85%"}
 knitr::include_graphics("img/session2/dplyr-install.png")
 ```
 ]
-
 
 ---
 
@@ -213,7 +197,7 @@ knitr::include_graphics("img/session2/installing-dplyr.png")
 
 Now that `dplyr` is installed, we only need to load them to start using the functions they have.
 
-## Exercise 3: Loading packages
+## Exercise 2: Loading packages
 
 .pull-left[
 1. Open a new script with `File` >> `New File` >> `R Script`
@@ -282,7 +266,7 @@ knitr::include_graphics("img/session2/data-wrangling.png")
 
 ## Getting your data ready
 
-- Data wrangling is one of the most crucial and time-consuming aspects of Government analytics
+- Data wrangling is one of the most crucial and time-consuming aspects of analytics
 
 - It involves not only coding, but also the mental exercise of thinking  what is the shape and condition that your dataframe needs to have in order to produce your desired output
 
@@ -297,7 +281,7 @@ knitr::include_graphics("img/session2/data-wrangling-reasoning.png")
 ## Getting your data ready
 
 .pull-left[
-- As we said before we'll use `dplyr` and `tidyr` for data wrangling in this training
+- As we said before we'll use `dplyr` for data wrangling in this training
 
 - You can also use basic R, but we recommend these packages because its functions are easier to use
 ]
@@ -311,7 +295,7 @@ knitr::include_graphics("img/session2/dplyr.png")
 
 # Data wrangling 
 
-## Exercise 4: Loading data
+## Exercise 3: Loading data
 
 Note that this part of this is the same exercise we did in session 1, but it's okay to repeat it in order to start using a new RStudio session. **If you have RStudio open, start by closing the window and opening RStudio again**.
 
@@ -319,13 +303,13 @@ Note that this part of this is the same exercise we did in session 1, but it's o
 1. Inyou new RStudio window, go to `File` > `Import Dataset` > `From Text(base)` and select again the file `department_staff_list.csv`
 
   + if you don't know where the file is, check in the `Downloads` folder
-  + if you need to download it again, it's here: https://osf.io/g2ezw 
+  + if you need to download it again, it's here: https://osf.io/chdgj
 
 1. Make sure to select `Heading` > `Yes` in the next window
 
 1. Select `Import`
 
-1. Download this new file: https://osf.io/tvfyr and repeat steps 1-3  with it
+1. Download this new file `department_staff_age.csv`: https://osf.io/qsmke and repeat steps 1-3  with it
 
 ]
 .pull-right[
@@ -354,7 +338,7 @@ knitr::include_graphics("img/session2/ex4.png")
 
 ## Note: loading data with a function
 
-- You can also load Excel files with the function `read.csv()` instead of using this point-and-click approach
+- You can also load csv files with the function `read.csv()` instead of using this point-and-click approach
 
 - The **argument** of `read.csv()` is the path in your computer where your data is. For example
 
@@ -372,7 +356,7 @@ department_staff_list <-read.csv("C:/Users/wb614536/Downloads/department_staff_l
 
 - If you downloaded the data and haven't moved it, the data path for the deparment_list dataset will be probably something like: `"C:/Users/wb614536/Downloads/department_staff_list.csv"`
 
-- You can find the path of a file by right-clicking>properties>and seeing the location, or by 
+- You can find the path of a file by right-clicking>properties>and seeing the location, or by clicking on the top bar (see below)
 
 ```{r echo = FALSE, out.width="85%"}
 knitr::include_graphics("img/session2/path.png")
@@ -504,7 +488,7 @@ knitr::include_graphics("img/session2/filtering-sorting2.png")
 
 # Filtering and sorting 
 
-## Exercise 5: Now let's do it.. filter and sort your data
+## Exercise 4: Now let's do it.. filter and sort your data
 
 We can write the whole code for this in our exercise script. (You can copy and paste the code below)
 
@@ -651,7 +635,7 @@ knitr::include_graphics("img/session2/merging.png")
 
 # Merging dataframes
 
-## Exercise 6: Now let's do it. 
+## Exercise 5: Now let's do it. 
 
 - You can copy and paste the code to your exercise script. 
 
@@ -698,7 +682,7 @@ If we **only** do this, this won't do anything, to complete the function we need
 
 # Grouping and summarizing 
 
-## Government analytics request
+## Exercise 6: Government analytics request
 
 summarize works in a similar way to mutate:
 
@@ -788,13 +772,16 @@ knitr::include_graphics("img/session2/data-work-progress.png")
 
 # Exporting outputs 
 
-## Exercise 7: Export `employees_by_deparment` 
+## Exercise 7 (if time allows): Export `employees_by_deparment` and `department_staff_final`
 
 1. Use this code to export the results of the last two exercises:
 
 ```{r eval=FALSE}
 write.csv(employees_by_deparment, "employees_by_deparment", row.names = FALSE)
+write.csv(department_age, "department_staff_final", row.names = FALSE)
 ```
+
+Note: This files are already in our data folder online, so if you don't have time to do it don't worry. 
 
 ---
 

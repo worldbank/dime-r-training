@@ -1,8 +1,10 @@
-# Data
+# Exercise for session 4: Data visualization
+
 employees_by_department <- read.csv("data/employees_by_department.csv")
 
-# Exercise 1a
+# Exercise 1a: od a basic bar plot
 library(ggplot2)
+
 
 ggplot(employees_by_department) +
   aes(x = department,
@@ -10,7 +12,7 @@ ggplot(employees_by_department) +
   geom_col() +
   labs(title = "Number of employees by department, 2024")
 
-# Exercise 1b
+# Exercise 1b: improve bar plot
 ggplot(employees_by_department) +
   aes(x = department,
       y = number) +
@@ -27,7 +29,7 @@ ggplot(employees_by_department) +
     plot.title = element_text(hjust = 0.5),
     axis.text.x = element_text(angle = 45, hjust = 1) # Rotating x-axis labels
   )
-# Exercise 1c
+# Exercise 1c: improve more bar plot
 
 ggplot(employees_by_department) +
   aes(x = reorder(department, -number), y = number) + #<<  # Reorder bars by `number`
@@ -46,13 +48,13 @@ ggplot(employees_by_department) +
     axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels
   )
 
-# Exercise 1d
+# Exercise 1d: save your plot
 ggsave("employees_by_department.png",
        width = 20,
-       height = 10,
+       height = 14,
        units = "cm")
 
-# Exercise 2a
+# Exercise 2a; create  a bar chart
 
 ggplot(employees_by_department) +
   aes(x = "", y = number, fill = department) +
@@ -63,7 +65,7 @@ ggplot(employees_by_department) +
   ) +
   theme_void()
 
-# Exercise 2b 
+# Exercise 2b: improve your chart
 
 ggplot(employees_by_department) +
   aes(x = "", y = number, fill = department) +
@@ -75,7 +77,7 @@ ggplot(employees_by_department) +
   theme_void() +
   scale_fill_viridis_d(option = "D")
 
-#Exercise 2c
+#Exercise 2c: save your bar chart
 
 ggsave("employees_by_department_pie.png")
 

@@ -65,6 +65,34 @@ class: center, middle, inverse, title-slide
 
 ---
 
+# Introduction  
+
+## Access to Training Materials  
+
+All the materials for this training are available at the following link:  
+[https://osf.io/r3fn5/](https://osf.io/r3fn5/)  
+
+Here’s what you will find there:  
+
+- 📂 **Data**: All datasets we’ll use throughout the training sessions.  
+- 📑 **Slides**: The presentation slides for each session.  
+- ✏️ **Solutions**: Will be added to the folder after each session.  
+
+---
+
+# Introduction  
+
+## Course Structure  
+
+This training will cover the basics of coding in R. Below is the structure of the course:  
+
+- 📅 **Day 1**: Introduction to R – Get familiar with the R environment and basic syntax. 
+- 🛠 **Day 2**: **Data Wrangling – Learn to clean and transform data effectively.**  
+- 📊 **Day 3**: Descriptive Statistics – Explore methods to summarize and analyze data.  
+- 📈 **Day 4**: Data Visualization – Create meaningful and impactful data visualizations. 
+
+---
+
 class: inverse, center, middle
 name: about-this-session
 
@@ -119,60 +147,20 @@ In a nutshell:
 
 # R Packages
 
-## Installing R Packages
+We'll use two packages in today's session: `dplyr` and `readr` (really useful library for data cleaning and wrangling).  
 
-- Installing packages is usually simple, but it can be challenging in institutional network connections such as the World Bank.
-
-- The next exercise will set up RStudio so that it can install R Packages without problems
-
----
-
-# R Packages
-
-## Exercise 1: Setting up the installation of packages
-
-1 - In RStudio, go to `Tools` &gt;&gt; `Global Options...`
-
-&lt;img src="img/session2/global-options.png" width="60%" style="display: block; margin: auto;" /&gt;
-
----
-
-# R Packages
-
-## Exercise 1: Setting up the installation of R Packages
-
-.pull-left[
-2 - Select `Packages` in the left pane
-
-3 - Uncheck `Use secure download method for HTTP`
-
-4 - Click `OK`
-
-You will not see any changes in your RStudio window after this, but now you'll be able to install packages.
-]
-
-.pull-right[
-&lt;img src="img/session2/packages-options.png" width="90%" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# R Packages
-
-We'll use one package in today's session: `dplyr` (really useful library for data wrangling).  
-
-## Exercise 2: Installing R Packages
+## Exercise 1: Installing R Packages
 
 1. Install the R Packages by using `install.packages()`
 
  + `install.packages("dplyr")`
- + Note the quotes (`" "`) in the packages names
+ + `install.packages("readr")`
+ +  Note the quotes (`" "`) in the packages names
  + **Introduce this code in the console**, not the script panel
-
+ 
 .pull-left[
 &lt;img src="img/session2/dplyr-install.png" width="85%" style="display: block; margin: auto;" /&gt;
 ]
-
 
 ---
 
@@ -188,7 +176,7 @@ We'll use one package in today's session: `dplyr` (really useful library for dat
 
 Now that `dplyr` is installed, we only need to load them to start using the functions they have.
 
-## Exercise 3: Loading packages
+## Exercise 2: Loading packages
 
 .pull-left[
 1. Open a new script with `File` &gt;&gt; `New File` &gt;&gt; `R Script`
@@ -250,7 +238,7 @@ name: data-wrangling
 
 ## Getting your data ready
 
-- Data wrangling is one of the most crucial and time-consuming aspects of Government analytics
+- Data wrangling is one of the most crucial and time-consuming aspects of analytics
 
 - It involves not only coding, but also the mental exercise of thinking  what is the shape and condition that your dataframe needs to have in order to produce your desired output
 
@@ -263,7 +251,7 @@ name: data-wrangling
 ## Getting your data ready
 
 .pull-left[
-- As we said before we'll use `dplyr` and `tidyr` for data wrangling in this training
+- As we said before we'll use `dplyr` for data wrangling in this training
 
 - You can also use basic R, but we recommend these packages because its functions are easier to use
 ]
@@ -275,7 +263,7 @@ name: data-wrangling
 
 # Data wrangling 
 
-## Exercise 4: Loading data
+## Exercise 3: Loading data
 
 Note that this part of this is the same exercise we did in session 1, but it's okay to repeat it in order to start using a new RStudio session. **If you have RStudio open, start by closing the window and opening RStudio again**.
 
@@ -283,13 +271,13 @@ Note that this part of this is the same exercise we did in session 1, but it's o
 1. Inyou new RStudio window, go to `File` &gt; `Import Dataset` &gt; `From Text(base)` and select again the file `department_staff_list.csv`
 
   + if you don't know where the file is, check in the `Downloads` folder
-  + if you need to download it again, it's here: https://osf.io/g2ezw 
+  + if you need to download it again, it's here: https://osf.io/chdgj
 
 1. Make sure to select `Heading` &gt; `Yes` in the next window
 
 1. Select `Import`
 
-1. Download this new file: https://osf.io/tvfyr and repeat steps 1-3  with it
+1. Download this new file `department_staff_age.csv`: https://osf.io/qsmke and repeat steps 1-3  with it
 
 ]
 .pull-right[
@@ -311,7 +299,7 @@ Note that this part of this is the same exercise we did in session 1, but it's o
 
 ## Note: loading data with a function
 
-- You can also load Excel files with the function `read.csv()` instead of using this point-and-click approach
+- You can also load csv files with the function `read.csv()` instead of using this point-and-click approach
 
 - The **argument** of `read.csv()` is the path in your computer where your data is. For example
 
@@ -330,7 +318,7 @@ department_staff_list &lt;-read.csv("C:/Users/wb614536/Downloads/department_staf
 
 - If you downloaded the data and haven't moved it, the data path for the deparment_list dataset will be probably something like: `"C:/Users/wb614536/Downloads/department_staff_list.csv"`
 
-- You can find the path of a file by right-clicking&gt;properties&gt;and seeing the location, or by 
+- You can find the path of a file by right-clicking&gt;properties&gt;and seeing the location, or by clicking on the top bar (see below)
 
 &lt;img src="img/session2/path.png" width="85%" style="display: block; margin: auto;" /&gt;
 
@@ -348,14 +336,14 @@ glimpse(department_staff_list)
 ```
 
 ```
-## Rows: 8,714
+## Rows: 8,713
 ## Columns: 6
 ## $ ID                  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,…
 ## $ sex                 &lt;chr&gt; "Female", "Male", "Female", "Female", "Female", "F…
-## $ current_grade       &lt;chr&gt; "Director Fin. &amp; Admin.", "Deputy Director (Admin.…
-## $ senior_junior_staff &lt;chr&gt; "senior", "senior", "senior", "senior", "senior", …
-## $ department          &lt;chr&gt; "State Protocol Dept", "State Protocol Dept", "Sta…
-## $ years_of_service    &lt;dbl&gt; 30.220397, 16.049281, 33.968515, 11.553730, 21.180…
+## $ current_grade       &lt;chr&gt; "Assist. Landscape Designer Grade II", "Co-Operati…
+## $ senior_junior_staff &lt;chr&gt; "junior", "senior", "senior", "senior", "senior", …
+## $ department          &lt;chr&gt; "Parks &amp; Gardens", "Co-operatives", "Controller &amp; …
+## $ years_of_service    &lt;dbl&gt; 24.87, 17.83, 25.65, 2.76, 12.56, 23.75, 4.59, 3.2…
 ```
 
 ---
@@ -374,8 +362,8 @@ glimpse(department_staff_age)
 ```
 ## Rows: 8,714
 ## Columns: 2
-## $ ID  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,…
-## $ age &lt;dbl&gt; 60.15058, 41.74949, 59.43053, 50.55989, 51.28268, 45.22656, 41.900…
+## $ ID  &lt;int&gt; 8603, 3695, 5563, 3529, 5032, 4391, 3069, 6048, 4680, 8551, 5107, …
+## $ age &lt;dbl&gt; 18.00442, 18.00657, 18.00669, 18.00874, 18.01030, 18.01677, 18.018…
 ```
 
 ---
@@ -474,7 +462,7 @@ department_female &lt;- arrange(temp1, years_of_service)  # arrange by years of 
 
 # Filtering and sorting 
 
-## Exercise 5: Now let's do it.. filter and sort your data
+## Exercise 4: Now let's do it.. filter and sort your data
 
 We can write the whole code for this in our exercise script. (You can copy and paste the code below)
 
@@ -616,7 +604,7 @@ department_age &lt;- left_join(department_staff_list, department_staff_age) # Ou
 
 # Merging dataframes
 
-## Exercise 6: Now let's do it. 
+## Exercise 5: Now let's do it. 
 
 - You can copy and paste the code to your exercise script. 
 
@@ -658,7 +646,7 @@ If we **only** do this, this won't do anything, to complete the function we need
 
 # Grouping and summarizing 
 
-## Government analytics request
+## Exercise 6: Government analytics request
 
 summarize works in a similar way to mutate:
 
@@ -759,14 +747,17 @@ name: exporting-outputs
 
 # Exporting outputs 
 
-## Exercise 7: Export `employees_by_deparment` 
+## Exercise 7 (if time allows): Export `employees_by_deparment` and `department_staff_final`
 
 1. Use this code to export the results of the last two exercises:
 
 
 ``` r
 write.csv(employees_by_deparment, "employees_by_deparment", row.names = FALSE)
+write.csv(department_age, "department_staff_final", row.names = FALSE)
 ```
+
+Note: This files are already in our data folder online, so if you don't have time to do it don't worry. 
 
 ---
 

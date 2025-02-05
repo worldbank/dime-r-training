@@ -1,26 +1,51 @@
+# Solutions for session 2 : data wrangling
+# Exercise 2: Install needed packages (for this session only dplyr and tidyr)
+# Note: the installation of packages only has to be done one time. 
+install.packages("dplyr")
+install.packages("readr") # to write csv
 
-# Exercise 3
-# load libraries 
-
+# Exercise 3: load libraries 
+# Note: the loading of libraries has to be done in every script you will use the functions in. 
 library(dplyr)
-library(tidyr)
-library(openxlsx)
 
-# Exercise 4 
-#load data
-
+# Exercise 4: load data
 # Data
-department_staff_list    <- openxlsx::read.xlsx("data/department_staff_list.xlsx")
-department_staff_age <- openxlsx::read.xlsx("data/department_staff_age.xlsx")
+# remember that the path I am using in the argument of the function is found in the file by
+# right-clicking > properties > and the location of the file, you can copy and paste that
+# and then, change backward slashes (\) for forward slashes (/)
+department_staff_list <- read.csv("data/department_staff_list.csv")
+department_staff_age <- read.csv("data/department_staff_age.csv")
 
-# Exercise 5
-department_female <- filter(department_staff_list, sex == "Female") %>% 
-  filter(years_of_service>0)
-department_female <- arrange(department_female, years_of_service)
-df_tbilisi_50 <- filter(temp2, row_number() <= 50)
+# you can also to it using our point and click method. 
 
-# Exercise 6
-temp1 <- select(small_business_2019, modified_id, income)
-temp2 <- inner_join(temp1, small_business_2019_age, by = "modified_id")
-temp3 <- filter(temp2, age > 5)
-total_income <- colSums(select(temp3, income))
+# Exercise 5: filter and sorting 
+
+# step 1 filter
+temp1 <- filter(department_staff_list, sex == "Female")
+
+# step 2 sort (arrange)
+department_female <- arrange(temp1, -years_of_service)
+# order by years of service
+
+# In this exercise you asked me about filtering by multiple variables so we did 
+
+account_female <- filter(department_staff_list, department == "Controller & Accountant General" & sex == "Female")
+
+
+# Exercise 6: join datasets
+department_age <- left_join(department_staff_list, department_staff_age)
+
+# Exercise 7: group by 
+temp1 <- group_by(department_staff_list, department)
+employees_by_department <- summarise(temp1, number = n())
+
+# Exercise 8: save datasets (if we have time)
+
+write.csv(employees_by_department,
+          "data/employees_by_department.csv", row.names = FALSE)
+
+write.csv(department_age,
+          "data/department_staff_final.csv", row.names = FALSE)
+
+
+
