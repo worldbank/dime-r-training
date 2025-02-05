@@ -2,7 +2,7 @@
 title: "Session 2 - Data wrangling"
 subtitle: "R training"
 author: "María Reyes Retana"
-date: "The World Bank | December 2024"
+date: "The World Bank | January 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -76,6 +76,34 @@ knitr::include_graphics("img/template.png")
 
 ---
 
+# Introduction  
+
+## Access to Training Materials  
+
+All the materials for this training are available at the following link:  
+[https://osf.io/r3fn5/](https://osf.io/r3fn5/)  
+
+Here’s what you will find there:  
+
+- 📂 **Data**: All datasets we’ll use throughout the training sessions.  
+- 📑 **Slides**: The presentation slides for each session.  
+- ✏️ **Solutions**: Will be added to the folder after each session.  
+
+---
+
+# Introduction  
+
+## Course Structure  
+
+This training will cover the basics of coding in R. Below is the structure of the course:  
+
+- 📅 **Day 1**: Introduction to R – Get familiar with the R environment and basic syntax. 
+- 🛠 **Day 2**: **Data Wrangling – Learn to clean and transform data effectively.**  
+- 📊 **Day 3**: Descriptive Statistics – Explore methods to summarize and analyze data.  
+- 📈 **Day 4**: Data Visualization – Create meaningful and impactful data visualizations. 
+
+---
+
 class: inverse, center, middle
 name: about-this-session
 
@@ -136,73 +164,22 @@ knitr::include_graphics("img/session2/r-libraries.png")
 
 # R Packages
 
-## Installing R Packages
+We'll use two packages in today's session: `dplyr` and `readr` (really useful library for data cleaning and wrangling).  
 
-- Installing packages is usually simple, but it can be challenging in institutional network connections such as the World Bank.
-
-- The next exercise will set up RStudio so that it can install R Packages without problems
-
----
-
-# R Packages
-
-## Exercise 1: Setting up the installation of packages
-
-1 - In RStudio, go to `Tools` >> `Global Options...`
-
-```{r echo = FALSE, out.width="60%"}
-knitr::include_graphics("img/session2/global-options.png")
-```
-
----
-
-# R Packages
-
-## Exercise 1: Setting up the installation of R Packages
-
-.pull-left[
-2 - Select `Packages` in the left pane
-
-3 - Uncheck `Use secure download method for HTTP`
-
-4 - Click `OK`
-
-You will not see any changes in your RStudio window after this, but now you'll be able to install packages.
-]
-
-.pull-right[
-```{r echo = FALSE, out.width="90%"}
-knitr::include_graphics("img/session2/packages-options.png")
-```
-]
-
----
-
-# R Packages
-
-We'll use two package in today's session: `dplyr` (really useful library for data wrangling) and `openxlsx` (to work with Excel files)  
-
-## Exercise 2: Installing R Packages
+## Exercise 1: Installing R Packages
 
 1. Install the R Packages by using `install.packages()`
 
  + `install.packages("dplyr")`
- + `install.packages("openxlsx")`
- + Note the quotes (`" "`) in the packages names
+ + `install.packages("readr")`
+ +  Note the quotes (`" "`) in the packages names
  + **Introduce this code in the console**, not the script panel
-
+ 
 .pull-left[
 ```{r echo = FALSE, out.width="85%"}
 knitr::include_graphics("img/session2/dplyr-install.png")
 ```
 ]
-
-.pull-right[
-```{r echo = FALSE, out.width="85%"}
-knitr::include_graphics("img/session2/open-install.png")
-```
-]
-
 
 ---
 
@@ -218,9 +195,9 @@ knitr::include_graphics("img/session2/installing-dplyr.png")
 
 # R packages
 
-Now that `dplyr` and `openxlsx ` are installed, we only need to load them to start using the functions they have.
+Now that `dplyr` is installed, we only need to load them to start using the functions they have.
 
-## Exercise 3: Loading packages
+## Exercise 2: Loading packages
 
 .pull-left[
 1. Open a new script with `File` >> `New File` >> `R Script`
@@ -229,7 +206,6 @@ Now that `dplyr` and `openxlsx ` are installed, we only need to load them to sta
 
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
-library(openxlsx)
 ```
 
   + Run this code from the new script you just opened
@@ -290,7 +266,7 @@ knitr::include_graphics("img/session2/data-wrangling.png")
 
 ## Getting your data ready
 
-- Data wrangling is one of the most crucial and time-consuming aspects of data work
+- Data wrangling is one of the most crucial and time-consuming aspects of analytics
 
 - It involves not only coding, but also the mental exercise of thinking  what is the shape and condition that your dataframe needs to have in order to produce your desired output
 
@@ -305,7 +281,7 @@ knitr::include_graphics("img/session2/data-wrangling-reasoning.png")
 ## Getting your data ready
 
 .pull-left[
-- As we said before we'll use `dplyr` and `tidyr` for data wrangling in this training
+- As we said before we'll use `dplyr` for data wrangling in this training
 
 - You can also use basic R, but we recommend these packages because its functions are easier to use
 ]
@@ -319,21 +295,21 @@ knitr::include_graphics("img/session2/dplyr.png")
 
 # Data wrangling 
 
-## Exercise 4: Loading data
+## Exercise 3: Loading data
 
 Note that this part of this is the same exercise we did in session 1, but it's okay to repeat it in order to start using a new RStudio session. **If you have RStudio open, start by closing the window and opening RStudio again**.
 
 .pull-left[
-1. Inyou new RStudio window, go to `File` > `Import Dataset` > `From Excel` and select again the file `department_staff_list.xslx`
+1. Inyou new RStudio window, go to `File` > `Import Dataset` > `From Text(base)` and select again the file `department_staff_list.csv`
 
   + if you don't know where the file is, check in the `Downloads` folder
-  + if you need to download it again, it's here: https://osf.io/2apht 
+  + if you need to download it again, it's here: https://osf.io/chdgj
 
 1. Make sure to select `Heading` > `Yes` in the next window
 
 1. Select `Import`
 
-1. Download this new file: https://osf.io/v6psa and repeat steps 1-3  with it
+1. Download this new file `department_staff_age.csv`: https://osf.io/qsmke and repeat steps 1-3  with it
 
 ]
 .pull-right[
@@ -348,8 +324,8 @@ knitr::include_graphics("img/session1/import3.png")
 # Data wrangling 
 
 ```{r, echo=FALSE}
-department_staff_list <- read.xlsx("data/department_staff_list.xlsx")
-department_staff_age <- read.xlsx("data/department_staff_age.xlsx")
+department_staff_list <- read.csv("data/department_staff_list.csv")
+department_staff_age <- read.csv("data/department_staff_age.csv")
 ```
 
 ```{r echo = FALSE, out.width="85%"}
@@ -362,15 +338,29 @@ knitr::include_graphics("img/session2/ex4.png")
 
 ## Note: loading data with a function
 
-- You can also load Excel data with the function `read.xlsx()` instead of using this point-and-click approach
+- You can also load csv files with the function `read.csv()` instead of using this point-and-click approach
 
-- The **argument** of `read.xlsx()` is the path in your computer where your data is. For example
+- The **argument** of `read.csv()` is the path in your computer where your data is. For example
 
 ```{r, eval=FALSE}
-department_staff_list <- read.xlsx("C:/Users/wb614536/Downloads/department_staff_list.xlsx")
+department_staff_list <-read.csv("C:/Users/wb614536/Downloads/department_staff_list.csv")
 ```
 
-- As usual, you need to save the result of `read.xlsx()` into a dataframe object with the arrow operator (`<-`) for it to be stored in the environment
+- As usual, you need to save the result of `read.csv()` into a dataframe object with the arrow operator (`<-`) for it to be stored in the environment
+
+---
+
+# Note on file paths 
+
+- A **file path** tells R where to find your file on your computer. It is like giving R the directions to your file.
+
+- If you downloaded the data and haven't moved it, the data path for the deparment_list dataset will be probably something like: `"C:/Users/wb614536/Downloads/department_staff_list.csv"`
+
+- You can find the path of a file by right-clicking>properties>and seeing the location, or by clicking on the top bar (see below)
+
+```{r echo = FALSE, out.width="85%"}
+knitr::include_graphics("img/session2/path.png")
+```
 
 ---
 
@@ -402,78 +392,9 @@ glimpse(department_staff_age)
 
 - We will only use this second dataframe in one of the next exercises, but we load it now because it's in general a good practice to have data loaded into the memory so it's ready to be used.
 
-- For the next exercises, we will face mention scenarios that could show up in doing your annual reports on in day-to-day operations.
+- For the next exercises, we will propose scenarios that could show up while doing your annual reports or in day-to-day operations.
 
----
-
-# The pipe ( %>% ) operator
-
-
-- Before diving into data wrangling, we will to introduce a **super useful tool**:  
-  **the pipe (`%>%`)**.
-
-- The pipe is part of the `dplyr` package. It helps to write code in a way that is easier to read and understand.
-
-- Reading and understanding multiple operations can be difficult.
-
-- The pipe operator (**%>%**) can help with this.  
-
----
-
-# The pipe operator
-
-
-- With the pipe, code reads from left to right, top to bottom, which is more intuitive.
-
-- %>% can be read as "then" and simplifies code structure. 
-
-For example let's see at this mock get to work sequence example: 
-
-**Without pipe ( %>% )** (hard to read and understand the sequence)
-
-```{r, eval=FALSE}
-go_to_work(make_breakfast(work_out(brush_teeth(wake_up(Mer)))))
-```
-
-**With pipe ( %>% )** (the order is clear)
-
-```{r, eval=FALSE}
-Mer %>% 
-  wake_up() %>%
-  brush_teeth() %>%
-  work_out() %>%
-  make_breakfast() %>%
-  go_to_work()
-```
-
----
-
-# The pipe
-
-Normally the functions that we will use are organized around a set of verbs, or actions to be taken. 
-
---
-
-* Most *verbs* work as follows:
-
-
-$$\text{verb}(\underbrace{\text{data.frame}}_{\text{1st argument}}, \underbrace{\text{what to do}}_\text{2nd argument})$$
-
---
-
-* Alternatively you can (**should**) use the `pipe` operator `%>%`:
-
-$$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %>% }}_{\text{"pipe" operator}} \text{verb}(\underbrace{\text{what to do}}_\text{2nd argument})$$
-
-We will start using the pipe from this point. Please ask if something is not clear.
-
-**Tip**💡: Use Shift + Ctrl/Cmd + M as a shortcut for the pipe operator.
-
----
-
-# Questions?
-
-![](https://media.giphy.com/media/XHVmD4RyXgSjd8aUMb/giphy.gif?cid=790b7611auicodssx8z4zly6u6z5k4pd0r1i13drege3yunc&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+- We will do everything using **functions** from the `dplyr` package, that is already in our environment. 
 
 ---
 
@@ -493,15 +414,17 @@ knitr::include_graphics("img/session2/filter.png")
 ```
 
 
-## Data work request
+## Government analytics request
 
 **Scenario 1**: Imagine you want to include in the annual reports, the number of total female employees in the department staff:
+
+❎In Excel:  The command that we will learn here, is similar to using filter in Excel.
 
 ---
 
 # Filtering and sorting 
 
-## Data work request
+## Government analytics request
 
 .pull-left[
 *We will use the data from our dataframe department_staff_list*
@@ -518,12 +441,14 @@ knitr::include_graphics("img/session2/filtering-sorting-planning.png")
 
 # Filtering and sorting 
 
-## Data work request
+## Government analytics request
 
 Now let's say that we are also interested at a first glance of the females that recently joined the department. We would have to do the following 
 
 1. Keeping only the female employees
 1. Sorting by years of service
+
+❎In Excel:  We would filter and then use arrange by years of service. 
 
 
 ---
@@ -534,12 +459,11 @@ Now let's say that we are also interested at a first glance of the females that 
 
 Use `filter()` for this:
 
-```{r, eval=FALSE}
-department_female <- department_staff_list %>% # pipe takes data as first argument "and then"
-                          filter(sex == "Female") # we filter by Female
-```
+Remember how we use functions in this case 1st argument is **data**, second argument is **filter** (sex takes the value female in this case)
 
-Remember that we said we were starting to use the pipe (%>%). The pipe takes our data as the first argument, and then we need to pass only the instruction (filter)
+```{r, eval=FALSE}
+temp1 <- filter(department_staff_list, sex == "Female")
+```
 
 ```{r echo = FALSE, out.width="45%"}
 knitr::include_graphics("img/session2/filtering-sorting1.png")
@@ -553,10 +477,7 @@ knitr::include_graphics("img/session2/filtering-sorting1.png")
 Use the function `arrange()` to sort. Sortings are ascending by default in R (this will get us from less years of service to more years of service). 
 
 ```{r eval=FALSE}
-department_female <- department_staff_list %>%  
-                          filter(sex == "Female") %>% # pipe takes previous instruction "and then"
-                          arrange(years_of_service)  # arrange by years of service
-                          
+department_female <- arrange(temp1, years_of_service)  # arrange by years of service
 ```
 
 ```{r echo = FALSE, out.width="45%"}
@@ -567,7 +488,7 @@ knitr::include_graphics("img/session2/filtering-sorting2.png")
 
 # Filtering and sorting 
 
-## Exercise 5: Now let's do it.. filter and sort your data
+## Exercise 4: Now let's do it.. filter and sort your data
 
 We can write the whole code for this in our exercise script. (You can copy and paste the code below)
 
@@ -576,9 +497,10 @@ We can write the whole code for this in our exercise script. (You can copy and p
 2.- Sort by `years_of_service`:
 
 ```{r, eval=FALSE}
-department_female <- department_staff_list %>% 
-                      filter( sex == "Female") %>% 
-                      arrange(years_of_service)
+temp1 <-  filter(department_staff_list, sex == "Female") # filter by female
+
+department_female <- arrange(temp1, years_of_service) # order by years of service
+  
 ```
 
 ---
@@ -589,7 +511,7 @@ Some notes:
 
 .pull-left[
 - `filter()` and `arrange()` are all functions from `dplyr`. Remember you have to always load `dplyr` first with `library(dplyr)` to be able to use them
-- The resulting dataframe is `department_female`
+- The resulting dataframe is `department_female` (and we also have `temp1`) 
 ]
 .pull-right[
 ```{r echo = FALSE, out.width="95%"}
@@ -636,16 +558,22 @@ knitr::include_graphics("img/session2/mutate.png")
 
 ## Example
 
-Using our data frame let's say that we want to include a variable that for any reason instead of years of service we want days of service. We would do this by doing the following: 
+Using our data frame let's say that we want to include a variable that instead of years of service we want days of service. We would do this by doing the following: 
 
 ```{r, eval=FALSE}
-example_mutate <- department_staff_list %>% 
-  mutate(days_of_service = years_of_service*365)
+example_mutate <-  mutate(department_staff_list, days_of_service = years_of_service*365)
 ```
 
-We will not use that variable for our datawork examples, but this is a really useful data wrangling function. 
+We will not use that variable for our government analytics examples, but this is a really useful data wrangling function. 
 
 ---
+
+# Questions?
+
+![](https://media.giphy.com/media/XHVmD4RyXgSjd8aUMb/giphy.gif?cid=790b7611auicodssx8z4zly6u6z5k4pd0r1i13drege3yunc&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
+---
+
 
 class: inverse, center, middle
 name: merging
@@ -659,21 +587,21 @@ name: merging
 
 # Merging dataframes
 
-Merging data is a common task in data analysis, especially when working with large datasets. 
+Merging data is a common task in data analysis, especially when working with data from multiple departments. 
 
 Let's see how it would apply to our dataframes.
 
-## Data work request
+## Government analytics request
 
 **Scenario 2:**
 
-*Let's imagine that for our annual report we are also interested in the age distribution from the employees*
+*Let's imagine that for our annual report we are also interested in the age distribution from the employees* but these are in different datasets
 
 ---
 
 # Merging dataframes
 
-## Data work request
+## Government analytics request
 
 .pull-left[
 *Use the data `department_staff_list` that you already know with the department_staff_age*
@@ -692,11 +620,10 @@ knitr::include_graphics("img/session2/merging-planning.png")
 
 To do this we will use `left_join()` to merge the dataframes:
 
-- The arguments of the function are 1. our previous selected data (passed by the pipe) and 2. the dataframe we want to merge to the first one
+- The arguments of the function are 1. the "principal" dataset and 2. the dataframe we want to merge (paste) into that one
 
 ```{r eval=FALSE}
-deparment_staff_list_age <- deparment_staff_list %>% # Our original data frame " %>% and then" 
-                            left_join(department_staff_age) # our second data frame
+department_age <- left_join(department_staff_list, department_staff_age) # Our original data frame 
 ```
 
 
@@ -708,13 +635,12 @@ knitr::include_graphics("img/session2/merging.png")
 
 # Merging dataframes
 
-## Exercise 6: Now let's do it. 
+## Exercise 5: Now let's do it. 
 
 - You can copy and paste the code to your exercise script. 
 
 ```{r eval=FALSE}
-deparment_age <- department_staff_list %>% # Our original data frame "and then" 
-                left_join(department_staff_age) # our second data frame
+deparment_age <- left_join(deparment_staff_list, department_staff_age) # Our original data frame
 ```
 ```{r echo = FALSE, out.width="95%"}
 knitr::include_graphics("img/session2/exercise6.png")
@@ -735,7 +661,7 @@ knitr::include_graphics("img/session2/group_by.png")
 
 # Grouping and summarizing 
 
-## Data work request
+## Government analytics request
 
 **Let's say that we are interested again in the number of employees by department**
 
@@ -745,8 +671,8 @@ We will use our department_staff_list dataset to do this.
 
 ```{r, eval=FALSE}
 
-employees_by_deparment <- department_staff_list %>% 
-  group_by(department)
+employees_by_deparment <- group_by(department_staff_list, department)
+  
 
 ```
 
@@ -756,7 +682,7 @@ If we **only** do this, this won't do anything, to complete the function we need
 
 # Grouping and summarizing 
 
-## Data work request
+## Exercise 6: Government analytics request
 
 summarize works in a similar way to mutate:
 
@@ -767,20 +693,23 @@ variable_name = some_calculation
 In this case the `some_calculation` will be to count the number of employees
 
 ```{r, warning=FALSE, message=FALSE}
-employees_by_deparment <- department_staff_list %>% 
-  group_by(department) %>% 
-  summarise(number = n()) 
+temp1 <- group_by(department_staff_list, department)
+employees_by_department <- summarise(temp1, number = n())
+
 ```
 
 ---
 # Grouping and summarizing 
 
-## Data work request
+## Government analytics request
 
 This will create the following dataframe/table:
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
-employees_by_deparment
+employees_by_department
+```
+```{r, echo=FALSE}
+write.csv(employees_by_department, "data/employees_by_department.csv", row.names = FALSE)
 ```
 
 ---
@@ -800,7 +729,7 @@ These were two examples we chose to show different possible data wrangling opera
 | Append dataframes | `bind_rows()` |
 | Deduplicate | `distinct()` |
 | Collapse and create summary indicators | `group_by()`, `summarize()` |
-| Pass a result as the first argument for the next function | `%>%` (operator, not function)|
+| Pass a result as the first argument for the next function | `%>%` (operator, not function (**tomorrow**))|
 
 ---
 
@@ -815,7 +744,7 @@ name: exporting-outputs
 
 # Exporting outputs 
 
-- Until now, we've seen full examples of part 1 and 2 of the data work pipeline
+- Until now, we've seen full examples of part 1 and 2 of the Government analytics pipeline
 - What about exporting outputs?
 
 ```{r echo = FALSE, out.width="90%"}
@@ -830,9 +759,9 @@ knitr::include_graphics("img/session2/data-work-progress.png")
 
 ## Exporting dataframes
 
-- We can export it as an Excel file with the function `write.xlsx()`
+- We can export it as a csv file with the function `write.csv()`
 
-- `write.xlsx()` creates a Excel file with the dataframe
+- `write.csv()` creates a csv file with the dataframe
 
 - It takes two basic arguments:
 
@@ -843,21 +772,22 @@ knitr::include_graphics("img/session2/data-work-progress.png")
 
 # Exporting outputs 
 
-## Exercise 7: Export `employees_by_deparment` 
+## Exercise 7 (if time allows): Export `employees_by_deparment` and `department_staff_final`
 
 1. Use this code to export the results of the last two exercises:
 
 ```{r eval=FALSE}
-write.xslx(employees_by_deparment,
-          "employees_by_deparment",
-          row.names = FALSE)
+write.csv(employees_by_deparment, "employees_by_deparment", row.names = FALSE)
+write.csv(department_age, "department_staff_final", row.names = FALSE)
 ```
+
+Note: This files are already in our data folder online, so if you don't have time to do it don't worry. 
 
 ---
 
 # Exporting outputs 
 
-Now `employees_by_deparment.xlsx` (probably in your `Documents` folder).
+Now `employees_by_deparment.csv` (probably in your `Documents` folder).
 
 ```{r echo = FALSE, out.width="70%"}
 knitr::include_graphics("img/session2/exported-csv.png")
@@ -869,12 +799,10 @@ knitr::include_graphics("img/session2/exported-csv.png")
 
 ## Some notes on file paths
 
-- The second argument of `write.xlsx()` specifies the file path we export the dataframe to
+- The second argument of `write.csv()` specifies the file path we export the dataframe to
 
 ```{r eval=FALSE}
-write.xslx(employees_by_deparment,
-          "employees_by_deparment",
-          row.names = FALSE)
+write.csv(employees_by_deparment, "employees_by_deparment", row.names = FALSE)
 ```
 
 - You can include any path in your computer and R will write the file in that location
@@ -920,7 +848,7 @@ knitr::include_graphics("img/session2/save.png")
 
 # Wrapping up 
 
-## Data work pipeline
+## Government analytics pipeline
 
 ```{r echo = FALSE, out.width="85%"}
 knitr::include_graphics("img/session2/data-work-final.png")
@@ -930,7 +858,7 @@ knitr::include_graphics("img/session2/data-work-final.png")
 
 # Wrapping up 
 
-## Data work pipeline
+## Government analytics pipeline
 
 ```{r echo = FALSE, out.width="85%"}
 knitr::include_graphics("img/session2/data-work-day-2.png")
@@ -968,8 +896,7 @@ Imaging I only want a list with ID and department.
 Use `select()` for this:
 
 ```{r eval=FALSE}
-temp1 <- department_staff_list %>% 
-          select(ID, department)
+temp1 <-  select(department_staff_list, ID, department)
 ```
 
 ---
@@ -984,10 +911,11 @@ For our current data this does not apply, but this will be really useful for bud
 This would look something like this
 
 ```{r eval=FALSE}
-budget_2024 <- budget_data %>% 
-                group_by(year, product) %>% 
-                summarise(total = sum(income),
-                average = mean(income))
+budget_2024 <-  group_by(budget_data, year, product)
+
+budget_2024 <- summarise(budget_2024, 
+                         total = sum(income),
+                         average = mean(income))
 ```
 
 ---

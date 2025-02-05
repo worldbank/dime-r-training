@@ -3,7 +3,7 @@
   <head>
     <title>Session 4 - Data visualization</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luis Eduardo San Martin" />
+    <meta name="author" content="María Reyes Retana" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -29,13 +29,13 @@ class: center, middle, inverse, title-slide
 # Session 4 - Data visualization
 ]
 .subtitle[
-## R training - Georgia RS-WB DIME
+## R training
 ]
 .author[
-### Luis Eduardo San Martin
+### María Reyes Retana
 ]
 .date[
-### The World Bank | September 2023
+### The World Bank | January 2025
 ]
 
 ---
@@ -51,14 +51,15 @@ class: center, middle, inverse, title-slide
 }
 &lt;/style&gt;
 
-# Table of contents // სარჩევი
+&lt;img src="img/template.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+# Table of contents 
 
 - [Introduction](#intro)
 - [The grammar of graphics](#grammar-of-graphics)
 - [Bar plots](#bar-plots)
+- [Pie charts](#pie-charts)
 - [Line plots](#line-plots)
-- [Text encodings](#text-encodings)
-- [Scatter plots](#scatter-plots)
 - [Wrapping up](#wrapping-up)
 
 ---
@@ -66,13 +67,13 @@ class: center, middle, inverse, title-slide
 class: inverse, center, middle
 name: intro
 
-# Introduction // გაცნობა
+# Introduction  
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Introduction // გაცნობა
+# Introduction  
 
 ## About this session
 
@@ -80,7 +81,7 @@ name: intro
 
 ---
 
-# Introduction // გაცნობა
+# Introduction  
 
 ## Data visualization in the data work pipeline
 
@@ -90,11 +91,48 @@ name: intro
 
 - The input for that code is a wrangled dataframe, dataframe that is ready to be used
 
-&lt;img src="img/session4/data-vis.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session4/data-vis.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Introduction // გაცნობა
+# Introduction
+
+## From Your Annual Reports  
+
+In your annual reports, the most common visualizations include:  
+
+1. **Bar Graphs**: Used to compare categories (e.g., spending across departments or revenue by month).  
+2. **Pie Charts**: Used to show proportions (e.g., product share, budget breakdown).  
+
+.pull-left[
+**Bar Graph Example**  
+![Bar Graph](img/session4/bar-chart.png)
+]
+
+.pull-right[
+**Pie Chart Example**  
+![Pie Chart](img/session4/pie-chart.png)
+]
+
+---
+
+# Introduction
+
+## What You Will Learn  
+
+Today, I will teach you how to:  
+
+1. **Recreate these common visualizations** (and more) using code.  
+2. Build clean and reproducible charts that you can easily include in your annual reports.  
+3. Explore additional visualization techniques to make your data more impactful.  
+
+We will keep using the data we have been using from the beginning to keep this simple, but the code could be recycled to fit the data of your annual reports. 
+
+Let’s get started!  
+
+---
+
+# Introduction  
 
 ## Data visualization in R
 
@@ -114,73 +152,116 @@ name: intro
 
 ---
 
+# ggplot2
+
+&lt;img src="img/session4/ggplot2-dib.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
 class: inverse, center, middle
 name: grammar-of-graphics
 
-# The grammar of graphics // გრაფიკის გრამატიკა
+# The grammar of graphics 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# The grammar of graphics // გრაფიკის გრამატიკა
+# The grammar of graphics
 
-## The grammar of graphics in `ggplot2`
+## What is ggplot2?  
 
-&lt;img src="img/session4/grammar-of-graphics.png" width="100%" style="display: block; margin: auto;" /&gt;
+- **ggplot2** is a powerful and flexible tool for creating data visualizations in R.  
+- It combines **philosophy + functions** into a well-organized framework.  
 
----
-
-# The grammar of graphics // გრაფიკის გრამატიკა
-
-## The grammar of graphics in `ggplot2`
-
-&lt;img src="img/session4/grammar-of-graphics2.png" width="100%" style="display: block; margin: auto;" /&gt;
+### Things to Keep in Mind:  
+1. ggplot2 may feel like **a lot to learn**, but let's do it step by step. 
+2. Today, we’ll cover the basics, but you’ll also get resources to keep exploring on your own.  
 
 ---
 
-# The grammar of graphics // გრაფიკის გრამატიკა
+# The grammar of graphics
 
-## The grammar of graphics in `ggplot2`
+## The Structure of ggplot2  
 
-&lt;img src="img/session4/grammar-of-graphics3x.png" width="100%" style="display: block; margin: auto;" /&gt;
+Creating a plot with ggplot2 requires **three basic components**:  
 
----
+1. **Data**: The dataset you want to visualize.  
+2. **Aesthetics (aes)**: How you map your data to visual elements (e.g., x-axis, y-axis, color).  
+3. **Geometry (geom)**: The type of plot you want (e.g., bar graph, scatter plot).  
 
-# The grammar of graphics // გრაფიკის გრამატიკა
-
-## The grammar of graphics in `ggplot2`
-
-&lt;img src="img/session4/grammar-of-graphics3y.png" width="100%" style="display: block; margin: auto;" /&gt;
+(and many more but we will keep it simple in this presentation)
 
 ---
 
-# The grammar of graphics // გრაფიკის გრამატიკა
+# The grammar of graphics  
 
 ## The grammar of graphics in `ggplot2`
 
-&lt;img src="img/session4/grammar-of-graphics4gc.png" width="100%" style="display: block; margin: auto;" /&gt;
+I will use the table of employees by department we created in session two to start with this.
+
+You can also download it from here: https://osf.io/qb92t if you don't have it. 
+
+
+``` r
+employees_by_department &lt;- read.csv("data/employees_by_department.csv")
+```
+
+
+&lt;img src="img/session4/grammar-of-graphics.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# The grammar of graphics // გრაფიკის გრამატიკა
+# The grammar of graphics  
 
 ## The grammar of graphics in `ggplot2`
 
-&lt;img src="img/session4/grammar-of-graphics4l.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session4/grammar-of-graphics2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics  
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics3x.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics 
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics3y.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics  
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics4gc.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The grammar of graphics 
+
+## The grammar of graphics in `ggplot2`
+
+&lt;img src="img/session4/grammar-of-graphics4l.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 class: inverse, center, middle
 name: bar-plots
 
-# Bar plots // ბარის ნაკვეთები
+# Bar plots  
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Bar plots // ბარის ნაკვეთები
+# Bar plots  
 
 ## Exercise 1a: Create a basic bar plot
 
@@ -189,95 +270,138 @@ name: bar-plots
 1. Load `ggplot2`
 
 
-```r
+``` r
 library(ggplot2)
 ```
 
 1. Produce a basic bar plot with the following code:
 
 
-```r
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
+``` r
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
   geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month")
+  labs(title = "Number of employees by department, 2024")
 ```
 
 ---
 
-# Bar plots // ბარის ნაკვეთები
+# Bar plots  
 
 
 
 This result should be displayed in the lower right panel of your RStudio window
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-17-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+In Excel ❎ you would select the data and insert bar graph. 
 
 ---
 
-# Bar plots // ბარის ნაკვეთები
+# Bar plots  
 
-This plot looks acceptable but it can be improved:
+This plot doesn't look great yet!
 
 .pull-left[
-- `taxperiod` is a variable representing months but R doesn't know it and it's showing the x-axis with decimals. We need to tell R that those values shouldn't be changed
+- `department` is too crowded as the names are long, but R does not know this. We need to tell R that those labels should be rotated
 
 - We can center the title
 
-- We should add axis labels (instead of just "vat_liability" and "taxperiod") 
+- We should add axis labels (instead of just variable names)
+
+- We can add color
 ]
 
 .pull-right[
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Bar plots // ბარის ნაკვეთები
+# Bar plots  
 
 ## Exercise 1b: Improve your bar plot
 
 1. Use the following code to improve the aesthetics of your plot
 
 
-```r
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month",
-       # x-axis title
-       x = "Month",
-       # y-axis title
-       y = "Georgian Lari") +
-  # telling R not to break the x-axis
-  scale_x_continuous(breaks = 201901:201912) +
-  # centering plot title
-  theme(plot.title = element_text(hjust = 0.5))
+``` r
+ggplot(employees_by_department) +
+  aes(x = department,
+      y = number) +
+* geom_col(fill = "#9370DB") +
+  labs(
+    title = "Number of employees by department, 2024", # title
+*   x = "Department",
+*   y = "Number"
+  ) +
+  # Title and subtitles
+  theme(
+*   plot.title = element_text(hjust = 0.5),
+*   axis.text.x = element_text(angle = 45, hjust = 1)
+  )
 ```
 
 ---
 
-# Bar plots // ბარის ნაკვეთები
+# Bar plots 
 
 Now this looks better:
 
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Bar plots // ბარის ნაკვეთები
+# Bar plots 
 
-## Exercise 1c: save your plot
+## Exercise 1c: Improve your bar plot
+
+But we can actually make this even better. I would reorder by amount of employees, and add labels. 
+
+
+``` r
+# Create the bar plot
+ggplot(employees_by_department) +
+  aes(x = reorder(department, -number), y = number) + #&lt;&lt;  # Reorder bars by `number`
+  geom_col(fill = "#9370DB") +
+*   geom_text(
+*   aes(label = number),
+*   angle = 90
+* ) +
+  labs(
+    title = "Number of employees by department, 2024",
+    x = "Department",
+    y = "Number"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels
+  )
+```
+
+---
+
+# Bar plots
+
+Now this is ready to be in one of your reports. 
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Bar plots 
+
+## Exercise 1d: save your plot
 
 Now that your plot looks good, you can save it into an output with `ggsave()`
 
 1. Use this code to save your plot:
 
 
-```r
-ggsave("vat_liability_small_2019.png",
+``` r
+ggsave("employees_by_department.png",
        width = 20,
        height = 10,
        units = "cm")
@@ -285,7 +409,7 @@ ggsave("vat_liability_small_2019.png",
 
 ---
 
-# Bar plots // ბარის ნაკვეთები
+# Bar plots  
 
 .pull-left[
 - `ggsave()` by default saves the last plot your produced
@@ -301,441 +425,200 @@ ggsave("vat_liability_small_2019.png",
 
 ---
 
-# Bar plots // ბარის ნაკვეთები
+# You Did Your First Plot! 🎉  
 
-## A note about syntax
+## The Possibilities Are Endless  
 
-- Data visualization usually requires several iterations to add new elements to your initial code and improve your plot
+- Congratulations on creating your **first plot**!  
+- From here, you can explore countless options to visualize your data:  
+  - Bar graphs, line plots, scatterplots, pie charts, and more.  
+- Experimentation is key! Don’t be afraid to try new things or make mistakes.  
 
-- `ggplot2` adds new elements to a visualization with the symbol `+`
+## You Have the Power 💪  
 
-- More customization means that your code can easily become quite long. Using spaces and line breaks helps for clarity, but **there is just no way around it**
+- Data visualization is a skill that grows with practice.  
+- Use online resources and communities like:  
+  - [ggplot2 Documentation](https://ggplot2.tidyverse.org/)  
+  - [ggplot presentation](https://pkg.garrickadenbuie.com/gentle-ggplot2)
 
-- In programming this is known as **heavy syntax**
+---
 
-.pull-left[
-.small[
+# Now the sky is the limit! 🎉  
 
-```r
-# Exercise 1:
-ggplot(small_business_2019_all) +
-  aes(x = taxperiod,
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month")
+.pull-center[
+![](https://media.giphy.com/media/ely3apij36BJhoZ234/giphy.gif?cid=790b7611p87zw04yox77s108ey9w37ywgr19nck8aphgxiu6&amp;ep=v1_gifs_search&amp;rid=giphy.gif&amp;ct=g)  
+]
+
+---
+
+class: inverse, center, middle
+name: pie-charts
+
+# Pie charts
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+---
+
+# Pie charts
+
+## From Bar Plots to Pie Charts  
+
+- We just created a **bar plot** to visualize the number of employees by department.  
+- Let’s now use the **same data** to create a **pie chart**, a common way to show proportions.  
+
+### Geoms and Graph Types  
+Remember: The **geom** controls the type of graph we create.  
+- **`geom_col()`**: Creates bar plots.  
+- **`geom_bar()`** with **coord_polar()**: Converts data into a pie chart.  
+
+---
+
+# Pie Charts  
+
+## Exercise 2a: Create a Pie Chart  
+
+1. Use the following code to create a pie chart:
+
+
+``` r
+ggplot(employees_by_department) +
+  aes(x = "", y = number, fill = department) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Proportion of employees by department, 2024"
+  ) +
+  theme_void()
 ```
-]
-]
+---
 
-.pull-right[
-.small[
+# Pie chart
 
-```r
-# Exercise 2
-ggplot(small_business_2019_all) +
-  aes(x = as.factor(taxperiod),
-      y = vat_liability) +
-  geom_col() +
-  labs(title = "Total VAT liability of small businesses in 2019 by month",
-       x = "Month",
-       y = "Georgian Lari") +
-  theme(plot.title = element_text(hjust = 0.5))
+You should see this on your Plots panel.
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-26-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Pie chart
+
+## Exercise 2b
+
+The chart is alright, but we can customize it further.. What about changing the colors? 
+
+
+
+``` r
+ggplot(employees_by_department) +
+  aes(x = "", y = number, fill = department) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Proportion of employees by department, 2024"
+  ) +
+  theme_void() +
+* scale_fill_viridis_d(option = "D")
 ```
-]
-]
+
+---
+
+# Pie chart
+
+## Exercise 2c
+
+Now this is ready to go into our report, so let's save it. 
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-28-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Pie chart
+
+## Exercise 2c
+
+Now this is ready to go into our report, so let's save it. 
+
+
+``` r
+ggsave("employees_by_department_pie.png")
+```
+
+&lt;img src="img/session4/ggsave-ex2.png" width="40%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
 class: inverse, center, middle
 name: line-plots
 
-# Line plots // ხაზის ნაკვეთები
+# Line plots 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Line plots // ხაზის ნაკვეთები
+# Line plots 
 
-- In data visualization, we call **encodings** to the geometry selected to represent the data visually
+Another Common Plot: Line Plots  
 
-- In the previous examples, we did that when we used `geom_col()`. This tells R that our encoding to represent the data is **bars** (also called columns)
+- **Line plots** are commonly used to show **trends over time** or changes across a sequence.  
+- Examples include visualizing **monthly sales**, **yearly growth**, or **temperature changes**.  
 
-- `ggplot2` has several different options for encodings in data visualization, for example: **lines**
 
-- The encoding for lines in `ggplot2` is `geom_lines()`
+**Description**  
+- Each point represents a value at a specific time.  
+- Lines connect the points to show a continuous trend.  
+
+
 
 ---
 
-# Line plots // ხაზის ნაკვეთები
-
-- Line plots are a nice option to encode numeric values and include different categories of a second variable at the same time
-
-
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-23-1.png" width="65%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-- However, they also usually require some additional data wrangling compared to bar plots: data should be collapsed at the level specified in the x-axis and grouping variable
-
-- This is going to be clearer in the next exercise. The plot we'll produce is below
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-24-1.png" width="65%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-## Exercise 2a: Collapse your data at the month-group level
-
-Use the following code to create a dataframe collapsed at the month-group level and calculate the total VAT liability for each group in each month
-
-
-```r
-df_group_month &lt;- small_business_2019_all %&gt;%
-  select(group, taxperiod, vat_liability) %&gt;%
-  group_by(group, taxperiod) %&gt;%
-  summarize(total = sum(vat_liability))
-```
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
+# Line plots 
 .pull-left[
-The result will look like this, you can explore it with `View(df_group_month)`.
+**Code Example**  
+
+
+``` r
+library(ggplot2)
+
+# Using built-in `economics` dataset from ggplot2
+ggplot(economics) +
+  aes(x = date, y = unemploy) +
+  geom_line(color = "#9370DB", size = 1) +
+  labs(
+    title = "Unemployment Over Time",
+    x = "Date",
+    y = "Number of Unemployed"
+  ) +
+  theme_minimal()
+```
 ]
 
 .pull-right[
-&lt;img src="img/session4/df-group-month.png" width="85%" style="display: block; margin: auto;" /&gt;
+**Output Example**  
+
+&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
----
-
-# Line plots // ხაზის ნაკვეთები
-
-## Exercise 2b: Create a line plot of VAT liability by month and group
-
-
-```r
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-Your result possibly looks like this:
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-28-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-Something looks off, doesn't it? We need to **make the legend labels and x-axis texts smaller** for them without overlapping each other and to **remove the centering of the title** so it's not cropped
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-29-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-## Exercise 2c: Continue improving your plot
-
-1. Add the argument `legend.text=element_text(size=7)` inside `theme()` to decrease the legend text size
-1. Add the argument `axis.text.x=element_text(size=6)` inside `theme()` to decrease the x-axis text size
-  + note that both arguments need to be separated by a comma
-1. Remove `plot.title = element_text(hjust = 0.5)` from `theme()` to remove the centering of the plot title
-
-The result should be this:
-
-```{eval=FALSE}
-ggplot(df_group_month) +
-  aes(x = taxperiod,
-      y = total) +
-  geom_line(aes(color = group)) +
-  labs(title = "Total VAT liability of small businesses in 2019 by experiment group",
-       x = "Month",
-       y = "Georgian Lari") +
-  scale_x_continuous(breaks = 201901:201912) +
-  theme(legend.text = element_text(size = 7), # don't forget the comma!
-        axis.text.x=element_text(size=6))
-```
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-30-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-## Exercise 2d: save your plot
-
-Use this code to save your plot:
-
-
-```r
-ggsave("vat_liability_small_2019_by_group.png",
-       width = 20,
-       height = 10,
-       units = "cm")
-```
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-&lt;img src="img/session4/ggsave-ex2.png" width="50%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Line plots // ხაზის ნაკვეთები
-
-Choosing the right encoding for your data can be tricky. It depends on what you want to show in your plot and how much information you want it to show
-
-  + Bar plots show less information than line plots in general, but they are good for cases when you have only one numeric variable and one categorical variable to show
-  + Line plots can show more information and includes multiple groups to add an additional dimension to your data, but they are not visually appealing when your data varies a lot from one category to another
-
-.pull-left[
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-33-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-]
-
-.pull-right[
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-class: inverse, center, middle
-name: text-encodings
-
-# Text encodings // ტექსტური დაშიფვრები
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-- Geometric shapes such as bars and plots are not the only way to encode data in plots
-
-- We can also use text directly to represent information in the plot as in the example below. This is called **text encodings**
-
-- Text encodings can be combined with geometric encodings to highlight information or provide important additional details to your visualization
-
-
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-36-1.png" width="57%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-- Using text encodings in a bar plot is nice
-
-- However, it also requires additional data wrangling: the data needs to be collapsed at the same level of the x-axis to be able to add encodings
-
-- We'll see this in the next exercise
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-37-1.png" width="57%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-## Exercise 3a: Collapse your data at the month level
-
-This is similar to what we did for exercise 2a, except that this time the collapsing is at month level instead of the month-group level. Use the code below to store the collapsed dataframe in `month_df`
-
-
-```r
-df_month &lt;- small_business_2019_all %&gt;%
-    select(taxperiod, vat_liability) %&gt;%
-    group_by(taxperiod) %&gt;%
-    summarize(total = sum(vat_liability))
-```
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-This is the result, you can use `View(df_month)` to display it
-
-&lt;img src="img/session4/df-month.png" width="55%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-## Exercise 3b: Add encodings to your bar plot
-
-Use the collapsed dataframe `df_month` and the former code from exercise 1 to add encodings to your bar plot. The result is the code below:
-
-
-```r
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    # Note that the text encodings are added here
-    geom_text(aes(label = total),
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-This is result is nice but the text encodings have several decimal places. We can improve it by rounding `total` with the function `round()`
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-41-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-## Exercise 3c: Improve your plot once again
-
-Replace `total` with `round(total)` in `geom_text()`. The result should be:
-
-
-```r
-  ggplot(df_month) +
-    aes(x = taxperiod,
-        y = total) +
-    geom_col() +
-    geom_text(aes(label = round(total)), # &lt;--- the change goes here
-              position = position_dodge(width = 1),
-              vjust = -0.5,
-              size = 3) +
-    labs(title = "Total VAT liability of small businesses in 2019 by month",
-         x = "Month",
-         y = "Georgian Lari") +
-    scale_x_continuous(breaks = 201901:201912) +
-    theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-43-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Text encodings // ტექსტური დაშიფვრები
-
-## Don't forget to save your plot!
-
-Use this code to save this last plot:
-
-
-```r
-ggsave("vat_liability_small_2019_text.png",
-       width = 20,
-       height = 10,
-       units = "cm")
-```
-
----
-
-class: inverse, center, middle
-name: scatter-plots
-
-# Scatter plots // გაფანტავს ნაკვეთებს
-
-&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
-
----
-
-# Scatter plots // გაფანტავს ნაკვეთებს
-
-- We're going to explore one more type of encoding for data visualizations: **scatter plots**
-
-- Scatter plots are useful when you have two continuous numeric variables and want to show that there might to a correlation between them or visualize outliers (values that stand out from the rest because they are very extreme)
-
-- We use the encoding `geom_line()` for scatterplots
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-45-1.png" width="55%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Scatter plots // გაფანტავს ნაკვეთებს
-
-## Exercise 4: Create a scatter plot
-
-Use the following code to reproduce the scatter plot of the last slide:
-
-
-```r
-ggplot(small_business_2019_all) +
-  aes(x = age,
-      y = vat_liability) +
-  geom_point() +
-  labs(title = "VAT liability versus age for small businesses in 2019",
-       x = "Age of firm (years)",
-       y = "VAT liability") +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-
----
-
-# Scatter plots // გაფანტავს ნაკვეთებს
-
-&lt;img src="4-data-visualization_files/figure-html/unnamed-chunk-47-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Scatter plots // გაფანტავს ნაკვეთებს
-
-Lastly, remember to save your scatter plot with:
-
-
-```r
-ggsave("scatter_age_vat.png",
-       width = 20,
-       height = 10,
-       units = "cm"))
-```
 
 ---
 
 class: inverse, center, middle
 name: wrapping-up
 
-# Wrapping up // შეფუთვა
+# Wrapping up  
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Wrapping up // შეფუთვა
+# Wrapping up  
 
-## Other encodings in `ggplot2`
+## More in `ggplot2` 
 
-This table lists several of the most popular encoding types in `ggplot2`
+This table lists several of the most popular encoding types in `ggplot2`. Also see more [here](https://ggplot2.tidyverse.org/reference/)
 
 | Encoding | Function in `ggplot2` |
 | -------- | --------------------- |
@@ -751,7 +634,7 @@ This table lists several of the most popular encoding types in `ggplot2`
 
 ---
 
-# Wrapping up // შეფუთვა
+# Wrapping up 
 
 ## Save your code!
 
@@ -761,44 +644,75 @@ Click on the floppy disk to save your code in a location that you will remember.
 
 ---
 
-# Wrapping up // შეფუთვა
+# Wrap-Up: Looking Ahead 🚀  
 
-## Data work pipeline
+## Key Takeaways  
 
-&lt;img src="img/session4/data-work-final.png" width="95%" style="display: block; margin: auto;" /&gt;
-
----
-
-# Wrapping up // შეფუთვა
-
-## Looking ahead
-
-&lt;img src="img/session4/data-work-expanded.png" width="95%" style="display: block; margin: auto;" /&gt;
+- Today, you learned how **data + code** can create powerful visualizations and tables for your annual reports.  
+- **Why this matters:**  
+   - Code is **reusable**: Use it for next quarters or years without starting from scratch.  
+   - Code is **transparent**: Everyone can see and verify all the calculations.  
 
 ---
 
-# Wrapping up // შეფუთვა
+# Wrap-Up: Looking Ahead 🚀  
 
-## Looking ahead
+## From Data to Annual Reports  
 
-- [Connecting R with SQL databases](https://solutions.posit.co/connections/db/getting-started/connect-to-database/). Some libraries:
-  + `dbConnect`
-  + `dbplyr`
-  + `DBI`
+.pull-center[
+**Data + Code** → **Annual Report**  
+![](img/data_code_report.png)  
+*Reproducible workflows save time and improve accuracy.*  
+]
 
-- [More on data wrangling](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/03-data-wrangling.html#1). More libraries:
-  + `tidyr`
-  + `janitor`
+## What’s Next?  
 
-- [More on data visualization](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/04-data-visualization.html#1)
+- **Tomorrow**: Bring your own data, graphs, or tables.  
+   - We’ll have a **long hands-on session** where you can:  
+     - Ask questions about how to code specific visualizations or tables.  
+     - Work with your own data to make real progress.  
+
+---
+
+# Wrap-Up: Looking Ahead 🚀  
+
+## Final Thoughts 💡  
+
+- This is **new and challenging**, but it’s also incredibly **powerful** and **useful**.  
+- The only way to get better is to **keep practicing**.  
+- Experiment, google, ask questions, and remember—this will make your reports and your work clearer, faster, and less error-prone!  
+
+Keep going—you’ve got this! 
+
+![](https://media.giphy.com/media/VkjXj4cqRHsj8N29PX/giphy.gif?cid=790b7611byy41c83s55kw54q7b1errezjd68xiwimkovb7ki&amp;ep=v1_gifs_search&amp;rid=giphy.gif&amp;ct=g)
+
 
 ---
 
 class: inverse, center, middle
 
-# Thanks! // მადლობა! // ¡Gracias! // Obrigado!
+# Thanks! // ¡Gracias! // 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+&lt;img src="img/session4/welcome-r.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Resources for Data Visualization 📚  
+
+## Learn More About ggplot2  
+
+- **ggplot2 Documentation**  
+  [ggplot2.tidyverse.org](https://ggplot2.tidyverse.org)  
+
+- **R Graphics Cookbook** (Online resource for practical examples)  
+  [r-graphics.org](https://r-graphics.org)  
+
+- **R for Data Science**: Chapter on Data Visualization  
+  [r4ds.had.co.nz](https://r4ds.had.co.nz/data-visualisation.html)  
+
+- **ggplot2 Cheatsheet** (Quick reference for all functions)  
+  [Download the cheatsheet here](https://github.com/rstudio/cheatsheets/raw/main/data-visualization-2.1.pdf)  
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

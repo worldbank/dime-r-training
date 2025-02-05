@@ -1,8 +1,8 @@
 ---
-title: "Session 3 - Descriptive statistics"
-subtitle: "R training"
+title: "Session 3 - Descriptive Statistics"
+subtitle: "R Training"
 author: "María Reyes Retana"
-date: "The World Bank | December 2024"
+date: "The World Bank | January 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css",
@@ -17,6 +17,7 @@ output:
       countIncrementalSlides: false
 ---
 
+
 ```{r setup, include = FALSE}
 # Load packages
 library(knitr)
@@ -25,6 +26,8 @@ library(here)
 library(dplyr)
 library(modelsummary)
 library(huxtable)
+library(readxl)
+library(kableExtra)
 here::i_am("3-descriptive-statistics.Rmd")
 options(htmltools.dir.version = FALSE)
 opts_chunk$set(
@@ -91,39 +94,85 @@ name: intro
 # Introduction 
 
 - We learned yesterday how to conduct statistical programming and export the results in `.csv` files
-- However, sometime we might need more refined tables than simple (and ugly) CSVs
+- However, sometime we might need more refined tables than simple (and ugly) csvs
 
 ```{r echo = FALSE, out.width="95%"}
-knitr::include_graphics("img/session3/data-work-descriptive-stats.png")
+knitr::include_graphics("img/session3/data-work-final-table.png")
 ```
 
 ---
 
 # Introduction 
 
-- That's what today's session is about, along with an explanation of the pipes (`%>%`)
+- That's what today's session is about, along with an introduction of the pipe (`%>%`)
 
 ```{r echo = FALSE, out.width="95%"}
-knitr::include_graphics("img/session3/data-work-descriptive-stats.png")
+knitr::include_graphics("img/session3/data-work-final-table.png")
 ```
 
 ---
 
 # Introduction 
 
-## Exercise 1a: Getting the libraries for today's session
+## Relevance to your work
 
-We're going to use two R libraries in this session: `modelsummary` and `huxtable`.
+In your **annual reports**, you often include:
+- Summary tables like **revenue by year**, **spending across categories**, or **staff counts by department**.
+- These tables help summarize key trends and patterns for decision-makers.
 
-1. Install `modelsummary` and `huxtable`:
+```{r echo = FALSE, out.width="45%"}
+knitr::include_graphics("img/session3/programmed_psrl_2023.png")
+```
+
+- Today, we will practice **creating similar summary tables** using our staff list data.
+- While we’re using a simple dataset today, the same steps can be applied to your own data for reports with many more variables.
+
+---
+
+# Introduction 
+
+## Exercise 1a: Getting the packages for today's session
+
+We're going to use several R packages in this session: `modelsummary`, `huxtable` and ` dplyr` (you already have this). You can download the solutions 3 from the materials package, were I listed all the packages you need to install, and the instructions. You can start with the script as your base for today's exercise. 
+
+1. Install needed packages: (the package modelsummary has many dependencies)
 
 ```{r eval=FALSE}
 install.packages("modelsummary")
 install.packages("huxtable")
+install.packages("ggplot2")
+install.packages("rstudioapi")
+install.packages("openxlsx")
+install.packages("dplyr")
 ```
 
 ```{r echo = FALSE, out.width="55%"}
 knitr::include_graphics("img/session3/install.png")
+```
+
+## Exercise 1b: Download and load the data we'll use
+
+1. First of all let's open a script. `File`>`New File`>`R Script`
+
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session3/r-script.png")
+```
+
+2. Add the packages we will use today 
+
+```{r, eval=FALSE}
+library(modelsummary)
+library(huxtable)
+library(ggplot2)
+library(rstudioapi)
+library(openxlsx)
+library(dplyr)
+```
+
+3. Load the data we will use. (remember our two methods point click and code)
+
+```{r}
+department_staff_final <- read.csv("data/department_staff_final.csv")
 ```
 
 ---
@@ -133,9 +182,9 @@ knitr::include_graphics("img/session3/install.png")
 ## Exercise 1b: Download and load the data we'll use
 
 .pull-left[
-1. Go to https://osf.io/z8snr and download the file
+1. Go to https://osf.io/rk9ht and download the file
 
-1. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and select the file `small_business_2019_all.csv`
+1. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and select the file `department_staff_final.csv`
 
   + If you don't know where the file is, remember to check in your `Downloads` folder
 
@@ -164,14 +213,10 @@ knitr::include_graphics("img/session3/environment.png")
 
 ## Recap: always know your data!
 
-- This data is similar to the one we used before
-- Every row is one business in one tax period (month)
-- `modified_id` is a business identifier
-- We also have information about the region, firm age, monthly income, VAT liability
-- There is one more variable we didn't see before: `group` contains the group the firm was assigned to in a random experiment
+- This is the data that we created yesterday! (after merging the age data)
 
-```{r echo = FALSE, out.width="40%"}
-knitr::include_graphics("img/session3/df.png")
+```{r, echo=TRUE}
+glimpse(department_staff_final)
 ```
 
 ---
@@ -185,28 +230,88 @@ name: piping
 
 ---
 
-# Piping
+# The pipe ( %>% ) operator
 
-- Before we start producing more refined outputs, we need to cover piping
 
-- You probably remember this piece of code from one of yesterday's exercise:
+- Before diving into the contents of today's session, we will to introduce a **super useful tool**:  
+  **the pipe (`%>%`)**.
 
-```{r eval= FALSE}
-# Filter only businesses in Tbilisi:
-temp1 <- filter(small_business_2019, region == "Tbilisi")
+- The pipe is part of the `dplyr` package. It helps to write code in a way that is easier to read and understand.
 
-# Sort previous result by income, descending order:
-temp2 <- arrange(temp1, -income)
+- Reading and understanding multiple operations can be difficult.
 
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 <- filter(temp2, row_number() <= 50)
+- The pipe operator (**%>%**) can help with this.  
+
+---
+
+# The pipe operator
+
+
+- With the pipe, code reads from left to right, top to bottom, which is more intuitive.
+
+- %>% can be read as "then" and simplifies code structure. 
+
+For example let's see at this mock get to work sequence example: 
+
+**Without pipe ( %>% )** (hard to read and understand the sequence)
+
+```{r, eval=FALSE}
+go_to_work(make_breakfast(work_out(brush_teeth(wake_up(Mer)))))
+```
+
+**With pipe ( %>% )** (the order is clear)
+
+```{r, eval=FALSE}
+Mer %>% 
+  wake_up() %>%
+  brush_teeth() %>%
+  work_out() %>%
+  make_breakfast() %>%
+  go_to_work()
 ```
 
 ---
 
-# Piping
+# The pipe
 
-This code works, but the problem with it is that it makes us generate unnecessary intermediate dataframes (`temp1`, `temp2`) that store results temporarily
+As we saw yesterday the functions are normally organized around a set of verbs, or actions to be taken. 
+
+--
+
+* Most *verbs* work as follows:
+
+
+$$\text{verb}(\underbrace{\text{data.frame}}_{\text{1st argument}}, \underbrace{\text{what to do}}_\text{2nd argument})$$
+
+--
+
+* Alternatively you can (**should**) use the `pipe` operator `%>%`:
+
+$$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %>% }}_{\text{"pipe" operator}} \text{verb}(\underbrace{\text{what to do}}_\text{2nd argument})$$
+
+We will start using the pipe from this point. Please ask if something is not clear.
+
+**Tip**💡: Use Shift + Ctrl/Cmd + M as a shortcut for the pipe operator.
+
+---
+
+# The pipe
+
+- You probably remember this piece of code from one of yesterday's exercise:
+
+```{r eval= FALSE}
+# Filter only female employees:
+temp1 <-  filter(department_staff_list, sex == "Female") # filter by female
+
+# Sort previous result by years of service
+department_female <- arrange(temp1, years_of_service) # order by years of service
+```
+
+---
+
+# The pipe
+
+This code works, but the problem with it is that it makes us generate unnecessary intermediate dataframes (`temp1`) that store results temporarily
 
 ```{r echo = FALSE, out.width="75%"}
 knitr::include_graphics("img/session3/temp_dfs.png")
@@ -214,35 +319,29 @@ knitr::include_graphics("img/session3/temp_dfs.png")
 
 ---
 
-# Piping
+# The pipe
 
-Instead, we can use pipes to **pass the results of a function and apply a new function on top of it**
+Instead, we can use pipes to **pass the results of a function and apply a new function on top of it** (just like Mer's waking up sequence)
 
 .pull-left[
 ```{r eval= FALSE}
-# Filter only businesses in Tbilisi:
-temp1 <- filter(small_business_2019,
-                region == "Tbilisi")
+# Filter only female employees:
+temp1 <-  filter(department_staff_list, sex == "Female") # filter by female
 
-# Sort previous result by income, descending order:
-temp2 <- arrange(temp1,
-                 -income)
-
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 <- filter(temp2,
-                        row_number() <= 50)
+# Sort previous result by years of service
+department_female <- arrange(temp1, years_of_service) # order by years of service
 ```
 ]
 
 .pull-right[
 ```{r eval=FALSE}
 # The same but with pipes:
-df_tbilisi_50 <- filter(small_business_2019,
-                        region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
+department_female <- filter(department_staff_list, sex == "Female") %>% 
+                     arrange(years_of_service)
 ```
 ]
+
+- The usefulness of the pipe (%>%) becomes more evident when the code starts to get more complicated. 
 
 ---
 
@@ -250,33 +349,25 @@ df_tbilisi_50 <- filter(small_business_2019,
 
 .pull-left[
 ```{r eval= FALSE}
-# Filter only businesses in Tbilisi:
-temp1 <- filter(small_business_2019,
-                region == "Tbilisi")
+# Filter only female employees:
+temp1 <-  filter(department_staff_list, sex == "Female") # filter by female
 
-# Sort previous result by income, descending order:
-temp2 <- arrange(temp1,
-                 -income)
-
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 <- filter(temp2,
-                        row_number() <= 50)
+# Sort previous result by years of service
+department_female <- arrange(temp1, years_of_service) # order by years of service
 ```
 ]
 
 .pull-right[
 ```{r eval=FALSE}
 # The same but with pipes:
-df_tbilisi_50 <- filter(small_business_2019,
-                        region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
+department_female <- filter(department_staff_list, sex == "Female") %>% 
+                     arrange(years_of_service)
 ```
 ]
 
 There are several important details to notice here:
 
-1.- The resulting dataframe `df_tbilisi_50` is **the same in both cases**
+1.- The resulting dataframe `department_female` is **the same in both cases**
 
 ---
 
@@ -284,63 +375,23 @@ There are several important details to notice here:
 
 .pull-left[
 ```{r eval= FALSE}
-# Filter only businesses in Tbilisi:
-temp1 <- filter(small_business_2019,
-                region == "Tbilisi")
+# Filter only female employees:
+temp1 <-  filter(department_staff_list, sex == "Female") # filter by female
 
-# Sort previous result by income, descending order:
-temp2 <- arrange(temp1,
-                 -income)
-
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 <- filter(temp2,
-                        row_number() <= 50)
+# Sort previous result by years of service
+department_female <- arrange(temp1, years_of_service) # order by years of service
 ```
 ]
 
 .pull-right[
 ```{r eval=FALSE}
 # The same but with pipes:
-df_tbilisi_50 <- filter(small_business_2019,
-                        region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
+department_female <- filter(department_staff_list, sex == "Female") %>% 
+                     arrange(years_of_service)
 ```
 ]
 
-2.- The name of the resulting dataframe is now defined in the first line of this data wrangling operation. This is because **R evaluates lines with consecutive pipes as if they were a single line**
-
----
-
-# Piping
-
-.pull-left[
-```{r eval= FALSE}
-# Filter only businesses in Tbilisi:
-temp1 <- filter(small_business_2019,
-                region == "Tbilisi")
-
-# Sort previous result by income, descending order:
-temp2 <- arrange(temp1,
-                 -income)
-
-# Keep only the 50 first businesses after sorting:
-df_tbilisi_50 <- filter(temp2,
-                        row_number() <= 50)
-```
-]
-
-.pull-right[
-```{r eval=FALSE}
-# The same but with pipes:
-df_tbilisi_50 <- filter(small_business_2019,
-                        region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
-```
-]
-
-3.- Notice that the functions `arrange()` and `filter()` used after the pipes now have only **one argument instead of two**. This is because when using pipes the first argument is implied to be result of the function before the pipes
+2.- Notice that the functions `arrange()` and `filter()` used after the pipes now have only **one argument instead of two**. This is because when using pipes the first argument is implied to be result of the function before the pipes
 
 ---
 
@@ -350,86 +401,20 @@ df_tbilisi_50 <- filter(small_business_2019,
 
 1. Apply the same filtering and sorting now with pipes
 
+**Solution**
+
 ```{r eval=FALSE}
-df_tbilisi_50 <- filter(small_business_2019,
-                        region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
+department_female <- filter(department_staff_final, sex == "Female") %>% 
+                     arrange(years_of_service)
 ```
+
+* Note: that our dataframe now is named `depatment_staf_final` (is the joined dataframe from yesterday's session)
 
 ---
 
 # Piping
 
 Now we will not have any annoying intermediate results stored in our environment!
-
-.pull-left[
-```{r eval=FALSE}
-# The same but with pipes:
-df_tbilisi_50 <- filter(small_business_2019,
-                        region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
-```
-]
-
-.pull-right[
-```{r echo = FALSE, out.width="85%"}
-knitr::include_graphics("img/session3/env-pipes.png")
-```
-]
-
----
-
-# Piping
-
-Lastly, we can also add more formatting to this code to improve its clarity even more:
-
-.pull-left[
-```{r eval=FALSE}
-# Previous solution
-df_tbilisi_50 <- filter(small_business_2019,
-                        region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
-```
-]
-
-.pull-right[
-```{r eval=FALSE}
-# The same with better spacing
-df_tbilisi_50 <-
-  small_business_2019 %>%
-  filter(region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
-```
-]
-
----
-
-# Piping
-
-.pull-left[
-```{r eval=FALSE}
-# Previous solution
-df_tbilisi_50 <- filter(small_business_2019,
-                        region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
-```
-]
-
-.pull-right[
-```{r eval=FALSE}
-# The same with better spacing
-df_tbilisi_50 <-
-  small_business_2019 %>%
-  filter(region == "Tbilisi") %>%
-  arrange(-income) %>%
-  filter(row_number() <= 50)
-```
-]
 
 - Good code is code that is both correct (does what it's supposed to) and it's easy to understand
 
@@ -470,7 +455,84 @@ name: quick-summary-stats
 
 ---
 
+# Quick Summary Statistics  
+
+## Refresher: Grouping and Summarizing Data  
+
+Yesterday, we learned how to:  
+1. **Group data** using `group_by()`  
+2. **Summarize** results with `summarise()`  
+
+This is a powerful tool to create **summary tables**—such as totals, averages, or counts—that are essential for your annual reports.
+
+### Example  
+
+```{r, eval=FALSE}
+# Summarize total revenue by month
+summary_table <- psrl_data %>%
+  group_by(Month) %>%
+  summarise(Total_Revenue = sum(Revenue, na.rm = TRUE))
+
+print(summary_table)
+```
+
+---
+
+# Quick summary statistics 
+
+```{r, echo=FALSE, eval=TRUE, include=FALSE}
+# Creating a mock PSRL dataset
+psrl_data <- data.frame(
+  Month = c("Jan-23", "Feb-23", "Mar-23", "Apr-23", "May-23", "Jun-23",
+            "Jul-23", "Aug-23", "Sep-23", "Oct-23", "Nov-23", "Dec-23"),
+  Diesel = c(120, 130, 125, 140, 150, 155, 160, 170, 165, 180, 190, 200),
+  LPG = c(60, 65, 63, 70, 75, 78, 80, 85, 83, 90, 95, 100),
+  Petrol = c(100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155),
+  MGO_F = c(30, 35, 33, 40, 42, 45, 50, 48, 47, 55, 58, 60),
+  Gas_Oil = c(25, 30, 28, 35, 38, 40, 42, 45, 48, 50, 52, 55),
+  Unified_Naphtha = c(15, 18, 20, 22, 24, 26, 28, 30, 32, 35, 38, 40),
+  Total = c(350, 383, 379, 422, 449, 469, 490, 513, 515, 555, 583, 610)
+)
+
+# View the dataset
+print(psrl_data)
+
+```
+
+Applying This to Your Work
+.pull-left[
+**Annual Report Table**  
+![Programmed PSRL for 2023](img/session3/programmed_psrl_2023.png)  
+*Monthly totals for different products.*
+]
+
+.pull-right[
+**Code to Recreate the Table**  
+
+```{r}
+# Summarize all numeric columns by Month
+summary_table <- psrl_data %>%
+  group_by(Month) %>%
+  summarise(across(where(is.numeric), \(x) sum(x, na.rm = TRUE)))
+
+```
+]
+
+---
+
+# Quick summary statistics 
+
+```{r}
+# Print the summary table
+print(summary_table)
+```
+
+
+---
+
 # Quick summary statistics
+
+## Beyond Basic Summaries: Customizing Your Results
 
 We learned yesterday how to produce dataframes with results and export them.
 
@@ -531,14 +593,14 @@ datasummary_skim(
 
 1. Load `modelsummary` with `library(modelsummary)`
 
-1. Use `datasummary_skim()` to create a descriptive statistics table for `small_business_all`
+1. Use `datasummary_skim()` to create a descriptive statistics table for `department_staff`
 
 ```{r echo=FALSE}
-small_business_2019_all <- read.csv("data/small_business_2019_all.csv")
+department_staff <- read.csv("data/department_staff_final.csv")
 ```
 
-```{r eval=FALSE}
-datasummary_skim(small_business_2019_all)
+```{r eval=FALSE, warning=FALSE, message=FALSE}
+datasummary_skim(department_staff)
 ```
 
 ---
@@ -547,8 +609,8 @@ datasummary_skim(small_business_2019_all)
 
 You should be seeing this result in the lower right panel of RStudio.
 
-```{r echo=FALSE}
-datasummary_skim(small_business_2019_all)
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session3/datasummary_skim.png")
 ```
 
 ---
@@ -559,16 +621,16 @@ datasummary_skim(small_business_2019_all)
 
 - To summarize categorical variables, use the argument `type = "categorical"`
 
-```{r eval=FALSE}
-datasummary_skim(small_business_2019_all, type = "categorical")
+```{r eval=FALSE, warning=FALSE, message=FALSE}
+datasummary_skim(department_staff, type = "categorical")
 ```
 
 ---
 
 # Quick summary statistics
 
-```{r echo=FALSE}
-datasummary_skim(small_business_2019_all, type = "categorical")
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session3/datasummary_cat.png")
 ```
 
 ---
@@ -576,10 +638,6 @@ datasummary_skim(small_business_2019_all, type = "categorical")
 # Quick summary statistics
 
 - `datasummary_skim()` is convenient because it's fast, easy, and shows a lot of information
-
-```{r echo = FALSE}
-datasummary_skim(small_business_2019_all)
-```
 
 - But what if we wanted to customize what to show? that's when we use `datasummary()` instead, also from the library `modelsummary`
 
@@ -621,36 +679,28 @@ datasummary(
 
 ## Exercise 4: 
 
-Create a summary statistics table showing the nuber of observations, mean, standard deviation, minimum, and maximum for variables `age`, `income`, and `vat_liability` of the dataframe `small_business_2019_all`
+Create a summary statistics table showing the number of observations, mean, minimum, and maximum for variables `years_of_service` of the dataframe `department_staff`
 
 1. Use `datasummary()` for this:
 
 ```{r eval=FALSE}
 datasummary(
-  age + income + vat_liability ~ N + Mean + SD + Min + Max,
-  small_business_2019_all
+  years_of_service  ~ N + Mean + Min + Max,
+  department_staff
 )
 ```
 
----
-
-# Customized summary statistics
-
-```{r echo=FALSE}
-datasummary(
-  age + income + vat_liability ~ N + Mean + SD + Min + Max,
-  small_business_2019_all
-)
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/session3/custom.png")
 ```
-
 ---
 
 # Customized summary statistics
 
 ```{r eval=FALSE}
 datasummary(
-  age + income + vat_liability ~ N + Mean + SD + Min + Max, # this is the formula
-  small_business_2019_all                                   # this is the data
+   years_of_service  ~ N + Mean + SD + Min + Max, # this is the formula
+   department_staff                         # this is the data
 )
 ```
 
@@ -661,14 +711,17 @@ Some notes:
 - The formula should always be defined as: rows ~ columns
 - The rows and columns in the formula are separated by a plus (`+`) sign
 
+
+In Excel ❎ you would need to calculate each of the statistics in a new table, by selecting the data and using the appropriate formula.
+
 ---
 
 # Customized summary statistics
 
 ```{r eval=FALSE}
 datasummary(
-  age + income + vat_liability ~ N + Mean + SD + Min + Max, # this is the formula
-  small_business_2019_all                                   # this is the data
+  years_of_service  ~ N + Mean + SD + Min + Max, # this is the formula
+  department_staff                          # this is the data
 )
 ```
 
@@ -699,12 +752,14 @@ Remember that both `datasummary_skim()` and `datasummary()` have an optional arg
 
 For example:
 
-```{r eval=FALSE}
-datasummary_skim(small_business_2019_all,
+```{r warning=FALSE, message=FALSE}
+datasummary_skim(department_staff,
                  output = "quick_stats.docx")
 ```
 
-Will export the result to the `Documents` folder (in Windows) in a Word file named `quick_stats.docx`
+Will export the result to the `Documents` folder (in Windows) in a Word file named `quick_stats.docx` 
+
+*Note* for this code to work we would need to install an extra package  `pandoc`
 
 ---
 
@@ -740,13 +795,13 @@ Noticed that we're missing Excel?
 
 ## Exercise 5: Export a table to Excel
 
-1. Load `huxtable` with `library(huxtable)`
+1. Load `huxtable` with `library(huxtable)` (we already did this at the beginning of the session)
 
 1. Run the following code to export the result of `datasummary_skim()` to Excel:
 
 ```{r eval=FALSE}
 # Store the table in a new object
-stats_table <- datasummary_skim(small_business_2019_all, output = "huxtable")
+stats_table <- datasummary_skim(department_staff, output = "huxtable")
 
 # Export this new object to Excel with quick_xlsx()
 quick_xlsx(stats_table, file = "quick_stats.xlsx")
@@ -766,11 +821,13 @@ knitr::include_graphics("img/session3/quick-stats-output.png")
 
 # Exporting tables 
 
-And you can open it with Excel for further customization if you want
+And you can open it with Excel for further customization if you want...
 
 ```{r echo = FALSE, out.width="65%"}
 knitr::include_graphics("img/session3/quick-stats-excel.png")
 ```
+
+- However... remember that any manual changes will be hard to track affecting the  reproducibility of your work. 
 
 ---
 
@@ -778,7 +835,7 @@ knitr::include_graphics("img/session3/quick-stats-excel.png")
 
 ```{r eval=FALSE}
 # Store the table in a new object
-stats_table <- datasummary_skim(small_business_2019_all, output = "huxtable")
+stats_table <- datasummary_skim(department_staff, output = "huxtable")
 
 # Export this new object to Excel with quick_xlsx()
 quick_xlsx(stats_table, file = "quick_stats.xlsx")
@@ -818,14 +875,14 @@ stats_table %>%
   # Center cells in first row
   set_align(1, everywhere, "center") %>%
   # Set a theme for quick formatting
-  theme_basic()
+  theme_blue()
 ```
 ]
 
 .pull-right[
 .small[
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-stats_table <- datasummary_skim(small_business_2019_all, output = "huxtable")
+stats_table <- datasummary_skim(department_staff, output = "huxtable")
 
 # Format table
  stats_table %>%  
@@ -833,7 +890,7 @@ stats_table <- datasummary_skim(small_business_2019_all, output = "huxtable")
    set_header_cols(1, TRUE)  %>%  # Use first column as row header 
    set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% # Don't round large numbers  
    set_align(1, everywhere, "center") %>% # Centralize cells in first row 
-   theme_basic() # Set a theme for quick formatting 
+   theme_blue() # Set a theme for quick formatting 
 ```
 ]
 ]
@@ -858,7 +915,7 @@ stats_table_custom <- stats_table %>%
   # Center cells in first row
   set_align(1, everywhere, "center") %>%
   # Set a theme for quick formatting
-  theme_basic()
+  theme_blue()
 ```
 ]
 
@@ -893,7 +950,7 @@ stats_table_custom <- stats_table %>%  # <---- here
   set_header_cols(1, TRUE)  %>%
   set_number_format(everywhere, 2:ncol(.), "%9.0f") %>%
   set_align(1, everywhere, "center") %>%
-  theme_basic()
+  theme_blue()
 ```
 
 This is the object that we export later with `quick_xslx()`
@@ -928,11 +985,36 @@ knitr::include_graphics("img/session3/stats-custom.png")
 
 # Customizing table outputs
 
-We used `theme_basic()` to give a minimalistic, basic theme to the table. Other available themes are:
+We used `theme_blue()`. Other available themes are:
 
 ```{r echo = FALSE, out.width="75%"}
 knitr::include_graphics("img/session3/themes.png")
 ```
+
+---
+
+# Use it on your work
+
+### Key Takeaways:
+- This was a **basic example** with a few variables from your staff list, but the **possibilities are endless**.
+- With this and the contents from yesterday's session, you can create **summaries** of **anything you can think of**.
+
+### Real-World Example:
+ **Annual Report: Programmed vs. Billings for 2023 (In GH¢)**
+
+```{r echo = FALSE, out.width="40%"}
+knitr::include_graphics("img/session3/annual_report.png")
+```
+
+- If we have the data, you can easily create summaries like this directly in R.
+- Once written, the code can be re-used for the next year or quarter.
+
+---
+
+# Questions?
+
+![](https://media.giphy.com/media/XHVmD4RyXgSjd8aUMb/giphy.gif?cid=790b7611auicodssx8z4zly6u6z5k4pd0r1i13drege3yunc&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
 
 ---
 
@@ -942,7 +1024,6 @@ name: wrapping-up
 # Wrapping up 
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
-
 ---
 
 # Wrapping up
@@ -1013,3 +1094,6 @@ class: inverse, center, middle
 # Thanks! // ¡Gracias! // Obrigado!
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+```{r echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/session3/you-can-r.png")
+```

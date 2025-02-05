@@ -87,9 +87,11 @@ department_staff_clean <- department_staff_clean %>%
   )
 
 department_staff <- department_staff_clean  %>% 
-  select(ID, sex, current_grade, senior_junior_staff, department, years_of_service)
+  select(ID, sex, current_grade, senior_junior_staff, department, years_of_service) %>% 
+  filter(years_of_service >0)
 
 department_staff_age <- department_staff_clean  %>% 
+  filter(years_of_service >0) %>% 
   select(ID, age)
 
 write.xlsx(department_staff, "DataWork/DataSets/Raw/Ghana/department_staff_list.xlsx")

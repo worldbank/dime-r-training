@@ -34,7 +34,7 @@ class: center, middle, inverse, title-slide
 ### María Reyes Retana
 ]
 .date[
-### The World Bank | December 2024
+### The World Bank | January 2025
 ]
 
 ---
@@ -62,6 +62,34 @@ class: center, middle, inverse, title-slide
 1. [Exporting outputs](#exporting-outputs)
 1. [Wrapping up](#wrapping-up)
 1. [Appendinx](#appendix)
+
+---
+
+# Introduction  
+
+## Access to Training Materials  
+
+All the materials for this training are available at the following link:  
+[https://osf.io/r3fn5/](https://osf.io/r3fn5/)  
+
+Here’s what you will find there:  
+
+- 📂 **Data**: All datasets we’ll use throughout the training sessions.  
+- 📑 **Slides**: The presentation slides for each session.  
+- ✏️ **Solutions**: Will be added to the folder after each session.  
+
+---
+
+# Introduction  
+
+## Course Structure  
+
+This training will cover the basics of coding in R. Below is the structure of the course:  
+
+- 📅 **Day 1**: Introduction to R – Get familiar with the R environment and basic syntax. 
+- 🛠 **Day 2**: **Data Wrangling – Learn to clean and transform data effectively.**  
+- 📊 **Day 3**: Descriptive Statistics – Explore methods to summarize and analyze data.  
+- 📈 **Day 4**: Data Visualization – Create meaningful and impactful data visualizations. 
 
 ---
 
@@ -119,65 +147,20 @@ In a nutshell:
 
 # R Packages
 
-## Installing R Packages
+We'll use two packages in today's session: `dplyr` and `readr` (really useful library for data cleaning and wrangling).  
 
-- Installing packages is usually simple, but it can be challenging in institutional network connections such as the World Bank.
-
-- The next exercise will set up RStudio so that it can install R Packages without problems
-
----
-
-# R Packages
-
-## Exercise 1: Setting up the installation of packages
-
-1 - In RStudio, go to `Tools` &gt;&gt; `Global Options...`
-
-&lt;img src="img/session2/global-options.png" width="60%" style="display: block; margin: auto;" /&gt;
-
----
-
-# R Packages
-
-## Exercise 1: Setting up the installation of R Packages
-
-.pull-left[
-2 - Select `Packages` in the left pane
-
-3 - Uncheck `Use secure download method for HTTP`
-
-4 - Click `OK`
-
-You will not see any changes in your RStudio window after this, but now you'll be able to install packages.
-]
-
-.pull-right[
-&lt;img src="img/session2/packages-options.png" width="90%" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# R Packages
-
-We'll use two package in today's session: `dplyr` (really useful library for data wrangling) and `openxlsx` (to work with Excel files)  
-
-## Exercise 2: Installing R Packages
+## Exercise 1: Installing R Packages
 
 1. Install the R Packages by using `install.packages()`
 
  + `install.packages("dplyr")`
- + `install.packages("openxlsx")`
- + Note the quotes (`" "`) in the packages names
+ + `install.packages("readr")`
+ +  Note the quotes (`" "`) in the packages names
  + **Introduce this code in the console**, not the script panel
-
+ 
 .pull-left[
 &lt;img src="img/session2/dplyr-install.png" width="85%" style="display: block; margin: auto;" /&gt;
 ]
-
-.pull-right[
-&lt;img src="img/session2/open-install.png" width="85%" style="display: block; margin: auto;" /&gt;
-]
-
 
 ---
 
@@ -191,9 +174,9 @@ We'll use two package in today's session: `dplyr` (really useful library for dat
 
 # R packages
 
-Now that `dplyr` and `openxlsx ` are installed, we only need to load them to start using the functions they have.
+Now that `dplyr` is installed, we only need to load them to start using the functions they have.
 
-## Exercise 3: Loading packages
+## Exercise 2: Loading packages
 
 .pull-left[
 1. Open a new script with `File` &gt;&gt; `New File` &gt;&gt; `R Script`
@@ -203,7 +186,6 @@ Now that `dplyr` and `openxlsx ` are installed, we only need to load them to sta
 
 ``` r
 library(dplyr)
-library(openxlsx)
 ```
 
   + Run this code from the new script you just opened
@@ -256,7 +238,7 @@ name: data-wrangling
 
 ## Getting your data ready
 
-- Data wrangling is one of the most crucial and time-consuming aspects of data work
+- Data wrangling is one of the most crucial and time-consuming aspects of analytics
 
 - It involves not only coding, but also the mental exercise of thinking  what is the shape and condition that your dataframe needs to have in order to produce your desired output
 
@@ -269,7 +251,7 @@ name: data-wrangling
 ## Getting your data ready
 
 .pull-left[
-- As we said before we'll use `dplyr` and `tidyr` for data wrangling in this training
+- As we said before we'll use `dplyr` for data wrangling in this training
 
 - You can also use basic R, but we recommend these packages because its functions are easier to use
 ]
@@ -281,21 +263,21 @@ name: data-wrangling
 
 # Data wrangling 
 
-## Exercise 4: Loading data
+## Exercise 3: Loading data
 
 Note that this part of this is the same exercise we did in session 1, but it's okay to repeat it in order to start using a new RStudio session. **If you have RStudio open, start by closing the window and opening RStudio again**.
 
 .pull-left[
-1. Inyou new RStudio window, go to `File` &gt; `Import Dataset` &gt; `From Excel` and select again the file `department_staff_list.xslx`
+1. Inyou new RStudio window, go to `File` &gt; `Import Dataset` &gt; `From Text(base)` and select again the file `department_staff_list.csv`
 
   + if you don't know where the file is, check in the `Downloads` folder
-  + if you need to download it again, it's here: https://osf.io/2apht 
+  + if you need to download it again, it's here: https://osf.io/chdgj
 
 1. Make sure to select `Heading` &gt; `Yes` in the next window
 
 1. Select `Import`
 
-1. Download this new file: https://osf.io/v6psa and repeat steps 1-3  with it
+1. Download this new file `department_staff_age.csv`: https://osf.io/qsmke and repeat steps 1-3  with it
 
 ]
 .pull-right[
@@ -317,16 +299,28 @@ Note that this part of this is the same exercise we did in session 1, but it's o
 
 ## Note: loading data with a function
 
-- You can also load Excel data with the function `read.xlsx()` instead of using this point-and-click approach
+- You can also load csv files with the function `read.csv()` instead of using this point-and-click approach
 
-- The **argument** of `read.xlsx()` is the path in your computer where your data is. For example
+- The **argument** of `read.csv()` is the path in your computer where your data is. For example
 
 
 ``` r
-department_staff_list &lt;- read.xlsx("C:/Users/wb614536/Downloads/department_staff_list.xlsx")
+department_staff_list &lt;-read.csv("C:/Users/wb614536/Downloads/department_staff_list.csv")
 ```
 
-- As usual, you need to save the result of `read.xlsx()` into a dataframe object with the arrow operator (`&lt;-`) for it to be stored in the environment
+- As usual, you need to save the result of `read.csv()` into a dataframe object with the arrow operator (`&lt;-`) for it to be stored in the environment
+
+---
+
+# Note on file paths 
+
+- A **file path** tells R where to find your file on your computer. It is like giving R the directions to your file.
+
+- If you downloaded the data and haven't moved it, the data path for the deparment_list dataset will be probably something like: `"C:/Users/wb614536/Downloads/department_staff_list.csv"`
+
+- You can find the path of a file by right-clicking&gt;properties&gt;and seeing the location, or by clicking on the top bar (see below)
+
+&lt;img src="img/session2/path.png" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -342,14 +336,14 @@ glimpse(department_staff_list)
 ```
 
 ```
-## Rows: 8,754
+## Rows: 8,713
 ## Columns: 6
-## $ ID                  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,…
+## $ ID                  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,…
 ## $ sex                 &lt;chr&gt; "Female", "Male", "Female", "Female", "Female", "F…
-## $ current_grade       &lt;chr&gt; "Director Fin. &amp; Admin.", "Deputy Director (Admin.…
-## $ senior_junior_staff &lt;chr&gt; "senior", "senior", "senior", "senior", "senior", …
-## $ department          &lt;chr&gt; "State Protocol Dept", "State Protocol Dept", "Sta…
-## $ years_of_service    &lt;dbl&gt; 30.220397, 16.049281, 33.968515, 11.553730, 21.180…
+## $ current_grade       &lt;chr&gt; "Assist. Landscape Designer Grade II", "Co-Operati…
+## $ senior_junior_staff &lt;chr&gt; "junior", "senior", "senior", "senior", "senior", …
+## $ department          &lt;chr&gt; "Parks &amp; Gardens", "Co-operatives", "Controller &amp; …
+## $ years_of_service    &lt;dbl&gt; 24.87, 17.83, 25.65, 2.76, 12.56, 23.75, 4.59, 3.2…
 ```
 
 ---
@@ -366,10 +360,10 @@ glimpse(department_staff_age)
 ```
 
 ```
-## Rows: 8,754
+## Rows: 8,714
 ## Columns: 2
-## $ ID  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,…
-## $ age &lt;dbl&gt; 60.15058, 41.74949, 59.43053, 50.55989, 51.28268, 45.22656, 41.900…
+## $ ID  &lt;int&gt; 8603, 3695, 5563, 3529, 5032, 4391, 3069, 6048, 4680, 8551, 5107, …
+## $ age &lt;dbl&gt; 18.00442, 18.00657, 18.00669, 18.00874, 18.01030, 18.01677, 18.018…
 ```
 
 ---
@@ -378,80 +372,9 @@ glimpse(department_staff_age)
 
 - We will only use this second dataframe in one of the next exercises, but we load it now because it's in general a good practice to have data loaded into the memory so it's ready to be used.
 
-- For the next exercises, we will face mention scenarios that could show up in doing your annual reports on in day-to-day operations.
+- For the next exercises, we will propose scenarios that could show up while doing your annual reports or in day-to-day operations.
 
----
-
-# The pipe ( %&gt;% ) operator
-
-
-- Before diving into data wrangling, we will to introduce a **super useful tool**:  
-  **the pipe (`%&gt;%`)**.
-
-- The pipe is part of the `dplyr` package. It helps to write code in a way that is easier to read and understand.
-
-- Reading and understanding multiple operations can be difficult.
-
-- The pipe operator (**%&gt;%**) can help with this.  
-
----
-
-# The pipe operator
-
-
-- With the pipe, code reads from left to right, top to bottom, which is more intuitive.
-
-- %&gt;% can be read as "then" and simplifies code structure. 
-
-For example let's see at this mock get to work sequence example: 
-
-**Without pipe ( %&gt;% )** (hard to read and understand the sequence)
-
-
-``` r
-go_to_work(make_breakfast(work_out(brush_teeth(wake_up(Mer)))))
-```
-
-**With pipe ( %&gt;% )** (the order is clear)
-
-
-``` r
-Mer %&gt;% 
-  wake_up() %&gt;%
-  brush_teeth() %&gt;%
-  work_out() %&gt;%
-  make_breakfast() %&gt;%
-  go_to_work()
-```
-
----
-
-# The pipe
-
-Normally the functions that we will use are organized around a set of verbs, or actions to be taken. 
-
---
-
-* Most *verbs* work as follows:
-
-
-`$$\text{verb}(\underbrace{\text{data.frame}}_{\text{1st argument}}, \underbrace{\text{what to do}}_\text{2nd argument})$$`
-
---
-
-* Alternatively you can (**should**) use the `pipe` operator `%&gt;%`:
-
-`$$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %&gt;% }}_{\text{"pipe" operator}} \text{verb}(\underbrace{\text{what to do}}_\text{2nd argument})$$`
-
-We will start using the pipe from this point. Please ask if something is not clear.
-
-**Tip**💡: Use Shift + Ctrl/Cmd + M as a shortcut for the pipe operator.
-
----
-
-# Questions?
-
-![](https://media.giphy.com/media/XHVmD4RyXgSjd8aUMb/giphy.gif?cid=790b7611auicodssx8z4zly6u6z5k4pd0r1i13drege3yunc&amp;ep=v1_gifs_search&amp;rid=giphy.gif&amp;ct=g)
+- We will do everything using **functions** from the `dplyr` package, that is already in our environment. 
 
 ---
 
@@ -469,15 +392,17 @@ name: filtering-sorting
 &lt;img src="img/session2/filter.png" width="85%" style="display: block; margin: auto;" /&gt;
 
 
-## Data work request
+## Government analytics request
 
 **Scenario 1**: Imagine you want to include in the annual reports, the number of total female employees in the department staff:
+
+❎In Excel:  The command that we will learn here, is similar to using filter in Excel.
 
 ---
 
 # Filtering and sorting 
 
-## Data work request
+## Government analytics request
 
 .pull-left[
 *We will use the data from our dataframe department_staff_list*
@@ -492,12 +417,14 @@ name: filtering-sorting
 
 # Filtering and sorting 
 
-## Data work request
+## Government analytics request
 
 Now let's say that we are also interested at a first glance of the females that recently joined the department. We would have to do the following 
 
 1. Keeping only the female employees
 1. Sorting by years of service
+
+❎In Excel:  We would filter and then use arrange by years of service. 
 
 
 ---
@@ -508,13 +435,12 @@ Now let's say that we are also interested at a first glance of the females that 
 
 Use `filter()` for this:
 
+Remember how we use functions in this case 1st argument is **data**, second argument is **filter** (sex takes the value female in this case)
+
 
 ``` r
-department_female &lt;- department_staff_list %&gt;% # pipe takes data as first argument "and then"
-                          filter(sex == "Female") # we filter by Female
+temp1 &lt;- filter(department_staff_list, sex == "Female")
 ```
-
-Remember that we said we were starting to use the pipe (%&gt;%). The pipe takes our data as the first argument, and then we need to pass only the instruction (filter)
 
 &lt;img src="img/session2/filtering-sorting1.png" width="45%" style="display: block; margin: auto;" /&gt;
 ---
@@ -527,9 +453,7 @@ Use the function `arrange()` to sort. Sortings are ascending by default in R (th
 
 
 ``` r
-department_female &lt;- department_staff_list %&gt;%  
-                          filter(sex == "Female") %&gt;% # pipe takes previous instruction "and then"
-                          arrange(years_of_service)  # arrange by years of service
+department_female &lt;- arrange(temp1, years_of_service)  # arrange by years of service
 ```
 
 &lt;img src="img/session2/filtering-sorting2.png" width="45%" style="display: block; margin: auto;" /&gt;
@@ -538,7 +462,7 @@ department_female &lt;- department_staff_list %&gt;%
 
 # Filtering and sorting 
 
-## Exercise 5: Now let's do it.. filter and sort your data
+## Exercise 4: Now let's do it.. filter and sort your data
 
 We can write the whole code for this in our exercise script. (You can copy and paste the code below)
 
@@ -548,9 +472,9 @@ We can write the whole code for this in our exercise script. (You can copy and p
 
 
 ``` r
-department_female &lt;- department_staff_list %&gt;% 
-                      filter( sex == "Female") %&gt;% 
-                      arrange(years_of_service)
+temp1 &lt;-  filter(department_staff_list, sex == "Female") # filter by female
+
+department_female &lt;- arrange(temp1, years_of_service) # order by years of service
 ```
 
 ---
@@ -561,7 +485,7 @@ Some notes:
 
 .pull-left[
 - `filter()` and `arrange()` are all functions from `dplyr`. Remember you have to always load `dplyr` first with `library(dplyr)` to be able to use them
-- The resulting dataframe is `department_female`
+- The resulting dataframe is `department_female` (and we also have `temp1`) 
 ]
 .pull-right[
 &lt;img src="img/session2/ex5.png" width="95%" style="display: block; margin: auto;" /&gt;
@@ -605,17 +529,23 @@ mutate(variable_name = some_calculation)
 
 ## Example
 
-Using our data frame let's say that we want to include a variable that for any reason instead of years of service we want days of service. We would do this by doing the following: 
+Using our data frame let's say that we want to include a variable that instead of years of service we want days of service. We would do this by doing the following: 
 
 
 ``` r
-example_mutate &lt;- department_staff_list %&gt;% 
-  mutate(days_of_service = years_of_service*365)
+example_mutate &lt;-  mutate(department_staff_list, days_of_service = years_of_service*365)
 ```
 
-We will not use that variable for our datawork examples, but this is a really useful data wrangling function. 
+We will not use that variable for our government analytics examples, but this is a really useful data wrangling function. 
 
 ---
+
+# Questions?
+
+![](https://media.giphy.com/media/XHVmD4RyXgSjd8aUMb/giphy.gif?cid=790b7611auicodssx8z4zly6u6z5k4pd0r1i13drege3yunc&amp;ep=v1_gifs_search&amp;rid=giphy.gif&amp;ct=g)
+
+---
+
 
 class: inverse, center, middle
 name: merging
@@ -629,21 +559,21 @@ name: merging
 
 # Merging dataframes
 
-Merging data is a common task in data analysis, especially when working with large datasets. 
+Merging data is a common task in data analysis, especially when working with data from multiple departments. 
 
 Let's see how it would apply to our dataframes.
 
-## Data work request
+## Government analytics request
 
 **Scenario 2:**
 
-*Let's imagine that for our annual report we are also interested in the age distribution from the employees*
+*Let's imagine that for our annual report we are also interested in the age distribution from the employees* but these are in different datasets
 
 ---
 
 # Merging dataframes
 
-## Data work request
+## Government analytics request
 
 .pull-left[
 *Use the data `department_staff_list` that you already know with the department_staff_age*
@@ -660,12 +590,11 @@ Let's see how it would apply to our dataframes.
 
 To do this we will use `left_join()` to merge the dataframes:
 
-- The arguments of the function are 1. our previous selected data (passed by the pipe) and 2. the dataframe we want to merge to the first one
+- The arguments of the function are 1. the "principal" dataset and 2. the dataframe we want to merge (paste) into that one
 
 
 ``` r
-deparment_staff_list_age &lt;- deparment_staff_list %&gt;% # Our original data frame " %&gt;% and then" 
-                            left_join(department_staff_age) # our second data frame
+department_age &lt;- left_join(department_staff_list, department_staff_age) # Our original data frame 
 ```
 
 
@@ -675,14 +604,13 @@ deparment_staff_list_age &lt;- deparment_staff_list %&gt;% # Our original data f
 
 # Merging dataframes
 
-## Exercise 6: Now let's do it. 
+## Exercise 5: Now let's do it. 
 
 - You can copy and paste the code to your exercise script. 
 
 
 ``` r
-deparment_age &lt;- department_staff_list %&gt;% # Our original data frame "and then" 
-                left_join(department_staff_age) # our second data frame
+deparment_age &lt;- left_join(deparment_staff_list, department_staff_age) # Our original data frame
 ```
 &lt;img src="img/session2/exercise6.png" width="95%" style="display: block; margin: auto;" /&gt;
 ---
@@ -699,7 +627,7 @@ This is one of the most commons operations. Sometimes we want to calculate stati
 
 # Grouping and summarizing 
 
-## Data work request
+## Government analytics request
 
 **Let's say that we are interested again in the number of employees by department**
 
@@ -709,8 +637,7 @@ We will use our department_staff_list dataset to do this.
 
 
 ``` r
-employees_by_deparment &lt;- department_staff_list %&gt;% 
-  group_by(department)
+employees_by_deparment &lt;- group_by(department_staff_list, department)
 ```
 
 If we **only** do this, this won't do anything, to complete the function we need to use this with `summarise()`
@@ -719,7 +646,7 @@ If we **only** do this, this won't do anything, to complete the function we need
 
 # Grouping and summarizing 
 
-## Data work request
+## Exercise 6: Government analytics request
 
 summarize works in a similar way to mutate:
 
@@ -732,15 +659,14 @@ In this case the `some_calculation` will be to count the number of employees
 
 
 ``` r
-employees_by_deparment &lt;- department_staff_list %&gt;% 
-  group_by(department) %&gt;% 
-  summarise(number = n()) 
+temp1 &lt;- group_by(department_staff_list, department)
+employees_by_department &lt;- summarise(temp1, number = n())
 ```
 
 ---
 # Grouping and summarizing 
 
-## Data work request
+## Government analytics request
 
 This will create the following dataframe/table:
 
@@ -749,18 +675,19 @@ This will create the following dataframe/table:
 ## # A tibble: 23 × 2
 ##    department                      number
 ##    &lt;chr&gt;                            &lt;int&gt;
-##  1 Births &amp; Deaths                    179
-##  2 Bureau of Languages                 59
+##  1 Births &amp; Deaths                    172
+##  2 Bureau of Languages                 58
 ##  3 Co-operatives                      293
 ##  4 Controller &amp; Accountant General   3776
 ##  5 Department of Comm Devt            109
 ##  6 Dept of Children                   101
-##  7 Dept of Gender                     101
-##  8 Dept of Labour                     293
-##  9 Factories Inspectorate             122
-## 10 Feeder Roads                       103
+##  7 Dept of Gender                     100
+##  8 Dept of Labour                     290
+##  9 Factories Inspectorate             121
+## 10 Feeder Roads                       102
 ## # ℹ 13 more rows
 ```
+
 
 ---
 
@@ -779,7 +706,7 @@ These were two examples we chose to show different possible data wrangling opera
 | Append dataframes | `bind_rows()` |
 | Deduplicate | `distinct()` |
 | Collapse and create summary indicators | `group_by()`, `summarize()` |
-| Pass a result as the first argument for the next function | `%&gt;%` (operator, not function)|
+| Pass a result as the first argument for the next function | `%&gt;%` (operator, not function (**tomorrow**))|
 
 ---
 
@@ -794,7 +721,7 @@ name: exporting-outputs
 
 # Exporting outputs 
 
-- Until now, we've seen full examples of part 1 and 2 of the data work pipeline
+- Until now, we've seen full examples of part 1 and 2 of the Government analytics pipeline
 - What about exporting outputs?
 
 &lt;img src="img/session2/data-work-progress.png" width="90%" style="display: block; margin: auto;" /&gt;
@@ -807,9 +734,9 @@ name: exporting-outputs
 
 ## Exporting dataframes
 
-- We can export it as an Excel file with the function `write.xlsx()`
+- We can export it as a csv file with the function `write.csv()`
 
-- `write.xlsx()` creates a Excel file with the dataframe
+- `write.csv()` creates a csv file with the dataframe
 
 - It takes two basic arguments:
 
@@ -820,22 +747,23 @@ name: exporting-outputs
 
 # Exporting outputs 
 
-## Exercise 7: Export `employees_by_deparment` 
+## Exercise 7 (if time allows): Export `employees_by_deparment` and `department_staff_final`
 
 1. Use this code to export the results of the last two exercises:
 
 
 ``` r
-write.xslx(employees_by_deparment,
-          "employees_by_deparment",
-          row.names = FALSE)
+write.csv(employees_by_deparment, "employees_by_deparment", row.names = FALSE)
+write.csv(department_age, "department_staff_final", row.names = FALSE)
 ```
+
+Note: This files are already in our data folder online, so if you don't have time to do it don't worry. 
 
 ---
 
 # Exporting outputs 
 
-Now `employees_by_deparment.xlsx` (probably in your `Documents` folder).
+Now `employees_by_deparment.csv` (probably in your `Documents` folder).
 
 &lt;img src="img/session2/exported-csv.png" width="70%" style="display: block; margin: auto;" /&gt;
 
@@ -845,13 +773,11 @@ Now `employees_by_deparment.xlsx` (probably in your `Documents` folder).
 
 ## Some notes on file paths
 
-- The second argument of `write.xlsx()` specifies the file path we export the dataframe to
+- The second argument of `write.csv()` specifies the file path we export the dataframe to
 
 
 ``` r
-write.xslx(employees_by_deparment,
-          "employees_by_deparment",
-          row.names = FALSE)
+write.csv(employees_by_deparment, "employees_by_deparment", row.names = FALSE)
 ```
 
 - You can include any path in your computer and R will write the file in that location
@@ -893,7 +819,7 @@ name: wrapping-up
 
 # Wrapping up 
 
-## Data work pipeline
+## Government analytics pipeline
 
 &lt;img src="img/session2/data-work-final.png" width="85%" style="display: block; margin: auto;" /&gt;
 
@@ -901,7 +827,7 @@ name: wrapping-up
 
 # Wrapping up 
 
-## Data work pipeline
+## Government analytics pipeline
 
 &lt;img src="img/session2/data-work-day-2.png" width="85%" style="display: block; margin: auto;" /&gt;
 
@@ -936,8 +862,7 @@ Use `select()` for this:
 
 
 ``` r
-temp1 &lt;- department_staff_list %&gt;% 
-          select(ID, department)
+temp1 &lt;-  select(department_staff_list, ID, department)
 ```
 
 ---
@@ -953,10 +878,11 @@ This would look something like this
 
 
 ``` r
-budget_2024 &lt;- budget_data %&gt;% 
-                group_by(year, product) %&gt;% 
-                summarise(total = sum(income),
-                average = mean(income))
+budget_2024 &lt;-  group_by(budget_data, year, product)
+
+budget_2024 &lt;- summarise(budget_2024, 
+                         total = sum(income),
+                         average = mean(income))
 ```
 
 ---

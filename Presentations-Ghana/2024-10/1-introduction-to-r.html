@@ -34,7 +34,7 @@ class: center, middle, inverse, title-slide
 ### María Reyes Retana
 ]
 .date[
-### The World Bank | December 2024
+### The World Bank | January 2025
 ]
 
 ---
@@ -56,7 +56,7 @@ class: center, middle, inverse, title-slide
 # Table of contents 
 
 1. [Introduction](#intro)
-1. [Data work and Statistical Programming](#data-work)
+1. [Government Analytics and Statistical Programming](#data-work)
 1. [Statistical Programming](#statistical-programming)
 1. [Writing R code](#writing-r-code)
 1. [Object Types](#object-types)
@@ -80,7 +80,7 @@ name: intro
 
 ## About this training
 
-- This is an **introduction** to data work and statistical programming in R
+- This is an **introduction** to government analytics and statistical programming in R
 
 - The training does not require any background in statistical programming
 
@@ -98,40 +98,66 @@ By the end of the training, you will know:
 
 - How to write **basic** R code
   
-- A notion of how to conduct data work in R and how it differentiates from Excel
+- A notion of how to conduct Government analytics in R and how it differentiates from Excel
 
 ![Description of GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWN5OHVrMjkwNHY4YTltZGlqcHhjM2pybmpudWN4YXJ4aDEzN3d0NCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/2IudUHdI075HL02Pkk/giphy.gif)
+---
 
+# Introduction  
+
+## Access to Training Materials  
+
+All the materials for this training are available at the following link:  
+[https://osf.io/r3fn5/](https://osf.io/r3fn5/)  
+
+Here’s what you will find there:  
+
+- 📂 **Data**: All datasets we’ll use throughout the training sessions.  
+- 📑 **Slides**: The presentation slides for each session.  
+- ✏️ **Solutions**: Currently, solutions are not uploaded, but they will be added to the folder after each session.  
+
+---
+
+# Introduction  
+
+## Course Structure  
+
+This training will cover the basics of coding in R. Below is the structure of the course:  
+
+- 📅 **Day 1**: **Introduction to R – Get familiar with the R environment and basic syntax.**  
+- 🛠 **Day 2**: Data Wrangling – Learn to clean and transform data effectively.  
+- 📊 **Day 3**: Descriptive Statistics – Explore methods to summarize and analyze data.  
+- 📈 **Day 4**: Data Visualization – Create meaningful and impactful data visualizations. 
 
 ---
 
 class: inverse, center, middle
 name: data-work
 
-# Data work and Statistical Programming 
+# Government Analytics and Statistical Programming 
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Data work 
+# Government Analytics 
 
-For the context of this training, we'll call data work everything that:
+For the context of this training, we'll call Government analytics (or analytics) everything that:
 
 1. Starts with a data input
 1. Runs some process with the data
 1. Produces an output with the result
 
-&lt;img src="img/session1/data-work.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session1/data-work.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Data work
+# Government Analytics
 
-- It's also possible to do data work with Excel
-- However, we will show in this training why using statistical programming (through R) is a better way of conducting data work
+- It's also possible to do analytics with Excel
+- However, we will show in this training why using statistical programming (through R) is a better way of doing analytics
 
-&lt;img src="img/session1/data-work-excel-r.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session1/data-work-excel-r.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -157,7 +183,7 @@ For the context of this training, we'll call data work everything that:
 # Statistical Programming 
 
 - Programming consists of producing instructions to a computer to do something
-- In the context of data work, that "something" is statistical analysis or mathematical operations
+- In the context of analytics, that "something" is statistical analysis or mathematical operations
 - Hence, statistical programming consists of producing instructions so our computers will conduct statistical analysis on data
 
 &lt;img src="img/session1/data-work-with-instructions.png" width="70%" style="display: block; margin: auto;" /&gt;
@@ -431,7 +457,7 @@ x3
 
 ## R scripts
 
-- In other words: scripts contain the instructions you give to your computer when doing data work
+- In other words: scripts contain the instructions you give to your computer when doing Government analytics
 
 &lt;img src="img/session1/data-work-script.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -481,8 +507,15 @@ Create objects in RStudio:
      Age = c(25, 30)
    )                              
 ```
+- Which object do you think would be most common in the work that you do?
 
-We will discuss more about the last type, but first we need to introduce one last concept. 
+- We will discuss more about the last type, but first we need to introduce one last concept. 
+
+--- 
+
+# Questions? 
+
+![](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdThtYjN3cWdtc3pueHBmeWtramtiNndjajFyOTltc2RuN3Rza3F2MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZXwdJuk172dQwAqMGv/giphy.gif)
 
 ---
 
@@ -524,7 +557,7 @@ Let's consider the following function (that does not exist unfortunately): **A s
 This little machine creates tiny hand-drawn stars depending on some input. It takes two arguments:
 
 - `how_many` tells the machine how many stars to produce.
-- `type` tells the machine how the stars should look like (in this case the machine only supports "squiggly" stars, but it could be upgraded in the future when we learn how to create our own functions later on).
+- `type` tells the machine how the stars should look like (in this case the machine only supports "squiggly" stars).
 ]
 
 .pull-right[
@@ -555,7 +588,7 @@ Googling the function name (adding "R" or "rstats" to the search) will also ofte
 
 Now in a real function ...
 
-&lt;img src="img/session1/function-syntax.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session1/function.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 - **Function name:** the name we use to call a function. It goes before the parentheses
 
@@ -602,6 +635,8 @@ print(sum_example)
 ```
 
 
+❎In Excel: This is as when you have a column of numbers in Excel and want to calculate their total
+
 ---
 
 # Functions in R 
@@ -618,7 +653,7 @@ Note that this code is both creating a new object (with `sum_example &lt;- sum(c
 
 - We also know about objects and functions.
 
-- We haven't still introduced the data to our data work. That comes next
+- We haven't still introduced the data to our Government analytics. That comes next
 
 ![](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXg3NW5jd2MzY2ZweDlnbjI4c3dnMnI3dTVvbml0aTY3ampraDViYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y9XCVEKx02Q3tyHSD5/giphy.gif)
  
@@ -638,7 +673,7 @@ name: data-in-r
 
 ## Exercise 4: Loading data into R
 
- 1.- Go to this page: https://osf.io/2apht and download the file `department_staff_list.xlsx`
+ 1.- Go to this page: https://osf.io/chdgj and download the file `department_staff_list.csv`
  
 &lt;img src="img/session1/osf-screenshot.png" width="60%" style="display: block; margin: auto;" /&gt;
 
@@ -650,7 +685,7 @@ name: data-in-r
 
 There are different ways of importing data to R, one is using the point and click. Let's start with that one. 
 
- 2.- In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Excel` and select the file `department_staff_list.xlsx`
+ 2.- In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and select the file `department_staff_list.csv`
 
   + If you don't know where the file is, check in your `Downloads` folder
 
@@ -674,7 +709,7 @@ There are different ways of importing data to R, one is using the point and clic
 
 5 - You will see that the second way to read it by code (using functions), and is what R is doing for you in the background. 
 
-&lt;img src="img/session1/import3.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session1/import3.png" width="30%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -701,7 +736,7 @@ There are different ways of importing data to R, one is using the point and clic
 
 # Data in R 
 
-- Since dataframes are also objects, we can refer to them with their names (exm: `department_staff_list.xlsx`)
+- Since dataframes are also objects, we can refer to them with their names (exm: `department_staff_list.csv`)
 
 - We'll see an example of that in the next exercise
 
@@ -739,20 +774,40 @@ glimpse(department_staff_list)
 
 # Data in R 
 
-## Exercise 5: Subset the data
+## Exercise 5: Using our data
 
-1. Use the following code to subset `department_staff_list` and leave only the observations who are "Female":
+Imagine you want to quickly find out all the distinct departments listed in your staff dataset. In ❎ Excel, you might manually scroll or use 'Remove Duplicates.' In R, you can use the unique() function for this purpose.
+
+1. Use the following code to find all the unique departments in `department_staff_list`:
 
 
 ``` r
-df_female &lt;- subset(department_staff_list, sex == "Female")
+unique_departments &lt;- unique(department_staff_list$department)
+```
+  + Note that $ is used to access the `department` column from the dataset.
+  + Note that we are using the arrow operator (`&lt;-`) to store the result
+  
+2.\ Use `print(unique_departments)`to display the unique departments:
+
+``` r
+print(unique_departments)
 ```
 
-  + Note that we are using the arrow operator (`&lt;-`) to store the result
-  + Note that there are **two equal signs** in the condition, not one
-  + Also note that you need to write `"Female"` enclosed in quotes and with uppercase `F`, because that's how it is in the data
-  
-2. Use `View(df_female)` to visualize the dataframe again and see how it changed (note the uppercase "V")
+```
+##  [1] "State Protocol Dept"             "Bureau of Languages"            
+##  [3] "Controller &amp; Accountant General" "Stool Lands"                    
+##  [5] "Co-operatives"                   "Factories Inspectorate"         
+##  [7] "Dept of Labour"                  "Procurement &amp; Supply CM"        
+##  [9] "Management Services"             "Public Records"                 
+## [11] "Public Works"                    "Rural Housing"                  
+## [13] "Parks &amp; Gardens"                 "Births &amp; Deaths"                
+## [15] "Department of Comm Devt"         "Feeder Roads"                   
+## [17] "Urban Roads"                     "Koforidua Training Center"      
+## [19] "Dept of Children"                "Dept of Gender"                 
+## [21] "Social Welfare"                  "Information Services"           
+## [23] "Rent Control"
+```
+
 
 ---
 
@@ -772,27 +827,22 @@ There is an important difference between using `&lt;-` and not using it
 
 
 ``` r
-subset(department_staff_list, sex == "Female")
+unique(department_staff_list$department)
 ```
 
 ```
-## # A tibble: 3,572 × 7
-##    sex    current_grade               date_of_birth       date_of_first_appoin…¹
-##    &lt;chr&gt;  &lt;chr&gt;                       &lt;dttm&gt;              &lt;dttm&gt;                
-##  1 Female Director Fin. &amp; Admin.      1964-09-25 00:00:00 1994-08-31 00:00:00   
-##  2 Female Chief Exe. Officer          1965-06-15 00:00:00 1990-12-01 00:00:00   
-##  3 Female Senior Records Officer      1974-04-29 00:00:00 2013-05-01 00:00:00   
-##  4 Female Senior Procurement/supply … 1973-08-08 00:00:00 2003-09-15 00:00:00   
-##  5 Female Snr. Private Secretary      1979-08-29 00:00:00 2002-01-07 00:00:00   
-##  6 Female Private Secretary           1982-12-26 00:00:00 2003-03-12 00:00:00   
-##  7 Female Private  Secretary          1986-02-13 00:00:00 2019-10-30 00:00:00   
-##  8 Female Stenographer Gd I           1986-11-14 00:00:00 2008-08-20 00:00:00   
-##  9 Female Records Officer             1981-06-17 00:00:00 2018-06-16 00:00:00   
-## 10 Female Principal Exe. Officer      1979-11-20 00:00:00 2019-12-23 00:00:00   
-## # ℹ 3,562 more rows
-## # ℹ abbreviated name: ¹​date_of_first_appointment
-## # ℹ 3 more variables: senior_junior_staff &lt;chr&gt;, department &lt;chr&gt;,
-## #   years_of_service &lt;dbl&gt;
+##  [1] "State Protocol Dept"             "Bureau of Languages"            
+##  [3] "Controller &amp; Accountant General" "Stool Lands"                    
+##  [5] "Co-operatives"                   "Factories Inspectorate"         
+##  [7] "Dept of Labour"                  "Procurement &amp; Supply CM"        
+##  [9] "Management Services"             "Public Records"                 
+## [11] "Public Works"                    "Rural Housing"                  
+## [13] "Parks &amp; Gardens"                 "Births &amp; Deaths"                
+## [15] "Department of Comm Devt"         "Feeder Roads"                   
+## [17] "Urban Roads"                     "Koforidua Training Center"      
+## [19] "Dept of Children"                "Dept of Gender"                 
+## [21] "Social Welfare"                  "Information Services"           
+## [23] "Rent Control"
 ```
 ---
 
@@ -800,24 +850,20 @@ subset(department_staff_list, sex == "Female")
 
 ## Storing results in R
 
-- Using `&lt;-` tells R that we want to **store the result in a new object**, which is the object at the left side of the arrow. This time the result will not be printed in the console but the new dataframe will show in the environment panel
+- Using `&lt;-` tells R that we want to **store the result in a new object**, which is the object at the left side of the arrow. This time the result will not be printed in the console but the new object will show in the environment panel
 
 
-```
-## Warning in read_fun(path = path, sheet_i = sheet, limits = limits, shim = shim,
-## : NA inserted for an unsupported date prior to 1900
-```
 
 
 ``` r
-df_female &lt;- subset(department_staff_list, sex == "Female")
+unique_departments &lt;- unique(department_staff_list$department)
 ```
 
 ---
 
 # Data in R 
 
-- R can store multiple dataframes in the environment. This is analogous to having different spreadsheets in the same Excel window
+- R can store multiple dataframes in the environment. This is analogous to having different spreadsheets in the same ❎Excel window
 
 - Always remember that dataframes are just objects in R. R differentiates which dataframe the code refers to with the dataframe name
 
@@ -880,7 +926,7 @@ name: wrapping-up
 
 This first session focused on the basics for writing R code
 
-&lt;img src="img/session1/session1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session1/session1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -889,7 +935,7 @@ This first session focused on the basics for writing R code
 
 In the next session we will learn how to get data ready to be exported as outputs
 
-&lt;img src="img/session1/session2.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/session1/session2.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
