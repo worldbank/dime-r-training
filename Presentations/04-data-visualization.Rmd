@@ -1,8 +1,8 @@
 ---
 title: "Session 4: Data Visualization"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2024"
+author: "DIME Analytics"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> April 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -128,7 +128,7 @@ Similarly to previous sessions, you can find some references at the end of this 
 ### Before we start
 
 * Make sure the packages `ggplot2` are installed and loaded. You can load it directly using `library(tidyverse)` or `library(ggplot2)`
-* Load the `whr_panel` data set (remember to use the `here` package) we created last week.
+* Load the `whr_panel` data set we created last week.(Remember to use the `here` package) 
 
 ```{r, warnings = F}
 # Packages
@@ -201,6 +201,14 @@ plot(whr_plot)
 
 ---
 
+# ggplot2
+
+```{r echo = FALSE, out.width="70%"}
+knitr::include_graphics("img/ggplot2-dib.png")
+```
+
+---
+
 # The beauty of ggplot2
 
 .large[
@@ -217,18 +225,27 @@ It is a powerful and easy to use tool (once you understand its logic) that produ
 
 ---
 
-# ggplot2: basic structure (template)
+# The grammar of graphics
+
+## The Structure of ggplot2  
+
+Creating a plot with ggplot2 requires **three basic components**:  
+
+1. **Data**: The dataset you want to visualize.  
+2. **Aesthetics (aes)**: How you map your data to visual elements (e.g., x-axis, y-axis, color).  
+3. **Geometry (geom)**: The type of plot you want (e.g., bar graph, scatter plot).  
+
+(and many more, we will see some examples at the end of the presentation)
+
+---
+
+# 📊 ggplot2: Basic Structure (Template)
 
 .large[The basic ggplot structure is:]
 
-```{r ggplot-template, echo=FALSE, tidy=FALSE}
-decorate('
+```{r ggplot-template, echo=FALSE, tidy=FALSE, eval=FALSE}
 ggplot(data = DATA) +
-  GEOM_FUNCTION(mapping = aes(AESTHETIC MAPPINGS))
-', eval = FALSE) %>% 
-  flair("DATA", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
-  flair("GEOM_FUNCTION", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
-  flair("AESTHETIC MAPPINGS", background = "#FFD0CF", before = "<b>", after = "</b>")
+  GEOM_FUNCTION(mapping = aes(AESTHETIC_MAPPINGS))
 ```
 
 .large[Mapping data to aesthetics]
@@ -241,33 +258,34 @@ ggplot(data = DATA) +
 
 ---
 
-# ggplot2: full structure
+# 📊 ggplot2: Full Structure
+
+.large[The full structure of a `ggplot2` visualization follows a logical sequence.]
 
 .pull-left[
-```
+```{r, eval=FALSE}
 ggplot(data = <DATA>) +
   <GEOM_FUNCTION>(
-     mapping = aes(<MAPPINGS>),
-     stat = <STAT>,
-     position = <POSITION>
-  ) +z
-  <COORDINATE_FUNCTION> +
-  <FACET_FUNCTION> +
-  <SCALE_FUNTION> +
-  <THEME_FUNCTION>
-
+    mapping = aes(<MAPPINGS>),
+    stat = <STAT>, 
+    position = <POSITION>
+  ) + 
+  <COORDINATE_FUNCTION>() +  # Adjust coordinate system
+  <FACET_FUNCTION>() +       # Create small multiples
+  <SCALE_FUNCTION>() +       # Adjust scales (colors, axes, etc.)
+  <THEME_FUNCTION>()         # Customize overall appearance
 ```
 ]
 
 .pull-right[
-
-1. `Data`: The data that you want to visualize
-2. `Layers`: geom\_ and stat\_ → The geometric shapes and statistical summaries representing the data
-3. `Aesthetics`: aes() → Aesthetic mappings of the geometric and statistical objects
-4. `Scales`: scale_ → Maps between the data and the aesthetic dimensions
-5. `Coordinate system`: coord_ → Maps data into the plane of the data rectangle
-6. `Facets`: facet_ → The arrangement of the data into a grid of plots
-7. `Visual themes`: theme() and theme_ → The overall visual defaults of a plot
+### 🧩 **Key Components**
+1️⃣ **Data (`data = <DATA>`)** → The dataset you want to visualize  
+2️⃣ **Layers (`geom_`, `stat_`)** → Shapes and statistical summaries  
+3️⃣ **Aesthetics (`aes()`)** → Maps data to visual properties  
+4️⃣ **Scales (`scale_`)** → Defines color, size, axes, etc.  
+5️⃣ **Coordinate System (`coord_`)** → Maps data to a 2D plane  
+6️⃣ **Facets (`facet_`)** → Splits data into small multiples  
+7️⃣ **Themes (`theme()`, `theme_`)** → Customizes visual appearance  
 ]
 
 ---
@@ -300,7 +318,7 @@ ggplot(data = <DATA>) +
 
 
 ```{r, out.width = "65%"}
-ggplot(data = whr_panel) +    #<<
+ggplot(data = whr_panel) +  #data  #<< 
   geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita))
 ```
 
