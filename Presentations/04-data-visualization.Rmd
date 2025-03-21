@@ -81,10 +81,11 @@ name: intro
 .panel[.panel-name[If You Did Not Attend Session 2]
 1. Copy/paste the following code into a new RStudio script, **replacing "YOURFOLDERPATHHERE" with the folder within which you'll place this R project:
 ```{r, eval = FALSE}
+install.packages("usethis")
 library(usethis)
-use_course(
-    url = "https://github.com/worldbank/dime-r-training/archive/main.zip",
-    destdir = "YOURFOLDERPATHHERE"
+usethis::use_zip(
+    "https://github.com/worldbank/dime-r-training/archive/main.zip",
+    cleanup = TRUE
 )
 ```
 
@@ -157,12 +158,17 @@ In our workflow there are usually two distinct uses for plots:
   * We’ll do this using `ggplot2` with more customization. The idea is to create beautiful graphs.
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 name: ea
 
 # Exploratory Analysis
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/ggplot2_img.png")
+```
+
 
 ---
 
@@ -201,14 +207,6 @@ plot(whr_plot)
 
 ---
 
-# ggplot2
-
-```{r echo = FALSE, out.width="70%"}
-knitr::include_graphics("img/ggplot2-dib.png")
-```
-
----
-
 # The beauty of ggplot2
 
 .large[
@@ -243,9 +241,9 @@ Creating a plot with ggplot2 requires **three basic components**:
 
 .large[The basic ggplot structure is:]
 
-```{r ggplot-template, echo=FALSE, tidy=FALSE, eval=FALSE}
-ggplot(data = DATA) +
-  GEOM_FUNCTION(mapping = aes(AESTHETIC_MAPPINGS))
+```{r ggplot-template, tidy=FALSE, eval=FALSE}
+ggplot(data = DATA) #<<
+  GEOM_FUNCTION(mapping = aes(AESTHETIC MAPPINGS)) #<<
 ```
 
 .large[Mapping data to aesthetics]
@@ -491,21 +489,17 @@ How the plot is going to be drawn.
 
 .pull-left[
 
-```{r, out.width = "50%", echo = FALSE}
-decorate('
+```{r, out.width = "50%",  eval=FALSE}
 whr_panel %>%
 ggplot(
   aes(
     x = happiness_score,       
     y = economy_gdp_per_capita,
-    color = region 
+    color = region  #<<
   )
 ) + 
-  geom_point() 
-', eval = FALSE) %>%
-  flair_rx("aes|geom_point", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
-  flair_rx("x |y ", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
-  flair("color = region ", background = "#F1E740", before = "<b>", after = "</b>")
+  geom_point() #<<
+
 ```
 
 ]
@@ -641,19 +635,16 @@ ggplot(data = whr_panel,
 
 **Solution:**
 
-```{r, echo = FALSE}
-decorate('
+```{r, eval=FALSE}
 whr_panel %>%
   ggplot(
     aes(
       x = freedom, 
       y = economy_gdp_per_capita, 
-      color = year
+      color = year #<<
     )
   ) +
   geom_point()
-', eval = FALSE) %>% 
-  flair("color = year", background = "#CBB5FF", before = "<b>", after = "</b>")
 ```
 
 ]
@@ -684,19 +675,16 @@ ggplot(data = whr_panel,
 
 .pull-left[
 
-```{r, out.width = "45%", echo = FALSE}
-decorate('
+```{r, out.width = "45%", eval=FALSE}
 whr_panel %>%
   ggplot(
     aes(
       x = freedom, 
       y = economy_gdp_per_capita, 
-      color = as.factor(year)
+      color = as.factor(year) #<<
     )
   ) +
   geom_point()
-', eval = FALSE) %>% 
-  flair("color = as.factor(year)", background = "#CBB5FF", before = "<b>", after = "</b>")
 ```
 
 ]
@@ -714,12 +702,17 @@ ggplot(data = whr_panel,
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 name: ggplot
 
 # ggplot2: settings
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+```{r echo = FALSE, out.width="70%"}
+knitr::include_graphics("img/ggplot2_dib.png")
+```
+
 
 ---
 
@@ -1327,9 +1320,13 @@ ggsave(
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 
 # And that's it for this session. Join us tomorrow for data analysis. Remember to submit your feedback!
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/r_learners.png")
+```
 
 
 ---
