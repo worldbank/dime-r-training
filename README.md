@@ -1,11 +1,12 @@
-# R for Stata users
+# R for Data Analysis
 
 ## Background
-This material was developed by the [DIME Analytics](https://www.worldbank.org/en/research/dime/data-and-analytics) team as an introduction to R Statistical Package for its staff.
+This material was developed by the [DIME Analytics](https://www.worldbank.org/en/research/dime/data-and-analytics) team as an introduction to R.
 
 ## Course description
 R is a programming language for statistical analysis and data science. It is a powerful and flexible tool widely used among statisticians and data scientists, and has a growing user base in economics research. This course is designed to familiarize participants with the language, focusing on common tasks and analysis in development research, and showing how to use R through RStudio, a popular integrated development environment for R.
-The course will build upon comparisons to Stata syntax and requires familiarity with the use of do-files, loops and macros. It also assumes some degree of familiarity with DIME's [coding practices](https://dimewiki.worldbank.org/wiki/Stata_Coding_Practices). All sessions are designed to last 90 minutes.
+
+The first sessions of the course will build upon comparisons to Stata syntax and requires familiarity with the use of do-files, loops and locals. All sessions are designed to last 90 minutes. Participants need to have R and RStudio installed to follow each session.
 
 ## Training content
 
@@ -63,7 +64,9 @@ Formats:
 - [.pdf](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/06-spatial-data.pdf)
 - [.Rmd](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/06-spatial-data.Rmd)
 
-[07 - Introduction to R Markdown](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/07-r-markdown.html)
+## Other sessions
+
+[Introduction to R Markdown](https://raw.githack.com/worldbank/dime-r-training/main/Presentations/07-r-markdown.html)
 
 - An introduction to dynamic documents and R Markdown.
 

@@ -1,8 +1,8 @@
 ---
 title: "Session 1 - Introduction to R"
-subtitle: "R for Stata Users"
+subtitle: "R for Data Analysis"
 author: "DIME Analytics"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2024"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -91,7 +91,7 @@ We're glad you're joining us today!
 
 - These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
 
-- The sessions include exercises. If time allows, you will be given a few minutes to solve each exercise before we show the solution
+- The sessions include exercises. The instructors will show you how do to the exercises and will solve them as part of the presentation
 
 ---
 
@@ -99,7 +99,7 @@ We're glad you're joining us today!
 
 ## Format
 
-- Every session has a TA. For this session, our TA is __Maria (Mer) Reyes Retana__
+- Every session has a TA. For this session, our TAs are __Maria (Mer) Reyes Retana__ and __Mahrukh Khan__
 
 - The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send a message over the chat whenever you need help
 
@@ -113,9 +113,7 @@ We're glad you're joining us today!
 
 - Please mute your microphone the rest of the time
 
-- If your connection is good enough, please leave your video on
-
-- The materials of each session will be shared in the OSF page of the course by the end of each session: https://osf.io/86g3b/
+- The materials of each session will be shared in the OSF page of the course by the end of each session: https://osf.io/86g3b/files/osfstorage
 
 - The recordings will be shared each day after the session
 
@@ -134,9 +132,9 @@ name: introduction
 
 ## About this course
 
-These training sessions will offer an introduction to R, its amazing features, and how Stata users can adapt from using Stata to using R.
+These training sessions will offer an introduction to R, its features, and to conduct data analysis in R. The first sessions draw comparisons between Stata and R for an easier introduction of commands and concepts.
 
-We assume that you know how to do statistical programming in Stata or that you have a computer programming background.
+We assume that you know how to do statistical programming in Stata or that you have a data analysis or computer programming background.
 
 ## About this session
 
@@ -199,10 +197,9 @@ Let's start by loading the data we'll be using:
 ## Exercise 1: Import data manually <font size="5">(`r fa("clock")` 3 min)</font> 
 
 
-1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - 2024 March` > `Data` > `whr_panel.csv`
+1. Go to the link https://osf.io/v2hsn and download the file `whr_panel.csv` (click on the vertical ellipsis next to the file name)
 
-2. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and open the `whr_panel.csv` file. 
-  + Depending on your version of RStudio, it might be `File` > `Import Dataset` > `From CSV`
+2. In RStudio, go to `File` > `Import Dataset` > `From Text (base)` and open the `whr_panel.csv` file.
 
 3. Assign the name `whr` to the data on the Import Dataset window.
 
@@ -226,11 +223,33 @@ knitr::include_graphics("img/import_data2.png")
 
 ---
 
-# Getting started - RStudio interface
+# Getting started - Importing data
 
 ```{r echo = FALSE, out.width = "70%"}
 knitr::include_graphics("img/environment_whr.png")
 ```
+
+---
+
+# Getting started - Importing data
+
+You'll also note that RStudio by default opens a visualizer of the data we just loaded.
+
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/View.png")
+```
+
+---
+
+# Getting started - Importing data
+
+Lastly, you'll see that these two commands were automatically introduced and executed in the Console panel.
+
+```{r echo = FALSE, out.width = "70%"}
+knitr::include_graphics("img/import_console.png")
+```
+
+This is because when we clicked `File` > `Import Dataset` > `From Text (base)` and imported the data, we implicitly told RStudio to execute these two commands.
 
 ---
 
@@ -245,31 +264,15 @@ name: data-in-r
 
 # Data in R
 
-## In Stata:
+* Datasets are called __dataframes__
 
-* You can open __one dataset__ and perform operations that can change that dataset.
+* You can load __as many dataframes__ as your computer can take
 
-* You can also have other things, such as matrices, macros and tempfiles, but they are secondary. __Most functions only use the main dataset__.
-
-* If you wish to do any non-permanent changes to your data, __you'll need to preserve the original data to keep it intact__.
+* Operations will have lasting effects __only if you store their results__ --this will be clearer in the next two exercises
 
 ---
 
 # Data in R
-
-## In R:
-
-Datasets are called __dataframes__. R works with them in a different way: 
- 
-* You can load __as many dataframes as you wish__ or your computer's memory allows
-
-* Operations will have lasting effects __only if you store their results__
-
----
-
-# Data in R
-
-## In R:
 
 * Everything that exists in R's memory -variables, dataframes, functions- __is an object__
 
@@ -303,7 +306,7 @@ knitr::include_graphics("img/View.png")
 
 # Data in R
 
-Alternatively we can print the first 6 obs. with `head()`:
+To explore data, we can print the first 6 obs. with `head()`:
 
 ```{r echo=FALSE}
 knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
@@ -354,8 +357,7 @@ We can see that nothing happened to the original data. This was because we didn'
 ### To store an object, we use the assignment operator (`<-`):
 
 ```{r, include = T, results = "hide"}
-# Assign the Answer to the Ultimate Question of Life, 
-# the Universe, and Everything
+# Assign the number 42 to an object named "x"
 x <- 42
 ```
 
@@ -364,8 +366,7 @@ x <- 42
 # Data in R
 
 ```{r, include = T, results = "hide"}
-# Assign the Answer to the Ultimate Question of Life, 
-# the Universe, and Everything
+# Assign the number 42 to an object named "x"
 x <- 42
 ```
 
@@ -611,7 +612,7 @@ df1
 # R objects - Dataframes
 
 ```{r, eval=F}
-df1 <- data.frame(v1,v2) #creates a df by binding to existing vectors
+df1 <- data.frame(v1,v2) #creates a df by binding existing vectors
 df1
 ```
 
@@ -724,7 +725,7 @@ Here's a quick example:
 
 ```{r, include = T, results = "hide"}
 # Use the list() function
-lst <- list(v1, df1, 45)
+lst <- list(v2, df1, 45)
 ```
 Print the list yourself to see how it looks like.
 
@@ -733,7 +734,7 @@ Print the list yourself to see how it looks like.
 # R objects - Lists
 
 ```{r, eval=F}
-lst <- list(v1, df1, 45) # definition of lst
+lst <- list(v2, df1, 45) # definition of lst
 print(lst)               # checking the content of lst
 ```
 
@@ -757,7 +758,7 @@ You can subset lists using single brackets (`[]`) or double brackets (`[[]]`)
 # R objects - Lists
 
 ```{r, eval=F}
-lst <- list(v1, df1, 45)
+lst <- list(v2, df1, 45)
 lst[[3]]    # returns 45
 lst[3]      # returns a list of one element (45)
 ```
@@ -794,7 +795,7 @@ As in Stata, there are two different ways to store numbers. They are different b
 
 ### Exercise 4: Concatenate strings <font size="5">(`r fa("clock")` 3 min)</font> 
 
-1. Create the following vector of strings: `str_vec <- c("R", "Python", "SAS", "Excel", "Stata")`
+1. Create the following vector of strings: `str_vec <- c("R", "Python", "Excel", "Stata")`
 
 1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar <- "can be an option to"`
 
@@ -815,7 +816,7 @@ help(paste)
 ```{r, eval=F}
 str_vec <- c("R", "Python", "SAS", "Excel", "Stata")
 str_scalar <- "can be an option to"       # creating str_scalar
-paste(str_vec[1], str_scalar, str_vec[5]) # using paste()
+paste(str_vec[1], str_scalar, str_vec[4]) # using paste()
 ```
 
 ```{r echo=FALSE}
@@ -827,13 +828,13 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 class: inverse, center, middle
 name: advanced-types-of-data
 
-# Advanced types of data
+# Other types of data
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Advanced types of data
+# Other types of data
 
 R also has other more complex ways of storing data. These are the most used:
 
@@ -847,7 +848,7 @@ Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as
 
 ---
 
-# Advanced types of data
+# Other types of data
 
 ## Booleans
 
@@ -870,7 +871,7 @@ boolean_false
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 ```{r, eval=F}
 boolean_true  <- TRUE
@@ -883,7 +884,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 ## Exercise 5 <font size="5">(`r fa("clock")` 3 min)</font> 
 
@@ -899,7 +900,7 @@ head(inc_below_avg)
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 ```{r, eval=F}
 inc_below_avg <- whr$economy_gdp_per_capita < mean(whr$economy_gdp_per_capita) # Create vector
@@ -912,7 +913,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 We can use boolean vectors to index elements:
 
@@ -932,7 +933,7 @@ my_vector[boolean2]
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 ```{r, eval=F}
 my_vector <- c("1st", "2nd", "3rd", "4th", "5th")
@@ -946,7 +947,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the `whr` dataframe for the same condition.
 
@@ -968,7 +969,7 @@ whr$rank_low[inc_below_avg] <- 1
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 ```{r,  eval = F}
 whr$rank_low <- 0 # this creates a vector of zeros
@@ -982,7 +983,7 @@ knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 Instead of indexing the lines with the boolean vector `inc_below_avg`, we could also use the boolean condition itself:
 
@@ -1181,7 +1182,7 @@ m1[,2]
 
 ---
 
-# Appendix - Advanced types of data - Factors
+# Appendix - Other types of data - Factors
 
 ## Factors
 
@@ -1269,12 +1270,14 @@ help(summary)
 
  * The biggest difference, however, is that __R has a much wider user community__ and it has __a lot more online resources__.
 
- * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550 (check http://r4stats.com/articles/popularity/ for more details).
+ * For instance, by 2014, Stata had 11 dedicated blogs written by users, while R had 550 (check http://r4stats.com/articles/popularity/ for more details).
 
  * The most powerful problem-solving tool in R, however, is Google. Searching the something yields tons of results.
  
  * Often that means a Stack Overflow page where someone asked the same question and several people gave different answers. Here's a typical example:
  https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group
+ 
+ * You can also ask ChatGPT for help in R. But be careful as it can sometimes hallucinate or give your incorrect answers.
 
 ---
 
