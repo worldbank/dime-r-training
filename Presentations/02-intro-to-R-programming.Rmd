@@ -1,8 +1,8 @@
 ---
 title: "Session 2: Introduction to R Programming"
-subtitle: "R for Stata Users"
+subtitle: "R for Data Analysis"
 author: "DIME Analytics"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2024"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -276,17 +276,17 @@ __Important:__ We won't get into the specifics of directory organization here, b
 
 ### Exercise 2 `r fa("keyboard")` <font size="5">(`r fa("clock")` 3 min)</font>
 
-1. Create a folder named `dime-r-training-202403` in your preferred location in your computer
+1. Create a folder named `dime-r-training` in your preferred location in your computer
 
-1. Go to https://osf.io/86g3b/ and download the file in: `R for Stata Users - 2024 March` > `Data` > `DataWork.zip`
+1. Go to https://osf.io/382kv and download the file `DataWork.zip` (click on the vertical ellipsis next to the file name)
 
 1. Unzip `DataWork.zip` in your folder `dime-r-training-202403`
 
-1. On RStudio, select `File` > `New Project...`
+1. On RStudio, select `File` > `New Project...` (the window will load for a few seconds)
 
 1. Select `Existing Directory`
 
-1. Browse to the location of `dime-r-training-202403` and select `Create Project`
+1. Browse to the location of `dime-r-training` and select `Create Project`
 ]
 
 ---
@@ -308,6 +308,8 @@ knitr::include_graphics("img/dime-r-training-project-dir.png")
 ---
 
 # The `here` library
+
+Now that we're working in a project, we can use the library `here` to define any file paths relative to the project folder.
 
 * `here` locates files relative to your project root
 
@@ -393,6 +395,8 @@ name: using-packages
   
   + Operations that basic R functions do, but easier (example: data wrangling)
 
+- Packages are also called libraries or dependencies
+
 ---
 
 # Packages
@@ -407,7 +411,7 @@ knitr::include_graphics("img/r-libraries.png")
 
 # Packages
 
-* You can install packages with the command `install.packages()`. packages are also commonly called "libraries" in R programming
+* You can install packages with the command `install.packages()`.
 
 ```{r, eval = F}
 # Installing a package
@@ -425,13 +429,13 @@ library(dplyr)
 
 # Packages
 
-- Package installation:
+- Package installation: only once in your computer
 
 ```{r echo = FALSE, out.width="37%"}
 knitr::include_graphics("img/installation.png")
 ```
 
-- Package loading:
+- Package loading: in every new RStudio session
 
 ```{r echo = FALSE, out.width="37%"}
 knitr::include_graphics("img/loading.png")
@@ -449,12 +453,21 @@ knitr::include_graphics("img/loading.png")
 
 ]
 
-__Note:__ There is no need to install `dplyr` and `purrr` as they are part of the meta-library `tidyverse`, which we asked to install before this course. If you didn't have the chance to install `tidyverse`, then install `dplyr` and `purrr` with:
+__Note:__ There is probably no need to install `dplyr` and `purrr` as they are part of the meta-library `tidyverse`, which we asked to install before this course. If you didn't have the chance to install `tidyverse`, then first install `dplyr` and `purrr` with:
 
 ```{r, eval=FALSE}
 install.packages("dplyr")
 install.packages("purrr")
 ```
+
+And then just load them:
+
+```{r, eval=FALSE}
+library(dplyr)
+library(purrr)
+```
+
+**Important:** installing requires the user to refer to the package name as a string using quotes. Loading the package doesn't use quotes for the package name.
 
 ---
 
