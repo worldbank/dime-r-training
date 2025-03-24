@@ -28,13 +28,13 @@ class: center, middle, inverse, title-slide
 # Session 1 - Introduction to R
 ]
 .subtitle[
-## R for Stata Users
+## R for Data Analysis
 ]
 .author[
 ### DIME Analytics
 ]
 .date[
-### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2024
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2025
 ]
 
 ---
@@ -76,7 +76,7 @@ We're glad you're joining us today!
 
 - These are hands-on sessions. You are strongly encouraged to __follow along in your computer__ what the presenter is doing
 
-- The sessions include exercises. If time allows, you will be given a few minutes to solve each exercise before we show the solution
+- The sessions include exercises. The instructors will show you how do to the exercises and will solve them as part of the presentation
 
 ---
 
@@ -84,7 +84,7 @@ We're glad you're joining us today!
 
 ## Format
 
-- Every session has a TA. For this session, our TA is __Maria (Mer) Reyes Retana__
+- Every session has a TA. For this session, our TAs are __Maria (Mer) Reyes Retana__ and __Mahrukh Khan__
 
 - The TAs will help you troubleshooting __particular issues__ which make you unable to follow along the presentation. Send a message over the chat whenever you need help
 
@@ -98,9 +98,7 @@ We're glad you're joining us today!
 
 - Please mute your microphone the rest of the time
 
-- If your connection is good enough, please leave your video on
-
-- The materials of each session will be shared in the OSF page of the course by the end of each session: https://osf.io/86g3b/
+- The materials of each session will be shared in the OSF page of the course by the end of each session: https://osf.io/86g3b/files/osfstorage
 
 - The recordings will be shared each day after the session
 
@@ -119,9 +117,9 @@ name: introduction
 
 ## About this course
 
-These training sessions will offer an introduction to R, its amazing features, and how Stata users can adapt from using Stata to using R.
+These training sessions will offer an introduction to R, its features, and to conduct data analysis in R. The first sessions draw comparisons between Stata and R for an easier introduction of commands and concepts.
 
-We assume that you know how to do statistical programming in Stata or that you have a computer programming background.
+We assume that you know how to do statistical programming in Stata or that you have a data analysis or computer programming background.
 
 ## About this session
 
@@ -174,10 +172,9 @@ Let's start by loading the data we'll be using:
 ## Exercise 1: Import data manually &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt; 
 
 
-1. Go to the OSF page of the course (https://osf.io/86g3b/) and download the file located in `R for Stata Users - 2024 March` &gt; `Data` &gt; `whr_panel.csv`
+1. Go to the link https://osf.io/v2hsn and download the file `whr_panel.csv` (click on the vertical ellipsis next to the file name)
 
-2. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and open the `whr_panel.csv` file. 
-  + Depending on your version of RStudio, it might be `File` &gt; `Import Dataset` &gt; `From CSV`
+2. In RStudio, go to `File` &gt; `Import Dataset` &gt; `From Text (base)` and open the `whr_panel.csv` file.
 
 3. Assign the name `whr` to the data on the Import Dataset window.
 
@@ -197,9 +194,27 @@ Let's start by loading the data we'll be using:
 
 ---
 
-# Getting started - RStudio interface
+# Getting started - Importing data
 
 &lt;img src="img/environment_whr.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Getting started - Importing data
+
+You'll also note that RStudio by default opens a visualizer of the data we just loaded.
+
+&lt;img src="img/View.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Getting started - Importing data
+
+Lastly, you'll see that these two commands were automatically introduced and executed in the Console panel.
+
+&lt;img src="img/import_console.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+This is because when we clicked `File` &gt; `Import Dataset` &gt; `From Text (base)` and imported the data, we implicitly told RStudio to execute these two commands.
 
 ---
 
@@ -214,31 +229,15 @@ name: data-in-r
 
 # Data in R
 
-## In Stata:
+* Datasets are called __dataframes__
 
-* You can open __one dataset__ and perform operations that can change that dataset.
+* You can load __as many dataframes__ as your computer can take
 
-* You can also have other things, such as matrices, macros and tempfiles, but they are secondary. __Most functions only use the main dataset__.
-
-* If you wish to do any non-permanent changes to your data, __you'll need to preserve the original data to keep it intact__.
+* Operations will have lasting effects __only if you store their results__ --this will be clearer in the next two exercises
 
 ---
 
 # Data in R
-
-## In R:
-
-Datasets are called __dataframes__. R works with them in a different way: 
- 
-* You can load __as many dataframes as you wish__ or your computer's memory allows
-
-* Operations will have lasting effects __only if you store their results__
-
----
-
-# Data in R
-
-## In R:
 
 * Everything that exists in R's memory -variables, dataframes, functions- __is an object__
 
@@ -258,7 +257,7 @@ First, let's take a look at the data.
 
 Type the following code __in the Console panel__ and press Enter to explore the data: 
 
-```r
+``` r
 # We can use the function View() to browse the whole data
 View(whr) # &lt;--- Note that the first letter is uppercase
 ```
@@ -269,7 +268,7 @@ View(whr) # &lt;--- Note that the first letter is uppercase
 
 # Data in R
 
-Alternatively we can print the first 6 obs. with `head()`:
+To explore data, we can print the first 6 obs. with `head()`:
 
 &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
@@ -284,14 +283,14 @@ Now, let's try some simple manipulations. First, assume we're only interested in
 - Subset the dataframe, keeping only observations where variable `year` equals `2016`.
 
 
-```r
+``` r
 # To do that we'll use the subset() function
 subset(whr, year == 2016)
 ```
 
 - Then, look again at the first 6 observations
 
-```r
+``` r
 # Use the head() function again
 head(whr)
 ```
@@ -303,7 +302,7 @@ head(whr)
 # Data in R
 
 
-```r
+``` r
 subset(whr, year == 2016)
 head(whr)
 ```
@@ -319,9 +318,8 @@ We can see that nothing happened to the original data. This was because we didn'
 ### To store an object, we use the assignment operator (`&lt;-`):
 
 
-```r
-# Assign the Answer to the Ultimate Question of Life, 
-# the Universe, and Everything
+``` r
+# Assign the number 42 to an object named "x"
 x &lt;- 42
 ```
 
@@ -330,9 +328,8 @@ x &lt;- 42
 # Data in R
 
 
-```r
-# Assign the Answer to the Ultimate Question of Life, 
-# the Universe, and Everything
+``` r
+# Assign the number 42 to an object named "x"
 x &lt;- 42
 ```
 
@@ -355,7 +352,7 @@ From now on, `x` is associated with the stored value (until you replace it, dele
 Create a new dataframe, called `whr2016`, that is a subset of the `whr` dataframe containing only data from the year 2016.
 
 
-```r
+``` r
 # Using the same function but now assigning it to an object
 whr2016 &lt;- subset(whr, year == 2016)
 
@@ -384,7 +381,7 @@ You can also see that your environment panel now has two data objects:
 * It is also possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
  
  
- ```r
+ ``` r
  # This would have replaced "whr" instead of creating a new object:
  whr &lt;- subset(whr, year == 2016)
  ```
@@ -400,7 +397,7 @@ __Important:__ This will modify the original object —`whr` in this case. R wil
 Printing (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but will not save anything in the memory.
 
 
-```r
+``` r
 # For instance, this will only print the observations that meet the specified condition:
 subset(whr, year == 2016)
 
@@ -514,7 +511,7 @@ A vector is an uni-dimensional object composed by one or more elements of the sa
 #### Use the following code to create vectors in two different ways
 
 
-```r
+``` r
 # Creating a vector with the c() function
 v1 &lt;- c(1,2,3,4,5)
 
@@ -527,7 +524,7 @@ v2 &lt;- 1:5
 # R objects - Vectors
 
 
-```r
+``` r
 v1 &lt;- c(1,2,3,4,5) # Creating a vector with the c() function
 v2 &lt;- 1:5          # Alternative way to create an evenly spaced vector
 ```
@@ -541,7 +538,7 @@ v2 &lt;- 1:5          # Alternative way to create an evenly spaced vector
 #### You can use brackets for indexing vector elements
 
 
-```r
+``` r
 v2[4]   # Prints the 4th element of the vector
 v2[1:3] # Prints from the 1st to the 3rd element
 ```
@@ -557,7 +554,7 @@ The `whr` and `whr2016` objects are both dataframes. You can also construct a ne
 #### Now, type the following code to create a new dataframe
 
 
-```r
+``` r
 # Dataframe created by biding vectors
 df1 &lt;- data.frame(v1,v2)
 df1
@@ -577,8 +574,8 @@ df1
 # R objects - Dataframes
 
 
-```r
-df1 &lt;- data.frame(v1,v2) #creates a df by binding to existing vectors
+``` r
+df1 &lt;- data.frame(v1,v2) #creates a df by binding existing vectors
 df1
 ```
 
@@ -593,7 +590,7 @@ Since a dataframe has two dimensions, you can use indices for both. The first in
 ### Numeric indexing
 
 
-```r
+``` r
 # The first column of whr
 whr[,1]
 
@@ -609,7 +606,7 @@ whr[45,1]
 # R objects - Dataframes
 
 
-```r
+``` r
 whr[,1]   # The first column of whr
 whr[45,]  # The 45th row of whr
 whr[45,1] # Or the 45th element of the first column
@@ -626,7 +623,7 @@ Alternatively, you can use the column names for indexing, which is the same as u
 ### Names indexing
 
 
-```r
+``` r
 # The 22th element of the country column
 whr[22,"country"] # The same as whr$country[22]
 ```
@@ -640,7 +637,7 @@ whr[22,"country"] # The same as whr$country[22]
 # R objects - Dataframes
 
 
-```r
+``` r
 # The 22th element of the country column
 whr[22,"country"] # The same as whr$country[22]
 ```
@@ -662,7 +659,7 @@ We use the `$` character to extract vectors (variables) by their names in a data
 For example:
 
 
-```r
+``` r
 # Create a vector with the values of the "year" variable
 year_vector &lt;- whr$year
 ```
@@ -672,7 +669,7 @@ year_vector &lt;- whr$year
 # R objects - Dataframes
 
 
-```r
+``` r
 year_vector &lt;- whr$year # creates a vector with the values of the "year" variable
 ```
 
@@ -691,9 +688,9 @@ Here's a quick example:
 ### Combine several objects of different types in a list
 
 
-```r
+``` r
 # Use the list() function
-lst &lt;- list(v1, df1, 45)
+lst &lt;- list(v2, df1, 45)
 ```
 Print the list yourself to see how it looks like.
 
@@ -702,8 +699,8 @@ Print the list yourself to see how it looks like.
 # R objects - Lists
 
 
-```r
-lst &lt;- list(v1, df1, 45) # definition of lst
+``` r
+lst &lt;- list(v2, df1, 45) # definition of lst
 print(lst)               # checking the content of lst
 ```
 
@@ -725,8 +722,8 @@ You can subset lists using single brackets (`[]`) or double brackets (`[[]]`)
 # R objects - Lists
 
 
-```r
-lst &lt;- list(v1, df1, 45)
+``` r
+lst &lt;- list(v2, df1, 45)
 lst[[3]]    # returns 45
 lst[3]      # returns a list of one element (45)
 ```
@@ -761,7 +758,7 @@ As in Stata, there are two different ways to store numbers. They are different b
 
 ### Exercise 4: Concatenate strings &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt; 
 
-1. Create the following vector of strings: `str_vec &lt;- c("R", "Python", "SAS", "Excel", "Stata")`
+1. Create the following vector of strings: `str_vec &lt;- c("R", "Python", "Excel", "Stata")`
 
 1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar &lt;- "can be an option to"`
 
@@ -772,7 +769,7 @@ As in Stata, there are two different ways to store numbers. They are different b
 
 1. If you're not sure where to start, type:
 
-```r
+``` r
 help(paste)
 ```
 
@@ -781,10 +778,10 @@ help(paste)
 # Basic types of data - Strings
 
 
-```r
+``` r
 str_vec &lt;- c("R", "Python", "SAS", "Excel", "Stata")
 str_scalar &lt;- "can be an option to"       # creating str_scalar
-paste(str_vec[1], str_scalar, str_vec[5]) # using paste()
+paste(str_vec[1], str_scalar, str_vec[4]) # using paste()
 ```
 
 &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
@@ -794,13 +791,13 @@ paste(str_vec[1], str_scalar, str_vec[5]) # using paste()
 class: inverse, center, middle
 name: advanced-types-of-data
 
-# Advanced types of data
+# Other types of data
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
 
 ---
 
-# Advanced types of data
+# Other types of data
 
 R also has other more complex ways of storing data. These are the most used:
 
@@ -814,7 +811,7 @@ Booleans are __logical binary variables__, accepting either `TRUE` or `FALSE` as
 
 ---
 
-# Advanced types of data
+# Other types of data
 
 ## Booleans
 
@@ -824,14 +821,14 @@ Boolean data is the result of logical conditions. It can take two possible value
 * Another difference is that in R you can assign a boolean value to an object:
 
 
-```r
+``` r
 # Storing boolean values:
 boolean_true  &lt;- TRUE
 boolean_false &lt;- FALSE
 ```
 
 
-```r
+``` r
 # Printing:
 boolean_true
 ```
@@ -840,7 +837,7 @@ boolean_true
 ## [1] TRUE
 ```
 
-```r
+``` r
 boolean_false
 ```
 
@@ -850,10 +847,10 @@ boolean_false
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 
-```r
+``` r
 boolean_true  &lt;- TRUE
 boolean_false &lt;- FALSE
 ```
@@ -862,14 +859,14 @@ boolean_false &lt;- FALSE
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 ## Exercise 5 &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt; 
 
 Create a boolean vector with the condition of annual income below average:
 
 
-```r
+``` r
 # Create vector
 inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita)
 
@@ -879,10 +876,10 @@ head(inc_below_avg)
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 
-```r
+``` r
 inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita) # Create vector
 head(inc_below_avg) # See the 6 first elements of the vector
 ```
@@ -891,12 +888,12 @@ head(inc_below_avg) # See the 6 first elements of the vector
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 We can use boolean vectors to index elements:
 
 
-```r
+``` r
 # Creating a vector with 5 elements:
 my_vector &lt;- c("1st", "2nd", "3rd", "4th", "5th")
 my_vector
@@ -906,7 +903,7 @@ my_vector
 ## [1] "1st" "2nd" "3rd" "4th" "5th"
 ```
 
-```r
+``` r
 # Selecting and printing the first and last elements only:
 boolean1 &lt;- c(TRUE, FALSE, FALSE, FALSE, TRUE)
 my_vector[boolean1]
@@ -916,7 +913,7 @@ my_vector[boolean1]
 ## [1] "1st" "5th"
 ```
 
-```r
+``` r
 # Selecting and printing every element but the first:
 boolean2 &lt;- c(FALSE, TRUE, TRUE, TRUE, TRUE)
 my_vector[boolean2]
@@ -928,10 +925,10 @@ my_vector[boolean2]
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 
-```r
+``` r
 my_vector &lt;- c("1st", "2nd", "3rd", "4th", "5th")
 boolean1 &lt;- c(TRUE, FALSE, FALSE, FALSE, TRUE) # We'll use this to select the first and last elements only
 boolean2 &lt;- c(FALSE, TRUE, TRUE, TRUE, TRUE)   # And this to select every element but the first
@@ -941,7 +938,7 @@ boolean2 &lt;- c(FALSE, TRUE, TRUE, TRUE, TRUE)   # And this to select every ele
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the `whr` dataframe for the same condition.
 
@@ -950,14 +947,14 @@ Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the 
  * Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
 
-```r
+``` r
 whr$rank_low &lt;- 0
 ```
 
  * Now use `inc_below_avg` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
 
 
-```r
+``` r
 whr$rank_low[inc_below_avg] &lt;- 1
 ```
 
@@ -965,10 +962,10 @@ whr$rank_low[inc_below_avg] &lt;- 1
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 
-```r
+``` r
 whr$rank_low &lt;- 0 # this creates a vector of zeros
 whr$rank_low[inc_below_avg] &lt;- 1
 # this ^ turns its values to 1, for the observations with a TRUE value in inc_below_avg
@@ -978,12 +975,12 @@ whr$rank_low[inc_below_avg] &lt;- 1
 
 ---
 
-# Advanced types of data - Booleans
+# Other types of data - Booleans
 
 Instead of indexing the lines with the boolean vector `inc_below_avg`, we could also use the boolean condition itself:
 
 
-```r
+``` r
 # Replace with 1 those obs that meet the condition
 whr$rank_low[inc_below_avg] &lt;- 1 
 
@@ -1145,7 +1142,7 @@ A matrix a bi-dimensional object composed by one or more vectors of the same typ
 
 ## Type the following code to test two different ways of creating matrices
 
-```r
+``` r
 # Matrix created by joining two vectors:
 m1 &lt;- cbind(v1,v1)
 
@@ -1159,7 +1156,7 @@ m2 &lt;- matrix(c(1,1,2,3,5,8), ncol = 2)
 
 ### Now use the following code to check the elements of these matrices by indexing
 
-```r
+``` r
 # Matrix indexing: typing matrix[i,j] will give you
 # the element in the ith row and jth column of that matrix
 #m2[1,2]
@@ -1175,13 +1172,13 @@ m1[,2]
 
 ---
 
-# Appendix - Advanced types of data - Factors
+# Appendix - Other types of data - Factors
 
 ## Factors
 
 #### Create a factor vector using the following code
 
-```r
+``` r
 # Basic factor vector
 num_vec &lt;- c(1,2,2,3,1,2,3,3,1,2,3,3,1)
 fac_vec &lt;- factor(num_vec)
@@ -1199,7 +1196,7 @@ levels(fac_vec) = c('One','Two','Three')
 
 ### Two scalars, one with a round number the other with a fractional part:
 
-```r
+``` r
 # a numeric scalar with an integer number
 int &lt;- 13
 num &lt;- 12.99
@@ -1212,7 +1209,7 @@ num &lt;- 12.99
 Now we can see the objects classes with the `class()` function and test it with the `is.integer()` and `is.numeric()` functions.
 
 
-```r
+``` r
 # you can see the number's format using the class function:
 class(int)
 ```
@@ -1221,7 +1218,7 @@ class(int)
 ## [1] "numeric"
 ```
 
-```r
+``` r
 class(num)
 ```
 
@@ -1229,7 +1226,7 @@ class(num)
 ## [1] "numeric"
 ```
 
-```r
+``` r
 is.integer(int)
 ```
 
@@ -1237,7 +1234,7 @@ is.integer(int)
 ## [1] FALSE
 ```
 
-```r
+``` r
 is.numeric(int)
 ```
 
@@ -1258,7 +1255,7 @@ We can, however, coerce objects into different classes. We just need to be caref
 #### Use the `as.integer()` and `round()` functions on the `num` object to see the difference:
 
 
-```r
+``` r
 as.integer(num)
 ```
 
@@ -1266,7 +1263,7 @@ as.integer(num)
 ## [1] 12
 ```
 
-```r
+``` r
 # and
 
 round(num)
@@ -1285,7 +1282,7 @@ Help in R works very much like in Stata: the help files usually start with a bri
 ## Exercise 7: Use help
 
 
-```r
+``` r
 # You can use the help() function
 help(summary)
 
@@ -1299,12 +1296,14 @@ help(summary)
 
  * The biggest difference, however, is that __R has a much wider user community__ and it has __a lot more online resources__.
 
- * For instance, in 2014, Stata had 11 dedicated blogs written by users, while R had 550 (check http://r4stats.com/articles/popularity/ for more details).
+ * For instance, by 2014, Stata had 11 dedicated blogs written by users, while R had 550 (check http://r4stats.com/articles/popularity/ for more details).
 
  * The most powerful problem-solving tool in R, however, is Google. Searching the something yields tons of results.
  
  * Often that means a Stack Overflow page where someone asked the same question and several people gave different answers. Here's a typical example:
  https://stackoverflow.com/questions/1660124/how-to-sum-a-variable-by-group
+ 
+ * You can also ask ChatGPT for help in R. But be careful as it can sometimes hallucinate or give your incorrect answers.
 
 ---
 
