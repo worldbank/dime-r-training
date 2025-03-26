@@ -29,13 +29,13 @@ class: center, middle, inverse, title-slide
 # Session 2: Introduction to R Programming
 ]
 .subtitle[
-## R for Stata Users
+## R for Data Analysis
 ]
 .author[
 ### DIME Analytics
 ]
 .date[
-### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2024
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> April 2025
 ]
 
 ---
@@ -218,7 +218,7 @@ name: file-paths
 * The direct equivalent to `cd` in R is this command:
 
 
-```r
+``` r
 setwd("your/path")
 ```
 
@@ -246,17 +246,17 @@ __Important:__ We won't get into the specifics of directory organization here, b
 
 ### Exercise 2 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M64 112c-8.8 0-16 7.2-16 16V384c0 8.8 7.2 16 16 16H512c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H64zM0 128C0 92.7 28.7 64 64 64H512c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM176 320H400c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V336c0-8.8 7.2-16 16-16zm-72-72c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H120c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H120c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H200c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H200c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H280c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H280c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H360c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H360c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H440c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H440c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16z"/></svg> &lt;font size="5"&gt;(<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 3 min)&lt;/font&gt;
 
-1. Create a folder named `dime-r-training-202403` in your preferred location in your computer
+1. Create a folder named `dime-r-training` in your preferred location in your computer
 
-1. Go to https://osf.io/86g3b/ and download the file in: `R for Stata Users - 2024 March` &gt; `Data` &gt; `DataWork.zip`
+1. Go to https://osf.io/382kv and download the file `DataWork.zip` (click on the vertical ellipsis next to the file name)
 
 1. Unzip `DataWork.zip` in your folder `dime-r-training-202403`
 
-1. On RStudio, select `File` &gt; `New Project...`
+1. On RStudio, select `File` &gt; `New Project...` (the window will load for a few seconds)
 
 1. Select `Existing Directory`
 
-1. Browse to the location of `dime-r-training-202403` and select `Create Project`
+1. Browse to the location of `dime-r-training` and select `Create Project`
 ]
 
 ---
@@ -275,6 +275,8 @@ __Important:__ We won't get into the specifics of directory organization here, b
 
 # The `here` library
 
+Now that we're working in a project, we can use the library `here` to define any file paths relative to the project folder.
+
 * `here` locates files relative to your project root
 
 * It uses the root project directory to build paths to files easily
@@ -288,7 +290,7 @@ __Important:__ We won't get into the specifics of directory organization here, b
 - Load `here`
 
 
-```r
+``` r
 install.packages("here") # install first if you don't have it
 library(here)
 ```
@@ -298,7 +300,7 @@ library(here)
   + For example, to load a `csv` file located in: `C:/WBG/project-root/data/raw/data-file.csv`, you should use:
   
 
-```r
+``` r
 path &lt;- here("data", "raw", "data-file.csv")
 df   &lt;- read.csv(path)
 ```
@@ -326,7 +328,7 @@ df   &lt;- read.csv(path)
 ]
 
 
-```r
+``` r
 library(here)
 whr &lt;- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 ```
@@ -360,6 +362,8 @@ name: using-packages
   
   + Operations that basic R functions do, but easier (example: data wrangling)
 
+- Packages are also called libraries or dependencies
+
 ---
 
 # Packages
@@ -372,10 +376,10 @@ In a nutshell:
 
 # Packages
 
-* You can install packages with the command `install.packages()`. packages are also commonly called "libraries" in R programming
+* You can install packages with the command `install.packages()`.
 
 
-```r
+``` r
 # Installing a package
 install.packages("dplyr")
 ```
@@ -383,7 +387,7 @@ install.packages("dplyr")
 * You only have to install a package once, but you have to __load them every new session__ with `library()`
 
 
-```r
+``` r
 # Installing a package
 library(dplyr)
 ```
@@ -392,11 +396,11 @@ library(dplyr)
 
 # Packages
 
-- Package installation:
+- Package installation: only once in your computer
 
 &lt;img src="img/installation.png" width="37%" style="display: block; margin: auto;" /&gt;
 
-- Package loading:
+- Package loading: in every new RStudio session
 
 &lt;img src="img/loading.png" width="37%" style="display: block; margin: auto;" /&gt;
 
@@ -412,13 +416,23 @@ library(dplyr)
 
 ]
 
-__Note:__ There is no need to install `dplyr` and `purrr` as they are part of the meta-library `tidyverse`, which we asked to install before this course. If you didn't have the chance to install `tidyverse`, then install `dplyr` and `purrr` with:
+__Note:__ There is probably no need to install `dplyr` and `purrr` as they are part of the meta-library `tidyverse`, which we asked to install before this course. If you didn't have the chance to install `tidyverse`, then first install `dplyr` and `purrr` with:
 
 
-```r
+``` r
 install.packages("dplyr")
 install.packages("purrr")
 ```
+
+And then just load them:
+
+
+``` r
+library(dplyr)
+library(purrr)
+```
+
+**Important:** installing requires the user to refer to the package name as a string using quotes. Loading the package doesn't use quotes for the package name.
 
 ---
 
@@ -461,7 +475,7 @@ name: functions-inception
 # A function inside a function
 
 
-```r
+``` r
 # Print the summary of the logarithm of the happiness score
 
 ## The long way:
@@ -515,7 +529,7 @@ summary(log(whr$happiness_score))
 # Piping
 
 
-```r
+``` r
   # 1: Doing it the long way -----------------------------
   log_score &lt;- log(whr$happiness_score)
   mean(log_score)
@@ -573,7 +587,7 @@ name: mapping-and-iterations
 * In R, the syntax of `for` loops is this:
 
 
-```r
+``` r
     for (number in 1:3) {
         print(number)
     }
@@ -617,7 +631,7 @@ name: mapping-and-iterations
 # Map
 
 
-```r
+``` r
 # Round the values of the following vector
 x &lt;- c(1.2, 2.5, 9.1, 5.8)
 x %&gt;% map(round) # Rounding the vector elements (same as map(x, round))
@@ -664,7 +678,7 @@ round(x)         # since R is vectorized, this also works
 - Create a toy dataframe of 50,000 columns and 400 observations using this code
 
 
-```r
+``` r
 df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 ```
 
@@ -672,7 +686,7 @@ df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 - Loop over every column to get the column means and store them in the vector
 
 
-```r
+``` r
 for (column in df) {
   ....
 }
@@ -692,7 +706,7 @@ for (column in df) {
 The solution is this:
 
 
-```r
+``` r
 df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 
 col_means_loop &lt;- c()
@@ -730,7 +744,7 @@ Hints:
 Compare the syntax of the solutions of both exercises:
 
 
-```r
+``` r
 # Dataframe creation
 df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 
@@ -789,7 +803,7 @@ name: custom-functions
 # Custom functions
 
 
-```r
+``` r
   square &lt;- function(x) {
     y &lt;- x ^ 2
     return(y)
@@ -816,7 +830,7 @@ Create a function named `zscore` that standardizes the values of a vector.
 * Recall the syntax of custom functions in R:
 
 
-```r
+``` r
 function_name &lt;- function(input) {
   
   output &lt;- operation(input)
@@ -835,7 +849,7 @@ function_name &lt;- function(input) {
 # Custom functions
 
 
-```r
+``` r
 zscore &lt;- function(x) {
     mean &lt;- mean(x, na.rm = TRUE)
     sd   &lt;- sd(x, na.rm = TRUE)
@@ -873,7 +887,7 @@ zscore &lt;- function(x) {
 # Custom functions
 
 
-```r
+``` r
 z_scores &lt;- whr %&gt;%
   select(health_life_expectancy, freedom) %&gt;%
   map(zscore)
@@ -959,13 +973,13 @@ https://r4ds.had.co.nz/workflow-projects.html
 * Other than `$`, we can also use double brackets to extract the column of a dataframe:
 
 
-```r
+``` r
 # With $:
 whr$year
 ```
 
 
-```r
+``` r
 # With [[]]:
 whr[["year"]] # Notice the use of double quotes
 ```
@@ -979,7 +993,7 @@ What's the key difference between them?
 Well, `[[]]` lets us use other objects to refer to column names, while `$` doesn't
 
 
-```r
+``` r
 col_name &lt;- "year"
 head(whr$col_name) # this returns a NULL object because no column has the name "col_name" in whr
 ```
@@ -993,7 +1007,7 @@ head(whr$col_name) # this returns a NULL object because no column has the name "
 ```
 
 
-```r
+``` r
 col_name &lt;- "year"
 head(whr[[col_name]])
 ```
@@ -1009,7 +1023,7 @@ head(whr[[col_name]])
 This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
 
 
-```r
+``` r
 # Printing the first observation of every column of whr
 for (col in colnames(whr)) {
   whr[[col]] %&gt;%
@@ -1048,7 +1062,7 @@ for (col in colnames(whr)) {
 * The syntax of `sapply()` is:
 
 
-```r
+``` r
 sapply(X, FUN, ...)
 ```
 
@@ -1066,7 +1080,7 @@ sapply(X, FUN, ...)
 # Appendix - Apply
 
 
-```r
+``` r
     # A for loop in R
     for (number in c(1.2, 2.5)) {
       print(round(number))
@@ -1081,7 +1095,7 @@ sapply(X, FUN, ...)
 # Appendix - Apply
 
 
-```r
+``` r
 # Printing the first observation of every column of whr
 for (col in names(whr)) {
   print(head(whr[[col]], 1))
@@ -1097,7 +1111,7 @@ sapply(whr, head, 1) # A more elegant and efficient option
 * A more general version of `sapply()` is the `apply()` function. This is its syntax:
 
 
-```r
+``` r
 apply(X, MARGIN, FUN, ...)
 ```
 
@@ -1114,7 +1128,7 @@ apply(X, MARGIN, FUN, ...)
 # Appendix - Apply
 
 
-```r
+``` r
 matrix &lt;- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2), nrow = 3) # Defining a matrix
 apply(matrix, 1, mean) # row means
 apply(matrix, 2, mean) # column means
@@ -1142,7 +1156,7 @@ apply(matrix, 2, mean) # column means
 Solution: 
 
 
-```r
+``` r
 whr %&gt;%
   select(freedom, happiness_score) %&gt;%
   apply(1, max)
@@ -1155,7 +1169,7 @@ whr %&gt;%
 * To comment a line, write `#` as its first character
 
 
-```r
+``` r
 # This is a comment
 print("But this part is not")
 ```
@@ -1163,7 +1177,7 @@ print("But this part is not")
 * You can also add `#` halfway through a line to comment whatever comes after it
 
 
-```r
+``` r
 print("This part is not a comment") # And this is a comment
 ```
 
@@ -1211,7 +1225,7 @@ print("This part is not a comment") # And this is a comment
 # Appendix - Indentation
 
 
-```r
+``` r
 # Here's some code
 annualHappy_reg &lt;- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
 ggplot(annualHappy_reg,aes(y = happy_score,x = as.factor(year), color = region, group = region)) +
@@ -1219,7 +1233,7 @@ geom_line() + geom_point()
 ```
 
 
-```r
+``` r
 # Here's the same code
 annualHappy_reg &lt;-
   aggregate(happiness_score ~ year + region,
@@ -1239,7 +1253,7 @@ geom_point()
 
 # Appendix - Indentation
 
-&lt;img src="02-intro-to-R-programming_files/figure-html/unnamed-chunk-60-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-to-R-programming_files/figure-html/unnamed-chunk-61-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1274,7 +1288,7 @@ geom_point()
 To see an example of how indenting works in RStudio, let's use an example with `map()`:
 
 
-```r
+``` r
 # An elegant "loop" in R
 map(c(1.2, 2.5, 9.1, 5.8), round)
 ```
@@ -1291,7 +1305,7 @@ map(c(1.2, 2.5, 9.1, 5.8), round)
 Note that RStudio formats the different arguments of the function differently:
 
 
-```r
+``` r
 # A much more elegant loop in R
 map(c(1.2,
       2.5,
