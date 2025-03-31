@@ -34,7 +34,7 @@ class: center, middle, inverse, title-slide
 ### DIME Analytics
 ]
 .date[
-### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> March 2025
+### The World Bank | <a href="https://github.com/worldbank">WB Github</a> <br> April 2025
 ]
 
 ---
@@ -257,7 +257,7 @@ First, let's take a look at the data.
 
 Type the following code __in the Console panel__ and press Enter to explore the data: 
 
-``` r
+```r
 # We can use the function View() to browse the whole data
 View(whr) # &lt;--- Note that the first letter is uppercase
 ```
@@ -268,7 +268,7 @@ View(whr) # &lt;--- Note that the first letter is uppercase
 
 # Data in R
 
-To explore data, we can print the first 6 obs. with `head()`:
+To explore data, we can print the first 6 obs. with `head()` and the last 6 with `tail()`:
 
 &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
@@ -283,14 +283,14 @@ Now, let's try some simple manipulations. First, assume we're only interested in
 - Subset the dataframe, keeping only observations where variable `year` equals `2016`.
 
 
-``` r
+```r
 # To do that we'll use the subset() function
 subset(whr, year == 2016)
 ```
 
 - Then, look again at the first 6 observations
 
-``` r
+```r
 # Use the head() function again
 head(whr)
 ```
@@ -302,7 +302,7 @@ head(whr)
 # Data in R
 
 
-``` r
+```r
 subset(whr, year == 2016)
 head(whr)
 ```
@@ -318,7 +318,7 @@ We can see that nothing happened to the original data. This was because we didn'
 ### To store an object, we use the assignment operator (`&lt;-`):
 
 
-``` r
+```r
 # Assign the number 42 to an object named "x"
 x &lt;- 42
 ```
@@ -328,7 +328,7 @@ x &lt;- 42
 # Data in R
 
 
-``` r
+```r
 # Assign the number 42 to an object named "x"
 x &lt;- 42
 ```
@@ -352,7 +352,7 @@ From now on, `x` is associated with the stored value (until you replace it, dele
 Create a new dataframe, called `whr2016`, that is a subset of the `whr` dataframe containing only data from the year 2016.
 
 
-``` r
+```r
 # Using the same function but now assigning it to an object
 whr2016 &lt;- subset(whr, year == 2016)
 
@@ -381,7 +381,7 @@ You can also see that your environment panel now has two data objects:
 * It is also possible to simply replace the original data. This happens if you assign the new object to the same name as the original.
  
  
- ``` r
+ ```r
  # This would have replaced "whr" instead of creating a new object:
  whr &lt;- subset(whr, year == 2016)
  ```
@@ -397,7 +397,7 @@ __Important:__ This will modify the original object —`whr` in this case. R wil
 Printing (display) is built into R. If you execute any action without storing it, R will simply __print the results of that action__ but will not save anything in the memory.
 
 
-``` r
+```r
 # For instance, this will only print the observations that meet the specified condition:
 subset(whr, year == 2016)
 
@@ -511,7 +511,7 @@ A vector is an uni-dimensional object composed by one or more elements of the sa
 #### Use the following code to create vectors in two different ways
 
 
-``` r
+```r
 # Creating a vector with the c() function
 v1 &lt;- c(1,2,3,4,5)
 
@@ -524,7 +524,7 @@ v2 &lt;- 1:5
 # R objects - Vectors
 
 
-``` r
+```r
 v1 &lt;- c(1,2,3,4,5) # Creating a vector with the c() function
 v2 &lt;- 1:5          # Alternative way to create an evenly spaced vector
 ```
@@ -538,7 +538,7 @@ v2 &lt;- 1:5          # Alternative way to create an evenly spaced vector
 #### You can use brackets for indexing vector elements
 
 
-``` r
+```r
 v2[4]   # Prints the 4th element of the vector
 v2[1:3] # Prints from the 1st to the 3rd element
 ```
@@ -554,7 +554,7 @@ The `whr` and `whr2016` objects are both dataframes. You can also construct a ne
 #### Now, type the following code to create a new dataframe
 
 
-``` r
+```r
 # Dataframe created by biding vectors
 df1 &lt;- data.frame(v1,v2)
 df1
@@ -574,7 +574,7 @@ df1
 # R objects - Dataframes
 
 
-``` r
+```r
 df1 &lt;- data.frame(v1,v2) #creates a df by binding existing vectors
 df1
 ```
@@ -590,7 +590,7 @@ Since a dataframe has two dimensions, you can use indices for both. The first in
 ### Numeric indexing
 
 
-``` r
+```r
 # The first column of whr
 whr[,1]
 
@@ -606,7 +606,7 @@ whr[45,1]
 # R objects - Dataframes
 
 
-``` r
+```r
 whr[,1]   # The first column of whr
 whr[45,]  # The 45th row of whr
 whr[45,1] # Or the 45th element of the first column
@@ -623,7 +623,7 @@ Alternatively, you can use the column names for indexing, which is the same as u
 ### Names indexing
 
 
-``` r
+```r
 # The 22th element of the country column
 whr[22,"country"] # The same as whr$country[22]
 ```
@@ -637,7 +637,7 @@ whr[22,"country"] # The same as whr$country[22]
 # R objects - Dataframes
 
 
-``` r
+```r
 # The 22th element of the country column
 whr[22,"country"] # The same as whr$country[22]
 ```
@@ -659,7 +659,7 @@ We use the `$` character to extract vectors (variables) by their names in a data
 For example:
 
 
-``` r
+```r
 # Create a vector with the values of the "year" variable
 year_vector &lt;- whr$year
 ```
@@ -669,7 +669,7 @@ year_vector &lt;- whr$year
 # R objects - Dataframes
 
 
-``` r
+```r
 year_vector &lt;- whr$year # creates a vector with the values of the "year" variable
 ```
 
@@ -688,7 +688,7 @@ Here's a quick example:
 ### Combine several objects of different types in a list
 
 
-``` r
+```r
 # Use the list() function
 lst &lt;- list(v2, df1, 45)
 ```
@@ -699,7 +699,7 @@ Print the list yourself to see how it looks like.
 # R objects - Lists
 
 
-``` r
+```r
 lst &lt;- list(v2, df1, 45) # definition of lst
 print(lst)               # checking the content of lst
 ```
@@ -722,7 +722,7 @@ You can subset lists using single brackets (`[]`) or double brackets (`[[]]`)
 # R objects - Lists
 
 
-``` r
+```r
 lst &lt;- list(v2, df1, 45)
 lst[[3]]    # returns 45
 lst[3]      # returns a list of one element (45)
@@ -763,13 +763,13 @@ As in Stata, there are two different ways to store numbers. They are different b
 1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar &lt;- "can be an option to"`
 
 1. Use the function `paste()` with 3 arguments separated by commas:
-  + The first argument as the 1st element of `str_vec`.
-  + The second argument as the `str_scalar`.
-  + The third argument as the 5th element of `str_vec`.
+  + The first argument is the 1st element of `str_vec`.
+  + The second argument is `str_scalar`.
+  + The third argument is the 4th element of `str_vec`.
 
 1. If you're not sure where to start, type:
 
-``` r
+```r
 help(paste)
 ```
 
@@ -778,13 +778,37 @@ help(paste)
 # Basic types of data - Strings
 
 
-``` r
+```r
 str_vec &lt;- c("R", "Python", "SAS", "Excel", "Stata")
 str_scalar &lt;- "can be an option to"       # creating str_scalar
 paste(str_vec[1], str_scalar, str_vec[4]) # using paste()
 ```
 
 &lt;iframe src="https://rrmaximiliano.shinyapps.io/learnr-app/?showcase=0" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+
+---
+
+# Basic types of data - Strings
+
+Another option, slightly different is `paste0`. It applies direct concatenation of strings:
+
+
+```r
+str_vec &lt;- c("R", "Python", "SAS", "Excel", "Stata")
+str_scalar &lt;- "can be an option to"       # creating str_scalar
+paste0(str_vec[1], "-", str_scalar, "-", str_vec[4])
+```
+
+```
+## [1] "R-can be an option to-Excel"
+```
+
+This is the same as `paste(str_vec[1], str_scalar, str_vec[4], sep="-")`:
+
+
+```
+## [1] "R-can be an option to-Excel"
+```
 
 ---
 
@@ -821,14 +845,14 @@ Boolean data is the result of logical conditions. It can take two possible value
 * Another difference is that in R you can assign a boolean value to an object:
 
 
-``` r
+```r
 # Storing boolean values:
 boolean_true  &lt;- TRUE
 boolean_false &lt;- FALSE
 ```
 
 
-``` r
+```r
 # Printing:
 boolean_true
 ```
@@ -837,7 +861,7 @@ boolean_true
 ## [1] TRUE
 ```
 
-``` r
+```r
 boolean_false
 ```
 
@@ -850,7 +874,7 @@ boolean_false
 # Other types of data - Booleans
 
 
-``` r
+```r
 boolean_true  &lt;- TRUE
 boolean_false &lt;- FALSE
 ```
@@ -866,7 +890,7 @@ boolean_false &lt;- FALSE
 Create a boolean vector with the condition of annual income below average:
 
 
-``` r
+```r
 # Create vector
 inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita)
 
@@ -879,7 +903,7 @@ head(inc_below_avg)
 # Other types of data - Booleans
 
 
-``` r
+```r
 inc_below_avg &lt;- whr$economy_gdp_per_capita &lt; mean(whr$economy_gdp_per_capita) # Create vector
 head(inc_below_avg) # See the 6 first elements of the vector
 ```
@@ -893,7 +917,7 @@ head(inc_below_avg) # See the 6 first elements of the vector
 We can use boolean vectors to index elements:
 
 
-``` r
+```r
 # Creating a vector with 5 elements:
 my_vector &lt;- c("1st", "2nd", "3rd", "4th", "5th")
 my_vector
@@ -903,7 +927,7 @@ my_vector
 ## [1] "1st" "2nd" "3rd" "4th" "5th"
 ```
 
-``` r
+```r
 # Selecting and printing the first and last elements only:
 boolean1 &lt;- c(TRUE, FALSE, FALSE, FALSE, TRUE)
 my_vector[boolean1]
@@ -913,7 +937,7 @@ my_vector[boolean1]
 ## [1] "1st" "5th"
 ```
 
-``` r
+```r
 # Selecting and printing every element but the first:
 boolean2 &lt;- c(FALSE, TRUE, TRUE, TRUE, TRUE)
 my_vector[boolean2]
@@ -928,7 +952,7 @@ my_vector[boolean2]
 # Other types of data - Booleans
 
 
-``` r
+```r
 my_vector &lt;- c("1st", "2nd", "3rd", "4th", "5th")
 boolean1 &lt;- c(TRUE, FALSE, FALSE, FALSE, TRUE) # We'll use this to select the first and last elements only
 boolean2 &lt;- c(FALSE, TRUE, TRUE, TRUE, TRUE)   # And this to select every element but the first
@@ -947,14 +971,14 @@ Now let's use the boolean vector `inc_below_avg` to add a dummy variable in the 
  * Create a column in `whr` containing zeros and call it `rank_low`. You can do this by typing:
 
 
-``` r
+```r
 whr$rank_low &lt;- 0
 ```
 
  * Now use `inc_below_avg` to index the lines of the `income_low` column and replace all observations that meet the condition with the value 1.
 
 
-``` r
+```r
 whr$rank_low[inc_below_avg] &lt;- 1
 ```
 
@@ -965,7 +989,7 @@ whr$rank_low[inc_below_avg] &lt;- 1
 # Other types of data - Booleans
 
 
-``` r
+```r
 whr$rank_low &lt;- 0 # this creates a vector of zeros
 whr$rank_low[inc_below_avg] &lt;- 1
 # this ^ turns its values to 1, for the observations with a TRUE value in inc_below_avg
@@ -980,7 +1004,7 @@ whr$rank_low[inc_below_avg] &lt;- 1
 Instead of indexing the lines with the boolean vector `inc_below_avg`, we could also use the boolean condition itself:
 
 
-``` r
+```r
 # Replace with 1 those obs that meet the condition
 whr$rank_low[inc_below_avg] &lt;- 1 
 
@@ -1142,7 +1166,7 @@ A matrix a bi-dimensional object composed by one or more vectors of the same typ
 
 ## Type the following code to test two different ways of creating matrices
 
-``` r
+```r
 # Matrix created by joining two vectors:
 m1 &lt;- cbind(v1,v1)
 
@@ -1156,7 +1180,7 @@ m2 &lt;- matrix(c(1,1,2,3,5,8), ncol = 2)
 
 ### Now use the following code to check the elements of these matrices by indexing
 
-``` r
+```r
 # Matrix indexing: typing matrix[i,j] will give you
 # the element in the ith row and jth column of that matrix
 #m2[1,2]
@@ -1178,7 +1202,7 @@ m1[,2]
 
 #### Create a factor vector using the following code
 
-``` r
+```r
 # Basic factor vector
 num_vec &lt;- c(1,2,2,3,1,2,3,3,1,2,3,3,1)
 fac_vec &lt;- factor(num_vec)
@@ -1196,7 +1220,7 @@ levels(fac_vec) = c('One','Two','Three')
 
 ### Two scalars, one with a round number the other with a fractional part:
 
-``` r
+```r
 # a numeric scalar with an integer number
 int &lt;- 13
 num &lt;- 12.99
@@ -1209,7 +1233,7 @@ num &lt;- 12.99
 Now we can see the objects classes with the `class()` function and test it with the `is.integer()` and `is.numeric()` functions.
 
 
-``` r
+```r
 # you can see the number's format using the class function:
 class(int)
 ```
@@ -1218,7 +1242,7 @@ class(int)
 ## [1] "numeric"
 ```
 
-``` r
+```r
 class(num)
 ```
 
@@ -1226,7 +1250,7 @@ class(num)
 ## [1] "numeric"
 ```
 
-``` r
+```r
 is.integer(int)
 ```
 
@@ -1234,7 +1258,7 @@ is.integer(int)
 ## [1] FALSE
 ```
 
-``` r
+```r
 is.numeric(int)
 ```
 
@@ -1255,7 +1279,7 @@ We can, however, coerce objects into different classes. We just need to be caref
 #### Use the `as.integer()` and `round()` functions on the `num` object to see the difference:
 
 
-``` r
+```r
 as.integer(num)
 ```
 
@@ -1263,7 +1287,7 @@ as.integer(num)
 ## [1] 12
 ```
 
-``` r
+```r
 # and
 
 round(num)
@@ -1282,7 +1306,7 @@ Help in R works very much like in Stata: the help files usually start with a bri
 ## Exercise 7: Use help
 
 
-``` r
+```r
 # You can use the help() function
 help(summary)
 
@@ -1332,7 +1356,7 @@ https://www.r-statistics.com/
 * The R graph gallery:
 https://www.r-graph-gallery.com/
 
-* R Econ visual library: (developed and maintained by DIME Analytics!)
+* R Econ visual library (developed and maintained by DIME Analytics!):
 https://worldbank.github.io/r-econ-visual-library/
 
 ---
@@ -1341,13 +1365,15 @@ https://worldbank.github.io/r-econ-visual-library/
 
 ## Books:
 
-* R for Stata Users - Robert A. Muenchen and Joseph Hilbe
+* R for Stata Users - Robert A. Muenchen and Joseph Hilbe https://link.springer.com/book/10.1007/978-1-4419-1318-0
 
 * R Graphics Cookbook - Winston Chang
 https://r-graphics.org/
 
-* R for Data Science - Hadley Wickham and Garrett Grolemund
-https://r4ds.had.co.nz/
+* R for Data Science - Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund
+https://r4ds.hadley.nz//
+
+* Advanced R - Hadley Wickham https://adv-r.hadley.nz/
 
 ---
 exclude: true

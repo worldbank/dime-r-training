@@ -2,7 +2,7 @@
 title: "Session 1 - Introduction to R"
 subtitle: "R for Data Analysis"
 author: "DIME Analytics"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2025"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", "libs/remark-css/metropolis.css", "libs/remark-css/metropolis-fonts.css"]
@@ -306,7 +306,7 @@ knitr::include_graphics("img/View.png")
 
 # Data in R
 
-To explore data, we can print the first 6 obs. with `head()`:
+To explore data, we can print the first 6 obs. with `head()` and the last 6 with `tail()`:
 
 ```{r echo=FALSE}
 knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
@@ -800,9 +800,9 @@ As in Stata, there are two different ways to store numbers. They are different b
 1. Create a scalar (a vector of one element) containing the phrase "can be an option to" and call it `str_scalar`. Your code will be similar to this: `str_scalar <- "can be an option to"`
 
 1. Use the function `paste()` with 3 arguments separated by commas:
-  + The first argument as the 1st element of `str_vec`.
-  + The second argument as the `str_scalar`.
-  + The third argument as the 5th element of `str_vec`.
+  + The first argument is the 1st element of `str_vec`.
+  + The second argument is `str_scalar`.
+  + The third argument is the 4th element of `str_vec`.
 
 1. If you're not sure where to start, type:
 ```{r, eval=FALSE}
@@ -821,6 +821,24 @@ paste(str_vec[1], str_scalar, str_vec[4]) # using paste()
 
 ```{r echo=FALSE}
 knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+```
+
+---
+
+# Basic types of data - Strings
+
+Another option, slightly different is `paste0`. It applies direct concatenation of strings:
+
+```{r}
+str_vec <- c("R", "Python", "SAS", "Excel", "Stata")
+str_scalar <- "can be an option to"       # creating str_scalar
+paste0(str_vec[1], "-", str_scalar, "-", str_vec[4])
+```
+
+This is the same as `paste(str_vec[1], str_scalar, str_vec[4], sep="-")`:
+
+```{r, echo=FALSE}
+paste(str_vec[1], str_scalar, str_vec[4], sep="-")
 ```
 
 ---
@@ -1306,7 +1324,7 @@ https://www.r-statistics.com/
 * The R graph gallery:
 https://www.r-graph-gallery.com/
 
-* R Econ visual library: (developed and maintained by DIME Analytics!)
+* R Econ visual library (developed and maintained by DIME Analytics!):
 https://worldbank.github.io/r-econ-visual-library/
 
 ---
@@ -1315,13 +1333,15 @@ https://worldbank.github.io/r-econ-visual-library/
 
 ## Books:
 
-* R for Stata Users - Robert A. Muenchen and Joseph Hilbe
+* R for Stata Users - Robert A. Muenchen and Joseph Hilbe https://link.springer.com/book/10.1007/978-1-4419-1318-0
 
 * R Graphics Cookbook - Winston Chang
 https://r-graphics.org/
 
-* R for Data Science - Hadley Wickham and Garrett Grolemund
-https://r4ds.had.co.nz/
+* R for Data Science - Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund
+https://r4ds.hadley.nz//
+
+* Advanced R - Hadley Wickham https://adv-r.hadley.nz/
 
 ---
 exclude: true
