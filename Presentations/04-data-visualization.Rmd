@@ -1,8 +1,8 @@
 ---
 title: "Session 4: Data Visualization"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2024"
+author: "DIME Analytics"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> April 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -79,18 +79,17 @@ name: intro
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
-1. Copy/paste the following code into a new RStudio script, **replacing "YOURFOLDERPATHHERE" with the folder within which you'll place this R project:
+1. Copy/paste the following code into a new RStudio script:
 ```{r, eval = FALSE}
+install.packages("usethis")
 library(usethis)
-use_course(
-    url = "https://github.com/worldbank/dime-r-training/archive/main.zip",
-    destdir = "YOURFOLDERPATHHERE"
+usethis::use_zip(
+    "https://github.com/worldbank/dime-r-training/archive/main.zip",
+    cleanup = TRUE
 )
 ```
 
-2. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
-
-3. A new RStudio environment will open. Use this for the session today.
+2. A new RStudio environment will open. Use this for the session today.
 
 ]
 
@@ -128,7 +127,7 @@ Similarly to previous sessions, you can find some references at the end of this 
 ### Before we start
 
 * Make sure the packages `ggplot2` are installed and loaded. You can load it directly using `library(tidyverse)` or `library(ggplot2)`
-* Load the `whr_panel` data set (remember to use the `here` package) we created last week.
+* Load the `whr_panel` data set we created last week.(Remember to use the `here` package) 
 
 ```{r, warnings = F}
 # Packages
@@ -157,12 +156,17 @@ In our workflow there are usually two distinct uses for plots:
   * We’ll do this using `ggplot2` with more customization. The idea is to create beautiful graphs.
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 name: ea
 
 # Exploratory Analysis
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/ggplot2_img.png")
+```
+
 
 ---
 
@@ -217,18 +221,27 @@ It is a powerful and easy to use tool (once you understand its logic) that produ
 
 ---
 
-# ggplot2: basic structure (template)
+# The grammar of graphics
+
+## The Structure of ggplot2  
+
+Creating a plot with ggplot2 requires **three basic components**:  
+
+1. **Data**: The dataset you want to visualize.  
+2. **Aesthetics (aes)**: How you map your data to visual elements (e.g., x-axis, y-axis, color).  
+3. **Geometry (geom)**: The type of plot you want (e.g., bar graph, scatter plot).  
+
+(and many more, we will see some examples at the end of the presentation)
+
+---
+
+# 📊 ggplot2: Basic Structure (Template)
 
 .large[The basic ggplot structure is:]
 
-```{r ggplot-template, echo=FALSE, tidy=FALSE}
-decorate('
-ggplot(data = DATA) +
-  GEOM_FUNCTION(mapping = aes(AESTHETIC MAPPINGS))
-', eval = FALSE) %>% 
-  flair("DATA", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
-  flair("GEOM_FUNCTION", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
-  flair("AESTHETIC MAPPINGS", background = "#FFD0CF", before = "<b>", after = "</b>")
+```{r ggplot-template, tidy=FALSE, eval=FALSE}
+ggplot(data = DATA) #<<
+  GEOM_FUNCTION(mapping = aes(AESTHETIC MAPPINGS)) #<<
 ```
 
 .large[Mapping data to aesthetics]
@@ -241,33 +254,34 @@ ggplot(data = DATA) +
 
 ---
 
-# ggplot2: full structure
+# 📊 ggplot2: Full Structure
+
+.large[The full structure of a `ggplot2` visualization follows a logical sequence.]
 
 .pull-left[
-```
+```{r, eval=FALSE}
 ggplot(data = <DATA>) +
   <GEOM_FUNCTION>(
-     mapping = aes(<MAPPINGS>),
-     stat = <STAT>,
-     position = <POSITION>
-  ) +z
-  <COORDINATE_FUNCTION> +
-  <FACET_FUNCTION> +
-  <SCALE_FUNTION> +
-  <THEME_FUNCTION>
-
+    mapping = aes(<MAPPINGS>),
+    stat = <STAT>, 
+    position = <POSITION>
+  ) + 
+  <COORDINATE_FUNCTION>() +  # Adjust coordinate system
+  <FACET_FUNCTION>() +       # Create small multiples
+  <SCALE_FUNCTION>() +       # Adjust scales (colors, axes, etc.)
+  <THEME_FUNCTION>()         # Customize overall appearance
 ```
 ]
 
 .pull-right[
-
-1. `Data`: The data that you want to visualize
-2. `Layers`: geom\_ and stat\_ → The geometric shapes and statistical summaries representing the data
-3. `Aesthetics`: aes() → Aesthetic mappings of the geometric and statistical objects
-4. `Scales`: scale_ → Maps between the data and the aesthetic dimensions
-5. `Coordinate system`: coord_ → Maps data into the plane of the data rectangle
-6. `Facets`: facet_ → The arrangement of the data into a grid of plots
-7. `Visual themes`: theme() and theme_ → The overall visual defaults of a plot
+### 🧩 **Key Components**
+1️⃣ **Data (`data = <DATA>`)** → The dataset you want to visualize  
+2️⃣ **Layers (`geom_`, `stat_`)** → Shapes and statistical summaries  
+3️⃣ **Aesthetics (`aes()`)** → Maps data to visual properties  
+4️⃣ **Scales (`scale_`)** → Defines color, size, axes, etc.  
+5️⃣ **Coordinate System (`coord_`)** → Maps data to a 2D plane  
+6️⃣ **Facets (`facet_`)** → Splits data into small multiples  
+7️⃣ **Themes (`theme()`, `theme_`)** → Customizes visual appearance  
 ]
 
 ---
@@ -300,7 +314,7 @@ ggplot(data = <DATA>) +
 
 
 ```{r, out.width = "65%"}
-ggplot(data = whr_panel) +    #<<
+ggplot(data = whr_panel) +  #data  #<< 
   geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita))
 ```
 
@@ -473,21 +487,17 @@ How the plot is going to be drawn.
 
 .pull-left[
 
-```{r, out.width = "50%", echo = FALSE}
-decorate('
+```{r, out.width = "50%",  eval=FALSE}
 whr_panel %>%
 ggplot(
   aes(
     x = happiness_score,       
     y = economy_gdp_per_capita,
-    color = region 
+    color = region  #<<
   )
 ) + 
-  geom_point() 
-', eval = FALSE) %>%
-  flair_rx("aes|geom_point", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
-  flair_rx("x |y ", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
-  flair("color = region ", background = "#F1E740", before = "<b>", after = "</b>")
+  geom_point() #<<
+
 ```
 
 ]
@@ -623,19 +633,16 @@ ggplot(data = whr_panel,
 
 **Solution:**
 
-```{r, echo = FALSE}
-decorate('
+```{r, eval=FALSE}
 whr_panel %>%
   ggplot(
     aes(
       x = freedom, 
       y = economy_gdp_per_capita, 
-      color = year
+      color = year #<<
     )
   ) +
   geom_point()
-', eval = FALSE) %>% 
-  flair("color = year", background = "#CBB5FF", before = "<b>", after = "</b>")
 ```
 
 ]
@@ -666,19 +673,16 @@ ggplot(data = whr_panel,
 
 .pull-left[
 
-```{r, out.width = "45%", echo = FALSE}
-decorate('
+```{r, out.width = "45%", eval=FALSE}
 whr_panel %>%
   ggplot(
     aes(
       x = freedom, 
       y = economy_gdp_per_capita, 
-      color = as.factor(year)
+      color = as.factor(year) #<<
     )
   ) +
   geom_point()
-', eval = FALSE) %>% 
-  flair("color = as.factor(year)", background = "#CBB5FF", before = "<b>", after = "</b>")
 ```
 
 ]
@@ -696,12 +700,17 @@ ggplot(data = whr_panel,
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 name: ggplot
 
 # ggplot2: settings
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+```{r echo = FALSE, out.width="70%"}
+knitr::include_graphics("img/ggplot2_dib.png")
+```
+
 
 ---
 
@@ -827,7 +836,44 @@ ggplot(
 
 ]
 
+---
 
+# ggplot2: Colors and facets
+
+Another type of facet is `facet_grid()`, which arranges plots by one or more variables while keeping a consistent y-axis across all panels. This is useful when comparing trends over time or across categories.
+
+Here we facet the plot by `year`, so we can visually compare patterns in happiness and GDP over different years.
+
+.pull-left[
+
+```{r, eval=FALSE}
+whr_panel %>%
+  ggplot(
+    aes(
+      x = happiness_score,  
+      y = economy_gdp_per_capita, 
+      color = region
+    )
+  ) + 
+  geom_point() +
+  facet_grid(~year)
+```
+]
+
+.pull-right[
+```{r, echo=FALSE}
+whr_panel %>%
+  ggplot(
+    aes(
+      x = happiness_score,  
+      y = economy_gdp_per_capita, 
+      color = region
+    )
+  ) + 
+  geom_point() +
+  facet_grid(~year)
+```
+]
 
 ---
 
@@ -1309,9 +1355,13 @@ ggsave(
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 
 # And that's it for this session. Join us tomorrow for data analysis. Remember to submit your feedback!
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/r_learners.png")
+```
 
 
 ---

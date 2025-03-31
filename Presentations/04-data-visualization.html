@@ -3,7 +3,7 @@
   <head>
     <title>Session 4: Data Visualization</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina" />
+    <meta name="author" content="DIME Analytics" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
@@ -18,6 +18,7 @@
     <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
     <script src="libs/countdown/countdown.js"></script>
+    <link href="libs/htmltools-fill/fill.css" rel="stylesheet" />
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
     <script src="libs/plotly-binding/plotly.js"></script>
     <script src="libs/typedarray/typedarray.min.js"></script>
@@ -42,10 +43,10 @@ class: center, middle, inverse, title-slide
 ## R for Stata Users
 ]
 .author[
-### Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti, Marc-Andrea Fiorina
+### DIME Analytics
 ]
 .date[
-### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> March 2024
+### The World Bank – DIME | <a href="https://github.com/worldbank">WB Github</a> <br> April 2025
 ]
 
 ---
@@ -73,19 +74,18 @@ name: intro
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
-1. Copy/paste the following code into a new RStudio script, **replacing "YOURFOLDERPATHHERE" with the folder within which you'll place this R project:
+1. Copy/paste the following code into a new RStudio script:
 
-```r
+``` r
+install.packages("usethis")
 library(usethis)
-use_course(
-    url = "https://github.com/worldbank/dime-r-training/archive/main.zip",
-    destdir = "YOURFOLDERPATHHERE"
+usethis::use_zip(
+    "https://github.com/worldbank/dime-r-training/archive/main.zip",
+    cleanup = TRUE
 )
 ```
 
-2. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
-
-3. A new RStudio environment will open. Use this for the session today.
+2. A new RStudio environment will open. Use this for the session today.
 
 ]
 
@@ -123,10 +123,10 @@ Similarly to previous sessions, you can find some references at the end of this 
 ### Before we start
 
 * Make sure the packages `ggplot2` are installed and loaded. You can load it directly using `library(tidyverse)` or `library(ggplot2)`
-* Load the `whr_panel` data set (remember to use the `here` package) we created last week.
+* Load the `whr_panel` data set we created last week.(Remember to use the `here` package) 
 
 
-```r
+``` r
 # Packages
 library(tidyverse)
 library(here)
@@ -164,12 +164,15 @@ In our workflow there are usually two distinct uses for plots:
   * We’ll do this using `ggplot2` with more customization. The idea is to create beautiful graphs.
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 name: ea
 
 # Exploratory Analysis
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+&lt;img src="img/ggplot2_img.png" width="80%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
@@ -185,7 +188,7 @@ First, we’re going to use base plot, i.e., using Base R default libraries. It 
 
 ]
 
-<div class="countdown" id="timer_04537366" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_27a63c32" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -193,7 +196,7 @@ First, we’re going to use base plot, i.e., using Base R default libraries. It 
 --
 
 
-```r
+``` r
 # Vector of variables
 vars &lt;- c("economy_gdp_per_capita", "happiness_score", "health_life_expectancy", "freedom")
 # Create a subset with only those variables, let's call this subset whr_plot
@@ -206,11 +209,11 @@ whr_plot &lt;- whr_panel %&gt;%
 # Base Plot
 
 
-```r
+``` r
 plot(whr_plot)
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -230,12 +233,29 @@ It is a powerful and easy to use tool (once you understand its logic) that produ
 
 ---
 
-# ggplot2: basic structure (template)
+# The grammar of graphics
+
+## The Structure of ggplot2  
+
+Creating a plot with ggplot2 requires **three basic components**:  
+
+1. **Data**: The dataset you want to visualize.  
+2. **Aesthetics (aes)**: How you map your data to visual elements (e.g., x-axis, y-axis, color).  
+3. **Geometry (geom)**: The type of plot you want (e.g., bar graph, scatter plot).  
+
+(and many more, we will see some examples at the end of the presentation)
+
+---
+
+# 📊 ggplot2: Basic Structure (Template)
 
 .large[The basic ggplot structure is:]
 
 
-&lt;code class ='r hljs remark-code'&gt;ggplot(data = &lt;b&gt;&lt;span style="background-color:#CBB5FF"&gt;DATA&lt;/span&gt;&lt;/b&gt;) +&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style="background-color:#FFDFD1"&gt;GEOM_FUNCTION&lt;/span&gt;&lt;/b&gt;(mapping = aes(&lt;b&gt;&lt;span style="background-color:#FFD0CF"&gt;AESTHETIC MAPPINGS&lt;/span&gt;&lt;/b&gt;))&lt;/code&gt;
+``` r
+*ggplot(data = DATA)
+* GEOM_FUNCTION(mapping = aes(AESTHETIC MAPPINGS))
+```
 
 .large[Mapping data to aesthetics]
 
@@ -247,33 +267,35 @@ It is a powerful and easy to use tool (once you understand its logic) that produ
 
 ---
 
-# ggplot2: full structure
+# 📊 ggplot2: Full Structure
+
+.large[The full structure of a `ggplot2` visualization follows a logical sequence.]
 
 .pull-left[
-```
+
+``` r
 ggplot(data = &lt;DATA&gt;) +
   &lt;GEOM_FUNCTION&gt;(
-     mapping = aes(&lt;MAPPINGS&gt;),
-     stat = &lt;STAT&gt;,
-     position = &lt;POSITION&gt;
-  ) +z
-  &lt;COORDINATE_FUNCTION&gt; +
-  &lt;FACET_FUNCTION&gt; +
-  &lt;SCALE_FUNTION&gt; +
-  &lt;THEME_FUNCTION&gt;
-
+    mapping = aes(&lt;MAPPINGS&gt;),
+    stat = &lt;STAT&gt;, 
+    position = &lt;POSITION&gt;
+  ) + 
+  &lt;COORDINATE_FUNCTION&gt;() +  # Adjust coordinate system
+  &lt;FACET_FUNCTION&gt;() +       # Create small multiples
+  &lt;SCALE_FUNCTION&gt;() +       # Adjust scales (colors, axes, etc.)
+  &lt;THEME_FUNCTION&gt;()         # Customize overall appearance
 ```
 ]
 
 .pull-right[
-
-1. `Data`: The data that you want to visualize
-2. `Layers`: geom\_ and stat\_ → The geometric shapes and statistical summaries representing the data
-3. `Aesthetics`: aes() → Aesthetic mappings of the geometric and statistical objects
-4. `Scales`: scale_ → Maps between the data and the aesthetic dimensions
-5. `Coordinate system`: coord_ → Maps data into the plane of the data rectangle
-6. `Facets`: facet_ → The arrangement of the data into a grid of plots
-7. `Visual themes`: theme() and theme_ → The overall visual defaults of a plot
+### 🧩 **Key Components**
+1️⃣ **Data (`data = &lt;DATA&gt;`)** → The dataset you want to visualize  
+2️⃣ **Layers (`geom_`, `stat_`)** → Shapes and statistical summaries  
+3️⃣ **Aesthetics (`aes()`)** → Maps data to visual properties  
+4️⃣ **Scales (`scale_`)** → Defines color, size, axes, etc.  
+5️⃣ **Coordinate System (`coord_`)** → Maps data to a 2D plane  
+6️⃣ **Facets (`facet_`)** → Splits data into small multiples  
+7️⃣ **Themes (`theme()`, `theme_`)** → Customizes visual appearance  
 ]
 
 ---
@@ -306,12 +328,12 @@ ggplot(data = &lt;DATA&gt;) +
 
 
 
-```r
-*ggplot(data = whr_panel) +
+``` r
+*ggplot(data = whr_panel) +  #data
   geom_point(mapping = aes(x = happiness_score, y = economy_gdp_per_capita))
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-5-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-7-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -320,12 +342,12 @@ ggplot(data = &lt;DATA&gt;) +
 #### We can also set up our mapping in the `ggplot()` function.
 
 
-```r
+``` r
 *ggplot(data = whr_panel, aes(x = happiness_score, y = economy_gdp_per_capita)) +
   geom_point()
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-6-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-8-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -334,13 +356,13 @@ ggplot(data = &lt;DATA&gt;) +
 #### We can also set up the data outside the `ggplot()` function as follows:
 
 
-```r
+``` r
 *whr_panel %&gt;%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita)) +
   geom_point()
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-7-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-9-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -365,7 +387,7 @@ Both structures will work but this will make a difference if you want to load mo
 **Exercise 2:** Create a scatter plot with `x = freedom` and `y = economy_gdp_per_capita`.
 ]
 
-<div class="countdown" id="timer_59a618ce" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_1617104b" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -377,13 +399,13 @@ Both structures will work but this will make a difference if you want to load mo
 **Solution:**
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot() +
   geom_point(aes(x = freedom, y = economy_gdp_per_capita))
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-8-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-10-1.png" width="45%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -417,7 +439,7 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 
-```r
+``` r
 *whr_panel %&gt;%
   ggplot(
     aes(
@@ -444,7 +466,7 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot(
 *   aes(
@@ -471,7 +493,7 @@ In summary, our basic plots should have the following:
 .pull-left[
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot(
     aes(
@@ -498,13 +520,23 @@ How the plot is going to be drawn.
 .pull-left[
 
 
-&lt;code class ='r hljs remark-code'&gt;whr_panel %&gt;%&lt;br&gt;ggplot(&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style="background-color:#FFDFD1"&gt;aes&lt;/span&gt;&lt;/b&gt;(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style="background-color:#CBB5FF"&gt;x &lt;/span&gt;&lt;/b&gt;= happiness_score, &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style="background-color:#CBB5FF"&gt;y &lt;/span&gt;&lt;/b&gt;= economy_gdp_per_capita,&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style="background-color:#F1E740"&gt;color = region &lt;/span&gt;&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;)&lt;br&gt;) + &lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style="background-color:#FFDFD1"&gt;geom_point&lt;/span&gt;&lt;/b&gt;()&lt;/code&gt;
+``` r
+whr_panel %&gt;%
+ggplot(
+  aes(
+    x = happiness_score,       
+    y = economy_gdp_per_capita,
+*   color = region
+  )
+) + 
+* geom_point()
+```
 
 ]
 
 .pull-right[
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -521,7 +553,7 @@ Let's try to do something different, try, instead of `region`, adding `color = "
 .pull-left[
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot(
     aes(
@@ -537,7 +569,7 @@ whr_panel %&gt;%
 
 .pull-right[
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -575,7 +607,7 @@ Let's modify our last plot. Let's add `color = "blue"` inside `geom_point()`.
 .pull-left[
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot(
     aes(
@@ -590,7 +622,7 @@ whr_panel %&gt;%
 
 .pull-right[
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -604,7 +636,7 @@ whr_panel %&gt;%
 ]
 
 
-<div class="countdown" id="timer_beed71b8" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
+<div class="countdown" id="timer_144bba55" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -618,7 +650,17 @@ whr_panel %&gt;%
 **Solution:**
 
 
-&lt;code class ='r hljs remark-code'&gt;whr_panel %&gt;%&lt;br&gt;&amp;nbsp;&amp;nbsp;ggplot(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;aes(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;x = freedom, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;y = economy_gdp_per_capita, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style="background-color:#CBB5FF"&gt;color = year&lt;/span&gt;&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;)&lt;br&gt;&amp;nbsp;&amp;nbsp;) +&lt;br&gt;&amp;nbsp;&amp;nbsp;geom_point()&lt;/code&gt;
+``` r
+whr_panel %&gt;%
+  ggplot(
+    aes(
+      x = freedom, 
+      y = economy_gdp_per_capita, 
+*     color = year
+    )
+  ) +
+  geom_point()
+```
 
 ]
 
@@ -626,7 +668,7 @@ whr_panel %&gt;%
 
 .pull-right[
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -645,25 +687,38 @@ whr_panel %&gt;%
 .pull-left[
 
 
-&lt;code class ='r hljs remark-code'&gt;whr_panel %&gt;%&lt;br&gt;&amp;nbsp;&amp;nbsp;ggplot(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;aes(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;x = freedom, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;y = economy_gdp_per_capita, &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&lt;span style="background-color:#CBB5FF"&gt;color = as.factor(year)&lt;/span&gt;&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;)&lt;br&gt;&amp;nbsp;&amp;nbsp;) +&lt;br&gt;&amp;nbsp;&amp;nbsp;geom_point()&lt;/code&gt;
+``` r
+whr_panel %&gt;%
+  ggplot(
+    aes(
+      x = freedom, 
+      y = economy_gdp_per_capita, 
+*     color = as.factor(year)
+    )
+  ) +
+  geom_point()
+```
 
 ]
 
 
 .pull-right[
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 name: ggplot
 
 # ggplot2: settings
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#D38C28' size=1px width=1100px&gt;&lt;/html&gt;
+
+&lt;img src="img/ggplot2_dib.png" width="70%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
@@ -695,26 +750,26 @@ Now, let's try to modify our plots. In the following slides, we are going to:
 
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot(aes(x = happiness_score, y = economy_gdp_per_capita)) +
 * geom_point(shape = 5)
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-22-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-25-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # ggplot2: shapes
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-23-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-26-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # ggplot2: including more geoms
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot(aes(x = happiness_score,  y = economy_gdp_per_capita)) +
   geom_point() +
@@ -725,21 +780,21 @@ whr_panel %&gt;%
 ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-24-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-27-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # ggplot2: Facets
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot(aes(x = happiness_score,  y = economy_gdp_per_capita)) +
   geom_point() +
 * facet_wrap(~ region)
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-25-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-28-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -752,7 +807,7 @@ whr_panel %&gt;%
 
 ]
 
-<div class="countdown" id="timer_e5a37472" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_30da5854" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -765,7 +820,7 @@ whr_panel %&gt;%
 **Solution:**
 
 
-```r
+``` r
 whr_panel %&gt;%
   ggplot(
     aes(
@@ -783,11 +838,38 @@ whr_panel %&gt;%
 
 .pull-left[
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-30-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
+---
 
+# ggplot2: Colors and facets
+
+Another type of facet is `facet_grid()`, which arranges plots by one or more variables while keeping a consistent y-axis across all panels. This is useful when comparing trends over time or across categories.
+
+Here we facet the plot by `year`, so we can visually compare patterns in happiness and GDP over different years.
+
+.pull-left[
+
+
+``` r
+whr_panel %&gt;%
+  ggplot(
+    aes(
+      x = happiness_score,  
+      y = economy_gdp_per_capita, 
+      color = region
+    )
+  ) + 
+  geom_point() +
+  facet_grid(~year)
+```
+]
+
+.pull-right[
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 
@@ -801,7 +883,7 @@ Let's imagine now, that we would like to transform a variable before plotting.
 
 
 
-```r
+``` r
 whr_panel &lt;- whr_panel %&gt;%
 * mutate(
 *   latam = region == "Latin America and Caribbean"
@@ -824,7 +906,7 @@ whr_panel %&gt;%
 .panel[.panel-name[Plot]
 
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-29-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-34-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -838,14 +920,14 @@ whr_panel %&gt;%
 .large[We can also specify the size of a geom, either by a variable or just a number.]
 
 
-```r
+``` r
 whr_panel %&gt;%
   filter(year == 2017) %&gt;%
   ggplot(aes(x = happiness_score,  y = economy_gdp_per_capita)) +
 * geom_point(aes(size = economy_gdp_per_capita))
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-30-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-35-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -856,21 +938,21 @@ whr_panel %&gt;%
 .panel[.panel-name[Unscaled]
 
 
-```r
+``` r
 ggplot(data = whr_panel,
        aes(x = happiness_score,
            y = economy_gdp_per_capita)) +
   geom_point()
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-31-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-36-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 .panel[.panel-name[Scaled]
 
 
-```r
+``` r
 ggplot(data = whr_panel,
        aes(x = happiness_score,
            y = economy_gdp_per_capita)) +
@@ -879,7 +961,7 @@ ggplot(data = whr_panel,
 *                    breaks = c(0, 2, 4, 6, 8, 10))
 ```
 
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-32-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-37-1.png" width="45%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -914,7 +996,7 @@ We are going to do the following to this plot:
 .panel[.panel-name[R Code]
 
 
-```r
+``` r
 whr_panel %&gt;%
   filter(
       !is.na(latam) # Make sure that we don't include missing values in our graph
@@ -933,7 +1015,7 @@ whr_panel %&gt;%
 ]
 
 .panel[.panel-name[Plot]
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-34-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-39-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -947,7 +1029,7 @@ whr_panel %&gt;%
 .panel[.panel-name[R Code]
 
 
-```r
+``` r
 whr_panel %&gt;%
   filter(
       !is.na(latam) # Make sure that we don't include missing values in our graph
@@ -968,7 +1050,7 @@ whr_panel %&gt;%
 ]
 
 .panel[.panel-name[Plot]
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-36-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-41-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -981,7 +1063,7 @@ whr_panel %&gt;%
 .panel[.panel-name[R Code]
 
 
-```r
+``` r
 whr_panel %&gt;%
   filter(
       !is.na(latam) # Make sure that we don't include missing values in our graph
@@ -1003,7 +1085,7 @@ whr_panel %&gt;%
 ]
 
 .panel[.panel-name[Plot]
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-38-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-43-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -1014,7 +1096,7 @@ whr_panel %&gt;%
 The `theme()` function allows you to modify each aspect of your plot. Some arguments are:
 
 
-```r
+``` r
 theme(
     # Title and text labels
     plot.title = element_text(color, size, face),
@@ -1044,7 +1126,7 @@ We can also add color palettes using other packages such as: `RColorBrewer, viri
 ]
 
 
-```r
+``` r
 # install.packages("RColorBrewer")
 library(RColorBrewer)
 ```
@@ -1064,7 +1146,7 @@ library(RColorBrewer)
 .panel[.panel-name[R Code]
 
 
-```r
+``` r
 whr_panel %&gt;%
   filter(
       !is.na(latam) # Make sure that we don't include missing values in our graph
@@ -1086,7 +1168,7 @@ whr_panel %&gt;%
 ]
 
 .panel[.panel-name[Plot]
-&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-42-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-data-visualization_files/figure-html/unnamed-chunk-47-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -1124,7 +1206,7 @@ name: saving
 Remember that in R we can always assign our functions to an object. In this case, we can assign our `ggplot2` code to an object called fig as follows.
 
 
-```r
+``` r
 fig &lt;- whr_panel %&gt;%
   filter(
       !is.na(latam) # Make sure that we don't include missing values in our graph
@@ -1155,7 +1237,7 @@ The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dp
 
 ]
 
-<div class="countdown" id="timer_b13f61ec" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_ed8ada83" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1169,7 +1251,7 @@ The syntax is `ggsave(OBJECT, filename = FILEPATH, heigth = ..., width = ..., dp
 
 
 
-```r
+``` r
 ggsave(
   fig,
   filename = here("DataWork","Output","Raw","fig_MA.png"),
@@ -1184,9 +1266,11 @@ ggsave(
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, top
 
 # And that's it for this session. Join us tomorrow for data analysis. Remember to submit your feedback!
+
+&lt;img src="img/r_learners.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1261,7 +1345,7 @@ Now we’ll use the ggplotly() function from the plotly package to create an int
 .panel[.panel-name[R Code]
 
 
-```r
+``` r
 # Load package
 library(plotly)
 
@@ -1273,8 +1357,8 @@ ggplotly(fig) %&gt;%
 
 .panel[.panel-name[Plot]
 
-<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-d1ddb3d322384e418a89" style="width:70%;height:70%;"></div>
-<script type="application/json" data-for="htmlwidget-d1ddb3d322384e418a89">{"x":{"data":[{"x":[7.5869999999999997,7.5609999999999999,7.5270000000000001,7.5220000000000002,7.4269999999999996,7.4059999999999997,7.3780000000000001,7.3639999999999999,7.2859999999999996,7.2839999999999998,7.2779999999999996,7.2000000000000002,7.1189999999999998,6.9459999999999997,6.9400000000000004,6.9370000000000003,6.9009999999999998,6.867,6.8529999999999998,6.798,6.75,6.6109999999999998,6.5750000000000002,6.5049999999999999,6.4550000000000001,6.4109999999999996,6.3289999999999997,6.3019999999999996,6.298,6.2949999999999999,6.0030000000000001,5.9950000000000001,5.9870000000000001,5.984,5.96,5.9480000000000004,5.8890000000000002,5.8550000000000004,5.8479999999999999,5.8330000000000002,5.8129999999999997,5.7910000000000004,5.7699999999999996,5.7590000000000003,5.7539999999999996,5.7160000000000002,5.6950000000000003,5.6890000000000001,5.6050000000000004,5.5890000000000004,5.548,5.4770000000000003,5.4740000000000002,5.4290000000000003,5.399,5.3600000000000003,5.3319999999999999,5.2859999999999996,5.2679999999999998,5.2530000000000001,5.2119999999999997,5.194,5.1920000000000002,5.1920000000000002,5.1399999999999997,5.1289999999999996,5.1239999999999997,5.1230000000000002,5.1020000000000003,5.0979999999999999,5.0730000000000004,5.0570000000000004,5.0129999999999999,5.0069999999999997,4.9710000000000001,4.9589999999999996,4.9489999999999998,4.8979999999999997,4.8760000000000003,4.8739999999999997,4.867,4.8570000000000002,4.8390000000000004,4.7999999999999998,4.7859999999999996,4.7389999999999999,4.7149999999999999,4.694,4.6859999999999999,4.681,4.6769999999999996,4.6420000000000003,4.633,4.6100000000000003,4.5709999999999997,4.5650000000000004,4.5499999999999998,4.5170000000000003,4.5140000000000002,4.5119999999999996,4.5069999999999997,4.4359999999999999,4.4189999999999996,4.3689999999999998,4.3499999999999996,4.3319999999999999,4.3070000000000004,4.2969999999999997,4.2919999999999998,4.2709999999999999,4.2519999999999998,4.218,4.194,4.077,4.0330000000000004,3.9950000000000001,3.9889999999999999,3.956,3.931,3.9039999999999999,3.8959999999999999,3.8450000000000002,3.819,3.7810000000000001,3.681,3.6779999999999999,3.6669999999999998,3.6560000000000001,3.6549999999999998,3.5870000000000002,3.5750000000000002,3.4649999999999999,3.3399999999999999,3.0059999999999998,2.9049999999999998,2.839],"y":[1.3965099999999999,1.3023199999999999,1.32548,1.4590000000000001,1.32629,1.2902499999999999,1.32944,1.3317099999999999,1.2501800000000001,1.33358,1.2285699999999999,1.3372299999999999,1.3945099999999999,1.5639099999999999,1.33596,1.30782,1.42727,1.26637,1.3601099999999999,1.52186,1.32792,1.69042,1.2777799999999999,1.1789799999999999,0.96689999999999998,1.39541,1.23011,1.2074,1.29098,1.5542199999999999,0.63244,1.1689099999999999,1.27074,1.24461,1.32376,1.2511399999999999,0.59448000000000001,1.1225400000000001,1.1849799999999999,1.14723,1.0319199999999999,1.1255500000000001,1.12486,1.0825400000000001,1.1314500000000001,1.13764,1.2080599999999999,1.2081299999999999,0.93928999999999996,0.80147999999999997,0.95847000000000004,1.0076099999999999,1.3860399999999999,1.15174,0.82826999999999995,0.63216000000000006,1.06098,0.47427999999999998,0.65434999999999999,0.77041999999999999,1.02389,0.59543000000000001,0.90198,0.97438000000000002,0.89012000000000002,0.47038000000000002,1.04345,0.92052999999999996,1.15991,1.1131200000000001,0.70531999999999995,0.18847,0.73479000000000005,0.91851000000000005,0.083080000000000001,0.87866999999999995,0.83223000000000003,0.37545000000000001,0.59065999999999996,0.82818999999999998,0.71206000000000003,1.1540600000000001,1.0256400000000001,1.12094,0.39046999999999998,0.88112999999999997,0.59867000000000004,0.39752999999999999,1.0087999999999999,0.79906999999999995,0.98548999999999998,0.92049000000000003,0.54557999999999995,0.27100000000000002,0.071199999999999999,0.64498999999999995,0.52107000000000003,0,0.35997000000000001,0.19073000000000001,0.33023999999999998,0.45406999999999997,0.36470999999999998,0.44024999999999997,0.76820999999999995,0.99355000000000004,0.27107999999999999,0.7419,0.016039999999999999,0.83523999999999998,0.42249999999999999,1.0121599999999999,0.88180000000000003,0.54649000000000003,0.75778000000000001,0.26074000000000003,0.67866000000000004,0.23905999999999999,0.21102000000000001,0.36498000000000003,1.0602400000000001,0.069400000000000003,0.46038000000000001,0.28520000000000001,0.20824000000000001,0.0785,0.34193000000000001,0.17416999999999999,0.46533999999999998,0.25812000000000002,0.31981999999999999,0.22208,0.28665000000000002,0.66320000000000001,0.015299999999999999,0.20868],"text":["happiness_score: 7.587<br />economy_gdp_per_capita: 1.39651<br />latam: FALSE","happiness_score: 7.561<br />economy_gdp_per_capita: 1.30232<br />latam: FALSE","happiness_score: 7.527<br />economy_gdp_per_capita: 1.32548<br />latam: FALSE","happiness_score: 7.522<br />economy_gdp_per_capita: 1.45900<br />latam: FALSE","happiness_score: 7.427<br />economy_gdp_per_capita: 1.32629<br />latam: FALSE","happiness_score: 7.406<br />economy_gdp_per_capita: 1.29025<br />latam: FALSE","happiness_score: 7.378<br />economy_gdp_per_capita: 1.32944<br />latam: FALSE","happiness_score: 7.364<br />economy_gdp_per_capita: 1.33171<br />latam: FALSE","happiness_score: 7.286<br />economy_gdp_per_capita: 1.25018<br />latam: FALSE","happiness_score: 7.284<br />economy_gdp_per_capita: 1.33358<br />latam: FALSE","happiness_score: 7.278<br />economy_gdp_per_capita: 1.22857<br />latam: FALSE","happiness_score: 7.200<br />economy_gdp_per_capita: 1.33723<br />latam: FALSE","happiness_score: 7.119<br />economy_gdp_per_capita: 1.39451<br />latam: FALSE","happiness_score: 6.946<br />economy_gdp_per_capita: 1.56391<br />latam: FALSE","happiness_score: 6.940<br />economy_gdp_per_capita: 1.33596<br />latam: FALSE","happiness_score: 6.937<br />economy_gdp_per_capita: 1.30782<br />latam: FALSE","happiness_score: 6.901<br />economy_gdp_per_capita: 1.42727<br />latam: FALSE","happiness_score: 6.867<br />economy_gdp_per_capita: 1.26637<br />latam: FALSE","happiness_score: 6.853<br />economy_gdp_per_capita: 1.36011<br />latam: FALSE","happiness_score: 6.798<br />economy_gdp_per_capita: 1.52186<br />latam: FALSE","happiness_score: 6.750<br />economy_gdp_per_capita: 1.32792<br />latam: FALSE","happiness_score: 6.611<br />economy_gdp_per_capita: 1.69042<br />latam: FALSE","happiness_score: 6.575<br />economy_gdp_per_capita: 1.27778<br />latam: FALSE","happiness_score: 6.505<br />economy_gdp_per_capita: 1.17898<br />latam: FALSE","happiness_score: 6.455<br />economy_gdp_per_capita: 0.96690<br />latam: FALSE","happiness_score: 6.411<br />economy_gdp_per_capita: 1.39541<br />latam: FALSE","happiness_score: 6.329<br />economy_gdp_per_capita: 1.23011<br />latam: FALSE","happiness_score: 6.302<br />economy_gdp_per_capita: 1.20740<br />latam: FALSE","happiness_score: 6.298<br />economy_gdp_per_capita: 1.29098<br />latam: FALSE","happiness_score: 6.295<br />economy_gdp_per_capita: 1.55422<br />latam: FALSE","happiness_score: 6.003<br />economy_gdp_per_capita: 0.63244<br />latam: FALSE","happiness_score: 5.995<br />economy_gdp_per_capita: 1.16891<br />latam: FALSE","happiness_score: 5.987<br />economy_gdp_per_capita: 1.27074<br />latam: FALSE","happiness_score: 5.984<br />economy_gdp_per_capita: 1.24461<br />latam: FALSE","happiness_score: 5.960<br />economy_gdp_per_capita: 1.32376<br />latam: FALSE","happiness_score: 5.948<br />economy_gdp_per_capita: 1.25114<br />latam: FALSE","happiness_score: 5.889<br />economy_gdp_per_capita: 0.59448<br />latam: FALSE","happiness_score: 5.855<br />economy_gdp_per_capita: 1.12254<br />latam: FALSE","happiness_score: 5.848<br />economy_gdp_per_capita: 1.18498<br />latam: FALSE","happiness_score: 5.833<br />economy_gdp_per_capita: 1.14723<br />latam: FALSE","happiness_score: 5.813<br />economy_gdp_per_capita: 1.03192<br />latam: FALSE","happiness_score: 5.791<br />economy_gdp_per_capita: 1.12555<br />latam: FALSE","happiness_score: 5.770<br />economy_gdp_per_capita: 1.12486<br />latam: FALSE","happiness_score: 5.759<br />economy_gdp_per_capita: 1.08254<br />latam: FALSE","happiness_score: 5.754<br />economy_gdp_per_capita: 1.13145<br />latam: FALSE","happiness_score: 5.716<br />economy_gdp_per_capita: 1.13764<br />latam: FALSE","happiness_score: 5.695<br />economy_gdp_per_capita: 1.20806<br />latam: FALSE","happiness_score: 5.689<br />economy_gdp_per_capita: 1.20813<br />latam: FALSE","happiness_score: 5.605<br />economy_gdp_per_capita: 0.93929<br />latam: FALSE","happiness_score: 5.589<br />economy_gdp_per_capita: 0.80148<br />latam: FALSE","happiness_score: 5.548<br />economy_gdp_per_capita: 0.95847<br />latam: FALSE","happiness_score: 5.477<br />economy_gdp_per_capita: 1.00761<br />latam: FALSE","happiness_score: 5.474<br />economy_gdp_per_capita: 1.38604<br />latam: FALSE","happiness_score: 5.429<br />economy_gdp_per_capita: 1.15174<br />latam: FALSE","happiness_score: 5.399<br />economy_gdp_per_capita: 0.82827<br />latam: FALSE","happiness_score: 5.360<br />economy_gdp_per_capita: 0.63216<br />latam: FALSE","happiness_score: 5.332<br />economy_gdp_per_capita: 1.06098<br />latam: FALSE","happiness_score: 5.286<br />economy_gdp_per_capita: 0.47428<br />latam: FALSE","happiness_score: 5.268<br />economy_gdp_per_capita: 0.65435<br />latam: FALSE","happiness_score: 5.253<br />economy_gdp_per_capita: 0.77042<br />latam: FALSE","happiness_score: 5.212<br />economy_gdp_per_capita: 1.02389<br />latam: FALSE","happiness_score: 5.194<br />economy_gdp_per_capita: 0.59543<br />latam: FALSE","happiness_score: 5.192<br />economy_gdp_per_capita: 0.90198<br />latam: FALSE","happiness_score: 5.192<br />economy_gdp_per_capita: 0.97438<br />latam: FALSE","happiness_score: 5.140<br />economy_gdp_per_capita: 0.89012<br />latam: FALSE","happiness_score: 5.129<br />economy_gdp_per_capita: 0.47038<br />latam: FALSE","happiness_score: 5.124<br />economy_gdp_per_capita: 1.04345<br />latam: FALSE","happiness_score: 5.123<br />economy_gdp_per_capita: 0.92053<br />latam: FALSE","happiness_score: 5.102<br />economy_gdp_per_capita: 1.15991<br />latam: FALSE","happiness_score: 5.098<br />economy_gdp_per_capita: 1.11312<br />latam: FALSE","happiness_score: 5.073<br />economy_gdp_per_capita: 0.70532<br />latam: FALSE","happiness_score: 5.057<br />economy_gdp_per_capita: 0.18847<br />latam: FALSE","happiness_score: 5.013<br />economy_gdp_per_capita: 0.73479<br />latam: FALSE","happiness_score: 5.007<br />economy_gdp_per_capita: 0.91851<br />latam: FALSE","happiness_score: 4.971<br />economy_gdp_per_capita: 0.08308<br />latam: FALSE","happiness_score: 4.959<br />economy_gdp_per_capita: 0.87867<br />latam: FALSE","happiness_score: 4.949<br />economy_gdp_per_capita: 0.83223<br />latam: FALSE","happiness_score: 4.898<br />economy_gdp_per_capita: 0.37545<br />latam: FALSE","happiness_score: 4.876<br />economy_gdp_per_capita: 0.59066<br />latam: FALSE","happiness_score: 4.874<br />economy_gdp_per_capita: 0.82819<br />latam: FALSE","happiness_score: 4.867<br />economy_gdp_per_capita: 0.71206<br />latam: FALSE","happiness_score: 4.857<br />economy_gdp_per_capita: 1.15406<br />latam: FALSE","happiness_score: 4.839<br />economy_gdp_per_capita: 1.02564<br />latam: FALSE","happiness_score: 4.800<br />economy_gdp_per_capita: 1.12094<br />latam: FALSE","happiness_score: 4.786<br />economy_gdp_per_capita: 0.39047<br />latam: FALSE","happiness_score: 4.739<br />economy_gdp_per_capita: 0.88113<br />latam: FALSE","happiness_score: 4.715<br />economy_gdp_per_capita: 0.59867<br />latam: FALSE","happiness_score: 4.694<br />economy_gdp_per_capita: 0.39753<br />latam: FALSE","happiness_score: 4.686<br />economy_gdp_per_capita: 1.00880<br />latam: FALSE","happiness_score: 4.681<br />economy_gdp_per_capita: 0.79907<br />latam: FALSE","happiness_score: 4.677<br />economy_gdp_per_capita: 0.98549<br />latam: FALSE","happiness_score: 4.642<br />economy_gdp_per_capita: 0.92049<br />latam: FALSE","happiness_score: 4.633<br />economy_gdp_per_capita: 0.54558<br />latam: FALSE","happiness_score: 4.610<br />economy_gdp_per_capita: 0.27100<br />latam: FALSE","happiness_score: 4.571<br />economy_gdp_per_capita: 0.07120<br />latam: FALSE","happiness_score: 4.565<br />economy_gdp_per_capita: 0.64499<br />latam: FALSE","happiness_score: 4.550<br />economy_gdp_per_capita: 0.52107<br />latam: FALSE","happiness_score: 4.517<br />economy_gdp_per_capita: 0.00000<br />latam: FALSE","happiness_score: 4.514<br />economy_gdp_per_capita: 0.35997<br />latam: FALSE","happiness_score: 4.512<br />economy_gdp_per_capita: 0.19073<br />latam: FALSE","happiness_score: 4.507<br />economy_gdp_per_capita: 0.33024<br />latam: FALSE","happiness_score: 4.436<br />economy_gdp_per_capita: 0.45407<br />latam: FALSE","happiness_score: 4.419<br />economy_gdp_per_capita: 0.36471<br />latam: FALSE","happiness_score: 4.369<br />economy_gdp_per_capita: 0.44025<br />latam: FALSE","happiness_score: 4.350<br />economy_gdp_per_capita: 0.76821<br />latam: FALSE","happiness_score: 4.332<br />economy_gdp_per_capita: 0.99355<br />latam: FALSE","happiness_score: 4.307<br />economy_gdp_per_capita: 0.27108<br />latam: FALSE","happiness_score: 4.297<br />economy_gdp_per_capita: 0.74190<br />latam: FALSE","happiness_score: 4.292<br />economy_gdp_per_capita: 0.01604<br />latam: FALSE","happiness_score: 4.271<br />economy_gdp_per_capita: 0.83524<br />latam: FALSE","happiness_score: 4.252<br />economy_gdp_per_capita: 0.42250<br />latam: FALSE","happiness_score: 4.218<br />economy_gdp_per_capita: 1.01216<br />latam: FALSE","happiness_score: 4.194<br />economy_gdp_per_capita: 0.88180<br />latam: FALSE","happiness_score: 4.077<br />economy_gdp_per_capita: 0.54649<br />latam: FALSE","happiness_score: 4.033<br />economy_gdp_per_capita: 0.75778<br />latam: FALSE","happiness_score: 3.995<br />economy_gdp_per_capita: 0.26074<br />latam: FALSE","happiness_score: 3.989<br />economy_gdp_per_capita: 0.67866<br />latam: FALSE","happiness_score: 3.956<br />economy_gdp_per_capita: 0.23906<br />latam: FALSE","happiness_score: 3.931<br />economy_gdp_per_capita: 0.21102<br />latam: FALSE","happiness_score: 3.904<br />economy_gdp_per_capita: 0.36498<br />latam: FALSE","happiness_score: 3.896<br />economy_gdp_per_capita: 1.06024<br />latam: FALSE","happiness_score: 3.845<br />economy_gdp_per_capita: 0.06940<br />latam: FALSE","happiness_score: 3.819<br />economy_gdp_per_capita: 0.46038<br />latam: FALSE","happiness_score: 3.781<br />economy_gdp_per_capita: 0.28520<br />latam: FALSE","happiness_score: 3.681<br />economy_gdp_per_capita: 0.20824<br />latam: FALSE","happiness_score: 3.678<br />economy_gdp_per_capita: 0.07850<br />latam: FALSE","happiness_score: 3.667<br />economy_gdp_per_capita: 0.34193<br />latam: FALSE","happiness_score: 3.656<br />economy_gdp_per_capita: 0.17417<br />latam: FALSE","happiness_score: 3.655<br />economy_gdp_per_capita: 0.46534<br />latam: FALSE","happiness_score: 3.587<br />economy_gdp_per_capita: 0.25812<br />latam: FALSE","happiness_score: 3.575<br />economy_gdp_per_capita: 0.31982<br />latam: FALSE","happiness_score: 3.465<br />economy_gdp_per_capita: 0.22208<br />latam: FALSE","happiness_score: 3.340<br />economy_gdp_per_capita: 0.28665<br />latam: FALSE","happiness_score: 3.006<br />economy_gdp_per_capita: 0.66320<br />latam: FALSE","happiness_score: 2.905<br />economy_gdp_per_capita: 0.01530<br />latam: FALSE","happiness_score: 2.839<br />economy_gdp_per_capita: 0.20868<br />latam: FALSE"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"FALSE","legendgroup":"FALSE","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[7.226,7.1870000000000003,6.9829999999999997,6.8099999999999996,6.7859999999999996,6.6699999999999999,6.5739999999999998,6.4850000000000003,6.4770000000000003,6.2690000000000001,6.1680000000000001,6.1299999999999999,6.1230000000000002,5.9749999999999996,5.8899999999999997,5.8780000000000001,5.8280000000000003,5.8239999999999998,5.7089999999999996,4.8849999999999998,4.7880000000000003,4.5179999999999998],"y":[0.95577999999999996,1.02054,0.98124,1.0442400000000001,1.0635300000000001,1.1071500000000001,1.0535099999999999,1.06166,0.91861000000000004,0.99534,1.21183,0.76454,0.74553000000000003,0.86402000000000001,0.68132999999999999,0.75985000000000003,0.59325000000000006,0.90019000000000005,0.81037999999999999,0.89537,0.59531999999999996,0.26673000000000002],"text":["happiness_score: 7.226<br />economy_gdp_per_capita: 0.95578<br />latam:  TRUE","happiness_score: 7.187<br />economy_gdp_per_capita: 1.02054<br />latam:  TRUE","happiness_score: 6.983<br />economy_gdp_per_capita: 0.98124<br />latam:  TRUE","happiness_score: 6.810<br />economy_gdp_per_capita: 1.04424<br />latam:  TRUE","happiness_score: 6.786<br />economy_gdp_per_capita: 1.06353<br />latam:  TRUE","happiness_score: 6.670<br />economy_gdp_per_capita: 1.10715<br />latam:  TRUE","happiness_score: 6.574<br />economy_gdp_per_capita: 1.05351<br />latam:  TRUE","happiness_score: 6.485<br />economy_gdp_per_capita: 1.06166<br />latam:  TRUE","happiness_score: 6.477<br />economy_gdp_per_capita: 0.91861<br />latam:  TRUE","happiness_score: 6.269<br />economy_gdp_per_capita: 0.99534<br />latam:  TRUE","happiness_score: 6.168<br />economy_gdp_per_capita: 1.21183<br />latam:  TRUE","happiness_score: 6.130<br />economy_gdp_per_capita: 0.76454<br />latam:  TRUE","happiness_score: 6.123<br />economy_gdp_per_capita: 0.74553<br />latam:  TRUE","happiness_score: 5.975<br />economy_gdp_per_capita: 0.86402<br />latam:  TRUE","happiness_score: 5.890<br />economy_gdp_per_capita: 0.68133<br />latam:  TRUE","happiness_score: 5.878<br />economy_gdp_per_capita: 0.75985<br />latam:  TRUE","happiness_score: 5.828<br />economy_gdp_per_capita: 0.59325<br />latam:  TRUE","happiness_score: 5.824<br />economy_gdp_per_capita: 0.90019<br />latam:  TRUE","happiness_score: 5.709<br />economy_gdp_per_capita: 0.81038<br />latam:  TRUE","happiness_score: 4.885<br />economy_gdp_per_capita: 0.89537<br />latam:  TRUE","happiness_score: 4.788<br />economy_gdp_per_capita: 0.59532<br />latam:  TRUE","happiness_score: 4.518<br />economy_gdp_per_capita: 0.26673<br />latam:  TRUE"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"TRUE","legendgroup":"TRUE","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":46.31963470319635,"r":7.3059360730593621,"b":42.739726027397268,"l":43.105022831050235},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Happiness Score vs GDP per Capita, 2015","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2.6015999999999999,7.8243999999999998],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Happiness Score","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.084521000000000013,1.7749410000000001],"tickmode":"array","ticktext":["0.0","0.5","1.0","1.5"],"tickvals":[0,0.5,1,1.5],"categoryorder":"array","categoryarray":["0.0","0.5","1.0","1.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"GDP per Capita","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Country in Latin America<br />and the Caribbean","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"orientation":"h","x":0.40000000000000002,"y":-0.20000000000000001},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"14f263a6fde8a":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"14f263a6fde8a","visdat":{"14f263a6fde8a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e582e99a9c77bd62d159" style="width:70%;height:70%;"></div>
+<script type="application/json" data-for="htmlwidget-e582e99a9c77bd62d159">{"x":{"data":[{"x":[7.5869999999999997,7.5609999999999999,7.5270000000000001,7.5220000000000002,7.4269999999999996,7.4059999999999997,7.3780000000000001,7.3639999999999999,7.2859999999999996,7.2839999999999998,7.2779999999999996,7.2000000000000002,7.1189999999999998,6.9459999999999997,6.9400000000000004,6.9370000000000003,6.9009999999999998,6.867,6.8529999999999998,6.798,6.75,6.6109999999999998,6.5750000000000002,6.5049999999999999,6.4550000000000001,6.4109999999999996,6.3289999999999997,6.3019999999999996,6.298,6.2949999999999999,6.0030000000000001,5.9950000000000001,5.9870000000000001,5.984,5.96,5.9480000000000004,5.8890000000000002,5.8550000000000004,5.8479999999999999,5.8330000000000002,5.8129999999999997,5.7910000000000004,5.7699999999999996,5.7590000000000003,5.7539999999999996,5.7160000000000002,5.6950000000000003,5.6890000000000001,5.6050000000000004,5.5890000000000004,5.548,5.4770000000000003,5.4740000000000002,5.4290000000000003,5.399,5.3600000000000003,5.3319999999999999,5.2859999999999996,5.2679999999999998,5.2530000000000001,5.2119999999999997,5.194,5.1920000000000002,5.1920000000000002,5.1399999999999997,5.1289999999999996,5.1239999999999997,5.1230000000000002,5.1020000000000003,5.0979999999999999,5.0730000000000004,5.0570000000000004,5.0129999999999999,5.0069999999999997,4.9710000000000001,4.9589999999999996,4.9489999999999998,4.8979999999999997,4.8760000000000003,4.8739999999999997,4.867,4.8570000000000002,4.8390000000000004,4.7999999999999998,4.7859999999999996,4.7389999999999999,4.7149999999999999,4.694,4.6859999999999999,4.681,4.6769999999999996,4.6420000000000003,4.633,4.6100000000000003,4.5709999999999997,4.5650000000000004,4.5499999999999998,4.5170000000000003,4.5140000000000002,4.5119999999999996,4.5069999999999997,4.4359999999999999,4.4189999999999996,4.3689999999999998,4.3499999999999996,4.3319999999999999,4.3070000000000004,4.2969999999999997,4.2919999999999998,4.2709999999999999,4.2519999999999998,4.218,4.194,4.077,4.0330000000000004,3.9950000000000001,3.9889999999999999,3.956,3.931,3.9039999999999999,3.8959999999999999,3.8450000000000002,3.819,3.7810000000000001,3.681,3.6779999999999999,3.6669999999999998,3.6560000000000001,3.6549999999999998,3.5870000000000002,3.5750000000000002,3.4649999999999999,3.3399999999999999,3.0059999999999998,2.9049999999999998,2.839],"y":[1.3965099999999999,1.3023199999999999,1.32548,1.4590000000000001,1.32629,1.2902499999999999,1.32944,1.3317099999999999,1.2501800000000001,1.33358,1.2285699999999999,1.3372299999999999,1.3945099999999999,1.5639099999999999,1.33596,1.30782,1.42727,1.26637,1.3601099999999999,1.52186,1.32792,1.69042,1.2777799999999999,1.1789799999999999,0.96689999999999998,1.39541,1.23011,1.2074,1.29098,1.5542199999999999,0.63244,1.1689099999999999,1.27074,1.24461,1.32376,1.2511399999999999,0.59448000000000001,1.1225400000000001,1.1849799999999999,1.14723,1.0319199999999999,1.1255500000000001,1.12486,1.0825400000000001,1.1314500000000001,1.13764,1.2080599999999999,1.2081299999999999,0.93928999999999996,0.80147999999999997,0.95847000000000004,1.0076099999999999,1.3860399999999999,1.15174,0.82826999999999995,0.63216000000000006,1.06098,0.47427999999999998,0.65434999999999999,0.77041999999999999,1.02389,0.59543000000000001,0.90198,0.97438000000000002,0.89012000000000002,0.47038000000000002,1.04345,0.92052999999999996,1.15991,1.1131200000000001,0.70531999999999995,0.18847,0.73479000000000005,0.91851000000000005,0.083080000000000001,0.87866999999999995,0.83223000000000003,0.37545000000000001,0.59065999999999996,0.82818999999999998,0.71206000000000003,1.1540600000000001,1.0256400000000001,1.12094,0.39046999999999998,0.88112999999999997,0.59867000000000004,0.39752999999999999,1.0087999999999999,0.79906999999999995,0.98548999999999998,0.92049000000000003,0.54557999999999995,0.27100000000000002,0.071199999999999999,0.64498999999999995,0.52107000000000003,0,0.35997000000000001,0.19073000000000001,0.33023999999999998,0.45406999999999997,0.36470999999999998,0.44024999999999997,0.76820999999999995,0.99355000000000004,0.27107999999999999,0.7419,0.016039999999999999,0.83523999999999998,0.42249999999999999,1.0121599999999999,0.88180000000000003,0.54649000000000003,0.75778000000000001,0.26074000000000003,0.67866000000000004,0.23905999999999999,0.21102000000000001,0.36498000000000003,1.0602400000000001,0.069400000000000003,0.46038000000000001,0.28520000000000001,0.20824000000000001,0.0785,0.34193000000000001,0.17416999999999999,0.46533999999999998,0.25812000000000002,0.31981999999999999,0.22208,0.28665000000000002,0.66320000000000001,0.015299999999999999,0.20868],"text":["happiness_score: 7.587<br />economy_gdp_per_capita: 1.39651<br />latam: FALSE","happiness_score: 7.561<br />economy_gdp_per_capita: 1.30232<br />latam: FALSE","happiness_score: 7.527<br />economy_gdp_per_capita: 1.32548<br />latam: FALSE","happiness_score: 7.522<br />economy_gdp_per_capita: 1.45900<br />latam: FALSE","happiness_score: 7.427<br />economy_gdp_per_capita: 1.32629<br />latam: FALSE","happiness_score: 7.406<br />economy_gdp_per_capita: 1.29025<br />latam: FALSE","happiness_score: 7.378<br />economy_gdp_per_capita: 1.32944<br />latam: FALSE","happiness_score: 7.364<br />economy_gdp_per_capita: 1.33171<br />latam: FALSE","happiness_score: 7.286<br />economy_gdp_per_capita: 1.25018<br />latam: FALSE","happiness_score: 7.284<br />economy_gdp_per_capita: 1.33358<br />latam: FALSE","happiness_score: 7.278<br />economy_gdp_per_capita: 1.22857<br />latam: FALSE","happiness_score: 7.200<br />economy_gdp_per_capita: 1.33723<br />latam: FALSE","happiness_score: 7.119<br />economy_gdp_per_capita: 1.39451<br />latam: FALSE","happiness_score: 6.946<br />economy_gdp_per_capita: 1.56391<br />latam: FALSE","happiness_score: 6.940<br />economy_gdp_per_capita: 1.33596<br />latam: FALSE","happiness_score: 6.937<br />economy_gdp_per_capita: 1.30782<br />latam: FALSE","happiness_score: 6.901<br />economy_gdp_per_capita: 1.42727<br />latam: FALSE","happiness_score: 6.867<br />economy_gdp_per_capita: 1.26637<br />latam: FALSE","happiness_score: 6.853<br />economy_gdp_per_capita: 1.36011<br />latam: FALSE","happiness_score: 6.798<br />economy_gdp_per_capita: 1.52186<br />latam: FALSE","happiness_score: 6.750<br />economy_gdp_per_capita: 1.32792<br />latam: FALSE","happiness_score: 6.611<br />economy_gdp_per_capita: 1.69042<br />latam: FALSE","happiness_score: 6.575<br />economy_gdp_per_capita: 1.27778<br />latam: FALSE","happiness_score: 6.505<br />economy_gdp_per_capita: 1.17898<br />latam: FALSE","happiness_score: 6.455<br />economy_gdp_per_capita: 0.96690<br />latam: FALSE","happiness_score: 6.411<br />economy_gdp_per_capita: 1.39541<br />latam: FALSE","happiness_score: 6.329<br />economy_gdp_per_capita: 1.23011<br />latam: FALSE","happiness_score: 6.302<br />economy_gdp_per_capita: 1.20740<br />latam: FALSE","happiness_score: 6.298<br />economy_gdp_per_capita: 1.29098<br />latam: FALSE","happiness_score: 6.295<br />economy_gdp_per_capita: 1.55422<br />latam: FALSE","happiness_score: 6.003<br />economy_gdp_per_capita: 0.63244<br />latam: FALSE","happiness_score: 5.995<br />economy_gdp_per_capita: 1.16891<br />latam: FALSE","happiness_score: 5.987<br />economy_gdp_per_capita: 1.27074<br />latam: FALSE","happiness_score: 5.984<br />economy_gdp_per_capita: 1.24461<br />latam: FALSE","happiness_score: 5.960<br />economy_gdp_per_capita: 1.32376<br />latam: FALSE","happiness_score: 5.948<br />economy_gdp_per_capita: 1.25114<br />latam: FALSE","happiness_score: 5.889<br />economy_gdp_per_capita: 0.59448<br />latam: FALSE","happiness_score: 5.855<br />economy_gdp_per_capita: 1.12254<br />latam: FALSE","happiness_score: 5.848<br />economy_gdp_per_capita: 1.18498<br />latam: FALSE","happiness_score: 5.833<br />economy_gdp_per_capita: 1.14723<br />latam: FALSE","happiness_score: 5.813<br />economy_gdp_per_capita: 1.03192<br />latam: FALSE","happiness_score: 5.791<br />economy_gdp_per_capita: 1.12555<br />latam: FALSE","happiness_score: 5.770<br />economy_gdp_per_capita: 1.12486<br />latam: FALSE","happiness_score: 5.759<br />economy_gdp_per_capita: 1.08254<br />latam: FALSE","happiness_score: 5.754<br />economy_gdp_per_capita: 1.13145<br />latam: FALSE","happiness_score: 5.716<br />economy_gdp_per_capita: 1.13764<br />latam: FALSE","happiness_score: 5.695<br />economy_gdp_per_capita: 1.20806<br />latam: FALSE","happiness_score: 5.689<br />economy_gdp_per_capita: 1.20813<br />latam: FALSE","happiness_score: 5.605<br />economy_gdp_per_capita: 0.93929<br />latam: FALSE","happiness_score: 5.589<br />economy_gdp_per_capita: 0.80148<br />latam: FALSE","happiness_score: 5.548<br />economy_gdp_per_capita: 0.95847<br />latam: FALSE","happiness_score: 5.477<br />economy_gdp_per_capita: 1.00761<br />latam: FALSE","happiness_score: 5.474<br />economy_gdp_per_capita: 1.38604<br />latam: FALSE","happiness_score: 5.429<br />economy_gdp_per_capita: 1.15174<br />latam: FALSE","happiness_score: 5.399<br />economy_gdp_per_capita: 0.82827<br />latam: FALSE","happiness_score: 5.360<br />economy_gdp_per_capita: 0.63216<br />latam: FALSE","happiness_score: 5.332<br />economy_gdp_per_capita: 1.06098<br />latam: FALSE","happiness_score: 5.286<br />economy_gdp_per_capita: 0.47428<br />latam: FALSE","happiness_score: 5.268<br />economy_gdp_per_capita: 0.65435<br />latam: FALSE","happiness_score: 5.253<br />economy_gdp_per_capita: 0.77042<br />latam: FALSE","happiness_score: 5.212<br />economy_gdp_per_capita: 1.02389<br />latam: FALSE","happiness_score: 5.194<br />economy_gdp_per_capita: 0.59543<br />latam: FALSE","happiness_score: 5.192<br />economy_gdp_per_capita: 0.90198<br />latam: FALSE","happiness_score: 5.192<br />economy_gdp_per_capita: 0.97438<br />latam: FALSE","happiness_score: 5.140<br />economy_gdp_per_capita: 0.89012<br />latam: FALSE","happiness_score: 5.129<br />economy_gdp_per_capita: 0.47038<br />latam: FALSE","happiness_score: 5.124<br />economy_gdp_per_capita: 1.04345<br />latam: FALSE","happiness_score: 5.123<br />economy_gdp_per_capita: 0.92053<br />latam: FALSE","happiness_score: 5.102<br />economy_gdp_per_capita: 1.15991<br />latam: FALSE","happiness_score: 5.098<br />economy_gdp_per_capita: 1.11312<br />latam: FALSE","happiness_score: 5.073<br />economy_gdp_per_capita: 0.70532<br />latam: FALSE","happiness_score: 5.057<br />economy_gdp_per_capita: 0.18847<br />latam: FALSE","happiness_score: 5.013<br />economy_gdp_per_capita: 0.73479<br />latam: FALSE","happiness_score: 5.007<br />economy_gdp_per_capita: 0.91851<br />latam: FALSE","happiness_score: 4.971<br />economy_gdp_per_capita: 0.08308<br />latam: FALSE","happiness_score: 4.959<br />economy_gdp_per_capita: 0.87867<br />latam: FALSE","happiness_score: 4.949<br />economy_gdp_per_capita: 0.83223<br />latam: FALSE","happiness_score: 4.898<br />economy_gdp_per_capita: 0.37545<br />latam: FALSE","happiness_score: 4.876<br />economy_gdp_per_capita: 0.59066<br />latam: FALSE","happiness_score: 4.874<br />economy_gdp_per_capita: 0.82819<br />latam: FALSE","happiness_score: 4.867<br />economy_gdp_per_capita: 0.71206<br />latam: FALSE","happiness_score: 4.857<br />economy_gdp_per_capita: 1.15406<br />latam: FALSE","happiness_score: 4.839<br />economy_gdp_per_capita: 1.02564<br />latam: FALSE","happiness_score: 4.800<br />economy_gdp_per_capita: 1.12094<br />latam: FALSE","happiness_score: 4.786<br />economy_gdp_per_capita: 0.39047<br />latam: FALSE","happiness_score: 4.739<br />economy_gdp_per_capita: 0.88113<br />latam: FALSE","happiness_score: 4.715<br />economy_gdp_per_capita: 0.59867<br />latam: FALSE","happiness_score: 4.694<br />economy_gdp_per_capita: 0.39753<br />latam: FALSE","happiness_score: 4.686<br />economy_gdp_per_capita: 1.00880<br />latam: FALSE","happiness_score: 4.681<br />economy_gdp_per_capita: 0.79907<br />latam: FALSE","happiness_score: 4.677<br />economy_gdp_per_capita: 0.98549<br />latam: FALSE","happiness_score: 4.642<br />economy_gdp_per_capita: 0.92049<br />latam: FALSE","happiness_score: 4.633<br />economy_gdp_per_capita: 0.54558<br />latam: FALSE","happiness_score: 4.610<br />economy_gdp_per_capita: 0.27100<br />latam: FALSE","happiness_score: 4.571<br />economy_gdp_per_capita: 0.07120<br />latam: FALSE","happiness_score: 4.565<br />economy_gdp_per_capita: 0.64499<br />latam: FALSE","happiness_score: 4.550<br />economy_gdp_per_capita: 0.52107<br />latam: FALSE","happiness_score: 4.517<br />economy_gdp_per_capita: 0.00000<br />latam: FALSE","happiness_score: 4.514<br />economy_gdp_per_capita: 0.35997<br />latam: FALSE","happiness_score: 4.512<br />economy_gdp_per_capita: 0.19073<br />latam: FALSE","happiness_score: 4.507<br />economy_gdp_per_capita: 0.33024<br />latam: FALSE","happiness_score: 4.436<br />economy_gdp_per_capita: 0.45407<br />latam: FALSE","happiness_score: 4.419<br />economy_gdp_per_capita: 0.36471<br />latam: FALSE","happiness_score: 4.369<br />economy_gdp_per_capita: 0.44025<br />latam: FALSE","happiness_score: 4.350<br />economy_gdp_per_capita: 0.76821<br />latam: FALSE","happiness_score: 4.332<br />economy_gdp_per_capita: 0.99355<br />latam: FALSE","happiness_score: 4.307<br />economy_gdp_per_capita: 0.27108<br />latam: FALSE","happiness_score: 4.297<br />economy_gdp_per_capita: 0.74190<br />latam: FALSE","happiness_score: 4.292<br />economy_gdp_per_capita: 0.01604<br />latam: FALSE","happiness_score: 4.271<br />economy_gdp_per_capita: 0.83524<br />latam: FALSE","happiness_score: 4.252<br />economy_gdp_per_capita: 0.42250<br />latam: FALSE","happiness_score: 4.218<br />economy_gdp_per_capita: 1.01216<br />latam: FALSE","happiness_score: 4.194<br />economy_gdp_per_capita: 0.88180<br />latam: FALSE","happiness_score: 4.077<br />economy_gdp_per_capita: 0.54649<br />latam: FALSE","happiness_score: 4.033<br />economy_gdp_per_capita: 0.75778<br />latam: FALSE","happiness_score: 3.995<br />economy_gdp_per_capita: 0.26074<br />latam: FALSE","happiness_score: 3.989<br />economy_gdp_per_capita: 0.67866<br />latam: FALSE","happiness_score: 3.956<br />economy_gdp_per_capita: 0.23906<br />latam: FALSE","happiness_score: 3.931<br />economy_gdp_per_capita: 0.21102<br />latam: FALSE","happiness_score: 3.904<br />economy_gdp_per_capita: 0.36498<br />latam: FALSE","happiness_score: 3.896<br />economy_gdp_per_capita: 1.06024<br />latam: FALSE","happiness_score: 3.845<br />economy_gdp_per_capita: 0.06940<br />latam: FALSE","happiness_score: 3.819<br />economy_gdp_per_capita: 0.46038<br />latam: FALSE","happiness_score: 3.781<br />economy_gdp_per_capita: 0.28520<br />latam: FALSE","happiness_score: 3.681<br />economy_gdp_per_capita: 0.20824<br />latam: FALSE","happiness_score: 3.678<br />economy_gdp_per_capita: 0.07850<br />latam: FALSE","happiness_score: 3.667<br />economy_gdp_per_capita: 0.34193<br />latam: FALSE","happiness_score: 3.656<br />economy_gdp_per_capita: 0.17417<br />latam: FALSE","happiness_score: 3.655<br />economy_gdp_per_capita: 0.46534<br />latam: FALSE","happiness_score: 3.587<br />economy_gdp_per_capita: 0.25812<br />latam: FALSE","happiness_score: 3.575<br />economy_gdp_per_capita: 0.31982<br />latam: FALSE","happiness_score: 3.465<br />economy_gdp_per_capita: 0.22208<br />latam: FALSE","happiness_score: 3.340<br />economy_gdp_per_capita: 0.28665<br />latam: FALSE","happiness_score: 3.006<br />economy_gdp_per_capita: 0.66320<br />latam: FALSE","happiness_score: 2.905<br />economy_gdp_per_capita: 0.01530<br />latam: FALSE","happiness_score: 2.839<br />economy_gdp_per_capita: 0.20868<br />latam: FALSE"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"FALSE","legendgroup":"FALSE","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[7.226,7.1870000000000003,6.9829999999999997,6.8099999999999996,6.7859999999999996,6.6699999999999999,6.5739999999999998,6.4850000000000003,6.4770000000000003,6.2690000000000001,6.1680000000000001,6.1299999999999999,6.1230000000000002,5.9749999999999996,5.8899999999999997,5.8780000000000001,5.8280000000000003,5.8239999999999998,5.7089999999999996,4.8849999999999998,4.7880000000000003,4.5179999999999998],"y":[0.95577999999999996,1.02054,0.98124,1.0442400000000001,1.0635300000000001,1.1071500000000001,1.0535099999999999,1.06166,0.91861000000000004,0.99534,1.21183,0.76454,0.74553000000000003,0.86402000000000001,0.68132999999999999,0.75985000000000003,0.59325000000000006,0.90019000000000005,0.81037999999999999,0.89537,0.59531999999999996,0.26673000000000002],"text":["happiness_score: 7.226<br />economy_gdp_per_capita: 0.95578<br />latam:  TRUE","happiness_score: 7.187<br />economy_gdp_per_capita: 1.02054<br />latam:  TRUE","happiness_score: 6.983<br />economy_gdp_per_capita: 0.98124<br />latam:  TRUE","happiness_score: 6.810<br />economy_gdp_per_capita: 1.04424<br />latam:  TRUE","happiness_score: 6.786<br />economy_gdp_per_capita: 1.06353<br />latam:  TRUE","happiness_score: 6.670<br />economy_gdp_per_capita: 1.10715<br />latam:  TRUE","happiness_score: 6.574<br />economy_gdp_per_capita: 1.05351<br />latam:  TRUE","happiness_score: 6.485<br />economy_gdp_per_capita: 1.06166<br />latam:  TRUE","happiness_score: 6.477<br />economy_gdp_per_capita: 0.91861<br />latam:  TRUE","happiness_score: 6.269<br />economy_gdp_per_capita: 0.99534<br />latam:  TRUE","happiness_score: 6.168<br />economy_gdp_per_capita: 1.21183<br />latam:  TRUE","happiness_score: 6.130<br />economy_gdp_per_capita: 0.76454<br />latam:  TRUE","happiness_score: 6.123<br />economy_gdp_per_capita: 0.74553<br />latam:  TRUE","happiness_score: 5.975<br />economy_gdp_per_capita: 0.86402<br />latam:  TRUE","happiness_score: 5.890<br />economy_gdp_per_capita: 0.68133<br />latam:  TRUE","happiness_score: 5.878<br />economy_gdp_per_capita: 0.75985<br />latam:  TRUE","happiness_score: 5.828<br />economy_gdp_per_capita: 0.59325<br />latam:  TRUE","happiness_score: 5.824<br />economy_gdp_per_capita: 0.90019<br />latam:  TRUE","happiness_score: 5.709<br />economy_gdp_per_capita: 0.81038<br />latam:  TRUE","happiness_score: 4.885<br />economy_gdp_per_capita: 0.89537<br />latam:  TRUE","happiness_score: 4.788<br />economy_gdp_per_capita: 0.59532<br />latam:  TRUE","happiness_score: 4.518<br />economy_gdp_per_capita: 0.26673<br />latam:  TRUE"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"TRUE","legendgroup":"TRUE","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":46.31963470319635,"r":7.3059360730593621,"b":42.739726027397268,"l":43.105022831050235},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Happiness Score vs GDP per Capita, 2015","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2.6015999999999999,7.8243999999999998],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Happiness Score","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.084521000000000013,1.7749410000000001],"tickmode":"array","ticktext":["0.0","0.5","1.0","1.5"],"tickvals":[0,0.5,1,1.5],"categoryorder":"array","categoryarray":["0.0","0.5","1.0","1.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"GDP per Capita","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Country in Latin America<br />and the Caribbean","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"orientation":"h","x":0.40000000000000002,"y":-0.20000000000000001},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"22bc21629e":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"22bc21629e","visdat":{"22bc21629e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 ]
 
 ]
@@ -1288,10 +1372,10 @@ exclude: true
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"highlightStyle": "github",
-"highlightLines": true
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "highlightStyle": "github",
+  "highlightLines": true
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
