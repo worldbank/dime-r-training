@@ -1,8 +1,8 @@
 ---
 title: "Session 3: Data Wrangling"
 subtitle: "R for Stata Users"
-author: "Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Maria Reyes Retana, Rony Rodriguez Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2024"
+author: "DIME Analytics"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> April 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -98,28 +98,22 @@ name: intro
 .panelset[
 
 .panel[.panel-name[If You Created an RStudio Project in Session 2]
-1. Go to the `dime-r-training-mar2024` folder that you created yesterday, and open the `dime-r-training-mar2024` R project that you created there.
+1. Go to the `dime-r-training-main` folder that you created yesterday, and open the `dime-r-training-main` R project that you created there.
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
 
- 1. Open RStudio.
-
- 2. Type in the following lines, replacing “YOURFILEPATHHERE” (use forward slashes only: "/") with a file path where the file path where you will place this R project. 
-
-```{r, eval=FALSE}
+1. Copy/paste the following code into a new RStudio script:
+```{r, eval = FALSE}
 install.packages("usethis")
 library(usethis)
-usethis::use_course(
+usethis::use_zip(
     "https://github.com/worldbank/dime-r-training/archive/main.zip",
-    destdir = "YOURFILEPATHHERE"
+    cleanup = TRUE
 )
 ```
 
- 3\. In the console, type in the requisite number to delete the .zip file (we don't need it anymore)
-
- 4\. A new RStudio environment will open. Use this for the session today. 
-  
+2\. A new RStudio environment will open. Use this for the session today.
   
 ]
 
@@ -157,27 +151,50 @@ Therefore, messy data is any other arrangement of the data.
 
 In this session, you'll be introduced to some basic concepts of data cleaning in R. We will cover: 
 
-1. Exploring a dataset;
-2. Creating new variables;
-3. Filtering and subsetting datasets;
-4. Merging datasets;
-5. Dealing with factor variables;
-6. Saving data.
+### 🏗️ What We’ll Cover:
 
-> There are many other tasks that we usually perform as part of data cleaning that are beyond the scope of this session.
+✅ **Exploring a dataset** 
+
+✅ **Creating new variables** 
+
+✅ **Filtering & subsetting** 
+
+✅ **Merging datasets** 
+
+✅ **Handling factor variables** 
+
+✅ **Saving your cleaned data**
 
 
-### Before we start, let's make sure we are ready: 
-
-1. Start a fresh RStudio session.
-2. Open the RStudio project you created yesterday.
-3. Create a new R Script called `exercises-session3.R`
+> 🔍 **Note:** Data cleaning involves many more tasks beyond this session’s scope, but these core techniques will give you a solid foundation! 🚀 
 
 ---
 
-# Introduction: Packages
+# Introduction
 
-### Another important aspect to consider is R packages. Consider the following: 
+### ✅ Getting Ready  
+
+Before we begin, let's make sure everything is set up properly:  
+
+1️⃣ **Start a fresh RStudio session** – Close and reopen RStudio to avoid any conflicts.
+
+2️⃣ **Open your project** – Navigate to the **RStudio project** you created yesterday. 
+
+3️⃣ **Create a new script** – In RStudio, go to:  
+   - `File` ➡️ `New File` ➡️ `R Script`  
+   - Name it **`exercises-session3.R`**  
+   
+Now, let’s dive into data cleaning! 💡📊
+
+---
+
+# 📦 Introduction: R Packages  
+
+One of R’s greatest strengths is its **community-driven ecosystem of packages**.  
+
+R is so powerful because thousands of people worldwide contribute by developing and sharing **useful packages**. 
+
+> 💡 **Think of R packages like apps for your phone**—they add new features and functionalities to R!  
 
 .pull-left[
 
@@ -270,25 +287,42 @@ knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/stats-il
 
 ---
 
-# RECAP: Loading a dataset in R
+# 🔄 RECAP: Loading a Dataset in R  
 
-Before we start wrangling our data, let's read our dataset. In R, we can use the `read.csv` function from Base R, or `read_csv` from the `readr` package if we want to load a CSV file. For this exercise, we are going to use the World Happiness Report (2015-2018)
+Before we start working with our data, let’s first load our dataset.  
 
-.exercise[
+In R, we can use:  
+- **`read.csv()`** (Base R)  
+- **`read_csv()`** (from the `readr` package) – preferred for faster and more efficient reading of CSV files.  
 
-**Exercise 1:** Loading data using the `here` package:
+For this exercise, we will use the **World Happiness Report (WHR) datasets from 2015-2018**.  
 
-Use either of the functions mentioned above and load the three WHR datasets from the `DataWork/DataSets/Raw/Un WHR` folder. Use the following notation for each dataset: `whrYY`, e.g. `WHR2015.csv` becomes the `whr15` dataset. 
+---
 
-]
+# 🔄 RECAP: Loading a Dataset in R
 
-`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`
+.exercise[  
 
---
+**Exercise 1:** Loading data using the `here` package  
 
-.solution[
+Load the three WHR datasets from the folder:  
 
-**Solution:**
+📂 `DataWork/DataSets/Raw/Un WHR`  
+
+Name each dataset using the format **`whrYY`**, where `YY` represents the last two digits of the year. For example, **`WHR2015.csv`** should be named **`whr15`**.  
+
+]  
+
+`r countdown(minutes = 0, seconds = 45, left = 0, font_size = "2em")`  
+
+---
+
+# 🔄 RECAP: Loading a Dataset in R
+
+
+.solution[  
+
+**Solution:**  
 
 ```{r readcsv, message = FALSE}
 whr15 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2015.csv")) 
@@ -299,15 +333,16 @@ whr17 <- read_csv(here("DataWork", "DataSets", "Raw", "Un WHR", "WHR2017.csv"))
 
 ---
 
-# The pipe %>% (or |>) operator
+# 🔄 RECAP: The pipe %>% (or |>) operator
 
-* "Piping" in R can be seen as "**chaining**." This means that we are invoking multiple method calls. 
-* Every time you have invoked a method (a function) this return an object that then is going to be used in the next pipe.
+* "Piping" in R can be seen as "**chaining**" functions together.  
+* Think of %>% as the words "...and then..."
 
 .pull-left[
+### ✅ Using the Pipe 
 
 ```{r, eval = FALSE}
-rony %>% 
+Mer %>% 
   wake_up(time = "5:30") %>% 
   get_out_of_bed() %>% 
   do_exercise() %>% 
@@ -320,6 +355,7 @@ rony %>%
 ]
 
 .pull-right[
+### ❌ Without the Pipe
 
 ```{r, eval = FALSE}
   work(
@@ -335,8 +371,7 @@ rony %>%
           )
         ), meal = "breakfast", coffee = TRUE
       )
-    ), effort = "minimum"
-  )
+    ), effort = "minimum")
 
 ```
 
@@ -344,7 +379,7 @@ rony %>%
 
 ---
 
-# The pipe %>% operator
+# 🔄 RECAP: The pipe %>% operator
 
 From R for Data Science by Wickham & Grolemund:
 
@@ -365,11 +400,12 @@ whr15|> mean(variable, na.rm = T)
 ```
 
 ---
-# Janitor package: The clean_names() function
+# 📦 The `janitor` Package: Clean Column Names Easily
 
-The `clean_names()` function helps us when our variables names are pretty bad. For example, if we have a variable that is called **`GDP_per_CApita_2015`**, the `clean_names()` function will help us fix those messy names. 
+- Sometimes datasets have **messy column names** (e.g., inconsistent capitalization, spaces, or special characters).  
+- The **`clean_names()`** function (from the `janitor` package) automatically **fixes** variable names into a **consistent, lowercase, and snake_case format**.  
 
-> **Tip**: Pipe the `clean_names()` function after you load a dataset.
+> **Tip**: You can pipe `clean_names()` right after loading a dataset!
 
 ```{r clean_names, message = FALSE}
 whr15 <- whr15 %>% 
@@ -380,7 +416,7 @@ whr17 <- whr17 %>%
   clean_names()
 ```
 
-However, if we want to to rename our variable manually, we could use: 
+If we want to to rename our variable manually (not recommended), we could use: 
 
 ```{r manual_names, eval=FALSE}
 
@@ -401,22 +437,41 @@ name: exploring
 
 ---
 
-# Exploring a data set
+# 🔍 **Exploring a Dataset: First Steps in Data Wrangling**
 
-These are some useful functions from base R: 
+### 📌 Why is this important?
+Before analyzing or wrangling data, we need to **understand** what we’re working with!  
+Here are some **essential functions** to explore datasets in R.
 
-* `View()`: open the data set.
-* `class()`: reports object type of type of data stored.
-* `dim()`: reports the size of each one of an object's dimension.
-* `names()`: returns the variable names of a dataset.
-* `str()`: general information on an R object.
-* `summary()`: summary information about the variables in a data frame.
-* `head()`: shows the first few observations in the dataset.
-* `tail()`: shows the last few observations in the dataset.
+### 🛠 **Exploring Data with Base R**
+.pull-left[
+These functions help you **inspect your dataset**:
 
-Some other useful functions from the tidyverse:
+```r
+View(data)      # Open the dataset in a viewer
+class(data)     # Object type (data frame, list, etc.)
+dim(data)       # Number of rows & columns
+names(data)     # Variable names
+str(data)       # Structure of the dataset
+summary(data)   # Summary statistics
+head(data)      # First few observations
+tail(data)      # Last few observations
+```
+]
 
-* `glimpse()`: get a glimpse of your data.
+.pull-right[
+
+### 🏗 Exploring Data with the Tidyverse
+If you're using the tidyverse, this function is super useful:
+
+```r
+glimpse(data)   # Compact overview of dataset
+```
+✔ More readable than str()
+✔ Displays variable types and first few values
+]
+
+
 
 ---
 
@@ -502,35 +557,15 @@ n_distinct(whr15$region, na.rm = TRUE)
 
 ---
 
-# Dimensions of your data
-
-We can also test whether the number of rows is equal to the number of distinct values in a specific variable as follows:
-
-
-```{r}
-nrow(whr15)
-```
-
---
-
-We can use the two functions (`nrow` and `n_distinct`) together to test if their result is the same.
-
-```{r}
-n_distinct(whr15$country, na.rm = TRUE) == nrow(whr15)
-
-n_distinct(whr16$country, na.rm = TRUE) == nrow(whr16)
-
-n_distinct(whr17$country, na.rm = TRUE) == nrow(whr17)
-```
-
----
-
 class: inverse, center, middle
 name: wrangling
 
 # Wrangling your data
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+```{r echo = FALSE, out.width="80%"}
+knitr::include_graphics("img/data_cowboy.png")
+```
 
 ---
 
@@ -550,7 +585,9 @@ name: wrangling
 
 ---
 
-# Wrangling your data
+# Wrangling your data: dplyr
+
+.pull-left[
 
 For data wrangling you will frequently use one tidyverse package called dplyr. 
 
@@ -558,16 +595,26 @@ For data wrangling you will frequently use one tidyverse package called dplyr.
 
 * You are ***highly encouraged*** to read through [Hadley Wickham's chapter](https://r4ds.had.co.nz/transform.html). It's clear and concise.
 
---
-
 * Also check out this great "cheatsheet" [here](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf).
 
---
+* During this session, I will show you the most popular functions of the `dplyr` package.
+]
 
+.pull-right[
 
-* The package is organized around a set of **verbs**, i.e. *actions* to be taken.
+```{r echo = FALSE, out.width="90%"}
+knitr::include_graphics("img/dplyr.png")
+```
 
-* We operate on `data.frames` or `tibbles` (*nicer looking* data.frames.)
+]
+
+---
+
+# Wrangling your data: dplyr
+
+* The package  ` dplyr` (and the rest of the [Tidyverse](https://www.tidyverse.org/)) is organized around a set of **verbs**, i.e. *actions* to be taken.
+
+* We operate on `data.frames`.
 
 --
 
@@ -584,7 +631,16 @@ $$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %>% }}
 
 ---
 
-# dplyr::filter
+# Filtering and sorting (dplyr::filter)
+
+```{r echo = FALSE, out.width="85%"}
+knitr::include_graphics("img/filter.png")
+```
+
+
+---
+
+# Filtering and sorting dplyr::filter
 
 - The `filter` function is used to subset rows in a dataset. 
 
@@ -595,7 +651,7 @@ whr15 %>% filter(region == "Western Europe")
 
 ---
 
-# dplyr::filter
+# Filtering and sorting dplyr::filter
 
 .exercise[
 **Exercise 3:** Use `filter()` to extract rows in these regions: (1) Eastern Asia and (2) North America. Hint: use the **or** operator (`|`): 
@@ -626,15 +682,7 @@ whr15 %>%
 
 ---
 
-# dplyr::filter
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
-
-# dplyr::filter missing cases
+# Filtering and sorting missing cases
 
 If you want to remove (or identify) missing cases for a specific variable, you can use `is.na()`. 
 
@@ -660,7 +708,7 @@ The observations with missing values for the variable VAR.
 
 ---
 
-# dplyr::filter missing cases
+# Filtering and sorting missing cases
 
 Let's try filtering the `whr15` data. Let's keep those observations that have information per region, i.e., no missing values.
 
@@ -676,25 +724,44 @@ whr15 %>%
 
 ---
 
-# dplyr::filter  missing cases
+# Filtering
 
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
+We can use the `%in%` operator to test if values belong to a vector. To **filter out** values, we use the **negation** `!%in%`.
+
+For instance, if we want to exclude the regions "Eastern Asia" and "North America":
+
+```{r}
+whr15 %>% 
+  filter(!region %in% c("Eastern Asia", "North America")) %>%  #<<
+  head(5)
 ```
 
----
-class: inverse, center, middle
-name: variables
-
-# Creating new variables
-
-<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+This filters the data to show only rows where `region` is **not** in the specified list.
 
 ---
 
-# Creating new variables
+# Creating new variables (dplyr::mutate)
 
-We use `dplyr::mutate()` to create new variables. For example:
+```{r echo = FALSE, out.width="75%"}
+knitr::include_graphics("img/mutate.png")
+```
+
+
+
+---
+
+# Creating new variables (dplyr::mutate)
+
+- `mutate` will take a statement like this:
+
+
+```{r, eval=FALSE}
+mutate(variable_name = some_calculation)
+```
+
+- And attach variable_name at the end of the dataset.
+
+For example:
 
 ```{r mut, eval=FALSE}
 whr15 %>%
@@ -740,7 +807,20 @@ whr15 %>%
 
 ---
 
-# Creating variables by groups
+# Creating variables by groups group_by() and summarize()
+
+We use this when we want to aggregate your data (by groups).
+
+This is one of the most commons operations. Sometimes we want to calculate statistics by groups 
+
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/group_by.png")
+```
+
+
+---
+
+# Creating variables by groups group_by() and summarize()
 
 In R, we can use `dplyr::group_by()` before we mutate to group an estimation. For example, we are going to pipe the following functions:
 
@@ -865,14 +945,6 @@ whr17 <- whr17 %>%
 ]
 
 ---
-
-# Creating variables
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
-
----
 class: inverse, center, middle
 name: bind
 
@@ -919,14 +991,6 @@ bind_rows(whr15, whr16, whr17)
 * One of the problems with binding rows like this is that, sometimes, some columns are not *fully* compatible.
 
 ]
-
----
-
-# Appending dataframes
-
-```{r echo=FALSE}
-knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
-```
 
 ---
 
@@ -1118,6 +1182,25 @@ You can also check [this chapter](https://r4ds.hadley.nz/joins.html), which is v
 
 ---
 
+# More wrangling operations
+
+These were two examples we chose to show different possible data wrangling operations. A summary of these and other common operations are:
+
+| Operation | Function in `dplyr` |
+| --------- | ------------------- |
+| Subset columns | `select()`|
+| Subset rows (based on condition) | `filter()` |
+| Create new columns | `mutate()` |
+| Create new columns based on condition | `mutate()` and `case_when()` |
+| Create new rows | `add_row()` |
+| Merge dataframes | `inner_join()`, `left_join()`, `right_join()`, `full_join()` |
+| Append dataframes | `bind_rows()` |
+| Deduplicate | `distinct()` |
+| Collapse and create summary indicators | `group_by()`, `summarize()` |
+| Pass a result as the first argument for the next function | `%>%` (operator, not function (**tomorrow**))|
+
+---
+
 class: inverse, center, middle
 name: saving
 
@@ -1201,9 +1284,14 @@ write_rds(
 ```
 
 ---
-class: inverse, center, middle
 
 # And that's it for this session. Join us tomorrow!! 
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+```{r echo = FALSE, out.width="40%"}
+knitr::include_graphics("img/r.png")
+```
+
 
 ---
 class: inverse, center, middle
@@ -1462,14 +1550,28 @@ whr_panel_wide %>%
 ```
 ] 
 ]
+---
+
+
+# Useful links 
+
+- **R for Data Science** by Hadley Wickham and Garrett Grolemund  
+  - Comprehensive introduction to data wrangling and visualization.  
+  - [Read it online for free](https://r4ds.had.co.nz/).  
+
+- **Tidyverse Cookbook**  
+  - Practical solutions for common data wrangling tasks.  
+  - [Tidyverse Cookbook GitHub](https://github.com/Tidyverse/tidyverse-cookbook).
+  
+- **Tidyverse Cheat Sheets**  
+  - Official cheat sheets for `dplyr`, `tidyr`, and other Tidyverse packages.  
+  - [Tidyverse Resources](https://www.tidyverse.org/resources/).  
 
 ---
 class: inverse, center, middle
 
-# Thank you!!
+# Thanks! // ¡Gracias! 
 
----
-exclude: true
 
 ```{R, pdfs, include = F, eval = F}
 pagedown::chrome_print("03-data-wrangling.html", output = "03-data-wrangling.pdf")
