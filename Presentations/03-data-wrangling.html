@@ -84,29 +84,23 @@ name: intro
 .panelset[
 
 .panel[.panel-name[If You Created an RStudio Project in Session 2]
-1. Go to the `dime-r-training-mar2024` folder that you created yesterday, and open the `dime-r-training-mar2024` R project that you created there.
+1. Go to the `dime-r-training-main` folder that you created yesterday, and open the `dime-r-training-main` R project that you created there.
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
 
- 1. Open RStudio.
-
- 2. Type in the following lines, replacing “YOURFILEPATHHERE” (use forward slashes only: "/") with a file path where the file path where you will place this R project. 
-
+1. Copy/paste the following code into a new RStudio script:
 
 ``` r
 install.packages("usethis")
 library(usethis)
-usethis::use_course(
+usethis::use_zip(
     "https://github.com/worldbank/dime-r-training/archive/main.zip",
-    destdir = "YOURFILEPATHHERE"
+    cleanup = TRUE
 )
 ```
 
- 3\. In the console, type in the requisite number to delete the .zip file (we don't need it anymore)
-
- 4\. A new RStudio environment will open. Use this for the session today. 
-  
+2\. A new RStudio environment will open. Use this for the session today.
   
 ]
 
@@ -303,7 +297,7 @@ Name each dataset using the format **`whrYY`**, where `YY` represents the last t
 
 ]  
 
-<div class="countdown" id="timer_56d58181" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_e47ab853" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>  
@@ -580,7 +574,7 @@ The `n_distinct` function allows us to count the number of unique values of a va
 2. Region
 ]
 
-<div class="countdown" id="timer_738e6594" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_368c40c9" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -726,7 +720,7 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 ]
 
-<div class="countdown" id="timer_a697e4c6" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_dbe750c0" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -810,6 +804,38 @@ whr15 %&gt;%
 
 &gt; Notice that we are negating the function, i.e., `!is.na()`
 &lt;br&gt; In case we want to keep the observations that contains missing information we will only use `is.na()`. 
+
+---
+
+# Filtering
+
+We can use the `%in%` operator to test if values belong to a vector. To **filter out** values, we use the **negation** `!%in%`.
+
+For instance, if we want to exclude the regions "Eastern Asia" and "North America":
+
+
+``` r
+whr15 %&gt;% 
+* filter(!region %in% c("Eastern Asia", "North America")) %&gt;%
+  head(5)
+```
+
+```
+## # A tibble: 5 × 12
+##   country     region         happiness_rank happiness_score standard_error
+##   &lt;chr&gt;       &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+## 1 Switzerland Western Europe              1            7.59         0.0341
+## 2 Iceland     Western Europe              2            7.56         0.0488
+## 3 Denmark     Western Europe              3            7.53         0.0333
+## 4 Norway      Western Europe              4            7.52         0.0388
+## 5 Finland     Western Europe              6            7.41         0.0314
+## # ℹ 7 more variables: economy_gdp_per_capita &lt;dbl&gt;, family &lt;dbl&gt;,
+## #   health_life_expectancy &lt;dbl&gt;, freedom &lt;dbl&gt;,
+## #   trust_government_corruption &lt;dbl&gt;, generosity &lt;dbl&gt;,
+## #   dystopia_residual &lt;dbl&gt;
+```
+
+This filters the data to show only rows where `region` is **not** in the specified list.
 
 ---
 
@@ -999,7 +1025,7 @@ whr15 %&gt;%
 
 **Exercise 4:** Create a variable called `year` that equals to the year of each dataframe using the `mutate()`. Remember to assign it to the same dataframe.
 
-<div class="countdown" id="timer_9c0fba57" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_38a46e28" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1049,7 +1075,7 @@ bind_rows(df1, df2, df3) # The dplyr function, making some improvements to base 
 .exercise[
 **Exercise 5:** Append data sets. Use the function `bind_rows` to append the three WHR datasets:
 
-<div class="countdown" id="timer_e687f736" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
+<div class="countdown" id="timer_218de397" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -1093,7 +1119,7 @@ bind_rows(whr15, whr16, whr17)
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
 
-<div class="countdown" id="timer_19273fba" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_a0254f60" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -1134,7 +1160,7 @@ We can use the `dplyr::left_join()` function to merge two dataframes. The functi
 
 ]
 
-<div class="countdown" id="timer_167db7d2" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_9806dcb2" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1185,7 +1211,7 @@ Look at the `everything()` function. It takes all the variables from the datafra
 
 ]
 
-<div class="countdown" id="timer_0da9cb2d" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_39eadade" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1247,7 +1273,7 @@ Finally, let's keep those relevant variables first and bind those rows.
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
 * Use `rbind()`
 
-<div class="countdown" id="timer_39fc5e6b" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_a1f2ea8b" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1339,7 +1365,7 @@ The function takes the following syntax:
 * Use `write_csv()`
 * Use `here()`
 
-<div class="countdown" id="timer_a6645b59" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_3fb90e93" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1765,10 +1791,10 @@ class: inverse, center, middle
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"ratio": "16:9",
-"highlightStyle": "github",
-"highlightLines": true,
-"countIncrementalSlides": false
+  "ratio": "16:9",
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
