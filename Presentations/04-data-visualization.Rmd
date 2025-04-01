@@ -1,8 +1,8 @@
 ---
 title: "Session 4: Data Visualization"
-subtitle: "R for Stata Users"
+subtitle: "R for Data Analysis"
 author: "DIME Analytics"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> April 2025"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
