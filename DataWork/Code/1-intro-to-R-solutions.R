@@ -4,6 +4,7 @@
 
 ## Exercise 1 ====
 whr <- read.csv("/path/to/data/file")
+View(whr)
 # note that this was executed through point-and-click
 # during the actual session
 
@@ -23,11 +24,11 @@ head(whr)
 
 ## Exercise 4 ====
 # Create vector of strings
-str_vec <- c("R", "Python", "SAS", "Excel", "Stata")
+str_vec <- c("R", "Python", "Excel", "Stata")
 # Create string "scalar"
 str_scalar <- "can be an option to"
 # Concatenation
-paste(str_vec[1], str_scalar, str_vec[5])
+paste(str_vec[1], str_scalar, str_vec[4])
 
 ## Exercise 5 ====
 # Create boolean vector
