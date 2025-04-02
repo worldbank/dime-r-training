@@ -78,21 +78,13 @@ name: introduction
 
 # What this session is about
 
-* In the first session, you learned how to work with R
-
-* You are probably eager to start programming in R by now
+* In the first session, you learned how to work with R. You are probably eager to start programming in R by now
 
 * But before you start, we recommend learning how to write R code that will be __reproducible, efficient, intelligible and easy to navigate__
 
-* Indeed, that's what this session is about!
+* Today, we will cover common coding practices in R so that you can make __the most efficient use__ for it
 
----
-
-# What this session is about
-
-* We will cover common coding practices in R so that you can make __the most efficient use__ for it
-
-* We will also discuss some styling conventions to make your code __readable and reproducible__
+* We will also discuss some styling conventions to make your code __readable and clear__
 
 * This will give you a solid foundation to write code in R and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
 
@@ -113,7 +105,7 @@ name: initial-settings
 
 * Notice two things:
 
-  1. Your environment is *probably* empty (it's OK if it's not)
+  1. Your environment is *probably* empty (it's okay if it's not)
 
 &lt;img src="img/empty_environment.png" width="60%" style="display: block; margin: auto;" /&gt;
 
@@ -163,7 +155,7 @@ Have you ever seen these lines of code before?
 
 * The equivalent of `set more off` is the default
 
-* The equivalent of `clear` is not always default setting, but we'll make sure it is set in exercise 1
+* The equivalent of `clear` in R is `rm(list = ls())`, which removes all the objects in the environment. It is not always default setting, but we'll make sure it is set in exercise 1
 
 ---
 
@@ -215,10 +207,17 @@ name: file-paths
 
 &lt;img src="img/stata_cd.png" width="35%" style="display: block; margin: auto;" /&gt;
 
-* The direct equivalent to `cd` in R is this command:
+* The command to print the current working directory in R is:
 
 
-``` r
+```r
+getwd()
+```
+
+* And the direct equivalent to `cd` in R is this command:
+
+
+```r
 setwd("your/path")
 ```
 
@@ -290,7 +289,7 @@ Now that we're working in a project, we can use the library `here` to define any
 - Load `here`
 
 
-``` r
+```r
 install.packages("here") # install first if you don't have it
 library(here)
 ```
@@ -300,7 +299,7 @@ library(here)
   + For example, to load a `csv` file located in: `C:/WBG/project-root/data/raw/data-file.csv`, you should use:
   
 
-``` r
+```r
 path &lt;- here("data", "raw", "data-file.csv")
 df   &lt;- read.csv(path)
 ```
@@ -323,13 +322,13 @@ df   &lt;- read.csv(path)
 1. In the new script, load `here` and read the `.csv` file in `DataWork/DataSets/Final/whr_panel.csv` using `here()`
 
   + Use the function `read.csv()` to load the file. The argument for `read.csv()` is the result of `here()`
-  + Remember to assign the dataframe you're reading to an object. You can call it `whr` as we did yesterday
+  + Remember to assign the dataframe you're reading to an object with `&lt;-`. You can call it `whr` as we did yesterday
+  + If you get an error saying `could not find function "here"`, then load the library first with `library(here)`
 
 ]
 
 
-``` r
-library(here)
+```r
 whr &lt;- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 ```
 
@@ -379,7 +378,7 @@ In a nutshell:
 * You can install packages with the command `install.packages()`.
 
 
-``` r
+```r
 # Installing a package
 install.packages("dplyr")
 ```
@@ -387,7 +386,7 @@ install.packages("dplyr")
 * You only have to install a package once, but you have to __load them every new session__ with `library()`
 
 
-``` r
+```r
 # Installing a package
 library(dplyr)
 ```
@@ -419,7 +418,7 @@ library(dplyr)
 __Note:__ There is probably no need to install `dplyr` and `purrr` as they are part of the meta-library `tidyverse`, which we asked to install before this course. If you didn't have the chance to install `tidyverse`, then first install `dplyr` and `purrr` with:
 
 
-``` r
+```r
 install.packages("dplyr")
 install.packages("purrr")
 ```
@@ -427,7 +426,7 @@ install.packages("purrr")
 And then just load them:
 
 
-``` r
+```r
 library(dplyr)
 library(purrr)
 ```
@@ -475,7 +474,7 @@ name: functions-inception
 # A function inside a function
 
 
-``` r
+```r
 # Print the summary of the logarithm of the happiness score
 
 ## The long way:
@@ -529,7 +528,7 @@ summary(log(whr$happiness_score))
 # Piping
 
 
-``` r
+```r
   # 1: Doing it the long way -----------------------------
   log_score &lt;- log(whr$happiness_score)
   mean(log_score)
@@ -562,7 +561,7 @@ Now that you now about the power of the pipes, use them wisely!
 
 - Many R coders use pipes and internet examples assume you know them
 
-- **We'll use pipes now in the next examples and exercises of the rest of this training**
+- **We'll use pipes from now on for some of the next examples and exercises of the rest of this training**
 ]
 
 .pull-right[
@@ -587,7 +586,7 @@ name: mapping-and-iterations
 * In R, the syntax of `for` loops is this:
 
 
-``` r
+```r
     for (number in 1:3) {
         print(number)
     }
@@ -631,10 +630,10 @@ name: mapping-and-iterations
 # Map
 
 
-``` r
+```r
 # Round the values of the following vector
 x &lt;- c(1.2, 2.5, 9.1, 5.8)
-x %&gt;% map(round) # Rounding the vector elements (same as map(x, round))
+map(x, round))   # Rounding the vector elements, same as x %&gt;% map(round)
 round(x)         # since R is vectorized, this also works
 ```
 
@@ -678,7 +677,7 @@ round(x)         # since R is vectorized, this also works
 - Create a toy dataframe of 50,000 columns and 400 observations using this code
 
 
-``` r
+```r
 df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 ```
 
@@ -686,7 +685,7 @@ df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 - Loop over every column to get the column means and store them in the vector
 
 
-``` r
+```r
 for (column in df) {
   ....
 }
@@ -706,7 +705,7 @@ for (column in df) {
 The solution is this:
 
 
-``` r
+```r
 df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 
 col_means_loop &lt;- c()
@@ -737,6 +736,26 @@ Hints:
   + Remember the syntax of `map()`: `map(X, function_name)`
   + The function name inside `map()` shouldn't have parentheses next to it (i.e.: `mean` instead of `mean()`)
 
+(the exercise solution is shown in the next slide)
+
+---
+
+# Map vs looping
+
+The solution is this:
+
+
+```r
+col_means_map &lt;- map(df, mean)
+```
+
+You can also do it with pipes:
+
+
+```r
+col_means_map &lt;- df %&gt;% map(mean)
+```
+
 ---
 
 # Map vs looping
@@ -744,7 +763,7 @@ Hints:
 Compare the syntax of the solutions of both exercises:
 
 
-``` r
+```r
 # Dataframe creation
 df &lt;- data.frame(replicate(50000, sample(1:100, 400, replace=TRUE)))
 
@@ -803,7 +822,7 @@ name: custom-functions
 # Custom functions
 
 
-``` r
+```r
   square &lt;- function(x) {
     y &lt;- x ^ 2
     return(y)
@@ -830,26 +849,21 @@ Create a function named `zscore` that standardizes the values of a vector.
 * Recall the syntax of custom functions in R:
 
 
-``` r
+```r
 function_name &lt;- function(input) {
-  
   output &lt;- operation(input)
-  
   return(output)
-
 }
 ```
 
 ]
-
-
 
 ---
 
 # Custom functions
 
 
-``` r
+```r
 zscore &lt;- function(x) {
     mean &lt;- mean(x, na.rm = TRUE)
     sd   &lt;- sd(x, na.rm = TRUE)
@@ -887,7 +901,7 @@ zscore &lt;- function(x) {
 # Custom functions
 
 
-``` r
+```r
 z_scores &lt;- whr %&gt;%
   select(health_life_expectancy, freedom) %&gt;%
   map(zscore)
@@ -973,13 +987,13 @@ https://r4ds.had.co.nz/workflow-projects.html
 * Other than `$`, we can also use double brackets to extract the column of a dataframe:
 
 
-``` r
+```r
 # With $:
 whr$year
 ```
 
 
-``` r
+```r
 # With [[]]:
 whr[["year"]] # Notice the use of double quotes
 ```
@@ -993,7 +1007,7 @@ What's the key difference between them?
 Well, `[[]]` lets us use other objects to refer to column names, while `$` doesn't
 
 
-``` r
+```r
 col_name &lt;- "year"
 head(whr$col_name) # this returns a NULL object because no column has the name "col_name" in whr
 ```
@@ -1007,7 +1021,7 @@ head(whr$col_name) # this returns a NULL object because no column has the name "
 ```
 
 
-``` r
+```r
 col_name &lt;- "year"
 head(whr[[col_name]])
 ```
@@ -1023,7 +1037,7 @@ head(whr[[col_name]])
 This difference is key because we can use `[[]]` to loop through column names, while this is not directly possible with `$`.
 
 
-``` r
+```r
 # Printing the first observation of every column of whr
 for (col in colnames(whr)) {
   whr[[col]] %&gt;%
@@ -1062,7 +1076,7 @@ for (col in colnames(whr)) {
 * The syntax of `sapply()` is:
 
 
-``` r
+```r
 sapply(X, FUN, ...)
 ```
 
@@ -1080,7 +1094,7 @@ sapply(X, FUN, ...)
 # Appendix - Apply
 
 
-``` r
+```r
     # A for loop in R
     for (number in c(1.2, 2.5)) {
       print(round(number))
@@ -1095,7 +1109,7 @@ sapply(X, FUN, ...)
 # Appendix - Apply
 
 
-``` r
+```r
 # Printing the first observation of every column of whr
 for (col in names(whr)) {
   print(head(whr[[col]], 1))
@@ -1111,7 +1125,7 @@ sapply(whr, head, 1) # A more elegant and efficient option
 * A more general version of `sapply()` is the `apply()` function. This is its syntax:
 
 
-``` r
+```r
 apply(X, MARGIN, FUN, ...)
 ```
 
@@ -1128,7 +1142,7 @@ apply(X, MARGIN, FUN, ...)
 # Appendix - Apply
 
 
-``` r
+```r
 matrix &lt;- matrix(c(1, 24, 9, 6, 9, 4, 2, 74, 2), nrow = 3) # Defining a matrix
 apply(matrix, 1, mean) # row means
 apply(matrix, 2, mean) # column means
@@ -1156,7 +1170,7 @@ apply(matrix, 2, mean) # column means
 Solution: 
 
 
-``` r
+```r
 whr %&gt;%
   select(freedom, happiness_score) %&gt;%
   apply(1, max)
@@ -1169,7 +1183,7 @@ whr %&gt;%
 * To comment a line, write `#` as its first character
 
 
-``` r
+```r
 # This is a comment
 print("But this part is not")
 ```
@@ -1177,7 +1191,7 @@ print("But this part is not")
 * You can also add `#` halfway through a line to comment whatever comes after it
 
 
-``` r
+```r
 print("This part is not a comment") # And this is a comment
 ```
 
@@ -1225,7 +1239,7 @@ print("This part is not a comment") # And this is a comment
 # Appendix - Indentation
 
 
-``` r
+```r
 # Here's some code
 annualHappy_reg &lt;- aggregate(happy_score ~ year + region, data = whr, FUN = mean)
 ggplot(annualHappy_reg,aes(y = happy_score,x = as.factor(year), color = region, group = region)) +
@@ -1233,7 +1247,7 @@ geom_line() + geom_point()
 ```
 
 
-``` r
+```r
 # Here's the same code
 annualHappy_reg &lt;-
   aggregate(happiness_score ~ year + region,
@@ -1253,7 +1267,7 @@ geom_point()
 
 # Appendix - Indentation
 
-&lt;img src="02-intro-to-R-programming_files/figure-html/unnamed-chunk-61-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-to-R-programming_files/figure-html/unnamed-chunk-64-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1288,7 +1302,7 @@ geom_point()
 To see an example of how indenting works in RStudio, let's use an example with `map()`:
 
 
-``` r
+```r
 # An elegant "loop" in R
 map(c(1.2, 2.5, 9.1, 5.8), round)
 ```
@@ -1305,7 +1319,7 @@ map(c(1.2, 2.5, 9.1, 5.8), round)
 Note that RStudio formats the different arguments of the function differently:
 
 
-``` r
+```r
 # A much more elegant loop in R
 map(c(1.2,
       2.5,

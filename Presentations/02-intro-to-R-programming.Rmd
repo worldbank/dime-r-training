@@ -95,21 +95,13 @@ name: introduction
 
 # What this session is about
 
-* In the first session, you learned how to work with R
-
-* You are probably eager to start programming in R by now
+* In the first session, you learned how to work with R. You are probably eager to start programming in R by now
 
 * But before you start, we recommend learning how to write R code that will be __reproducible, efficient, intelligible and easy to navigate__
 
-* Indeed, that's what this session is about!
+* Today, we will cover common coding practices in R so that you can make __the most efficient use__ for it
 
----
-
-# What this session is about
-
-* We will cover common coding practices in R so that you can make __the most efficient use__ for it
-
-* We will also discuss some styling conventions to make your code __readable and reproducible__
+* We will also discuss some styling conventions to make your code __readable and clear__
 
 * This will give you a solid foundation to write code in R and hopefully you'll be able to skip some painful steps of the "getting-your-hands-dirty" learning approach
 
@@ -130,7 +122,7 @@ name: initial-settings
 
 * Notice two things:
 
-  1. Your environment is *probably* empty (it's OK if it's not)
+  1. Your environment is *probably* empty (it's okay if it's not)
 
 ```{r echo = FALSE, out.width = "60%"}
 knitr::include_graphics("img/empty_environment.png")
@@ -188,7 +180,7 @@ knitr::include_graphics("img/stataheader.jpg")
 
 * The equivalent of `set more off` is the default
 
-* The equivalent of `clear` is not always default setting, but we'll make sure it is set in exercise 1
+* The equivalent of `clear` in R is `rm(list = ls())`, which removes all the objects in the environment. It is not always default setting, but we'll make sure it is set in exercise 1
 
 ---
 
@@ -246,7 +238,13 @@ name: file-paths
 knitr::include_graphics("img/stata_cd.png")
 ```
 
-* The direct equivalent to `cd` in R is this command:
+* The command to print the current working directory in R is:
+
+```{r, eval=FALSE}
+getwd()
+```
+
+* And the direct equivalent to `cd` in R is this command:
 
 ```{r, eval=FALSE}
 setwd("your/path")
@@ -355,12 +353,13 @@ df   <- read.csv(path)
 1. In the new script, load `here` and read the `.csv` file in `DataWork/DataSets/Final/whr_panel.csv` using `here()`
 
   + Use the function `read.csv()` to load the file. The argument for `read.csv()` is the result of `here()`
-  + Remember to assign the dataframe you're reading to an object. You can call it `whr` as we did yesterday
+  + Remember to assign the dataframe you're reading to an object with `<-`. You can call it `whr` as we did yesterday
+  + If you get an error saying `could not find function "here"`, then load the library first with `library(here)`
 
 ]
 
 ```{r, eval=FALSE}
-library(here)
+
 whr <- read.csv(here("DataWork", "DataSets", "Final", "whr_panel.csv"))
 ```
 
@@ -601,7 +600,7 @@ Now that you now about the power of the pipes, use them wisely!
 
 - Many R coders use pipes and internet examples assume you know them
 
-- **We'll use pipes now in the next examples and exercises of the rest of this training**
+- **We'll use pipes from now on for some of the next examples and exercises of the rest of this training**
 ]
 
 .pull-right[
@@ -667,7 +666,7 @@ name: mapping-and-iterations
 ```{r, eval=FALSE}
 # Round the values of the following vector
 x <- c(1.2, 2.5, 9.1, 5.8)
-x %>% map(round) # Rounding the vector elements (same as map(x, round))
+map(x, round))   # Rounding the vector elements, same as x %>% map(round)
 round(x)         # since R is vectorized, this also works
 ```
 
@@ -769,6 +768,24 @@ Hints:
   + Remember the syntax of `map()`: `map(X, function_name)`
   + The function name inside `map()` shouldn't have parentheses next to it (i.e.: `mean` instead of `mean()`)
 
+(the exercise solution is shown in the next slide)
+
+---
+
+# Map vs looping
+
+The solution is this:
+
+```{r eval=FALSE}
+col_means_map <- map(df, mean)
+```
+
+You can also do it with pipes:
+
+```{r eval=FALSE}
+col_means_map <- df %>% map(mean)
+```
+
 ---
 
 # Map vs looping
@@ -865,17 +882,12 @@ Create a function named `zscore` that standardizes the values of a vector.
 
 ```{r eval=F}
 function_name <- function(input) {
-  
   output <- operation(input)
-  
   return(output)
-
 }
 ```
 
 ]
-
-
 
 ---
 
