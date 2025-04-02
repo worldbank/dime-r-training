@@ -365,7 +365,7 @@ Mer %>%
           shower(
             do_exercise(
               get_out_of_bed(
-                wake_up(rony, time = "5:30")
+                wake_up(Mer, time = "5:30")
               ), 
             )
           )
@@ -871,6 +871,16 @@ whr15 %>%
 
 We can create multiple variables in an easy way. Let's imagine that we want to estimate the mean value for the variables: `happiness_score`, `health_life_expectancy`, and `trust_government_corruption` .
 
+
+```{r echo = FALSE, out.width="55%"}
+knitr::include_graphics("img/across.png")
+```
+
+
+---
+
+# Creating multiple variables at the same time
+
 #### How we can do it? 
 
 * We can use the function `across()`. <br> Syntax: `across(VARS that you want to transform, FUNCTION to execute)`. 
@@ -1285,7 +1295,7 @@ write_rds(
 
 ---
 
-# And that's it for this session. Join us tomorrow!! 
+# And that's it for this session. Join us next week!! 
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 ```{r echo = FALSE, out.width="40%"}
