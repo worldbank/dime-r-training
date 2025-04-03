@@ -804,6 +804,36 @@ whr15 %>%
     happiness_high_mean = as.numeric((happiness_score > mean(happiness_score, na.rm = TRUE)))
   ) 
 ```
+---
+
+# Creating variables
+
+.exercise[
+
+**Exercise 4:** Create a variable called `year` that equals to the year of each dataframe using the `mutate()`. Remember to assign it to the same dataframe.
+
+`r countdown(minutes = 1, seconds = 0, top = 0, font_size = "2em")`
+
+]
+
+--
+
+.solution[
+
+**Solution:**
+
+```{r}
+whr15 <- whr15 %>% 
+  mutate(year = 2015)
+
+whr16 <- whr16 %>% 
+  mutate(year = 2016)
+
+whr17 <- whr17 %>% 
+  mutate(year = 2017)
+```
+
+]
 
 ---
 
@@ -925,36 +955,6 @@ whr15 %>%
 
 ---
 
-# Creating variables
-
-.exercise[
-
-**Exercise 4:** Create a variable called `year` that equals to the year of each dataframe using the `mutate()`. Remember to assign it to the same dataframe.
-
-`r countdown(minutes = 1, seconds = 0, top = 0, font_size = "2em")`
-
-]
-
---
-
-.solution[
-
-**Solution:**
-
-```{r}
-whr15 <- whr15 %>% 
-  mutate(year = 2015)
-
-whr16 <- whr16 %>% 
-  mutate(year = 2016)
-
-whr17 <- whr17 %>% 
-  mutate(year = 2017)
-```
-
-]
-
----
 class: inverse, center, middle
 name: bind
 

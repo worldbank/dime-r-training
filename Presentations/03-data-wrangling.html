@@ -297,7 +297,7 @@ Name each dataset using the format **`whrYY`**, where `YY` represents the last t
 
 ]  
 
-<div class="countdown" id="timer_0f566c95" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_3b46dcf2" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>  
@@ -574,7 +574,7 @@ The `n_distinct` function allows us to count the number of unique values of a va
 2. Region
 ]
 
-<div class="countdown" id="timer_2e146b87" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_4a7c85f0" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -720,7 +720,7 @@ whr15 %&gt;% filter(region == "Western Europe")
 
 ]
 
-<div class="countdown" id="timer_7f6badc5" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_bca99798" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -906,6 +906,40 @@ whr15 %&gt;%
     happiness_high_mean = as.numeric((happiness_score &gt; mean(happiness_score, na.rm = TRUE)))
   ) 
 ```
+---
+
+# Creating variables
+
+.exercise[
+
+**Exercise 4:** Create a variable called `year` that equals to the year of each dataframe using the `mutate()`. Remember to assign it to the same dataframe.
+
+<div class="countdown" id="timer_fc6fe2e6" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+]
+
+--
+
+.solution[
+
+**Solution:**
+
+
+``` r
+whr15 &lt;- whr15 %&gt;% 
+  mutate(year = 2015)
+
+whr16 &lt;- whr16 %&gt;% 
+  mutate(year = 2016)
+
+whr17 &lt;- whr17 %&gt;% 
+  mutate(year = 2017)
+```
+
+]
 
 ---
 
@@ -1027,40 +1061,6 @@ whr15 %&gt;%
 
 ---
 
-# Creating variables
-
-.exercise[
-
-**Exercise 4:** Create a variable called `year` that equals to the year of each dataframe using the `mutate()`. Remember to assign it to the same dataframe.
-
-<div class="countdown" id="timer_e7a261af" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
-]
-
---
-
-.solution[
-
-**Solution:**
-
-
-``` r
-whr15 &lt;- whr15 %&gt;% 
-  mutate(year = 2015)
-
-whr16 &lt;- whr16 %&gt;% 
-  mutate(year = 2016)
-
-whr17 &lt;- whr17 %&gt;% 
-  mutate(year = 2017)
-```
-
-]
-
----
 class: inverse, center, middle
 name: bind
 
@@ -1083,7 +1083,7 @@ bind_rows(df1, df2, df3) # The dplyr function, making some improvements to base 
 .exercise[
 **Exercise 5:** Append data sets. Use the function `bind_rows` to append the three WHR datasets:
 
-<div class="countdown" id="timer_11bdae18" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
+<div class="countdown" id="timer_46aef92c" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -1127,7 +1127,7 @@ bind_rows(whr15, whr16, whr17)
 
 * Load the R data set `regions.RDS` from `DataWork/DataSets/Raw/Un WHR` using the `read_rds` function.
 
-<div class="countdown" id="timer_d0d306a7" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_9fd333fd" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -1168,7 +1168,7 @@ We can use the `dplyr::left_join()` function to merge two dataframes. The functi
 
 ]
 
-<div class="countdown" id="timer_9f92ad59" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_ae68fc14" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1219,7 +1219,7 @@ Look at the `everything()` function. It takes all the variables from the datafra
 
 ]
 
-<div class="countdown" id="timer_dd46d998" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_16117384" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1281,7 +1281,7 @@ Finally, let's keep those relevant variables first and bind those rows.
 * Select the variables: `country`, `region`, `year`, `happiness_rank`, `happiness_score`, `economy_gdp_per_capita`, `health_life_expectancy`, `freedom` for each df, i.e., `whr15`, `whr16`, `whr17`. 
 * Use `rbind()`
 
-<div class="countdown" id="timer_b3b87e25" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_3a99741b" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1373,7 +1373,7 @@ The function takes the following syntax:
 * Use `write_csv()`
 * Use `here()`
 
-<div class="countdown" id="timer_958a570b" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
+<div class="countdown" id="timer_ea966691" data-update-every="1" tabindex="0" style="top:0;right:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
