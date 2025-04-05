@@ -1,8 +1,8 @@
 ---
 title: "Descriptive Analysis"
-subtitle: "[R for Stata Users](https://github.com/worldbank)"
-author: "Luiza Andrade, Marc-Andrea Fiorina, Rob Marty, Maria Reyes Retana, Rony Rodriguez Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank | [WB Github](https://github.com/worldbank) <br> March 2024"
+subtitle: "[R for Data Analysis](https://github.com/worldbank)"
+author: "DIME Analytics"
+date: "The World Bank | [WB Github](https://github.com/worldbank) <br> April 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -31,6 +31,9 @@ library(countdown)
 here::i_am("Presentations/05-descriptive-analysis.Rmd")
 
 options(htmltools.dir.version = FALSE)
+options(modelsummary_factory_default = 'kableExtra')
+#options(modelsummary_factory_default = 'gt')
+#options(htmltools.preserve.raw = FALSE)
 opts_chunk$set(
   fig.align = "center",
   fig.height = 4,
@@ -82,22 +85,17 @@ htmltools::tagList(
 
 .panel[.panel-name[If You Did Not Attend Session 2]
 
- 1. Open RStudio.
-
- 2. Type in the following lines, replacing “YOURFILEPATHHERE” with a file path where the file path where you will place this R project. 
-
-```{r, eval=FALSE}
+1. Copy/paste the following code into a new RStudio script:
+```{r, eval = FALSE}
 install.packages("usethis")
 library(usethis)
-usethis::use_course(
+usethis::use_zip(
     "https://github.com/worldbank/dime-r-training/archive/main.zip",
-    destdir = "YOURFILEPATHHERE"
+    cleanup = TRUE
 )
 ```
 
- 3\. In the console, type in the requisite number to delete the .zip file (we don't need it anymore)
-
- 4\. A new RStudio environment will open. Use this for the session today. 
+2\. A new RStudio environment will open. Use this for the session today.
   
   
 ]
@@ -134,7 +132,7 @@ I think most of you here know me already and have heard my spiel before, but sin
 
 ---
 
-# Workflows for outputs
+# Workflows for outputs, reports, and papers
 
 ## .red[Not reproducible]
 
@@ -280,14 +278,6 @@ summary(census)
 
 ---
 
-# Exploring a dataset
-
- ```{r echo=FALSE}
- knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
- ```
-
----
-
 # Summarizing continuous variables
 
 .large[
@@ -325,14 +315,6 @@ Use the `summary()` function to display summary statistics for a continuous vari
 ```{r}
 summary(census$pop)
 ```
-
----
-
-# Summarizing continuous variables
-
- ```{r echo=FALSE}
- knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
- ```
 
 ---
 
@@ -410,7 +392,7 @@ name: desc_tables
 # Descriptives tables
 
 ## What if you want to...
-- ...export the summary statistics to another software?
+- ...export a summary statistics to another software?
 - ...customize which statistics to display?
 - ...format the table?
 
@@ -482,23 +464,11 @@ Use `datasummary_skim()` to create a descriptive statistics table for the `censu
 datasummary_skim(census)
 ```
 
-
 .small[
-```{r, echo = F}
+```{r, echo=FALSE, warning=FALSE}
 datasummary_skim(census)
 ```
 ]
-
-
-
-
----
-
-# Exploring datasets with *modelsummary*
-
- ```{r echo=FALSE}
- knitr::include_app("https://rrmaximiliano.shinyapps.io/learnr-app/")
- ```
 
 ---
 
@@ -509,12 +479,12 @@ datasummary_skim(census)
 - To summarize categorical variables, use the argument `type`
 
 ```{r, eval = FALSE}
-datasummary_skim(census, type = "categorical")
+datasummary_skim(census %>% select(region), type = "categorical")
 ```
 ]
 
-```{r, echo = FALSE}
-datasummary_skim(census$region, type = "categorical")
+```{r, echo = FALSE, warning=FALSE}
+datasummary_skim(census %>% select(region), type = "categorical")
 ```
 
 ---
@@ -618,7 +588,7 @@ census_rct <-
     treatment = as.numeric(runif(n()) > 0.5)
   ) %>%
   select(
-    -starts_with("state")
+    -c(state, state2, region)
   )
 
 datasummary_balance(
@@ -639,12 +609,13 @@ census_rct <-
     treatment = as.numeric(runif(n()) > 0.5)
   ) %>%
   select(
-    -starts_with("state")
+    -c(state, state2, region)
   )
 
 datasummary_balance(
   ~ treatment,
-  data = census_rct
+  data = census_rct,
+  output = 'gt'
 )
 ```
 ]
@@ -704,7 +675,7 @@ Other valid output formats include:
 * `.pptx`
 * `.html`
 * `.md`
-* ... but not `.xls`
+* ... but not `.xls` or `.xlsx`
 ]
 
 ---
@@ -983,25 +954,6 @@ Formulas can take three specifications:
 Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages.
 ]
 
-.can-edit[
-```{r, eval = F}
-  lm(y ~ x1 + x2,
-     data)
-```
-]
-
-`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
-
-
----
-
-# Running regressions
-
-.exercise[
-### Exercise 6 `r fa("keyboard")`
-Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages.
-]
-
 
 ```{r}
 reg1 <-
@@ -1228,10 +1180,6 @@ Export a regression table with the results of your estimations using `lm` and `f
 - Use `quick_xlsx` or `quick_latex` to export the output of `huxreg` to your preferred format.
 ]
 
-`r countdown(minutes = 1, seconds = 0, left = 0, font_size = "2em")`
-
---
-
 .pull-left[
 ```{r}
 # Combine regression results with huxreg
@@ -1317,14 +1265,14 @@ class: inverse, center, middle
 class: inverse, center, middle
 name: aggregating
 
-# Aggregating observations
+# Appendix - Aggregating observations
 
 
 <html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
 
 ---
 
-# Aggregating observations
+# Appendix - Aggregating observations
 
 .large[
 - If you want to show aggregated statistics, the function `summarise` is a powerful tool.
@@ -1336,7 +1284,7 @@ name: aggregating
 
 ---
 
-# Aggregating observations
+# Appendix - Aggregating observations
 
 .command[
 ## `summarise(.data, ...,)`
@@ -1356,7 +1304,7 @@ The "name-value" pairs mentioned under `...` look like this: `new_variable = fun
 
 ---
 
-# Aggregating observations
+# Appendix - Aggregating observations
 
 .pull-left[
 ```{r}
@@ -1382,7 +1330,7 @@ census %>%
 
 ---
 
-# Aggregating observations
+# Appendix - Aggregating observations
 
 .exercise[
 ### Exercise 9 `r fa("keyboard")`
@@ -1393,7 +1341,7 @@ Recreate the `region_stats` data set, now including the average and the standard
 
 ---
 
-# Aggregating observations
+# Appendix - Aggregating observations
 
 ```{r, message = F}
   region_stats <-
@@ -1414,7 +1362,7 @@ Recreate the `region_stats` data set, now including the average and the standard
 
 ---
 
-# Aggregating observations
+# Appendix - Aggregating observations
 
 .exercise[
 ### Exercise 9 `r fa("keyboard")`
@@ -1425,7 +1373,7 @@ Use `huxtable` to format and export the object `region_stats`.
 
 ---
 
-# Aggregating observations
+# Appendix - Aggregating observations
 
 ```{r}
   region_stats_table <-
@@ -1446,3 +1394,62 @@ Use `huxtable` to format and export the object `region_stats`.
   )
 ```
 
+---
+
+class: inverse, center, middle
+name: aggregating
+
+# Appendix - Regression tables with Stargazer
+
+
+<html><div style='float:left'></div><hr color='#D38C28' size=1px width=1100px></html>
+
+---
+
+# Appendix - Exporting regression tables with Stargazer
+
+- If you need to export regression tables into latex, there is hardly a best option than `stargazer`
+
+- The package `stargazer` uses a command of the with the same name, `stargazer()`, to export beautifully formatted regression tables
+
+- Unfortunately, it doesn't have options to export to Excel. Another type of format it exports is HTML
+
+- See the next slide and check how each argument of `stargazer()` formats the table output
+
+---
+
+# Appendix - Complete latex regression table using Stargazer
+
+.pull-left[
+.small[
+```{r, eval = FALSE}
+# install.packages("stargazer") # install if needed
+library(stargazer)
+reg1 <- lm(mpg ~ wt + hp, data = mtcars)
+reg2 <- lm(mpg ~ wt + hp + factor(gear), data = mtcars)
+reg3 <- lm(qsec ~ wt + hp, data = mtcars)
+reg4 <- lm(qsec ~ wt + hp + factor(gear), data = mtcars)
+
+stargazer(reg1,
+          reg2,
+          reg3,
+          reg4,
+          title = "Best table ever",
+          keep = c('wt', 'hp'),
+          covariate.labels = c('Weight',
+                               'Horsepower'),
+          dep.var.labels = c('Miles per Gallon',
+                             '1/4 Mile Time'),
+          dep.var.caption = '',
+          add.lines = list(c('N Gears FE', 'No', 'Yes', 'No', 'Yes')),
+          keep.stat = c('n', 'adj.rsq'),
+          header = FALSE,
+          notes = 'Standard errors in parentheses')
+```
+]
+]
+.pull-right[
+```{r echo = FALSE, out.width = "99%"}
+knitr::include_graphics("img/r-markdown/full-table-stargazer.png")
+```
+]
