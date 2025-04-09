@@ -80,7 +80,7 @@ htmltools::tagList(
 .panelset[
 
 .panel[.panel-name[If You Attended Session 2]
-1. Go to the `dime-r-training-mar2024` folder that you created yesterday, and open the `dime-r-training-mar2024` R project that you created there.
+1. Go to the `dime-r-training` folder that you created yesterday, and open the file `dime-r-training.Rproj` R project that you created there.
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
@@ -167,11 +167,12 @@ But that's enough of me talking. Let's get you all to run some code
 Load the packages that we will use today
 ```{r, eval = F}
 # Install new packages
-install.packages("modelsummary")
-install.packages("fixest")
-install.packages("janitor")
-install.packages("huxtable")
-install.packages("openxlsx")
+install.packages("modelsummary") # to export easy descriptive tables
+install.packages("fixest")       # easy fixed effects regressions
+install.packages("janitor")      # easy tabulations
+install.packages("huxtable")     # easy regression tables
+install.packages("openxlsx")     # export tables to Excel format
+install.packages("estimatr")     # backend calculations for balance tables
 ```
 
 ```{r, warning = FALSE, message = FALSE}
@@ -522,8 +523,8 @@ Create a table showing the number of observations, mean, standard deviation, min
 .can-edit[
 ```{r, eval = F}
 datasummary(
-  var1 + var2 + var3 ~ stat1 + stat2 + stat3 + stat4,
-  data = data
+  pop + death + marriage + divorce ~ N + Mean + SD + Median + Min + Max,
+  data = census
 )
 ```
 ]
@@ -582,6 +583,7 @@ datasummary(
 # Balance tables with *modelsummary*
 
 ```{r, eval = FALSE}
+# Creating a toy "treatment" variable
 census_rct <-
   census %>%
   mutate(
@@ -591,6 +593,7 @@ census_rct <-
     -c(state, state2, region)
   )
 
+# Balance table
 datasummary_balance(
   ~ treatment,
   data = census_rct
@@ -615,7 +618,7 @@ census_rct <-
 datasummary_balance(
   ~ treatment,
   data = census_rct,
-  output = 'gt'
+  output = 'gt' #leave this here for better formatting in slides
 )
 ```
 ]
@@ -636,9 +639,11 @@ name: exporting
 To export the tables we created, we can simply use the option `output`:
 
 ```{r, message = FALSE, warning = FALSE}
+# Saving the formula into an object
 descriptives <-
   All(census) ~ N + Mean + SD + Median + Min + Max
 
+# Creating and exporting table
 datasummary(
   descriptives,
   data = census,
@@ -646,10 +651,12 @@ datasummary(
     "DataWork", #<<
     "Output", #<<
     "Raw", #<<
-    "summary-stats.tex" #<<
+    "summary-stats-modelsummary.tex" #<<
   ) #<<
 )
 ```
+
+If you an error message saying `Assertion on 'output' failed: Path to file (dirname) does not exist`, create the folder `Output` and subfolder `Raw` in `DataWork`.
 
 ---
 
@@ -707,7 +714,7 @@ quick_xlsx(
     "DataWork",
     "Output",
     "Raw",
-    "summary-stats.xlsx"
+    "summary-stats-huxtable.xlsx"
   )
 )
 ```
@@ -727,7 +734,7 @@ quick_latex(
     "DataWork",
     "Output",
     "Raw",
-    "summary-stats.tex"
+    "summary-stats-huxtable.tex"
   )
 )
 ```
@@ -764,36 +771,19 @@ saveWorkbook(
     "DataWork",
     "Output",
     "Raw",
-    "summary-stats.xlsx"
+    "summary-stats-multiple-sheets.xlsx"
   ),
-  overwrite = TRUE # replace existing file
+  overwrite = TRUE # replace if the file exists
 )
 ```
 ]
 
 ---
 
-# Exporting tables to LaTeX fragment
+# Exporting tables to different Excel tabs
 
-```{r}
-summary_stats_table %>%
-  print_latex() %>% # See LaTeX code
-  # Save LaTeX code 
-  capture.output(
-    file = here(
-      "DataWork",
-      "Output",
-      "Raw",
-      "summary-stats.tex"
-    )
-  )
-
-```
-
-You will also need to load the required LaTeX packages. To copy the code that creates a preamble with all of them, use this code:
-
-```{r, eval = FALSE}
-report_latex_dependencies()
+```{r echo = FALSE, out.width = "65%"}
+knitr::include_graphics("img/excel-tabs.png")
 ```
 
 ---
@@ -820,7 +810,7 @@ names(labels) <- attributes(census)$var.labels
 census_labelled <-
   census %>%
   rename(
-    labels
+    all_of(labels)
   )
 
 # Create a labelled summary table 
@@ -842,12 +832,12 @@ The code below shows the table `summary_stats_table` can be formatted
 ```{r, eval = FALSE}
 # Format table
 summary_stats_table %>%  
- # Use first row as table header 
- set_header_rows(1, TRUE) %>% 
- # Use first column as row header 
- set_header_cols(1, TRUE)  %>%  
  # Don't round large numbers  
- set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% 
+ set_number_format(
+   row = everywhere,
+   col = 2:ncol(.),
+   value = "%9.0f"
+   ) %>% 
  # Centralize cells in first row 
  set_align(1, everywhere, "center") %>% 
  # Set a theme for quick formatting 
@@ -859,13 +849,17 @@ summary_stats_table %>%
 .small[
 ```{r, echo = F, message = F}
 # Format table
- summary_stats_table %>%  
-   set_header_rows(1, TRUE) %>% # Use first row as table header 
-   set_header_cols(1, TRUE)  %>%  # Use first column as row header 
-   set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% # Don't round large numbers  
-   set_align(1, everywhere, "center") %>% # Centralize cells in first row 
-   theme_basic() # Set a theme for quick formatting 
-
+summary_stats_table %>%  
+ # Don't round large numbers  
+ set_number_format(
+   row = everywhere,
+   col = 2:ncol(.),
+   value = "%9.0f"
+   ) %>% 
+ # Centralize cells in first row 
+ set_align(1, everywhere, "center") %>% 
+ # Set a theme for quick formatting 
+ theme_basic()
 ```
 ]
 ]
@@ -874,15 +868,16 @@ summary_stats_table %>%
 
 # Export beautified tables
 
-```{r, message = FALSE}
+```{r, eval = FALSE}
 # Format table
-summary_stats_table <-
-  summary_stats_table %>%  
-  set_header_rows(1, TRUE) %>% # Use first row as table header 
-  set_header_cols(1, TRUE)  %>%  # Use first column as row header 
-  set_number_format(everywhere, 2:ncol(.), "%9.0f") %>% # Don't round large numbers  
-  set_align(1, everywhere, "center") %>% # Centralize cells in first row 
-  theme_basic() # Set a theme for quick formatting 
+summary_stats_table %>%
+ set_number_format(
+   row = everywhere,
+   col = 2:ncol(.),
+   value = "%9.0f"
+   ) %>% 
+ set_align(1, everywhere, "center") %>% 
+ theme_basic()
 
 quick_xlsx(
   summary_stats_table,
@@ -1046,7 +1041,7 @@ feols(
 
 .exercise[
 ### Exercise 7 `r fa("keyboard")`
-Using the `census` data, run a regression of divorce on population, urban population and number of marriages controlling for region fixed effects.
+Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages controlling for region fixed effects and using standard errors clustered by state.
 ]
 
 ```{r, eval = FALSE}
@@ -1054,7 +1049,7 @@ reg2 <-
   feols(
     divorce ~ pop + popurban + marriage | region,
     census,
-    se = "iid"
+    vcov = cluster ~ state # this defines clustered std errors by state
   )
 
 summary(reg2)
@@ -1074,7 +1069,7 @@ reg2 <-
   feols(
     divorce ~ pop + popurban + marriage | region,
     census,
-    se = "iid"
+    vcov = cluster ~ state
   )
 
 summary(reg2)
@@ -1120,50 +1115,113 @@ name: reg_tables
 
 # Exporting regression tables
 
-.small[
-```{r}
+.pull-left[
+```{r, eval = FALSE}
 huxreg(reg1, reg2)
 ```
 ]
 
-By now, you should know how to export this to Excel and LaTeX.
+.pull-right[
+.small[
+```{r, echo = FALSE}
+huxreg(reg1, reg2)
+```
+]
+]
 
 ---
 
 # Formatting regression tables
 
 .pull-left[
+.small[
 ```{r, eval = F}
 huxreg(
-  reg1, reg2,
-  # Show variable labels instead of names
-   coefs = c(
-     "Population" = "pop", 
-     "Urban population"  = "popurban",
-     "Number of marriages" = "marriage"
-   ),
-   statistics = c("N. obs." = "nobs")) %>%
-   add_rows(
-     c("Region FE", "No", "Yes"),
-     after = 7
-   )
+  'Model 1' = reg1,
+  'Model 2' = reg2,
+  coefs = c(
+    "Population" = "pop", # Show variable labels instead of names
+    "Urban population"  = "popurban",
+    "Number of marriages" = "marriage"
+  ),
+  statistics = c("N. obs." = "nobs"),
+  stars = c(`***` = 0.01, `**` = 0.05, `*` = 0.1),
+  note = "{stars}\nStandard errors are displayed in parentheses."
+) %>%
+  add_rows(
+    c("Region FE", "No", "Yes"),
+    after = 7
+  )
 ```
+]
 ]
 
 .pull-right[
 ```{r, echo = F}
 huxreg(
-  reg1, reg2,
-   coefs = c(
-     "Population" = "pop", # Show variable labels instead of names
-     "Urban population"  = "popurban",
-     "Number of marriages" = "marriage"
-   ),
-   statistics = c("N. obs." = "nobs")) %>%
-   add_rows(
-     c("Region FE", "No", "Yes"),
-     after = 7
-   )
+  'Model 1' = reg1,
+  'Model 2' = reg2,
+  coefs = c(
+    "Population" = "pop", # Show variable labels instead of names
+    "Urban population"  = "popurban",
+    "Number of marriages" = "marriage"
+  ),
+  statistics = c("N. obs." = "nobs"),
+  stars = c(`***` = 0.01, `**` = 0.05, `*` = 0.1),
+  note = "{stars}\nStandard errors are displayed in parentheses."
+) %>%
+  add_rows(
+    c("Region FE", "No", "Yes"),
+    after = 7
+  )
+```
+]
+
+---
+
+# Exporting regression tables
+
+You can also display other types of computed values with `error_format()`. See the examples below for t-statistics and p-values.
+
+.pull-left[
+```{r, eval = F}
+huxreg(
+  'Model 1' = reg1,
+  'Model 2' = reg2,
+  error_format = "[{statistic}]", #<<
+  # to display t-statistics in brackets #<<
+  coefs = c(
+    "Population" = "pop",
+    "Urban population"  = "popurban",
+    "Number of marriages" = "marriage"
+  ),
+  statistics = c("N. obs." = "nobs")
+) %>%
+  add_rows(
+    c("Region FE", "No", "Yes"),
+    after = 7
+  )
+```
+]
+
+.pull-right[
+```{r, eval = F}
+huxreg(
+  'Model 1' = reg1,
+  'Model 2' = reg2,
+  error_format = "[{p.value}]", #<<
+  # to display p-values in brackets #<<
+  coefs = c(
+    "Population" = "pop",
+    "Urban population"  = "popurban",
+    "Number of marriages" = "marriage"
+  ),
+  statistics = c("N. obs." = "nobs")
+) %>%
+  add_rows(
+    c("Region FE", "No", "Yes"),
+    after = 7
+  )
 ```
 ]
 
@@ -1397,7 +1455,6 @@ Use `huxtable` to format and export the object `region_stats`.
 ---
 
 class: inverse, center, middle
-name: aggregating
 
 # Appendix - Regression tables with Stargazer
 

@@ -13,7 +13,7 @@
     <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xcc3a773ff2a42bbabe2da052eae5565","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xc447680724146e6ad0daf848a25fd7a","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -60,7 +60,7 @@ class: center, middle, inverse, title-slide
 .panelset[
 
 .panel[.panel-name[If You Attended Session 2]
-1. Go to the `dime-r-training-mar2024` folder that you created yesterday, and open the `dime-r-training-mar2024` R project that you created there.
+1. Go to the `dime-r-training` folder that you created yesterday, and open the file `dime-r-training.Rproj` R project that you created there.
 ]
 
 .panel[.panel-name[If You Did Not Attend Session 2]
@@ -149,11 +149,12 @@ Load the packages that we will use today
 
 ```r
 # Install new packages
-install.packages("modelsummary")
-install.packages("fixest")
-install.packages("janitor")
-install.packages("huxtable")
-install.packages("openxlsx")
+install.packages("modelsummary") # to export easy descriptive tables
+install.packages("fixest")       # easy fixed effects regressions
+install.packages("janitor")      # easy tabulations
+install.packages("huxtable")     # easy regression tables
+install.packages("openxlsx")     # export tables to Excel format
+install.packages("estimatr")     # backend calculations for balance tables
 ```
 
 
@@ -176,7 +177,7 @@ Load the data that we will use today: Stata's `census` dataset
 
 **Tip**: Use `here`, as we saw in the data wrangling session. 
 
-<div class="countdown" id="timer_13dcb0d6" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_9942dd3d" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -226,19 +227,19 @@ glimpse(census)
 ```
 ## Rows: 50
 ## Columns: 13
-## $ state    &lt;chr&gt; "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "L…
-## $ state2   &lt;chr&gt; "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "…
-## $ region   &lt;fct&gt; South, West, West, South, West, West, NE, South, South, South, West, West, N Cntrl, N Cntrl, N Cntrl, N Cntrl, South, South, NE, South, NE, N Cntrl, N Cntrl, South, N Cntrl, West, N Cntrl, West…
-## $ pop      &lt;int&gt; 3893888, 401851, 2718215, 2286435, 23667902, 2889964, 3107576, 594338, 9746324, 5463105, 964691, 943935, 11426518, 5490224, 2913808, 2363679, 3660777, 4205900, 1124660, 4216975, 5737037, 926207…
-## $ poplt5   &lt;int&gt; 296412, 38949, 213883, 175592, 1708400, 216495, 185188, 41151, 570224, 414935, 77848, 93531, 842241, 418764, 221628, 180877, 282731, 361533, 78514, 272274, 337215, 685113, 307249, 215279, 35414…
-## $ pop5_17  &lt;int&gt; 865836, 91796, 577604, 495782, 4680558, 592318, 637731, 125444, 1789412, 1231195, 197735, 213134, 2400796, 1199554, 604245, 468158, 799999, 968935, 242873, 895256, 1153174, 2066873, 864559, 598…
-## $ pop18p   &lt;int&gt; 2731640, 271106, 1926728, 1615061, 17278944, 2081151, 2284657, 427743, 7386688, 3816975, 689108, 637270, 8183481, 3871906, 2087935, 1714644, 2578047, 2875432, 803273, 3049445, 4246648, 6510092,…
-## $ pop65p   &lt;int&gt; 440015, 11547, 307362, 312477, 2414250, 247325, 364864, 59179, 1687573, 516731, 76150, 93680, 1261885, 585384, 387584, 306263, 409828, 404279, 140918, 395609, 726531, 912258, 479564, 289357, 64…
-## $ popurban &lt;int&gt; 2337713, 258567, 2278728, 1179556, 21607606, 2329869, 2449774, 419819, 8212385, 3409081, 834592, 509702, 9518039, 3525298, 1708232, 1575899, 1862183, 2887309, 534072, 3386555, 4808339, 6551551,…
-## $ medage   &lt;dbl&gt; 29.3, 26.1, 29.2, 30.6, 29.9, 28.6, 32.0, 29.8, 34.7, 28.7, 28.4, 27.6, 29.9, 29.2, 30.0, 30.1, 29.1, 27.4, 30.4, 30.3, 31.2, 28.8, 29.2, 27.7, 30.9, 29.0, 29.7, 30.2, 30.1, 32.2, 27.4, 31.9, 2…
-## $ death    &lt;int&gt; 35305, 1604, 21226, 22676, 186428, 18925, 26005, 5123, 104190, 44230, 4849, 6753, 102230, 47300, 26348, 21910, 33765, 35518, 10768, 34025, 54919, 75102, 33412, 23570, 49329, 6664, 14465, 5852, …
-## $ marriage &lt;int&gt; 49018, 5361, 30223, 26513, 210864, 34917, 26048, 4437, 108344, 70638, 11856, 13428, 109823, 57853, 27474, 24847, 32727, 43460, 12040, 46278, 46273, 86898, 37641, 27908, 54625, 8336, 14239, 1143…
-## $ divorce  &lt;int&gt; 26745, 3517, 19908, 15882, 133541, 18571, 13488, 2313, 71579, 34743, 4438, 6596, 50997, 40006, 11854, 13410, 16731, 18108, 6205, 17494, 17873, 45047, 15371, 13846, 27595, 4940, 6442, 13842, 525…
+## $ state    &lt;chr&gt; "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Ind…
+## $ state2   &lt;chr&gt; "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT"…
+## $ region   &lt;fct&gt; South, West, West, South, West, West, NE, South, South, South, West, West, N Cntrl, N Cntrl, N Cntrl, N Cntrl, South, South, NE, South, NE, N Cntrl, N Cnt…
+## $ pop      &lt;int&gt; 3893888, 401851, 2718215, 2286435, 23667902, 2889964, 3107576, 594338, 9746324, 5463105, 964691, 943935, 11426518, 5490224, 2913808, 2363679, 3660777, 420…
+## $ poplt5   &lt;int&gt; 296412, 38949, 213883, 175592, 1708400, 216495, 185188, 41151, 570224, 414935, 77848, 93531, 842241, 418764, 221628, 180877, 282731, 361533, 78514, 272274…
+## $ pop5_17  &lt;int&gt; 865836, 91796, 577604, 495782, 4680558, 592318, 637731, 125444, 1789412, 1231195, 197735, 213134, 2400796, 1199554, 604245, 468158, 799999, 968935, 242873…
+## $ pop18p   &lt;int&gt; 2731640, 271106, 1926728, 1615061, 17278944, 2081151, 2284657, 427743, 7386688, 3816975, 689108, 637270, 8183481, 3871906, 2087935, 1714644, 2578047, 2875…
+## $ pop65p   &lt;int&gt; 440015, 11547, 307362, 312477, 2414250, 247325, 364864, 59179, 1687573, 516731, 76150, 93680, 1261885, 585384, 387584, 306263, 409828, 404279, 140918, 395…
+## $ popurban &lt;int&gt; 2337713, 258567, 2278728, 1179556, 21607606, 2329869, 2449774, 419819, 8212385, 3409081, 834592, 509702, 9518039, 3525298, 1708232, 1575899, 1862183, 2887…
+## $ medage   &lt;dbl&gt; 29.3, 26.1, 29.2, 30.6, 29.9, 28.6, 32.0, 29.8, 34.7, 28.7, 28.4, 27.6, 29.9, 29.2, 30.0, 30.1, 29.1, 27.4, 30.4, 30.3, 31.2, 28.8, 29.2, 27.7, 30.9, 29.0…
+## $ death    &lt;int&gt; 35305, 1604, 21226, 22676, 186428, 18925, 26005, 5123, 104190, 44230, 4849, 6753, 102230, 47300, 26348, 21910, 33765, 35518, 10768, 34025, 54919, 75102, 3…
+## $ marriage &lt;int&gt; 49018, 5361, 30223, 26513, 210864, 34917, 26048, 4437, 108344, 70638, 11856, 13428, 109823, 57853, 27474, 24847, 32727, 43460, 12040, 46278, 46273, 86898,…
+## $ divorce  &lt;int&gt; 26745, 3517, 19908, 15882, 133541, 18571, 13488, 2313, 71579, 34743, 4438, 6596, 50997, 40006, 11854, 13410, 16731, 18108, 6205, 17494, 17873, 45047, 1537…
 ```
 
 ---
@@ -270,7 +271,7 @@ Equivalent to Stata's `codebook`. Its arguments are:
 Use the `summary()` function to describe the `census` data frame.
 ]
 
-<div class="countdown" id="timer_84edd431" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_bc3dad0f" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -286,20 +287,20 @@ summary(census)
 ```
 
 ```
-##     state              state2              region        pop               poplt5           pop5_17            pop18p             pop65p           popurban            medage          death       
-##  Length:50          Length:50          NE     : 9   Min.   :  401851   Min.   :  35998   Min.   :  91796   Min.   :  271106   Min.   :  11547   Min.   :  172735   Min.   :24.20   Min.   :  1604  
-##  Class :character   Class :character   N Cntrl:12   1st Qu.: 1169218   1st Qu.:  98831   1st Qu.: 257949   1st Qu.:  823702   1st Qu.: 118660   1st Qu.:  826651   1st Qu.:28.73   1st Qu.:  9087  
-##  Mode  :character   Mode  :character   South  :16   Median : 3066433   Median : 227468   Median : 629654   Median : 2175130   Median : 370495   Median : 2156905   Median :29.75   Median : 26177  
-##                                        West   :13   Mean   : 4518149   Mean   : 326278   Mean   : 945952   Mean   : 3245920   Mean   : 509503   Mean   : 3328253   Mean   :29.54   Mean   : 39474  
-##                                                     3rd Qu.: 5434033   3rd Qu.: 361321   3rd Qu.:1143292   3rd Qu.: 3858173   3rd Qu.: 580087   3rd Qu.: 3403450   3rd Qu.:30.20   3rd Qu.: 46533  
-##                                                     Max.   :23667902   Max.   :1708400   Max.   :4680558   Max.   :17278944   Max.   :2414250   Max.   :21607606   Max.   :34.70   Max.   :186428  
-##     marriage         divorce      
-##  Min.   :  4437   Min.   :  2142  
-##  1st Qu.: 14840   1st Qu.:  6898  
-##  Median : 36279   Median : 17113  
-##  Mean   : 47701   Mean   : 23679  
-##  3rd Qu.: 57338   3rd Qu.: 27987  
-##  Max.   :210864   Max.   :133541
+##     state              state2              region        pop               poplt5           pop5_17            pop18p             pop65p           popurban       
+##  Length:50          Length:50          NE     : 9   Min.   :  401851   Min.   :  35998   Min.   :  91796   Min.   :  271106   Min.   :  11547   Min.   :  172735  
+##  Class :character   Class :character   N Cntrl:12   1st Qu.: 1169218   1st Qu.:  98831   1st Qu.: 257949   1st Qu.:  823702   1st Qu.: 118660   1st Qu.:  826651  
+##  Mode  :character   Mode  :character   South  :16   Median : 3066433   Median : 227468   Median : 629654   Median : 2175130   Median : 370495   Median : 2156905  
+##                                        West   :13   Mean   : 4518149   Mean   : 326278   Mean   : 945952   Mean   : 3245920   Mean   : 509503   Mean   : 3328253  
+##                                                     3rd Qu.: 5434033   3rd Qu.: 361321   3rd Qu.:1143292   3rd Qu.: 3858173   3rd Qu.: 580087   3rd Qu.: 3403450  
+##                                                     Max.   :23667902   Max.   :1708400   Max.   :4680558   Max.   :17278944   Max.   :2414250   Max.   :21607606  
+##      medage          death           marriage         divorce      
+##  Min.   :24.20   Min.   :  1604   Min.   :  4437   Min.   :  2142  
+##  1st Qu.:28.73   1st Qu.:  9087   1st Qu.: 14840   1st Qu.:  6898  
+##  Median :29.75   Median : 26177   Median : 36279   Median : 17113  
+##  Mean   :29.54   Mean   : 39474   Mean   : 47701   Mean   : 23679  
+##  3rd Qu.:30.20   3rd Qu.: 46533   3rd Qu.: 57338   3rd Qu.: 27987  
+##  Max.   :34.70   Max.   :186428   Max.   :210864   Max.   :133541
 ```
 ]
 
@@ -323,7 +324,7 @@ summary(census)
 Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
 ]
 
-<div class="countdown" id="timer_4eb35cd0" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_2f8c6e7d" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -374,7 +375,7 @@ Use the `tabyl()` function to display frequency tables for:
 2. The variables `region` and `state` in the `census` data frame, simultaneously
 ]
 
-<div class="countdown" id="timer_60050af2" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_337fad25" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -524,7 +525,7 @@ datasummary_skim(
 Use `datasummary_skim()` to create a descriptive statistics table for the `census` data. 
 ]
 ]
-<div class="countdown" id="timer_54a07dd5" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_e40fd47e" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -740,8 +741,8 @@ Create a table showing the number of observations, mean, standard deviation, min
 
 ```r
 datasummary(
-  var1 + var2 + var3 ~ stat1 + stat2 + stat3 + stat4,
-  data = data
+  pop + death + marriage + divorce ~ N + Mean + SD + Median + Min + Max,
+  data = census
 )
 ```
 ]
@@ -749,7 +750,7 @@ datasummary(
 &gt; **Tip:** some of the allowed statistics are N, Mean, SD, Min, Max, Median, P0, P25, P50, P75, P100, Histogram
 
 
-<div class="countdown" id="timer_2192143e" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_59e93893" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
 </div>
@@ -950,6 +951,7 @@ datasummary(
 
 
 ```r
+# Creating a toy "treatment" variable
 census_rct &lt;-
   census %&gt;%
   mutate(
@@ -959,6 +961,7 @@ census_rct &lt;-
     -c(state, state2, region)
   )
 
+# Balance table
 datasummary_balance(
   ~ treatment,
   data = census_rct
@@ -970,23 +973,23 @@ datasummary_balance(
 # Balance tables with *modelsummary*
 
 .small[
-<div id="emacnjelzl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#emacnjelzl table {
+<div id="nbjvznnyby" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nbjvznnyby table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#emacnjelzl thead, #emacnjelzl tbody, #emacnjelzl tfoot, #emacnjelzl tr, #emacnjelzl td, #emacnjelzl th {
+#nbjvznnyby thead, #nbjvznnyby tbody, #nbjvznnyby tfoot, #nbjvznnyby tr, #nbjvznnyby td, #nbjvznnyby th {
   border-style: none;
 }
 
-#emacnjelzl p {
+#nbjvznnyby p {
   margin: 0;
   padding: 0;
 }
 
-#emacnjelzl .gt_table {
+#nbjvznnyby .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1012,12 +1015,12 @@ datasummary_balance(
   border-left-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_caption {
+#nbjvznnyby .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#emacnjelzl .gt_title {
+#nbjvznnyby .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1029,7 +1032,7 @@ datasummary_balance(
   border-bottom-width: 0;
 }
 
-#emacnjelzl .gt_subtitle {
+#nbjvznnyby .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1041,7 +1044,7 @@ datasummary_balance(
   border-top-width: 0;
 }
 
-#emacnjelzl .gt_heading {
+#nbjvznnyby .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1053,13 +1056,13 @@ datasummary_balance(
   border-right-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_bottom_border {
+#nbjvznnyby .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_col_headings {
+#nbjvznnyby .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1074,7 +1077,7 @@ datasummary_balance(
   border-right-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_col_heading {
+#nbjvznnyby .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1094,7 +1097,7 @@ datasummary_balance(
   overflow-x: hidden;
 }
 
-#emacnjelzl .gt_column_spanner_outer {
+#nbjvznnyby .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1106,15 +1109,15 @@ datasummary_balance(
   padding-right: 4px;
 }
 
-#emacnjelzl .gt_column_spanner_outer:first-child {
+#nbjvznnyby .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#emacnjelzl .gt_column_spanner_outer:last-child {
+#nbjvznnyby .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#emacnjelzl .gt_column_spanner {
+#nbjvznnyby .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1126,11 +1129,11 @@ datasummary_balance(
   width: 100%;
 }
 
-#emacnjelzl .gt_spanner_row {
+#nbjvznnyby .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#emacnjelzl .gt_group_heading {
+#nbjvznnyby .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1156,7 +1159,7 @@ datasummary_balance(
   text-align: left;
 }
 
-#emacnjelzl .gt_empty_group_heading {
+#nbjvznnyby .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1171,15 +1174,15 @@ datasummary_balance(
   vertical-align: middle;
 }
 
-#emacnjelzl .gt_from_md > :first-child {
+#nbjvznnyby .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#emacnjelzl .gt_from_md > :last-child {
+#nbjvznnyby .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#emacnjelzl .gt_row {
+#nbjvznnyby .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1198,7 +1201,7 @@ datasummary_balance(
   overflow-x: hidden;
 }
 
-#emacnjelzl .gt_stub {
+#nbjvznnyby .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1211,7 +1214,7 @@ datasummary_balance(
   padding-right: 5px;
 }
 
-#emacnjelzl .gt_stub_row_group {
+#nbjvznnyby .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1225,15 +1228,15 @@ datasummary_balance(
   vertical-align: top;
 }
 
-#emacnjelzl .gt_row_group_first td {
+#nbjvznnyby .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#emacnjelzl .gt_row_group_first th {
+#nbjvznnyby .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#emacnjelzl .gt_summary_row {
+#nbjvznnyby .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1243,16 +1246,16 @@ datasummary_balance(
   padding-right: 5px;
 }
 
-#emacnjelzl .gt_first_summary_row {
+#nbjvznnyby .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_first_summary_row.thick {
+#nbjvznnyby .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#emacnjelzl .gt_last_summary_row {
+#nbjvznnyby .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1262,7 +1265,7 @@ datasummary_balance(
   border-bottom-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_grand_summary_row {
+#nbjvznnyby .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1272,7 +1275,7 @@ datasummary_balance(
   padding-right: 5px;
 }
 
-#emacnjelzl .gt_first_grand_summary_row {
+#nbjvznnyby .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1282,7 +1285,7 @@ datasummary_balance(
   border-top-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_last_grand_summary_row_top {
+#nbjvznnyby .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1292,11 +1295,11 @@ datasummary_balance(
   border-bottom-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_striped {
+#nbjvznnyby .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#emacnjelzl .gt_table_body {
+#nbjvznnyby .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1305,7 +1308,7 @@ datasummary_balance(
   border-bottom-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_footnotes {
+#nbjvznnyby .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1319,7 +1322,7 @@ datasummary_balance(
   border-right-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_footnote {
+#nbjvznnyby .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1328,7 +1331,7 @@ datasummary_balance(
   padding-right: 5px;
 }
 
-#emacnjelzl .gt_sourcenotes {
+#nbjvznnyby .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1342,7 +1345,7 @@ datasummary_balance(
   border-right-color: #D3D3D3;
 }
 
-#emacnjelzl .gt_sourcenote {
+#nbjvznnyby .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1350,72 +1353,72 @@ datasummary_balance(
   padding-right: 5px;
 }
 
-#emacnjelzl .gt_left {
+#nbjvznnyby .gt_left {
   text-align: left;
 }
 
-#emacnjelzl .gt_center {
+#nbjvznnyby .gt_center {
   text-align: center;
 }
 
-#emacnjelzl .gt_right {
+#nbjvznnyby .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#emacnjelzl .gt_font_normal {
+#nbjvznnyby .gt_font_normal {
   font-weight: normal;
 }
 
-#emacnjelzl .gt_font_bold {
+#nbjvznnyby .gt_font_bold {
   font-weight: bold;
 }
 
-#emacnjelzl .gt_font_italic {
+#nbjvznnyby .gt_font_italic {
   font-style: italic;
 }
 
-#emacnjelzl .gt_super {
+#nbjvznnyby .gt_super {
   font-size: 65%;
 }
 
-#emacnjelzl .gt_footnote_marks {
+#nbjvznnyby .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#emacnjelzl .gt_asterisk {
+#nbjvznnyby .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#emacnjelzl .gt_indent_1 {
+#nbjvznnyby .gt_indent_1 {
   text-indent: 5px;
 }
 
-#emacnjelzl .gt_indent_2 {
+#nbjvznnyby .gt_indent_2 {
   text-indent: 10px;
 }
 
-#emacnjelzl .gt_indent_3 {
+#nbjvznnyby .gt_indent_3 {
   text-indent: 15px;
 }
 
-#emacnjelzl .gt_indent_4 {
+#nbjvznnyby .gt_indent_4 {
   text-indent: 20px;
 }
 
-#emacnjelzl .gt_indent_5 {
+#nbjvznnyby .gt_indent_5 {
   text-indent: 25px;
 }
 
-#emacnjelzl .katex-display {
+#nbjvznnyby .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#emacnjelzl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nbjvznnyby div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1441,75 +1444,75 @@ datasummary_balance(
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers=" " class="gt_row gt_left">pop</td>
-<td headers="Mean" class="gt_row gt_right">5022257.9</td>
-<td headers="Std. Dev." class="gt_row gt_right">4788178.2</td>
-<td headers="Mean " class="gt_row gt_right">4209179.7</td>
-<td headers="Std. Dev. " class="gt_row gt_right">4721864.2</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-813078.2</td>
-<td headers="Std. Error" class="gt_row gt_right">1387765.0</td></tr>
+<td headers="Mean" class="gt_row gt_right">4098477.0</td>
+<td headers="Std. Dev." class="gt_row gt_right">3389446.4</td>
+<td headers="Mean " class="gt_row gt_right">4822050.1</td>
+<td headers="Std. Dev. " class="gt_row gt_right">5520104.8</td>
+<td headers="Diff. in Means" class="gt_row gt_right">723573.1</td>
+<td headers="Std. Error" class="gt_row gt_right">1264044.1</td></tr>
     <tr><td headers=" " class="gt_row gt_left">poplt5</td>
-<td headers="Mean" class="gt_row gt_right">355362.3</td>
-<td headers="Std. Dev." class="gt_row gt_right">337350.5</td>
-<td headers="Mean " class="gt_row gt_right">308451.8</td>
-<td headers="Std. Dev. " class="gt_row gt_right">332318.5</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-46910.5</td>
-<td headers="Std. Error" class="gt_row gt_right">97735.3</td></tr>
+<td headers="Mean" class="gt_row gt_right">292420.0</td>
+<td headers="Std. Dev." class="gt_row gt_right">217669.3</td>
+<td headers="Mean " class="gt_row gt_right">350795.5</td>
+<td headers="Std. Dev. " class="gt_row gt_right">396339.6</td>
+<td headers="Diff. in Means" class="gt_row gt_right">58375.6</td>
+<td headers="Std. Error" class="gt_row gt_right">87595.2</td></tr>
     <tr><td headers=" " class="gt_row gt_left">pop5_17</td>
-<td headers="Mean" class="gt_row gt_right">1054830.5</td>
-<td headers="Std. Dev." class="gt_row gt_right">995585.7</td>
-<td headers="Mean " class="gt_row gt_right">879219.4</td>
-<td headers="Std. Dev. " class="gt_row gt_right">946831.4</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-175611.2</td>
-<td headers="Std. Error" class="gt_row gt_right">284757.7</td></tr>
+<td headers="Mean" class="gt_row gt_right">846999.3</td>
+<td headers="Std. Dev." class="gt_row gt_right">678908.6</td>
+<td headers="Mean " class="gt_row gt_right">1017606.7</td>
+<td headers="Std. Dev. " class="gt_row gt_right">1126412.7</td>
+<td headers="Diff. in Means" class="gt_row gt_right">170607.4</td>
+<td headers="Std. Error" class="gt_row gt_right">256320.8</td></tr>
     <tr><td headers=" " class="gt_row gt_left">pop18p</td>
-<td headers="Mean" class="gt_row gt_right">3612065.1</td>
-<td headers="Std. Dev." class="gt_row gt_right">3466698.3</td>
-<td headers="Mean " class="gt_row gt_right">3021508.6</td>
-<td headers="Std. Dev. " class="gt_row gt_right">3445898.1</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-590556.5</td>
-<td headers="Std. Error" class="gt_row gt_right">1007752.6</td></tr>
+<td headers="Mean" class="gt_row gt_right">2959057.8</td>
+<td headers="Std. Dev." class="gt_row gt_right">2499648.7</td>
+<td headers="Mean " class="gt_row gt_right">3453647.9</td>
+<td headers="Std. Dev. " class="gt_row gt_right">4003187.9</td>
+<td headers="Diff. in Means" class="gt_row gt_right">494590.1</td>
+<td headers="Std. Error" class="gt_row gt_right">922030.0</td></tr>
     <tr><td headers=" " class="gt_row gt_left">pop65p</td>
-<td headers="Mean" class="gt_row gt_right">583458.4</td>
-<td headers="Std. Dev." class="gt_row gt_right">592424.7</td>
-<td headers="Mean " class="gt_row gt_right">464175.2</td>
-<td headers="Std. Dev. " class="gt_row gt_right">508164.6</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-119283.3</td>
-<td headers="Std. Error" class="gt_row gt_right">163713.1</td></tr>
+<td headers="Mean" class="gt_row gt_right">495352.0</td>
+<td headers="Std. Dev." class="gt_row gt_right">469935.8</td>
+<td headers="Mean " class="gt_row gt_right">519749.9</td>
+<td headers="Std. Dev. " class="gt_row gt_right">591846.8</td>
+<td headers="Diff. in Means" class="gt_row gt_right">24397.9</td>
+<td headers="Std. Error" class="gt_row gt_right">150316.0</td></tr>
     <tr><td headers=" " class="gt_row gt_left">popurban</td>
-<td headers="Mean" class="gt_row gt_right">3735397.5</td>
-<td headers="Std. Dev." class="gt_row gt_right">4036261.5</td>
-<td headers="Mean " class="gt_row gt_right">3078713.1</td>
-<td headers="Std. Dev. " class="gt_row gt_right">4169024.5</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-656684.4</td>
-<td headers="Std. Error" class="gt_row gt_right">1190845.2</td></tr>
+<td headers="Mean" class="gt_row gt_right">2937620.9</td>
+<td headers="Std. Dev." class="gt_row gt_right">2777957.9</td>
+<td headers="Mean " class="gt_row gt_right">3611124.8</td>
+<td headers="Std. Dev. " class="gt_row gt_right">4854608.6</td>
+<td headers="Diff. in Means" class="gt_row gt_right">673503.9</td>
+<td headers="Std. Error" class="gt_row gt_right">1086343.2</td></tr>
     <tr><td headers=" " class="gt_row gt_left">medage</td>
-<td headers="Mean" class="gt_row gt_right">30.0</td>
-<td headers="Std. Dev." class="gt_row gt_right">1.9</td>
-<td headers="Mean " class="gt_row gt_right">29.3</td>
-<td headers="Std. Dev. " class="gt_row gt_right">1.5</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-0.7</td>
+<td headers="Mean" class="gt_row gt_right">29.8</td>
+<td headers="Std. Dev." class="gt_row gt_right">2.1</td>
+<td headers="Mean " class="gt_row gt_right">29.4</td>
+<td headers="Std. Dev. " class="gt_row gt_right">1.4</td>
+<td headers="Diff. in Means" class="gt_row gt_right">-0.4</td>
 <td headers="Std. Error" class="gt_row gt_right">0.5</td></tr>
     <tr><td headers=" " class="gt_row gt_left">death</td>
-<td headers="Mean" class="gt_row gt_right">44714.4</td>
-<td headers="Std. Dev." class="gt_row gt_right">44533.1</td>
-<td headers="Mean " class="gt_row gt_right">36262.5</td>
-<td headers="Std. Dev. " class="gt_row gt_right">40348.4</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-8451.9</td>
-<td headers="Std. Error" class="gt_row gt_right">12525.8</td></tr>
+<td headers="Mean" class="gt_row gt_right">37467.6</td>
+<td headers="Std. Dev." class="gt_row gt_right">34466.4</td>
+<td headers="Mean " class="gt_row gt_right">40927.4</td>
+<td headers="Std. Dev. " class="gt_row gt_right">46856.3</td>
+<td headers="Diff. in Means" class="gt_row gt_right">3459.8</td>
+<td headers="Std. Error" class="gt_row gt_right">11501.1</td></tr>
     <tr><td headers=" " class="gt_row gt_left">marriage</td>
-<td headers="Mean" class="gt_row gt_right">56008.1</td>
-<td headers="Std. Dev." class="gt_row gt_right">49926.9</td>
-<td headers="Mean " class="gt_row gt_right">42610.2</td>
-<td headers="Std. Dev. " class="gt_row gt_right">41959.4</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-13397.9</td>
-<td headers="Std. Error" class="gt_row gt_right">13710.9</td></tr>
+<td headers="Mean" class="gt_row gt_right">46564.4</td>
+<td headers="Std. Dev." class="gt_row gt_right">34246.4</td>
+<td headers="Mean " class="gt_row gt_right">48524.8</td>
+<td headers="Std. Dev. " class="gt_row gt_right">52200.8</td>
+<td headers="Diff. in Means" class="gt_row gt_right">1960.4</td>
+<td headers="Std. Error" class="gt_row gt_right">12239.7</td></tr>
     <tr><td headers=" " class="gt_row gt_left">divorce</td>
-<td headers="Mean" class="gt_row gt_right">27507.5</td>
-<td headers="Std. Dev." class="gt_row gt_right">25720.8</td>
-<td headers="Mean " class="gt_row gt_right">21333.2</td>
-<td headers="Std. Dev. " class="gt_row gt_right">24831.9</td>
-<td headers="Diff. in Means" class="gt_row gt_right">-6174.2</td>
-<td headers="Std. Error" class="gt_row gt_right">7396.6</td></tr>
+<td headers="Mean" class="gt_row gt_right">22748.0</td>
+<td headers="Std. Dev." class="gt_row gt_right">16681.3</td>
+<td headers="Mean " class="gt_row gt_right">24353.9</td>
+<td headers="Std. Dev. " class="gt_row gt_right">30035.1</td>
+<td headers="Diff. in Means" class="gt_row gt_right">1605.9</td>
+<td headers="Std. Error" class="gt_row gt_right">6660.2</td></tr>
   </tbody>
   
   
@@ -1534,9 +1537,11 @@ To export the tables we created, we can simply use the option `output`:
 
 
 ```r
+# Saving the formula into an object
 descriptives &lt;-
   All(census) ~ N + Mean + SD + Median + Min + Max
 
+# Creating and exporting table
 datasummary(
   descriptives,
   data = census,
@@ -1544,10 +1549,12 @@ datasummary(
 *   "DataWork",
 *   "Output",
 *   "Raw",
-*   "summary-stats.tex"
+*   "summary-stats-modelsummary.tex"
 * )
 )
 ```
+
+If you an error message saying `Assertion on 'output' failed: Path to file (dirname) does not exist`, create the folder `Output` and subfolder `Raw` in `DataWork`.
 
 ---
 
@@ -1606,7 +1613,7 @@ quick_xlsx(
     "DataWork",
     "Output",
     "Raw",
-    "summary-stats.xlsx"
+    "summary-stats-huxtable.xlsx"
   )
 )
 ```
@@ -1627,7 +1634,7 @@ quick_latex(
     "DataWork",
     "Output",
     "Raw",
-    "summary-stats.tex"
+    "summary-stats-huxtable.tex"
   )
 )
 ```
@@ -1665,38 +1672,18 @@ saveWorkbook(
     "DataWork",
     "Output",
     "Raw",
-    "summary-stats.xlsx"
+    "summary-stats-multiple-sheets.xlsx"
   ),
-  overwrite = TRUE # replace existing file
+  overwrite = TRUE # replace if the file exists
 )
 ```
 ]
 
 ---
 
-# Exporting tables to LaTeX fragment
+# Exporting tables to different Excel tabs
 
-
-```r
-summary_stats_table %&gt;%
-  print_latex() %&gt;% # See LaTeX code
-  # Save LaTeX code 
-  capture.output(
-    file = here(
-      "DataWork",
-      "Output",
-      "Raw",
-      "summary-stats.tex"
-    )
-  )
-```
-
-You will also need to load the required LaTeX packages. To copy the code that creates a preamble with all of them, use this code:
-
-
-```r
-report_latex_dependencies()
-```
+&lt;img src="img/excel-tabs.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: inverse, center, middle
@@ -1723,7 +1710,7 @@ names(labels) &lt;- attributes(census)$var.labels
 census_labelled &lt;-
   census %&gt;%
   rename(
-    labels
+    all_of(labels)
   )
 
 # Create a labelled summary table 
@@ -1746,12 +1733,12 @@ The code below shows the table `summary_stats_table` can be formatted
 ```r
 # Format table
 summary_stats_table %&gt;%  
- # Use first row as table header 
- set_header_rows(1, TRUE) %&gt;% 
- # Use first column as row header 
- set_header_cols(1, TRUE)  %&gt;%  
  # Don't round large numbers  
- set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;% 
+ set_number_format(
+   row = everywhere,
+   col = 2:ncol(.),
+   value = "%9.0f"
+   ) %&gt;% 
  # Centralize cells in first row 
  set_align(1, everywhere, "center") %&gt;% 
  # Set a theme for quick formatting 
@@ -1765,25 +1752,25 @@ summary_stats_table %&gt;%
 <col><col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: bold;"> </th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">N</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Mean</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">SD</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Median</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Min</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: bold;">Max</th></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Population</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  4518149</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  4715038</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3066433</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   401851</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;"> 23667902</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Population</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  4518149</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  4715038</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3066433</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   401851</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;"> 23667902</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Pop, &lt; 5 year</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   326278</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   331585</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   227468</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    35998</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">  1708400</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Pop, &lt; 5 year</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   326278</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   331585</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   227468</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    35998</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">  1708400</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Pop, 5 to 17 years</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   945952</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   959373</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   629654</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    91796</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">  4680558</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Pop, 5 to 17 years</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   945952</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   959373</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   629654</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    91796</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">  4680558</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Pop, 18 and older</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3245920</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3430531</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  2175130</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   271106</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;"> 17278944</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Pop, 18 and older</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3245920</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3430531</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  2175130</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   271106</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;"> 17278944</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Pop, 65 and older</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   509503</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   538932</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   370495</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    11547</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">  2414250</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Pop, 65 and older</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   509503</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   538932</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   370495</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    11547</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">  2414250</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Urban population</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3328253</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  4090178</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  2156905</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   172735</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;"> 21607606</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Urban population</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  3328253</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  4090178</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">  2156905</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">   172735</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;"> 21607606</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Median age</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       30</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       30</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       24</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">       35</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Median age</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       30</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">        2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       30</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       24</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">       35</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Number of deaths</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    39474</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    41742</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    26177</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     1604</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">   186428</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Number of deaths</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    39474</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    41742</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    26177</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     1604</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">   186428</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Number of marriages</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    47701</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    45130</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    36279</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     4437</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">   210864</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Number of marriages</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    47701</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    45130</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    36279</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     4437</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">   210864</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Number of divorces</th><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    23679</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    25094</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    17113</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     2142</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">   133541</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 2pt; font-weight: normal;">Number of divorces</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">       50</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    23679</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    25094</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">    17113</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     2142</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 2pt 6pt 6pt; font-weight: normal;">   133541</td></tr>
 </table>
 
 ]
@@ -1796,13 +1783,14 @@ summary_stats_table %&gt;%
 
 ```r
 # Format table
-summary_stats_table &lt;-
-  summary_stats_table %&gt;%  
-  set_header_rows(1, TRUE) %&gt;% # Use first row as table header 
-  set_header_cols(1, TRUE)  %&gt;%  # Use first column as row header 
-  set_number_format(everywhere, 2:ncol(.), "%9.0f") %&gt;% # Don't round large numbers  
-  set_align(1, everywhere, "center") %&gt;% # Centralize cells in first row 
-  theme_basic() # Set a theme for quick formatting 
+summary_stats_table %&gt;%
+ set_number_format(
+   row = everywhere,
+   col = 2:ncol(.),
+   value = "%9.0f"
+   ) %&gt;% 
+ set_align(1, everywhere, "center") %&gt;% 
+ theme_basic()
 
 quick_xlsx(
   summary_stats_table,
@@ -1982,7 +1970,7 @@ feols(
 ```
 ]
 
-<div class="countdown" id="timer_83e2e36b" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_2cf39f08" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -1995,7 +1983,7 @@ feols(
 
 .exercise[
 ### Exercise 7 <svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M64 112c-8.8 0-16 7.2-16 16V384c0 8.8 7.2 16 16 16H512c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H64zM0 128C0 92.7 28.7 64 64 64H512c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM176 320H400c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V336c0-8.8 7.2-16 16-16zm-72-72c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H120c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H120c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H200c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H200c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H280c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H280c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H360c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H360c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16zm64 96c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H440c-8.8 0-16-7.2-16-16V248zm16-96h16c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H440c-8.8 0-16-7.2-16-16V168c0-8.8 7.2-16 16-16z"/></svg>
-Using the `census` data, run a regression of divorce on population, urban population and number of marriages controlling for region fixed effects.
+Using the `census` data, run a regression of the number of divorces on population, urban population and number of marriages controlling for region fixed effects and using standard errors clustered by state.
 ]
 
 
@@ -2004,7 +1992,7 @@ reg2 &lt;-
   feols(
     divorce ~ pop + popurban + marriage | region,
     census,
-    se = "iid"
+    vcov = cluster ~ state # this defines clustered std errors by state
   )
 
 summary(reg2)
@@ -2025,7 +2013,7 @@ reg2 &lt;-
   feols(
     divorce ~ pop + popurban + marriage | region,
     census,
-    se = "iid"
+    vcov = cluster ~ state
   )
 
 summary(reg2)
@@ -2035,11 +2023,11 @@ summary(reg2)
 ## OLS estimation, Dep. Var.: divorce
 ## Observations: 50
 ## Fixed-effects: region: 4
-## Standard-errors: IID 
-##          Estimate Std. Error  t value  Pr(&gt;|t|)    
-## pop      0.000395   0.001788 0.220981 0.8261531    
-## popurban 0.003553   0.001998 1.778249 0.0824344 .  
-## marriage 0.183659   0.058027 3.165064 0.0028471 ** 
+## Standard-errors: Clustered (state) 
+##          Estimate Std. Error  t value Pr(&gt;|t|)    
+## pop      0.000395   0.002120 0.186405 0.852897    
+## popurban 0.003553   0.002278 1.559847 0.125232    
+## marriage 0.183659   0.104001 1.765939 0.083636 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## RMSE: 6,257.6     Adj. R2: 0.927695
@@ -2086,94 +2074,151 @@ name: reg_tables
 
 # Exporting regression tables
 
-.small[
+.pull-left[
 
 ```r
 huxreg(reg1, reg2)
 ```
+]
 
+.pull-right[
+.small[
 <table class="huxtable" data-quarto-disable-processing="true" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  ">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2)</th></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(Intercept)</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">120.730&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(Intercept)</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">120.730&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1838.216)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1838.216)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">pop</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.001&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.000&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">pop</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.001&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.000&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">popurban</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.002&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.004&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">popurban</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.002&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.004&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">marriage</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.259 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.184 **</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">marriage</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.259 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.184&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.060)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.058)&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.060)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.104)</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">R2</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.917&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.937&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">R2</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.917&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.937&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">logLik</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-514.766&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-508.024&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">logLik</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-514.766&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-508.024&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">AIC</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1039.531&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1030.048&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">AIC</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1039.531&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1030.048&nbsp;</td></tr>
 <tr>
 <th colspan="3" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
 </table>
 
 ]
-
-By now, you should know how to export this to Excel and LaTeX.
+]
 
 ---
 
 # Formatting regression tables
 
 .pull-left[
+.small[
 
 ```r
 huxreg(
-  reg1, reg2,
-  # Show variable labels instead of names
-   coefs = c(
-     "Population" = "pop", 
-     "Urban population"  = "popurban",
-     "Number of marriages" = "marriage"
-   ),
-   statistics = c("N. obs." = "nobs")) %&gt;%
-   add_rows(
-     c("Region FE", "No", "Yes"),
-     after = 7
-   )
+  'Model 1' = reg1,
+  'Model 2' = reg2,
+  coefs = c(
+    "Population" = "pop", # Show variable labels instead of names
+    "Urban population"  = "popurban",
+    "Number of marriages" = "marriage"
+  ),
+  statistics = c("N. obs." = "nobs"),
+  stars = c(`***` = 0.01, `**` = 0.05, `*` = 0.1),
+  note = "{stars}\nStandard errors are displayed in parentheses."
+) %&gt;%
+  add_rows(
+    c("Region FE", "No", "Yes"),
+    after = 7
+  )
 ```
+]
 ]
 
 .pull-right[
 <table class="huxtable" data-quarto-disable-processing="true" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  ">
 <col><col><col><tr>
-<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1)</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2)</th></tr>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Model 1</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Model 2</th></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Population</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.001&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.000&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Population</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.001&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.000&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Urban population</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.002&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.004&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Urban population</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.002&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.004&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.002)&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Number of marriages</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.259 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.184 **</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Number of marriages</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.259 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.184 *</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.060)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.058)&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.060)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.104)&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Region FE</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Yes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Region FE</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Yes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N. obs.</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N. obs.</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th colspan="3" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
+<th colspan="3" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.01;  ** p &lt; 0.05;  * p &lt; 0.1<br>Standard errors are displayed in parentheses.</th></tr>
 </table>
 
+]
+
+---
+
+# Exporting regression tables
+
+You can also display other types of computed values with `error_format()`. See the examples below for t-statistics and p-values.
+
+.pull-left[
+
+```r
+huxreg(
+  'Model 1' = reg1,
+  'Model 2' = reg2,
+* error_format = "[{statistic}]",
+* # to display t-statistics in brackets
+  coefs = c(
+    "Population" = "pop",
+    "Urban population"  = "popurban",
+    "Number of marriages" = "marriage"
+  ),
+  statistics = c("N. obs." = "nobs")
+) %&gt;%
+  add_rows(
+    c("Region FE", "No", "Yes"),
+    after = 7
+  )
+```
+]
+
+.pull-right[
+
+```r
+huxreg(
+  'Model 1' = reg1,
+  'Model 2' = reg2,
+* error_format = "[{p.value}]",
+* # to display p-values in brackets
+  coefs = c(
+    "Population" = "pop",
+    "Urban population"  = "popurban",
+    "Number of marriages" = "marriage"
+  ),
+  statistics = c("N. obs." = "nobs")
+) %&gt;%
+  add_rows(
+    c("Region FE", "No", "Yes"),
+    after = 7
+  )
+```
 ]
 
 ---
@@ -2347,7 +2392,7 @@ region_stats &lt;-
 Recreate the `region_stats` data set, now including the average and the standard deviation of the population.
 ]
 
-<div class="countdown" id="timer_050f0364" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_f781ac21" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
 </div>
@@ -2386,7 +2431,7 @@ Recreate the `region_stats` data set, now including the average and the standard
 Use `huxtable` to format and export the object `region_stats`.
 ]
 
-<div class="countdown" id="timer_a830a390" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_0d80f463" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -2418,7 +2463,6 @@ Use `huxtable` to format and export the object `region_stats`.
 ---
 
 class: inverse, center, middle
-name: aggregating
 
 # Appendix - Regression tables with Stargazer
 
