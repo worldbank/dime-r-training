@@ -13,7 +13,7 @@
     <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xc447680724146e6ad0daf848a25fd7a","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xf1a5e35eaf94d26bd7a6ae5147d40f9","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -88,12 +88,12 @@ usethis::use_zip(
 
 .vlarge[
 1. [Quick summary statistics](#exploring)
-2. [Descriptive statistics tables](#desc_tables)
-3. [Exporting descriptive statistics tables](#exporting)
-3. [Formatting tables](#beautifying)
-3. [Aggregating observations](#aggregating)
-3. [Running regressions](#regressing)
-3. [Exporting regression tables](#reg_tables)
+1. [Descriptive tables](#desc_tables)
+1. [Exporting tables](#exporting)
+1. [Formatting tables](#beautifying)
+1. [Running regressions](#regressing)
+1. [Exporting regression tables](#reg_tables)
+1. [Appendix](#appendix)
 ]
 
 
@@ -151,7 +151,6 @@ Load the packages that we will use today
 # Install new packages
 install.packages("modelsummary") # to export easy descriptive tables
 install.packages("fixest")       # easy fixed effects regressions
-install.packages("janitor")      # easy tabulations
 install.packages("huxtable")     # easy regression tables
 install.packages("openxlsx")     # export tables to Excel format
 install.packages("estimatr")     # backend calculations for balance tables
@@ -177,12 +176,10 @@ Load the data that we will use today: Stata's `census` dataset
 
 **Tip**: Use `here`, as we saw in the data wrangling session. 
 
-<div class="countdown" id="timer_9942dd3d" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_aa7e9ade" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
-
---
 
 
 ```r
@@ -271,7 +268,7 @@ Equivalent to Stata's `codebook`. Its arguments are:
 Use the `summary()` function to describe the `census` data frame.
 ]
 
-<div class="countdown" id="timer_bc3dad0f" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_2f714ae4" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -324,7 +321,7 @@ summary(census)
 Use the `summary()` function to display summary statistics for a continuous variable in the  `census` data frame.
 ]
 
-<div class="countdown" id="timer_2f8c6e7d" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_dcd21afd" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -375,7 +372,7 @@ Use the `tabyl()` function to display frequency tables for:
 2. The variables `region` and `state` in the `census` data frame, simultaneously
 ]
 
-<div class="countdown" id="timer_337fad25" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_385009d9" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -525,7 +522,7 @@ datasummary_skim(
 Use `datasummary_skim()` to create a descriptive statistics table for the `census` data. 
 ]
 ]
-<div class="countdown" id="timer_e40fd47e" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_c19db147" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
@@ -663,8 +660,8 @@ datasummary_skim(census)
 # Exploring datasets with *modelsummary*
 
 .large[
-- *modelsummary* summarizes only numeric variables by default.
-- To summarize categorical variables, use the argument `type`
+- *modelsummary* summarizes all variables by default.
+- To summarize only categorical variables, use the argument `type`
 
 
 ```r
@@ -750,7 +747,7 @@ datasummary(
 &gt; **Tip:** some of the allowed statistics are N, Mean, SD, Min, Max, Median, P0, P25, P50, P75, P100, Histogram
 
 
-<div class="countdown" id="timer_59e93893" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_88677a57" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
 </div>
@@ -1970,7 +1967,7 @@ feols(
 ```
 ]
 
-<div class="countdown" id="timer_2cf39f08" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_4fd12c8a" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -2311,6 +2308,7 @@ class: inverse, center, middle
 ---
 
 class: inverse, center, middle
+name: appendix
 
 # Appendix
 
@@ -2392,7 +2390,7 @@ region_stats &lt;-
 Recreate the `region_stats` data set, now including the average and the standard deviation of the population.
 ]
 
-<div class="countdown" id="timer_f781ac21" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_bf1479cc" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">30</span></code>
 </div>
@@ -2431,7 +2429,7 @@ Recreate the `region_stats` data set, now including the average and the standard
 Use `huxtable` to format and export the object `region_stats`.
 ]
 
-<div class="countdown" id="timer_0d80f463" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
+<div class="countdown" id="timer_f8ee0a45" data-update-every="1" tabindex="0" style="bottom:0;left:0;font-size:2em;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>

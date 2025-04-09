@@ -107,12 +107,12 @@ usethis::use_zip(
 
 .vlarge[
 1. [Quick summary statistics](#exploring)
-2. [Descriptive statistics tables](#desc_tables)
-3. [Exporting descriptive statistics tables](#exporting)
-3. [Formatting tables](#beautifying)
-3. [Aggregating observations](#aggregating)
-3. [Running regressions](#regressing)
-3. [Exporting regression tables](#reg_tables)
+1. [Descriptive tables](#desc_tables)
+1. [Exporting tables](#exporting)
+1. [Formatting tables](#beautifying)
+1. [Running regressions](#regressing)
+1. [Exporting regression tables](#reg_tables)
+1. [Appendix](#appendix)
 ]
 
 
@@ -169,7 +169,6 @@ Load the packages that we will use today
 # Install new packages
 install.packages("modelsummary") # to export easy descriptive tables
 install.packages("fixest")       # easy fixed effects regressions
-install.packages("janitor")      # easy tabulations
 install.packages("huxtable")     # easy regression tables
 install.packages("openxlsx")     # export tables to Excel format
 install.packages("estimatr")     # backend calculations for balance tables
@@ -195,8 +194,6 @@ Load the data that we will use today: Stata's `census` dataset
 **Tip**: Use `here`, as we saw in the data wrangling session. 
 
 `r countdown(minutes = 2, seconds = 0, left = 0, font_size = "2em")`
-
---
 
 ```{r}
   # Load data
@@ -476,8 +473,8 @@ datasummary_skim(census)
 # Exploring datasets with *modelsummary*
 
 .large[
-- *modelsummary* summarizes only numeric variables by default.
-- To summarize categorical variables, use the argument `type`
+- *modelsummary* summarizes all variables by default.
+- To summarize only categorical variables, use the argument `type`
 
 ```{r, eval = FALSE}
 datasummary_skim(census %>% select(region), type = "categorical")
@@ -1315,6 +1312,7 @@ class: inverse, center, middle
 ---
 
 class: inverse, center, middle
+name: appendix
 
 # Appendix
 
