@@ -2,6 +2,13 @@
 ## Exercise solutions
 ## Session: Descriptive analysis
 
+## Install the libraries you don't have, activate each line ====
+#install.packages("modelsummary") # to export easy descriptive tables
+#install.packages("fixest")       # easy fixed effects regressions
+#install.packages("huxtable")     # easy regression tables
+#install.packages("openxlsx")     # export tables to Excel format
+#install.packages("estimatr")     # backend calculations for balance tables
+
 ## Loading libraries ====
 library(here)
 library(tidyverse)
@@ -11,46 +18,57 @@ library(janitor)
 library(huxtable)
 library(openxlsx)
 
+## Load data ====
+census <-
+  read_rds(
+    here(
+      "DataWork",
+      "DataSets", 
+      "Final", 
+      "census.rds"
+    )
+  )
+
 ## Exercise 1 ====
 summary(census)
 
-## Exercise 2-3 ====
+## Exercise 2 ====
 summary(census$pop)
 
-## Exercise 4 ====
-# Variable region
+## Exercise 3 ====
+# One-way tabulation
 census %>% 
   tabyl(region)
-# Variables state and region
+# Two-way tabulation
 census %>%
   tabyl(state, region)
 
-## Exercise 5 ====
+## Exercise 4 ====
 datasummary_skim(census)
 
-## Exercise 6 ====
+## Exercise 5 ====
 datasummary(
   pop + death + marriage + divorce ~ N + Mean + SD + Median + Min + Max,
   data = census
 )
 
-## Exercise 7-8 ====
+## Exercise 6 ====
 reg1 <-
   lm(
     divorce ~ pop + popurban + marriage,
     census
   )
 
-## Exercise 9-10 ====
+## Exercise 7 ====
 reg2 <-
   feols(
     divorce ~ pop + popurban + marriage | region,
     census,
-    se = "iid"
+    vcov = cluster ~ state # this defines clustered std errors by state
   )
 summary(reg2)
 
-## Exercise 11 ====
+## Exercise 8 ====
 # Wrapping huxreg into a single object
 huxreg_result <- huxreg(reg1, reg2)
 # Exporting to Excel table
