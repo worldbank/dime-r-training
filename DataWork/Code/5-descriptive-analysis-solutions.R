@@ -1,4 +1,4 @@
-## R for Stata Users
+## R for Data Analysis
 ## Exercise solutions
 ## Session: Descriptive analysis
 
