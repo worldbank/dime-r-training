@@ -1,8 +1,8 @@
 ---
 title: "Session 6 - Spatial Data"
-subtitle: "[R for Stata Users](https://github.com/worldbank)"
-author: "Luiza Andrade, Rob Marty, Rony Rodriguez-Ramirez, Luis Eduardo San Martin, Leonardo Viotti"
-date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> March 2024"
+subtitle: "[R for Data Analysis](https://github.com/worldbank)"
+author: "DIME Analytics"
+date: "The World Bank -- DIME | [WB Github](https://github.com/worldbank) <br> April 2025"
 output:
   xaringan::moon_reader:
     css: ["libs/remark-css/default.css", 
@@ -253,18 +253,32 @@ Whenever have spatial data, need to know which coordinate reference system (CRS)
 
 # Setup
 
-1. Copy/paste the following code into a new RStudio script, __replacing "YOURFOLDERPATHHERE" with the folder within which you'll place this R project__:
+
+.panelset[
+
+.panel[.panel-name[If You Attended Session 2]
+1. Go to the `dime-r-training` folder that you created, and open the file `dime-r-training.Rproj` R project that you created there.
+]
+
+.panel[.panel-name[If You Did Not Attend Session 2]
+
+1. Copy/paste the following code into a new RStudio script:
 ```{r, eval = FALSE}
+install.packages("usethis")
 library(usethis)
-use_course(
-  url = "https://github.com/worldbank/dime-r-training/archive/main.zip",
-  destdir = "YOURFOLDERPATHHERE"
+usethis::use_zip(
+    "https://github.com/worldbank/dime-r-training/archive/main.zip",
+    cleanup = TRUE
 )
 ```
 
-2\. In the console, type in the requisite number to delete the .zip file (we don't need it anymore).
+2\. A new RStudio environment will open. Use this for the session today.
+  
+  
+]
 
-3\. A new RStudio environment will open. Use this for the session today.
+]
+
 
 ---
 
