@@ -26,6 +26,8 @@
 !README.md
 !CONTRIBUTING.md
 !LICENSE*
+# Git-friendly citation file
+!CITATION.cff
 
 #######################
 # For performance reasons, if a folder is already ignored, then
